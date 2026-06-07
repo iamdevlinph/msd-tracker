@@ -9,29 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IssuesRouteImport } from './routes/issues'
-import { Route as CallbackRouteImport } from './routes/callback'
-import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiAuthGoogleSessionRouteImport } from './routes/api/auth/google-session'
 import { Route as ApiAuthGoogleLogoutRouteImport } from './routes/api/auth/google-logout'
 import { Route as ApiAuthGoogleRouteImport } from './routes/api/auth/google'
 
-const IssuesRoute = IssuesRouteImport.update({
-  id: '/issues',
-  path: '/issues',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CallbackRoute = CallbackRouteImport.update({
-  id: '/callback',
-  path: '/callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccountRoute = AccountRouteImport.update({
-  id: '/account',
-  path: '/account',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,18 +37,12 @@ const ApiAuthGoogleRoute = ApiAuthGoogleRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
-  '/callback': typeof CallbackRoute
-  '/issues': typeof IssuesRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
-  '/callback': typeof CallbackRoute
-  '/issues': typeof IssuesRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
@@ -74,9 +50,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
-  '/callback': typeof CallbackRoute
-  '/issues': typeof IssuesRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
@@ -85,27 +58,18 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/account'
-    | '/callback'
-    | '/issues'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/account'
-    | '/callback'
-    | '/issues'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
   id:
     | '__root__'
     | '/'
-    | '/account'
-    | '/callback'
-    | '/issues'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
@@ -113,9 +77,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AccountRoute: typeof AccountRoute
-  CallbackRoute: typeof CallbackRoute
-  IssuesRoute: typeof IssuesRoute
   ApiAuthGoogleRoute: typeof ApiAuthGoogleRoute
   ApiAuthGoogleLogoutRoute: typeof ApiAuthGoogleLogoutRoute
   ApiAuthGoogleSessionRoute: typeof ApiAuthGoogleSessionRoute
@@ -123,27 +84,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/issues': {
-      id: '/issues'
-      path: '/issues'
-      fullPath: '/issues'
-      preLoaderRoute: typeof IssuesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/callback': {
-      id: '/callback'
-      path: '/callback'
-      fullPath: '/callback'
-      preLoaderRoute: typeof CallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/account': {
-      id: '/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AccountRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -177,9 +117,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AccountRoute: AccountRoute,
-  CallbackRoute: CallbackRoute,
-  IssuesRoute: IssuesRoute,
   ApiAuthGoogleRoute: ApiAuthGoogleRoute,
   ApiAuthGoogleLogoutRoute: ApiAuthGoogleLogoutRoute,
   ApiAuthGoogleSessionRoute: ApiAuthGoogleSessionRoute,
