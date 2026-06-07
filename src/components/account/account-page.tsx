@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { GithubSection } from "@/components/account/github/github-section";
 import { GoogleSection } from "@/components/account/google/google-section";
 import { PageTitle } from "@/components/page-title";
 import { useAuthStore } from "@/stores/auth-store";
@@ -27,8 +26,6 @@ export const AccountPage = () => {
 			/>
 
 			<div className="flex flex-col gap-4">
-				<GithubSection />
-
 				<GoogleSection />
 			</div>
 		</>
