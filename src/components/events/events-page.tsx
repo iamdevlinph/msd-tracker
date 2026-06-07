@@ -1,3 +1,9 @@
+import { PageTitle } from "@/components/page-title";
+
 export const EventsPage = () => {
-	return <h1>Events page</h1>;
+	return (
+		<div>
+			<PageTitle title="Events" />
+		</div>
+	);
 };

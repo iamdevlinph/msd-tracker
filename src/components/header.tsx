@@ -39,9 +39,9 @@ export default function Header({ sidebarOpen, setSidebarOpen }: Sidebar) {
 
 				<Nav />
 
-				<div className="px-6 py-4 border-t border-border text-xs text-muted-foreground">
+				{/* <div className="px-6 py-4 border-t border-border text-xs text-muted-foreground">
 					<p>© 2026 Mongil Star Dive Tracker</p>
-				</div>
+				</div> */}
 			</aside>
 		</>
 	);

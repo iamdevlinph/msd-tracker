@@ -1,3 +1,9 @@
+import { PageTitle } from "@/components/page-title";
+
 export const MonsterCodexPage = () => {
-	return <h1>Monster Codex page</h1>;
+	return (
+		<div>
+			<PageTitle title="Monster Codex" />
+		</div>
+	);
 };

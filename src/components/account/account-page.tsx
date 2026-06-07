@@ -20,10 +20,7 @@ export const AccountPage = () => {
 
 	return (
 		<>
-			<PageTitle
-				title="Account"
-				description="Manage Github account or repository access"
-			/>
+			<PageTitle title="Account" />
 
 			<div className="flex flex-col gap-4">
 				<GoogleSection />

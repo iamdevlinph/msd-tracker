@@ -1,3 +1,9 @@
+import { PageTitle } from "@/components/page-title";
+
 export const CharactersPage = () => {
-	return <h1>Character page</h1>;
+	return (
+		<div>
+			<PageTitle title="Characters" />
+		</div>
+	);
 };
