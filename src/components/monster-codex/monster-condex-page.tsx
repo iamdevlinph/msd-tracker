@@ -1,3 +1,4 @@
+import { MonsterlingsList } from "@/components/monster-codex/monsterlings-list";
 import { Regions } from "@/components/monster-codex/regions";
 import { PageTitle } from "@/components/page-title";
 
@@ -8,7 +9,7 @@ export const MonsterCodexPage = () => {
 
 			<div>
 				<Regions />
-				{/* <MonsterlingsList /> */}
+				<MonsterlingsList />
 			</div>
 		</div>
 	);
