@@ -1,6 +1,6 @@
 allowBuilds:
-  core-js: set this to true or false
-  core-js-pure: set this to true or false
+  core-js: true
+  core-js-pure: false
   esbuild: true
   sharp: false
   workerd: false
