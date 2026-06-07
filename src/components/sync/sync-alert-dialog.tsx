@@ -15,15 +15,15 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
-import { useAuthStore } from "@/stores/auth-store";
+import { useStore } from "@/stores/app-store";
 
 export function SyncConflictDialog() {
 	const [buttonClicked, setButtonClicked] = useState<
 		"local" | "remote" | undefined
 	>(undefined);
-	const conflict = useAuthStore((s) => s.syncConflict);
-	const setConflict = useAuthStore((s) => s.setSyncConflict);
-	const syncInProgress = useAuthStore((s) => s.syncInProgress);
+	const conflict = useStore((s) => s.syncConflict);
+	const setConflict = useStore((s) => s.setSyncConflict);
+	const syncInProgress = useStore((s) => s.syncInProgress);
 
 	if (!conflict) return null;
 
@@ -52,7 +52,7 @@ export function SyncConflictDialog() {
 							onClick={async () => {
 								setButtonClicked("local");
 								// KEEP LOCAL
-								await upload(select(useAuthStore.getState()));
+								await upload(select(useStore.getState()));
 								setConflict(null);
 							}}
 							className="w-full sm:w-max self-center"
@@ -86,9 +86,7 @@ export function SyncConflictDialog() {
 
 									if (!remote) return;
 
-									useAuthStore.setState({
-										pinnedRepos: remote.pinnedRepos,
-										pinnedIssues: remote.pinnedIssues,
+									useStore.setState({
 										backupUpdatedAt: remote.backupUpdatedAt,
 									});
 								})();

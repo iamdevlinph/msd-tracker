@@ -9,13 +9,12 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import { useAuthStore } from "@/stores/auth-store";
+import { useStore } from "@/stores/app-store";
 
 export const GoogleSection = () => {
 	const { status, login, logout, email } = useGoogleAuth();
-	const syncInProgress = useAuthStore((s) => s.syncInProgress);
-	const authenticatedGithub = useAuthStore((s) => s.authenticatedGithub);
-	const isHydrated = useAuthStore((s) => s.isHydrated);
+	const syncInProgress = useStore((s) => s.syncInProgress);
+	const isHydrated = useStore((s) => s.isHydrated);
 
 	return (
 		<Card>
@@ -46,20 +45,12 @@ export const GoogleSection = () => {
 							<div className="flex gap-2 items-center">
 								<Button
 									onClick={() => {
-										if (!authenticatedGithub) return;
-
 										login();
 									}}
 									variant={"outline"}
-									disabled={!authenticatedGithub}
 								>
 									Login with Google
 								</Button>
-								{!authenticatedGithub && (
-									<CardDescription>
-										Need to login with Github first
-									</CardDescription>
-								)}
 							</div>
 						)}
 						{status === "in" && (

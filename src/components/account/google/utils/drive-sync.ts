@@ -1,21 +1,16 @@
 import { toast } from "sonner";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
-import { type AuthState, useAuthStore } from "@/stores/auth-store";
+import { type StoreState, useStore } from "@/stores/app-store";
 
 const FILE_NAME = "state.json";
 
 let fileId: string | null = null;
 let debounce: number;
 
-type Backup = Pick<
-	AuthState,
-	"pinnedRepos" | "pinnedIssues" | "backupUpdatedAt"
->;
+type Backup = Pick<StoreState, "backupUpdatedAt">;
 
-export function select(state: AuthState): Backup {
+export function select(state: StoreState): Backup {
 	return {
-		pinnedRepos: state.pinnedRepos,
-		pinnedIssues: state.pinnedIssues,
 		backupUpdatedAt: state.backupUpdatedAt,
 	};
 }
@@ -59,7 +54,7 @@ async function createFile(data: Backup) {
 export async function download(): Promise<Backup | null> {
 	try {
 		if (!fileId) return null;
-		useAuthStore.getState().setSyncInProgress(true);
+		useStore.getState().setSyncInProgress(true);
 
 		const res = await driveFetch(
 			`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
@@ -72,7 +67,7 @@ export async function download(): Promise<Backup | null> {
 		});
 		return null;
 	} finally {
-		useAuthStore.getState().setSyncInProgress(false);
+		useStore.getState().setSyncInProgress(false);
 	}
 }
 
@@ -80,7 +75,7 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 	try {
 		if (!fileId) return;
 
-		useAuthStore.getState().setSyncInProgress(true);
+		useStore.getState().setSyncInProgress(true);
 
 		await driveFetch(
 			`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`,
@@ -102,18 +97,18 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 
 		throw e;
 	} finally {
-		useAuthStore.getState().setSyncInProgress(false);
+		useStore.getState().setSyncInProgress(false);
 	}
 }
 
 export async function initSync() {
 	toast.info("Initializing data");
 
-	useAuthStore.getState().setSyncInProgress(true);
+	useStore.getState().setSyncInProgress(true);
 
 	try {
 		// existing logic
-		const local = useAuthStore.getState();
+		const local = useStore.getState();
 
 		const existing = await findFile();
 
@@ -127,7 +122,7 @@ export async function initSync() {
 
 		const remote = await download();
 		if (remote && remote.backupUpdatedAt !== local.backupUpdatedAt) {
-			useAuthStore.setState({
+			useStore.setState({
 				syncConflict: {
 					local: {
 						updatedAt: local.backupUpdatedAt,
@@ -146,14 +141,14 @@ export async function initSync() {
 			description: (e as Error).message,
 		});
 	} finally {
-		useAuthStore.getState().setSyncInProgress(false);
+		useStore.getState().setSyncInProgress(false);
 	}
 }
 
 let uploadController: AbortController | null = null;
 
 function setupAutoSync() {
-	const unsubscribe = useAuthStore.subscribe(
+	const unsubscribe = useStore.subscribe(
 		(state) => state.backupUpdatedAt,
 		(newValue, prevValue) => {
 			if (newValue === prevValue) return;
@@ -163,13 +158,13 @@ function setupAutoSync() {
 			debounce = window.setTimeout(async () => {
 				toast.info("Sync start");
 				const controller = new AbortController();
-				useAuthStore.getState().setSyncInProgress(true);
+				useStore.getState().setSyncInProgress(true);
 
 				uploadController?.abort();
 				uploadController = controller;
 
 				try {
-					const data = select(useAuthStore.getState());
+					const data = select(useStore.getState());
 					await upload(data, controller.signal);
 
 					if (!controller.signal.aborted) {
@@ -183,7 +178,7 @@ function setupAutoSync() {
 					}
 				} finally {
 					if (uploadController === controller) {
-						useAuthStore.getState().setSyncInProgress(false);
+						useStore.getState().setSyncInProgress(false);
 					}
 				}
 			}, 800);

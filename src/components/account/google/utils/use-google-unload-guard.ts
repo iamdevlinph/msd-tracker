@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useAuthStore } from "@/stores/auth-store";
+import { useStore } from "@/stores/app-store";
 
 export function useGoogleUnloadGuard() {
-	const syncInProgress = useAuthStore((s) => s.syncInProgress);
+	const syncInProgress = useStore((s) => s.syncInProgress);
 
 	useEffect(() => {
 		const handler = (e: BeforeUnloadEvent) => {
