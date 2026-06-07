@@ -7,6 +7,8 @@ import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { Menu } from "lucide-react";
+import { useState } from "react";
 import { useGoogleUnloadGuard } from "@/components/account/google/utils/use-google-unload-guard";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { ThemeProvider } from "@/components/themes/theme-provider";
@@ -58,8 +60,15 @@ const asyncStoragePersister = createAsyncStoragePersister({
 	storage: AsyncStorage,
 });
 
+export type Sidebar = {
+	sidebarOpen: boolean;
+	setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 function RootDocument({ children }: { children: React.ReactNode }) {
 	useGoogleUnloadGuard();
+
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	return (
 		<html lang="en" suppressHydrationWarning>
@@ -79,10 +88,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 								<SyncConflictDialog />
 
 								<div className="flex h-screen bg-background overflow-hidden">
-									<Header />
+									<Header
+										sidebarOpen={sidebarOpen}
+										setSidebarOpen={setSidebarOpen}
+									/>
 
-									<main className="max-w-5xl lg:mx-auto mt-20 mx-6 pb-20">
-										{children}
+									<main className="flex-1 overflow-y-auto bg-background w-full">
+										<div className="lg:hidden sticky top-0 z-30 bg-card border-b border-border px-4 py-3 flex items-center justify-end">
+											<button
+												type="button"
+												onClick={() => setSidebarOpen(true)}
+												className="text-muted-foreground hover:text-foreground p-2"
+											>
+												<Menu className="size-6" />
+											</button>
+										</div>
+
+										<div className="my-5 mx-2">{children}</div>
 									</main>
 								</div>
 
