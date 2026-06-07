@@ -22,9 +22,10 @@ const navigation = [
 ];
 
 const linkStyle =
-	"w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all text-muted-foreground hover:text-foreground hover:bg-accent/50";
+	"w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all text-muted-foreground";
 const activeLinkStyle =
 	"bg-primary text-primary-foreground font-medium shadow-sm";
+const hoverStyle = "hover:text-foreground hover:bg-accent/50";
 
 export const Nav = ({ isMobile }: { isMobile?: boolean }) => {
 	const location = useLocation();
@@ -33,13 +34,15 @@ export const Nav = ({ isMobile }: { isMobile?: boolean }) => {
 		<nav className="flex-1 py-4 px-3 overflow-y-auto">
 			<div className="space-y-0.5">
 				{navigation.map((item) => {
+					const isActive = location.pathname === item.link;
 					const Icon = item.icon;
 					return (
 						<Link
 							key={item.id}
 							className={cn(
 								linkStyle,
-								location.pathname === item.link && activeLinkStyle,
+								isActive && activeLinkStyle,
+								!isActive && hoverStyle,
 							)}
 							to={item.link}
 						>
