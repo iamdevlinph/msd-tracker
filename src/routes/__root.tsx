@@ -36,7 +36,7 @@ export const Route = createRootRoute({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "Github Issues Tracker",
+				title: "Mongil: Star Dive Tracker",
 			},
 		],
 		links: [
@@ -76,13 +76,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 								client={queryClient}
 								persistOptions={{ persister: asyncStoragePersister }}
 							>
-								<Header />
-
 								<SyncConflictDialog />
 
-								<main className="max-w-5xl lg:mx-auto mt-20 mx-6 pb-20">
-									{children}
-								</main>
+								<div className="flex h-screen bg-background overflow-hidden">
+									<Header />
+
+									<main className="max-w-5xl lg:mx-auto mt-20 mx-6 pb-20">
+										{children}
+									</main>
+								</div>
 
 								<Toaster />
 

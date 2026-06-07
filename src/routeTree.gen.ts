@@ -9,11 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MonsterCodexRouteImport } from './routes/monster-codex'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiAuthGoogleSessionRouteImport } from './routes/api/auth/google-session'
 import { Route as ApiAuthGoogleLogoutRouteImport } from './routes/api/auth/google-logout'
 import { Route as ApiAuthGoogleRouteImport } from './routes/api/auth/google'
 
+const MonsterCodexRoute = MonsterCodexRouteImport.update({
+  id: '/monster-codex',
+  path: '/monster-codex',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharactersRoute = CharactersRouteImport.update({
+  id: '/characters',
+  path: '/characters',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +55,18 @@ const ApiAuthGoogleRoute = ApiAuthGoogleRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/characters': typeof CharactersRoute
+  '/events': typeof EventsRoute
+  '/monster-codex': typeof MonsterCodexRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/characters': typeof CharactersRoute
+  '/events': typeof EventsRoute
+  '/monster-codex': typeof MonsterCodexRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
@@ -50,6 +74,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/characters': typeof CharactersRoute
+  '/events': typeof EventsRoute
+  '/monster-codex': typeof MonsterCodexRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
@@ -58,18 +85,27 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/characters'
+    | '/events'
+    | '/monster-codex'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/characters'
+    | '/events'
+    | '/monster-codex'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
   id:
     | '__root__'
     | '/'
+    | '/characters'
+    | '/events'
+    | '/monster-codex'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
@@ -77,6 +113,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CharactersRoute: typeof CharactersRoute
+  EventsRoute: typeof EventsRoute
+  MonsterCodexRoute: typeof MonsterCodexRoute
   ApiAuthGoogleRoute: typeof ApiAuthGoogleRoute
   ApiAuthGoogleLogoutRoute: typeof ApiAuthGoogleLogoutRoute
   ApiAuthGoogleSessionRoute: typeof ApiAuthGoogleSessionRoute
@@ -84,6 +123,27 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/monster-codex': {
+      id: '/monster-codex'
+      path: '/monster-codex'
+      fullPath: '/monster-codex'
+      preLoaderRoute: typeof MonsterCodexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/characters': {
+      id: '/characters'
+      path: '/characters'
+      fullPath: '/characters'
+      preLoaderRoute: typeof CharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -117,6 +177,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CharactersRoute: CharactersRoute,
+  EventsRoute: EventsRoute,
+  MonsterCodexRoute: MonsterCodexRoute,
   ApiAuthGoogleRoute: ApiAuthGoogleRoute,
   ApiAuthGoogleLogoutRoute: ApiAuthGoogleLogoutRoute,
   ApiAuthGoogleSessionRoute: ApiAuthGoogleSessionRoute,

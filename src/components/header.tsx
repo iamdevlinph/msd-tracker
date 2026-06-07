@@ -1,41 +1,24 @@
-import { GitPullRequest, Menu } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useGoogleAuth } from "@/components/account/google/utils/use-google-auth";
 import { Nav } from "@/components/navigation";
-import { ModeToggleBtn } from "@/components/themes/mode-toggle-btn";
-import {
-	Sheet,
-	SheetContent,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
 
 export default function Header() {
 	useGoogleAuth({ syncOnLoad: true });
 
 	return (
-		<header className="border-b border-gray-200 dark:border-gray-800 fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-950">
-			<div className="px-6 py-4 flex items-center justify-between">
-				<div className="flex items-center gap-8">
-					<div className="md:hidden">
-						<Sheet>
-							<SheetTrigger>
-								<Menu />
-							</SheetTrigger>
-							<SheetContent showCloseButton={false}>
-								<SheetTitle className="sr-only">menu</SheetTitle>
-								<Nav isMobile />
-							</SheetContent>
-						</Sheet>
-					</div>
-
-					<div className="hidden md:flex items-center gap-3">
-						<GitPullRequest className="w-6 h-6" />
-						<h1 className="text-xl font-semibold">GitHub Issues Tracker</h1>
-						<Nav />
-					</div>
-				</div>
-				<ModeToggleBtn />
+		<aside className="w-60 border-r border-border bg-card flex flex-col shrink-0">
+			<div className="px-6 py-6 border-b border-border">
+				<Link to="/">
+					<h1 className="text-lg font-semibold">Mongil: Star Dive</h1>
+					<p className="text-xs text-muted-foreground mt-0.5">Tracker</p>
+				</Link>
 			</div>
-		</header>
+
+			<Nav />
+
+			{/* <div className="px-6 py-4 border-t border-border text-xs text-muted-foreground">
+				<p>© 2026 Mongil Star Dive Tracker</p>
+			</div> */}
+		</aside>
 	);
 }
