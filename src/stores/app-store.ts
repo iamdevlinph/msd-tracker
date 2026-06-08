@@ -21,6 +21,8 @@ export type StoreState = {
 
 	isHydrated: boolean;
 	setHasHydrated: (flag: boolean) => void;
+
+	monsterCodex: string[];
 };
 
 const initialState = {
@@ -28,6 +30,8 @@ const initialState = {
 	syncInProgress: false,
 	syncConflict: null,
 	isHydrated: false,
+
+	monsterCodex: [],
 };
 
 export const useStore = create<StoreState>()(
