@@ -41,7 +41,9 @@ export const AccountPage = () => {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<Button onClick={resetStore}>Reset Store</Button>
+						<Button onClick={resetStore} variant={"destructive"}>
+							Reset Store
+						</Button>
 					</CardContent>
 				</Card>
 			</div>
