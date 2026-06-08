@@ -94,7 +94,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 									/>
 
 									<main className="flex-1 overflow-y-auto bg-background w-full">
-										<div className="lg:hidden sticky top-0 z-30 bg-card border-b border-border px-4 py-3 flex items-center justify-end">
+										<div className="lg:hidden sticky top-0 z-30 bg-card border-b border-border px-4 py-3 flex items-center justify-between">
+											<div>
+												<h1 className="font-semibold">Mongil: Star Dive</h1>
+												<p className="text-xs text-muted-foreground">
+													{/* {navigation.find((n) => n.id === activeTab)?.label} */}
+													Tracker
+												</p>
+											</div>
 											<button
 												type="button"
 												onClick={() => setSidebarOpen(true)}
