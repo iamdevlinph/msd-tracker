@@ -18,7 +18,7 @@ export const MonsterlingCard = (props: MonsterCodexEntry) => {
 	const completed = monsterCodexCompleted.includes(id);
 
 	return (
-		<div className="text-center inline-block relative p-5">
+		<div className="inline-block relative w-42 h-44 border">
 			<Button
 				variant={completed ? "secondary" : "default"}
 				size="icon-sm"
@@ -41,9 +41,11 @@ export const MonsterlingCard = (props: MonsterCodexEntry) => {
 				alt={`${name} monsterling`}
 				width="100"
 				height="100"
-				className={cn(completed && "grayscale-100")}
+				className={cn(completed && "grayscale-100", "mx-auto")}
 			/>
-			<small className="">{name}</small>
+			<h6 className="truncate">
+				#{id} {name}
+			</h6>
 		</div>
 	);
 };

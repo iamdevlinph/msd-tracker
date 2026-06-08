@@ -166,7 +166,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 17,
 		name: "Scarlet Queen",
 		image:
-			"https://img.game8.co/4469030/0https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeRed.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeRed.png",
 		element: "Water",
 		region_id: REGION_ELENDOR,
 		ability: "ATK +3.15% for 10s upon attacking Water enemy (Cooldown: 20s)",
@@ -277,7 +277,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 29,
 		name: "Teal Cappy",
 		image:
-			"https://img.game8.co/4469352/221795e3bfc3996d39ba327eaf2b0920.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyThrowBlue.png",
 		element: "Earth",
 		region_id: REGION_ELENDOR,
 		ability: "Special Skill Crit DMG + 5.25% (Cooldown: 20s)",
@@ -286,7 +286,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 30,
 		name: "Green Cappy",
 		image:
-			"https://img.game8.co/4469119/96464c167d72ba947bcb8898b0db01d4.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyPoison.png",
 		element: "Earth ",
 		region_id: REGION_ELENDOR,
 		ability: "Special Skill Neutralization DMG +5% (Cooldown: 15s)",
@@ -295,7 +295,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 31,
 		name: "Orange Cappy",
 		image:
-			"https://img.game8.co/4469124/1a4ea22820b731c6725c2e2528ccdcab.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyPoisonOrange.png",
 		element: "Earth ",
 		region_id: REGION_ELENDOR,
 		ability: "Special Skill Neutralization DMG +5.25% (Cooldown: 15s)",
@@ -304,7 +304,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 32,
 		name: "Spark Slime",
 		image:
-			"https://img.game8.co/4468911/f8c89b9af65d168b2fed810fe562b1f9.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeThunder.png",
 		element: "Lightning ",
 		region_id: REGION_ELENDOR,
 		ability: "Crit Rate +5% against Lightning enemies",
@@ -313,7 +313,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 33,
 		name: "Golden Spark Slime",
 		image:
-			"https://img.game8.co/4469133/6762b84dc2cd1a441f60f9e04cbbb8d3.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeThunderYellow.png",
 		element: "Lightning ",
 		region_id: REGION_ELENDOR,
 		ability: "Crit Rate +5.25% against Lightning enemies",
@@ -322,7 +322,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 34,
 		name: "White Wolf Fulminator",
 		image:
-			"https://img.game8.co/4469172/8c7a1856a7382311205f0435e456fb00.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWerewolf_MagicianLightning.png",
 		element: "Lightning ",
 		region_id: REGION_ELENDOR,
 		ability: "Critical Lightning DMG +5.5%",
@@ -331,7 +331,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 35,
 		name: "Moley Mole",
 		image:
-			"https://img.game8.co/4469167/672fc6a8aae49b4272df6333bfde58b5.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMolly.png",
 		element: "Earth ",
 		region_id: REGION_ELENDOR,
 		ability: "Suppression DMG +5.5% against knocked-down targets",
@@ -340,7 +340,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 36,
 		name: "Gold Digger Moley Mole",
 		image:
-			"https://img.game8.co/4469160/6fbbe7687bb0f7ee9986ef27cd9a1e6f.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMoleyGold.png",
 		element: "Earth ",
 		region_id: REGION_ELENDOR,
 		ability: "Suppression DMG +5.78% against knocked-down targets",
@@ -349,7 +349,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 37,
 		name: "Green Cappy Papa",
 		image:
-			"https://img.game8.co/4469161/a480b7d475d1d75e3c70584b19941381.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopaDaddy.png",
 		element: "Earth ",
 		region_id: REGION_ELENDOR,
 		ability: "Special Skill ATK +2.75% (Cooldown: 15s)",
@@ -358,7 +358,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 38,
 		name: "Custos",
 		image:
-			"https://img.game8.co/4469168/54bdc9e74de15da9489e3bfee1a2a52b.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGolemBlack.png",
 		element: "Earth",
 		region_id: REGION_ELENDOR,
 		ability:
@@ -368,7 +368,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 39,
 		name: "El Dorado Guardian",
 		image:
-			"https://img.game8.co/4469170/5adfe0621128d3432d13d46a69e51ccf.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGolemGold.png",
 		element: "Earth ",
 		region_id: REGION_ELENDOR,
 		ability:
@@ -378,7 +378,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 40,
 		name: "Rock Fist Dude",
 		image:
-			"https://img.game8.co/4469162/efb7da1d6fd467a2a9fa7ddbf58b0a57.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneguy.png",
 		element: "Earth",
 		region_id: REGION_VARHINE,
 		ability: "Attacks' Earth DMG +6% upon attacking with Elemental Weakness",
@@ -387,7 +387,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 41,
 		name: "Golden Fist Dude",
 		image:
-			"https://img.game8.co/4469268/7c2ce3e6d8b0f14d301adf5141d99e14.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneGuyGold.png",
 		element: "Earth",
 		region_id: REGION_VARHINE,
 		ability:
@@ -397,7 +397,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 42,
 		name: "Orc Warrior",
 		image:
-			"https://img.game8.co/4469259/68c393353ea961bae154b2597b0f0405.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrc.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Physical DMG +5% against normal enemies (Cooldown: 20s)",
@@ -406,7 +406,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 43,
 		name: "Pink Orc Dude",
 		image:
-			"https://img.game8.co/4469266/f73a8872240e518c2d186a09437ee68c.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrcAxePink.png",
 		element: "Normal",
 		region_id: REGION_VARHINE,
 		ability: "Physical DMG +5.25% against normal enemies (Cooldown: 20s)",
@@ -415,7 +415,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 44,
 		name: "Orc Raider",
 		image:
-			"https://img.game8.co/4469270/b88f4fbe2f0a2eef560036ef13da9e06.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrcAxe.png",
 		element: "Normal",
 		region_id: REGION_VARHINE,
 		ability: "Crit Rate +5% against normal enemies (Cooldown: 20s)",
@@ -424,7 +424,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 45,
 		name: "Rockymander",
 		image:
-			"https://img.game8.co/4469264/4f5086889b7a9bf73ee746628ea418a4.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyong.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Crit DMG +5% for 5s upon being hit 10 times",
@@ -433,7 +433,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 46,
 		name: "Leafymander",
 		image:
-			"https://img.game8.co/4469267/bd99d212ed55958ba4bc01775ebb63f5.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyongMutation01.png",
 		element: "Normal",
 		region_id: REGION_VARHINE,
 		ability: "Crit DMG +5.25% for 5s upon being hit 10 times",
@@ -442,7 +442,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 47,
 		name: "Bouldermander",
 		image:
-			"https://img.game8.co/4469271/ebcf966e6110e476e535f4b07f24dd4a.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyong.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Special Skill DMG +5% for 5s upon being hit 10 times",
@@ -451,7 +451,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 48,
 		name: "Vikkymander",
 		image:
-			"https://img.game8.co/4469265/d680a9d924c170845e8b0a7cf53bc225.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyongKingHat.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Special Skill DMG +5.25% for 5s upon being hit 10 times",
@@ -460,7 +460,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 49,
 		name: "Troll",
 		image:
-			"https://img.game8.co/4469258/080aaa557c89f3727eeba4cd6502235a.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTroll.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Ultimate Skill Neutralization DMG +5%",
@@ -469,7 +469,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 50,
 		name: "Noxtroll",
 		image:
-			"https://img.game8.co/4469260/73e61f87051e01e290cf4b347fc25afc.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollBlue.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Ultimate Skill Neutralization DMG + 5.25%",
@@ -478,7 +478,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 51,
 		name: "Urgash",
 		image:
-			"https://img.game8.co/4469369/2b7a349b4854b15d23ba76fabd95e06b.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollKing.png",
 		element: "Normal",
 		region_id: REGION_VARHINE,
 		ability: "Ultimate Skill Elemental Weakness DMG +5.5%",
@@ -533,7 +533,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 57,
 		name: "Shellymander",
 		image:
-			"https://img.game8.co/4469362/fc47e06c8f93dfb0ced8b9a88fab3f1e.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyong.png",
 		element: "Normal",
 		region_id: REGION_VARHINE,
 		ability: "Physical DMG +5% for 5s upon being hit 10 times",
@@ -542,7 +542,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 58,
 		name: "Mollumander",
 		image:
-			"https://img.game8.co/4468835/0059613604e837edef964c0935c4adac.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyongMutation01.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Physical DMG +5.25% for 5s upon being hit 10 times",
@@ -551,7 +551,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 59,
 		name: "Swellymander",
 		image:
-			"https://img.game8.co/4469365/af5d8a8de0bd87841d99298d8b8c3a14.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyongKing.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
 		ability: "Basic Attack DMG +5% for 5s upon being hit 10 times",
@@ -560,7 +560,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 60,
 		name: "Harvester",
 		image:
-			"https://img.game8.co/4469358/129367a0bd540ee17eae5e1a9c27fff2.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldier.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
 		ability: "Crit Rate +5% for 5s upon being hit (Cooldown: 20s)",
@@ -569,7 +569,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 61,
 		name: "Enforcer",
 		image:
-			"https://img.game8.co/4469415/6f55149c9ca22c2a08c1e363c068602d.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldierSpear.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
 		ability: "DEF +3.75% for 5s upon being hit (Cooldown: 20s)",
@@ -578,7 +578,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 62,
 		name: "Void Friar",
 		image:
-			"https://img.game8.co/4469423/4a817ba465c42ab6a7cc4c8105329641.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageMonk.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
 		ability: "Elemental Weakness DMG +5% for 5s upon being hit (Cooldown: 20s)",
@@ -587,7 +587,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 63,
 		name: "Monk's Shadow",
 		image:
-			"https://img.game8.co/4469418/a1e4387b773dc2979c76fef66b86ff36.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageMonkWhite.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
 		ability:
@@ -597,7 +597,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 64,
 		name: "Vectus",
 		image:
-			"https://img.game8.co/4469428/aecfeccc2d9f1d75fc5eed10f1fb9163.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightagePriest.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
 		ability: "ATK +2.75% for 10s upon being hit (Cooldown: 20s)",
@@ -606,7 +606,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 65,
 		name: "Mountaintaur",
 		image:
-			"https://img.game8.co/4469426/ed1473176307ad8a7f5e4e6b8dccd10c.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaMountain.png",
 		element: "Fire",
 		region_id: REGION_VARHINE,
 		ability: "Crit DMG +6% against Staggered boss enemies",
@@ -615,7 +615,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 66,
 		name: "Tealtaur",
 		image:
-			"https://img.game8.co/4469430/994135ead9ad5bd074491764d1b3adc3.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaForestWind.png",
 		element: "Fire",
 		region_id: REGION_VARHINE,
 		ability: "Fire DMG +6.3% against Staggered boss enemies",
@@ -624,7 +624,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 67,
 		name: "Amon",
 		image:
-			"https://img.game8.co/4469427/bab497eee2a5b216dc8f20d39ce144d8.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmon.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
 		ability:
@@ -634,7 +634,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 68,
 		name: "Amon's Shadow",
 		image:
-			"https://img.game8.co/4469429/e5bc610e4f704b1aad847b9c53d65a11.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmonWhite.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
 		ability:
@@ -644,7 +644,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 69,
 		name: "Gorrik",
 		image:
-			"https://img.game8.co/4469422/533e0df5456aba97e954e165b8ad0e91.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinEnforcer.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
 		ability: "Recovers 1.65% of Max HP upon landing 10 Basic Attacks",
@@ -653,7 +653,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 70,
 		name: "Ice Slime",
 		image:
-			"https://img.game8.co/4469419/a92c92fc594e1f13be3ca960bafd3f5a.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeIce.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
 		ability: "Elemental Weakness DMG +5% against Ice enemies",
@@ -662,7 +662,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 71,
 		name: "Slimeboo",
 		image:
-			"https://img.game8.co/4469476/2319a1ed4c70aea8a83d1120c7975565.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeIceGreen.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
 		ability: "Crit DMG +5.25% against Physical enemies",
@@ -671,7 +671,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 72,
 		name: "Fire Slime",
 		image:
-			"https://img.game8.co/4469477/3a202be3c57156d1dbd3e3e8fc2a3586.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeFire.png",
 		element: "Fire",
 		region_id: REGION_SERENIA,
 		ability: "Elemental Weakness DMG +5% against Fire enemies",
@@ -680,7 +680,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 73,
 		name: "Queen Slime",
 		image:
-			"https://img.game8.co/4469478/c35ea3b03a0f1a2dafa6599762518ad8.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeQueen.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
 		ability: "Physical DMG +5.5% for 5s upon attacking Physical enemy",
@@ -689,7 +689,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 74,
 		name: "Empress Slime",
 		image:
-			"https://img.game8.co/4469475/1938ae4fafe44a63dc42e91acc439355.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeQueenRed.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
 		ability: "ATK +2.89% for 10s upon attacking Physical enemy (Cooldown: 20s)",
@@ -698,7 +698,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 75,
 		name: "Spaider",
 		image:
-			"https://img.game8.co/4469480/73086aeb7be9ed015819ba14fbe2c2b3.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderGrassland.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
 		ability: "DEF +3.75% for 5s upon defeating 10 enemies",
@@ -707,7 +707,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 76,
 		name: "Sparder",
 		image:
-			"https://img.game8.co/4469501/14d61ec0443c76c44b53394eb0a6674e.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderForest.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "DMG +5% against normal enemies for 5s upon defeating 10 enemies",
@@ -716,7 +716,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 77,
 		name: "Spardig",
 		image:
-			"https://img.game8.co/4469496/1c0dc6154d6f27444866f460e377a892.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderHat.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability:
@@ -726,7 +726,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 78,
 		name: "Spooder",
 		image:
-			"https://img.game8.co/4469498/e3795c52b9a424f9bdf4523f97ea8753.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderMountain.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
 		ability: "Crit DMG +5% for 5s upon defeating 10 enemies",
@@ -735,7 +735,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 79,
 		name: "Spadupa",
 		image:
-			"https://img.game8.co/4469503/085653839a185cb46624ad8f5d19ee5d.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpadupa.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "Earth DMG +5.5% for 10s upon defeating 10 enemies",
@@ -744,7 +744,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 80,
 		name: "Greenpadupa",
 		image:
-			"https://img.game8.co/4469502/3aba69b5e0c65f819464b614c57528c7.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpaDupaGreen.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "ATK +2.89% for 10s upon defeating 10 enemies",
@@ -753,7 +753,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 81,
 		name: "Gargoyle",
 		image:
-			"https://img.game8.co/4469546/f523c3d60cc864929d1fa0b2048d9558.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyle.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
 		ability: "Target's DEF -3.75% for 5s upon using Air Counter.",
@@ -762,7 +762,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 82,
 		name: "Grassgoyle",
 		image:
-			"https://img.game8.co/4469541/fdd5bf44df48c6fe7aeb5a714b48dbb3.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyleGrassland.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
 		ability: "Air Counter Physical DMG +5%",
@@ -771,7 +771,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 83,
 		name: "Soilgoyle",
 		image:
-			"https://img.game8.co/4469535/7d017392a7fdebbcbaac1508e80d147e.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyleMountain.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
 		ability: "Air Counter Physical DMG +5.25%",
@@ -780,7 +780,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 84,
 		name: "Sylphid",
 		image:
-			"https://img.game8.co/4469540/7c37f8a00919adfb4b2377ec1c1a72a0.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphi_Mountain.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "Earth DMG +5% against Airborne targets",
@@ -789,7 +789,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 85,
 		name: "Vamphid",
 		image:
-			"https://img.game8.co/4469542/9030837c5739a1719f0de5d075f91877.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiBlack.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "Earth DMG +5.25% against Airborne targets",
@@ -798,7 +798,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 86,
 		name: "Stickphid",
 		image:
-			"https://img.game8.co/4469583/a7d4b3cc277f4390c8eaba6f04b1d348.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpear.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "Crit DMG +5% against Airborne targets",
@@ -807,7 +807,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 87,
 		name: "Healphid",
 		image:
-			"https://img.game8.co/4469577/a7335264ed0c6a35081eb630860f8efa.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphi_Grassland.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
 		ability: "Ice DMG +5% against Airborne targets",
@@ -816,7 +816,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 88,
 		name: "Head Stickphid",
 		image:
-			"https://img.game8.co/4469574/cbb374562ca060da9de2b015890a03a1.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpearCaptin.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "Crit Rate +5% against Airborne targets",
@@ -825,7 +825,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 89,
 		name: "Full Moon Vamphid",
 		image:
-			"https://img.game8.co/4469581/6075181cadf0dde6e4a8d9142e2090b1.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpearCaptinBlack.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability: "Crit Rate +5.25% against Airborne targets",
@@ -834,7 +834,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 90,
 		name: "Ice Fist Dude",
 		image:
-			"https://img.game8.co/4469582/854ca0ccf4a5bc5098b3cfbde64bbaea.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneguyCrystal.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
 		ability: "Elemental Weakness Attack Crit Rate +6%",
@@ -843,7 +843,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 91,
 		name: "Plains Minotaur",
 		image:
-			"https://img.game8.co/4469618/4f5f2b8269971c9cf3d1a9a4752e0fb6.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaGrassland.png",
 		element: "Wind",
 		region_id: REGION_SERENIA,
 		ability: "Wind DMG +6% against Staggered boss enemies",
@@ -852,7 +852,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 92,
 		name: "Spoonmugger",
 		image:
-			"https://img.game8.co/4469617/5527768f35e94a8bca461ae469451744.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmugger.png",
 		element: "Lightning ",
 		region_id: REGION_SERENIA,
 		ability:
@@ -862,7 +862,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 93,
 		name: "Stickmugger",
 		image:
-			"https://img.game8.co/4469619/087dd2c1842d551d2dfa952fb90c8c39.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmuggerQueen.png",
 		element: "Lightning ",
 		region_id: REGION_SERENIA,
 		ability:
@@ -872,7 +872,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 94,
 		name: "Avardan",
 		image:
-			"https://img.game8.co/4469621/ea40e1f9ab6d61a80a93335397e58fe8.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAvadanBlack.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability:
@@ -882,7 +882,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 95,
 		name: "Avardan's Mana",
 		image:
-			"https://img.game8.co/4469620/c2e29462e04e50783832746d5bde8f1f.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAvadan.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
 		ability:
@@ -892,7 +892,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 96,
 		name: "Lil' Hauntstack",
 		image:
-			"https://img.game8.co/4470860/c3ed6bfedd26de1fe027a98c7ca1e6f7.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsaeSmall.png",
 		element: "Water",
 		region_id: REGION_SURAH,
 		ability: "Switch Skill Crit DMG +5%",
@@ -901,7 +901,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 97,
 		name: "Sacred Hauntstack",
 		image:
-			"https://img.game8.co/4470877/f0885dbc1dc08e634dc3744f3d3d1782.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsaeSky.png",
 		element: "Water",
 		region_id: REGION_SURAH,
 		ability: "Switch Skill Crit DMG +5.25%",
@@ -910,7 +910,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 98,
 		name: "Hauntstack",
 		image:
-			"https://img.game8.co/4470879/4ce1b1ef2a4b65fd501793fe20cc67d0.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsae.png",
 		element: "Water",
 		region_id: REGION_SURAH,
 		ability: "Switch Skill Crit Rate +5",
@@ -919,7 +919,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 99,
 		name: "Brush Hauntstack",
 		image:
-			"https://img.game8.co/4470874/33c546fcd0ebe3a048f574125c3853af.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsaeGreen.png",
 		element: "Water",
 		region_id: REGION_SURAH,
 		ability: "Ice DMG +5.25% against Staggered boss enemies",
@@ -928,7 +928,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 100,
 		name: "Bop-kkaebi",
 		image:
-			"https://img.game8.co/4470868/10f059db2aff8ea854555365d9a4ac1f.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKkebi.png",
 		element: "Fire",
 		region_id: REGION_SURAH,
 		ability: "Ultimate Skill Crit DMG 5%",
@@ -937,7 +937,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 101,
 		name: "Pew-kkaebi",
 		image:
-			"https://img.game8.co/4470875/6ea4c8468abe3ceca9b8d3f45014f94d.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKkebiGreen.png",
 		element: "Fire",
 		region_id: REGION_SURAH,
 		ability: "Ultimate Skill Fire DMG +5%",
@@ -946,7 +946,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 		id: 102,
 		name: "Kkaebi Herder",
 		image:
-			"https://img.game8.co/4470843/f1dd30d56d48be6fa80d01f3aacb2dc5.png/show",
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinShieldKkebi.png",
 		element: "Normal",
 		region_id: REGION_SURAH,
 		ability:
