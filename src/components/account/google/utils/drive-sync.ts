@@ -197,7 +197,7 @@ function setupAutoSync() {
 						useStore.getState().setSyncInProgress(false);
 					}
 				}
-			}, 800);
+			}, 1000);
 		},
 	);
 
