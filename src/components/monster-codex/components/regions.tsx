@@ -10,8 +10,7 @@ import { cn } from "@/lib/utils";
 export const Regions = () => {
 	const filterCodex = useMonsterCodexStore((s) => s.filterCodex);
 
-	const [activeRegion, setActiveRegion] =
-		useState<MonsterCodexRegion>("elendor");
+	const [activeRegion, setActiveRegion] = useState<MonsterCodexRegion>("all");
 
 	useEffect(() => {
 		filterCodex({ region: activeRegion });
@@ -20,7 +19,7 @@ export const Regions = () => {
 	return (
 		<ScrollArea className="">
 			<div className="flex flex-row">
-				{REGIONS_DATA.map((region) => {
+				{Object.values(REGIONS_DATA).map((region) => {
 					return (
 						<Card
 							key={region.id}

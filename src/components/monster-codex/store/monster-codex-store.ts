@@ -14,7 +14,7 @@ const initialState = {
 	// cachedResults: {},
 	filters: {
 		source: "all" as MonsterCodexSource,
-		region: "elendor" as MonsterCodexRegion,
+		region: "all" as MonsterCodexRegion,
 		completed: "all" as CompletedFilter,
 	},
 };
@@ -88,8 +88,10 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()((set) => ({
 			};
 
 			const filtered = MONSTERLINGS_DATA.filter((monsterling) => {
+				if (nextFilter.region === "all") return true;
+
 				// filter by region
-				const region = REGIONS_DATA.filter(
+				const region = Object.values(REGIONS_DATA).filter(
 					(value) => nextFilter.region === value.region,
 				);
 				return monsterling.region_id === region[0].id;
@@ -98,7 +100,7 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()((set) => ({
 					if (nextFilter.source === "all") return true;
 
 					// filter by source
-					const source = MONSTERLINGS_SOURCE_DATA.filter(
+					const source = Object.values(MONSTERLINGS_SOURCE_DATA).filter(
 						(value) => nextFilter.source === value.source,
 					);
 					return monsterling.source_id.includes(source[0].id);

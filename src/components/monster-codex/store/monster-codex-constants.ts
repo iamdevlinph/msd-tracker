@@ -1,5 +1,3 @@
-import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
-
 export type MonsterCodexEntry = {
 	id: number;
 	name: string;
@@ -23,5 +21,16 @@ export type MonsterCodexSourceData = Record<
 	number,
 	{ id: number; source: MonsterCodexSource; label: string }
 >;
-export const MONSTER_CODEX_REGION = REGIONS_DATA.map((item) => item.region);
-export type MonsterCodexRegion = (typeof MONSTER_CODEX_REGION)[number];
+
+export type MonsterCodexRegion =
+	| "all"
+	| "elendor"
+	| "muwon"
+	| "namryung"
+	| "serenia"
+	| "surah"
+	| "varhine";
+export type MonsterCodexRegionData = Record<
+	number,
+	{ id: number; region: MonsterCodexRegion; image: string }
+>;
