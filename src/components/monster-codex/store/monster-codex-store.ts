@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 import { MONSTERLINGS_DATA } from "@/components/monster-codex/data/MONSTERLINGS_DATA";
 import { MONSTERLINGS_SOURCE_DATA } from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
 import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
@@ -39,102 +38,95 @@ export type MonsterCodexStoreState = {
 	};
 };
 
-export const useMonsterCodexStore = create<MonsterCodexStoreState>()(
-	persist(
-		(set) => ({
-			...initialState,
+export const useMonsterCodexStore = create<MonsterCodexStoreState>()((set) => ({
+	...initialState,
 
-			// filterBySource: (filter) =>
-			// 	set((state) => {
-			// const cacheKey = `filterBySource-${filter.source}`;
+	// filterBySource: (filter) =>
+	// 	set((state) => {
+	// const cacheKey = `filterBySource-${filter.source}`;
 
-			// const cached = get().cachedResults[cacheKey];
-			// if (cached)
-			// 	return {
-			// 		monsterlings: JSON.parse(cached as string),
-			// 	};
+	// const cached = get().cachedResults[cacheKey];
+	// if (cached)
+	// 	return {
+	// 		monsterlings: JSON.parse(cached as string),
+	// 	};
 
-			// if (filter.source === "all") {
-			// 	return {
-			// 		monsterlings: MONSTERLINGS_DATA,
-			// 		cachedResults: {
-			// 			...state.cachedResults,
-			// 			[cacheKey]: JSON.stringify(MONSTERLINGS_DATA),
-			// 		},
-			// 	};
-			// }
+	// if (filter.source === "all") {
+	// 	return {
+	// 		monsterlings: MONSTERLINGS_DATA,
+	// 		cachedResults: {
+	// 			...state.cachedResults,
+	// 			[cacheKey]: JSON.stringify(MONSTERLINGS_DATA),
+	// 		},
+	// 	};
+	// }
 
-			// const sourceObj = MONSTERLINGS_SOURCE_DATA.filter(
-			// 	(value) => value.source === filter.source,
-			// );
+	// const sourceObj = MONSTERLINGS_SOURCE_DATA.filter(
+	// 	(value) => value.source === filter.source,
+	// );
 
-			// const data = MONSTERLINGS_DATA.filter(
-			// 	(vlaue) => vlaue.source_id === sourceObj[0].id,
-			// );
+	// const data = MONSTERLINGS_DATA.filter(
+	// 	(vlaue) => vlaue.source_id === sourceObj[0].id,
+	// );
 
-			// return {
-			// 	monsterlings: data,
-			// 	cachedResults: {
-			// 		...state.cachedResults,
-			// 		[cacheKey]: JSON.stringify(data),
-			// 	},
-			// };
+	// return {
+	// 	monsterlings: data,
+	// 	cachedResults: {
+	// 		...state.cachedResults,
+	// 		[cacheKey]: JSON.stringify(data),
+	// 	},
+	// };
 
-			// 	return state;
-			// }),
+	// 	return state;
+	// }),
 
-			filterCodex: (filter) =>
-				set((state) => {
-					const nextFilter = {
-						...state.filters,
-						...filter,
-					};
+	filterCodex: (filter) =>
+		set((state) => {
+			const nextFilter = {
+				...state.filters,
+				...filter,
+			};
 
-					const filtered = MONSTERLINGS_DATA.filter((monsterling) => {
-						// filter by region
-						const region = REGIONS_DATA.filter(
-							(value) => nextFilter.region === value.region,
-						);
-						return monsterling.region_id === region[0].id;
-					})
-						.filter((monsterling) => {
-							if (nextFilter.source === "all") return true;
+			const filtered = MONSTERLINGS_DATA.filter((monsterling) => {
+				// filter by region
+				const region = REGIONS_DATA.filter(
+					(value) => nextFilter.region === value.region,
+				);
+				return monsterling.region_id === region[0].id;
+			})
+				.filter((monsterling) => {
+					if (nextFilter.source === "all") return true;
 
-							// filter by source
-							const source = MONSTERLINGS_SOURCE_DATA.filter(
-								(value) => nextFilter.source === value.source,
-							);
-							return monsterling.source_id.includes(source[0].id);
-						})
-						.filter((monsterling) => {
-							if (nextFilter.completed === "all" || !nextFilter.completed)
-								return true;
+					// filter by source
+					const source = MONSTERLINGS_SOURCE_DATA.filter(
+						(value) => nextFilter.source === value.source,
+					);
+					return monsterling.source_id.includes(source[0].id);
+				})
+				.filter((monsterling) => {
+					if (nextFilter.completed === "all" || !nextFilter.completed)
+						return true;
 
-							// filter by completed
-							const monsterCodexCompleted =
-								useStore.getState().monsterCodexCompleted;
+					// filter by completed
+					const monsterCodexCompleted =
+						useStore.getState().monsterCodexCompleted;
 
-							const isComplete =
-								nextFilter.completed === "completed" &&
-								monsterCodexCompleted.includes(monsterling.id);
+					const isComplete =
+						nextFilter.completed === "completed" &&
+						monsterCodexCompleted.includes(monsterling.id);
 
-							const isIncomplete =
-								nextFilter.completed === "incomplete" &&
-								!monsterCodexCompleted.includes(monsterling.id);
+					const isIncomplete =
+						nextFilter.completed === "incomplete" &&
+						!monsterCodexCompleted.includes(monsterling.id);
 
-							const match = isComplete || isIncomplete;
+					const match = isComplete || isIncomplete;
 
-							return match;
-						});
+					return match;
+				});
 
-					return {
-						monsterlings: filtered,
-						filters: nextFilter,
-					};
-				}),
+			return {
+				monsterlings: filtered,
+				filters: nextFilter,
+			};
 		}),
-		{
-			name: "monster-codex-beta-v2",
-		},
-	),
-);
+}));

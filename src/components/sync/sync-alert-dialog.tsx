@@ -88,6 +88,7 @@ export function SyncConflictDialog() {
 
 									useStore.setState({
 										backupUpdatedAt: remote.backupUpdatedAt,
+										monsterCodexCompleted: remote.monsterCodexCompleted,
 									});
 								})();
 							}}

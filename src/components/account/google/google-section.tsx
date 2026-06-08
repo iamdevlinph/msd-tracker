@@ -9,11 +9,13 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
+import { fmt } from "@/lib/utils";
 import { useStore } from "@/stores/app-store";
 
 export const GoogleSection = () => {
 	const { status, login, logout, email } = useGoogleAuth();
 	const syncInProgress = useStore((s) => s.syncInProgress);
+	const backupUpdatedAt = useStore((s) => s.backupUpdatedAt);
 	const isHydrated = useStore((s) => s.isHydrated);
 
 	return (
@@ -33,6 +35,7 @@ export const GoogleSection = () => {
 					{!!email && (
 						<div>
 							Logged in as <strong className="underline">{email}</strong>
+							<div className="text-xs">Last sync: {fmt(backupUpdatedAt)}</div>
 						</div>
 					)}
 					<div className="w-max flex gap-2">
@@ -48,6 +51,7 @@ export const GoogleSection = () => {
 										login();
 									}}
 									variant={"outline"}
+									disabled={syncInProgress}
 								>
 									Login with Google
 								</Button>

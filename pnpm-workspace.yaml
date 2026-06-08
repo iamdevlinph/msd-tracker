@@ -4,3 +4,5 @@ allowBuilds:
   esbuild: true
   sharp: false
   workerd: false
+minimumReleaseAgeExclude:
+  - common-utils-pkg@4.3.2

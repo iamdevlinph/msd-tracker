@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
+import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useStore } from "@/stores/app-store";
 
 const FILE_NAME = "state.json";
@@ -7,11 +8,12 @@ const FILE_NAME = "state.json";
 let fileId: string | null = null;
 let debounce: number;
 
-type Backup = Pick<StoreState, "backupUpdatedAt">;
+type Backup = Pick<StoreState, "backupUpdatedAt" | "monsterCodexCompleted">;
 
 export function select(state: StoreState): Backup {
 	return {
 		backupUpdatedAt: state.backupUpdatedAt,
+		monsterCodexCompleted: state.monsterCodexCompleted,
 	};
 }
 
@@ -151,6 +153,20 @@ function setupAutoSync() {
 	const unsubscribe = useStore.subscribe(
 		(state) => state.backupUpdatedAt,
 		(newValue, prevValue) => {
+			// if not logged in with google skip sync
+			const accessToken = sessionStorage.getItem(G_ACCESS_TOKEN_SESSION);
+
+			if (!accessToken) {
+				// return toast.error("Not logged in to Google", {
+				// 	description: "Cannot sync since you are not logged in to Google",
+				// });
+				console.error("Not logged in to Google", {
+					description: "Cannot sync since you are not logged in to Google",
+				});
+
+				return;
+			}
+
 			if (newValue === prevValue) return;
 
 			clearTimeout(debounce);
