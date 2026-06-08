@@ -1,10 +1,10 @@
 import {
 	SOURCE_CAPTURE_ID,
 	SOURCE_MUTATION_ID,
-} from "@/components/monster-codex/data/SOURCE_MAPPING";
+} from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexEntry } from "@/components/monster-codex/store/monster-codex-constants";
 
-export const MONSTERLINGS_LIST: MonsterCodexEntry[] = [
+export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 	{
 		id: 1,
 		name: "Cappy",

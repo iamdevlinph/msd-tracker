@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { MonsterCodexRegions } from "@/components/monster-codex/components/regions";
-import { MONSTERLINGS_LIST } from "@/components/monster-codex/data/MONSTERLINGS_LIST";
+import { MONSTERLINGS_DATA } from "@/components/monster-codex/data/MONSTERLINGS_DATA";
+import { MONSTERLINGS_SOURCE_DATA } from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
 import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
-import { SOURCE_MAPPING } from "@/components/monster-codex/data/SOURCE_MAPPING";
 import type {
 	CompletedFilter,
 	MonsterCodexSource,
@@ -21,7 +21,7 @@ const initialState = {
 };
 
 export type MonsterCodexStoreState = {
-	monsterlings: typeof MONSTERLINGS_LIST;
+	monsterlings: typeof MONSTERLINGS_DATA;
 	// cachedResults: Record<string, unknown>;
 
 	// filterBySource: (filter: {
@@ -56,19 +56,19 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()(
 
 			// if (filter.source === "all") {
 			// 	return {
-			// 		monsterlings: MONSTERLINGS_LIST,
+			// 		monsterlings: MONSTERLINGS_DATA,
 			// 		cachedResults: {
 			// 			...state.cachedResults,
-			// 			[cacheKey]: JSON.stringify(MONSTERLINGS_LIST),
+			// 			[cacheKey]: JSON.stringify(MONSTERLINGS_DATA),
 			// 		},
 			// 	};
 			// }
 
-			// const sourceObj = SOURCE_MAPPING.filter(
+			// const sourceObj = MONSTERLINGS_SOURCE_DATA.filter(
 			// 	(value) => value.source === filter.source,
 			// );
 
-			// const data = MONSTERLINGS_LIST.filter(
+			// const data = MONSTERLINGS_DATA.filter(
 			// 	(vlaue) => vlaue.source_id === sourceObj[0].id,
 			// );
 
@@ -90,7 +90,7 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()(
 						...filter,
 					};
 
-					const filtered = MONSTERLINGS_LIST.filter((monsterling) => {
+					const filtered = MONSTERLINGS_DATA.filter((monsterling) => {
 						// filter by region
 						const region = REGIONS_DATA.filter(
 							(value) => nextFilter.region === value.region,
@@ -101,7 +101,7 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()(
 							if (nextFilter.source === "all") return true;
 
 							// filter by source
-							const source = SOURCE_MAPPING.filter(
+							const source = MONSTERLINGS_SOURCE_DATA.filter(
 								(value) => nextFilter.source === value.source,
 							);
 							return monsterling.source_id === source[0].id;

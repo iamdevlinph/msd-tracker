@@ -3,7 +3,7 @@ export const SOURCE_CONQUEST_ID = 2;
 export const SOURCE_MUTATION_ID = 3;
 export const SOURCE_REQUEST_ID = 4;
 
-export const SOURCE_MAPPING = [
+export const MONSTERLINGS_SOURCE_DATA = [
 	{
 		id: "all",
 		source: "all",

@@ -1,7 +1,9 @@
+import { MONSTERLINGS_SOURCE_DATA } from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
 import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
-import { SOURCE_MAPPING } from "@/components/monster-codex/data/SOURCE_MAPPING";
 
-export const MONSTER_CODEX_SOURCE = SOURCE_MAPPING.map((item) => item.source);
+export const MONSTER_CODEX_SOURCE = MONSTERLINGS_SOURCE_DATA.map(
+	(item) => item.source,
+);
 export type MonsterCodexSource = (typeof MONSTER_CODEX_SOURCE)[number];
 
 export type MonsterCodexEntry = {
