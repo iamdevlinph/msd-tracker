@@ -28,12 +28,12 @@ export const MonsterlingCard = (props: MonsterCodexEntry) => {
 			<Card
 				className={cn(
 					"inline-block relative",
-					completed ? "bg-background" : "bg-secondary",
+					completed ? "bg-secondary" : "bg-background",
 					"py-2",
 				)}
 			>
 				<Button
-					variant={completed ? "secondary" : "default"}
+					variant={completed ? "default" : "secondary"}
 					size="icon-sm"
 					className={cn(
 						"rounded-full cursor-pointer z-10",
@@ -47,7 +47,7 @@ export const MonsterlingCard = (props: MonsterCodexEntry) => {
 						filterCodex();
 					}}
 				>
-					{completed ? <X /> : <Check />}
+					{completed ? <Check /> : <X />}
 				</Button>
 				<CardHeader>
 					<small>No. {id}</small>
@@ -58,7 +58,10 @@ export const MonsterlingCard = (props: MonsterCodexEntry) => {
 						alt={`${name} monsterling`}
 						width="100"
 						height="100"
-						className={cn(completed && "grayscale-100", "mx-auto")}
+						className={cn(
+							"mx-auto drop-shadow-lg grayscale-100",
+							completed && "grayscale-0",
+						)}
 					/>
 				</CardContent>
 				<CardFooter className="justify-center">
@@ -73,7 +76,11 @@ export const MonsterlingCard = (props: MonsterCodexEntry) => {
 				</CardFooter>
 			</Card>
 
-			<small className={cn(completed && "line-through")}>{name}</small>
+			<small
+				className={cn(completed && "", "flex justify-center mt-2 text-center")}
+			>
+				{name}
+			</small>
 		</div>
 	);
 };
