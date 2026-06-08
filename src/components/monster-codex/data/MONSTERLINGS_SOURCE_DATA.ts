@@ -1,32 +1,34 @@
+import type { MonsterCodexSourceData } from "@/components/monster-codex/store/monster-codex-constants";
+
 export const SOURCE_CAPTURE_ID = 1;
 export const SOURCE_CONQUEST_ID = 2;
 export const SOURCE_MUTATION_ID = 3;
 export const SOURCE_REQUEST_ID = 4;
 
-export const MONSTERLINGS_SOURCE_DATA = [
-	{
+export const MONSTERLINGS_SOURCE_DATA: MonsterCodexSourceData = {
+	0: {
 		id: 0,
 		source: "all",
 		label: "All",
 	},
-	{
+	[SOURCE_CAPTURE_ID]: {
 		id: SOURCE_CAPTURE_ID,
 		source: "capture",
 		label: "Capture",
 	},
-	{
+	[SOURCE_CONQUEST_ID]: {
 		id: SOURCE_CONQUEST_ID,
 		source: "conquest",
 		label: "Conquest",
 	},
-	{
+	[SOURCE_MUTATION_ID]: {
 		id: SOURCE_MUTATION_ID,
 		source: "mutation",
 		label: "Mutation",
 	},
-	{
+	[SOURCE_REQUEST_ID]: {
 		id: SOURCE_REQUEST_ID,
 		source: "request",
 		label: "Request Board",
 	},
-] as const;
+};

@@ -1,9 +1,9 @@
 import { toSentenceCase } from "common-utils-pkg";
 import { useEffect, useState } from "react";
+import { MONSTERLINGS_SOURCE_DATA } from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
 import {
 	COMPLETE_FILTERS,
 	type CompletedFilter,
-	MONSTER_CODEX_SOURCE,
 	type MonsterCodexSource,
 } from "@/components/monster-codex/store/monster-codex-constants";
 import { useMonsterCodexStore } from "@/components/monster-codex/store/monster-codex-store";
@@ -69,13 +69,15 @@ export const FilterOptions = () => {
 						</SelectTrigger>
 						<SelectContent className="">
 							<SelectGroup>
-								{MONSTER_CODEX_SOURCE.map((value) => {
-									return (
-										<SelectItem value={value} key={value}>
-											{toSentenceCase(value)}
-										</SelectItem>
-									);
-								})}
+								{Object.values(MONSTERLINGS_SOURCE_DATA).map(
+									({ source, label }) => {
+										return (
+											<SelectItem value={source} key={source}>
+												{label}
+											</SelectItem>
+										);
+									},
+								)}
 							</SelectGroup>
 						</SelectContent>
 					</Select>

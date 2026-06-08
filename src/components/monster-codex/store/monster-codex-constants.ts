@@ -1,10 +1,4 @@
-import { MONSTERLINGS_SOURCE_DATA } from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
 import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
-
-export const MONSTER_CODEX_SOURCE = MONSTERLINGS_SOURCE_DATA.map(
-	(item) => item.source,
-);
-export type MonsterCodexSource = (typeof MONSTER_CODEX_SOURCE)[number];
 
 export type MonsterCodexEntry = {
 	id: number;
@@ -19,5 +13,15 @@ export type MonsterCodexEntry = {
 export const COMPLETE_FILTERS = ["all", "completed", "incomplete"] as const;
 export type CompletedFilter = (typeof COMPLETE_FILTERS)[number];
 
+export type MonsterCodexSource =
+	| "all"
+	| "capture"
+	| "conquest"
+	| "mutation"
+	| "request";
+export type MonsterCodexSourceData = Record<
+	number,
+	{ id: number; source: MonsterCodexSource; label: string }
+>;
 export const MONSTER_CODEX_REGION = REGIONS_DATA.map((item) => item.region);
 export type MonsterCodexRegion = (typeof MONSTER_CODEX_REGION)[number];
