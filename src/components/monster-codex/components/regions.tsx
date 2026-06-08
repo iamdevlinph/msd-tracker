@@ -1,6 +1,7 @@
 import { toSentenceCase } from "common-utils-pkg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
+import { useMonsterCodexStore } from "@/components/monster-codex/store/monster-codex-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -9,8 +10,15 @@ const REGIONS = REGIONS_DATA.map((item) => item.region);
 export type MonsterCodexRegions = (typeof REGIONS)[number];
 
 export const Regions = () => {
+	const filterCodex = useMonsterCodexStore((s) => s.filterCodex);
+
 	const [activeRegion, setActiveRegion] =
 		useState<(typeof REGIONS)[number]>("elendor");
+
+	useEffect(() => {
+		filterCodex({ region: activeRegion });
+	}, [filterCodex, activeRegion]);
+
 	return (
 		<div className="flex flex-row">
 			{REGIONS.map((region) => {

@@ -1,6 +1,8 @@
 import { toSentenceCase } from "common-utils-pkg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
+	COMPLETE_FILTERS,
+	type CompletedFilter,
 	MONSTER_CODEX_SOURCE,
 	type MonsterCodexSource,
 } from "@/components/monster-codex/store/monster-codex-constants";
@@ -16,26 +18,39 @@ import {
 } from "@/components/ui/select";
 
 export const FilterOptions = () => {
-	const filterBySource = useMonsterCodexStore((s) => s.filterBySource);
+	const filterCodex = useMonsterCodexStore((s) => s.filterCodex);
+	const filters = useMonsterCodexStore((s) => s.filters);
+
+	const [completeFilter, setCompleteFilter] = useState<CompletedFilter>(
+		filters.completed ?? "all",
+	);
+	const [sourceFilter, setSourceFilter] = useState<MonsterCodexSource>(
+		filters.source ?? "all",
+	);
 
 	useEffect(() => {
-		filterBySource({ source: "all" });
-	}, [filterBySource]);
+		filterCodex({ source: sourceFilter, completed: completeFilter });
+	}, [filterCodex, completeFilter, sourceFilter]);
 
 	return (
 		<div className="flex flex-row gap-2">
 			<FieldGroup className="w-42">
 				<Field>
 					<FieldLabel htmlFor="filter">Filter</FieldLabel>
-					<Select>
+					<Select
+						onValueChange={(e: CompletedFilter) => setCompleteFilter(e)}
+						value={completeFilter}
+					>
 						<SelectTrigger className="" id="filter">
 							<SelectValue placeholder="Select filter" />
 						</SelectTrigger>
 						<SelectContent className="">
 							<SelectGroup>
-								<SelectItem value="all">All</SelectItem>
-								<SelectItem value="completed">Completed</SelectItem>
-								<SelectItem value="not-completed">Not Completed</SelectItem>
+								{COMPLETE_FILTERS.map((filter) => (
+									<SelectItem value={filter} key={filter}>
+										{toSentenceCase(filter)}
+									</SelectItem>
+								))}
 							</SelectGroup>
 						</SelectContent>
 					</Select>
@@ -46,9 +61,8 @@ export const FilterOptions = () => {
 				<Field>
 					<FieldLabel htmlFor="source">Source</FieldLabel>
 					<Select
-						onValueChange={(e: MonsterCodexSource) =>
-							filterBySource({ source: e })
-						}
+						onValueChange={(e: MonsterCodexSource) => setSourceFilter(e)}
+						value={sourceFilter}
 					>
 						<SelectTrigger className="" id="source">
 							<SelectValue placeholder="Select source" />
