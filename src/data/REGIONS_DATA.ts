@@ -1,4 +1,4 @@
-export type MonsterCodexRegion =
+type MonsterCodexRegion =
 	| "all"
 	| "elendor"
 	| "muwon"
@@ -6,7 +6,7 @@ export type MonsterCodexRegion =
 	| "serenia"
 	| "surah"
 	| "varhine";
-export type MonsterCodexRegionData = Record<
+type MonsterCodexRegionData = Record<
 	RegionId,
 	{ id: RegionId; region: MonsterCodexRegion; image: string }
 >;

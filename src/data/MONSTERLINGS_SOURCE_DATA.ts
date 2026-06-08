@@ -1,10 +1,10 @@
-export type MonsterCodexSource =
+type MonsterCodexSource =
 	| "all"
 	| "capture"
 	| "conquest"
 	| "mutation"
 	| "request";
-export type MonsterCodexSourceData = Record<
+type MonsterCodexSourceData = Record<
 	SourceId,
 	{ id: SourceId; source: MonsterCodexSource; label: string }
 >;
