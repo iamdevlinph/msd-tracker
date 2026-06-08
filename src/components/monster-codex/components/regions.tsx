@@ -1,16 +1,22 @@
 import { toSentenceCase } from "common-utils-pkg";
 import { useEffect, useState } from "react";
-import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
-import type { MonsterCodexRegion } from "@/components/monster-codex/store/monster-codex-constants";
+
 import { useMonsterCodexStore } from "@/components/monster-codex/store/monster-codex-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import {
+	REGION_ID_BY_REGION,
+	REGIONS_DATA,
+	type RegionId,
+} from "@/data/REGIONS_DATA";
 import { cn } from "@/lib/utils";
 
 export const Regions = () => {
 	const filterCodex = useMonsterCodexStore((s) => s.filterCodex);
 
-	const [activeRegion, setActiveRegion] = useState<MonsterCodexRegion>("all");
+	const [activeRegion, setActiveRegion] = useState<RegionId>(
+		REGION_ID_BY_REGION.ALL,
+	);
 
 	useEffect(() => {
 		filterCodex({ region: activeRegion });
@@ -26,10 +32,10 @@ export const Regions = () => {
 							className={cn(
 								"cursor-pointer",
 								"bg-background border-background opacity-50",
-								activeRegion === region.region &&
+								activeRegion === region.id &&
 									"bg-card border-initial border-b-0 rounded-b-none shadow-none opacity-100",
 							)}
-							onClick={() => setActiveRegion(region.region)}
+							onClick={() => setActiveRegion(region.id)}
 						>
 							<CardContent className="w-32 flex flex-col justify-center items-center">
 								<img

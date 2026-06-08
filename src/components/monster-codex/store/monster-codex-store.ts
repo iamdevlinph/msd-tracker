@@ -1,21 +1,22 @@
 import { create } from "zustand";
-import { MONSTERLINGS_DATA } from "@/components/monster-codex/data/MONSTERLINGS_DATA";
-import { MONSTERLINGS_SOURCE_DATA } from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
-import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
-import type {
-	CompletedFilter,
-	MonsterCodexRegion,
-	MonsterCodexSource,
-} from "@/components/monster-codex/store/monster-codex-constants";
+
+import type { CompletedFilter } from "@/components/monster-codex/store/monster-codex-constants";
+import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import {
+	SOURCE_ID_BY_SOURCE,
+	type SourceId,
+} from "@/data/MONSTERLINGS_SOURCE_DATA";
+import { REGION_ID_BY_REGION, type RegionId } from "@/data/REGIONS_DATA";
 import { useStore } from "@/stores/app-store";
 
 const initialState = {
 	monsterlings: [],
 	// cachedResults: {},
 	filters: {
-		source: "all" as MonsterCodexSource,
-		region: "all" as MonsterCodexRegion,
+		source: 0 as SourceId,
+		region: 0 as RegionId,
 		completed: "all" as CompletedFilter,
+		search: "",
 	},
 };
 
@@ -24,7 +25,7 @@ export type MonsterCodexStoreState = {
 	// cachedResults: Record<string, unknown>;
 
 	// filterBySource: (filter: {
-	// 	source?: MonsterCodexSource;
+	// 	source?: SourceId;
 	// 	region?: MonsterCodexRegions;
 	// 	completed?: CompletedFilter;
 	// }) => void;
@@ -32,9 +33,10 @@ export type MonsterCodexStoreState = {
 	filterCodex: (filter?: MonsterCodexStoreState["filters"]) => void;
 
 	filters: {
-		source?: MonsterCodexSource;
-		region?: MonsterCodexRegion;
+		source?: SourceId;
+		region?: RegionId;
 		completed?: CompletedFilter;
+		search?: string;
 	};
 };
 
@@ -87,44 +89,43 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()((set) => ({
 				...filter,
 			};
 
+			const completedSet = new Set(useStore.getState().monsterCodexCompleted);
+
+			const search = nextFilter.search?.trim().toLowerCase();
+
 			const filtered = MONSTERLINGS_DATA.filter((monsterling) => {
-				if (nextFilter.region === "all") return true;
+				if (search && !monsterling.name.toLowerCase().includes(search)) {
+					return false;
+				}
 
-				// filter by region
-				const region = Object.values(REGIONS_DATA).filter(
-					(value) => nextFilter.region === value.region,
-				);
-				return monsterling.region_id === region[0].id;
-			})
-				.filter((monsterling) => {
-					if (nextFilter.source === "all") return true;
+				if (
+					nextFilter.region !== undefined &&
+					nextFilter.region !== REGION_ID_BY_REGION.ALL &&
+					monsterling.region_id !== nextFilter.region
+				) {
+					return false;
+				}
 
-					// filter by source
-					const source = Object.values(MONSTERLINGS_SOURCE_DATA).filter(
-						(value) => nextFilter.source === value.source,
-					);
-					return monsterling.source_id.includes(source[0].id);
-				})
-				.filter((monsterling) => {
-					if (nextFilter.completed === "all" || !nextFilter.completed)
-						return true;
+				if (
+					nextFilter.source !== undefined &&
+					nextFilter.source !== SOURCE_ID_BY_SOURCE.ALL &&
+					!monsterling.source_id.includes(nextFilter.source)
+				) {
+					return false;
+				}
 
-					// filter by completed
-					const monsterCodexCompleted =
-						useStore.getState().monsterCodexCompleted;
+				const isCompleted = completedSet.has(monsterling.id);
 
-					const isComplete =
-						nextFilter.completed === "completed" &&
-						monsterCodexCompleted.includes(monsterling.id);
+				if (nextFilter.completed === "completed" && !isCompleted) {
+					return false;
+				}
 
-					const isIncomplete =
-						nextFilter.completed === "incomplete" &&
-						!monsterCodexCompleted.includes(monsterling.id);
+				if (nextFilter.completed === "incomplete" && isCompleted) {
+					return false;
+				}
 
-					const match = isComplete || isIncomplete;
-
-					return match;
-				});
+				return true;
+			});
 
 			return {
 				monsterlings: filtered,
