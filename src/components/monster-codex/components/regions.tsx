@@ -1,16 +1,12 @@
 import { toSentenceCase } from "common-utils-pkg";
 import { useState } from "react";
+import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-const REGIONS = [
-	"elendor",
-	"varhine",
-	"serenia",
-	"surah",
-	"namryung",
-	"muwon",
-] as const;
+const REGIONS = REGIONS_DATA.map((item) => item.region);
+
+export type MonsterCodexRegions = (typeof REGIONS)[number];
 
 export const Regions = () => {
 	const [activeRegion, setActiveRegion] =

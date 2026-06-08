@@ -1,6 +1,6 @@
-import { FilterOptions } from "@/components/monster-codex/filter-options";
-import { MonsterlingsList } from "@/components/monster-codex/monsterlings-list";
-import { Regions } from "@/components/monster-codex/regions";
+import { FilterOptions } from "@/components/monster-codex/components/filter-options";
+import { MonsterlingsList } from "@/components/monster-codex/components/monsterlings-list";
+import { Regions } from "@/components/monster-codex/components/regions";
 import { PageTitle } from "@/components/page-title";
 
 export const MonsterCodexPage = () => {

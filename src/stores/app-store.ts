@@ -1,3 +1,4 @@
+import { arrayRemoveItem } from "common-utils-pkg";
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 
@@ -22,7 +23,9 @@ export type StoreState = {
 	isHydrated: boolean;
 	setHasHydrated: (flag: boolean) => void;
 
-	monsterCodex: string[];
+	monsterCodexCompleted: number[];
+	setMonsterCodexComplete: (id: number) => void;
+	deleteMonsterCodexComplete: (id: number) => void;
 };
 
 const initialState = {
@@ -31,7 +34,7 @@ const initialState = {
 	syncConflict: null,
 	isHydrated: false,
 
-	monsterCodex: [],
+	monsterCodexCompleted: [],
 };
 
 export const useStore = create<StoreState>()(
@@ -47,6 +50,21 @@ export const useStore = create<StoreState>()(
 				setHasHydrated: (state) => set({ isHydrated: state }),
 
 				setSyncConflict: (conflict) => set({ syncConflict: conflict }),
+
+				setMonsterCodexComplete: (id) =>
+					set((state) => {
+						return {
+							monsterCodexCompleted: [...state.monsterCodexCompleted, id],
+						};
+					}),
+
+				deleteMonsterCodexComplete: (id) =>
+					set((state) => {
+						const newArr = arrayRemoveItem(state.monsterCodexCompleted, id);
+						return {
+							monsterCodexCompleted: newArr,
+						};
+					}),
 			}),
 			{
 				name: "msd-tracker",
