@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { HomePage } from "@/components/home/home-page";
 
 export const Route = createFileRoute("/")({
 	component: Index,
@@ -15,5 +16,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-	return <div>Index Page</div>;
+	return <HomePage />;
 }
