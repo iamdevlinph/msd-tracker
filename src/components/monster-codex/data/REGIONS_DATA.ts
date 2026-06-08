@@ -1,14 +1,21 @@
+export const REGION_ELENDOR = 1;
+export const REGION_VARHINE = 2;
+export const REGION_SERENIA = 3;
+export const REGION_SURAH = 4;
+export const REGION_NAMRYUNG = 5;
+export const REGION_MUWON = 6;
+
 export const REGIONS_DATA = [
 	{
-		id: 1,
+		id: REGION_ELENDOR,
 		region: "elendor",
 	},
 	{
-		id: 2,
+		id: REGION_VARHINE,
 		region: "varhine",
 	},
 	{
-		id: 3,
+		id: REGION_SERENIA,
 		region: "serenia",
 	},
 	{
@@ -16,11 +23,11 @@ export const REGIONS_DATA = [
 		region: "surah",
 	},
 	{
-		id: 5,
+		id: REGION_NAMRYUNG,
 		region: "namryung",
 	},
 	{
-		id: 6,
+		id: REGION_MUWON,
 		region: "muwon",
 	},
 ] as const;
