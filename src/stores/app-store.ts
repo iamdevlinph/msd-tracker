@@ -26,6 +26,8 @@ export type StoreState = {
 	monsterCodexCompleted: number[];
 	setMonsterCodexComplete: (id: number) => void;
 	deleteMonsterCodexComplete: (id: number) => void;
+
+	resetStore: () => void;
 };
 
 const initialState = {
@@ -65,6 +67,8 @@ export const useStore = create<StoreState>()(
 							monsterCodexCompleted: newArr,
 						};
 					}),
+
+				resetStore: () => set({ monsterCodexCompleted: [] }),
 			}),
 			{
 				name: "msd-tracker",

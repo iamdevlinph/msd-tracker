@@ -1,8 +1,17 @@
 import { GoogleSection } from "@/components/account/google/google-section";
 import { PageTitle } from "@/components/page-title";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { useStore } from "@/stores/app-store";
 
 export const AccountPage = () => {
-	// const setAuth = useStore((s) => s.setAuth);
+	const resetStore = useStore((s) => s.resetStore);
 
 	// useEffect(() => {
 	// 	const params = new URLSearchParams(window.location.search);
@@ -22,6 +31,19 @@ export const AccountPage = () => {
 
 			<div className="flex flex-col gap-4">
 				<GoogleSection />
+
+				<Card>
+					<CardHeader>
+						<CardTitle>Local Store</CardTitle>
+						<CardDescription>
+							Reset store to empty. This will delete recorded monsterlings in
+							Monster Codex.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Button onClick={resetStore}>Reset Store</Button>
+					</CardContent>
+				</Card>
 			</div>
 		</>
 	);
