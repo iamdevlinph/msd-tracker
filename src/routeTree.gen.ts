@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MonsterCodexRouteImport } from './routes/monster-codex'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CharactersRouteImport } from './routes/characters'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiAuthGoogleSessionRouteImport } from './routes/api/auth/google-session'
 import { Route as ApiAuthGoogleLogoutRouteImport } from './routes/api/auth/google-logout'
@@ -30,6 +31,11 @@ const EventsRoute = EventsRouteImport.update({
 const CharactersRoute = CharactersRouteImport.update({
   id: '/characters',
   path: '/characters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +61,7 @@ const ApiAuthGoogleRoute = ApiAuthGoogleRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/characters': typeof CharactersRoute
   '/events': typeof EventsRoute
   '/monster-codex': typeof MonsterCodexRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/characters': typeof CharactersRoute
   '/events': typeof EventsRoute
   '/monster-codex': typeof MonsterCodexRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/characters': typeof CharactersRoute
   '/events': typeof EventsRoute
   '/monster-codex': typeof MonsterCodexRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/characters'
     | '/events'
     | '/monster-codex'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account'
     | '/characters'
     | '/events'
     | '/monster-codex'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/account'
     | '/characters'
     | '/events'
     | '/monster-codex'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
   CharactersRoute: typeof CharactersRoute
   EventsRoute: typeof EventsRoute
   MonsterCodexRoute: typeof MonsterCodexRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/characters'
       fullPath: '/characters'
       preLoaderRoute: typeof CharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
   CharactersRoute: CharactersRoute,
   EventsRoute: EventsRoute,
   MonsterCodexRoute: MonsterCodexRoute,

@@ -1,23 +1,36 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { CheckSquare, MapPin, Users } from "lucide-react";
-
+import { CheckSquare, type LucideIcon, MapPin, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { FileRoutesByTo } from "@/routeTree.gen";
 
-type Tab = "events" | "characters" | "monsterlings";
+type Tab = "events" | "characters" | "monster-codex" | "account";
 
-const navigation = [
-	{ id: "events" as Tab, label: "Events", icon: CheckSquare, link: "/events" },
+type Navigation = {
+	id: Tab;
+	label: string;
+	icon: LucideIcon;
+	link: keyof FileRoutesByTo;
+}[];
+
+const navigation: Navigation = [
+	{ id: "events", label: "Events", icon: CheckSquare, link: "/events" },
 	{
-		id: "characters" as Tab,
+		id: "characters",
 		label: "Characters",
 		icon: Users,
 		link: "/characters",
 	},
 	{
-		id: "monster-codex" as Tab,
+		id: "monster-codex",
 		label: "Monster Codex",
 		icon: MapPin,
 		link: "/monster-codex",
+	},
+	{
+		id: "account",
+		label: "Account",
+		icon: MapPin,
+		link: "/account",
 	},
 ];
 
