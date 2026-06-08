@@ -57,6 +57,7 @@ export const useStore = create<StoreState>()(
 					set((state) => {
 						return {
 							monsterCodexCompleted: [...state.monsterCodexCompleted, id],
+							backupUpdatedAt: Date.now(),
 						};
 					}),
 
@@ -65,10 +66,12 @@ export const useStore = create<StoreState>()(
 						const newArr = arrayRemoveItem(state.monsterCodexCompleted, id);
 						return {
 							monsterCodexCompleted: newArr,
+							backupUpdatedAt: Date.now(),
 						};
 					}),
 
-				resetStore: () => set({ monsterCodexCompleted: [] }),
+				resetStore: () =>
+					set({ monsterCodexCompleted: [], backupUpdatedAt: Date.now() }),
 			}),
 			{
 				name: "msd-tracker",
