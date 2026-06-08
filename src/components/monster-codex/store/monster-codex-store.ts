@@ -41,7 +41,7 @@ export type MonsterCodexStoreState = {
 
 export const useMonsterCodexStore = create<MonsterCodexStoreState>()(
 	persist(
-		(set, get) => ({
+		(set) => ({
 			...initialState,
 
 			// filterBySource: (filter) =>

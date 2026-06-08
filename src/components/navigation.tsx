@@ -40,7 +40,7 @@ const activeLinkStyle =
 	"bg-primary text-primary-foreground font-medium shadow-sm";
 const hoverStyle = "hover:text-foreground hover:bg-accent/50";
 
-export const Nav = ({ isMobile }: { isMobile?: boolean }) => {
+export const Nav = () => {
 	const location = useLocation();
 
 	return (

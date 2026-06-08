@@ -519,7 +519,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTroll.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Ultimate Skill Neutralization DMG +5%",
 	},
 	{
@@ -549,7 +549,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolf.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Physical DMG +5% for 5s upon landing a critical hit",
 	},
 	{
@@ -600,7 +600,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyong.png",
 		element: "Normal",
 		region_id: REGION_VARHINE,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Physical DMG +5% for 5s upon being hit 10 times",
 	},
 	{
@@ -620,7 +620,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyongKing.png",
 		element: "Normal ",
 		region_id: REGION_VARHINE,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Basic Attack DMG +5% for 5s upon being hit 10 times",
 	},
 	{
@@ -630,7 +630,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldier.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Crit Rate +5% for 5s upon being hit (Cooldown: 20s)",
 	},
 	{
@@ -640,7 +640,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldierSpear.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DEF +3.75% for 5s upon being hit (Cooldown: 20s)",
 	},
 	{
@@ -650,7 +650,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageMonk.png",
 		element: "Dark",
 		region_id: REGION_VARHINE,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Elemental Weakness DMG +5% for 5s upon being hit (Cooldown: 20s)",
 	},
 	{
@@ -733,7 +733,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeIce.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Elemental Weakness DMG +5% against Ice enemies",
 	},
 	{
@@ -753,7 +753,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeFire.png",
 		element: "Fire",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Elemental Weakness DMG +5% against Fire enemies",
 	},
 	{
@@ -783,7 +783,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderGrassland.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DEF +3.75% for 5s upon defeating 10 enemies",
 	},
 	{
@@ -793,7 +793,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderForest.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DMG +5% against normal enemies for 5s upon defeating 10 enemies",
 	},
 	{
@@ -814,7 +814,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderMountain.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Crit DMG +5% for 5s upon defeating 10 enemies",
 	},
 	{
@@ -844,7 +844,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyle.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Target's DEF -3.75% for 5s upon using Air Counter.",
 	},
 	{
@@ -854,7 +854,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyleGrassland.png",
 		element: "Normal",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Air Counter Physical DMG +5%",
 	},
 	{
@@ -874,7 +874,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphi_Mountain.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Earth DMG +5% against Airborne targets",
 	},
 	{
@@ -894,7 +894,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpear.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Crit DMG +5% against Airborne targets",
 	},
 	{
@@ -904,7 +904,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphi_Grassland.png",
 		element: "Ice",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Ice DMG +5% against Airborne targets",
 	},
 	{
@@ -914,7 +914,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpearCaptin.png",
 		element: "Earth",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Crit Rate +5% against Airborne targets",
 	},
 	{
@@ -954,7 +954,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmugger.png",
 		element: "Lightning ",
 		region_id: REGION_SERENIA,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability:
 			"Target's Lightning RES -6% for 5s upon attacking with Elemental Weakness",
 	},
@@ -998,7 +998,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsaeSmall.png",
 		element: "Water",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Switch Skill Crit DMG +5%",
 	},
 	{
@@ -1018,7 +1018,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsae.png",
 		element: "Water",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Switch Skill Crit Rate +5",
 	},
 	{
@@ -1038,7 +1038,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKkebi.png",
 		element: "Fire",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Ultimate Skill Crit DMG 5%",
 	},
 	{
@@ -1048,7 +1048,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKkebiGreen.png",
 		element: "Fire",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Ultimate Skill Fire DMG +5%",
 	},
 	{
@@ -1058,7 +1058,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinShieldKkebi.png",
 		element: "Normal",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability:
 			"DMG +5% against normal enemies for 5s upon using an Ultimate Skill",
 	},
@@ -1069,7 +1069,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOdongseed.png",
 		element: "Earth",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Special Skill Crit Rate +5% (Cooldown: 20s)",
 	},
 	{
@@ -1079,7 +1079,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKimodong.png",
 		element: "Earth",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Switch Skill ATK +3%",
 	},
 	{
@@ -1099,7 +1099,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTreeBackah.png",
 		element: "Fire",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Switch Skill Fire DMG +5%",
 	},
 	{
@@ -1119,7 +1119,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingRabbitPojol.png",
 		element: "Wind",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Physical DMG +5% for 5s upon using Evasion Counter",
 	},
 	{
@@ -1139,7 +1139,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingRaccoonPojol.png",
 		element: "Normal",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Target's Physical RES -5% for 5s upon using Evasion Counter",
 	},
 	{
@@ -1159,7 +1159,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDuoxiniMiddle.png",
 		element: "Normal",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Fire DMG +5% against boss enemies",
 	},
 	{
@@ -1201,7 +1201,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtlePojol.png",
 		element: "Normal",
 		region_id: REGION_SURAH,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability:
 			"All teammates' Support Skill DMG +5% for 5s upon being hit by a boss enemy",
 	},
@@ -1264,7 +1264,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingRabbitBackah.png",
 		element: "Wind",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Wind DMG +5% for 5s upon using Evasion Counter",
 	},
 	{
@@ -1284,7 +1284,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingRaccoonBackah.png",
 		element: "Earth",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DMG +5% against boss enemies for 5s upon using Evasion Counter",
 	},
 	{
@@ -1304,7 +1304,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtleBackah.png",
 		element: "Normal",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Physical DMG +5% for 5s upon being hit by a boss enemy",
 	},
 	{
@@ -1314,7 +1314,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguri.png",
 		element: "Water",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Air Counter Crit Rate +5%",
 	},
 	{
@@ -1334,7 +1334,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriRed.png",
 		element: "Water",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Air Counter Crit DMG +5%",
 	},
 	{
@@ -1344,7 +1344,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShieldBoss.png",
 		element: "Normal",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DEF +4.1% for 5s upon attacking a boss enemy 10 times",
 	},
 	{
@@ -1364,7 +1364,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNachuchu.png",
 		element: "Earth",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Earth DMG +5% against normal enemies",
 	},
 	{
@@ -1384,7 +1384,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNasusu.png",
 		element: "Earth",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Crit DMG +5% against normal enemies (Cooldown: 20s)",
 	},
 	{
@@ -1404,7 +1404,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingFlowerBackah.png",
 		element: "Lightning ",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Lightning DMG +5% upon attacking Lightning enemy 10 times",
 	},
 	{
@@ -1414,7 +1414,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingFlowerBackahMiddle.png",
 		element: "Lightning ",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability:
 			"Target's Lightning RES -5% for 5s upon attacking Lightning enemy 5 times (Cooldown: 20s)",
 	},
@@ -1436,7 +1436,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingManwollok.png",
 		element: "Wind",
 		region_id: REGION_NAMRYUNG,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Crit Rate +6% for 5s upon using Evasion Counter",
 	},
 	{
@@ -1500,7 +1500,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChildGhost.png",
 		element: "Wind",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability:
 			"DMG +5% against normal enemies for 5s upon attacking Wind enemy 10 times",
 	},
@@ -1522,7 +1522,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWind.png",
 		element: "Wind",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "ATK +2.5% upon attacking Wind enemy 10 times",
 	},
 	{
@@ -1532,7 +1532,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWindMiddle.png",
 		element: "Dark",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability:
 			"All teammates' Support Skill DMG +5% for 5s upon using a Switch Skill",
 	},
@@ -1554,7 +1554,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeast.png",
 		element: "Ice",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Suppression DMG +5.5% for 5s upon using a Switch Skill",
 	},
 	{
@@ -1564,7 +1564,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
 		element: "Earth",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Suppression DMG +5.5% for 5s upon using a Switch Skill",
 	},
 	{
@@ -1574,7 +1574,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardBow.png",
 		element: "Fire",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DEF +3.75% for 5s upon attacking Fire enemy 10 times",
 	},
 	{
@@ -1594,7 +1594,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizard.png",
 		element: "Earth",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Earth ATK +5% for 10s upon being hit (Cooldown: 20s)",
 	},
 	{
@@ -1614,7 +1614,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanCrocodile.png",
 		element: "Normal",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DEF +3.75% for 5s upon attacking normal enemy 10 times",
 	},
 	{
@@ -1634,7 +1634,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKnightRabbit_Evil.png",
 		element: "Wind",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "Target's Wind RES -5% for 5s upon using Evasion Counter",
 	},
 	{
@@ -1665,7 +1665,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
 		element: "Normal",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability:
 			"All teammates' DEF +4.13% for 10s upon landing a critical hit on a boss enemy",
 	},
@@ -1676,7 +1676,7 @@ export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNagiMiddle.png",
 		element: "Wind",
 		region_id: REGION_MUWON,
-		source_id: [null],
+		source_id: [SOURCE_CAPTURE_ID],
 		ability: "DEF +3.75% for 5s upon attacking Wind enemy 10 times",
 	},
 	{

@@ -8,7 +8,7 @@ export const MonsterlingsList = () => {
 
 	return (
 		<div className="mt-5 gap-y-15 gap-x-10 flex flex-wrap">
-			{monsterlings.map((value, idx) => {
+			{monsterlings.map((value) => {
 				return <MonsterlingCard key={value.id} {...value} />;
 			})}
 		</div>
