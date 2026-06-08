@@ -5,7 +5,7 @@ export const SOURCE_REQUEST_ID = 4;
 
 export const MONSTERLINGS_SOURCE_DATA = [
 	{
-		id: "all",
+		id: 0,
 		source: "all",
 		label: "All",
 	},

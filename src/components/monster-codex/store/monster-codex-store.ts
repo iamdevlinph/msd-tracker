@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { MonsterCodexRegions } from "@/components/monster-codex/components/regions";
 import { MONSTERLINGS_DATA } from "@/components/monster-codex/data/MONSTERLINGS_DATA";
 import { MONSTERLINGS_SOURCE_DATA } from "@/components/monster-codex/data/MONSTERLINGS_SOURCE_DATA";
 import { REGIONS_DATA } from "@/components/monster-codex/data/REGIONS_DATA";
 import type {
 	CompletedFilter,
+	MonsterCodexRegion,
 	MonsterCodexSource,
 } from "@/components/monster-codex/store/monster-codex-constants";
 import { useStore } from "@/stores/app-store";
@@ -15,7 +15,7 @@ const initialState = {
 	// cachedResults: {},
 	filters: {
 		source: "all" as MonsterCodexSource,
-		region: "elendor" as MonsterCodexRegions,
+		region: "elendor" as MonsterCodexRegion,
 		completed: "all" as CompletedFilter,
 	},
 };
@@ -34,7 +34,7 @@ export type MonsterCodexStoreState = {
 
 	filters: {
 		source?: MonsterCodexSource;
-		region?: MonsterCodexRegions;
+		region?: MonsterCodexRegion;
 		completed?: CompletedFilter;
 	};
 };
@@ -104,7 +104,7 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()(
 							const source = MONSTERLINGS_SOURCE_DATA.filter(
 								(value) => nextFilter.source === value.source,
 							);
-							return monsterling.source_id === source[0].id;
+							return monsterling.source_id.includes(source[0].id);
 						})
 						.filter((monsterling) => {
 							if (nextFilter.completed === "all" || !nextFilter.completed)
