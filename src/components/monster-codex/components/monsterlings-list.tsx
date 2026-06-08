@@ -7,7 +7,7 @@ export const MonsterlingsList = () => {
 	const monsterlings = useMonsterCodexStore((s) => s.monsterlings);
 
 	return (
-		<div className="m-2">
+		<div className="mt-5 gap-y-15 gap-x-10 flex flex-wrap">
 			{monsterlings.map((value, idx) => {
 				return <MonsterlingCard key={value.id} {...value} />;
 			})}

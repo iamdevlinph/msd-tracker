@@ -104,7 +104,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 											</button>
 										</div>
 
-										<div className="my-5 mx-2">{children}</div>
+										<div className="my-5 mx-5 mb-30">{children}</div>
 									</main>
 								</div>
 
