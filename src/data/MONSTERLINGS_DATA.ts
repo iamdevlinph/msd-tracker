@@ -1,6 +1,15 @@
-import type { MonsterCodexEntry } from "@/components/monster-codex/store/monster-codex-constants";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
+
+export type MonsterCodexEntry = {
+	id: number;
+	name: string;
+	region_id: number;
+	source_id: number[];
+	image: string;
+	element: string;
+	ability: string;
+};
 
 // TODO: Double check [SOURCE_ID_BY_SOURCE.REQUEST] if can also capture
 

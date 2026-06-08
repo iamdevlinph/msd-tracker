@@ -1,5 +1,4 @@
 import { Check, X } from "lucide-react";
-import type { MonsterCodexEntry } from "@/components/monster-codex/store/monster-codex-constants";
 import { useMonsterCodexStore } from "@/components/monster-codex/store/monster-codex-store";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,6 +7,7 @@ import {
 	CardFooter,
 	CardHeader,
 } from "@/components/ui/card";
+import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/stores/app-store";
 
