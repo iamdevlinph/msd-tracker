@@ -4,7 +4,7 @@ import { SOURCE_MAPPING } from "@/components/monster-codex/data/SOURCE_MAPPING";
 export const MONSTER_CODEX_SOURCE = SOURCE_MAPPING.map((item) => item.source);
 export type MonsterCodexSource = (typeof MONSTER_CODEX_SOURCE)[number];
 
-export type MonsterCodeEntry = {
+export type MonsterCodexEntry = {
 	id: number;
 	name: string;
 	region_id: number;
