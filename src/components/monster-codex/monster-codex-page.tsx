@@ -8,11 +8,9 @@ export const MonsterCodexPage = () => {
 		<div>
 			<PageTitle title="Monster Codex" />
 
-			<div>
+			<div className="flex gap-5 flex-col">
 				<Regions />
-				<div className="mb-2 mt-5">
-					<FilterOptions />
-				</div>
+				<FilterOptions />
 				<MonsterlingsList />
 			</div>
 		</div>
