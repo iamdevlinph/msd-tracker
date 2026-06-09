@@ -87,8 +87,7 @@ export function SyncConflictDialog() {
 									if (!remote) return;
 
 									useAppStore.setState({
-										backupUpdatedAt: remote.backupUpdatedAt,
-										monsterCodexCompleted: remote.monsterCodexCompleted,
+										...remote,
 									});
 								})();
 							}}

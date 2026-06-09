@@ -41,8 +41,10 @@ export const createCharactersOwnedSlice: StateCreator<
 			};
 			return {
 				charactersOwned: [...state.charactersOwned, tempCharacterOwn],
+				backupUpdatedAt: Date.now(),
 			};
 		}),
 
-	resetCharacterSlice: () => set({ charactersOwned: [] }),
+	resetCharacterSlice: () =>
+		set({ charactersOwned: [], backupUpdatedAt: Date.now() }),
 });

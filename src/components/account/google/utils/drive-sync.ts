@@ -8,12 +8,16 @@ const FILE_NAME = "state.json";
 let fileId: string | null = null;
 let debounce: number;
 
-type Backup = Pick<StoreState, "backupUpdatedAt" | "monsterCodexCompleted">;
+type Backup = Pick<
+	StoreState,
+	"backupUpdatedAt" | "monsterCodexCompleted" | "charactersOwned"
+>;
 
 export function select(state: StoreState): Backup {
 	return {
 		backupUpdatedAt: state.backupUpdatedAt,
 		monsterCodexCompleted: state.monsterCodexCompleted,
+		charactersOwned: state.charactersOwned,
 	};
 }
 
