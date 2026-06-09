@@ -45,8 +45,8 @@ export const MonsterCodexFilter = () => {
 	}, [filterCodex, completeFilter, sourceFilter, search]);
 
 	return (
-		<div className="flex flex-row gap-2">
-			<FieldGroup className="w-42">
+		<div className="flex flex-row gap-2 flex-wrap">
+			<FieldGroup className="w-full sm:w-2/12">
 				<Field>
 					<FieldLabel htmlFor="filter">Filter</FieldLabel>
 					<Select
@@ -69,7 +69,7 @@ export const MonsterCodexFilter = () => {
 				</Field>
 			</FieldGroup>
 
-			<FieldGroup className="w-42">
+			<FieldGroup className="w-full sm:w-2/12">
 				<Field>
 					<FieldLabel htmlFor="source">Source</FieldLabel>
 					<Select
@@ -98,7 +98,7 @@ export const MonsterCodexFilter = () => {
 				</Field>
 			</FieldGroup>
 
-			<FieldGroup className="w-70">
+			<FieldGroup className={cn("w-full sm:w-4/12")}>
 				<Field>
 					<FieldLabel>Search</FieldLabel>
 					<div className="relative w-full max-w-sm">
