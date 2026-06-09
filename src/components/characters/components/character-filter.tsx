@@ -43,7 +43,7 @@ export const CharacterFilter = () => {
 	setCharacaterFilters({ selectedElements, selectedCharacterClass });
 
 	return (
-		<ButtonGroup>
+		<ButtonGroup className="flex flex-col md:flex-row">
 			<ButtonGroup>
 				{Object.values(ELEMENTS_DATA).map(({ id, image, element, hide }) => {
 					if (hide) return null;
