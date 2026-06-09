@@ -74,7 +74,7 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
 		element: "Earth",
 		region_id: REGION_ID_BY_REGION.MUWON,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Suppression DMG +5.5% for 5s upon using a Switch Skill",
 	},
 	{
@@ -175,7 +175,7 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
 			"All teammates' DEF +4.13% for 10s upon landing a critical hit on a boss enemy",
 	},

@@ -13,6 +13,9 @@ export type MonsterCodexEntry = {
 	image: string;
 	element: string;
 	ability: string;
+	linkChain?: {
+		trigger: [];
+	};
 };
 
 // TODO: Double check [SOURCE_ID_BY_SOURCE.REQUEST] if can also capture
