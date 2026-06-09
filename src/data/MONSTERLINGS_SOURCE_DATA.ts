@@ -1,8 +1,8 @@
 type MonsterCodexSource =
 	| "all"
 	| "capture"
-	| "conquest"
-	| "mutation"
+	| "conquest" // done
+	| "mutation" // done
 	| "request";
 type MonsterCodexSourceData = Record<
 	SourceId,

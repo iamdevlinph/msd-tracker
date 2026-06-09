@@ -121,7 +121,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollKing.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.VARHINE,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ultimate Skill Elemental Weakness DMG +5.5%",
 	},
 	{

@@ -64,7 +64,7 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeast.png",
 		element: "Ice",
 		region_id: REGION_ID_BY_REGION.MUWON,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Suppression DMG +5.5% for 5s upon using a Switch Skill",
 	},
 	{
@@ -154,7 +154,7 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShield.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "All teammates' DEF +4.13% for 5s upon being hit by a boss enemy ",
 	},
 	{
@@ -164,7 +164,7 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtle.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
 			"All teammates' DEF +4.13% for 10s upon landing a critical hit on a boss enemy",
 	},

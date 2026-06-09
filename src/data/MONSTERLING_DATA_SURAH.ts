@@ -235,7 +235,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKimodongSwamp.png",
 		element: "Earth",
 		region_id: REGION_ID_BY_REGION.SURAH,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Target's Earth RES -5.5% for 10s upon using a Switch Skill",
 	},
 	{

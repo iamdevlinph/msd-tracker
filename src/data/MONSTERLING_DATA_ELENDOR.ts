@@ -30,7 +30,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyKing.png",
 		element: "Earth ",
 		region_id: REGION_ID_BY_REGION.ELENDOR,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
 			"Recovers 1.65% of Max HP upon landing a Special Skill (Cooldown: 15s)",
 	},
@@ -157,7 +157,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmuggerFork.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.ELENDOR,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
 			"Target's Physical RES -6% for 5s upon attacking with target's Elemental Weakness",
 	},
@@ -232,7 +232,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeLing.png",
 		element: "Water",
 		region_id: REGION_ID_BY_REGION.ELENDOR,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "ATK +2.75% against Physical enemies",
 	},
 	{
@@ -242,7 +242,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyThrowUncle.png",
 		element: "Fire",
 		region_id: REGION_ID_BY_REGION.ELENDOR,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Fire DMG +5.5% (Cooldown: 15s)",
 	},
 	{
@@ -352,7 +352,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWerewolf_MagicianLightning.png",
 		element: "Lightning ",
 		region_id: REGION_ID_BY_REGION.ELENDOR,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Critical Lightning DMG +5.5%",
 	},
 	{
@@ -362,7 +362,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMolly.png",
 		element: "Earth ",
 		region_id: REGION_ID_BY_REGION.ELENDOR,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Suppression DMG +5.5% against knocked-down targets",
 	},
 	{
@@ -382,7 +382,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopaDaddy.png",
 		element: "Earth ",
 		region_id: REGION_ID_BY_REGION.ELENDOR,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill ATK +2.75% (Cooldown: 15s)",
 	},
 	{

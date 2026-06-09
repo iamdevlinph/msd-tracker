@@ -10,7 +10,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsaeBlack.png",
 		element: "Water",
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ice DMG +5.5% against Staggered boss enemies",
 	},
 	{
@@ -100,7 +100,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShieldBoss.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "DEF +4.1% for 5s upon attacking a boss enemy 10 times",
 	},
 	{
@@ -192,7 +192,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingManwollok.png",
 		element: "Wind",
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Crit Rate +6% for 5s upon using Evasion Counter",
 	},
 	{

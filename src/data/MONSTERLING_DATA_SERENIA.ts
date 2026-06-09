@@ -10,7 +10,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinEnforcer.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.SERENIA,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Recovers 1.65% of Max HP upon landing 10 Basic Attacks",
 	},
 	{
@@ -50,7 +50,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeQueen.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.SERENIA,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5.5% for 5s upon attacking Physical enemy",
 	},
 	{
@@ -111,7 +111,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpadupa.png",
 		element: "Earth",
 		region_id: REGION_ID_BY_REGION.SERENIA,
-		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5.5% for 10s upon defeating 10 enemies",
 	},
 	{
@@ -241,7 +241,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmugger.png",
 		element: "Lightning ",
 		region_id: REGION_ID_BY_REGION.SERENIA,
-		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
 			"Target's Lightning RES -6% for 5s upon attacking with Elemental Weakness",
 	},
