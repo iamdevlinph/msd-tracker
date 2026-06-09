@@ -78,8 +78,6 @@ export function SyncConflictDialog() {
 						<AlertDialogAction
 							onClick={() => {
 								setButtonClicked("remote");
-								// KEEP REMOTE
-								setConflict(null);
 
 								(async () => {
 									const remote = await download();
@@ -89,6 +87,9 @@ export function SyncConflictDialog() {
 									useAppStore.setState({
 										...remote,
 									});
+
+									// KEEP REMOTE
+									setConflict(null);
 								})();
 							}}
 							className="w-full  sm:w-max flex self-center"
