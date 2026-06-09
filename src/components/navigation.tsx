@@ -1,5 +1,11 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { CheckSquare, type LucideIcon, MapPin, Users } from "lucide-react";
+import {
+	BookOpenCheck,
+	CalendarCheck2,
+	type LucideIcon,
+	Settings,
+	UserRoundCheck,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FileRoutesByTo } from "@/routeTree.gen";
 
@@ -13,23 +19,23 @@ type Navigation = {
 }[];
 
 const navigation: Navigation = [
-	{ id: "events", label: "Events", icon: CheckSquare, link: "/events" },
+	{ id: "events", label: "Events", icon: CalendarCheck2, link: "/events" },
 	{
 		id: "characters",
 		label: "Characters",
-		icon: Users,
+		icon: UserRoundCheck,
 		link: "/characters",
 	},
 	{
 		id: "monster-codex",
 		label: "Monster Codex",
-		icon: MapPin,
+		icon: BookOpenCheck,
 		link: "/monster-codex",
 	},
 	{
 		id: "account",
 		label: "Account",
-		icon: MapPin,
+		icon: Settings,
 		link: "/account",
 	},
 ];
