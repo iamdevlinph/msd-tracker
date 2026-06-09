@@ -11,7 +11,7 @@ import {
 import { useAppStore } from "@/stores/app-store";
 
 export const AccountPage = () => {
-	const resetStore = useAppStore((s) => s.resetStore);
+	const resetCodexStore = useAppStore((s) => s.resetCodexStore);
 	const resetCharacterSlice = useAppStore((s) => s.resetCharacterSlice);
 
 	// useEffect(() => {
@@ -42,8 +42,8 @@ export const AccountPage = () => {
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col w-min gap-5">
-						<Button onClick={resetStore} variant={"destructive"}>
-							Reset Store
+						<Button onClick={resetCodexStore} variant={"destructive"}>
+							Reset Monster Codex Store
 						</Button>
 						<Button onClick={resetCharacterSlice} variant={"destructive"}>
 							Reset Characater Store

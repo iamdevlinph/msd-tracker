@@ -29,8 +29,6 @@ export type StoreState = {
 
 	isHydrated: boolean;
 	setHasHydrated: (flag: boolean) => void;
-
-	resetStore: () => void;
 } & CompletedCodexSlice &
 	CharactersOwnedSlice;
 
@@ -57,9 +55,6 @@ export const useAppStore = create<StoreState>()(
 
 				...createMonsterCodexSlice(set, get, api),
 				...createCharactersOwnedSlice(set, get, api),
-
-				resetStore: () =>
-					set({ monsterCodexCompleted: [], backupUpdatedAt: Date.now() }),
 			}),
 			{
 				name: "msd-tracker",

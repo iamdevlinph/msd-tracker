@@ -6,6 +6,8 @@ export type CompletedCodexSlice = {
 	monsterCodexCompleted: number[];
 	setMonsterCodexComplete: (id: number) => void;
 	deleteMonsterCodexComplete: (id: number) => void;
+
+	resetCodexStore: () => void;
 };
 
 export const createMonsterCodexSlice: StateCreator<
@@ -32,4 +34,7 @@ export const createMonsterCodexSlice: StateCreator<
 				backupUpdatedAt: Date.now(),
 			};
 		}),
+
+	resetCodexStore: () =>
+		set({ monsterCodexCompleted: [], backupUpdatedAt: Date.now() }),
 });
