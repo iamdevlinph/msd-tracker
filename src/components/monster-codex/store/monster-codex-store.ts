@@ -88,6 +88,16 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()((set) => ({
 				...filter,
 			};
 
+			const { region, source, completed } = nextFilter;
+
+			// const cacheKey = `filter-${region}-${source}`;
+			// const cached = get().cachedResults[cacheKey];
+			// if (cached) {
+			// 	return {
+			// 		monsterlings: JSON.parse(cached as string),
+			// 	};
+			// }
+
 			const completedSet = new Set(useStore.getState().monsterCodexCompleted);
 
 			const search = nextFilter.search?.trim().toLowerCase();
@@ -98,28 +108,28 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()((set) => ({
 				}
 
 				if (
-					nextFilter.region !== undefined &&
-					nextFilter.region !== REGION_ID_BY_REGION.ALL &&
-					monsterling.region_id !== nextFilter.region
+					region !== undefined &&
+					region !== REGION_ID_BY_REGION.ALL &&
+					monsterling.region_id !== region
 				) {
 					return false;
 				}
 
 				if (
-					nextFilter.source !== undefined &&
-					nextFilter.source !== SOURCE_ID_BY_SOURCE.ALL &&
-					!monsterling.source_id.includes(nextFilter.source)
+					source !== undefined &&
+					source !== SOURCE_ID_BY_SOURCE.ALL &&
+					!monsterling.source_id.includes(source)
 				) {
 					return false;
 				}
 
 				const isCompleted = completedSet.has(monsterling.id);
 
-				if (nextFilter.completed === "completed" && !isCompleted) {
+				if (completed === "completed" && !isCompleted) {
 					return false;
 				}
 
-				if (nextFilter.completed === "incomplete" && isCompleted) {
+				if (completed === "incomplete" && isCompleted) {
 					return false;
 				}
 
@@ -129,6 +139,10 @@ export const useMonsterCodexStore = create<MonsterCodexStoreState>()((set) => ({
 			return {
 				monsterlings: filtered,
 				filters: nextFilter,
+				// cachedResults: {
+				// 	...state.cachedResults,
+				// 	[cacheKey]: JSON.stringify(filtered),
+				// },
 			};
 		}),
 }));
