@@ -1,6 +1,6 @@
 type MonsterCodexSource =
 	| "all"
-	| "capture"
+	| "capture" // done
 	| "conquest" // done
 	| "mutation" // done
 	| "request";

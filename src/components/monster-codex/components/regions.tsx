@@ -13,9 +13,10 @@ import { cn } from "@/lib/utils";
 
 export const Regions = () => {
 	const filterCodex = useMonsterCodexStore((s) => s.filterCodex);
+	const filters = useMonsterCodexStore((s) => s.filters);
 
 	const [activeRegion, setActiveRegion] = useState<RegionId>(
-		REGION_ID_BY_REGION.ALL,
+		filters.region ?? REGION_ID_BY_REGION.ALL,
 	);
 
 	useEffect(() => {
