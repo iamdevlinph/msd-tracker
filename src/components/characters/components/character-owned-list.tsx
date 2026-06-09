@@ -9,7 +9,7 @@ export const CharacterOwnedList = () => {
 	const { selectedCharacterClass, selectedElements } = characterFilters;
 
 	return (
-		<div className="mt-5 gap-y-15 gap-x-5 flex flex-wrap">
+		<div className="mt-5 gap-y-10 gap-x-5 flex flex-wrap">
 			{charactersOwned.length === 0 && <h1>No owned characters</h1>}
 
 			{charactersOwned.length > 0 &&

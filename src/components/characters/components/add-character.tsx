@@ -7,6 +7,7 @@ import {
 	Dialog,
 	DialogClose,
 	DialogContent,
+	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
@@ -65,6 +66,7 @@ export function AddCharacter() {
 							</div>
 						)}
 					</DialogTitle>
+					<DialogDescription></DialogDescription>
 				</DialogHeader>
 				<div className="">
 					{!hasSelectedChar && (
