@@ -1,6 +1,10 @@
 import { arrayRemoveItem } from "common-utils-pkg";
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
+import {
+	type CharacterStoreState,
+	initialCharacterState,
+} from "@/components/characters/store/characters-store";
 
 export type StoreState = {
 	logout: () => void;
@@ -28,7 +32,7 @@ export type StoreState = {
 	deleteMonsterCodexComplete: (id: number) => void;
 
 	resetStore: () => void;
-};
+} & CharacterStoreState;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
@@ -37,6 +41,8 @@ const initialState = {
 	isHydrated: false,
 
 	monsterCodexCompleted: [],
+
+	...initialCharacterState,
 };
 
 export const useStore = create<StoreState>()(
