@@ -1,0 +1,301 @@
+import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
+import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
+
+export const MONSTERLING_DATA_VARHINE: MonsterCodexEntry[] = [
+	{
+		id: 40,
+		name: "Rock Fist Dude",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneguy.png",
+		element: "Earth",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		ability: "Attacks' Earth DMG +6% upon attacking with Elemental Weakness",
+	},
+	{
+		id: 41,
+		name: "Golden Fist Dude",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneGuyGold.png",
+		element: "Earth",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability:
+			"Attack Neutralization DMG +6.3% upon attacking with Elemental Weakness",
+	},
+	{
+		id: 42,
+		name: "Orc Warrior",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrc.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Physical DMG +5% against normal enemies (Cooldown: 20s)",
+	},
+	{
+		id: 43,
+		name: "Pink Orc Dude",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrcAxePink.png",
+		element: "Normal",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Physical DMG +5.25% against normal enemies (Cooldown: 20s)",
+	},
+	{
+		id: 44,
+		name: "Orc Raider",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrcAxe.png",
+		element: "Normal",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Crit Rate +5% against normal enemies (Cooldown: 20s)",
+	},
+	{
+		id: 45,
+		name: "Rockymander",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyong.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Crit DMG +5% for 5s upon being hit 10 times",
+	},
+	{
+		id: 46,
+		name: "Leafymander",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyongMutation01.png",
+		element: "Normal",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Crit DMG +5.25% for 5s upon being hit 10 times",
+	},
+	{
+		id: 47,
+		name: "Bouldermander",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyong.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Special Skill DMG +5% for 5s upon being hit 10 times",
+	},
+	{
+		id: 48,
+		name: "Vikkymander",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyongKingHat.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Special Skill DMG +5.25% for 5s upon being hit 10 times",
+	},
+	{
+		id: 49,
+		name: "Troll",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTroll.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Ultimate Skill Neutralization DMG +5%",
+	},
+	{
+		id: 50,
+		name: "Noxtroll",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollBlue.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Ultimate Skill Neutralization DMG + 5.25%",
+	},
+	{
+		id: 51,
+		name: "Urgash",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollKing.png",
+		element: "Normal",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		ability: "Ultimate Skill Elemental Weakness DMG +5.5%",
+	},
+	{
+		id: 52,
+		name: "Wolf",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolf.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Physical DMG +5% for 5s upon landing a critical hit",
+	},
+	{
+		id: 53,
+		name: "Albino Wolf",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfWhite.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Physical DMG +5.25% for 5s upon landing a critical hit",
+	},
+	{
+		id: 54,
+		name: "Behemo-Wolf",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHuge.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		ability: "Suppression DMG +5.5% for 10s upon landing a critical hit",
+	},
+	{
+		id: 55,
+		name: "Scar",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHugeScar.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability:
+			"DMG +5.5% against boss enemies for 5s upon landing a critical hit",
+	},
+	{
+		id: 56,
+		name: "Frostbite",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHugeScarWhite.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Special Skill DMG +5.78% for 10s upon landing a critical hit",
+	},
+	{
+		id: 57,
+		name: "Shellymander",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyong.png",
+		element: "Normal",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Physical DMG +5% for 5s upon being hit 10 times",
+	},
+	{
+		id: 58,
+		name: "Mollumander",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyongMutation01.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Physical DMG +5.25% for 5s upon being hit 10 times",
+	},
+	{
+		id: 59,
+		name: "Swellymander",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyongKing.png",
+		element: "Normal ",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Basic Attack DMG +5% for 5s upon being hit 10 times",
+	},
+	{
+		id: 60,
+		name: "Harvester",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldier.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Crit Rate +5% for 5s upon being hit (Cooldown: 20s)",
+	},
+	{
+		id: 61,
+		name: "Enforcer",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldierSpear.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "DEF +3.75% for 5s upon being hit (Cooldown: 20s)",
+	},
+	{
+		id: 62,
+		name: "Void Friar",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageMonk.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "Elemental Weakness DMG +5% for 5s upon being hit (Cooldown: 20s)",
+	},
+	{
+		id: 63,
+		name: "Monk's Shadow",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageMonkWhite.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability:
+			"Elemental Weakness DMG +5.25% for 5s upon being hit (Cooldown: 20s)",
+	},
+	{
+		id: 64,
+		name: "Vectus",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightagePriest.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "ATK +2.75% for 10s upon being hit (Cooldown: 20s)",
+	},
+	{
+		id: 65,
+		name: "Mountaintaur",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaMountain.png",
+		element: "Fire",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
+		ability: "Crit DMG +6% against Staggered boss enemies",
+	},
+	{
+		id: 66,
+		name: "Tealtaur",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaForestWind.png",
+		element: "Fire",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability: "Fire DMG +6.3% against Staggered boss enemies",
+	},
+	{
+		id: 67,
+		name: "Amon",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmon.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
+		ability:
+			"All teammates' Crit Rate +6% for 10s upon attacking a boss enemy 10 times",
+	},
+	{
+		id: 68,
+		name: "Amon's Shadow",
+		image:
+			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmonWhite.png",
+		element: "Dark",
+		region_id: REGION_ID_BY_REGION.VARHINE,
+		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
+		ability:
+			"All teammates' Crit Rate +6.3% for 10s upon using Evasion Counter",
+	},
+];
