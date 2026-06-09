@@ -1,15 +1,15 @@
 import { TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
-type CharacterPortrait = {
+export type CharacterPortrait = {
 	portraitImg: string;
-	cardSize: number;
+	portraitSize: number;
 	tier: TierId;
 };
 
 export const CharacterPortrait = ({
 	portraitImg,
-	cardSize,
+	portraitSize,
 	tier,
 }: CharacterPortrait) => {
 	const tierImg = TIERS_DATA[tier].base;
@@ -18,15 +18,15 @@ export const CharacterPortrait = ({
 		<>
 			<img
 				src={portraitImg}
-				width={cardSize}
-				height={cardSize}
+				width={portraitSize}
+				height={portraitSize}
 				alt={`${name} portrait`}
 				className={cn("absolute")}
 			/>
 			<img
 				src={tierImg}
-				width={cardSize}
-				height={cardSize}
+				width={portraitSize}
+				height={portraitSize}
 				alt={`${tier} background`}
 				className={cn("")}
 			/>

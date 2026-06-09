@@ -1,11 +1,11 @@
 import { MonsterlingCard } from "@/components/monster-codex/components/monsterling-card";
 import { NoMonsterling } from "@/components/monster-codex/components/no-monsterling";
-import { useMonsterCodexStore } from "@/components/monster-codex/store/monster-codex-store";
+import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
 
 // const MONSTER_CODEX_DUMMY = []
 
 export const MonsterlingsList = () => {
-	const monsterlings = useMonsterCodexStore((s) => s.monsterlings);
+	const monsterlings = useMonsterCodexFilterStore((s) => s.monsterlings);
 
 	return (
 		<div className="mt-5 gap-y-15 gap-x-10 flex flex-wrap">

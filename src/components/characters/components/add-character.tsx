@@ -14,8 +14,12 @@ import {
 } from "@/components/ui/dialog";
 import { CHARACTERS_DATA, type Character } from "@/data/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
+import { useAppStore } from "@/stores/app-store";
 
 export function AddCharacter() {
+	const setCharacterOwned = useAppStore((s) => s.setCharacterOwned);
+	const charactersOwned = useAppStore((s) => s.charactersOwned);
+
 	const [charToAdd, setCharToAdd] = useState<null | Character>(null);
 	const hasSelectedChar = !!charToAdd;
 
@@ -53,7 +57,7 @@ export function AddCharacter() {
 								<div className="flex items-center gap-2 relative">
 									<CharacterPortrait
 										portraitImg={charToAdd.portraitImage}
-										cardSize={50}
+										portraitSize={50}
 										tier={charToAdd.tier}
 									/>
 									<span>{charToAdd.name}</span>
@@ -68,6 +72,13 @@ export function AddCharacter() {
 							{Object.values(CHARACTERS_DATA)
 								.sort((a, b) => a.name.localeCompare(b.name))
 								.map((character) => {
+									// dont display if already owned
+									const isOwned = charactersOwned.find(
+										(ownedChar) => ownedChar.id === character.id,
+									);
+
+									if (isOwned) return null;
+
 									return (
 										<button
 											key={character.id}
@@ -88,7 +99,14 @@ export function AddCharacter() {
 						<DialogClose asChild>
 							<Button variant="outline">Cancel</Button>
 						</DialogClose>
-						<Button type="submit">Add</Button>
+						<DialogClose asChild>
+							<Button
+								type="submit"
+								onClick={() => setCharacterOwned(charToAdd)}
+							>
+								Add
+							</Button>
+						</DialogClose>
 					</DialogFooter>
 				)}
 			</DialogContent>

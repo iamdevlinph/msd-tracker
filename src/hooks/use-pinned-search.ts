@@ -1,10 +1,10 @@
 // import Fuse from "fuse.js";
 // import { useMemo } from "react";
 // import { getRepoFromURL } from "@/lib/get-repo-from-url";
-// import { useStore } from "@/stores/app-store";
+// import { useAppStore } from "@/stores/app-store";
 
 // export function usePinnedSearch(query: string) {
-// 	const pinnedIssues = useStore((s) => s.pinnedIssues);
+// 	const pinnedIssues = useAppStore((s) => s.pinnedIssues);
 
 // 	const searchableIssues = useMemo(() => {
 // 		return pinnedIssues.all

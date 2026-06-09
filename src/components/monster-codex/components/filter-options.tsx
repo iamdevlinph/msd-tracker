@@ -2,7 +2,7 @@ import { toSentenceCase } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { useMonsterCodexStore } from "@/components/monster-codex/store/monster-codex-store";
+import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -25,8 +25,8 @@ const COMPLETE_FILTERS = ["all", "completed", "incomplete"] as const;
 export type CompletedFilter = (typeof COMPLETE_FILTERS)[number];
 
 export const FilterOptions = () => {
-	const filterCodex = useMonsterCodexStore((s) => s.filterCodex);
-	const filters = useMonsterCodexStore((s) => s.filters);
+	const filterCodex = useMonsterCodexFilterStore((s) => s.filterCodex);
+	const filters = useMonsterCodexFilterStore((s) => s.filters);
 
 	const [completeFilter, setCompleteFilter] = useState<CompletedFilter>(
 		filters.completed ?? "all",

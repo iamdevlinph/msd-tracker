@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { fmt } from "@/lib/utils";
-import { useStore } from "@/stores/app-store";
+import { useAppStore } from "@/stores/app-store";
 
 export const GoogleSection = () => {
 	const { status, login, logout, email } = useGoogleAuth();
-	const syncInProgress = useStore((s) => s.syncInProgress);
-	const backupUpdatedAt = useStore((s) => s.backupUpdatedAt);
-	const isHydrated = useStore((s) => s.isHydrated);
+	const syncInProgress = useAppStore((s) => s.syncInProgress);
+	const backupUpdatedAt = useAppStore((s) => s.backupUpdatedAt);
+	const isHydrated = useAppStore((s) => s.isHydrated);
 
 	return (
 		<Card>

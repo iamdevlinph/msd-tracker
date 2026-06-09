@@ -1,7 +1,7 @@
 type Classes = "fighter" | "asassin" | "destroyer" | "support";
 type ClassesData = Record<
-	ClassId,
-	{ id: ClassId; character_class: Classes; image: string }
+	CharacterClassId,
+	{ id: CharacterClassId; character_class: Classes; image: string }
 >;
 
 export const CLASS_ID_BY_CLASS = {
@@ -10,7 +10,7 @@ export const CLASS_ID_BY_CLASS = {
 	DESTROYER: 3,
 	SUPPORT: 4,
 } as const;
-export type ClassId =
+export type CharacterClassId =
 	(typeof CLASS_ID_BY_CLASS)[keyof typeof CLASS_ID_BY_CLASS];
 
 export const CHARACTER_CLASS_DATA: ClassesData = {

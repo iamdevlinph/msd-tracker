@@ -8,10 +8,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { useStore } from "@/stores/app-store";
+import { useAppStore } from "@/stores/app-store";
 
 export const AccountPage = () => {
-	const resetStore = useStore((s) => s.resetStore);
+	const resetStore = useAppStore((s) => s.resetStore);
+	const resetCharacterSlice = useAppStore((s) => s.resetCharacterSlice);
 
 	// useEffect(() => {
 	// 	const params = new URLSearchParams(window.location.search);
@@ -40,9 +41,12 @@ export const AccountPage = () => {
 							Monster Codex.
 						</CardDescription>
 					</CardHeader>
-					<CardContent>
+					<CardContent className="flex flex-col w-min gap-5">
 						<Button onClick={resetStore} variant={"destructive"}>
 							Reset Store
+						</Button>
+						<Button onClick={resetCharacterSlice} variant={"destructive"}>
+							Reset Characater Store
 						</Button>
 					</CardContent>
 				</Card>

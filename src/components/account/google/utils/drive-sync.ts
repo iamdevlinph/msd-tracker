@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
-import { type StoreState, useStore } from "@/stores/app-store";
+import { type StoreState, useAppStore } from "@/stores/app-store";
 
 const FILE_NAME = "state.json";
 
@@ -56,7 +56,7 @@ async function createFile(data: Backup) {
 export async function download(): Promise<Backup | null> {
 	try {
 		if (!fileId) return null;
-		useStore.getState().setSyncInProgress(true);
+		useAppStore.getState().setSyncInProgress(true);
 
 		const res = await driveFetch(
 			`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
@@ -70,7 +70,7 @@ export async function download(): Promise<Backup | null> {
 
 		return null;
 	} finally {
-		useStore.getState().setSyncInProgress(false);
+		useAppStore.getState().setSyncInProgress(false);
 	}
 }
 
@@ -78,7 +78,7 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 	try {
 		if (!fileId) return;
 
-		useStore.getState().setSyncInProgress(true);
+		useAppStore.getState().setSyncInProgress(true);
 
 		await driveFetch(
 			`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`,
@@ -100,18 +100,18 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 
 		throw e;
 	} finally {
-		useStore.getState().setSyncInProgress(false);
+		useAppStore.getState().setSyncInProgress(false);
 	}
 }
 
 export async function initSync() {
 	toast("Initializing data");
 
-	useStore.getState().setSyncInProgress(true);
+	useAppStore.getState().setSyncInProgress(true);
 
 	try {
 		// existing logic
-		const local = useStore.getState();
+		const local = useAppStore.getState();
 
 		const existing = await findFile();
 
@@ -125,7 +125,7 @@ export async function initSync() {
 
 		const remote = await download();
 		if (remote && remote.backupUpdatedAt !== local.backupUpdatedAt) {
-			useStore.setState({
+			useAppStore.setState({
 				syncConflict: {
 					local: {
 						updatedAt: local.backupUpdatedAt,
@@ -144,14 +144,14 @@ export async function initSync() {
 			`Something went wrong with initializing data\n\n${(e as Error).message}`,
 		);
 	} finally {
-		useStore.getState().setSyncInProgress(false);
+		useAppStore.getState().setSyncInProgress(false);
 	}
 }
 
 let uploadController: AbortController | null = null;
 
 function setupAutoSync() {
-	const unsubscribe = useStore.subscribe(
+	const unsubscribe = useAppStore.subscribe(
 		(state) => state.backupUpdatedAt,
 		(newValue, prevValue) => {
 			// if not logged in with google skip sync
@@ -175,13 +175,13 @@ function setupAutoSync() {
 			debounce = window.setTimeout(async () => {
 				toast("Sync start");
 				const controller = new AbortController();
-				useStore.getState().setSyncInProgress(true);
+				useAppStore.getState().setSyncInProgress(true);
 
 				uploadController?.abort();
 				uploadController = controller;
 
 				try {
-					const data = select(useStore.getState());
+					const data = select(useAppStore.getState());
 					await upload(data, controller.signal);
 
 					if (!controller.signal.aborted) {
@@ -193,7 +193,7 @@ function setupAutoSync() {
 					}
 				} finally {
 					if (uploadController === controller) {
-						useStore.getState().setSyncInProgress(false);
+						useAppStore.getState().setSyncInProgress(false);
 					}
 				}
 			}, 1000);

@@ -1,10 +1,13 @@
-import { arrayRemoveItem } from "common-utils-pkg";
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import {
-	type CharacterStoreState,
-	initialCharacterState,
-} from "@/components/characters/store/characters-store";
+	type CharactersOwnedSlice,
+	createCharactersOwnedSlice,
+} from "@/stores/characters-owned-slice";
+import {
+	type CompletedCodexSlice,
+	createMonsterCodexSlice,
+} from "@/stores/completed-codex-slice";
 
 export type StoreState = {
 	logout: () => void;
@@ -27,28 +30,21 @@ export type StoreState = {
 	isHydrated: boolean;
 	setHasHydrated: (flag: boolean) => void;
 
-	monsterCodexCompleted: number[];
-	setMonsterCodexComplete: (id: number) => void;
-	deleteMonsterCodexComplete: (id: number) => void;
-
 	resetStore: () => void;
-} & CharacterStoreState;
+} & CompletedCodexSlice &
+	CharactersOwnedSlice;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
 	syncInProgress: false,
 	syncConflict: null,
 	isHydrated: false,
-
-	monsterCodexCompleted: [],
-
-	...initialCharacterState,
 };
 
-export const useStore = create<StoreState>()(
+export const useAppStore = create<StoreState>()(
 	subscribeWithSelector(
 		persist(
-			(set) => ({
+			(set, get, api) => ({
 				...initialState,
 
 				logout: () => set({ ...initialState }),
@@ -59,22 +55,8 @@ export const useStore = create<StoreState>()(
 
 				setSyncConflict: (conflict) => set({ syncConflict: conflict }),
 
-				setMonsterCodexComplete: (id) =>
-					set((state) => {
-						return {
-							monsterCodexCompleted: [...state.monsterCodexCompleted, id],
-							backupUpdatedAt: Date.now(),
-						};
-					}),
-
-				deleteMonsterCodexComplete: (id) =>
-					set((state) => {
-						const newArr = arrayRemoveItem(state.monsterCodexCompleted, id);
-						return {
-							monsterCodexCompleted: newArr,
-							backupUpdatedAt: Date.now(),
-						};
-					}),
+				...createMonsterCodexSlice(set, get, api),
+				...createCharactersOwnedSlice(set, get, api),
 
 				resetStore: () =>
 					set({ monsterCodexCompleted: [], backupUpdatedAt: Date.now() }),

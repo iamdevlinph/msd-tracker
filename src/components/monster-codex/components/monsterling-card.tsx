@@ -1,6 +1,6 @@
 import { Check, X } from "lucide-react";
 import { useInView } from "react-intersection-observer";
-import { useMonsterCodexStore } from "@/components/monster-codex/store/monster-codex-store";
+import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/card";
 import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
-import { useStore } from "@/stores/app-store";
+import { useAppStore } from "@/stores/app-store";
 
 export const MonsterlingCard = (props: MonsterCodexEntry) => {
 	const { name, id, image } = props;
 
-	const monsterCodexCompleted = useStore((s) => s.monsterCodexCompleted);
-	const filterCodex = useMonsterCodexStore((s) => s.filterCodex);
-	const setMonsterCodexComplete = useStore((s) => s.setMonsterCodexComplete);
-	const deleteMonsterCodexComplete = useStore(
+	const monsterCodexCompleted = useAppStore((s) => s.monsterCodexCompleted);
+	const filterCodex = useMonsterCodexFilterStore((s) => s.filterCodex);
+	const setMonsterCodexComplete = useAppStore((s) => s.setMonsterCodexComplete);
+	const deleteMonsterCodexComplete = useAppStore(
 		(s) => s.deleteMonsterCodexComplete,
 	);
 

@@ -15,15 +15,15 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
-import { useStore } from "@/stores/app-store";
+import { useAppStore } from "@/stores/app-store";
 
 export function SyncConflictDialog() {
 	const [buttonClicked, setButtonClicked] = useState<
 		"local" | "remote" | undefined
 	>(undefined);
-	const conflict = useStore((s) => s.syncConflict);
-	const setConflict = useStore((s) => s.setSyncConflict);
-	const syncInProgress = useStore((s) => s.syncInProgress);
+	const conflict = useAppStore((s) => s.syncConflict);
+	const setConflict = useAppStore((s) => s.setSyncConflict);
+	const syncInProgress = useAppStore((s) => s.syncInProgress);
 
 	if (!conflict) return null;
 
@@ -52,7 +52,7 @@ export function SyncConflictDialog() {
 							onClick={async () => {
 								setButtonClicked("local");
 								// KEEP LOCAL
-								await upload(select(useStore.getState()));
+								await upload(select(useAppStore.getState()));
 								setConflict(null);
 							}}
 							className="w-full sm:w-max self-center"
@@ -86,7 +86,7 @@ export function SyncConflictDialog() {
 
 									if (!remote) return;
 
-									useStore.setState({
+									useAppStore.setState({
 										backupUpdatedAt: remote.backupUpdatedAt,
 										monsterCodexCompleted: remote.monsterCodexCompleted,
 									});
