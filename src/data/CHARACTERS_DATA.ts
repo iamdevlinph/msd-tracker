@@ -9,7 +9,7 @@ export type Character = {
 	id: number;
 	name: string;
 	class_id: CharacterClassId;
-	element: ElementId;
+	element_id: ElementId;
 	portraitImage: string;
 	fullImage: string;
 	tier: TierId;
@@ -20,7 +20,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 1,
 		name: "Angel",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
-		element: ELEMENT_ID_BY_ELEMENT.FIRE,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Angel_00.png",
 		fullImage:
@@ -31,7 +31,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 2,
 		name: "Benjamin",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
-		element: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Benjamin_00.png",
 		fullImage:
@@ -42,7 +42,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 3,
 		name: "Mina",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element: ELEMENT_ID_BY_ELEMENT.FIRE,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Mina_00.png",
 		fullImage:
@@ -53,7 +53,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 4,
 		name: "Narae",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
-		element: ELEMENT_ID_BY_ELEMENT.ICE,
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Narae_00.png",
 		fullImage:
@@ -64,7 +64,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 5,
 		name: "Francis",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
-		element: ELEMENT_ID_BY_ELEMENT.EARTH,
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Francis_00.png",
 		fullImage:
@@ -75,7 +75,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 6,
 		name: "Flare",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
-		element: ELEMENT_ID_BY_ELEMENT.FIRE,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Flare_00.png",
 		fullImage:
@@ -86,7 +86,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 7,
 		name: "Ophelia",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element: ELEMENT_ID_BY_ELEMENT.ICE,
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Ophelia_00.png",
 		fullImage:
@@ -97,7 +97,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 8,
 		name: "Penny",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Penny_00.png",
 		fullImage:
@@ -108,7 +108,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 9,
 		name: "Jiwon",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
-		element: ELEMENT_ID_BY_ELEMENT.WIND,
+		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Jiwon_00.png",
 		fullImage:
@@ -119,7 +119,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 10,
 		name: "Esther",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
-		element: ELEMENT_ID_BY_ELEMENT.WIND,
+		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895190/msd/Character_Portrait/portrait_Esde_00.png",
 		fullImage:
@@ -130,7 +130,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 11,
 		name: "Gabi",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element: ELEMENT_ID_BY_ELEMENT.EARTH,
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Gabi_00.png",
 		fullImage:
@@ -141,7 +141,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 12,
 		name: "Cloud",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
-		element: ELEMENT_ID_BY_ELEMENT.ICE,
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Cloud_00.png",
 		fullImage:
@@ -152,7 +152,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 13,
 		name: "Yeonhwa",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
-		element: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Yeonhwa_00.png",
 		fullImage:
@@ -163,7 +163,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 14,
 		name: "Reina",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
-		element: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Reina_00.png",
 		fullImage:
@@ -174,7 +174,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 15,
 		name: "Bonnie",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
-		element: ELEMENT_ID_BY_ELEMENT.WIND,
+		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Bonney_00.png",
 		fullImage:
@@ -185,7 +185,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 16,
 		name: "Verna",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element: ELEMENT_ID_BY_ELEMENT.FIRE,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Verna_00.png",
 		fullImage:
@@ -196,7 +196,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 17,
 		name: "Ellie",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
-		element: ELEMENT_ID_BY_ELEMENT.EARTH,
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Ellie_00.png",
 		fullImage:
@@ -207,7 +207,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 18,
 		name: "Sera",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element: ELEMENT_ID_BY_ELEMENT.ICE,
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Sera_00.png",
 		fullImage:
@@ -218,7 +218,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 19,
 		name: "Sangun",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element: ELEMENT_ID_BY_ELEMENT.WIND,
+		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Sangun_00.png",
 		fullImage:
@@ -229,7 +229,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 20,
 		name: "Leeho",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
-		element: ELEMENT_ID_BY_ELEMENT.FIRE,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Leeho_00.png",
 		fullImage:
@@ -240,7 +240,7 @@ export const CHARACTERS_DATA: Character[] = [
 		id: 21,
 		name: "Daisy",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
-		element: ELEMENT_ID_BY_ELEMENT.EARTH,
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		portraitImage:
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Daisy_00.png",
 		fullImage:

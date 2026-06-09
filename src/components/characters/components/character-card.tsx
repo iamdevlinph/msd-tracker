@@ -10,13 +10,13 @@ export default function CharacterCard({
 	tier,
 	portraitImage,
 	name,
-	element,
+	element_id,
 	portraitSize = 100,
 	iconSize = 25,
 }: Character &
 	Partial<Pick<CharacterPortrait, "portraitSize">> & { iconSize?: number }) {
-	const elementImg = ELEMENTS_DATA[element].image;
-	const characterClassImg = CHARACTER_CLASS_DATA[class_id].image;
+	const elemInfo = ELEMENTS_DATA[element_id];
+	const characterClassInfo = CHARACTER_CLASS_DATA[class_id];
 	const tierBaseImg = TIERS_DATA[tier].base;
 
 	return (
@@ -29,20 +29,20 @@ export default function CharacterCard({
 		>
 			<div className="relative">
 				<img
-					src={elementImg}
+					src={elemInfo.image}
 					width={iconSize}
 					height={iconSize}
-					alt={`${element} icon`}
+					alt={`${elemInfo.element} icon`}
 					className={cn("absolute right-0.5 top-0.5 z-2 drop-shadow-2xl")}
 					style={{
 						filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
 					}}
 				/>
 				<img
-					src={characterClassImg}
+					src={characterClassInfo.image}
 					width={iconSize}
 					height={iconSize}
-					alt={`${element} icon`}
+					alt={`${characterClassInfo.character_class} icon`}
 					className={cn("absolute right-0.5 top-9 z-2 drop-shadow-2xl")}
 					style={{
 						filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
