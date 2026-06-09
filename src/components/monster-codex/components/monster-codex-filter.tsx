@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 const COMPLETE_FILTERS = ["all", "completed", "incomplete"] as const;
 export type CompletedFilter = (typeof COMPLETE_FILTERS)[number];
 
-export const FilterOptions = () => {
+export const MonsterCodexFilter = () => {
 	const filterCodex = useMonsterCodexFilterStore((s) => s.filterCodex);
 	const filters = useMonsterCodexFilterStore((s) => s.filters);
 

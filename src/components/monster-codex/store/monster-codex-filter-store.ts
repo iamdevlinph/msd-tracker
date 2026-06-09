@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { CompletedFilter } from "@/components/monster-codex/components/filter-options";
+import type { CompletedFilter } from "@/components/monster-codex/components/monster-codex-filter";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import {
 	SOURCE_ID_BY_SOURCE,
