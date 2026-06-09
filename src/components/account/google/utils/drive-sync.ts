@@ -1,4 +1,4 @@
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useStore } from "@/stores/app-store";
@@ -64,9 +64,10 @@ export async function download(): Promise<Backup | null> {
 
 		return res.json();
 	} catch (e) {
-		toast.error("Something went wrong downloading remote file", {
-			description: (e as Error).message,
-		});
+		toast.error(
+			`Something went wrong downloading remote file\n\n${(e as Error).message}`,
+		);
+
 		return null;
 	} finally {
 		useStore.getState().setSyncInProgress(false);
@@ -93,9 +94,9 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 			return;
 		}
 
-		toast.error("Something went wrong uploading file", {
-			description: (e as Error).message,
-		});
+		toast.error(
+			`Something went wrong uploading file\n\n${(e as Error).message}`,
+		);
 
 		throw e;
 	} finally {
@@ -104,7 +105,7 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 }
 
 export async function initSync() {
-	toast.info("Initializing data");
+	toast("Initializing data");
 
 	useStore.getState().setSyncInProgress(true);
 
@@ -139,9 +140,9 @@ export async function initSync() {
 
 		setupAutoSync();
 	} catch (e) {
-		toast.error("Something went wrong with initializing data", {
-			description: (e as Error).message,
-		});
+		toast.error(
+			`Something went wrong with initializing data\n\n${(e as Error).message}`,
+		);
 	} finally {
 		useStore.getState().setSyncInProgress(false);
 	}
@@ -172,7 +173,7 @@ function setupAutoSync() {
 			clearTimeout(debounce);
 
 			debounce = window.setTimeout(async () => {
-				toast.info("Sync start");
+				toast("Sync start");
 				const controller = new AbortController();
 				useStore.getState().setSyncInProgress(true);
 
@@ -188,9 +189,7 @@ function setupAutoSync() {
 					}
 				} catch (e) {
 					if ((e as DOMException).name !== "AbortError") {
-						toast.error("Sync failed", {
-							description: (e as Error).message,
-						});
+						toast.error(`Sync failed\n\n${(e as Error).message}`);
 					}
 				} finally {
 					if (uploadController === controller) {

@@ -9,10 +9,10 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { useGoogleUnloadGuard } from "@/components/account/google/utils/use-google-unload-guard";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { ThemeProvider } from "@/components/themes/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
 import { GC_TIME, STALE_TIME } from "@/constants";
 import { AppProvider } from "@/context/app-provider";
 import Header from "../components/header";
@@ -115,7 +115,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 									</main>
 								</div>
 
-								<Toaster />
+								<Toaster position="bottom-right" />
 
 								<TanStackDevtools
 									config={{
