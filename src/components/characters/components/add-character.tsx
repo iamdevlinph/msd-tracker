@@ -31,6 +31,9 @@ export function AddCharacter() {
 		[charactersOwned],
 	);
 
+	const noCharsToAdd =
+		charactersOwned.length === Object.keys(CHARACTERS_DATA).length;
+
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
@@ -79,6 +82,7 @@ export function AddCharacter() {
 							<CharacterFilter />
 
 							<div className="flex flex-wrap gap-5">
+								{noCharsToAdd && <h1>No characters to add</h1>}
 								{Object.values(CHARACTERS_DATA)
 									.sort((a, b) => a.name.localeCompare(b.name))
 									.map((character) => {
