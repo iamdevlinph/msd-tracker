@@ -1,6 +1,7 @@
 "use client";
 
 import { arrayRemoveItem } from "common-utils-pkg";
+import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import { Button } from "@/components/ui/button";
@@ -54,7 +55,7 @@ export const CharacterFilter = () => {
 
 					return (
 						<Button
-							variant={isElemSelected ? "secondary" : "outline"}
+							variant={isElemSelected ? "default" : "outline"}
 							key={id}
 							onClick={() => handleSelectElement(id)}
 							className={cn(isElemSelected && "border")}
@@ -63,6 +64,15 @@ export const CharacterFilter = () => {
 						</Button>
 					);
 				})}
+
+				<Button
+					variant={"secondary"}
+					size={"icon"}
+					type="button"
+					onClick={() => setSelectedElements([])}
+				>
+					<XIcon />
+				</Button>
 			</ButtonGroup>
 
 			<ButtonGroup>
@@ -72,7 +82,7 @@ export const CharacterFilter = () => {
 
 						return (
 							<Button
-								variant={isCharClassSelected ? "secondary" : "outline"}
+								variant={isCharClassSelected ? "default" : "outline"}
 								key={id}
 								onClick={() => handleSelectClass(id)}
 								className={cn(isCharClassSelected && "border")}
@@ -87,6 +97,15 @@ export const CharacterFilter = () => {
 						);
 					},
 				)}
+
+				<Button
+					variant={"secondary"}
+					size={"icon"}
+					type="button"
+					onClick={() => setSelectedCharacterClass([])}
+				>
+					<XIcon />
+				</Button>
 			</ButtonGroup>
 		</ButtonGroup>
 	);
