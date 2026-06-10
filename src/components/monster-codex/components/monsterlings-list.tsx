@@ -1,8 +1,11 @@
+import { memo } from "react";
 import { MonsterlingCard } from "@/components/monster-codex/components/monsterling-card";
 import { NoMonsterling } from "@/components/monster-codex/components/no-monsterling";
 import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
 
 // const MONSTER_CODEX_DUMMY = []
+
+const MonsterlingCardMemo = memo(MonsterlingCard);
 
 export const MonsterlingsList = () => {
 	const monsterlings = useMonsterCodexFilterStore((s) => s.monsterlings);
@@ -19,7 +22,7 @@ export const MonsterlingsList = () => {
 			>
 				{monsterlings.length > 0 &&
 					monsterlings.map((value) => {
-						return <MonsterlingCard key={value.id} {...value} />;
+						return <MonsterlingCardMemo key={value.id} {...value} />;
 					})}
 			</div>
 		</>
