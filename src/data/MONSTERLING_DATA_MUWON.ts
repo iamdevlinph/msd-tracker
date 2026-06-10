@@ -6,8 +6,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 145,
 		name: "Baby Spirit",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChildGhost.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChildGhost.png",
+		image: "/images/Monsterling_Icons/MonsterlingChildGhost.png",
 		element: "Wind",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -17,8 +18,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 146,
 		name: "Chipmunk Spirit",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChildGhostSquirrel.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChildGhostSquirrel.png",
+		image: "/images/Monsterling_Icons/MonsterlingChildGhostSquirrel.png",
 		element: "Wind",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -28,8 +30,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 147,
 		name: "Wind Spirit",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWind.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWind.png",
+		image: "/images/Monsterling_Icons/MonsterlingGhostWind.png",
 		element: "Wind",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -38,8 +41,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 148,
 		name: "Grudge Spirit",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWindMiddle.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWindMiddle.png",
+		image: "/images/Monsterling_Icons/MonsterlingGhostWindMiddle.png",
 		element: "Dark",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -49,8 +53,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 149,
 		name: "Grudge Revenant",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWindMiddleRed.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWindMiddleRed.png",
+		image: "/images/Monsterling_Icons/MonsterlingGhostWindMiddleRed.png",
 		element: "Dark",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -60,8 +65,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 150,
 		name: "Phantom Snow Tiger",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeast.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeast.png",
+		image: "/images/Monsterling_Icons/MonsterlingSnowyBeast.png",
 		element: "Ice",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
@@ -70,8 +76,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 151,
 		name: "Phantom Stone Tiger",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
+		image: "/images/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
 		element: "Earth",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -80,8 +87,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 152,
 		name: "Lizarcher",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardBow.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardBow.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizardBow.png",
 		element: "Fire",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -90,8 +98,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 153,
 		name: "Sun Lizarcher",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardBowRed.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardBowRed.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizardBowRed.png",
 		element: "Fire",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -100,8 +109,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 154,
 		name: "Lizcout",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizard.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizard.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizard.png",
 		element: "Earth",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -110,8 +120,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 155,
 		name: "Master Lizcout",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardHat.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardHat.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizardHat.png",
 		element: "Earth",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -120,8 +131,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 156,
 		name: "Kroko",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanCrocodile.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanCrocodile.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanCrocodile.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -130,8 +142,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 157,
 		name: "Krokomander",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanCrocodileDora.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanCrocodileDora.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanCrocodileDora.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -140,8 +153,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 158,
 		name: "Bunnie Swordsman",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKnightRabbit_Evil.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKnightRabbit_Evil.png",
+		image: "/images/Monsterling_Icons/MonsterlingKnightRabbit_Evil.png",
 		element: "Wind",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -150,8 +164,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 159,
 		name: "Toad-alee",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShield.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShield.png",
+		image: "/images/Monsterling_Icons/MonsterlingMeoguriShield.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -160,8 +175,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 160,
 		name: "Irontoise",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtle.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtle.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanTurtle.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -171,8 +187,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 161,
 		name: "Treetoise",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
 		element: "Normal",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -182,8 +199,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 162,
 		name: "Sunek",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNagiMiddle.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNagiMiddle.png",
+		image: "/images/Monsterling_Icons/MonsterlingNagiMiddle.png",
 		element: "Wind",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -192,8 +210,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 163,
 		name: "Suhwa",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNagiMiddlePink.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNagiMiddlePink.png",
+		image: "/images/Monsterling_Icons/MonsterlingNagiMiddlePink.png",
 		element: "Wind",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -202,8 +221,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 164,
 		name: "Red Shadow",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMaster.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMaster.png",
+		image: "/images/Monsterling_Icons/MonsterlingWetlandMaster.png",
 		element: "Water",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
@@ -212,8 +232,9 @@ export const MONSTER_LING_DATA_MUWON: MonsterCodexEntry[] = [
 	{
 		id: 165,
 		name: "Blue Shadow",
-		image:
-			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMasterBlue.png",
+		// image:
+		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMasterBlue.png",
+		image: "/images/Monsterling_Icons/MonsterlingWetlandMasterBlue.png",
 		element: "Water",
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],

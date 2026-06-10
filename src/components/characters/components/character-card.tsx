@@ -28,8 +28,9 @@ export default function CharacterCard({
 	const characterClassInfo = CHARACTER_CLASS_DATA[class_id];
 	const tierBaseImg = TIERS_DATA[tier].base;
 
-	const awakeningImg =
-		"https://res.cloudinary.com/dfrhytey3/image/upload/v1781063623/msd/Misc/awakening-icon.png";
+	// const awakeningImg =
+	// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1781063623/msd/Misc/awakening-icon.png";
+	const awakeningImg = "/images/Misc/awakening-icon.png";
 
 	return (
 		<div
