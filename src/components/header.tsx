@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { X } from "lucide-react";
 import { useGoogleAuth } from "@/components/account/google/utils/use-google-auth";
 import { Nav } from "@/components/navigation";
 import type { Sidebar } from "@/routes/__root";
@@ -28,13 +27,13 @@ export default function Header({ sidebarOpen, setSidebarOpen }: Sidebar) {
 						<h1 className="text-lg font-semibold">Mongil: Star Dive</h1>
 						<p className="text-xs text-muted-foreground mt-0.5">Tracker</p>
 					</Link>
-					<button
+					{/* <button
 						type="button"
 						onClick={() => setSidebarOpen(false)}
 						className="lg:hidden text-muted-foreground hover:text-foreground"
 					>
 						<X className="size-5" />
-					</button>
+					</button> */}
 				</div>
 
 				<Nav />
