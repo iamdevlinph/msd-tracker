@@ -15,8 +15,8 @@ export type Character = {
 	tier: TierId;
 };
 
-export const CHARACTERS_DATA: Character[] = [
-	{
+export const CHARACTERS_DATA: Record<number, Character> = {
+	1: {
 		id: 1,
 		name: "Angel",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
@@ -27,7 +27,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Angel.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	2: {
 		id: 2,
 		name: "Benjamin",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
@@ -38,7 +38,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Benjamin.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	3: {
 		id: 3,
 		name: "Mina",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
@@ -49,7 +49,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Mina.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	4: {
 		id: 4,
 		name: "Narae",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
@@ -60,7 +60,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Narae.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	5: {
 		id: 5,
 		name: "Francis",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
@@ -71,7 +71,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Francis.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	6: {
 		id: 6,
 		name: "Flare",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
@@ -82,7 +82,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Flare.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	7: {
 		id: 7,
 		name: "Ophelia",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
@@ -93,7 +93,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Ophelia.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	8: {
 		id: 8,
 		name: "Penny",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
@@ -104,7 +104,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Penny.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	9: {
 		id: 9,
 		name: "Jiwon",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
@@ -115,7 +115,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Jiwon.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	10: {
 		id: 10,
 		name: "Esther",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
@@ -126,7 +126,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Esde.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	11: {
 		id: 11,
 		name: "Gabi",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
@@ -137,7 +137,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Gabi.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	12: {
 		id: 12,
 		name: "Cloud",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
@@ -148,7 +148,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Cloud.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	13: {
 		id: 13,
 		name: "Yeonhwa",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
@@ -159,7 +159,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Yeonhwa.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	14: {
 		id: 14,
 		name: "Reina",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
@@ -170,7 +170,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Reina.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	15: {
 		id: 15,
 		name: "Bonnie",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
@@ -181,7 +181,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Bonney.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	16: {
 		id: 16,
 		name: "Verna",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
@@ -192,7 +192,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Verna.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	17: {
 		id: 17,
 		name: "Ellie",
 		class_id: CLASS_ID_BY_CLASS.DESTROYER,
@@ -203,7 +203,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Ellie.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	18: {
 		id: 18,
 		name: "Sera",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
@@ -214,7 +214,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Sera.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	19: {
 		id: 19,
 		name: "Sangun",
 		class_id: CLASS_ID_BY_CLASS.FIGHTER,
@@ -225,7 +225,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Sangun.png",
 		tier: TIER_ID_BY_TIER.PRIME_5,
 	},
-	{
+	20: {
 		id: 20,
 		name: "Leeho",
 		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
@@ -236,7 +236,7 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Leeho.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-	{
+	21: {
 		id: 21,
 		name: "Daisy",
 		class_id: CLASS_ID_BY_CLASS.SUPPORT,
@@ -247,4 +247,4 @@ export const CHARACTERS_DATA: Character[] = [
 			"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Daisy.png",
 		tier: TIER_ID_BY_TIER.CHOICE_4,
 	},
-];
+};

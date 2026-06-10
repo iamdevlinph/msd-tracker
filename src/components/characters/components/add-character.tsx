@@ -1,65 +1,38 @@
 import { ArrowLeft } from "lucide-react";
 import { useMemo, useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
+import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterFilter } from "@/components/characters/components/character-filter";
 import { CharacterPortrait } from "@/components/characters/components/character-portrait";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
-	DialogClose,
 	DialogContent,
 	DialogDescription,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { CHARACTERS_DATA, type Character } from "@/data/CHARACTERS_DATA";
+import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
 export function AddCharacter() {
-	const setCharacterOwned = useAppStore((s) => s.setCharacterOwned);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
 
-	const [charToAdd, setCharToAdd] = useState<null | Character>(null);
+	const [open, setOpen] = useState(false);
+	const [charToAdd, setCharToAdd] = useState<null | number>(null);
 	const hasSelectedChar = !!charToAdd;
 
-	// useEffect(() => {}, []);
+	const charToAddInfo = hasSelectedChar ? CHARACTERS_DATA[charToAdd] : null;
 
 	const ownedSet = useMemo(
 		() => new Set(charactersOwned.map((c) => c.id)),
 		[charactersOwned],
 	);
 
-	// const filteredCharSelection = useMemo(() => {
-	// 	return Object.values(CHARACTERS_DATA)
-	// 		.sort((a, b) => a.name.localeCompare(b.name))
-	// 		.map((character) => {
-	// 			// dont display if already owned
-	// 			if (ownedSet.has(character.id)) return null;
-
-	// 			return (
-	// 				<button
-	// 					key={character.id}
-	// 					onClick={() => setCharToAdd(character)}
-	// 					type="button"
-	// 				>
-	// 					<CharacterCard
-	// 						//  {...character}
-	// 						portraitImage={character.portraitImage}
-	// 						name={character.name}
-	// 						element_id={character.element_id}
-	// 						class_id={character.class_id}
-	// 						tier={character.tier}
-	// 					/>
-	// 				</button>
-	// 			);
-	// 		});
-	// }, [ownedSet]);
-
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button variant="default" className="w-min">
 					Add Character
@@ -77,7 +50,7 @@ export function AddCharacter() {
 				<DialogHeader>
 					<DialogTitle>
 						{!hasSelectedChar && "Add Character"}
-						{hasSelectedChar && (
+						{hasSelectedChar && charToAddInfo && (
 							<div className="flex gap-5 items-center">
 								<Button
 									variant="secondary"
@@ -89,11 +62,11 @@ export function AddCharacter() {
 								</Button>
 								<div className="flex items-center gap-2 relative">
 									<CharacterPortrait
-										portraitImg={charToAdd.portraitImage}
+										portraitImg={charToAddInfo.portraitImage}
 										portraitSize={50}
-										tier={charToAdd.tier}
+										tier={charToAddInfo.tier}
 									/>
-									<span>{charToAdd.name}</span>
+									<span>{charToAddInfo.name}</span>
 								</div>
 							</div>
 						)}
@@ -106,7 +79,6 @@ export function AddCharacter() {
 							<CharacterFilter />
 
 							<div className="flex flex-wrap gap-5">
-								{/* {filteredCharSelection} */}
 								{Object.values(CHARACTERS_DATA)
 									.sort((a, b) => a.name.localeCompare(b.name))
 									.map((character) => {
@@ -116,7 +88,7 @@ export function AddCharacter() {
 										return (
 											<button
 												key={character.id}
-												onClick={() => setCharToAdd(character)}
+												onClick={() => setCharToAdd(character.id)}
 												type="button"
 											>
 												<CharacterCard
@@ -134,23 +106,13 @@ export function AddCharacter() {
 						</div>
 					)}
 
-					{hasSelectedChar && <div>TO DO: idk what to put lol</div>}
+					{hasSelectedChar && (
+						<CharacterDetailsForm
+							char_id={charToAdd}
+							onClose={() => setOpen(false)}
+						/>
+					)}
 				</div>
-				{hasSelectedChar && (
-					<DialogFooter>
-						<DialogClose asChild>
-							<Button variant="outline">Cancel</Button>
-						</DialogClose>
-						<DialogClose asChild>
-							<Button
-								type="submit"
-								onClick={() => setCharacterOwned(charToAdd)}
-							>
-								Add
-							</Button>
-						</DialogClose>
-					</DialogFooter>
-				)}
 			</DialogContent>
 		</Dialog>
 	);

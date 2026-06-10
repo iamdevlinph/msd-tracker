@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
+import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 export const CharacterOwnedList = () => {
@@ -19,21 +20,17 @@ export const CharacterOwnedList = () => {
 		[selectedElements],
 	);
 
-	// const filteredCharacters = useMemo(() => {
-	// 	return charactersOwned
-	// 		.sort((a, b) => a.name.localeCompare(b.name))
-	// 		.filter((character) => {
-	// 			if (classSet.size > 0 && !classSet.has(character.class_id)) {
-	// 				return false;
-	// 			}
-
-	// 			if (elementSet.size > 0 && !elementSet.has(character.element_id)) {
-	// 				return false;
-	// 			}
-
-	// 			return true;
-	// 		});
-	// }, [charactersOwned, classSet, elementSet]);
+	const enrichedCharacters = charactersOwned
+		.map((c) => ({
+			...c,
+			info: CHARACTERS_DATA[c.id],
+		}))
+		.filter(({ info }) => {
+			if (classSet.size && !classSet.has(info.class_id)) return false;
+			if (elementSet.size && !elementSet.has(info.element_id)) return false;
+			return true;
+		})
+		.sort((a, b) => a.info.name.localeCompare(b.info.name));
 
 	return (
 		<div
@@ -42,49 +39,22 @@ export const CharacterOwnedList = () => {
 				gridTemplateColumns: "repeat(auto-fit, 125px)",
 			}}
 		>
-			{charactersOwned.length === 0 && <h1>No owned characters</h1>}
+			{enrichedCharacters.length === 0 && <h1>No owned characters</h1>}
 
-			{charactersOwned.length > 0 &&
-				charactersOwned
-					.filter((character) => {
-						if (classSet.size > 0 && !classSet.has(character.class_id)) {
-							return false;
-						}
-
-						if (elementSet.size > 0 && !elementSet.has(character.element_id)) {
-							return false;
-						}
-
-						return true;
-					})
-					.sort((a, b) => a.name.localeCompare(b.name))
-					.map((character) => {
-						return (
-							<CharacterCard
-								key={character.id}
-								portraitSize={130}
-								iconSize={30}
-								portraitImage={character.portraitImage}
-								name={character.name}
-								element_id={character.element_id}
-								class_id={character.class_id}
-								tier={character.tier}
-							/>
-						);
-					})}
-
-			{/* {filteredCharacters.map((character) => (
-				<CharacterCard
-					key={character.id}
-					portraitSize={130}
-					iconSize={30}
-					portraitImage={character.portraitImage}
-					name={character.name}
-					element_id={character.element_id}
-					class_id={character.class_id}
-					tier={character.tier}
-				/>
-			))} */}
+			{enrichedCharacters.length > 0 &&
+				enrichedCharacters.map((charOwned) => (
+					<CharacterCard
+						key={charOwned.id}
+						portraitSize={130}
+						iconSize={30}
+						portraitImage={charOwned.info.portraitImage}
+						name={charOwned.info.name}
+						element_id={charOwned.info.element_id}
+						class_id={charOwned.info.class_id}
+						tier={charOwned.info.tier}
+						awakening={charOwned.awakening}
+					/>
+				))}
 		</div>
 	);
 };

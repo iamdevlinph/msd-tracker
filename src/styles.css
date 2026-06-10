@@ -128,3 +128,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Number arrows on number input */
+input::-webkit-outer-spin-button.hide-input-arrows,
+input::-webkit-inner-spin-button.hide-input-arrows {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number].hide-input-arrows {
+  -moz-appearance: textfield;
+}

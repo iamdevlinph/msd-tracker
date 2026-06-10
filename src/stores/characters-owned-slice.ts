@@ -2,7 +2,7 @@ import type { StateCreator } from "zustand";
 import type { Character } from "@/data/CHARACTERS_DATA";
 import type { StoreState } from "@/stores/app-store";
 
-type CharacterOwned = {
+export type CharacterOwned = {
 	awakening: number;
 	skills: {
 		basic: number;
@@ -10,12 +10,13 @@ type CharacterOwned = {
 		special: number;
 		ultimate: number;
 	};
-} & Character;
+	id: Character["id"];
+};
 
 export type CharactersOwnedSlice = {
 	charactersOwned: CharacterOwned[];
 
-	setCharacterOwned: (character: Character) => void;
+	setCharacterOwned: (character: CharacterOwned) => void;
 	resetCharacterSlice: () => void;
 };
 
@@ -27,17 +28,11 @@ export const createCharactersOwnedSlice: StateCreator<
 > = (set) => ({
 	charactersOwned: [],
 
-	setCharacterOwned: (character) =>
+	setCharacterOwned: ({ id, ...rest }) =>
 		set((state) => {
 			const tempCharacterOwn: CharacterOwned = {
-				...character,
-				awakening: 0,
-				skills: {
-					basic: 1,
-					switch: 1,
-					special: 1,
-					ultimate: 1,
-				},
+				id: id,
+				...rest,
 			};
 			return {
 				charactersOwned: [...state.charactersOwned, tempCharacterOwn],

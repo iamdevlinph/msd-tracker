@@ -31,8 +31,6 @@ export const AccountPage = () => {
 			<PageTitle title="Account" />
 
 			<div className="flex flex-col gap-4">
-				<GoogleSection />
-
 				<Card>
 					<CardHeader>
 						<CardTitle>Local Store</CardTitle>
@@ -50,6 +48,8 @@ export const AccountPage = () => {
 						</Button>
 					</CardContent>
 				</Card>
+
+				<GoogleSection />
 			</div>
 		</>
 	);

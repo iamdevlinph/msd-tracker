@@ -1,0 +1,148 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { NumberControlInput } from "@/components/forms/number-control-input";
+import { SeparatorText } from "@/components/separator-text";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Field, FieldGroup } from "@/components/ui/field";
+import type { Character } from "@/data/CHARACTERS_DATA";
+import { useAppStore } from "@/stores/app-store";
+
+type CharacterDetailsProps = {
+	char_id: Character["id"];
+	onClose?: () => void;
+};
+
+const characterDetailsSchema = z.object({
+	char_id: z.number(),
+	awakening: z.number().min(0).max(6),
+	skills: z.object({
+		basic_level: z.number().min(1).max(15),
+		switch_level: z.number().min(1).max(15),
+		special_level: z.number().min(1).max(15),
+		ultimate_level: z.number().min(1).max(15),
+	}),
+});
+
+type CharacterDetailsSchemaType = z.infer<typeof characterDetailsSchema>;
+
+const FORM_ID = "character-details-form";
+
+export const CharacterDetailsForm = ({
+	char_id,
+	onClose,
+}: CharacterDetailsProps) => {
+	const setCharacterOwned = useAppStore((s) => s.setCharacterOwned);
+
+	const form = useForm<CharacterDetailsSchemaType>({
+		resolver: zodResolver(characterDetailsSchema),
+		defaultValues: {
+			char_id: char_id,
+			awakening: 0,
+			skills: {
+				basic_level: 1,
+				switch_level: 1,
+				special_level: 1,
+				ultimate_level: 1,
+			},
+		},
+		mode: "onChange",
+	});
+
+	const onSubmit = (data: CharacterDetailsSchemaType) => {
+		const {
+			awakening,
+			skills: { basic_level, switch_level, special_level, ultimate_level },
+		} = data;
+		const object = {
+			id: char_id,
+			awakening: Number(awakening),
+			skills: {
+				basic: Number(basic_level),
+				switch: Number(switch_level),
+				special: Number(special_level),
+				ultimate: Number(ultimate_level),
+			},
+		};
+		console.log("🍉debuu ~ onSubmit ~ object:", object);
+		setCharacterOwned(object);
+
+		onClose?.();
+	};
+
+	return (
+		<Card>
+			<CardContent>
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className="gap-y-2 flex flex-col"
+					id={FORM_ID}
+				>
+					<FieldGroup>
+						<NumberControlInput<CharacterDetailsSchemaType>
+							name="awakening"
+							control={form.control}
+							label="Awakening"
+							min={0}
+							max={6}
+						/>
+					</FieldGroup>
+
+					<SeparatorText>Skills</SeparatorText>
+
+					<FieldGroup>
+						<NumberControlInput<CharacterDetailsSchemaType>
+							name="skills.basic_level"
+							control={form.control}
+							label="Basic"
+							min={1}
+							max={15}
+						/>
+					</FieldGroup>
+
+					<FieldGroup>
+						<NumberControlInput<CharacterDetailsSchemaType>
+							name="skills.switch_level"
+							control={form.control}
+							label="Switch"
+							min={1}
+							max={15}
+						/>
+					</FieldGroup>
+
+					<FieldGroup>
+						<NumberControlInput<CharacterDetailsSchemaType>
+							name="skills.special_level"
+							control={form.control}
+							label="Special"
+							min={1}
+							max={15}
+						/>
+					</FieldGroup>
+
+					<FieldGroup>
+						<NumberControlInput<CharacterDetailsSchemaType>
+							name="skills.ultimate_level"
+							control={form.control}
+							label="Ultimate"
+							min={1}
+							max={15}
+						/>
+					</FieldGroup>
+				</form>
+			</CardContent>
+
+			<CardFooter>
+				<Field orientation="horizontal" className="justify-end">
+					<Button type="button" variant="outline" onClick={() => form.reset()}>
+						Reset
+					</Button>
+					<Button type="submit" form={FORM_ID}>
+						Add
+					</Button>
+				</Field>
+			</CardFooter>
+		</Card>
+	);
+};

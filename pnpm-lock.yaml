@@ -14,6 +14,9 @@ importers:
       '@cloudflare/vite-plugin':
         specifier: 1.26.0
         version: 1.26.0(vite@8.0.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@22.10.2)(esbuild@0.27.3)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))(workerd@1.20260301.1)(wrangler@4.70.0)
+      '@hookform/resolvers':
+        specifier: 5.4.0
+        version: 5.4.0(react-hook-form@7.77.0(react@19.2.0))
       '@icons-pack/react-simple-icons':
         specifier: 13.13.0
         version: 13.13.0(react@19.2.0)
@@ -86,8 +89,11 @@ importers:
       react-dom:
         specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
+      react-hook-form:
+        specifier: 7.77.0
+        version: 7.77.0(react@19.2.0)
       react-hot-toast:
-        specifier: ^2.6.0
+        specifier: 2.6.0
         version: 2.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react-intersection-observer:
         specifier: 10.0.3
@@ -1658,6 +1664,11 @@ packages:
 
   '@hapi/topo@5.1.0':
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
+
+  '@hookform/resolvers@5.4.0':
+    resolution: {integrity: sha512-EIsqr/t/qbinPIhGjMdtvutIN1Kk4uwbROE9/UQ93CAVGR7GkA7Y92+fX80OzXi/OB67jVFYwKGO1WzkxmkFZw==}
+    peerDependencies:
+      react-hook-form: ^7.55.0
 
   '@icons-pack/react-simple-icons@13.13.0':
     resolution: {integrity: sha512-B5HhQMIpcSH4z8IZ8HFhD59CboHceKYMpPC9kAwGyKntvPdyJJv26DLu4Z1wAjcCLyrJhf11tMhiQGom9Rxb9g==}
@@ -3236,6 +3247,9 @@ packages:
 
   '@speed-highlight/core@1.2.15':
     resolution: {integrity: sha512-BMq1K3DsElxDWawkX6eLg9+CKJrTVGCBAWVuHXVUV2u0s2711qiChLSId6ikYPfxhdYocLNt3wWwSvDiTvFabw==}
+
+  '@standard-schema/utils@0.3.0':
+    resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
 
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
@@ -7045,6 +7059,12 @@ packages:
   react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
 
+  react-hook-form@7.77.0:
+    resolution: {integrity: sha512-Sslh9YDYc0GDlWT/lxasnIduNo4v3yyvqRGvmGKUre5AFjDs/HV9/OafHGD8d+sB2yoL4UIL9L8X9i0WlZZebg==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+
   react-hot-toast@2.6.0:
     resolution: {integrity: sha512-bH+2EBMZ4sdyou/DPrfgIouFpcRLCJ+HoCA32UoAYHn6T3Ur5yfcDCeSr5mwldl6pFOsiocmrXMuoCJ1vV8bWg==}
     engines: {node: '>=10'}
@@ -10167,6 +10187,11 @@ snapshots:
     dependencies:
       '@hapi/hoek': 9.3.0
 
+  '@hookform/resolvers@5.4.0(react-hook-form@7.77.0(react@19.2.0))':
+    dependencies:
+      '@standard-schema/utils': 0.3.0
+      react-hook-form: 7.77.0(react@19.2.0)
+
   '@icons-pack/react-simple-icons@13.13.0(react@19.2.0)':
     dependencies:
       react: 19.2.0
@@ -11728,6 +11753,8 @@ snapshots:
       solid-js: 1.9.13
 
   '@speed-highlight/core@1.2.15': {}
+
+  '@standard-schema/utils@0.3.0': {}
 
   '@swc/helpers@0.5.23':
     dependencies:
@@ -16284,6 +16311,10 @@ snapshots:
       scheduler: 0.27.0
 
   react-fast-compare@3.2.2: {}
+
+  react-hook-form@7.77.0(react@19.2.0):
+    dependencies:
+      react: 19.2.0
 
   react-hot-toast@2.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
