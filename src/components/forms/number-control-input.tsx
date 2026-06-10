@@ -20,6 +20,8 @@ type NumberControlInput<T extends FieldValues> = {
 	awakeningBoost?: number;
 };
 
+const MINIMUM_AWAKENING = 3;
+
 export const NumberControlInput = <T extends FieldValues>({
 	name,
 	control,
@@ -79,15 +81,16 @@ export const NumberControlInput = <T extends FieldValues>({
 								type="number"
 								onChange={(e) => setValue(+e.target.value)}
 							/>
-							{awakeningBoost !== undefined && (
-								<Button
-									variant="default"
-									type="button"
-									className="w-5 bg-chart-3 pointer-events-none"
-								>
-									{value + getAwakeningBonus(awakeningBoost)}
-								</Button>
-							)}
+							{awakeningBoost !== undefined &&
+								awakeningBoost >= MINIMUM_AWAKENING && (
+									<Button
+										variant="default"
+										type="button"
+										className="w-5 bg-chart-3 pointer-events-none"
+									>
+										{value + getAwakeningBonus(awakeningBoost)}
+									</Button>
+								)}
 							<Button
 								variant="secondary"
 								onClick={increment}
