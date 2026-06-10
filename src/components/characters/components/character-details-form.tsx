@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { NumberControlInput } from "@/components/forms/number-control-input";
 import { SeparatorText } from "@/components/separator-text";
@@ -65,11 +65,15 @@ export const CharacterDetailsForm = ({
 				ultimate: Number(ultimate_level),
 			},
 		};
-		console.log("🍉debuu ~ onSubmit ~ object:", object);
 		setCharacterOwned(object);
 
 		onClose?.();
 	};
+
+	const awakeningValue = useWatch({
+		control: form.control,
+		name: "awakening",
+	});
 
 	return (
 		<Card>
@@ -98,6 +102,7 @@ export const CharacterDetailsForm = ({
 							label="Basic"
 							min={1}
 							max={15}
+							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
 
@@ -108,6 +113,7 @@ export const CharacterDetailsForm = ({
 							label="Switch"
 							min={1}
 							max={15}
+							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
 
@@ -118,6 +124,7 @@ export const CharacterDetailsForm = ({
 							label="Special"
 							min={1}
 							max={15}
+							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
 
@@ -128,6 +135,7 @@ export const CharacterDetailsForm = ({
 							label="Ultimate"
 							min={1}
 							max={15}
+							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
 				</form>

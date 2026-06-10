@@ -17,6 +17,7 @@ type NumberControlInput<T extends FieldValues> = {
 	label: string;
 	min?: number;
 	max?: number;
+	awakeningBoost?: number;
 };
 
 export const NumberControlInput = <T extends FieldValues>({
@@ -25,6 +26,7 @@ export const NumberControlInput = <T extends FieldValues>({
 	label,
 	min = 0,
 	max = 5,
+	awakeningBoost = undefined,
 }: NumberControlInput<T>) => {
 	const clamp = (val: number) => {
 		if (min !== undefined) val = Math.max(min, val);
@@ -56,7 +58,12 @@ export const NumberControlInput = <T extends FieldValues>({
 							{label}
 						</FieldLabel>
 						<ButtonGroup className="flex justify-center sm:justify-end">
-							<Button variant="secondary" onClick={decrement} type="button">
+							<Button
+								variant="secondary"
+								onClick={decrement}
+								type="button"
+								disabled={value === min}
+							>
 								<ChevronLeft />
 							</Button>
 
@@ -72,7 +79,21 @@ export const NumberControlInput = <T extends FieldValues>({
 								type="number"
 								onChange={(e) => setValue(+e.target.value)}
 							/>
-							<Button variant="secondary" onClick={increment} type="button">
+							{awakeningBoost !== undefined && (
+								<Button
+									variant="default"
+									type="button"
+									className="w-5 bg-chart-3 pointer-events-none"
+								>
+									{value + getAwakeningBonus(awakeningBoost)}
+								</Button>
+							)}
+							<Button
+								variant="secondary"
+								onClick={increment}
+								type="button"
+								disabled={value === max}
+							>
 								<ChevronRight />
 							</Button>
 						</ButtonGroup>
@@ -83,3 +104,9 @@ export const NumberControlInput = <T extends FieldValues>({
 		/>
 	);
 };
+
+function getAwakeningBonus(awakeningBoost: number) {
+	if (awakeningBoost >= 4) return 4;
+	if (awakeningBoost >= 2) return 2;
+	return 0;
+}
