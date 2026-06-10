@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
+import { CharacterFilter } from "@/components/characters/components/character-filter";
 import { CharacterPortrait } from "@/components/characters/components/character-portrait";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +25,38 @@ export function AddCharacter() {
 	const [charToAdd, setCharToAdd] = useState<null | Character>(null);
 	const hasSelectedChar = !!charToAdd;
 
-	useEffect(() => {}, []);
+	// useEffect(() => {}, []);
+
+	const ownedSet = useMemo(
+		() => new Set(charactersOwned.map((c) => c.id)),
+		[charactersOwned],
+	);
+
+	// const filteredCharSelection = useMemo(() => {
+	// 	return Object.values(CHARACTERS_DATA)
+	// 		.sort((a, b) => a.name.localeCompare(b.name))
+	// 		.map((character) => {
+	// 			// dont display if already owned
+	// 			if (ownedSet.has(character.id)) return null;
+
+	// 			return (
+	// 				<button
+	// 					key={character.id}
+	// 					onClick={() => setCharToAdd(character)}
+	// 					type="button"
+	// 				>
+	// 					<CharacterCard
+	// 						//  {...character}
+	// 						portraitImage={character.portraitImage}
+	// 						name={character.name}
+	// 						element_id={character.element_id}
+	// 						class_id={character.class_id}
+	// 						tier={character.tier}
+	// 					/>
+	// 				</button>
+	// 			);
+	// 		});
+	// }, [ownedSet]);
 
 	return (
 		<Dialog>
@@ -70,27 +102,35 @@ export function AddCharacter() {
 				</DialogHeader>
 				<div className="">
 					{!hasSelectedChar && (
-						<div className="flex flex-wrap gap-5">
-							{Object.values(CHARACTERS_DATA)
-								.sort((a, b) => a.name.localeCompare(b.name))
-								.map((character) => {
-									// dont display if already owned
-									const isOwned = charactersOwned.find(
-										(ownedChar) => ownedChar.id === character.id,
-									);
+						<div className="gap-2 flex flex-col">
+							<CharacterFilter />
 
-									if (isOwned) return null;
+							<div className="flex flex-wrap gap-5">
+								{/* {filteredCharSelection} */}
+								{Object.values(CHARACTERS_DATA)
+									.sort((a, b) => a.name.localeCompare(b.name))
+									.map((character) => {
+										// dont display if already owned
+										if (ownedSet.has(character.id)) return null;
 
-									return (
-										<button
-											key={character.id}
-											onClick={() => setCharToAdd(character)}
-											type="button"
-										>
-											<CharacterCard {...character} />
-										</button>
-									);
-								})}
+										return (
+											<button
+												key={character.id}
+												onClick={() => setCharToAdd(character)}
+												type="button"
+											>
+												<CharacterCard
+													//  {...character}
+													portraitImage={character.portraitImage}
+													name={character.name}
+													element_id={character.element_id}
+													class_id={character.class_id}
+													tier={character.tier}
+												/>
+											</button>
+										);
+									})}
+							</div>
 						</div>
 					)}
 

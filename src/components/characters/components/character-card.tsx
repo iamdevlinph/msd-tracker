@@ -13,7 +13,10 @@ export default function CharacterCard({
 	element_id,
 	portraitSize = 100,
 	iconSize = 25,
-}: Character &
+}: Pick<
+	Character,
+	"class_id" | "tier" | "portraitImage" | "name" | "element_id"
+> &
 	Partial<Pick<CharacterPortrait, "portraitSize">> & { iconSize?: number }) {
 	const elemInfo = ELEMENTS_DATA[element_id];
 	const characterClassInfo = CHARACTER_CLASS_DATA[class_id];

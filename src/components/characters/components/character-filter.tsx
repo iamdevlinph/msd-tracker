@@ -1,7 +1,7 @@
 "use client";
 
 import { arrayRemoveItem } from "common-utils-pkg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -40,7 +40,9 @@ export const CharacterFilter = () => {
 		}
 	};
 
-	setCharacaterFilters({ selectedElements, selectedCharacterClass });
+	useEffect(() => {
+		setCharacaterFilters({ selectedElements, selectedCharacterClass });
+	}, [selectedElements, selectedCharacterClass, setCharacaterFilters]);
 
 	return (
 		<ButtonGroup className="flex flex-col md:flex-row">
