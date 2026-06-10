@@ -1,4 +1,4 @@
-import { TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
+import { TIER_ID_BY_TIER, TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 export type CharacterPortrait = {
@@ -13,6 +13,10 @@ export const CharacterPortrait = ({
 	tier,
 }: CharacterPortrait) => {
 	const tierImg = TIERS_DATA[tier].base;
+	const tierBg = {
+		[TIER_ID_BY_TIER.CHOICE_4]: "#60318e",
+		[TIER_ID_BY_TIER.PRIME_5]: "#5e290d",
+	};
 
 	return (
 		<>
@@ -28,7 +32,9 @@ export const CharacterPortrait = ({
 				width={portraitSize}
 				height={portraitSize}
 				alt={`${tier} background`}
-				className={cn("")}
+				style={{
+					backgroundColor: tierBg[tier],
+				}}
 			/>
 		</>
 	);
