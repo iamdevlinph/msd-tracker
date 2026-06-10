@@ -1,4 +1,4 @@
-type Classes = "fighter" | "asassin" | "destroyer" | "support";
+type Classes = "fighter" | "assassin" | "destroyer" | "support";
 type ClassesData = Record<
 	CharacterClassId,
 	{ id: CharacterClassId; character_class: Classes; image: string }
@@ -28,7 +28,7 @@ export const CHARACTER_CLASS_DATA: ClassesData = {
 	},
 	[CLASS_ID_BY_CLASS.ASSASSIN]: {
 		id: CLASS_ID_BY_CLASS.ASSASSIN,
-		character_class: "asassin",
+		character_class: "assassin",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-assassin.png",
 		image: "/images/Class/icons/class-assassin.png",
