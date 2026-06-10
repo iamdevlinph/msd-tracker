@@ -34,9 +34,7 @@ export const AccountPage = () => {
 				<Card>
 					<CardHeader>
 						<CardTitle>Local Data</CardTitle>
-						<CardDescription>
-							Reset local data to empty.
-						</CardDescription>
+						<CardDescription>Reset local data to empty.</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col w-min gap-5">
 						<Button onClick={resetCodexStore} variant={"destructive"}>

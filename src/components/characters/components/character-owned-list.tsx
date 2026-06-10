@@ -33,28 +33,32 @@ export const CharacterOwnedList = () => {
 		.sort((a, b) => a.info.name.localeCompare(b.info.name));
 
 	return (
-		<div
-			className="mt-5 gap-y-10 gap-x-5 grid sm:flex sm:flex-wrap justify-center sm:justify-start"
-			style={{
-				gridTemplateColumns: "repeat(auto-fit, 125px)",
-			}}
-		>
-			{enrichedCharacters.length === 0 && <h1>No owned characters</h1>}
+		<>
+			{enrichedCharacters.length === 0 && (
+				<h1 className="">No owned characters</h1>
+			)}
 
-			{enrichedCharacters.length > 0 &&
-				enrichedCharacters.map((charOwned) => (
-					<CharacterCard
-						key={charOwned.id}
-						portraitSize={130}
-						iconSize={30}
-						portraitImage={charOwned.info.portraitImage}
-						name={charOwned.info.name}
-						element_id={charOwned.info.element_id}
-						class_id={charOwned.info.class_id}
-						tier={charOwned.info.tier}
-						awakening={charOwned.awakening}
-					/>
-				))}
-		</div>
+			<div
+				className="mt-5 gap-y-10 gap-x-5 grid sm:flex sm:flex-wrap justify-center sm:justify-start"
+				style={{
+					gridTemplateColumns: "repeat(auto-fit, 125px)",
+				}}
+			>
+				{enrichedCharacters.length > 0 &&
+					enrichedCharacters.map((charOwned) => (
+						<CharacterCard
+							key={charOwned.id}
+							portraitSize={130}
+							iconSize={30}
+							portraitImage={charOwned.info.portraitImage}
+							name={charOwned.info.name}
+							element_id={charOwned.info.element_id}
+							class_id={charOwned.info.class_id}
+							tier={charOwned.info.tier}
+							awakening={charOwned.awakening}
+						/>
+					))}
+			</div>
+		</>
 	);
 };
