@@ -106,7 +106,7 @@ export const NumberControlInput = <T extends FieldValues>({
 };
 
 function getAwakeningBonus(awakeningBoost: number) {
-	if (awakeningBoost >= 4) return 5;
-	if (awakeningBoost >= 2) return 3;
+	if (awakeningBoost >= 5) return 4;
+	if (awakeningBoost >= 3) return 2;
 	return 0;
 }
