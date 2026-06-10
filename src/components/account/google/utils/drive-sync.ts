@@ -200,7 +200,7 @@ function setupAutoSync() {
 						useAppStore.getState().setSyncInProgress(false);
 					}
 				}
-			}, 1000);
+			}, 2000);
 		},
 	);
 
