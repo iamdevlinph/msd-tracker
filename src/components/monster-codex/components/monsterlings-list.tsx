@@ -8,18 +8,20 @@ export const MonsterlingsList = () => {
 	const monsterlings = useMonsterCodexFilterStore((s) => s.monsterlings);
 
 	return (
-		<div
-			className="mt-5 gap-y-15 gap-x-10 grid md:flex md:flex-wrap justify-center md:justify-start"
-			style={{
-				gridTemplateColumns: "repeat(auto-fit, 125px)",
-			}}
-		>
+		<>
 			{monsterlings.length === 0 && <NoMonsterling />}
 
-			{monsterlings.length > 0 &&
-				monsterlings.map((value) => {
-					return <MonsterlingCard key={value.id} {...value} />;
-				})}
-		</div>
+			<div
+				className="mt-5 gap-y-15 gap-x-10 grid md:flex md:flex-wrap justify-center md:justify-start"
+				style={{
+					gridTemplateColumns: "repeat(auto-fit, 125px)",
+				}}
+			>
+				{monsterlings.length > 0 &&
+					monsterlings.map((value) => {
+						return <MonsterlingCard key={value.id} {...value} />;
+					})}
+			</div>
+		</>
 	);
 };
