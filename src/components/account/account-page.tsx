@@ -33,18 +33,17 @@ export const AccountPage = () => {
 			<div className="flex flex-col gap-4">
 				<Card>
 					<CardHeader>
-						<CardTitle>Local Store</CardTitle>
+						<CardTitle>Local Data</CardTitle>
 						<CardDescription>
-							Reset store to empty. This will delete recorded monsterlings in
-							Monster Codex.
+							Reset local data to empty.
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col w-min gap-5">
 						<Button onClick={resetCodexStore} variant={"destructive"}>
-							Reset Monster Codex Store
+							Reset Monster Codex Data
 						</Button>
 						<Button onClick={resetCharacterSlice} variant={"destructive"}>
-							Reset Characater Store
+							Reset Characaters Owned Data
 						</Button>
 					</CardContent>
 				</Card>
