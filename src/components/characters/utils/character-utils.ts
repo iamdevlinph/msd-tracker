@@ -5,5 +5,5 @@ export function getAwakeningBonus(awakeningBoost: number) {
 }
 
 export const isMaxSkill = (level: number) => {
-	return level === 15;
+	return level === 12;
 };
