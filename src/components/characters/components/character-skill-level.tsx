@@ -20,7 +20,11 @@ export const CharacterSkillLevel = (props: CharacterSkillLevel) => {
 			className="bg-card rounded-b-lg py-1 place-items-center"
 			style={{
 				display: "grid",
-				gridTemplateAreas: "'1fr 1fr 1fr 1fr' '1fr 1fr 1fr 1fr'",
+				// idk. might handle responsiveness
+				gridTemplateAreas:
+					"'basic switch special ult' 'basic-lvl switch-lvl special-lvl ult-lvl'",
+				gridTemplateColumns: "1fr 1fr 1fr 1fr",
+				gridTemplateRows: "1fr",
 			}}
 		>
 			<img

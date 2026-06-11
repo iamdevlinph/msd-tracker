@@ -8,10 +8,13 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
 import type { Character } from "@/data/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
+import type { CharacterOwned } from "@/stores/characters-owned-slice";
 
 type CharacterDetailsProps = {
 	char_id: Character["id"];
 	onClose?: () => void;
+	editCharacterData?: CharacterOwned;
+	submitText?: string;
 };
 
 const characterDetailsSchema = z.object({
@@ -32,6 +35,8 @@ const FORM_ID = "character-details-form";
 export const CharacterDetailsForm = ({
 	char_id,
 	onClose,
+	editCharacterData,
+	submitText = "Add",
 }: CharacterDetailsProps) => {
 	const setCharacterOwned = useAppStore((s) => s.setCharacterOwned);
 
@@ -39,12 +44,12 @@ export const CharacterDetailsForm = ({
 		resolver: zodResolver(characterDetailsSchema),
 		defaultValues: {
 			char_id: char_id,
-			awakening: 0,
+			awakening: editCharacterData?.awakening ?? 0,
 			skills: {
-				basic_level: 1,
-				switch_level: 1,
-				special_level: 1,
-				ultimate_level: 1,
+				basic_level: editCharacterData?.skills.basic ?? 1,
+				switch_level: editCharacterData?.skills.switch ?? 1,
+				special_level: editCharacterData?.skills.special ?? 1,
+				ultimate_level: editCharacterData?.skills.ultimate ?? 1,
 			},
 		},
 		mode: "onChange",
@@ -147,7 +152,7 @@ export const CharacterDetailsForm = ({
 						Reset
 					</Button>
 					<Button type="submit" form={FORM_ID}>
-						Add
+						{submitText}
 					</Button>
 				</Field>
 			</CardFooter>

@@ -27,12 +27,12 @@ export function AddCharacter() {
 	const charToAddInfo = hasSelectedChar ? CHARACTERS_DATA[charToAdd] : null;
 
 	const ownedSet = useMemo(
-		() => new Set(charactersOwned.map((c) => c.id)),
+		() => new Set(Object.values(charactersOwned).map((c) => c.id)),
 		[charactersOwned],
 	);
 
 	const noCharsToAdd =
-		charactersOwned.length === Object.keys(CHARACTERS_DATA).length;
+		Object.keys(charactersOwned).length === Object.keys(CHARACTERS_DATA).length;
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>

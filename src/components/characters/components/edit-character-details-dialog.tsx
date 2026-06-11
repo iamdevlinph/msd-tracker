@@ -1,1 +1,71 @@
-export const EditCharacterDetailsDialog = () => {};
+import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
+import { CharacterPortrait } from "@/components/characters/components/character-portrait";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { CHARACTERS_DATA, type Character } from "@/data/CHARACTERS_DATA";
+import { cn } from "@/lib/utils";
+import { useAppStore } from "@/stores/app-store";
+
+type EditCharacterDetailsDialogProps = {
+	charIdToEdit: Character["id"] | null;
+	open: boolean;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	onClose?: () => void;
+};
+
+export const EditCharacterDetailsDialog = (
+	props: EditCharacterDetailsDialogProps,
+) => {
+	const charactersOwned = useAppStore((s) => s.charactersOwned);
+
+	const { charIdToEdit, open, setOpen, onClose } = props;
+
+	if (charIdToEdit === null) return;
+
+	const charToEditInfo = charactersOwned[charIdToEdit];
+	const charInfo = CHARACTERS_DATA[charIdToEdit];
+
+	return (
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogContent
+				className={cn(
+					"overflow-y-scroll max-h-screen",
+					"max-w-sm sm:min-w-min lg:min-w-218",
+					"lg:min-w-max",
+					"h-[calc(100dvh-50px)] lg:h-min",
+				)}
+				onCloseAutoFocus={() => onClose?.()}
+			>
+				<DialogHeader>
+					<DialogTitle>
+						<div className="flex gap-5 items-center">
+							<div className="flex items-center gap-2 relative">
+								<CharacterPortrait
+									portraitImg={charInfo.portraitImage}
+									portraitSize={50}
+									tier={charInfo.tier}
+									name={charInfo.name}
+								/>
+								<span>{charInfo.name}</span>
+							</div>
+						</div>
+					</DialogTitle>
+					<DialogDescription></DialogDescription>
+				</DialogHeader>
+				<div className="">
+					<CharacterDetailsForm
+						char_id={charIdToEdit}
+						onClose={() => setOpen(false)}
+						submitText="Update"
+						editCharacterData={charToEditInfo}
+					/>
+				</div>
+			</DialogContent>
+		</Dialog>
+	);
+};

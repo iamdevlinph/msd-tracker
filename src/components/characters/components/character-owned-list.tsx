@@ -1,26 +1,14 @@
 import { useMemo, useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
-import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
-import { CharacterPortrait } from "@/components/characters/components/character-portrait";
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
+import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
-import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
 export const CharacterOwnedList = () => {
 	const [open, setOpen] = useState(false);
-	const [charToAdd, setCharToAdd] = useState<null | number>(null);
-	const hasSelectedChar = !!charToAdd;
-
-	const charToAddInfo = hasSelectedChar ? CHARACTERS_DATA[charToAdd] : null;
+	const [charIdToEdit, setCharIdToEdit] = useState<null | number>(null);
 
 	const characterFilters = useCharacterFilter((s) => s.characterFilters);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
@@ -37,7 +25,7 @@ export const CharacterOwnedList = () => {
 		[selectedElements],
 	);
 
-	const enrichedCharacters = charactersOwned
+	const enrichedCharacters = Object.values(charactersOwned)
 		.map((c) => ({
 			...c,
 			info: CHARACTERS_DATA[c.id],
@@ -69,7 +57,7 @@ export const CharacterOwnedList = () => {
 								type="button"
 								onClick={() => {
 									setOpen(true);
-									setCharToAdd(charOwned.id);
+									setCharIdToEdit(charOwned.id);
 								}}
 							>
 								<CharacterCard
@@ -89,45 +77,12 @@ export const CharacterOwnedList = () => {
 					})}
 			</div>
 
-			<Dialog open={open} onOpenChange={setOpen}>
-				<DialogContent
-					className={cn(
-						"overflow-y-scroll max-h-screen",
-						"max-w-sm sm:min-w-min lg:min-w-218",
-						hasSelectedChar && "lg:min-w-max",
-						"h-[calc(100dvh-50px)] lg:h-min",
-					)}
-					onCloseAutoFocus={() => setCharToAdd(null)}
-				>
-					<DialogHeader>
-						<DialogTitle>
-							{!hasSelectedChar && "Add Character"}
-							{hasSelectedChar && charToAddInfo && (
-								<div className="flex gap-5 items-center">
-									<div className="flex items-center gap-2 relative">
-										<CharacterPortrait
-											portraitImg={charToAddInfo.portraitImage}
-											portraitSize={50}
-											tier={charToAddInfo.tier}
-											name={charToAddInfo.name}
-										/>
-										<span>{charToAddInfo.name}</span>
-									</div>
-								</div>
-							)}
-						</DialogTitle>
-						<DialogDescription></DialogDescription>
-					</DialogHeader>
-					<div className="">
-						{hasSelectedChar && (
-							<CharacterDetailsForm
-								char_id={charToAdd}
-								onClose={() => setOpen(false)}
-							/>
-						)}
-					</div>
-				</DialogContent>
-			</Dialog>
+			<EditCharacterDetailsDialog
+				charIdToEdit={charIdToEdit}
+				open={open}
+				setOpen={setOpen}
+				onClose={() => setCharIdToEdit(null)}
+			/>
 		</>
 	);
 };

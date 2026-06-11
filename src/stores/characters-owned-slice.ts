@@ -14,7 +14,7 @@ export type CharacterOwned = {
 };
 
 export type CharactersOwnedSlice = {
-	charactersOwned: CharacterOwned[];
+	charactersOwned: Record<number, CharacterOwned>;
 
 	setCharacterOwned: (character: CharacterOwned) => void;
 	resetCharacterSlice: () => void;
@@ -35,7 +35,7 @@ export const createCharactersOwnedSlice: StateCreator<
 				...rest,
 			};
 			return {
-				charactersOwned: [...state.charactersOwned, tempCharacterOwn],
+				charactersOwned: { ...state.charactersOwned, [id]: tempCharacterOwn },
 				backupUpdatedAt: Date.now(),
 			};
 		}),
