@@ -21,10 +21,10 @@ const characterDetailsSchema = z.object({
 	char_id: z.number(),
 	awakening: z.number().min(0).max(6),
 	skills: z.object({
-		basic_level: z.number().min(1).max(15),
-		switch_level: z.number().min(1).max(15),
-		special_level: z.number().min(1).max(15),
-		ultimate_level: z.number().min(1).max(15),
+		basic_level: z.number().min(1).max(12),
+		switch_level: z.number().min(1).max(12),
+		special_level: z.number().min(1).max(12),
+		ultimate_level: z.number().min(1).max(12),
 	}),
 });
 
