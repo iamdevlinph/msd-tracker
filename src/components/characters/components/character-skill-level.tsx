@@ -16,7 +16,7 @@ export const CharacterSkillLevel = (props: CharacterSkillLevel) => {
 
 	return (
 		<div
-			className="bg-card rounded-b-lg pt-2 pb-1 place-items-center"
+			className="bg-card rounded-b-lg py-1 place-items-center"
 			style={{
 				display: "grid",
 				gridTemplateAreas: "'1fr 1fr 1fr 1fr' '1fr 1fr 1fr 1fr'",
