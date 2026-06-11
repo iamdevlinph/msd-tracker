@@ -13,6 +13,7 @@ type CharacterSkillLevel = {
 export const CharacterSkillLevel = (props: CharacterSkillLevel) => {
 	const { charOwned } = props;
 	const boost = getAwakeningBonus(charOwned.awakening);
+	const boostSkills = boost > 0;
 
 	return (
 		<div
@@ -47,23 +48,33 @@ export const CharacterSkillLevel = (props: CharacterSkillLevel) => {
 				src={IMAGE_MAPPING[IMAGE_MAPPING_ID.SKILL_ULTIMATE].image}
 			/>
 			<small
-				className={cn(isMaxSkill(charOwned.skills.basic) && "text-green-300")}
+				className={cn(
+					isMaxSkill(charOwned.skills.basic) && "text-green-300",
+					boostSkills && "text-amber-400",
+				)}
 			>
 				{charOwned.skills.basic + boost}
 			</small>
 			<small
-				className={cn(isMaxSkill(charOwned.skills.switch) && "text-green-300")}
+				className={cn(
+					isMaxSkill(charOwned.skills.switch) && "text-green-300",
+					boostSkills && "text-amber-400",
+				)}
 			>
 				{charOwned.skills.switch + boost}
 			</small>
 			<small
-				className={cn(isMaxSkill(charOwned.skills.special) && "text-green-300")}
+				className={cn(
+					isMaxSkill(charOwned.skills.special) && "text-green-300",
+					boostSkills && "text-amber-400",
+				)}
 			>
 				{charOwned.skills.special + boost}
 			</small>
 			<small
 				className={cn(
 					isMaxSkill(charOwned.skills.ultimate) && "text-green-300",
+					boostSkills && "text-amber-400",
 				)}
 			>
 				{charOwned.skills.ultimate + boost}
