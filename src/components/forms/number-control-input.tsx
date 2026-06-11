@@ -5,6 +5,7 @@ import {
 	type FieldValues,
 	type Path,
 } from "react-hook-form";
+import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -107,9 +108,3 @@ export const NumberControlInput = <T extends FieldValues>({
 		/>
 	);
 };
-
-function getAwakeningBonus(awakeningBoost: number) {
-	if (awakeningBoost >= 5) return 4;
-	if (awakeningBoost >= 3) return 2;
-	return 0;
-}

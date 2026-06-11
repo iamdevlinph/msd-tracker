@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterPortrait } from "@/components/characters/components/character-portrait";
+import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import {
 	Dialog,
@@ -61,28 +62,31 @@ export const CharacterOwnedList = () => {
 				}}
 			>
 				{enrichedCharacters.length > 0 &&
-					enrichedCharacters.map((charOwned) => (
-						<button
-							key={charOwned.id}
-							type="button"
-							onClick={() => {
-								setOpen(true);
-								setCharToAdd(charOwned.id);
-							}}
-						>
-							<CharacterCard
+					enrichedCharacters.map((charOwned) => {
+						return (
+							<button
 								key={charOwned.id}
-								portraitSize={130}
-								iconSize={30}
-								portraitImage={charOwned.info.portraitImage}
-								name={charOwned.info.name}
-								element_id={charOwned.info.element_id}
-								class_id={charOwned.info.class_id}
-								tier={charOwned.info.tier}
-								awakening={charOwned.awakening}
-							/>
-						</button>
-					))}
+								type="button"
+								onClick={() => {
+									setOpen(true);
+									setCharToAdd(charOwned.id);
+								}}
+							>
+								<CharacterCard
+									key={charOwned.id}
+									portraitSize={130}
+									iconSize={30}
+									portraitImage={charOwned.info.portraitImage}
+									name={charOwned.info.name}
+									element_id={charOwned.info.element_id}
+									class_id={charOwned.info.class_id}
+									tier={charOwned.info.tier}
+									awakening={charOwned.awakening}
+								/>
+								<CharacterSkillLevel charOwned={charOwned} />
+							</button>
+						);
+					})}
 			</div>
 
 			<Dialog open={open} onOpenChange={setOpen}>
