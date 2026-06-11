@@ -14,8 +14,10 @@ export const CharacterPortrait = ({
 }: CharacterPortrait) => {
 	const tierImg = TIERS_DATA[tier].base;
 	const tierBg = {
-		[TIER_ID_BY_TIER.CHOICE_4]: "#60318e",
-		[TIER_ID_BY_TIER.PRIME_5]: "#5e290d",
+		[TIER_ID_BY_TIER.CHOICE_4]:
+			"linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(96,49,142,1) 64%)",
+		[TIER_ID_BY_TIER.PRIME_5]:
+			"linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(94,41,13,1) 64%)",
 	};
 
 	return (
@@ -33,7 +35,7 @@ export const CharacterPortrait = ({
 				height={portraitSize}
 				alt={`${tier} background`}
 				style={{
-					backgroundColor: tierBg[tier],
+					background: tierBg[tier],
 				}}
 			/>
 		</>
