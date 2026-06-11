@@ -68,6 +68,7 @@ export function AddCharacter() {
 										portraitImg={charToAddInfo.portraitImage}
 										portraitSize={50}
 										tier={charToAddInfo.tier}
+										name={charToAddInfo.name}
 									/>
 									<span>{charToAddInfo.name}</span>
 								</div>

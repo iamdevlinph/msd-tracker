@@ -5,12 +5,14 @@ export type CharacterPortrait = {
 	portraitImg: string;
 	portraitSize: number;
 	tier: TierId;
+	name?: string;
 };
 
 export const CharacterPortrait = ({
 	portraitImg,
 	portraitSize,
 	tier,
+	name = "character",
 }: CharacterPortrait) => {
 	const tierImg = TIERS_DATA[tier].base;
 	const tierBg = {
@@ -27,7 +29,7 @@ export const CharacterPortrait = ({
 				width={portraitSize}
 				height={portraitSize}
 				alt={`${name} portrait`}
-				className={cn("absolute")}
+				className={cn("absolute rounded-t-lg")}
 			/>
 			<img
 				src={tierImg}

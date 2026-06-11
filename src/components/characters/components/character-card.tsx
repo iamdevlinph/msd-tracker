@@ -87,6 +87,7 @@ export default function CharacterCard({
 					portraitImg={portraitImage}
 					portraitSize={portraitSize}
 					tier={tier}
+					name={name}
 				/>
 			</div>
 			<small
