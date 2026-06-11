@@ -1,5 +1,7 @@
+import { Trash2Icon } from "lucide-react";
 import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterPortrait } from "@/components/characters/components/character-portrait";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -22,6 +24,7 @@ export const EditCharacterDetailsDialog = (
 	props: EditCharacterDetailsDialogProps,
 ) => {
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
+	const deleteCharacterOwned = useAppStore((s) => s.deleteCharacterOwned);
 
 	const { charIdToEdit, open, setOpen, onClose } = props;
 
@@ -53,6 +56,17 @@ export const EditCharacterDetailsDialog = (
 								/>
 								<span>{charInfo.name}</span>
 							</div>
+							<Button
+								className=""
+								variant={"destructive"}
+								size={"icon-sm"}
+								onClick={() => {
+									deleteCharacterOwned(charIdToEdit);
+									setOpen(false);
+								}}
+							>
+								<Trash2Icon />
+							</Button>
 						</div>
 					</DialogTitle>
 					<DialogDescription></DialogDescription>
