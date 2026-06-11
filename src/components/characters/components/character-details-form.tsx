@@ -106,7 +106,7 @@ export const CharacterDetailsForm = ({
 							control={form.control}
 							label="Basic"
 							min={1}
-							max={15}
+							max={12}
 							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
@@ -117,7 +117,7 @@ export const CharacterDetailsForm = ({
 							control={form.control}
 							label="Switch"
 							min={1}
-							max={15}
+							max={12}
 							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
@@ -128,7 +128,7 @@ export const CharacterDetailsForm = ({
 							control={form.control}
 							label="Special"
 							min={1}
-							max={15}
+							max={12}
 							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
@@ -139,7 +139,7 @@ export const CharacterDetailsForm = ({
 							control={form.control}
 							label="Ultimate"
 							min={1}
-							max={15}
+							max={12}
 							awakeningBoost={awakeningValue}
 						/>
 					</FieldGroup>
