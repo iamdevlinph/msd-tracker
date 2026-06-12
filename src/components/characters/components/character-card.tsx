@@ -61,7 +61,7 @@ export default function CharacterCard({
 						filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
 					}}
 				/>
-				{awakening !== undefined && (
+				{(awakening ?? 0) > 0 && (
 					<div className={cn("absolute right-0.5 top-17 z-2")}>
 						<img
 							src={awakeningImg}
