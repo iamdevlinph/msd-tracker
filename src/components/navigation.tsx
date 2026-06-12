@@ -40,7 +40,7 @@ type NavSection = {
 	hidden?: boolean;
 };
 
-const hideItem = import.meta.env.VITE_NODE_ENV === "development";
+const hideItem = import.meta.env.VITE_NODE_ENV !== "development";
 
 const navSections: NavSection[] = [
 	{
