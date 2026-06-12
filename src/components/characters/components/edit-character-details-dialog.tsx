@@ -1,5 +1,5 @@
 import { Trash2Icon } from "lucide-react";
-import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
+import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import {
@@ -72,8 +72,8 @@ export const EditCharacterDetailsDialog = (
 					<DialogDescription></DialogDescription>
 				</DialogHeader>
 				<div className="">
-					<CharacterDetailsForm
-						char_id={charIdToEdit}
+					<CharacterOwnedDetailsForm
+						id={charIdToEdit}
 						onClose={() => setOpen(false)}
 						submitText="Update"
 						editCharacterData={charToEditInfo}
