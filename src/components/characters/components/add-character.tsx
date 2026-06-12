@@ -80,10 +80,14 @@ export function AddCharacter() {
 				<div className="">
 					{!hasSelectedChar && (
 						<div className="gap-2 flex flex-col">
-							<CharacterFilter />
+							{!noCharsToAdd && <CharacterFilter />}
 
 							<div className="flex flex-wrap gap-5">
-								{noCharsToAdd && <h1>No characters to add</h1>}
+								{noCharsToAdd && (
+									<h1 className="flex justify-center items-center w-full">
+										No characters to add
+									</h1>
+								)}
 								{Object.values(CHARACTERS_DATA)
 									.sort((a, b) => a.name.localeCompare(b.name))
 									.map((character) => {
