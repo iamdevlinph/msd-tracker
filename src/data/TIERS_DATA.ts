@@ -1,12 +1,12 @@
 type TiersData = Record<TierId, { id: TierId; full: string; base: string }>;
 
 export const TIER_ID_BY_TIER = {
-	FODDER_1: 1,
-	STANDARD_2: 2,
-	SELECT_3: 3,
+	// FODDER_1: 1,
+	// STANDARD_2: 2,
+	// SELECT_3: 3,
 	CHOICE_4: 4,
 	PRIME_5: 5,
-};
+} as const;
 export type TierId = (typeof TIER_ID_BY_TIER)[keyof typeof TIER_ID_BY_TIER];
 
 export const TIERS_DATA: TiersData = {

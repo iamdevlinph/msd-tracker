@@ -42,10 +42,7 @@ export const SelectInput = <T extends FieldValues>({
 						value={field.value}
 						onValueChange={field.onChange}
 					>
-						<SelectTrigger
-							id="char-details-form-awakening"
-							aria-invalid={fieldState.invalid}
-						>
+						<SelectTrigger id={name} aria-invalid={fieldState.invalid}>
 							<SelectValue placeholder="Select" />
 						</SelectTrigger>
 						<SelectContent position="item-aligned">
