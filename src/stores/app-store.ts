@@ -7,7 +7,7 @@ import {
 import {
 	type CompletedCodexSlice,
 	createMonsterCodexSlice,
-} from "@/stores/completed-codex-slice";
+} from "@/stores/completed-monster-codex-slice";
 import {
 	createMonsterlingsSlice,
 	type MonsterlingOwnedSlice,

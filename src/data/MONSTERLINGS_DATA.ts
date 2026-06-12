@@ -19,12 +19,13 @@ export type MonsterCodexEntry = {
 };
 
 // TODO: Double check [SOURCE_ID_BY_SOURCE.REQUEST] if can also capture
+export type MonsterCodexData = Record<number, MonsterCodexEntry>;
 
-export const MONSTERLINGS_DATA: MonsterCodexEntry[] = [
+export const MONSTERLINGS_DATA: MonsterCodexData = {
 	...MONSTERLING_DATA_ELENDOR,
 	...MONSTERLING_DATA_VARHINE,
 	...MONSTERLING_DATA_SERENIA,
 	...MONSTERLING_DATA_SURAH,
 	...MONSTER_LING_DATA_NAMRYUNG,
 	...MONSTER_LING_DATA_MUWON,
-];
+};

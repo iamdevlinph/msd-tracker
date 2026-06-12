@@ -1,6 +1,9 @@
 import { create } from "zustand";
-import type { CompletedFilter } from "@/components/monster-codex/components/monster-codex-filter";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import type { CompletedFilter } from "@/components/monster-codex/components/codex-filter";
+import {
+	MONSTERLINGS_DATA,
+	type MonsterCodexData,
+} from "@/data/MONSTERLINGS_DATA";
 import {
 	SOURCE_ID_BY_SOURCE,
 	type SourceId,
@@ -9,7 +12,7 @@ import { REGION_ID_BY_REGION, type RegionId } from "@/data/REGIONS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const initialState = {
-	monsterlings: [],
+	monsterlings: {},
 	// cachedResults: {},
 	filters: {
 		source: 0 as SourceId,
@@ -20,7 +23,7 @@ const initialState = {
 };
 
 export type MonsterCodexStoreState = {
-	monsterlings: typeof MONSTERLINGS_DATA;
+	monsterlings: MonsterCodexData;
 	// cachedResults: Record<string, unknown>;
 
 	filterCodex: (filter?: MonsterCodexStoreState["filters"]) => void;
@@ -60,39 +63,77 @@ export const useMonsterCodexFilterStore = create<MonsterCodexStoreState>()(
 
 				const search = nextFilter.search?.trim().toLowerCase();
 
-				const filtered = MONSTERLINGS_DATA.filter((monsterling) => {
-					if (search && !monsterling.name.toLowerCase().includes(search)) {
-						return false;
-					}
+				// const filtered = Object.values(MONSTERLINGS_DATA).filter(
+				// 	(monsterling) => {
+				// 		if (search && !monsterling.name.toLowerCase().includes(search)) {
+				// 			return false;
+				// 		}
 
-					if (
-						region !== undefined &&
-						region !== REGION_ID_BY_REGION.ALL &&
-						monsterling.region_id !== region
-					) {
-						return false;
-					}
+				// 		if (
+				// 			region !== undefined &&
+				// 			region !== REGION_ID_BY_REGION.ALL &&
+				// 			monsterling.region_id !== region
+				// 		) {
+				// 			return false;
+				// 		}
 
-					if (
-						source !== undefined &&
-						source !== SOURCE_ID_BY_SOURCE.ALL &&
-						!monsterling.source_id.includes(source)
-					) {
-						return false;
-					}
+				// 		if (
+				// 			source !== undefined &&
+				// 			source !== SOURCE_ID_BY_SOURCE.ALL &&
+				// 			!monsterling.source_id.includes(source)
+				// 		) {
+				// 			return false;
+				// 		}
 
-					const isCompleted = completedSet.has(monsterling.id);
+				// 		const isCompleted = completedSet.has(monsterling.id);
 
-					if (completed === "completed" && !isCompleted) {
-						return false;
-					}
+				// 		if (completed === "completed" && !isCompleted) {
+				// 			return false;
+				// 		}
 
-					if (completed === "incomplete" && isCompleted) {
-						return false;
-					}
+				// 		if (completed === "incomplete" && isCompleted) {
+				// 			return false;
+				// 		}
 
-					return true;
-				});
+				// 		return true;
+				// 	},
+				// );
+
+				const filtered = Object.fromEntries(
+					Object.entries(MONSTERLINGS_DATA).filter(([_, monsterling]) => {
+						if (search && !monsterling.name.toLowerCase().includes(search)) {
+							return false;
+						}
+
+						if (
+							region !== undefined &&
+							region !== REGION_ID_BY_REGION.ALL &&
+							monsterling.region_id !== region
+						) {
+							return false;
+						}
+
+						if (
+							source !== undefined &&
+							source !== SOURCE_ID_BY_SOURCE.ALL &&
+							!monsterling.source_id.includes(source)
+						) {
+							return false;
+						}
+
+						const isCompleted = completedSet.has(monsterling.id);
+
+						if (completed === "completed" && !isCompleted) {
+							return false;
+						}
+
+						if (completed === "incomplete" && isCompleted) {
+							return false;
+						}
+
+						return true;
+					}),
+				);
 
 				return {
 					monsterlings: filtered,

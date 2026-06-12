@@ -7,12 +7,12 @@ import {
 	CardFooter,
 	CardHeader,
 } from "@/components/ui/card";
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
-export const MonsterlingCard = (props: MonsterCodexEntry) => {
-	const { name, id, image } = props;
+export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
+	const { name, image, id } = MONSTERLINGS_DATA[monsterling_id];
 
 	const monsterCodexCompleted = useAppStore((s) => s.monsterCodexCompleted);
 	const filterCodex = useMonsterCodexFilterStore((s) => s.filterCodex);

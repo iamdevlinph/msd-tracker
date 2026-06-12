@@ -1,5 +1,5 @@
-import { MonsterCodexFilter } from "@/components/monster-codex/components/monster-codex-filter";
-import { MonsterlingsList } from "@/components/monster-codex/components/monsterlings-list";
+import { CodexFilter } from "@/components/monster-codex/components/codex-filter";
+import { CodexList } from "@/components/monster-codex/components/codex-list";
 import { Regions } from "@/components/monster-codex/components/regions";
 import { PageTitle } from "@/components/page-title";
 
@@ -10,8 +10,8 @@ export const MonsterCodexPage = () => {
 
 			<div className="flex gap-5 flex-col">
 				<Regions />
-				<MonsterCodexFilter />
-				<MonsterlingsList />
+				<CodexFilter />
+				<CodexList />
 			</div>
 		</div>
 	);

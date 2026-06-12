@@ -1,9 +1,9 @@
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
 
-export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
-	{
+export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexData = {
+	121: {
 		id: 121,
 		name: "Black Hauntstack",
 		// image:
@@ -14,7 +14,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ice DMG +5.5% against Staggered boss enemies",
 	},
-	{
+	122: {
 		id: 122,
 		name: "Ronin Bunnie",
 		// image:
@@ -25,7 +25,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Wind DMG +5% for 5s upon using Evasion Counter",
 	},
-	{
+	123: {
 		id: 123,
 		name: "Bleacher Bunnie",
 		// image:
@@ -36,7 +36,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Wind DMG +5.3% for 5s upon using Evasion Counter",
 	},
-	{
+	124: {
 		id: 124,
 		name: "Ronin Raccoonie",
 		// image:
@@ -47,7 +47,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "DMG +5% against boss enemies for 5s upon using Evasion Counter",
 	},
-	{
+	125: {
 		id: 125,
 		name: "Bleacher Raccoonie",
 		// image:
@@ -58,7 +58,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "DMG +5.3% against boss enemies for 5s upon using Evasion Counter",
 	},
-	{
+	126: {
 		id: 126,
 		name: "Ronin Turtlie",
 		// image:
@@ -69,7 +69,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5% for 5s upon being hit by a boss enemy",
 	},
-	{
+	127: {
 		id: 127,
 		name: "Hop-alee",
 		// image:
@@ -80,7 +80,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Air Counter Crit Rate +5%",
 	},
-	{
+	128: {
 		id: 128,
 		name: "Salt-alee",
 		// image:
@@ -91,7 +91,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Air Counter Crit Rate +5.3%",
 	},
-	{
+	129: {
 		id: 129,
 		name: "Brute-alee",
 		// image:
@@ -102,7 +102,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Air Counter Crit DMG +5%",
 	},
-	{
+	130: {
 		id: 130,
 		name: "Borborg",
 		// image:
@@ -113,7 +113,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "DEF +4.1% for 5s upon attacking a boss enemy 10 times",
 	},
-	{
+	131: {
 		id: 131,
 		name: "Goald",
 		// image:
@@ -124,7 +124,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "DEF +4.3% for 5s upon attacking a boss enemy 10 times",
 	},
-	{
+	132: {
 		id: 132,
 		name: "Cacabagge",
 		// image:
@@ -135,7 +135,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5% against normal enemies",
 	},
-	{
+	133: {
 		id: 133,
 		name: "Kimkimchi",
 		// image:
@@ -146,7 +146,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Earth DMG +5.3% against normal enemies",
 	},
-	{
+	134: {
 		id: 134,
 		name: "Cocorn",
 		// image:
@@ -157,7 +157,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% against normal enemies (Cooldown: 20s)",
 	},
-	{
+	135: {
 		id: 135,
 		name: "Rococorn",
 		// image:
@@ -168,7 +168,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit DMG +5.3% against normal enemies (Cooldown: 20s)",
 	},
-	{
+	136: {
 		id: 136,
 		name: "Twisted Spineflower",
 		// image:
@@ -179,7 +179,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Lightning DMG +5% upon attacking Lightning enemy 10 times",
 	},
-	{
+	137: {
 		id: 137,
 		name: "Twisted Bloodflower",
 		// image:
@@ -191,7 +191,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		ability:
 			"Target's Lightning RES -5% for 5s upon attacking Lightning enemy 5 times (Cooldown: 20s)",
 	},
-	{
+	138: {
 		id: 138,
 		name: "Bruised Bloodflower",
 		// image:
@@ -203,7 +203,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		ability:
 			"Target's Lightning RES -5.3% for 5s upon attacking Lightning enemy 5 times",
 	},
-	{
+	139: {
 		id: 139,
 		name: "Manwol",
 		// image:
@@ -214,7 +214,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Crit Rate +6% for 5s upon using Evasion Counter",
 	},
-	{
+	140: {
 		id: 140,
 		name: "Nokjung",
 		// image:
@@ -225,7 +225,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit Rate +6.3% for 5s upon using Evasion Counter",
 	},
-	{
+	141: {
 		id: 141,
 		name: "Onsae",
 		// image:
@@ -237,7 +237,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		ability:
 			"Crit DMG +6% for 5s upon landing a critical hit with an Ultimate Skill",
 	},
-	{
+	142: {
 		id: 142,
 		name: "Cinder",
 		// image:
@@ -249,7 +249,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		ability:
 			"Crit DMG +6.3% for 5s upon landing a critical hit with Ultimate Skill",
 	},
-	{
+	143: {
 		id: 143,
 		name: "Hahnul",
 		// image:
@@ -261,7 +261,7 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		ability:
 			"All teammates' Switch Skill DMG +6% for 10s upon landing a critical hit on a boss enemy",
 	},
-	{
+	144: {
 		id: 144,
 		name: "Gulgak",
 		// image:
@@ -273,4 +273,4 @@ export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexEntry[] = [
 		ability:
 			"Target's DEF -4.7% for 5s upon landing a critical hit on a boss enemy.",
 	},
-];
+};

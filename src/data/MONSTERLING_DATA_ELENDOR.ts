@@ -1,9 +1,9 @@
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
 
-export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
-	{
+export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
+	1: {
 		id: 1,
 		name: "Cappy",
 		// image:
@@ -14,7 +14,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Crit Rate +5% (Cooldown: 20s)",
 	},
-	{
+	2: {
 		id: 2,
 		name: "Cappyberry",
 		// image:
@@ -25,7 +25,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Crit Rate + 5.25% (Cooldown: 20s)",
 	},
-	{
+	3: {
 		id: 3,
 		name: "Cappy Mama",
 		// image:
@@ -37,7 +37,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Recovers 1.65% of Max HP upon landing a Special Skill (Cooldown: 15s)",
 	},
-	{
+	4: {
 		id: 4,
 		name: "Leafy Mama",
 		// image:
@@ -49,7 +49,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Recovers 1.74% of Max HP upon using a Special Skill (Cooldown: 15s)",
 	},
-	{
+	5: {
 		id: 5,
 		name: "Slimelet",
 		// image:
@@ -60,7 +60,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% against Physical enemies",
 	},
-	{
+	6: {
 		id: 6,
 		name: "Inklet",
 		// image:
@@ -71,7 +71,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit DMG +5.25% against Physical enemies",
 	},
-	{
+	7: {
 		id: 7,
 		name: "Goblin Recruit",
 		// image:
@@ -83,7 +83,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Crit DMG +5% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
 	},
-	{
+	8: {
 		id: 8,
 		name: "2nd Lt. Goblin",
 		// image:
@@ -95,7 +95,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Crit DMG +5.25% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
 	},
-	{
+	9: {
 		id: 9,
 		name: "Pvt. Goblin",
 		// image:
@@ -107,7 +107,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Physical DMG +5% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
 	},
-	{
+	10: {
 		id: 10,
 		name: "Cpl. Goblin",
 		// image:
@@ -119,7 +119,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Suppression DMG +5% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
 	},
-	{
+	11: {
 		id: 11,
 		name: "White Wolf Warrior",
 		// image:
@@ -130,7 +130,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Brawl DMG +5% for 5s upon landing a critical hit (Cooldown: 20s)",
 	},
-	{
+	12: {
 		id: 12,
 		name: "Black Wolf",
 		// image:
@@ -142,7 +142,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Brawl DMG +5.25% for 5s upon landing a critical hit (Cooldown: 20s)",
 	},
-	{
+	13: {
 		id: 13,
 		name: "Frostjaw",
 		// image:
@@ -153,7 +153,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Critical Ice DMG +5%",
 	},
-	{
+	14: {
 		id: 14,
 		name: "Crimsonjaw",
 		// image:
@@ -164,7 +164,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Critical Ice DMG +5.25%",
 	},
-	{
+	15: {
 		id: 15,
 		name: "Forkmugger",
 		// image:
@@ -176,7 +176,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Target's Physical RES -6% for 5s upon attacking with target's Elemental Weakness",
 	},
-	{
+	16: {
 		id: 16,
 		name: "King Slime",
 		// image:
@@ -188,7 +188,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"All teammates' DEF +4.5% for 5s upon attacking Water enemy (Cooldown: 10s)",
 	},
-	{
+	17: {
 		id: 17,
 		name: "Scarlet Queen",
 		// image:
@@ -199,7 +199,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "ATK +3.15% for 10s upon attacking Water enemy (Cooldown: 20s)",
 	},
-	{
+	18: {
 		id: 18,
 		name: "Taglock",
 		// image:
@@ -211,7 +211,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"ATK +3% for 10s upon making 20 successful attacks (Cooldown: 20s)",
 	},
-	{
+	19: {
 		id: 19,
 		name: "Big Bro Goblin",
 		// image:
@@ -223,7 +223,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Restores 1.89% HP for all teammates upon landing 10 Basic Attacks (Cooldown: 20s)",
 	},
-	{
+	20: {
 		id: 20,
 		name: "Lupe",
 		// image:
@@ -235,7 +235,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Neutralization DMG +6% for 10s upon landing a critical hit (Cooldown: 20s)",
 	},
-	{
+	21: {
 		id: 21,
 		name: "Moon Shadow Lupe",
 		// image:
@@ -246,7 +246,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Target's Ice RES -6.3% for 10s upon landing a critical hit",
 	},
-	{
+	22: {
 		id: 22,
 		name: "Ring Slime",
 		// image:
@@ -257,7 +257,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "ATK +2.75% against Physical enemies",
 	},
-	{
+	23: {
 		id: 23,
 		name: "Uncle Cappy",
 		// image:
@@ -268,7 +268,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Fire DMG +5.5% (Cooldown: 15s)",
 	},
-	{
+	24: {
 		id: 24,
 		name: "Green Cappy Bro",
 		// image:
@@ -279,7 +279,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Fire DMG +5.78% (Cooldown: 15s)",
 	},
-	{
+	25: {
 		id: 25,
 		name: "Digger Mole",
 		// image:
@@ -290,7 +290,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% against knocked-down targets",
 	},
-	{
+	26: {
 		id: 26,
 		name: "Gold Digger Mole",
 		// image:
@@ -301,7 +301,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit Rate +5.25% against knocked-down targets",
 	},
-	{
+	27: {
 		id: 27,
 		name: "Tunneler Mole",
 		// image:
@@ -312,7 +312,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5% against knocked-down targets",
 	},
-	{
+	28: {
 		id: 28,
 		name: "Brown Cappy",
 		// image:
@@ -323,7 +323,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Crit DMG +5% (Cooldown: 20s)",
 	},
-	{
+	29: {
 		id: 29,
 		name: "Teal Cappy",
 		// image:
@@ -334,7 +334,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Crit DMG + 5.25% (Cooldown: 20s)",
 	},
-	{
+	30: {
 		id: 30,
 		name: "Green Cappy",
 		// image:
@@ -345,7 +345,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Neutralization DMG +5% (Cooldown: 15s)",
 	},
-	{
+	31: {
 		id: 31,
 		name: "Orange Cappy",
 		// image:
@@ -356,7 +356,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Neutralization DMG +5.25% (Cooldown: 15s)",
 	},
-	{
+	32: {
 		id: 32,
 		name: "Spark Slime",
 		// image:
@@ -367,7 +367,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% against Lightning enemies",
 	},
-	{
+	33: {
 		id: 33,
 		name: "Golden Spark Slime",
 		// image:
@@ -378,7 +378,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit Rate +5.25% against Lightning enemies",
 	},
-	{
+	34: {
 		id: 34,
 		name: "White Wolf Fulminator",
 		// image:
@@ -390,7 +390,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Critical Lightning DMG +5.5%",
 	},
-	{
+	35: {
 		id: 35,
 		name: "Moley Mole",
 		// image:
@@ -401,7 +401,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Suppression DMG +5.5% against knocked-down targets",
 	},
-	{
+	36: {
 		id: 36,
 		name: "Gold Digger Moley Mole",
 		// image:
@@ -412,7 +412,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Suppression DMG +5.78% against knocked-down targets",
 	},
-	{
+	37: {
 		id: 37,
 		name: "Green Cappy Papa",
 		// image:
@@ -423,7 +423,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill ATK +2.75% (Cooldown: 15s)",
 	},
-	{
+	38: {
 		id: 38,
 		name: "Custos",
 		// image:
@@ -435,7 +435,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"Target's DEF -4.5% for 5s upon landing a critical hit with an Earth Attack",
 	},
-	{
+	39: {
 		id: 39,
 		name: "El Dorado Guardian",
 		// image:
@@ -447,4 +447,4 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexEntry[] = [
 		ability:
 			"All teammates ATK +3.15% for 10s upon attacking a boss enemy with its Elemental Weakness (Cooldown: 20s)",
 	},
-];
+};

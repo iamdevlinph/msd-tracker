@@ -1,9 +1,9 @@
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
 
-export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
-	{
+export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
+	96: {
 		id: 96,
 		name: "Lil' Hauntstack",
 		// image:
@@ -14,7 +14,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Switch Skill Crit DMG +5%",
 	},
-	{
+	97: {
 		id: 97,
 		name: "Sacred Hauntstack",
 		// image:
@@ -25,7 +25,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Switch Skill Crit DMG +5.25%",
 	},
-	{
+	98: {
 		id: 98,
 		name: "Hauntstack",
 		// image:
@@ -36,7 +36,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Switch Skill Crit Rate +5",
 	},
-	{
+	99: {
 		id: 99,
 		name: "Brush Hauntstack",
 		// image:
@@ -47,7 +47,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Ice DMG +5.25% against Staggered boss enemies",
 	},
-	{
+	100: {
 		id: 100,
 		name: "Bop-kkaebi",
 		// image:
@@ -58,7 +58,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ultimate Skill Crit DMG 5%",
 	},
-	{
+	101: {
 		id: 101,
 		name: "Pew-kkaebi",
 		// image:
@@ -69,7 +69,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ultimate Skill Fire DMG +5%",
 	},
-	{
+	102: {
 		id: 102,
 		name: "Kkaebi Herder",
 		// image:
@@ -81,7 +81,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		ability:
 			"DMG +5% against normal enemies for 5s upon using an Ultimate Skill",
 	},
-	{
+	103: {
 		id: 103,
 		name: "Odong Seed",
 		// image:
@@ -92,7 +92,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Crit Rate +5% (Cooldown: 20s)",
 	},
-	{
+	104: {
 		id: 104,
 		name: "Odong",
 		// image:
@@ -103,7 +103,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Switch Skill ATK +3%",
 	},
-	{
+	105: {
 		id: 105,
 		name: "Maple Odong",
 		// image:
@@ -114,7 +114,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Switch Skill ATK +3.15%",
 	},
-	{
+	106: {
 		id: 106,
 		name: "Tree Youkai",
 		// image:
@@ -125,7 +125,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Switch Skill Fire DMG +5%",
 	},
-	{
+	107: {
 		id: 107,
 		name: "Stumpster",
 		// image:
@@ -136,7 +136,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Switch Skill Fire DMG +5%",
 	},
-	{
+	108: {
 		id: 108,
 		name: "Bunnie",
 		// image:
@@ -147,7 +147,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5% for 5s upon using Evasion Counter",
 	},
-	{
+	109: {
 		id: 109,
 		name: "Masked Bunnie",
 		// image:
@@ -158,7 +158,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Physical DMG +5.25% for 5s upon using Evasion Counter",
 	},
-	{
+	110: {
 		id: 110,
 		name: "Raccoonie",
 		// image:
@@ -169,7 +169,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Target's Physical RES -5% for 5s upon using Evasion Counter",
 	},
-	{
+	111: {
 		id: 111,
 		name: "Masked Raccoonie",
 		// image:
@@ -180,7 +180,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Target's Physical RES -5.25% for 5s upon using Evasion Counter",
 	},
-	{
+	112: {
 		id: 112,
 		name: "Battle Spirit",
 		// image:
@@ -191,7 +191,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Fire DMG +5% against boss enemies",
 	},
-	{
+	113: {
 		id: 113,
 		name: "White Wraith",
 		// image:
@@ -202,7 +202,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Fire DMG +5.25% against boss enemies",
 	},
-	{
+	114: {
 		id: 114,
 		name: "Shademask",
 		// image:
@@ -214,7 +214,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		ability:
 			"Target's ATK -2.75% for 10s upon attacking a boss enemy (Cooldown: 20s)",
 	},
-	{
+	115: {
 		id: 115,
 		name: "Ashen Mask",
 		// image:
@@ -226,7 +226,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		ability:
 			"Target's ATK -2.75% for 10s upon attacking a boss enemy (Cooldown: 20s)",
 	},
-	{
+	116: {
 		id: 116,
 		name: "Turtlie",
 		// image:
@@ -238,7 +238,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		ability:
 			"All teammates' Support Skill DMG +5% for 5s upon being hit by a boss enemy",
 	},
-	{
+	117: {
 		id: 117,
 		name: "Silvershell",
 		// image:
@@ -250,7 +250,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		ability:
 			"All teammates' Support Skill DMG +5% for 5s upon being hit by a boss enemy",
 	},
-	{
+	118: {
 		id: 118,
 		name: "Swamp Odong",
 		// image:
@@ -261,7 +261,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Target's Earth RES -5.5% for 10s upon using a Switch Skill",
 	},
-	{
+	119: {
 		id: 119,
 		name: "Duoxini",
 		// image:
@@ -273,7 +273,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		ability:
 			"Target's Fire RES -6% for 10s upon attacking with a Fire Special Skill",
 	},
-	{
+	120: {
 		id: 120,
 		name: "Fiend",
 		// image:
@@ -284,4 +284,4 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Fire DMG +6.3% upon attacking with a Fire Special Skill",
 	},
-];
+};

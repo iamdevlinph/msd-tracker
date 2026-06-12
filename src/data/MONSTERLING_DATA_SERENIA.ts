@@ -1,9 +1,9 @@
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
 
-export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
-	{
+export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
+	69: {
 		id: 69,
 		name: "Gorrik",
 		// image:
@@ -14,7 +14,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Recovers 1.65% of Max HP upon landing 10 Basic Attacks",
 	},
-	{
+	70: {
 		id: 70,
 		name: "Ice Slime",
 		// image:
@@ -25,7 +25,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Elemental Weakness DMG +5% against Ice enemies",
 	},
-	{
+	71: {
 		id: 71,
 		name: "Slimeboo",
 		// image:
@@ -36,7 +36,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit DMG +5.25% against Physical enemies",
 	},
-	{
+	72: {
 		id: 72,
 		name: "Fire Slime",
 		// image:
@@ -47,7 +47,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Elemental Weakness DMG +5% against Fire enemies",
 	},
-	{
+	73: {
 		id: 73,
 		name: "Queen Slime",
 		// image:
@@ -58,7 +58,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5.5% for 5s upon attacking Physical enemy",
 	},
-	{
+	74: {
 		id: 74,
 		name: "Empress Slime",
 		// image:
@@ -69,7 +69,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "ATK +2.89% for 10s upon attacking Physical enemy (Cooldown: 20s)",
 	},
-	{
+	75: {
 		id: 75,
 		name: "Spaider",
 		// image:
@@ -80,7 +80,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "DEF +3.75% for 5s upon defeating 10 enemies",
 	},
-	{
+	76: {
 		id: 76,
 		name: "Sparder",
 		// image:
@@ -91,7 +91,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "DMG +5% against normal enemies for 5s upon defeating 10 enemies",
 	},
-	{
+	77: {
 		id: 77,
 		name: "Spardig",
 		// image:
@@ -103,7 +103,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		ability:
 			"DMG +5.25% against normal enemies for 5s upon defeating 10 enemies",
 	},
-	{
+	78: {
 		id: 78,
 		name: "Spooder",
 		// image:
@@ -114,7 +114,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% for 5s upon defeating 10 enemies",
 	},
-	{
+	79: {
 		id: 79,
 		name: "Spadupa",
 		// image:
@@ -125,7 +125,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5.5% for 10s upon defeating 10 enemies",
 	},
-	{
+	80: {
 		id: 80,
 		name: "Greenpadupa",
 		// image:
@@ -136,7 +136,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "ATK +2.89% for 10s upon defeating 10 enemies",
 	},
-	{
+	81: {
 		id: 81,
 		name: "Gargoyle",
 		// image:
@@ -147,7 +147,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Target's DEF -3.75% for 5s upon using Air Counter.",
 	},
-	{
+	82: {
 		id: 82,
 		name: "Grassgoyle",
 		// image:
@@ -158,7 +158,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Air Counter Physical DMG +5%",
 	},
-	{
+	83: {
 		id: 83,
 		name: "Soilgoyle",
 		// image:
@@ -169,7 +169,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Air Counter Physical DMG +5.25%",
 	},
-	{
+	84: {
 		id: 84,
 		name: "Sylphid",
 		// image:
@@ -180,7 +180,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5% against Airborne targets",
 	},
-	{
+	85: {
 		id: 85,
 		name: "Vamphid",
 		// image:
@@ -191,7 +191,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Earth DMG +5.25% against Airborne targets",
 	},
-	{
+	86: {
 		id: 86,
 		name: "Stickphid",
 		// image:
@@ -202,7 +202,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% against Airborne targets",
 	},
-	{
+	87: {
 		id: 87,
 		name: "Healphid",
 		// image:
@@ -213,7 +213,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ice DMG +5% against Airborne targets",
 	},
-	{
+	88: {
 		id: 88,
 		name: "Head Stickphid",
 		// image:
@@ -224,7 +224,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% against Airborne targets",
 	},
-	{
+	89: {
 		id: 89,
 		name: "Full Moon Vamphid",
 		// image:
@@ -235,7 +235,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit Rate +5.25% against Airborne targets",
 	},
-	{
+	90: {
 		id: 90,
 		name: "Ice Fist Dude",
 		// image:
@@ -246,7 +246,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Elemental Weakness Attack Crit Rate +6%",
 	},
-	{
+	91: {
 		id: 91,
 		name: "Plains Minotaur",
 		// image:
@@ -257,7 +257,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Wind DMG +6% against Staggered boss enemies",
 	},
-	{
+	92: {
 		id: 92,
 		name: "Spoonmugger",
 		// image:
@@ -269,7 +269,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		ability:
 			"Target's Lightning RES -6% for 5s upon attacking with Elemental Weakness",
 	},
-	{
+	93: {
 		id: 93,
 		name: "Stickmugger",
 		// image:
@@ -281,7 +281,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		ability:
 			"Lightning DMG +6.3% for 10s upon attacking with Elemental Weakness",
 	},
-	{
+	94: {
 		id: 94,
 		name: "Avardan",
 		// image:
@@ -293,7 +293,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		ability:
 			"All teammates' Ultimate Skill DMG +6% for 10s upon being hit by a boss enemy",
 	},
-	{
+	95: {
 		id: 95,
 		name: "Avardan's Mana",
 		// image:
@@ -305,4 +305,4 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexEntry[] = [
 		ability:
 			"Restores 1.89% HP for all teammates upon attacking a Staggered boss enemy",
 	},
-];
+};
