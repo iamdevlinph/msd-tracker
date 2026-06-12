@@ -1,4 +1,4 @@
-type Classes = "fighter" | "assassin" | "destroyer" | "support";
+type Classes = "Fighter" | "Assassin" | "Destroyer" | "Support";
 type ClassesData = Record<
 	CharacterClassId,
 	{ id: CharacterClassId; character_class: Classes; image: string }
@@ -21,28 +21,28 @@ export const CHARACTER_CLASS_DATA: ClassesData = {
 	// },
 	[CLASS_ID_BY_CLASS.FIGHTER]: {
 		id: CLASS_ID_BY_CLASS.FIGHTER,
-		character_class: "fighter",
+		character_class: "Fighter",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-fighter.png",
 		image: "/images/Class/icons/class-fighter.png",
 	},
 	[CLASS_ID_BY_CLASS.ASSASSIN]: {
 		id: CLASS_ID_BY_CLASS.ASSASSIN,
-		character_class: "assassin",
+		character_class: "Assassin",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-assassin.png",
 		image: "/images/Class/icons/class-assassin.png",
 	},
 	[CLASS_ID_BY_CLASS.DESTROYER]: {
 		id: CLASS_ID_BY_CLASS.DESTROYER,
-		character_class: "destroyer",
+		character_class: "Destroyer",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-destroyer.png",
 		image: "/images/Class/icons/class-destroyer.png",
 	},
 	[CLASS_ID_BY_CLASS.SUPPORT]: {
 		id: CLASS_ID_BY_CLASS.SUPPORT,
-		character_class: "support",
+		character_class: "Support",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-support.png",
 		image: "/images/Class/icons/class-support.png",

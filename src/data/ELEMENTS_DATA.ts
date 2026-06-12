@@ -1,12 +1,12 @@
 type Elements =
-	| "earth"
-	| "fire"
-	| "ice"
-	| "lightning"
-	| "wind"
-	| "water"
-	| "dark"
-	| "physical";
+	| "Earth"
+	| "Fire"
+	| "Ice"
+	| "Lightning"
+	| "Wind"
+	| "Water"
+	| "ark"
+	| "Physical";
 type ElementsData = Record<
 	ElementId,
 	{ id: ElementId; element: Elements; image: string; hide?: boolean }
@@ -33,42 +33,42 @@ export const ELEMENTS_DATA: ElementsData = {
 	// },
 	[ELEMENT_ID_BY_ELEMENT.EARTH]: {
 		id: ELEMENT_ID_BY_ELEMENT.EARTH,
-		element: "earth",
+		element: "Earth",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/earth.png",
 		image: "/images/Elements/icons/earth.png",
 	},
 	[ELEMENT_ID_BY_ELEMENT.FIRE]: {
 		id: ELEMENT_ID_BY_ELEMENT.FIRE,
-		element: "fire",
+		element: "Fire",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/fire.png",
 		image: "/images/Elements/icons/fire.png",
 	},
 	[ELEMENT_ID_BY_ELEMENT.ICE]: {
 		id: ELEMENT_ID_BY_ELEMENT.ICE,
-		element: "ice",
+		element: "Ice",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/ice.png",
 		image: "/images/Elements/icons/ice.png",
 	},
 	[ELEMENT_ID_BY_ELEMENT.LIGHTNING]: {
 		id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
-		element: "lightning",
+		element: "Lightning",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/lightning.png",
 		image: "/images/Elements/icons/lightning.png",
 	},
 	[ELEMENT_ID_BY_ELEMENT.WIND]: {
 		id: ELEMENT_ID_BY_ELEMENT.WIND,
-		element: "wind",
+		element: "Wind",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/wind.png",
 		image: "/images/Elements/icons/wind.png",
 	},
 	[ELEMENT_ID_BY_ELEMENT.WATER]: {
 		id: ELEMENT_ID_BY_ELEMENT.WATER,
-		element: "water",
+		element: "Water",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/water.png",
 		image: "/images/Elements/icons/water.png",
@@ -76,7 +76,7 @@ export const ELEMENTS_DATA: ElementsData = {
 	},
 	[ELEMENT_ID_BY_ELEMENT.DARK]: {
 		id: ELEMENT_ID_BY_ELEMENT.DARK,
-		element: "dark",
+		element: "ark",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/dark.png",
 		image: "/images/Elements/icons/dark.png",
@@ -84,7 +84,7 @@ export const ELEMENTS_DATA: ElementsData = {
 	},
 	[ELEMENT_ID_BY_ELEMENT.PHYSICAL]: {
 		id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
-		element: "physical",
+		element: "Physical",
 		// image:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780896331/msd/Elements/icons/physical.png",
 		image: "/images/Elements/icons/physical.png",

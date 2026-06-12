@@ -1,6 +1,6 @@
 "use client";
 
-import { arrayRemoveItem } from "common-utils-pkg";
+import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
@@ -59,6 +59,7 @@ export const CharacterFilter = () => {
 							key={id}
 							onClick={() => handleSelectElement(id)}
 							className={cn(isElemSelected && "border")}
+							title={element}
 						>
 							<img src={image} width="25" height="25" alt={`${element} icon`} />
 						</Button>
@@ -79,6 +80,7 @@ export const CharacterFilter = () => {
 				{Object.values(CHARACTER_CLASS_DATA).map(
 					({ id, image, character_class }) => {
 						const isCharClassSelected = selectedCharacterClass.includes(id);
+						const elementName = toSentenceCase(character_class);
 
 						return (
 							<Button
@@ -86,12 +88,13 @@ export const CharacterFilter = () => {
 								key={id}
 								onClick={() => handleSelectClass(id)}
 								className={cn(isCharClassSelected && "border")}
+								title={elementName}
 							>
 								<img
 									src={image}
 									width="25"
 									height="25"
-									alt={`${character_class} icon`}
+									alt={`${elementName} icon`}
 								/>
 							</Button>
 						);

@@ -50,6 +50,7 @@ export default function CharacterCard({
 					style={{
 						filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
 					}}
+					title={elemInfo.element}
 				/>
 				<img
 					src={characterClassInfo.image}
@@ -60,14 +61,18 @@ export default function CharacterCard({
 					style={{
 						filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
 					}}
+					title={characterClassInfo.character_class}
 				/>
 				{(awakening ?? 0) > 0 && (
-					<div className={cn("absolute right-0.5 top-17 z-2")}>
+					<div
+						className={cn("absolute right-0.5 top-17 z-2")}
+						title={`Awakening ${awakening}`}
+					>
 						<img
 							src={awakeningImg}
 							width={iconSize}
 							height={iconSize}
-							alt={`${characterClassInfo.character_class} icon`}
+							alt={`awakening icon`}
 							className="drop-shadow-2xl"
 							style={{
 								filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
