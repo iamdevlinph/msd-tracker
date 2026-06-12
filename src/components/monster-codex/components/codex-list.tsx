@@ -1,12 +1,12 @@
 import { memo } from "react";
 import { CodexCard } from "@/components/monster-codex/components/codex-card";
 import { EmptyCodex } from "@/components/monster-codex/components/codex-empty";
-import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
+import { useCodexStore } from "@/components/monster-codex/store/codex-store";
 
 const MonsterlingCardMemo = memo(CodexCard);
 
 export const CodexList = () => {
-	const monsterlings = useMonsterCodexFilterStore((s) => s.monsterlings);
+	const monsterlings = useCodexStore((s) => s.monsterlings);
 
 	const monsterlingsDisplay = Object.keys(monsterlings);
 

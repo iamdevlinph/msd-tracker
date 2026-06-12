@@ -1,7 +1,7 @@
 import { toSentenceCase } from "common-utils-pkg";
 import { useEffect, useState } from "react";
 
-import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
+import { useCodexStore } from "@/components/monster-codex/store/codex-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
@@ -12,8 +12,8 @@ import {
 import { cn } from "@/lib/utils";
 
 export const Regions = () => {
-	const filterCodex = useMonsterCodexFilterStore((s) => s.filterCodex);
-	const filters = useMonsterCodexFilterStore((s) => s.filters);
+	const filterCodex = useCodexStore((s) => s.filterCodex);
+	const filters = useCodexStore((s) => s.filters);
 
 	const [activeRegion, setActiveRegion] = useState<RegionId>(
 		filters.region ?? REGION_ID_BY_REGION.ALL,

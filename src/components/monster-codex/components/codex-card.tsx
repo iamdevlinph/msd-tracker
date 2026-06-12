@@ -1,5 +1,5 @@
 import { Check, X } from "lucide-react";
-import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
+import { useCodexStore } from "@/components/monster-codex/store/codex-store";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -15,7 +15,7 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 	const { name, image, id } = MONSTERLINGS_DATA[monsterling_id];
 
 	const monsterCodexCompleted = useAppStore((s) => s.monsterCodexCompleted);
-	const filterCodex = useMonsterCodexFilterStore((s) => s.filterCodex);
+	const filterCodex = useCodexStore((s) => s.filterCodex);
 	const setMonsterCodexComplete = useAppStore((s) => s.setMonsterCodexComplete);
 	const deleteMonsterCodexComplete = useAppStore(
 		(s) => s.deleteMonsterCodexComplete,
