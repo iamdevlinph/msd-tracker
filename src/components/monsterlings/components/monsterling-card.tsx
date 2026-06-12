@@ -1,8 +1,8 @@
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
+import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
-import type { MonsterlingOwned } from "@/stores/monsterlings-slice";
 
 export const MonsterlingCard = ({
 	monsterling_id,

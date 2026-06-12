@@ -1,4 +1,4 @@
-import { MonsterlingForm } from "@/components/monsterlings/components/monsterling-form";
+import { AddMonsterlingDialog } from "@/components/monsterlings/components/add-monsterling";
 import { MonsterlingsList } from "@/components/monsterlings/components/monsterlings-list";
 import { PageTitle } from "@/components/shared/page-title";
 
@@ -8,9 +8,11 @@ export const MonsterlingsPage = () => {
 			<PageTitle title="Monsterlings" />
 
 			<div className="flex gap-5 flex-col">
+				<AddMonsterlingDialog />
+
 				<MonsterlingsList />
 
-				<MonsterlingForm onClose={() => {}} />
+				{/* <MonsterlingForm onClose={() => {}} /> */}
 			</div>
 		</div>
 	);

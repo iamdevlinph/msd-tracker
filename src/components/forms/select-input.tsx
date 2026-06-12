@@ -12,12 +12,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import type { SelectOption } from "@/constants";
 
 type SelectInputProps<T extends FieldValues> = {
 	name: Path<T>;
 	control: Control<T>;
 	label: string;
-	options: { label: string; value: string }[];
+	options: SelectOption[];
 };
 
 export const SelectInput = <T extends FieldValues>({

@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { ComboboxFormInput } from "@/components/forms/combobox-input";
+import { useMonsterOptionStore } from "@/components/monsterlings/store/monsterlings-options-store";
+import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Field } from "@/components/ui/field";
+import { Card, CardContent } from "@/components/ui/card";
+import { Field, FieldGroup } from "@/components/ui/field";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
 import { TIER_ID_BY_TIER } from "@/data/TIERS_DATA";
@@ -38,6 +41,9 @@ const MONSTERLING_FORM_ID = "MONSTERLING_FORM_ID";
 export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 	const setMonsterlingOwned = useAppStore((s) => s.setMonsterlingOwned);
+	const getMonsterlingOptions = useMonsterOptionStore(
+		(s) => s.getMonsterlingOptions,
+	);
 
 	let monsterlingInfo = null;
 
@@ -61,29 +67,56 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const isEdit = id === undefined;
 
 	const onSubmit = (data: MonsterlingOwned) => {
-		setMonsterlingOwned(data, id);
+		console.info("🍉debuu ~ onSubmit ~ data:", data);
+		// setMonsterlingOwned(data, id);
+
+		// onClose();
 	};
 
 	return (
-		<Card>
-			<CardContent>
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					id={MONSTERLING_FORM_ID}
-					className="gap-y-2 flex flex-col"
-				></form>
-			</CardContent>
+		<div className="flex flex-col gap-5">
+			<Card>
+				<CardContent>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						id={MONSTERLING_FORM_ID}
+						className="gap-y-2 flex flex-col w-full"
+					>
+						<FieldGroup>
+							<ComboboxFormInput<MonsterlingOwned>
+								name="monsterling_id"
+								label="Monsterling"
+								control={form.control}
+								options={getMonsterlingOptions()}
+								selectValueType="number"
+							/>
+						</FieldGroup>
 
-			<CardFooter>
-				<Field orientation="horizontal" className="justify-end">
-					<Button type="button" variant="outline" onClick={onClose}>
-						Cancel
-					</Button>
-					<Button type="submit" form={MONSTERLING_FORM_ID}>
-						{submitText}
-					</Button>
-				</Field>
-			</CardFooter>
-		</Card>
+						<SeparatorText>Traits</SeparatorText>
+					</form>
+				</CardContent>
+			</Card>
+
+			<Field
+				orientation="horizontal"
+				className="justify-end flex sm:flex-row flex-col-reverse"
+			>
+				<Button
+					type="button"
+					variant="outline"
+					onClick={onClose}
+					className="w-full sm:w-max"
+				>
+					Cancel
+				</Button>
+				<Button
+					type="submit"
+					form={MONSTERLING_FORM_ID}
+					className="w-full sm:w-max"
+				>
+					{submitText}
+				</Button>
+			</Field>
+		</div>
 	);
 };

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { NumberControlInput } from "@/components/forms/number-control-input";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
 import type { Character } from "@/data/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
@@ -80,81 +80,89 @@ export const CharacterOwnedDetailsForm = ({
 	});
 
 	return (
-		<Card>
-			<CardContent>
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					className="gap-y-2 flex flex-col"
-					id={FORM_ID}
+		<div className="flex flex-col gap-5">
+			<Card>
+				<CardContent>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="gap-y-2 flex flex-col"
+						id={FORM_ID}
+					>
+						<FieldGroup>
+							<NumberControlInput<CharacterOwned>
+								name="awakening"
+								control={form.control}
+								label="Awakening"
+								min={0}
+								max={6}
+							/>
+						</FieldGroup>
+
+						<SeparatorText>Skills</SeparatorText>
+
+						<FieldGroup>
+							<NumberControlInput<CharacterOwned>
+								name="skills.basic"
+								control={form.control}
+								label="Basic"
+								min={1}
+								max={12}
+								awakeningBoost={awakeningValue}
+							/>
+						</FieldGroup>
+
+						<FieldGroup>
+							<NumberControlInput<CharacterOwned>
+								name="skills.switch"
+								control={form.control}
+								label="Switch"
+								min={1}
+								max={12}
+								awakeningBoost={awakeningValue}
+							/>
+						</FieldGroup>
+
+						<FieldGroup>
+							<NumberControlInput<CharacterOwned>
+								name="skills.special"
+								control={form.control}
+								label="Special"
+								min={1}
+								max={12}
+								awakeningBoost={awakeningValue}
+							/>
+						</FieldGroup>
+
+						<FieldGroup>
+							<NumberControlInput<CharacterOwned>
+								name="skills.ultimate"
+								control={form.control}
+								label="Ultimate"
+								min={1}
+								max={12}
+								awakeningBoost={awakeningValue}
+							/>
+						</FieldGroup>
+					</form>
+				</CardContent>
+			</Card>
+
+			<Field
+				orientation="horizontal"
+				className="justify-end flex sm:flex-row flex-col-reverse"
+			>
+				<Button
+					type="button"
+					variant="outline"
+					onClick={onClose}
+					className="w-full sm:w-max"
 				>
-					<FieldGroup>
-						<NumberControlInput<CharacterOwned>
-							name="awakening"
-							control={form.control}
-							label="Awakening"
-							min={0}
-							max={6}
-						/>
-					</FieldGroup>
-
-					<SeparatorText>Skills</SeparatorText>
-
-					<FieldGroup>
-						<NumberControlInput<CharacterOwned>
-							name="skills.basic"
-							control={form.control}
-							label="Basic"
-							min={1}
-							max={12}
-							awakeningBoost={awakeningValue}
-						/>
-					</FieldGroup>
-
-					<FieldGroup>
-						<NumberControlInput<CharacterOwned>
-							name="skills.switch"
-							control={form.control}
-							label="Switch"
-							min={1}
-							max={12}
-							awakeningBoost={awakeningValue}
-						/>
-					</FieldGroup>
-
-					<FieldGroup>
-						<NumberControlInput<CharacterOwned>
-							name="skills.special"
-							control={form.control}
-							label="Special"
-							min={1}
-							max={12}
-							awakeningBoost={awakeningValue}
-						/>
-					</FieldGroup>
-
-					<FieldGroup>
-						<NumberControlInput<CharacterOwned>
-							name="skills.ultimate"
-							control={form.control}
-							label="Ultimate"
-							min={1}
-							max={12}
-							awakeningBoost={awakeningValue}
-						/>
-					</FieldGroup>
-				</form>
-			</CardContent>
-
-			<CardFooter>
-				<Field orientation="horizontal" className="justify-end">
-					<Button type="button" variant="outline" onClick={onClose}>
-						Cancel
-					</Button>
-					<Button type="submit" form={FORM_ID}>
-						{submitText}
-					</Button>
-				</Field>
-			</CardFooter>
-		</Card>
+					Cancel
+				</Button>
+				<Button type="submit" form={FORM_ID} className="w-full sm:w-max">
+					{submitText}
+				</Button>
+			</Field>
+		</div>
 	);
 };
