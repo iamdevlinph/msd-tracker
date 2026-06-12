@@ -3,8 +3,6 @@ import { MonsterlingCard } from "@/components/monster-codex/components/monsterli
 import { NoMonsterling } from "@/components/monster-codex/components/no-monsterling";
 import { useMonsterCodexFilterStore } from "@/components/monster-codex/store/monster-codex-filter-store";
 
-// const MONSTER_CODEX_DUMMY = []
-
 const MonsterlingCardMemo = memo(MonsterlingCard);
 
 export const MonsterlingsList = () => {

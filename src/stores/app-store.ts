@@ -8,6 +8,10 @@ import {
 	type CompletedCodexSlice,
 	createMonsterCodexSlice,
 } from "@/stores/completed-codex-slice";
+import {
+	createMonsterlingsSlice,
+	type MonsterlingOwnedSlice,
+} from "@/stores/monsterlings-owned-slice";
 
 export type StoreState = {
 	logout: () => void;
@@ -30,7 +34,8 @@ export type StoreState = {
 	isHydrated: boolean;
 	setHasHydrated: (flag: boolean) => void;
 } & CompletedCodexSlice &
-	CharactersOwnedSlice;
+	CharactersOwnedSlice &
+	MonsterlingOwnedSlice;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
@@ -55,6 +60,7 @@ export const useAppStore = create<StoreState>()(
 
 				...createMonsterCodexSlice(set, get, api),
 				...createCharactersOwnedSlice(set, get, api),
+				...createMonsterlingsSlice(set, get, api),
 			}),
 			{
 				name: "msd-tracker",

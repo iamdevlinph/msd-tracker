@@ -23,16 +23,8 @@ export const MonsterlingCard = (props: MonsterCodexEntry) => {
 
 	const completed = monsterCodexCompleted.includes(id);
 
-	// const { ref, inView } = useInView({
-	// 	threshold: 0.1, // Triggers when 10% of the element is visible
-	// 	triggerOnce: false, // Optional: Stop observing after it becomes visible
-	// });
-
 	return (
-		<div
-			className="w-36 h-44"
-			// ref={ref}
-		>
+		<div className="w-36 h-44">
 			<Card
 				className={cn(
 					"inline-block relative",
