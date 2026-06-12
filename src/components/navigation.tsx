@@ -8,7 +8,7 @@ import {
 	UserRoundCheck,
 } from "lucide-react";
 import type { JSX } from "react";
-import { SeparatorText } from "@/components/separator-text";
+import { SeparatorText } from "@/components/shared/separator-text";
 import { cn } from "@/lib/utils";
 import type { FileRoutesByTo } from "@/routeTree.gen";
 

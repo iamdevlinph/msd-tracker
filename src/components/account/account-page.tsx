@@ -1,5 +1,5 @@
 import { GoogleSection } from "@/components/account/google/google-section";
-import { PageTitle } from "@/components/page-title";
+import { PageTitle } from "@/components/shared/page-title";
 import { Button } from "@/components/ui/button";
 import {
 	Card,

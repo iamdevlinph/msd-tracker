@@ -5,7 +5,7 @@ import {
 	select,
 	upload,
 } from "@/components/account/google/utils/drive-sync";
-import { SeparatorText } from "@/components/separator-text";
+import { SeparatorText } from "@/components/shared/separator-text";
 import {
 	AlertDialog,
 	AlertDialogAction,
