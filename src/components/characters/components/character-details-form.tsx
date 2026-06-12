@@ -12,7 +12,7 @@ import type { CharacterOwned } from "@/stores/characters-owned-slice";
 
 type CharacterDetailsProps = {
 	char_id: Character["id"];
-	onClose?: () => void;
+	onClose: () => void;
 	editCharacterData?: CharacterOwned;
 	submitText?: string;
 };
@@ -148,8 +148,8 @@ export const CharacterDetailsForm = ({
 
 			<CardFooter>
 				<Field orientation="horizontal" className="justify-end">
-					<Button type="button" variant="outline" onClick={() => form.reset()}>
-						Reset
+					<Button type="button" variant="outline" onClick={onClose}>
+						Cancel
 					</Button>
 					<Button type="submit" form={FORM_ID}>
 						{submitText}
