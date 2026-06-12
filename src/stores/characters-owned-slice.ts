@@ -1,22 +1,11 @@
 import type { StateCreator } from "zustand";
-import type { Character } from "@/data/CHARACTERS_DATA";
+import type { CharacterOwnedDetails } from "@/components/characters/components/character-details-form";
 import type { StoreState } from "@/stores/app-store";
 
-export type CharacterOwned = {
-	awakening: number;
-	skills: {
-		basic: number;
-		switch: number;
-		special: number;
-		ultimate: number;
-	};
-	id: Character["id"];
-};
-
 export type CharactersOwnedSlice = {
-	charactersOwned: Record<number, CharacterOwned>;
+	charactersOwned: Record<number, CharacterOwnedDetails>;
 
-	setCharacterOwned: (character: CharacterOwned) => void;
+	setCharacterOwned: (character: CharacterOwnedDetails) => void;
 	deleteCharacterOwned: (id: number) => void;
 	resetCharacterSlice: () => void;
 };
@@ -31,7 +20,7 @@ export const createCharactersOwnedSlice: StateCreator<
 
 	setCharacterOwned: ({ id, ...rest }) =>
 		set((state) => {
-			const tempCharacterOwn: CharacterOwned = {
+			const tempCharacterOwn: CharacterOwnedDetails = {
 				id: id,
 				...rest,
 			};

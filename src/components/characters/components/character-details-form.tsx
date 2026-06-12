@@ -8,66 +8,65 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
 import type { Character } from "@/data/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
-import type { CharacterOwned } from "@/stores/characters-owned-slice";
 
-type CharacterDetailsProps = {
-	char_id: Character["id"];
+type CharacterOwnedDetailsProps = {
+	id: Character["id"];
 	onClose: () => void;
-	editCharacterData?: CharacterOwned;
+	editCharacterData?: CharacterOwnedDetails;
 	submitText?: string;
 };
 
-const characterDetailsSchema = z.object({
-	char_id: z.number(),
+const characterOwnedDetailsSchema = z.object({
+	id: z.number(),
 	awakening: z.number().min(0).max(6),
 	skills: z.object({
-		basic_level: z.number().min(1).max(12),
-		switch_level: z.number().min(1).max(12),
-		special_level: z.number().min(1).max(12),
-		ultimate_level: z.number().min(1).max(12),
+		basic: z.number().min(1).max(12),
+		switch: z.number().min(1).max(12),
+		special: z.number().min(1).max(12),
+		ultimate: z.number().min(1).max(12),
 	}),
 });
 
-type CharacterDetailsSchemaType = z.infer<typeof characterDetailsSchema>;
+export type CharacterOwnedDetails = z.infer<typeof characterOwnedDetailsSchema>;
 
 const FORM_ID = "character-details-form";
 
-export const CharacterDetailsForm = ({
-	char_id,
+export const CharacterOwnedDetailsForm = ({
+	id,
 	onClose,
 	editCharacterData,
 	submitText = "Add",
-}: CharacterDetailsProps) => {
+}: CharacterOwnedDetailsProps) => {
 	const setCharacterOwned = useAppStore((s) => s.setCharacterOwned);
 
-	const form = useForm<CharacterDetailsSchemaType>({
-		resolver: zodResolver(characterDetailsSchema),
+	const form = useForm<CharacterOwnedDetails>({
+		resolver: zodResolver(characterOwnedDetailsSchema),
 		defaultValues: {
-			char_id: char_id,
+			id: id,
 			awakening: editCharacterData?.awakening ?? 0,
 			skills: {
-				basic_level: editCharacterData?.skills.basic ?? 1,
-				switch_level: editCharacterData?.skills.switch ?? 1,
-				special_level: editCharacterData?.skills.special ?? 1,
-				ultimate_level: editCharacterData?.skills.ultimate ?? 1,
+				basic: editCharacterData?.skills.basic ?? 1,
+				switch: editCharacterData?.skills.switch ?? 1,
+				special: editCharacterData?.skills.special ?? 1,
+				ultimate: editCharacterData?.skills.ultimate ?? 1,
 			},
 		},
 		mode: "onChange",
 	});
 
-	const onSubmit = (data: CharacterDetailsSchemaType) => {
+	const onSubmit = (data: CharacterOwnedDetails) => {
 		const {
 			awakening,
-			skills: { basic_level, switch_level, special_level, ultimate_level },
+			skills: { basic, switch: switch_level, special, ultimate },
 		} = data;
 		const object = {
-			id: char_id,
+			id,
 			awakening: Number(awakening),
 			skills: {
-				basic: Number(basic_level),
+				basic: Number(basic),
 				switch: Number(switch_level),
-				special: Number(special_level),
-				ultimate: Number(ultimate_level),
+				special: Number(special),
+				ultimate: Number(ultimate),
 			},
 		};
 		setCharacterOwned(object);
@@ -89,7 +88,7 @@ export const CharacterDetailsForm = ({
 					id={FORM_ID}
 				>
 					<FieldGroup>
-						<NumberControlInput<CharacterDetailsSchemaType>
+						<NumberControlInput<CharacterOwnedDetails>
 							name="awakening"
 							control={form.control}
 							label="Awakening"
@@ -101,8 +100,8 @@ export const CharacterDetailsForm = ({
 					<SeparatorText>Skills</SeparatorText>
 
 					<FieldGroup>
-						<NumberControlInput<CharacterDetailsSchemaType>
-							name="skills.basic_level"
+						<NumberControlInput<CharacterOwnedDetails>
+							name="skills.basic"
 							control={form.control}
 							label="Basic"
 							min={1}
@@ -112,8 +111,8 @@ export const CharacterDetailsForm = ({
 					</FieldGroup>
 
 					<FieldGroup>
-						<NumberControlInput<CharacterDetailsSchemaType>
-							name="skills.switch_level"
+						<NumberControlInput<CharacterOwnedDetails>
+							name="skills.switch"
 							control={form.control}
 							label="Switch"
 							min={1}
@@ -123,8 +122,8 @@ export const CharacterDetailsForm = ({
 					</FieldGroup>
 
 					<FieldGroup>
-						<NumberControlInput<CharacterDetailsSchemaType>
-							name="skills.special_level"
+						<NumberControlInput<CharacterOwnedDetails>
+							name="skills.special"
 							control={form.control}
 							label="Special"
 							min={1}
@@ -134,8 +133,8 @@ export const CharacterDetailsForm = ({
 					</FieldGroup>
 
 					<FieldGroup>
-						<NumberControlInput<CharacterDetailsSchemaType>
-							name="skills.ultimate_level"
+						<NumberControlInput<CharacterOwnedDetails>
+							name="skills.ultimate"
 							control={form.control}
 							label="Ultimate"
 							min={1}

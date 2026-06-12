@@ -1,13 +1,13 @@
+import type { CharacterOwnedDetails } from "@/components/characters/components/character-details-form";
 import {
 	getAwakeningBonus,
 	isMaxSkill,
 } from "@/components/characters/utils/character-utils";
 import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
 import { cn } from "@/lib/utils";
-import type { CharacterOwned } from "@/stores/characters-owned-slice";
 
 type CharacterSkillLevel = {
-	charOwned: CharacterOwned;
+	charOwned: CharacterOwnedDetails;
 };
 
 export const CharacterSkillLevel = (props: CharacterSkillLevel) => {

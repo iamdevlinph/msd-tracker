@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useMemo, useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
-import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
+import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterFilter } from "@/components/characters/components/character-filter";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
@@ -116,8 +116,8 @@ export function AddCharacter() {
 					)}
 
 					{hasSelectedChar && (
-						<CharacterDetailsForm
-							char_id={charToAdd}
+						<CharacterOwnedDetailsForm
+							id={charToAdd}
 							onClose={() => setOpen(false)}
 						/>
 					)}
