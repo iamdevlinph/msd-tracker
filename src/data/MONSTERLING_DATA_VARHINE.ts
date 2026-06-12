@@ -1,3 +1,4 @@
+import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
 import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
@@ -9,7 +10,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneguy.png",
 		image: "/images/Monsterling_Icons/MonsterlingStoneguy.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Attacks' Earth DMG +6% upon attacking with Elemental Weakness",
@@ -20,7 +21,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneGuyGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingStoneGuyGold.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -32,7 +33,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrc.png",
 		image: "/images/Monsterling_Icons/MonsterlingOrc.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5% against normal enemies (Cooldown: 20s)",
@@ -43,7 +44,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrcAxePink.png",
 		image: "/images/Monsterling_Icons/MonsterlingOrcAxePink.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Physical DMG +5.25% against normal enemies (Cooldown: 20s)",
@@ -54,7 +55,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingOrcAxe.png",
 		image: "/images/Monsterling_Icons/MonsterlingOrcAxe.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% against normal enemies (Cooldown: 20s)",
@@ -65,7 +66,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyong.png",
 		image: "/images/Monsterling_Icons/MonsterlingDoranyong.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% for 5s upon being hit 10 times",
@@ -76,7 +77,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyongMutation01.png",
 		image: "/images/Monsterling_Icons/MonsterlingDoranyongMutation01.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit DMG +5.25% for 5s upon being hit 10 times",
@@ -87,7 +88,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyong.png",
 		image: "/images/Monsterling_Icons/MonsterlingDoranyong.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill DMG +5% for 5s upon being hit 10 times",
@@ -98,7 +99,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDoranyongKingHat.png",
 		image: "/images/Monsterling_Icons/MonsterlingDoranyongKingHat.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill DMG +5.25% for 5s upon being hit 10 times",
@@ -109,7 +110,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTroll.png",
 		image: "/images/Monsterling_Icons/MonsterlingTroll.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ultimate Skill Neutralization DMG +5%",
@@ -120,7 +121,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollBlue.png",
 		image: "/images/Monsterling_Icons/MonsterlingTrollBlue.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Ultimate Skill Neutralization DMG + 5.25%",
@@ -131,7 +132,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollKing.png",
 		image: "/images/Monsterling_Icons/MonsterlingTrollKing.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ultimate Skill Elemental Weakness DMG +5.5%",
@@ -142,7 +143,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolf.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolf.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5% for 5s upon landing a critical hit",
@@ -153,7 +154,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolfWhite.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Physical DMG +5.25% for 5s upon landing a critical hit",
@@ -164,7 +165,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHuge.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolfHuge.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Suppression DMG +5.5% for 10s upon landing a critical hit",
@@ -175,7 +176,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHugeScar.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolfHugeScar.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
@@ -187,7 +188,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHugeScarWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolfHugeScarWhite.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill DMG +5.78% for 10s upon landing a critical hit",
@@ -198,7 +199,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyong.png",
 		image: "/images/Monsterling_Icons/MonsterlingSoranyong.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5% for 5s upon being hit 10 times",
@@ -209,7 +210,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyongMutation01.png",
 		image: "/images/Monsterling_Icons/MonsterlingSoranyongMutation01.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Physical DMG +5.25% for 5s upon being hit 10 times",
@@ -220,7 +221,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSoranyongKing.png",
 		image: "/images/Monsterling_Icons/MonsterlingSoranyongKing.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Basic Attack DMG +5% for 5s upon being hit 10 times",
@@ -231,7 +232,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldier.png",
 		image: "/images/Monsterling_Icons/MonsterlingBlackKnightageSoldier.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% for 5s upon being hit (Cooldown: 20s)",
@@ -243,7 +244,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageSoldierSpear.png",
 		image:
 			"/images/Monsterling_Icons/MonsterlingBlackKnightageSoldierSpear.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "DEF +3.75% for 5s upon being hit (Cooldown: 20s)",
@@ -254,7 +255,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageMonk.png",
 		image: "/images/Monsterling_Icons/MonsterlingBlackKnightageMonk.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Elemental Weakness DMG +5% for 5s upon being hit (Cooldown: 20s)",
@@ -265,7 +266,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightageMonkWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingBlackKnightageMonkWhite.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -277,7 +278,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightagePriest.png",
 		image: "/images/Monsterling_Icons/MonsterlingBlackKnightagePriest.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "ATK +2.75% for 10s upon being hit (Cooldown: 20s)",
@@ -288,7 +289,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaMountain.png",
 		image: "/images/Monsterling_Icons/MonsterlingMinotaMountain.png",
-		element: "Fire",
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Crit DMG +6% against Staggered boss enemies",
@@ -299,7 +300,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaForestWind.png",
 		image: "/images/Monsterling_Icons/MonsterlingMinotaForestWind.png",
-		element: "Fire",
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Fire DMG +6.3% against Staggered boss enemies",
@@ -310,7 +311,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmon.png",
 		image: "/images/Monsterling_Icons/MonsterlingAmon.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
@@ -322,7 +323,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmonWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingAmonWhite.png",
-		element: "Dark",
+		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:

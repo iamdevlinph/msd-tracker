@@ -67,7 +67,7 @@ export function AddCharacter() {
 									<CharacterPortrait
 										portraitImg={charToAddInfo.portraitImage}
 										portraitSize={50}
-										tier={charToAddInfo.tier}
+										tier={charToAddInfo.tier_id}
 										name={charToAddInfo.name}
 									/>
 									<span>{charToAddInfo.name}</span>
@@ -106,7 +106,7 @@ export function AddCharacter() {
 													name={character.name}
 													element_id={character.element_id}
 													class_id={character.class_id}
-													tier={character.tier}
+													tier={character.tier_id}
 												/>
 											</button>
 										);

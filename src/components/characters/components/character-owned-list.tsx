@@ -68,7 +68,7 @@ export const CharacterOwnedList = () => {
 									name={charOwned.info.name}
 									element_id={charOwned.info.element_id}
 									class_id={charOwned.info.class_id}
-									tier={charOwned.info.tier}
+									tier={charOwned.info.tier_id}
 									awakening={charOwned.awakening}
 								/>
 								<CharacterSkillLevel charOwned={charOwned} />

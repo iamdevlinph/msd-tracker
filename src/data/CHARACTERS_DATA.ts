@@ -12,7 +12,7 @@ export type Character = {
 	element_id: ElementId;
 	portraitImage: string;
 	fullImage: string;
-	tier: TierId;
+	tier_id: TierId;
 };
 
 export const CHARACTERS_DATA: Record<number, Character> = {
@@ -27,7 +27,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Angel.png",
 		portraitImage: "/images/Character_Portrait/portrait_Angel_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Angel.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	2: {
 		id: 2,
@@ -40,7 +40,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Benjamin.png",
 		portraitImage: "/images/Character_Portrait/portrait_Benjamin_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Benjamin.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	3: {
 		id: 3,
@@ -53,7 +53,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Mina.png",
 		portraitImage: "/images/Character_Portrait/portrait_Mina_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Mina.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	4: {
 		id: 4,
@@ -66,7 +66,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Narae.png",
 		portraitImage: "/images/Character_Portrait/portrait_Narae_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Narae.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	5: {
 		id: 5,
@@ -79,7 +79,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Francis.png",
 		portraitImage: "/images/Character_Portrait/portrait_Francis_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Francis.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	6: {
 		id: 6,
@@ -92,7 +92,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Flare.png",
 		portraitImage: "/images/Character_Portrait/portrait_Flare_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Flare.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	7: {
 		id: 7,
@@ -105,7 +105,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Ophelia.png",
 		portraitImage: "/images/Character_Portrait/portrait_Ophelia_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Ophelia.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	8: {
 		id: 8,
@@ -118,7 +118,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Penny.png",
 		portraitImage: "/images/Character_Portrait/portrait_Penny_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Penny.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	9: {
 		id: 9,
@@ -131,7 +131,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Jiwon.png",
 		portraitImage: "/images/Character_Portrait/portrait_Jiwon_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Jiwon.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	10: {
 		id: 10,
@@ -144,7 +144,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Esde.png",
 		portraitImage: "/images/Character_Portrait/portrait_Esde_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Esde.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	11: {
 		id: 11,
@@ -157,7 +157,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Gabi.png",
 		portraitImage: "/images/Character_Portrait/portrait_Gabi_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Gabi.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	12: {
 		id: 12,
@@ -170,7 +170,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Cloud.png",
 		portraitImage: "/images/Character_Portrait/portrait_Cloud_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Cloud.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	13: {
 		id: 13,
@@ -183,7 +183,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Yeonhwa.png",
 		portraitImage: "/images/Character_Portrait/portrait_Yeonhwa_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Yeonhwa.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	14: {
 		id: 14,
@@ -196,7 +196,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Reina.png",
 		portraitImage: "/images/Character_Portrait/portrait_Reina_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Reina.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	15: {
 		id: 15,
@@ -209,7 +209,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Bonney.png",
 		portraitImage: "/images/Character_Portrait/portrait_Bonney_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Bonney.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	16: {
 		id: 16,
@@ -222,7 +222,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Verna.png",
 		portraitImage: "/images/Character_Portrait/portrait_Verna_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Verna.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	17: {
 		id: 17,
@@ -235,7 +235,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Ellie.png",
 		portraitImage: "/images/Character_Portrait/portrait_Ellie_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Ellie.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	18: {
 		id: 18,
@@ -248,7 +248,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Sera.png",
 		portraitImage: "/images/Character_Portrait/portrait_Sera_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Sera.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	19: {
 		id: 19,
@@ -261,7 +261,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Sangun.png",
 		portraitImage: "/images/Character_Portrait/portrait_Sangun_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Sangun.png",
-		tier: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	20: {
 		id: 20,
@@ -274,7 +274,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Leeho.png",
 		portraitImage: "/images/Character_Portrait/portrait_Leeho_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Leeho.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	21: {
 		id: 21,
@@ -287,6 +287,6 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Daisy.png",
 		portraitImage: "/images/Character_Portrait/portrait_Daisy_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Daisy.png",
-		tier: TIER_ID_BY_TIER.CHOICE_4,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 };

@@ -1,3 +1,4 @@
+import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
 import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
@@ -9,7 +10,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopy.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopy.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Crit Rate +5% (Cooldown: 20s)",
@@ -20,7 +21,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyPurple.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyPurple.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Crit Rate + 5.25% (Cooldown: 20s)",
@@ -31,7 +32,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyKing.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyKing.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
@@ -43,7 +44,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyKingSlimeling.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyKingSlimeling.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -55,7 +56,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlime.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlime.png",
-		element: "Water",
+		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% against Physical enemies",
@@ -66,7 +67,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeBlack.png",
-		element: "Water",
+		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit DMG +5.25% against Physical enemies",
@@ -77,7 +78,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblin.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblin.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
@@ -89,7 +90,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinPink.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinPink.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -101,7 +102,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinBow.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinBow.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
@@ -113,7 +114,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinshield.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinshield.png",
-		element: "Normal ",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
@@ -125,7 +126,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWerewolf.png",
 		image: "/images/Monsterling_Icons/MonsterlingWerewolf.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Brawl DMG +5% for 5s upon landing a critical hit (Cooldown: 20s)",
@@ -136,7 +137,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWhiteWolf_HostileBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingWhiteWolf_HostileBlack.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -148,7 +149,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWerewolfMagic.png",
 		image: "/images/Monsterling_Icons/MonsterlingWerewolfMagic.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Critical Ice DMG +5%",
@@ -159,7 +160,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWerewolfMagicianRed.png",
 		image: "/images/Monsterling_Icons/MonsterlingWerewolfMagicianRed.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Critical Ice DMG +5.25%",
@@ -170,7 +171,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmuggerFork.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpoonmuggerFork.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
@@ -182,7 +183,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeKing.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeKing.png",
-		element: "Water",
+		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
@@ -194,7 +195,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeRed.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeRed.png",
-		element: "Water",
+		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "ATK +3.15% for 10s upon attacking Water enemy (Cooldown: 20s)",
@@ -205,7 +206,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinChief.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinChief.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
@@ -217,7 +218,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinChiefWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinChiefWhite.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -229,7 +230,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHaka.png",
 		image: "/images/Monsterling_Icons/MonsterlingHaka.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
@@ -241,7 +242,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHakaPurple.png",
 		image: "/images/Monsterling_Icons/MonsterlingHakaPurple.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Target's Ice RES -6.3% for 10s upon landing a critical hit",
@@ -252,7 +253,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeLing.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeLing.png",
-		element: "Water",
+		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "ATK +2.75% against Physical enemies",
@@ -263,7 +264,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyThrowUncle.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyThrowUncle.png",
-		element: "Fire",
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Fire DMG +5.5% (Cooldown: 15s)",
@@ -274,7 +275,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopaThrowUncle1.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopaThrowUncle1.png",
-		element: "Fire",
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Fire DMG +5.78% (Cooldown: 15s)",
@@ -285,7 +286,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDugi.png",
 		image: "/images/Monsterling_Icons/MonsterlingDugi.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% against knocked-down targets",
@@ -296,7 +297,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDugiGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingDugiGold.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit Rate +5.25% against knocked-down targets",
@@ -307,7 +308,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDugi_SlingShot.png",
 		image: "/images/Monsterling_Icons/MonsterlingDugi_SlingShot.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5% against knocked-down targets",
@@ -318,7 +319,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyThrow.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyThrow.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Crit DMG +5% (Cooldown: 20s)",
@@ -329,7 +330,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyThrowBlue.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyThrowBlue.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Crit DMG + 5.25% (Cooldown: 20s)",
@@ -340,7 +341,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyPoison.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyPoison.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill Neutralization DMG +5% (Cooldown: 15s)",
@@ -351,7 +352,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyPoisonOrange.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyPoisonOrange.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Special Skill Neutralization DMG +5.25% (Cooldown: 15s)",
@@ -362,7 +363,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeThunder.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeThunder.png",
-		element: "Lightning ",
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% against Lightning enemies",
@@ -373,7 +374,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeThunderYellow.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeThunderYellow.png",
-		element: "Lightning ",
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit Rate +5.25% against Lightning enemies",
@@ -385,7 +386,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWerewolf_MagicianLightning.png",
 		image:
 			"/images/Monsterling_Icons/MonsterlingWerewolf_MagicianLightning.png",
-		element: "Lightning ",
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Critical Lightning DMG +5.5%",
@@ -396,7 +397,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMolly.png",
 		image: "/images/Monsterling_Icons/MonsterlingMolly.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Suppression DMG +5.5% against knocked-down targets",
@@ -407,7 +408,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMoleyGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingMoleyGold.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Suppression DMG +5.78% against knocked-down targets",
@@ -418,7 +419,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopaDaddy.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopaDaddy.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Special Skill ATK +2.75% (Cooldown: 15s)",
@@ -429,7 +430,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGolemBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingGolemBlack.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
@@ -441,7 +442,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGolemGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingGolemGold.png",
-		element: "Earth ",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:

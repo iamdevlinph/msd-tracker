@@ -1,3 +1,4 @@
+import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
 import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
@@ -9,7 +10,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinEnforcer.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinEnforcer.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Recovers 1.65% of Max HP upon landing 10 Basic Attacks",
@@ -20,7 +21,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeIce.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeIce.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Elemental Weakness DMG +5% against Ice enemies",
@@ -31,7 +32,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeIceGreen.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeIceGreen.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit DMG +5.25% against Physical enemies",
@@ -42,7 +43,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeFire.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeFire.png",
-		element: "Fire",
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Elemental Weakness DMG +5% against Fire enemies",
@@ -53,7 +54,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeQueen.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeQueen.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Physical DMG +5.5% for 5s upon attacking Physical enemy",
@@ -64,7 +65,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeQueenRed.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeQueenRed.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "ATK +2.89% for 10s upon attacking Physical enemy (Cooldown: 20s)",
@@ -75,7 +76,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderGrassland.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpiderGrassland.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "DEF +3.75% for 5s upon defeating 10 enemies",
@@ -86,7 +87,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderForest.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpiderForest.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "DMG +5% against normal enemies for 5s upon defeating 10 enemies",
@@ -97,7 +98,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderHat.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpiderHat.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -109,7 +110,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpiderMountain.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpiderMountain.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% for 5s upon defeating 10 enemies",
@@ -120,7 +121,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpadupa.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpadupa.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5.5% for 10s upon defeating 10 enemies",
@@ -131,7 +132,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpaDupaGreen.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpaDupaGreen.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "ATK +2.89% for 10s upon defeating 10 enemies",
@@ -142,7 +143,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyle.png",
 		image: "/images/Monsterling_Icons/MonsterlingGargoyle.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Target's DEF -3.75% for 5s upon using Air Counter.",
@@ -153,7 +154,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyleGrassland.png",
 		image: "/images/Monsterling_Icons/MonsterlingGargoyleGrassland.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Air Counter Physical DMG +5%",
@@ -164,7 +165,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGargoyleMountain.png",
 		image: "/images/Monsterling_Icons/MonsterlingGargoyleMountain.png",
-		element: "Normal",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Air Counter Physical DMG +5.25%",
@@ -175,7 +176,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphi_Mountain.png",
 		image: "/images/Monsterling_Icons/MonsterlingSylphi_Mountain.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Earth DMG +5% against Airborne targets",
@@ -186,7 +187,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingSylphiBlack.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Earth DMG +5.25% against Airborne targets",
@@ -197,7 +198,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpear.png",
 		image: "/images/Monsterling_Icons/MonsterlingSylphiSpear.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit DMG +5% against Airborne targets",
@@ -208,7 +209,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphi_Grassland.png",
 		image: "/images/Monsterling_Icons/MonsterlingSylphi_Grassland.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Ice DMG +5% against Airborne targets",
@@ -219,7 +220,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpearCaptin.png",
 		image: "/images/Monsterling_Icons/MonsterlingSylphiSpearCaptin.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability: "Crit Rate +5% against Airborne targets",
@@ -230,7 +231,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSylphiSpearCaptinBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingSylphiSpearCaptinBlack.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Crit Rate +5.25% against Airborne targets",
@@ -241,7 +242,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneguyCrystal.png",
 		image: "/images/Monsterling_Icons/MonsterlingStoneguyCrystal.png",
-		element: "Ice",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Elemental Weakness Attack Crit Rate +6%",
@@ -252,7 +253,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaGrassland.png",
 		image: "/images/Monsterling_Icons/MonsterlingMinotaGrassland.png",
-		element: "Wind",
+		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability: "Wind DMG +6% against Staggered boss enemies",
@@ -263,7 +264,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmugger.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpoonmugger.png",
-		element: "Lightning ",
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
@@ -275,7 +276,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmuggerQueen.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpoonmuggerQueen.png",
-		element: "Lightning ",
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
@@ -287,7 +288,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAvadanBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingAvadanBlack.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
@@ -299,7 +300,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAvadan.png",
 		image: "/images/Monsterling_Icons/MonsterlingAvadan.png",
-		element: "Earth",
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:

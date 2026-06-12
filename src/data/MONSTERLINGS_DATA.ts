@@ -1,3 +1,4 @@
+import type { ElementId } from "@/data/ELEMENTS_DATA";
 import { MONSTERLING_DATA_ELENDOR } from "@/data/MONSTERLING_DATA_ELENDOR";
 import { MONSTER_LING_DATA_MUWON } from "@/data/MONSTERLING_DATA_MUWON";
 import { MONSTER_LING_DATA_NAMRYUNG } from "@/data/MONSTERLING_DATA_NAMRYUNG";
@@ -11,7 +12,7 @@ export type MonsterCodexEntry = {
 	region_id: number;
 	source_id: number[];
 	image: string;
-	element: string;
+	element_id: ElementId;
 	ability: string;
 	linkChain?: {
 		trigger: [];

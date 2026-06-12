@@ -51,7 +51,7 @@ export const EditCharacterDetailsDialog = (
 								<CharacterPortrait
 									portraitImg={charInfo.portraitImage}
 									portraitSize={50}
-									tier={charInfo.tier}
+									tier={charInfo.tier_id}
 									name={charInfo.name}
 								/>
 								<span>{charInfo.name}</span>
