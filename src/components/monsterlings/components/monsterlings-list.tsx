@@ -1,4 +1,7 @@
+import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
+import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
+import { TIER_ID_BY_TIER } from "@/data/TIERS_DATA";
 
 export const MonsterlingsList = () => {
 	return (
@@ -9,7 +12,7 @@ export const MonsterlingsList = () => {
 					gridTemplateColumns: `repeat(auto-fit, ${MONSTERLING_CARD_WIDTH}px)`,
 				}}
 			>
-				{/* {Array.from({ length: 10 }).map((_val, idx) => {
+				{Array.from({ length: 10 }).map((_val, idx) => {
 					const tempId = idx + 1;
 					return (
 						<MonsterlingCard
@@ -24,7 +27,7 @@ export const MonsterlingsList = () => {
 							]}
 						/>
 					);
-				})} */}
+				})}
 			</div>
 		</div>
 	);
