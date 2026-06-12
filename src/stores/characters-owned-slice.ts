@@ -1,11 +1,11 @@
 import type { StateCreator } from "zustand";
-import type { CharacterOwnedDetails } from "@/components/characters/components/character-details-form";
+import type { CharacterOwned } from "@/components/characters/components/character-details-form";
 import type { StoreState } from "@/stores/app-store";
 
 export type CharactersOwnedSlice = {
-	charactersOwned: Record<number, CharacterOwnedDetails>;
+	charactersOwned: Record<number, CharacterOwned>;
 
-	setCharacterOwned: (character: CharacterOwnedDetails) => void;
+	setCharacterOwned: (character: CharacterOwned) => void;
 	deleteCharacterOwned: (id: number) => void;
 	resetCharacterSlice: () => void;
 };
@@ -20,7 +20,7 @@ export const createCharactersOwnedSlice: StateCreator<
 
 	setCharacterOwned: ({ id, ...rest }) =>
 		set((state) => {
-			const tempCharacterOwn: CharacterOwnedDetails = {
+			const tempCharacterOwn: CharacterOwned = {
 				id: id,
 				...rest,
 			};

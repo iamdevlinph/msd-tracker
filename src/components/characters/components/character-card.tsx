@@ -1,4 +1,4 @@
-import type { CharacterOwnedDetails } from "@/components/characters/components/character-details-form";
+import type { CharacterOwned } from "@/components/characters/components/character-details-form";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { CHARACTER_CLASS_DATA } from "@/data/CHARACTER_CLASS_DATA";
 import type { Character } from "@/data/CHARACTERS_DATA";
@@ -12,7 +12,7 @@ type CharacterCardProps = Pick<
 > &
 	Partial<Pick<TierPortrait, "portraitSize">> & {
 		iconSize?: number;
-	} & Partial<Pick<CharacterOwnedDetails, "awakening">>;
+	} & Partial<Pick<CharacterOwned, "awakening">>;
 
 export default function CharacterCard({
 	class_id,
