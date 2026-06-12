@@ -1,13 +1,13 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
+import type { StatId } from "@/data/STAT_DATA";
 import type { TierId } from "@/data/TIERS_DATA";
-import type { TraitId } from "@/data/TRAIT_ATTRIBUTES_DATA";
 import type { StoreState } from "@/stores/app-store";
 
 export type MonsterlingOwned = {
 	monsterling_id: number;
 	tier: TierId;
-	traits: { tier_id: TierId; trait_id: TraitId }[];
+	traits: { tier_id: TierId; trait_id: StatId }[];
 };
 
 export type MonsterlingOwnedSlice = {
