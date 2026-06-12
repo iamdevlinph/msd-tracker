@@ -1,0 +1,1 @@
+export const MONSTERLING_CARD_WIDTH = 350;

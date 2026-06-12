@@ -31,12 +31,16 @@ type NavItem = {
 		  }
 		| { type: "iconify"; icon: JSX.Element };
 	link: keyof FileRoutesByTo;
+	hidden?: boolean;
 };
 
 type NavSection = {
 	title?: string;
 	items: NavItem[];
+	hidden?: boolean;
 };
+
+const hideItem = import.meta.env.VITE_NODE_ENV === "development";
 
 const navSections: NavSection[] = [
 	{
@@ -46,6 +50,7 @@ const navSections: NavSection[] = [
 				label: "Checklist",
 				icon: { type: "lucide", icon: CalendarCheck2 },
 				link: "/events",
+				hidden: hideItem,
 			},
 			{
 				id: "characters",
@@ -73,6 +78,7 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="boxicons:sword-filled" />,
 				},
 				link: "/artifacts",
+				hidden: hideItem,
 			},
 			{
 				id: "monsterlings",
@@ -82,6 +88,7 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="fluent:animal-paw-print-16-filled" />,
 				},
 				link: "/monsterlings",
+				hidden: hideItem,
 			},
 			{
 				id: "equipments",
@@ -91,8 +98,10 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="game-icons:shoulder-armor" />,
 				},
 				link: "/equipments",
+				hidden: hideItem,
 			},
 		],
+		hidden: hideItem,
 	},
 	{
 		title: "Settings",
@@ -121,9 +130,13 @@ export const Nav = () => {
 			<div className="space-y-0.5">
 				{navSections.map((section, i) => (
 					<div key={section.title ?? i}>
-						{section.title && <SeparatorText>{section.title}</SeparatorText>}
+						{section.title && !section.hidden && (
+							<SeparatorText>{section.title}</SeparatorText>
+						)}
 
-						{section.items.map(({ id, label, icon: Icon, link }) => {
+						{section.items.map(({ id, label, icon: Icon, link, hidden }) => {
+							if (hidden) return null;
+
 							const isActive = pathname === link;
 
 							return (
