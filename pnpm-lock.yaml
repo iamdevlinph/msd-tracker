@@ -17,6 +17,12 @@ importers:
       '@hookform/resolvers':
         specifier: 5.4.0
         version: 5.4.0(react-hook-form@7.77.0(react@19.2.0))
+      '@iconify-react/game-icons':
+        specifier: 1.0.3
+        version: 1.0.3(react@19.2.0)
+      '@iconify/react':
+        specifier: 6.0.2
+        version: 6.0.2(react@19.2.0)
       '@icons-pack/react-simple-icons':
         specifier: 13.13.0
         version: 13.13.0(react@19.2.0)
@@ -1669,6 +1675,22 @@ packages:
     resolution: {integrity: sha512-EIsqr/t/qbinPIhGjMdtvutIN1Kk4uwbROE9/UQ93CAVGR7GkA7Y92+fX80OzXi/OB67jVFYwKGO1WzkxmkFZw==}
     peerDependencies:
       react-hook-form: ^7.55.0
+
+  '@iconify-react/game-icons@1.0.3':
+    resolution: {integrity: sha512-Xy5KKYawM2ViuylVtCiu2v6K6MUIlVS6o4WPrNTJDZyS3c5XJ7JJs++OoIFpxLA9LmIbZXCKbLgHr+maswoohg==}
+
+  '@iconify/css-react@1.0.2':
+    resolution: {integrity: sha512-k33FKG4jGgd8odos+1HdSwCKZOQ5F1heQxwl/zDrA53tLg5IseDPMqsmQbcCEZ6E0Zgcrmfo4ceFSBmbuEvGtw==}
+    peerDependencies:
+      react: '>=18.0.0'
+
+  '@iconify/react@6.0.2':
+    resolution: {integrity: sha512-SMmC2sactfpJD427WJEDN6PMyznTFMhByK9yLW0gOTtnjzzbsi/Ke/XqsumsavFPwNiXs8jSiYeZTmLCLwO+Fg==}
+    peerDependencies:
+      react: '>=16'
+
+  '@iconify/types@2.0.0':
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
   '@icons-pack/react-simple-icons@13.13.0':
     resolution: {integrity: sha512-B5HhQMIpcSH4z8IZ8HFhD59CboHceKYMpPC9kAwGyKntvPdyJJv26DLu4Z1wAjcCLyrJhf11tMhiQGom9Rxb9g==}
@@ -10191,6 +10213,24 @@ snapshots:
     dependencies:
       '@standard-schema/utils': 0.3.0
       react-hook-form: 7.77.0(react@19.2.0)
+
+  '@iconify-react/game-icons@1.0.3(react@19.2.0)':
+    dependencies:
+      '@iconify/css-react': 1.0.2(react@19.2.0)
+    transitivePeerDependencies:
+      - react
+
+  '@iconify/css-react@1.0.2(react@19.2.0)':
+    dependencies:
+      '@iconify/types': 2.0.0
+      react: 19.2.0
+
+  '@iconify/react@6.0.2(react@19.2.0)':
+    dependencies:
+      '@iconify/types': 2.0.0
+      react: 19.2.0
+
+  '@iconify/types@2.0.0': {}
 
   '@icons-pack/react-simple-icons@13.13.0(react@19.2.0)':
     dependencies:

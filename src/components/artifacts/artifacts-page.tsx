@@ -1,9 +1,9 @@
 import { PageTitle } from "@/components/page-title";
 
-export const EventsPage = () => {
+export const ArtifactsPage = () => {
 	return (
 		<div>
-			<PageTitle title="Checklist" />
+			<PageTitle title="Artifacts" />
 		</div>
 	);
 };
