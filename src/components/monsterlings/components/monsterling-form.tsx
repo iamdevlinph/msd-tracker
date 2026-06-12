@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { ComboboxFormInput } from "@/components/forms/combobox-input";
 import { useMonsterOptionStore } from "@/components/monsterlings/store/monsterlings-options-store";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import { Card, CardContent } from "@/components/ui/card";
-import { Field, FieldGroup } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
 import { TIER_ID_BY_TIER } from "@/data/TIERS_DATA";
@@ -68,10 +69,15 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 
 	const onSubmit = (data: MonsterlingOwned) => {
 		console.info("🍉debuu ~ onSubmit ~ data:", data);
-		// setMonsterlingOwned(data, id);
+		setMonsterlingOwned(data, id);
 
-		// onClose();
+		onClose();
 	};
+
+	const tierValue = useWatch({
+		control: form.control,
+		name: "tier_id",
+	});
 
 	return (
 		<div className="flex flex-col gap-5">
@@ -90,6 +96,41 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 								options={getMonsterlingOptions()}
 								selectValueType="number"
 							/>
+						</FieldGroup>
+
+						<FieldGroup>
+							<Field className="flex flex-col sm:flex-row">
+								<FieldLabel>Tier</FieldLabel>
+
+								<ButtonGroup className="justify-end">
+									<Button
+										variant={
+											tierValue === TIER_ID_BY_TIER.CHOICE_4
+												? "default"
+												: "outline"
+										}
+										onClick={() =>
+											form.setValue("tier_id", TIER_ID_BY_TIER.CHOICE_4)
+										}
+										type="button"
+									>
+										{TIER_ID_BY_TIER.CHOICE_4}
+									</Button>
+									<Button
+										variant={
+											tierValue === TIER_ID_BY_TIER.PRIME_5
+												? "default"
+												: "outline"
+										}
+										onClick={() =>
+											form.setValue("tier_id", TIER_ID_BY_TIER.PRIME_5)
+										}
+										type="button"
+									>
+										{TIER_ID_BY_TIER.PRIME_5}
+									</Button>
+								</ButtonGroup>
+							</Field>
 						</FieldGroup>
 
 						<SeparatorText>Traits</SeparatorText>

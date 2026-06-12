@@ -1,9 +1,11 @@
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
-import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
-import { TIER_ID_BY_TIER } from "@/data/TIERS_DATA";
+import { useAppStore } from "@/stores/app-store";
 
 export const MonsterlingsList = () => {
+	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
+	console.log("debu", monsterlingsOwned);
+	console.log(Object.entries(monsterlingsOwned));
 	return (
 		<div className="">
 			<div
@@ -12,19 +14,13 @@ export const MonsterlingsList = () => {
 					gridTemplateColumns: `repeat(auto-fit, ${MONSTERLING_CARD_WIDTH}px)`,
 				}}
 			>
-				{Array.from({ length: 10 }).map((_val, idx) => {
-					const tempId = idx + 1;
+				{Object.entries(monsterlingsOwned).map(([key, monsterling]) => {
 					return (
 						<MonsterlingCard
-							key={tempId}
-							monsterling_id={34}
-							tier_id={TIER_ID_BY_TIER.PRIME_5}
-							traits={[
-								{
-									tier_id: TIER_ID_BY_TIER.PRIME_5,
-									stat_id: STAT_ID_BY_STAT.ICE_DMG,
-								},
-							]}
+							key={key}
+							monsterling_id={monsterling.monsterling_id}
+							tier_id={monsterling.tier_id}
+							traits={monsterling.traits}
 						/>
 					);
 				})}

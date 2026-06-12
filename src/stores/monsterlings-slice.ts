@@ -15,29 +15,35 @@ export const createMonsterlingsSlice: StateCreator<
 	[],
 	[],
 	MonsterlingsSlice
-> = (set) => ({
-	monsterlingsOwned: {},
+> = (set) => {
+	return {
+		monsterlingsOwned: {},
 
-	setMonsterlingOwned: (monsterling, id) =>
-		set((state) => {
-			const monsterlingOwnedId = id ?? nanoid();
-			return {
-				monsterlings: {
-					...state.charactersOwned,
-					[monsterlingOwnedId]: {
-						...monsterling,
+		setMonsterlingOwned: (monsterling, id) =>
+			set((state) => {
+				console.info(
+					"🍉debuu ~ createMonsterlingsSlice ~ monsterling:",
+					monsterling,
+				);
+				const monsterlingOwnedId = id ?? nanoid();
+				return {
+					monsterlingsOwned: {
+						...state.monsterlingsOwned,
+						[monsterlingOwnedId]: {
+							...monsterling,
+						},
 					},
-				},
-				backupUpdatedAt: Date.now(),
-			};
-		}),
+					// backupUpdatedAt: Date.now(),
+				};
+			}),
 
-	deleteMonsterlingOwned: (id) =>
-		set((state) => {
-			const { [id]: _toDelete, ...rest } = state.monsterlingsOwned;
-			return {
-				monsterlingsOwned: { ...rest },
-				backupUpdatedAt: Date.now(),
-			};
-		}),
-});
+		deleteMonsterlingOwned: (id) =>
+			set((state) => {
+				const { [id]: _toDelete, ...rest } = state.monsterlingsOwned;
+				return {
+					monsterlingsOwned: { ...rest },
+					// backupUpdatedAt: Date.now(),
+				};
+			}),
+	};
+};
