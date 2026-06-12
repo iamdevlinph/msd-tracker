@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterFilter } from "@/components/characters/components/character-filter";
-import { CharacterPortrait } from "@/components/characters/components/character-portrait";
+import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -64,7 +64,7 @@ export function AddCharacter() {
 									<ArrowLeft />
 								</Button>
 								<div className="flex items-center gap-2 relative">
-									<CharacterPortrait
+									<TierPortrait
 										portraitImg={charToAddInfo.portraitImage}
 										portraitSize={50}
 										tier={charToAddInfo.tier_id}
@@ -106,7 +106,7 @@ export function AddCharacter() {
 													name={character.name}
 													element_id={character.element_id}
 													class_id={character.class_id}
-													tier={character.tier_id}
+													tier_id={character.tier_id}
 												/>
 											</button>
 										);

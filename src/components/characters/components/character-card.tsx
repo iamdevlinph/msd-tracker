@@ -1,4 +1,4 @@
-import { CharacterPortrait } from "@/components/characters/components/character-portrait";
+import { TierPortrait } from "@/components/shared/tier-portrait";
 import { CHARACTER_CLASS_DATA } from "@/data/CHARACTER_CLASS_DATA";
 import type { Character } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
@@ -8,15 +8,15 @@ import type { CharacterOwned } from "@/stores/characters-owned-slice";
 
 type CharacterCardProps = Pick<
 	Character,
-	"class_id" | "tier" | "portraitImage" | "name" | "element_id"
+	"class_id" | "tier_id" | "portraitImage" | "name" | "element_id"
 > &
-	Partial<Pick<CharacterPortrait, "portraitSize">> & {
+	Partial<Pick<TierPortrait, "portraitSize">> & {
 		iconSize?: number;
 	} & Partial<Pick<CharacterOwned, "awakening">>;
 
 export default function CharacterCard({
 	class_id,
-	tier,
+	tier_id,
 	portraitImage,
 	name,
 	element_id,
@@ -26,7 +26,7 @@ export default function CharacterCard({
 }: CharacterCardProps) {
 	const elemInfo = ELEMENTS_DATA[element_id];
 	const characterClassInfo = CHARACTER_CLASS_DATA[class_id];
-	const tierBaseImg = TIERS_DATA[tier].base;
+	const tierBaseImg = TIERS_DATA[tier_id].base;
 
 	// const awakeningImg =
 	// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1781063623/msd/Misc/awakening-icon.png";
@@ -83,10 +83,10 @@ export default function CharacterCard({
 						</span>
 					</div>
 				)}
-				<CharacterPortrait
+				<TierPortrait
 					portraitImg={portraitImage}
 					portraitSize={portraitSize}
-					tier={tier}
+					tier={tier_id}
 					name={name}
 				/>
 			</div>

@@ -6,11 +6,11 @@ import type { StoreState } from "@/stores/app-store";
 
 export type MonsterlingOwned = {
 	monsterling_id: number;
-	tier: TierId;
-	traits: { tier_id: TierId; trait_id: StatId }[];
+	tier_id: TierId;
+	traits: { tier_id: TierId; stat_id: StatId }[];
 };
 
-export type MonsterlingOwnedSlice = {
+export type MonsterlingsSlice = {
 	monsterlingsOwned: Record<string, MonsterlingOwned>;
 
 	setMonsterlingOwned: (monsterling: MonsterlingOwned) => void;
@@ -21,7 +21,7 @@ export const createMonsterlingsSlice: StateCreator<
 	StoreState,
 	[],
 	[],
-	MonsterlingOwnedSlice
+	MonsterlingsSlice
 > = (set) => ({
 	monsterlingsOwned: {},
 

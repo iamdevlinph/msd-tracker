@@ -1,6 +1,6 @@
 import { Trash2Icon } from "lucide-react";
 import { CharacterDetailsForm } from "@/components/characters/components/character-details-form";
-import { CharacterPortrait } from "@/components/characters/components/character-portrait";
+import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -48,7 +48,7 @@ export const EditCharacterDetailsDialog = (
 					<DialogTitle>
 						<div className="flex gap-5 items-center">
 							<div className="flex items-center gap-2 relative">
-								<CharacterPortrait
+								<TierPortrait
 									portraitImg={charInfo.portraitImage}
 									portraitSize={50}
 									tier={charInfo.tier_id}

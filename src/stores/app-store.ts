@@ -10,8 +10,8 @@ import {
 } from "@/stores/completed-monster-codex-slice";
 import {
 	createMonsterlingsSlice,
-	type MonsterlingOwnedSlice,
-} from "@/stores/monsterlings-owned-slice";
+	type MonsterlingsSlice,
+} from "@/stores/monsterlings-slice";
 
 export type StoreState = {
 	logout: () => void;
@@ -35,7 +35,7 @@ export type StoreState = {
 	setHasHydrated: (flag: boolean) => void;
 } & CompletedCodexSlice &
 	CharactersOwnedSlice &
-	MonsterlingOwnedSlice;
+	MonsterlingsSlice;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
