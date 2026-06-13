@@ -8,6 +8,8 @@ export type MonsterlingsSlice = {
 
 	setMonsterlingOwned: (monsterling: MonsterlingOwned, id?: string) => void;
 	deleteMonsterlingOwned: (id: string) => void;
+
+	resetMonsterlingSlice: () => void;
 };
 
 export const createMonsterlingsSlice: StateCreator<
@@ -44,6 +46,12 @@ export const createMonsterlingsSlice: StateCreator<
 					monsterlingsOwned: { ...rest },
 					// backupUpdatedAt: Date.now(),
 				};
+			}),
+
+		resetMonsterlingSlice: () =>
+			set({
+				monsterlingsOwned: {},
+				// backupUpdatedAt: Date.now()
 			}),
 	};
 };
