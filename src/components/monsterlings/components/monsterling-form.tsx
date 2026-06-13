@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { ComboboxFormInput } from "@/components/forms/combobox-input";
 import { SelectInput } from "@/components/forms/select-input";
@@ -30,17 +30,48 @@ const StatIdSchema = createZodEnumFromObject(STAT_ID_BY_STAT);
 const monsterlingFormSchema = z.object({
 	monsterling_id: z.number(),
 	tier_id: TierIdSchema,
-	traits: z.array(
-		z.object({
-			tier_id: TierIdSchema,
-			stat_id: StatIdSchema,
+	traits: z
+		.array(
+			z.object({
+				tier_id: TierIdSchema,
+				stat_id: StatIdSchema.optional().nullable(),
+			}),
+		)
+		.superRefine((traits, ctx) => {
+			const seen = new Map();
+
+			traits.forEach((t, index) => {
+				if (!t.stat_id) {
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message: `Empty stat_id not allowed: ${index}`,
+						path: [index, "stat_id"],
+					});
+					return;
+				}
+
+				const key = t.stat_id;
+
+				if (seen.has(key)) {
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message: `Duplicate stat_id not allowed: ${key}`,
+						path: [index, "stat_id"],
+					});
+				} else {
+					seen.set(key, index);
+				}
+			});
 		}),
-	),
 });
 
 export type MonsterlingOwned = z.infer<typeof monsterlingFormSchema>;
 
 const MONSTERLING_FORM_ID = "MONSTERLING_FORM_ID";
+
+const STARTING_TRAIT = {
+	tier_id: TIER_ID_BY_TIER.PRIME_5,
+};
 
 export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
@@ -66,20 +97,16 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 			tier_id: monsterlingInfo?.tier_id ?? TIER_ID_BY_TIER.PRIME_5,
 			traits: monsterlingInfo?.traits ?? [
 				{
-					tier_id: TIER_ID_BY_TIER.PRIME_5,
-				},
-				{
-					tier_id: TIER_ID_BY_TIER.PRIME_5,
-				},
-				{
-					tier_id: TIER_ID_BY_TIER.PRIME_5,
-				},
-				{
-					tier_id: TIER_ID_BY_TIER.PRIME_5,
+					...STARTING_TRAIT,
 				},
 			],
 		},
-		mode: "onChange",
+		mode: "onSubmit",
+	});
+
+	const { fields, append, remove } = useFieldArray({
+		control: form.control, // control props comes from useForm (optional: if you are using FormProvider)
+		name: "traits", // unique name for your Field Array
 	});
 
 	// const isEdit = id === undefined;
@@ -131,80 +158,65 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 							/>
 						</FieldGroup>
 
-						<FieldGroup>
+						<FieldGroup className="flex flex-col sm:flex-row gap-2 sm:gap-7 justify-between">
 							<TierSelectorInput<MonsterlingOwned>
 								name="tier_id"
 								label="Tier"
 								control={form.control}
 								options={[1, 2, 3, 4, 5]}
+								buttonGroupClass="flex justify-center"
 							/>
 						</FieldGroup>
 
 						<SeparatorText>Traits</SeparatorText>
 
-						<FieldGroup className="flex flex-row">
-							<SelectInput<MonsterlingOwned>
-								name="traits.0.stat_id"
-								options={getStatOptions()}
-								control={form.control}
-								className="w-full"
-							/>
+						<div className="gap-y-5 sm:gap-y-2 flex flex-col">
+							{fields.map((field, index) => (
+								<FieldGroup
+									className="flex flex-col sm:flex-row gap-2 sm:gap-7"
+									key={field.id}
+								>
+									<SelectInput<MonsterlingOwned>
+										name={`traits.${index}.stat_id`}
+										options={getStatOptions()}
+										control={form.control}
+										className="w-full"
+									/>
 
-							<TierSelectorInput<MonsterlingOwned>
-								name="traits.0.tier_id"
-								control={form.control}
-								options={[1, 2, 3, 4, 5]}
-								className="max-w-min"
-							/>
-						</FieldGroup>
+									<TierSelectorInput<MonsterlingOwned>
+										name={`traits.${index}.tier_id`}
+										control={form.control}
+										options={[1, 2, 3, 4, 5]}
+										className="w-full sm:w-1/4"
+										variant="select"
+									/>
+								</FieldGroup>
+							))}
 
-						<FieldGroup className="flex flex-row">
-							<SelectInput<MonsterlingOwned>
-								name="traits.1.stat_id"
-								options={getStatOptions()}
-								control={form.control}
-								className="w-full"
-							/>
+							{fields.length < 4 && (
+								<Button
+									type="button"
+									onClick={() =>
+										append({
+											...STARTING_TRAIT,
+										})
+									}
+									variant={"ghost"}
+								>
+									<small>Add trait</small>
+								</Button>
+							)}
 
-							<TierSelectorInput<MonsterlingOwned>
-								name="traits.1.tier_id"
-								control={form.control}
-								options={[1, 2, 3, 4, 5]}
-								className="max-w-min"
-							/>
-						</FieldGroup>
-
-						<FieldGroup className="flex flex-row">
-							<SelectInput<MonsterlingOwned>
-								name="traits.2.stat_id"
-								options={getStatOptions()}
-								control={form.control}
-								className="w-full"
-							/>
-
-							<TierSelectorInput<MonsterlingOwned>
-								name="traits.2.tier_id"
-								control={form.control}
-								options={[1, 2, 3, 4, 5]}
-								className="max-w-min"
-							/>
-						</FieldGroup>
-
-						<FieldGroup className="flex flex-row">
-							<SelectInput<MonsterlingOwned>
-								name="traits.3.stat_id"
-								options={getStatOptions()}
-								control={form.control}
-								className="w-full"
-							/>
-
-							<TierSelectorInput<MonsterlingOwned>
-								name="traits.3.tier_id"
-								control={form.control}
-								options={[1, 2, 3, 4, 5]}
-								className="max-w-min"
-							/>
-						</FieldGroup>
+							{fields.length > 1 && (
+								<Button
+									type="button"
+									onClick={() => remove(fields.length - 1)}
+									variant={"ghost"}
+								>
+									<small className="text-red-500">Remove trait</small>
+								</Button>
+							)}
+						</div>
 					</form>
 				</CardContent>
 			</Card>
