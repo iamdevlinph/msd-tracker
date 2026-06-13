@@ -19,7 +19,13 @@ export const TierPortrait = ({
 	hideTierBg = false, // for character portrait, we show a bg on the bottom part
 }: TierPortrait) => {
 	const tierImg = TIERS_DATA[tier].base;
-	const tierBg = {
+	const tierBg: Record<TierId, string> = {
+		[TIER_ID_BY_TIER.FODDER_1]:
+			"linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(96,49,142,1) 64%)",
+		[TIER_ID_BY_TIER.STANDARD_2]:
+			"linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(96,49,142,1) 64%)",
+		[TIER_ID_BY_TIER.SELECT_3]:
+			"linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(96,49,142,1) 64%)",
 		[TIER_ID_BY_TIER.CHOICE_4]:
 			"linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(96,49,142,1) 64%)",
 		[TIER_ID_BY_TIER.PRIME_5]:

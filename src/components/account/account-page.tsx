@@ -1,5 +1,8 @@
 import { GoogleSection } from "@/components/account/google/google-section";
+import { MONSTERLING_OPTIONS_CACHE } from "@/components/monsterlings/store/monsterlings-options-store";
+import { STAT_OPTIONS_CACHE } from "@/components/monsterlings/store/stat-options-store";
 import { PageTitle } from "@/components/shared/page-title";
+import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -37,7 +40,7 @@ export const AccountPage = () => {
 						<CardTitle>Clear Data</CardTitle>
 						<CardDescription>Reset data to empty.</CardDescription>
 					</CardHeader>
-					<CardContent className="flex  w-min gap-5 flex-row flex-wrap">
+					<CardContent className="w-full flex gap-5 flex-wrap">
 						<Button onClick={resetCodexStore} variant={"destructive"}>
 							Clear Monster Codex
 						</Button>
@@ -46,6 +49,19 @@ export const AccountPage = () => {
 						</Button>
 						<Button onClick={resetMonsterlingSlice} variant={"destructive"}>
 							Clear Monsterlings Owned
+						</Button>
+						<SeparatorText>Options</SeparatorText>
+						<Button
+							onClick={() => localStorage.removeItem(MONSTERLING_OPTIONS_CACHE)}
+							variant={"destructive"}
+						>
+							Clear Monsterlings Options
+						</Button>
+						<Button
+							onClick={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
+							variant={"destructive"}
+						>
+							Clear Stat Options
 						</Button>
 					</CardContent>
 				</Card>

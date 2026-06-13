@@ -9,9 +9,8 @@ export const MonsterlingCard = ({
 	tier_id,
 	traits,
 	className = "",
-	imageOnly = false,
 }: MonsterlingOwned & { className?: string; imageOnly?: boolean }) => {
-	const { name, image, id } = MONSTERLINGS_DATA[monsterling_id];
+	const { name, image, id: _id } = MONSTERLINGS_DATA[monsterling_id];
 
 	return (
 		<div
@@ -25,11 +24,9 @@ export const MonsterlingCard = ({
 				gridTemplateColumns: "'1fr 1fr' '1fr 1fr'",
 			}}
 		>
-			{!imageOnly && (
-				<small className="text-center" style={{ gridArea: "name" }}>
-					{name}
-				</small>
-			)}
+			<small className="text-center" style={{ gridArea: "name" }}>
+				{name}
+			</small>
 			<div className="relative" style={{ gridArea: "portrait" }}>
 				<TierPortrait
 					tier={tier_id}
@@ -40,14 +37,12 @@ export const MonsterlingCard = ({
 				/>
 			</div>
 
-			{!imageOnly && (
-				<div className="flex flex-col" style={{ gridArea: "stats" }}>
-					<small>Ice dmg 5%</small>
-					<small>Elemental weakness boost dmg 5%</small>
-					<small>Ice dmg 5%</small>
-					<small>Ice dmg 5%</small>
-				</div>
-			)}
+			<div className="flex flex-col" style={{ gridArea: "stats" }}>
+				<small>Ice dmg 5%</small>
+				<small>Elemental weakness boost dmg 5%</small>
+				<small>Ice dmg 5%</small>
+				<small>Ice dmg 5%</small>
+			</div>
 		</div>
 	);
 };

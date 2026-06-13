@@ -8,19 +8,22 @@ import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { TierId } from "@/data/TIERS_DATA";
+import { cn } from "@/lib/utils";
 
 type TierSelectorInputProps<T extends FieldValues> = {
 	name: Path<T>;
 	control: Control<T>;
-	label: string;
 	options: TierId[];
+	label?: string;
+	className?: string;
 };
 
 export const TierSelectorInput = <T extends FieldValues>({
 	name,
 	control,
-	label,
 	options,
+	label = "",
+	className = "",
 }: TierSelectorInputProps<T>) => {
 	return (
 		<Controller
@@ -32,9 +35,9 @@ export const TierSelectorInput = <T extends FieldValues>({
 					<Field
 						orientation="responsive"
 						data-invalid={fieldState.invalid}
-						className="flex flex-col sm:flex-row"
+						className={cn("flex flex-col sm:flex-row", className)}
 					>
-						<FieldLabel>{label}</FieldLabel>
+						{!!label && <FieldLabel>{label}</FieldLabel>}
 
 						<ButtonGroup className="justify-end">
 							{options.map((tier) => {
@@ -44,6 +47,7 @@ export const TierSelectorInput = <T extends FieldValues>({
 										onClick={() => field.onChange(tier)}
 										type="button"
 										key={tier}
+										className="px-2"
 									>
 										{tier}
 									</Button>

@@ -3,11 +3,12 @@ import { persist } from "zustand/middleware";
 import type { SelectOption } from "@/constants";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 
-const VERSION = "1.1.0";
+const MONSTERLING_OPTIONS_VERSION = "1.1.0";
+export const MONSTERLING_OPTIONS_CACHE = "monster-options-cache";
 
 const initialState = {
 	monsterlingOptions: [],
-	version: VERSION,
+	version: MONSTERLING_OPTIONS_VERSION,
 };
 
 export type MonsterlingsOptionsStore = {
@@ -24,7 +25,10 @@ export const useMonsterOptionStore = create<MonsterlingsOptionsStore>()(
 			getMonsterlingOptions: () => {
 				const state = get();
 
-				if (state.monsterlingOptions.length > 0 && state.version === VERSION) {
+				if (
+					state.monsterlingOptions.length > 0 &&
+					state.version === MONSTERLING_OPTIONS_VERSION
+				) {
 					return state.monsterlingOptions;
 				}
 
@@ -32,14 +36,14 @@ export const useMonsterOptionStore = create<MonsterlingsOptionsStore>()(
 
 				set({
 					monsterlingOptions: options,
-					version: VERSION,
+					version: MONSTERLING_OPTIONS_VERSION,
 				});
 
 				return options;
 			},
 		}),
 		{
-			name: "monster-options-cache",
+			name: MONSTERLING_OPTIONS_CACHE,
 		},
 	),
 );

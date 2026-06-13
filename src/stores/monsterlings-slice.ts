@@ -23,10 +23,6 @@ export const createMonsterlingsSlice: StateCreator<
 
 		setMonsterlingOwned: (monsterling, id) =>
 			set((state) => {
-				console.info(
-					"🍉debuu ~ createMonsterlingsSlice ~ monsterling:",
-					monsterling,
-				);
 				const monsterlingOwnedId = id ?? nanoid();
 				return {
 					monsterlingsOwned: {

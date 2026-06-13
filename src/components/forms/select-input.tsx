@@ -13,19 +13,22 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import type { SelectOption } from "@/constants";
+import { cn } from "@/lib/utils";
 
 type SelectInputProps<T extends FieldValues> = {
 	name: Path<T>;
 	control: Control<T>;
-	label: string;
 	options: SelectOption[];
+	label?: string;
+	className?: string;
 };
 
 export const SelectInput = <T extends FieldValues>({
 	name,
 	control,
-	label,
 	options,
+	label = "",
+	className,
 }: SelectInputProps<T>) => {
 	return (
 		<Controller
@@ -35,9 +38,9 @@ export const SelectInput = <T extends FieldValues>({
 				<Field
 					orientation="responsive"
 					data-invalid={fieldState.invalid}
-					className="flex flex-row"
+					className={cn("flex flex-row", className)}
 				>
-					<FieldLabel htmlFor={name}>{label}</FieldLabel>
+					{!!label && <FieldLabel htmlFor={name}>{label}</FieldLabel>}
 					<Select
 						name={field.name}
 						value={field.value}

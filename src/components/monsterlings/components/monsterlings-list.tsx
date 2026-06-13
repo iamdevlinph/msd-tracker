@@ -4,8 +4,6 @@ import { useAppStore } from "@/stores/app-store";
 
 export const MonsterlingsList = () => {
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
-	console.log("debu", monsterlingsOwned);
-	console.log(Object.entries(monsterlingsOwned));
 	return (
 		<div className="">
 			<div

@@ -16,14 +16,20 @@ export const STAT_DATA: StatData = {
 		id: STAT_ID_BY_STAT.ICE_DMG,
 		trait: "Ice Damage",
 		values: {
+			[TIER_ID_BY_TIER.FODDER_1]: 11,
+			[TIER_ID_BY_TIER.STANDARD_2]: 11,
+			[TIER_ID_BY_TIER.SELECT_3]: 11,
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
 	},
 	[STAT_ID_BY_STAT.FIRE_DMG]: {
 		id: STAT_ID_BY_STAT.FIRE_DMG,
-		trait: "Ice Damage",
+		trait: "Fire Damage",
 		values: {
+			[TIER_ID_BY_TIER.FODDER_1]: 11,
+			[TIER_ID_BY_TIER.STANDARD_2]: 11,
+			[TIER_ID_BY_TIER.SELECT_3]: 11,
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},

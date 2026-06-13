@@ -6,6 +6,7 @@ import { SelectInput } from "@/components/forms/select-input";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { useMonsterOptionStore } from "@/components/monsterlings/store/monsterlings-options-store";
+import { useStatOptionStore } from "@/components/monsterlings/store/stat-options-store";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -47,6 +48,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const getMonsterlingOptions = useMonsterOptionStore(
 		(s) => s.getMonsterlingOptions,
 	);
+	const getStatOptions = useStatOptionStore((s) => s.getStatOptions);
 
 	let monsterlingInfo = null;
 
@@ -77,7 +79,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 		mode: "onChange",
 	});
 
-	const isEdit = id === undefined;
+	// const isEdit = id === undefined;
 
 	const onSubmit = (data: MonsterlingOwned) => {
 		console.info("🍉debuu ~ onSubmit ~ data:", data);
@@ -137,51 +139,51 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 
 						<SeparatorText>Traits</SeparatorText>
 
-						<FieldGroup>
+						<FieldGroup className="flex flex-row">
 							<SelectInput<MonsterlingOwned>
 								name="traits.0.stat_id"
-								label="#1"
-								options={[{ label: "A", value: "A" }]}
+								options={getStatOptions()}
 								control={form.control}
+								className="w-full"
 							/>
 
 							<TierSelectorInput<MonsterlingOwned>
 								name="traits.0.tier_id"
-								label=""
 								control={form.control}
 								options={[1, 2, 3, 4, 5]}
+								className="max-w-min"
 							/>
 						</FieldGroup>
 
-						<FieldGroup>
+						<FieldGroup className="flex flex-row">
 							<SelectInput<MonsterlingOwned>
 								name="traits.1.stat_id"
-								label="#2"
-								options={[{ label: "A", value: "A" }]}
+								options={getStatOptions()}
 								control={form.control}
+								className="w-full"
 							/>
 
 							<TierSelectorInput<MonsterlingOwned>
 								name="traits.1.tier_id"
-								label=""
 								control={form.control}
 								options={[1, 2, 3, 4, 5]}
+								className="max-w-min"
 							/>
 						</FieldGroup>
 
-						<FieldGroup>
+						<FieldGroup className="flex flex-row">
 							<SelectInput<MonsterlingOwned>
 								name="traits.2.stat_id"
-								label="#3"
-								options={[{ label: "A", value: "A" }]}
+								options={getStatOptions()}
 								control={form.control}
+								className="w-full"
 							/>
 
 							<TierSelectorInput<MonsterlingOwned>
 								name="traits.2.tier_id"
-								label=""
 								control={form.control}
 								options={[1, 2, 3, 4, 5]}
+								className="max-w-min"
 							/>
 						</FieldGroup>
 					</form>
