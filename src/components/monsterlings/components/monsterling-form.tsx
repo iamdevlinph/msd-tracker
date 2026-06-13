@@ -74,6 +74,9 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 				{
 					tier_id: TIER_ID_BY_TIER.PRIME_5,
 				},
+				{
+					tier_id: TIER_ID_BY_TIER.PRIME_5,
+				},
 			],
 		},
 		mode: "onChange",
@@ -181,6 +184,22 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 
 							<TierSelectorInput<MonsterlingOwned>
 								name="traits.2.tier_id"
+								control={form.control}
+								options={[1, 2, 3, 4, 5]}
+								className="max-w-min"
+							/>
+						</FieldGroup>
+
+						<FieldGroup className="flex flex-row">
+							<SelectInput<MonsterlingOwned>
+								name="traits.3.stat_id"
+								options={getStatOptions()}
+								control={form.control}
+								className="w-full"
+							/>
+
+							<TierSelectorInput<MonsterlingOwned>
+								name="traits.3.tier_id"
 								control={form.control}
 								options={[1, 2, 3, 4, 5]}
 								className="max-w-min"

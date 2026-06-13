@@ -8,6 +8,9 @@ import { TIER_ID_BY_TIER, type TierId } from "@/data/TIERS_DATA";
 export const STAT_ID_BY_STAT = {
 	ICE_DMG: "Ice Dmg",
 	FIRE_DMG: "Fire Dmg",
+	EARTH_DMG: "Earth Dmg",
+	LIGHTNING_DMG: "Lightning Dmg",
+	WIND_DMG: "Wind Dmg",
 } as const;
 export type StatId = (typeof STAT_ID_BY_STAT)[keyof typeof STAT_ID_BY_STAT];
 
@@ -26,6 +29,39 @@ export const STAT_DATA: StatData = {
 	[STAT_ID_BY_STAT.FIRE_DMG]: {
 		id: STAT_ID_BY_STAT.FIRE_DMG,
 		trait: "Fire Damage",
+		values: {
+			[TIER_ID_BY_TIER.FODDER_1]: 11,
+			[TIER_ID_BY_TIER.STANDARD_2]: 11,
+			[TIER_ID_BY_TIER.SELECT_3]: 11,
+			[TIER_ID_BY_TIER.CHOICE_4]: 11,
+			[TIER_ID_BY_TIER.PRIME_5]: 22,
+		},
+	},
+	[STAT_ID_BY_STAT.EARTH_DMG]: {
+		id: STAT_ID_BY_STAT.EARTH_DMG,
+		trait: "Earth Damage",
+		values: {
+			[TIER_ID_BY_TIER.FODDER_1]: 11,
+			[TIER_ID_BY_TIER.STANDARD_2]: 11,
+			[TIER_ID_BY_TIER.SELECT_3]: 11,
+			[TIER_ID_BY_TIER.CHOICE_4]: 11,
+			[TIER_ID_BY_TIER.PRIME_5]: 22,
+		},
+	},
+	[STAT_ID_BY_STAT.LIGHTNING_DMG]: {
+		id: STAT_ID_BY_STAT.LIGHTNING_DMG,
+		trait: "Lightning Damage",
+		values: {
+			[TIER_ID_BY_TIER.FODDER_1]: 11,
+			[TIER_ID_BY_TIER.STANDARD_2]: 11,
+			[TIER_ID_BY_TIER.SELECT_3]: 11,
+			[TIER_ID_BY_TIER.CHOICE_4]: 11,
+			[TIER_ID_BY_TIER.PRIME_5]: 22,
+		},
+	},
+	[STAT_ID_BY_STAT.WIND_DMG]: {
+		id: STAT_ID_BY_STAT.WIND_DMG,
+		trait: "Wind Damage",
 		values: {
 			[TIER_ID_BY_TIER.FODDER_1]: 11,
 			[TIER_ID_BY_TIER.STANDARD_2]: 11,

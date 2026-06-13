@@ -11,13 +11,13 @@ const initialState = {
 	version: STAT_OPTIONS_VERSION,
 };
 
-export type MonsterlingsOptionsStore = {
+export type StatOptionsStore = {
 	statOptions: SelectOption[];
 	version: string;
 	getStatOptions: () => SelectOption[];
 };
 
-export const useStatOptionStore = create<MonsterlingsOptionsStore>()(
+export const useStatOptionStore = create<StatOptionsStore>()(
 	persist(
 		(set, get) => ({
 			...initialState,

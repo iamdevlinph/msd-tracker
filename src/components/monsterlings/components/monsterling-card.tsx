@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export const MonsterlingCard = ({
 	monsterling_id,
 	tier_id,
-	traits,
+	// traits,
 	className = "",
 }: MonsterlingOwned & { className?: string; imageOnly?: boolean }) => {
 	const { name, image, id: _id } = MONSTERLINGS_DATA[monsterling_id];
