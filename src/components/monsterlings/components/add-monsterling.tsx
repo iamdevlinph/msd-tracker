@@ -36,7 +36,7 @@ export const AddMonsterlingDialog = () => {
 
 				<DialogContent
 					className={cn(
-						"overflow-y-scroll max-h-screen",
+						"overflow-y-auto max-h-screen",
 						"max-w-sm sm:min-w-min lg:min-w-218",
 						"lg:min-w-max",
 						// hasSelectedChar && "lg:min-w-max",

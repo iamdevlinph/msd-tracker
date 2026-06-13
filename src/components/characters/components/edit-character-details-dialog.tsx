@@ -37,7 +37,7 @@ export const EditCharacterDetailsDialog = (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent
 				className={cn(
-					"overflow-y-scroll max-h-screen",
+					"overflow-y-auto max-h-screen",
 					"max-w-sm sm:min-w-min lg:min-w-218",
 					"lg:min-w-max",
 					"h-[calc(100dvh-50px)] lg:h-min",
