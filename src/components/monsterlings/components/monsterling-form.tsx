@@ -2,7 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { ComboboxFormInput } from "@/components/forms/combobox-input";
+import { SelectInput } from "@/components/forms/select-input";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
+import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { useMonsterOptionStore } from "@/components/monsterlings/store/monsterlings-options-store";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
@@ -60,7 +62,17 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 			monsterling_id:
 				monsterlingInfo?.monsterling_id ?? MONSTERLINGS_DATA[1].id,
 			tier_id: monsterlingInfo?.tier_id ?? TIER_ID_BY_TIER.PRIME_5,
-			traits: monsterlingInfo?.traits ?? [],
+			traits: monsterlingInfo?.traits ?? [
+				{
+					tier_id: TIER_ID_BY_TIER.PRIME_5,
+				},
+				{
+					tier_id: TIER_ID_BY_TIER.PRIME_5,
+				},
+				{
+					tier_id: TIER_ID_BY_TIER.PRIME_5,
+				},
+			],
 		},
 		mode: "onChange",
 	});
@@ -73,6 +85,11 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 
 		onClose();
 	};
+
+	const monsterlingValue = useWatch({
+		control: form.control,
+		name: "monsterling_id",
+	});
 
 	const tierValue = useWatch({
 		control: form.control,
@@ -88,6 +105,17 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 						id={MONSTERLING_FORM_ID}
 						className="gap-y-2 flex flex-col w-full"
 					>
+						<FieldGroup className="flex items-center justify-center mb-2">
+							<MonsterlingCard
+								monsterling_id={monsterlingValue}
+								tier_id={tierValue}
+								traits={[]}
+								className="w-full"
+							/>
+						</FieldGroup>
+
+						<SeparatorText>Info</SeparatorText>
+
 						<FieldGroup>
 							<ComboboxFormInput<MonsterlingOwned>
 								name="monsterling_id"
@@ -101,7 +129,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 						<FieldGroup>
 							<TierSelectorInput<MonsterlingOwned>
 								name="tier_id"
-								label="MonsterlingTier"
+								label="Tier"
 								control={form.control}
 								options={[1, 2, 3, 4, 5]}
 							/>
@@ -109,7 +137,53 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 
 						<SeparatorText>Traits</SeparatorText>
 
-						<FieldGroup></FieldGroup>
+						<FieldGroup>
+							<SelectInput<MonsterlingOwned>
+								name="traits.0.stat_id"
+								label="#1"
+								options={[{ label: "A", value: "A" }]}
+								control={form.control}
+							/>
+
+							<TierSelectorInput<MonsterlingOwned>
+								name="traits.0.tier_id"
+								label=""
+								control={form.control}
+								options={[1, 2, 3, 4, 5]}
+							/>
+						</FieldGroup>
+
+						<FieldGroup>
+							<SelectInput<MonsterlingOwned>
+								name="traits.1.stat_id"
+								label="#2"
+								options={[{ label: "A", value: "A" }]}
+								control={form.control}
+							/>
+
+							<TierSelectorInput<MonsterlingOwned>
+								name="traits.1.tier_id"
+								label=""
+								control={form.control}
+								options={[1, 2, 3, 4, 5]}
+							/>
+						</FieldGroup>
+
+						<FieldGroup>
+							<SelectInput<MonsterlingOwned>
+								name="traits.2.stat_id"
+								label="#3"
+								options={[{ label: "A", value: "A" }]}
+								control={form.control}
+							/>
+
+							<TierSelectorInput<MonsterlingOwned>
+								name="traits.2.tier_id"
+								label=""
+								control={form.control}
+								options={[1, 2, 3, 4, 5]}
+							/>
+						</FieldGroup>
 					</form>
 				</CardContent>
 			</Card>
