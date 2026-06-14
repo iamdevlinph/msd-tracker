@@ -4,7 +4,7 @@ import { ComboboxFormInput } from "@/components/forms/combobox-form-input";
 import { useStatOptionStore } from "@/components/monsterlings/store/stat-options-store";
 import { ComboboxItem } from "@/components/ui/combobox";
 import type { SelectOption } from "@/constants";
-import { STAT_DATA, type StatId } from "@/data/STAT_DATA";
+import { STAT_DATA } from "@/data/STAT_DATA";
 
 type Props<T extends FieldValues> = {
 	name: Path<T>;
@@ -20,7 +20,7 @@ export const StatComboboxInput = <T extends FieldValues>({
 
 	const renderItem = useMemo(() => {
 		return (item: SelectOption) => {
-			const stat = STAT_DATA[item.value as StatId];
+			const stat = STAT_DATA[+item.value];
 
 			return (
 				<ComboboxItem key={item.value} value={item.value}>
@@ -41,7 +41,7 @@ export const StatComboboxInput = <T extends FieldValues>({
 
 	const getLabel = (value: string) => {
 		if (!value) return "";
-		return STAT_DATA[value as StatId].stat;
+		return STAT_DATA[+value].stat;
 	};
 
 	return (
