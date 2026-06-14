@@ -45,7 +45,13 @@ export function SyncConflictDialog() {
 						<div className="border rounded p-3">
 							<div className="font-medium">Local copy</div>
 							<div>Last updated: {fmt(conflict.local.updatedAt)}</div>
-							<div>Size: {readableBytes(conflict.local.size, 2)}</div>
+							<div>
+								Size:{" "}
+								{readableBytes(conflict.local.size, {
+									decimals: 2,
+									minUnit: "MB",
+								})}
+							</div>
 						</div>
 
 						<AlertDialogAction
@@ -72,7 +78,13 @@ export function SyncConflictDialog() {
 						<div className="border rounded p-3">
 							<div className="font-medium">Remote copy (Google Drive)</div>
 							<div>Last updated: {fmt(conflict.remote.updatedAt)}</div>
-							<div>Size: {readableBytes(conflict.remote.size, 2)}</div>
+							<div>
+								Size:{" "}
+								{readableBytes(conflict.remote.size, {
+									decimals: 2,
+									minUnit: "MB",
+								})}
+							</div>
 						</div>
 
 						<AlertDialogAction
