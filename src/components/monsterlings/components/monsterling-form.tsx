@@ -103,10 +103,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 		name: "traits", // unique name for your Field Array
 	});
 
-	// const isEdit = id === undefined;
-
 	const onSubmit = (data: MonsterlingOwned) => {
-		console.info("🍉debuu ~ onSubmit ~ data:", data);
 		setMonsterlingOwned(data, id);
 
 		onClose();

@@ -31,12 +31,7 @@ export const MonsterlingCard = ({
 			}}
 		>
 			<div className="relative w-max" style={{ gridArea: "portrait" }}>
-				<small
-					className="text-center absolute bottom-2 stroke-black w-full text-shadow-sm/80"
-					style={{
-						gridArea: "name",
-					}}
-				>
+				<small className="text-center absolute bottom-2 stroke-black w-full text-shadow-sm/80 text-[10px]">
 					{name}
 				</small>
 				<TierPortrait
