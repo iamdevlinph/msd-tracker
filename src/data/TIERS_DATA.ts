@@ -1,4 +1,7 @@
-type TiersData = Record<TierId, { id: TierId; full: string; base: string }>;
+type TiersData = Record<
+	TierId,
+	{ id: TierId; full: string; base: string; trait_image: string }
+>;
 
 export const TIER_ID_BY_TIER = {
 	FODDER_1: 1,
@@ -16,6 +19,7 @@ export const TIERS_DATA: TiersData = {
 		// base: "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962365/msd/Tiers/Img_SlotTIerBase_04_02.png",
 		full: "/images/Tiers/Img_SlotTIerBase_01.png",
 		base: "/images/Tiers/Img_SlotTIerBase_01_02.png",
+		trait_image: "/images/Character/Img_potential_Base01.png",
 	},
 	2: {
 		id: TIER_ID_BY_TIER.STANDARD_2,
@@ -23,6 +27,7 @@ export const TIERS_DATA: TiersData = {
 		// base: "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962365/msd/Tiers/Img_SlotTIerBase_04_02.png",
 		full: "/images/Tiers/Img_SlotTIerBase_02.png",
 		base: "/images/Tiers/Img_SlotTIerBase_02_02.png",
+		trait_image: "/images/Character/Img_potential_Base02.png",
 	},
 	3: {
 		id: TIER_ID_BY_TIER.SELECT_3,
@@ -30,6 +35,7 @@ export const TIERS_DATA: TiersData = {
 		// base: "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962365/msd/Tiers/Img_SlotTIerBase_04_02.png",
 		full: "/images/Tiers/Img_SlotTIerBase_03.png",
 		base: "/images/Tiers/Img_SlotTIerBase_03_02.png",
+		trait_image: "/images/Character/Img_potential_Base03.png",
 	},
 	4: {
 		id: TIER_ID_BY_TIER.CHOICE_4,
@@ -37,6 +43,7 @@ export const TIERS_DATA: TiersData = {
 		// base: "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962365/msd/Tiers/Img_SlotTIerBase_04_02.png",
 		full: "/images/Tiers/Img_SlotTIerBase_04.png",
 		base: "/images/Tiers/Img_SlotTIerBase_04_02.png",
+		trait_image: "/images/Character/Img_potential_Base04.png",
 	},
 	5: {
 		id: TIER_ID_BY_TIER.PRIME_5,
@@ -44,5 +51,6 @@ export const TIERS_DATA: TiersData = {
 		// base: "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962367/msd/Tiers/Img_SlotTIerBase_05_02.png",
 		full: "/images/Tiers/Img_SlotTIerBase_05.png",
 		base: "/images/Tiers/Img_SlotTIerBase_05_02.png",
+		trait_image: "/images/Character/Img_potential_Base05.png",
 	},
 };
