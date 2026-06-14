@@ -122,6 +122,11 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 		name: "tier_id",
 	});
 
+	const traitsValue = useWatch({
+		control: form.control,
+		name: "traits",
+	});
+
 	return (
 		<div className="flex flex-col gap-5">
 			<Card>
@@ -131,12 +136,12 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 						id={MONSTERLING_FORM_ID}
 						className="gap-y-2 flex flex-col w-full"
 					>
-						<FieldGroup className="flex items-center justify-center mb-2">
+						<FieldGroup className="mb-2">
 							<MonsterlingCard
 								monsterling_id={monsterlingValue}
 								tier_id={tierValue}
-								traits={[]}
-								className="w-full"
+								traits={traitsValue}
+								className="w-full monsterling-card-form"
 							/>
 						</FieldGroup>
 
