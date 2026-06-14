@@ -88,7 +88,6 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="fluent:animal-paw-print-16-filled" />,
 				},
 				link: "/monsterlings",
-				hidden: hideItem,
 			},
 			{
 				id: "equipments",
@@ -101,7 +100,6 @@ const navSections: NavSection[] = [
 				hidden: hideItem,
 			},
 		],
-		hidden: hideItem,
 	},
 	{
 		title: "Settings",
