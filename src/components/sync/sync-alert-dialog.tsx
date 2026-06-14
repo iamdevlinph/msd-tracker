@@ -49,7 +49,7 @@ export function SyncConflictDialog() {
 								Size:{" "}
 								{readableBytes(conflict.local.size, {
 									decimals: 2,
-									minUnit: "MB",
+									minUnit: "kB",
 								})}
 							</div>
 						</div>
@@ -82,7 +82,7 @@ export function SyncConflictDialog() {
 								Size:{" "}
 								{readableBytes(conflict.remote.size, {
 									decimals: 2,
-									minUnit: "MB",
+									minUnit: "kB",
 								})}
 							</div>
 						</div>
