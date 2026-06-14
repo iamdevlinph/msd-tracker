@@ -39,7 +39,7 @@
     "@tanstack/router-plugin": "1.167.35",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
-    "common-utils-pkg": "4.3.0",
+    "common-utils-pkg": "4.3.2",
     "cookie": "1.1.1",
     "framer-motion": "12.38.0",
     "fuse.js": "7.3.0",

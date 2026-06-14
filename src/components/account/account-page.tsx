@@ -1,5 +1,8 @@
 import { GoogleSection } from "@/components/account/google/google-section";
+import { MONSTERLING_OPTIONS_CACHE } from "@/components/monsterlings/store/monsterlings-options-store";
+import { STAT_OPTIONS_CACHE } from "@/components/monsterlings/store/stat-options-store";
 import { PageTitle } from "@/components/shared/page-title";
+import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -13,6 +16,7 @@ import { useAppStore } from "@/stores/app-store";
 export const AccountPage = () => {
 	const resetCodexStore = useAppStore((s) => s.resetCodexStore);
 	const resetCharacterSlice = useAppStore((s) => s.resetCharacterSlice);
+	const resetMonsterlingSlice = useAppStore((s) => s.resetMonsterlingSlice);
 
 	// useEffect(() => {
 	// 	const params = new URLSearchParams(window.location.search);
@@ -33,15 +37,31 @@ export const AccountPage = () => {
 			<div className="flex flex-col gap-4">
 				<Card>
 					<CardHeader>
-						<CardTitle>Local Data</CardTitle>
-						<CardDescription>Reset local data to empty.</CardDescription>
+						<CardTitle>Clear Data</CardTitle>
+						<CardDescription>Reset data to empty.</CardDescription>
 					</CardHeader>
-					<CardContent className="flex flex-col w-min gap-5">
+					<CardContent className="w-full flex gap-5 flex-wrap">
 						<Button onClick={resetCodexStore} variant={"destructive"}>
-							Reset Monster Codex Data
+							Clear Monster Codex
 						</Button>
 						<Button onClick={resetCharacterSlice} variant={"destructive"}>
-							Reset Characaters Owned Data
+							Clear Characaters Owned
+						</Button>
+						<Button onClick={resetMonsterlingSlice} variant={"destructive"}>
+							Clear Monsterlings Owned
+						</Button>
+						<SeparatorText>Options</SeparatorText>
+						<Button
+							onClick={() => localStorage.removeItem(MONSTERLING_OPTIONS_CACHE)}
+							variant={"destructive"}
+						>
+							Clear Monsterlings Options
+						</Button>
+						<Button
+							onClick={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
+							variant={"destructive"}
+						>
+							Clear Stat Options
 						</Button>
 					</CardContent>
 				</Card>

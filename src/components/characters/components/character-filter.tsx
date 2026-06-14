@@ -1,5 +1,3 @@
-"use client";
-
 import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";

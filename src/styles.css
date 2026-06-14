@@ -140,3 +140,15 @@ input::-webkit-inner-spin-button.hide-input-arrows {
 input[type=number].hide-input-arrows {
   -moz-appearance: textfield;
 }
+
+.monsterling-card {
+  grid-template-areas: "portrait stats";
+}
+
+@media (width <= 640px) {
+  .monsterling-card-form {
+    grid-template-areas: "portrait" "stats" !important;
+    place-items: center;
+  }
+}
+

@@ -25,3 +25,8 @@ export const G_ACCESS_TOKEN_SESSION = "G_ACCESS_TOKEN_SESSION";
 
 export const G_LOCAL_EMAIL = "G_LOCAL_EMAIL";
 export const GOOGLE_LOCAL_DESTROY = [G_LOCAL_EMAIL];
+
+export type SelectOption<ValueType = string> = {
+	label: string;
+	value: ValueType;
+};

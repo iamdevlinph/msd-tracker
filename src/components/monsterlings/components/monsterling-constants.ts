@@ -1,1 +1,1 @@
-export const MONSTERLING_CARD_WIDTH = 350;
+export const MONSTERLING_CARD_WIDTH = 330;

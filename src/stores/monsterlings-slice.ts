@@ -1,20 +1,15 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
-import type { StatId } from "@/data/STAT_DATA";
-import type { TierId } from "@/data/TIERS_DATA";
+import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import type { StoreState } from "@/stores/app-store";
-
-export type MonsterlingOwned = {
-	monsterling_id: number;
-	tier_id: TierId;
-	traits: { tier_id: TierId; stat_id: StatId }[];
-};
 
 export type MonsterlingsSlice = {
 	monsterlingsOwned: Record<string, MonsterlingOwned>;
 
-	setMonsterlingOwned: (monsterling: MonsterlingOwned) => void;
+	setMonsterlingOwned: (monsterling: MonsterlingOwned, id?: string) => void;
 	deleteMonsterlingOwned: (id: string) => void;
+
+	resetMonsterlingSlice: () => void;
 };
 
 export const createMonsterlingsSlice: StateCreator<
@@ -22,29 +17,37 @@ export const createMonsterlingsSlice: StateCreator<
 	[],
 	[],
 	MonsterlingsSlice
-> = (set) => ({
-	monsterlingsOwned: {},
+> = (set) => {
+	return {
+		monsterlingsOwned: {},
 
-	setMonsterlingOwned: (monsterling) =>
-		set((state) => {
-			const id = nanoid();
-			return {
-				monsterlings: {
-					...state.charactersOwned,
-					[id]: {
-						...monsterling,
+		setMonsterlingOwned: (monsterling, id) =>
+			set((state) => {
+				const monsterlingOwnedId = id ?? nanoid();
+				return {
+					monsterlingsOwned: {
+						...state.monsterlingsOwned,
+						[monsterlingOwnedId]: {
+							...monsterling,
+						},
 					},
-				},
-				backupUpdatedAt: Date.now(),
-			};
-		}),
+					backupUpdatedAt: Date.now(),
+				};
+			}),
 
-	deleteMonsterlingOwned: (id) =>
-		set((state) => {
-			const { [id]: _toDelete, ...rest } = state.monsterlingsOwned;
-			return {
-				monsterlingsOwned: { ...rest },
+		deleteMonsterlingOwned: (id) =>
+			set((state) => {
+				const { [id]: _toDelete, ...rest } = state.monsterlingsOwned;
+				return {
+					monsterlingsOwned: { ...rest },
+					backupUpdatedAt: Date.now(),
+				};
+			}),
+
+		resetMonsterlingSlice: () =>
+			set({
+				monsterlingsOwned: {},
 				backupUpdatedAt: Date.now(),
-			};
-		}),
-});
+			}),
+	};
+};
