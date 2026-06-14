@@ -11,11 +11,9 @@ export const MonsterlingCard = ({
 	tier_id,
 	traits,
 	className = "",
-	isOneColumn = false,
 }: MonsterlingOwned & {
 	className?: string;
 	imageOnly?: boolean;
-	isOneColumn?: boolean;
 }) => {
 	const { name, image, id: _id } = MONSTERLINGS_DATA[monsterling_id];
 
