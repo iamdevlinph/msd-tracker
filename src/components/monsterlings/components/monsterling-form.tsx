@@ -174,7 +174,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 									<StatComboboxInput<MonsterlingOwned>
 										name={`traits.${index}.stat_id`}
 										control={form.control}
-										selectValueType="string"
+										selectValueType="number"
 									/>
 
 									<TierSelectorInput<MonsterlingOwned>
@@ -215,6 +215,8 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 					</form>
 				</CardContent>
 			</Card>
+
+			<pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
 
 			<Field
 				orientation="horizontal"
