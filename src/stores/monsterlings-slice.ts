@@ -31,7 +31,7 @@ export const createMonsterlingsSlice: StateCreator<
 							...monsterling,
 						},
 					},
-					// backupUpdatedAt: Date.now(),
+					backupUpdatedAt: Date.now(),
 				};
 			}),
 
@@ -40,14 +40,14 @@ export const createMonsterlingsSlice: StateCreator<
 				const { [id]: _toDelete, ...rest } = state.monsterlingsOwned;
 				return {
 					monsterlingsOwned: { ...rest },
-					// backupUpdatedAt: Date.now(),
+					backupUpdatedAt: Date.now(),
 				};
 			}),
 
 		resetMonsterlingSlice: () =>
 			set({
 				monsterlingsOwned: {},
-				// backupUpdatedAt: Date.now()
+				backupUpdatedAt: Date.now(),
 			}),
 	};
 };
