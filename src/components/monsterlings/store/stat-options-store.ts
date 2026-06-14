@@ -50,7 +50,7 @@ export const useStatOptionStore = create<StatOptionsStore>()(
 
 function buildOptions(): SelectOption[] {
 	return Object.entries(STAT_DATA).map(([key, val]) => ({
-		label: val.trait,
+		label: val.stat,
 		value: key,
 	}));
 }

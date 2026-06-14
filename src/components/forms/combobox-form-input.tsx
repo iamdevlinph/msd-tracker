@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { type JSX, useMemo } from "react";
 import {
 	type Control,
 	Controller,
@@ -12,20 +12,21 @@ import {
 	ComboboxContent,
 	ComboboxEmpty,
 	ComboboxInput,
-	ComboboxItem,
 	ComboboxList,
 } from "@/components/ui/combobox";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/constants";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { cn } from "@/lib/utils";
 
 type ComboboxInputProps<T extends FieldValues> = {
 	name: Path<T>;
 	control: Control<T>;
-	label: string;
+	label?: string;
 	options: SelectOption[];
 	placeholder?: string;
 	selectValueType?: string | "number";
+	renderItem: (item: SelectOption) => JSX.Element;
+	getLabel: (value: string) => string;
 };
 
 export const ComboboxFormInput = <T extends FieldValues>({
@@ -35,37 +36,17 @@ export const ComboboxFormInput = <T extends FieldValues>({
 	options,
 	placeholder = "Select...",
 	selectValueType = "string",
+	renderItem,
+	getLabel,
 }: ComboboxInputProps<T>) => {
-	// const items = useMemo(() => options.map((o) => o.value), [options]);
 	const items = useMemo(
 		() =>
 			options.map((o) => ({
-				label: MONSTERLINGS_DATA[+o.value].name,
+				label: getLabel(o.value),
 				value: o.value,
 			})),
-		[options],
+		[options, getLabel],
 	);
-
-	const renderItem = useMemo(() => {
-		return (item: SelectOption) => {
-			const monster = MONSTERLINGS_DATA[+item.value];
-
-			return (
-				<ComboboxItem key={+item.value} value={item.value}>
-					<img
-						src={monster.image}
-						alt={monster.name}
-						width={30}
-						height={30}
-						loading="lazy"
-					/>
-					<p className="ellipses truncate" title={monster.name}>
-						{monster.name}
-					</p>
-				</ComboboxItem>
-			);
-		};
-	}, []);
 
 	return (
 		<Controller
@@ -78,16 +59,20 @@ export const ComboboxFormInput = <T extends FieldValues>({
 						data-invalid={fieldState.invalid}
 						className="flex flex-col sm:flex-row"
 					>
-						<FieldLabel htmlFor={name}>{label}</FieldLabel>
+						{!!label && <FieldLabel htmlFor={name}>{label}</FieldLabel>}
 
 						<Combobox
 							items={items}
-							value={MONSTERLINGS_DATA[field.value].name}
+							// value={MONSTERLINGS_DATA[field.value].name}
+							value={getLabel(field.value)}
 							onValueChange={(e) => {
 								if (e) field.onChange(selectValueType === "string" ? e : +e);
 							}}
 						>
-							<ComboboxInput placeholder={placeholder} />
+							<ComboboxInput
+								placeholder={placeholder}
+								className={cn(fieldState.invalid && "border-red-500")}
+							/>
 
 							<ComboboxContent>
 								<ComboboxEmpty>No results found.</ComboboxEmpty>

@@ -1,12 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
-import { ComboboxFormInput } from "@/components/forms/combobox-input";
-import { SelectInput } from "@/components/forms/select-input";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
-import { useMonsterOptionStore } from "@/components/monsterlings/store/monsterlings-options-store";
-import { useStatOptionStore } from "@/components/monsterlings/store/stat-options-store";
+import { MonsterlingComboboxInput } from "@/components/monsterlings/components/monsterling-combobox-input";
+import { StatComboboxInput } from "@/components/monsterlings/components/stats-combobox-input";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -44,7 +42,7 @@ const monsterlingFormSchema = z.object({
 				if (!t.stat_id) {
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
-						message: `Empty stat_id not allowed: ${index}`,
+						message: `Empty stat_id not allowed at index: ${index}`,
 						path: [index, "stat_id"],
 					});
 					return;
@@ -76,10 +74,6 @@ const STARTING_TRAIT = {
 export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 	const setMonsterlingOwned = useAppStore((s) => s.setMonsterlingOwned);
-	const getMonsterlingOptions = useMonsterOptionStore(
-		(s) => s.getMonsterlingOptions,
-	);
-	const getStatOptions = useStatOptionStore((s) => s.getStatOptions);
 
 	let monsterlingInfo = null;
 
@@ -149,11 +143,10 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 						<SeparatorText>Info</SeparatorText>
 
 						<FieldGroup>
-							<ComboboxFormInput<MonsterlingOwned>
+							<MonsterlingComboboxInput<MonsterlingOwned>
 								name="monsterling_id"
 								label="Monsterling"
 								control={form.control}
-								options={getMonsterlingOptions()}
 								selectValueType="number"
 							/>
 						</FieldGroup>
@@ -176,19 +169,19 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 									className="flex flex-col sm:flex-row gap-2 sm:gap-7"
 									key={field.id}
 								>
-									<SelectInput<MonsterlingOwned>
+									<StatComboboxInput<MonsterlingOwned>
 										name={`traits.${index}.stat_id`}
-										options={getStatOptions()}
 										control={form.control}
-										className="w-full"
+										selectValueType="string"
 									/>
 
 									<TierSelectorInput<MonsterlingOwned>
 										name={`traits.${index}.tier_id`}
 										control={form.control}
 										options={[1, 2, 3, 4, 5]}
-										className="w-full sm:w-1/4"
+										className="w-full sm:w-2/5"
 										variant="select"
+										selectLabelPrefix="Tier"
 									/>
 								</FieldGroup>
 							))}

@@ -25,6 +25,7 @@ type TierSelectorInputProps<T extends FieldValues> = {
 	className?: string;
 	variant?: "buttons" | "select";
 	buttonGroupClass?: string;
+	selectLabelPrefix?: string;
 };
 
 export const TierSelectorInput = <T extends FieldValues>({
@@ -35,6 +36,7 @@ export const TierSelectorInput = <T extends FieldValues>({
 	className = "",
 	variant = "buttons",
 	buttonGroupClass = "",
+	selectLabelPrefix = "",
 }: TierSelectorInputProps<T>) => {
 	return (
 		<Controller
@@ -80,7 +82,7 @@ export const TierSelectorInput = <T extends FieldValues>({
 								<SelectContent position="popper" className="">
 									{options.map((tier) => (
 										<SelectItem key={tier} value={tier.toString()}>
-											{tier}
+											{selectLabelPrefix} {tier}
 										</SelectItem>
 									))}
 								</SelectContent>
