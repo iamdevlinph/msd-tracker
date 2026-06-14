@@ -216,8 +216,6 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 				</CardContent>
 			</Card>
 
-			<pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
-
 			<Field
 				orientation="horizontal"
 				className="justify-end flex sm:flex-row flex-col-reverse"
