@@ -18,6 +18,7 @@ export function select(state: StoreState): Backup {
 		backupUpdatedAt: state.backupUpdatedAt,
 		monsterCodexCompleted: state.monsterCodexCompleted,
 		charactersOwned: state.charactersOwned,
+		monsterlingsOwned: state.monsterlingsOwned,
 	};
 }
 
