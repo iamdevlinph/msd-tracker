@@ -10,7 +10,7 @@ let debounce: number;
 
 type Backup = Pick<
 	StoreState,
-	"backupUpdatedAt" | "monsterCodexCompleted" | "charactersOwned"
+	"backupUpdatedAt" | "monsterCodexCompleted" | "charactersOwned" | "monsterlingsOwned"
 >;
 
 export function select(state: StoreState): Backup {
