@@ -12,14 +12,14 @@ import { REGION_ID_BY_REGION, type RegionId } from "@/data/REGIONS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 export const initialCodexFilters = {
-	source: 0 as SourceId,
-	region: 0 as RegionId,
+	source: SOURCE_ID_BY_SOURCE.ALL,
+	region: REGION_ID_BY_REGION.ALL,
 	completed: "all" as CompletedFilter,
 	search: "",
 };
 
 const initialState = {
-	monsterlings: {},
+	monsterlings: MONSTERLINGS_DATA,
 	// cachedResults: {},
 	filters: initialCodexFilters,
 };
