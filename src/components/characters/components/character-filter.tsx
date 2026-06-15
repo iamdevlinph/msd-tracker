@@ -1,6 +1,5 @@
 import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -15,33 +14,39 @@ export const CharacterFilter = () => {
 	const setCharacaterFilters = useCharacterFilter(
 		(s) => s.setCharacaterFilters,
 	);
-
-	const [selectedElements, setSelectedElements] = useState<ElementId[]>([]);
-	const [selectedCharacterClass, setSelectedCharacterClass] = useState<
-		CharacterClassId[]
-	>([]);
+	const { selectedElements, selectedCharacterClass } = useCharacterFilter(
+		(s) => s.characterFilters,
+	);
 
 	const handleSelectElement = (elemId: ElementId) => {
 		if (selectedElements.includes(elemId)) {
 			const newArr = arrayRemoveItem(selectedElements, elemId);
-			setSelectedElements([...newArr]);
+			setCharacaterFilters({
+				selectedCharacterClass,
+				selectedElements: [...newArr],
+			});
 		} else {
-			setSelectedElements([...selectedElements, elemId]);
+			setCharacaterFilters({
+				selectedCharacterClass,
+				selectedElements: [...selectedElements, elemId],
+			});
 		}
 	};
 
 	const handleSelectClass = (charClassId: CharacterClassId) => {
 		if (selectedCharacterClass.includes(charClassId)) {
 			const newArr = arrayRemoveItem(selectedCharacterClass, charClassId);
-			setSelectedCharacterClass([...newArr]);
+			setCharacaterFilters({
+				selectedCharacterClass: [...newArr],
+				selectedElements,
+			});
 		} else {
-			setSelectedCharacterClass([...selectedCharacterClass, charClassId]);
+			setCharacaterFilters({
+				selectedCharacterClass: [...selectedCharacterClass, charClassId],
+				selectedElements,
+			});
 		}
 	};
-
-	useEffect(() => {
-		setCharacaterFilters({ selectedElements, selectedCharacterClass });
-	}, [selectedElements, selectedCharacterClass, setCharacaterFilters]);
 
 	return (
 		<ButtonGroup className="flex flex-col md:flex-row">
@@ -68,7 +73,12 @@ export const CharacterFilter = () => {
 					variant={"secondary"}
 					size={"icon"}
 					type="button"
-					onClick={() => setSelectedElements([])}
+					onClick={() =>
+						setCharacaterFilters({
+							selectedCharacterClass,
+							selectedElements: [],
+						})
+					}
 				>
 					<XIcon />
 				</Button>
@@ -103,7 +113,12 @@ export const CharacterFilter = () => {
 					variant={"secondary"}
 					size={"icon"}
 					type="button"
-					onClick={() => setSelectedCharacterClass([])}
+					onClick={() =>
+						setCharacaterFilters({
+							selectedCharacterClass: [],
+							selectedElements,
+						})
+					}
 				>
 					<XIcon />
 				</Button>
