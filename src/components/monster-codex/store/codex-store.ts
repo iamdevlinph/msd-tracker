@@ -11,15 +11,17 @@ import {
 import { REGION_ID_BY_REGION, type RegionId } from "@/data/REGIONS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
+export const initialCodexFilters = {
+	source: 0 as SourceId,
+	region: 0 as RegionId,
+	completed: "all" as CompletedFilter,
+	search: "",
+};
+
 const initialState = {
 	monsterlings: {},
 	// cachedResults: {},
-	filters: {
-		source: 0 as SourceId,
-		region: 0 as RegionId,
-		completed: "all" as CompletedFilter,
-		search: "",
-	},
+	filters: initialCodexFilters,
 };
 
 export type CodexStoreState = {

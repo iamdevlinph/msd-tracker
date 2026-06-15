@@ -1,6 +1,6 @@
 import { CodexFilter } from "@/components/monster-codex/components/codex-filter";
 import { CodexList } from "@/components/monster-codex/components/codex-list";
-import { Regions } from "@/components/monster-codex/components/regions";
+import { CodexRegions } from "@/components/monster-codex/components/codex-regions";
 import { PageTitle } from "@/components/shared/page-title";
 
 export const MonsterCodexPage = () => {
@@ -9,7 +9,7 @@ export const MonsterCodexPage = () => {
 			<PageTitle title="Monster Codex" />
 
 			<div className="flex gap-5 flex-col">
-				<Regions />
+				<CodexRegions />
 				<CodexFilter />
 				<CodexList />
 			</div>

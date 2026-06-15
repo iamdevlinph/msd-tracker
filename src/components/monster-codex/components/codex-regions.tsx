@@ -1,27 +1,14 @@
 import { toSentenceCase } from "common-utils-pkg";
-import { useEffect, useState } from "react";
 
 import { useCodexStore } from "@/components/monster-codex/store/codex-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import {
-	REGION_ID_BY_REGION,
-	REGIONS_DATA,
-	type RegionId,
-} from "@/data/REGIONS_DATA";
+import { REGIONS_DATA } from "@/data/REGIONS_DATA";
 import { cn } from "@/lib/utils";
 
-export const Regions = () => {
+export const CodexRegions = () => {
 	const filterCodex = useCodexStore((s) => s.filterCodex);
 	const filters = useCodexStore((s) => s.filters);
-
-	const [activeRegion, setActiveRegion] = useState<RegionId>(
-		filters.region ?? REGION_ID_BY_REGION.ALL,
-	);
-
-	useEffect(() => {
-		filterCodex({ region: activeRegion });
-	}, [filterCodex, activeRegion]);
 
 	return (
 		<ScrollArea className="">
@@ -33,10 +20,10 @@ export const Regions = () => {
 							className={cn(
 								"cursor-pointer",
 								"bg-background border-background opacity-50",
-								activeRegion === region.id &&
+								filters.region === region.id &&
 									"bg-card border-initial border-b-0 rounded-b-none shadow-none opacity-100",
 							)}
-							onClick={() => setActiveRegion(region.id)}
+							onClick={() => filterCodex({ ...filters, region: region.id })}
 						>
 							<CardContent className="w-32 flex flex-col justify-center items-center">
 								<img
