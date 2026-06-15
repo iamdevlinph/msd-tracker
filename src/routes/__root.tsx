@@ -8,8 +8,9 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Menu } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { scan } from "react-scan";
 import { useGoogleUnloadGuard } from "@/components/account/google/utils/use-google-unload-guard";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { ThemeProvider } from "@/components/themes/theme-provider";
@@ -69,6 +70,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	useGoogleUnloadGuard();
 
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+
+	useEffect(() => {
+		scan({
+			enabled: import.meta.env.VITE_NODE_ENV === "development",
+		});
+	}, []);
 
 	return (
 		<html lang="en" suppressHydrationWarning>
