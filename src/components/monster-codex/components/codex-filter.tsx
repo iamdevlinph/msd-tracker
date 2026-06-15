@@ -104,7 +104,7 @@ export const CodexFilter = () => {
 				</Field>
 			</FieldGroup>
 
-			<FieldGroup className={cn("w-full sm:w-4/12")}>
+			<FieldGroup className="w-full sm:w-2/12">
 				<Field>
 					<FieldLabel>Search</FieldLabel>
 					<div className="relative w-full max-w-sm">
@@ -132,14 +132,16 @@ export const CodexFilter = () => {
 				</Field>
 			</FieldGroup>
 
-			<FieldGroup className="w-2/12 flex self-end">
-				<Button
-					className="max-w-min"
-					variant={"outline"}
-					onClick={() => resetCodexFilters()}
-				>
-					Reset Filters
-				</Button>
+			<FieldGroup className="w-full sm:w-1/12 self-end">
+				<Field>
+					<Button
+						className="max-w-min"
+						variant={"outline"}
+						onClick={() => resetCodexFilters()}
+					>
+						Reset Filters
+					</Button>
+				</Field>
 			</FieldGroup>
 		</div>
 	);
