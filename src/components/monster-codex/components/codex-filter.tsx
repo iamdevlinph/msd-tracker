@@ -44,6 +44,12 @@ export const CodexFilter = () => {
 		});
 	}, [filterCodex, completeFilter, sourceFilter, search]);
 
+	const resetCodexFilters = () => {
+		setSearch("");
+		setSourceFilter(0);
+		setCompleteFilter("all");
+	};
+
 	return (
 		<div className="flex flex-row gap-2 flex-wrap">
 			<FieldGroup className="w-full sm:w-2/12">
@@ -124,6 +130,16 @@ export const CodexFilter = () => {
 						</Button>
 					</div>
 				</Field>
+			</FieldGroup>
+
+			<FieldGroup className="w-2/12 flex self-end">
+				<Button
+					className="max-w-min"
+					variant={"outline"}
+					onClick={() => resetCodexFilters()}
+				>
+					Reset Filters
+				</Button>
 			</FieldGroup>
 		</div>
 	);
