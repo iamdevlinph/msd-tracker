@@ -289,4 +289,13 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Daisy.png",
 		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
+	22: {
+		id: 22,
+		name: "Nagi",
+		class_id: CLASS_ID_BY_CLASS.DESTROYER,
+		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
+		portraitImage: "/images/Character_Portrait/portrait_Nagi_00.png",
+		fullImage: "/images/Character_Full/Img_CharacterIllust_Nagi.png",
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
+	},
 };
