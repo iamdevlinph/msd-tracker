@@ -27,7 +27,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Angel.png",
 		portraitImage: "/images/Character_Portrait/portrait_Angel_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Angel.png",
-		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		tier_id: TIER_ID_BY_TIER.CHOICE_4,
 	},
 	2: {
 		id: 2,
