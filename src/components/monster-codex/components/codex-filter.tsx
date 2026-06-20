@@ -95,7 +95,7 @@ export const CodexFilter = () => {
 			<FieldGroup className="w-full sm:w-2/12">
 				<Field>
 					<FieldLabel>Search</FieldLabel>
-					<div className="relative w-full max-w-sm">
+					<div className="">
 						<Input
 							placeholder="Monsterling name"
 							value={search}
