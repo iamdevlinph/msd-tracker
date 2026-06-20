@@ -5,8 +5,10 @@ import {
 import { ELEMENT_ID_BY_ELEMENT, type ElementId } from "@/data/ELEMENTS_DATA";
 import { TIER_ID_BY_TIER, type TierId } from "@/data/TIERS_DATA";
 
+export type CharId = number;
+
 export type Character = {
-	id: number;
+	id: CharId;
 	name: string;
 	class_id: CharacterClassId;
 	element_id: ElementId;

@@ -1,10 +1,11 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
+import type { CharId } from "@/data/CHARACTERS_DATA";
 import type { StoreState } from "@/stores/app-store";
 
 export type MonsterlingsSlice = {
-	monsterlingsOwned: Record<string, MonsterlingOwned>;
+	monsterlingsOwned: Record<string, MonsterlingOwned & { usedBy?: CharId[] }>;
 
 	setMonsterlingOwned: (monsterling: MonsterlingOwned, id?: string) => void;
 	deleteMonsterlingOwned: (id: string) => void;
