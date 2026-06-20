@@ -10,7 +10,10 @@ let debounce: number;
 
 type Backup = Pick<
 	StoreState,
-	"backupUpdatedAt" | "monsterCodexCompleted" | "charactersOwned" | "monsterlingsOwned"
+	| "backupUpdatedAt"
+	| "monsterCodexCompleted"
+	| "charactersOwned"
+	| "monsterlingsOwned"
 >;
 
 export function select(state: StoreState): Backup {
@@ -135,8 +138,21 @@ export async function initSync() {
 					local: {
 						updatedAt: local.backupUpdatedAt,
 						size: getSize(local),
+						metadata: {
+							charactersOwned: Object.keys(local.charactersOwned).length,
+							monsterlingsOwned: Object.keys(local.monsterlingsOwned).length,
+							codexCompleted: local.monsterCodexCompleted.length,
+						},
 					},
-					remote: { updatedAt: remote.backupUpdatedAt, size: getSize(remote) },
+					remote: {
+						updatedAt: remote.backupUpdatedAt,
+						size: getSize(remote),
+						metadata: {
+							charactersOwned: Object.keys(remote.charactersOwned).length,
+							monsterlingsOwned: Object.keys(remote.monsterlingsOwned).length,
+							codexCompleted: remote.monsterCodexCompleted.length,
+						},
+					},
 				},
 			});
 		} else {

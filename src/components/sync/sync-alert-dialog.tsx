@@ -15,6 +15,14 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import { useAppStore } from "@/stores/app-store";
 
 export function SyncConflictDialog() {
@@ -26,6 +34,8 @@ export function SyncConflictDialog() {
 	const syncInProgress = useAppStore((s) => s.syncInProgress);
 
 	if (!conflict) return null;
+
+	const { local, remote } = conflict;
 
 	const fmt = (ts: number) => new Date(ts).toLocaleString();
 
@@ -44,14 +54,29 @@ export function SyncConflictDialog() {
 					<div className="space-y-2 flex flex-col">
 						<div className="border rounded p-3">
 							<div className="font-medium">Local copy</div>
-							<div>Last updated: {fmt(conflict.local.updatedAt)}</div>
+							<div>Last updated: {fmt(local.updatedAt)}</div>
 							<div>
 								Size:{" "}
-								{readableBytes(conflict.local.size, {
+								{readableBytes(local.size, {
 									decimals: 2,
 									minUnit: "kB",
 								})}
 							</div>
+
+							<Table className="">
+								<TableHeader>
+									<TableHead>Characters</TableHead>
+									<TableHead>Monsterlings</TableHead>
+									<TableHead>Codex</TableHead>
+								</TableHeader>
+								<TableBody>
+									<TableRow>
+										<TableCell>{local.metadata.charactersOwned}</TableCell>
+										<TableCell>{local.metadata.monsterlingsOwned}</TableCell>
+										<TableCell>{local.metadata.codexCompleted}</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
 						</div>
 
 						<AlertDialogAction
@@ -77,14 +102,29 @@ export function SyncConflictDialog() {
 					<div className="space-y-2 flex flex-col">
 						<div className="border rounded p-3">
 							<div className="font-medium">Remote copy (Google Drive)</div>
-							<div>Last updated: {fmt(conflict.remote.updatedAt)}</div>
+							<div>Last updated: {fmt(remote.updatedAt)}</div>
 							<div>
 								Size:{" "}
-								{readableBytes(conflict.remote.size, {
+								{readableBytes(remote.size, {
 									decimals: 2,
 									minUnit: "kB",
 								})}
 							</div>
+
+							<Table className="">
+								<TableHeader>
+									<TableHead>Characters</TableHead>
+									<TableHead>Monsterlings</TableHead>
+									<TableHead>Codex</TableHead>
+								</TableHeader>
+								<TableBody>
+									<TableRow>
+										<TableCell>{remote.metadata.charactersOwned}</TableCell>
+										<TableCell>{remote.metadata.monsterlingsOwned}</TableCell>
+										<TableCell>{remote.metadata.codexCompleted}</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
 						</div>
 
 						<AlertDialogAction

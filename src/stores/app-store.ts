@@ -23,10 +23,20 @@ export type StoreState = {
 		local: {
 			updatedAt: number;
 			size: number;
+			metadata: {
+				charactersOwned: number;
+				monsterlingsOwned: number;
+				codexCompleted: number;
+			};
 		};
 		remote: {
 			updatedAt: number;
 			size: number;
+			metadata: {
+				charactersOwned: number;
+				monsterlingsOwned: number;
+				codexCompleted: number;
+			};
 		};
 	} | null;
 	setSyncConflict: (c: StoreState["syncConflict"]) => void;
