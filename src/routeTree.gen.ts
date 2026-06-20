@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MonsterlingsRouteImport } from './routes/monsterlings'
 import { Route as MonsterCodexRouteImport } from './routes/monster-codex'
+import { Route as LoadoutsRouteImport } from './routes/loadouts'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as EquipmentsRouteImport } from './routes/equipments'
 import { Route as CharactersRouteImport } from './routes/characters'
@@ -29,6 +30,11 @@ const MonsterlingsRoute = MonsterlingsRouteImport.update({
 const MonsterCodexRoute = MonsterCodexRouteImport.update({
   id: '/monster-codex',
   path: '/monster-codex',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoadoutsRoute = LoadoutsRouteImport.update({
+  id: '/loadouts',
+  path: '/loadouts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/characters': typeof CharactersRoute
   '/equipments': typeof EquipmentsRoute
   '/events': typeof EventsRoute
+  '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/characters': typeof CharactersRoute
   '/equipments': typeof EquipmentsRoute
   '/events': typeof EventsRoute
+  '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/characters': typeof CharactersRoute
   '/equipments': typeof EquipmentsRoute
   '/events': typeof EventsRoute
+  '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/characters'
     | '/equipments'
     | '/events'
+    | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
     | '/api/auth/google'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/characters'
     | '/equipments'
     | '/events'
+    | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
     | '/api/auth/google'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/characters'
     | '/equipments'
     | '/events'
+    | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
     | '/api/auth/google'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   CharactersRoute: typeof CharactersRoute
   EquipmentsRoute: typeof EquipmentsRoute
   EventsRoute: typeof EventsRoute
+  LoadoutsRoute: typeof LoadoutsRoute
   MonsterCodexRoute: typeof MonsterCodexRoute
   MonsterlingsRoute: typeof MonsterlingsRoute
   ApiAuthGoogleRoute: typeof ApiAuthGoogleRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/monster-codex'
       fullPath: '/monster-codex'
       preLoaderRoute: typeof MonsterCodexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/loadouts': {
+      id: '/loadouts'
+      path: '/loadouts'
+      fullPath: '/loadouts'
+      preLoaderRoute: typeof LoadoutsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   CharactersRoute: CharactersRoute,
   EquipmentsRoute: EquipmentsRoute,
   EventsRoute: EventsRoute,
+  LoadoutsRoute: LoadoutsRoute,
   MonsterCodexRoute: MonsterCodexRoute,
   MonsterlingsRoute: MonsterlingsRoute,
   ApiAuthGoogleRoute: ApiAuthGoogleRoute,

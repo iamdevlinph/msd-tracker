@@ -1,6 +1,7 @@
 import { Icon as IconifyIcon } from "@iconify/react";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
+	Blocks,
 	BookOpenCheck,
 	CalendarCheck2,
 	type LucideIcon,
@@ -19,7 +20,8 @@ type Tab =
 	| "account"
 	| "artifacts"
 	| "equipments"
-	| "monsterlings";
+	| "monsterlings"
+	| "loadouts";
 
 type NavItem = {
 	id: Tab;
@@ -64,6 +66,13 @@ const navSections: NavSection[] = [
 				label: "Monster Codex",
 				icon: { type: "lucide", icon: BookOpenCheck },
 				link: "/monster-codex",
+			},
+			{
+				id: "loadouts",
+				label: "Loadouts",
+				icon: { type: "lucide", icon: Blocks },
+				link: "/loadouts",
+				hidden: hideItem,
 			},
 		],
 	},
