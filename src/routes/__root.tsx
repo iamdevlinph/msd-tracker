@@ -73,7 +73,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		scan({
-			enabled: import.meta.env.VITE_NODE_ENV === "development",
+			// enabled: import.meta.env.VITE_NODE_ENV === "development",
+			enabled: false,
 		});
 	}, []);
 

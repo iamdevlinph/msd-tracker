@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { XIcon } from "lucide-react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
@@ -12,7 +13,7 @@ import { Field, FieldGroup } from "@/components/ui/field";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
 import { TIER_ID_BY_TIER } from "@/data/TIERS_DATA";
-import { createZodEnumFromObject } from "@/lib/utils";
+import { cn, createZodEnumFromObject } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
 type MonsterlingFormProps = {
@@ -124,6 +125,15 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 		name: "traits",
 	});
 
+	const handleDeleteTrait = (index: number) => {
+		if (fields.length === 1) {
+			form.setValue("traits", [{ tier_id: 5 }]);
+			return;
+		}
+
+		remove(index);
+	};
+
 	return (
 		<div className="flex flex-col gap-5">
 			<Card>
@@ -167,25 +177,41 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 
 						<div className="gap-y-5 sm:gap-y-2 flex flex-col">
 							{fields.map((field, index) => (
-								<FieldGroup
-									className="flex flex-col sm:flex-row gap-2 sm:gap-7"
-									key={field.id}
-								>
-									<StatComboboxInput<MonsterlingOwned>
-										name={`traits.${index}.stat_id`}
-										control={form.control}
-										selectValueType="number"
-									/>
+								<div className="monsterling-card__traits" key={field.id}>
+									<div style={{ gridArea: "stat" }}>
+										<StatComboboxInput<MonsterlingOwned>
+											name={`traits.${index}.stat_id`}
+											control={form.control}
+											selectValueType="number"
+										/>
+									</div>
 
-									<TierSelectorInput<MonsterlingOwned>
-										name={`traits.${index}.tier_id`}
-										control={form.control}
-										options={[1, 2, 3, 4, 5]}
-										className="w-full sm:w-2/5"
-										variant="select"
-										selectLabelPrefix="Tier"
-									/>
-								</FieldGroup>
+									<div style={{ gridArea: "tier" }}>
+										<TierSelectorInput<MonsterlingOwned>
+											name={`traits.${index}.tier_id`}
+											control={form.control}
+											options={[1, 2, 3, 4, 5]}
+											className="w-full"
+											variant="select"
+											selectLabelPrefix="Tier"
+										/>
+									</div>
+
+									<div
+										style={{ gridArea: "remove" }}
+										className="grid place-content-center"
+									>
+										<Button
+											variant={"destructive"}
+											type="button"
+											size="icon-xs"
+											className={cn("min-w-max")}
+											onClick={() => handleDeleteTrait(index)}
+										>
+											<XIcon />
+										</Button>
+									</div>
+								</div>
 							))}
 
 							{fields.length < 4 && (
@@ -199,16 +225,6 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 									variant={"ghost"}
 								>
 									<small>Add trait</small>
-								</Button>
-							)}
-
-							{fields.length > 1 && (
-								<Button
-									type="button"
-									onClick={() => remove(fields.length - 1)}
-									variant={"ghost"}
-								>
-									<small className="text-red-500">Remove trait</small>
 								</Button>
 							)}
 						</div>

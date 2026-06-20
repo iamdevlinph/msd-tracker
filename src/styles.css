@@ -152,3 +152,15 @@ input[type=number].hide-input-arrows {
   }
 }
 
+.monsterling-card__traits {
+  display: grid;
+  grid-template-areas: "stat tier remove";
+  column-gap: theme('spacing.2');
+}
+
+@media (width <= 640px) {
+  .monsterling-card__traits {
+    grid-template-areas: "stat remove" "tier remove" !important;
+    row-gap: theme('spacing.2')
+  }
+}
