@@ -18,6 +18,8 @@ export const AccountPage = () => {
 	const resetCharacterSlice = useAppStore((s) => s.resetCharacterSlice);
 	const resetMonsterlingSlice = useAppStore((s) => s.resetMonsterlingSlice);
 
+	const hideItem = import.meta.env.VITE_NODE_ENV !== "development";
+
 	// useEffect(() => {
 	// 	const params = new URLSearchParams(window.location.search);
 
@@ -50,19 +52,25 @@ export const AccountPage = () => {
 						<Button onClick={resetMonsterlingSlice} variant={"destructive"}>
 							Clear Monsterlings Owned
 						</Button>
-						<SeparatorText>Options</SeparatorText>
-						<Button
-							onClick={() => localStorage.removeItem(MONSTERLING_OPTIONS_CACHE)}
-							variant={"destructive"}
-						>
-							Clear Monsterlings Options
-						</Button>
-						<Button
-							onClick={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
-							variant={"destructive"}
-						>
-							Clear Stat Options
-						</Button>
+						{!hideItem && (
+							<>
+								<SeparatorText>Options</SeparatorText>
+								<Button
+									onClick={() =>
+										localStorage.removeItem(MONSTERLING_OPTIONS_CACHE)
+									}
+									variant={"destructive"}
+								>
+									Clear Monsterlings Options
+								</Button>
+								<Button
+									onClick={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
+									variant={"destructive"}
+								>
+									Clear Stat Options
+								</Button>
+							</>
+						)}
 					</CardContent>
 				</Card>
 
