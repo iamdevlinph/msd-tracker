@@ -85,7 +85,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="font-sans antialiased wrap-anywhere selection:bg-[rgba(79,184,178,0.24)] min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors">
-				<GoogleAnalytics measurementId="G-H85H79E0G5" />
+				<GoogleAnalytics measurementId="G-H85H79E0G5" deferred={false} />
+
 				<ThemeProvider defaultTheme="dark" storageKey="theme">
 					<AppProvider>
 						<GoogleOAuthProvider
