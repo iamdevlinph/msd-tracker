@@ -54,7 +54,6 @@
     "react-intersection-observer": "10.0.3",
     "tailwind-merge": "3.0.2",
     "tailwindcss": "4.1.18",
-    "tanstack-router-ga4": "^1.6.0",
     "tw-animate-css": "1.3.6",
     "zod": "4.4.3",
     "zustand": "5.0.12"

@@ -11,7 +11,6 @@ import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { scan } from "react-scan";
-import { GoogleAnalytics } from "tanstack-router-ga4";
 import { useGoogleUnloadGuard } from "@/components/account/google/utils/use-google-unload-guard";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { ThemeProvider } from "@/components/themes/theme-provider";
@@ -53,6 +52,19 @@ export const Route = createRootRoute({
 			// {
 			// 	src: "",
 			// },
+			{
+				async: true,
+				src: "https://www.googletagmanager.com/gtag/js?id=G-H85H79E0G5",
+			},
+			{
+				children: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-H85H79E0G5');
+        `,
+			},
 		],
 	}),
 	shellComponent: RootDocument,
@@ -85,14 +97,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="font-sans antialiased wrap-anywhere selection:bg-[rgba(79,184,178,0.24)] min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors">
-				<GoogleAnalytics
-					measurementId="G-H85H79E0G5"
-					deferred={false}
-					config={{
-						debug_mode: true,
-					}}
-				/>
-
 				<ThemeProvider defaultTheme="dark" storageKey="theme">
 					<AppProvider>
 						<GoogleOAuthProvider
