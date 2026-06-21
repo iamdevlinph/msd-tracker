@@ -9,9 +9,9 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
-import ReactGA from "react-ga4";
 import { Toaster } from "react-hot-toast";
 import { scan } from "react-scan";
+import { GoogleAnalytics } from "tanstack-router-ga4";
 import { useGoogleUnloadGuard } from "@/components/account/google/utils/use-google-unload-guard";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { ThemeProvider } from "@/components/themes/theme-provider";
@@ -77,8 +77,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			// enabled: import.meta.env.VITE_NODE_ENV === "development",
 			enabled: false,
 		});
-
-		ReactGA.initialize("G-H85H79E0G5");
 	}, []);
 
 	return (
@@ -96,6 +94,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 								client={queryClient}
 								persistOptions={{ persister: asyncStoragePersister }}
 							>
+								<GoogleAnalytics measurementId="G-H85H79E0G5" />
+
 								<SyncConflictDialog />
 
 								<div className="flex h-screen bg-background overflow-hidden">
