@@ -1,3 +1,4 @@
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { GoogleSection } from "@/components/account/google/google-section";
 import { MONSTERLING_OPTIONS_CACHE } from "@/components/monsterlings/store/monsterlings-options-store";
 import { STAT_OPTIONS_CACHE } from "@/components/monsterlings/store/stat-options-store";
@@ -14,6 +15,8 @@ import {
 import { useAppStore } from "@/stores/app-store";
 
 export const AccountPage = () => {
+	const ga = useGoogleAnalytics();
+
 	const resetCodexStore = useAppStore((s) => s.resetCodexStore);
 	const resetCharacterSlice = useAppStore((s) => s.resetCharacterSlice);
 	const resetMonsterlingSlice = useAppStore((s) => s.resetMonsterlingSlice);
@@ -43,13 +46,31 @@ export const AccountPage = () => {
 						<CardDescription>Reset data to empty.</CardDescription>
 					</CardHeader>
 					<CardContent className="w-full flex gap-5 flex-wrap">
-						<Button onClick={resetCodexStore} variant={"destructive"}>
+						<Button
+							onClick={() => {
+								resetCodexStore();
+								ga.event("reset_codex_store");
+							}}
+							variant={"destructive"}
+						>
 							Clear Monster Codex
 						</Button>
-						<Button onClick={resetCharacterSlice} variant={"destructive"}>
+						<Button
+							onClick={() => {
+								resetCharacterSlice();
+								ga.event("reset_characters_owned");
+							}}
+							variant={"destructive"}
+						>
 							Clear Characaters Owned
 						</Button>
-						<Button onClick={resetMonsterlingSlice} variant={"destructive"}>
+						<Button
+							onClick={() => {
+								resetMonsterlingSlice();
+								ga.event("reset_monsterlings_owned");
+							}}
+							variant={"destructive"}
+						>
 							Clear Monsterlings Owned
 						</Button>
 						{!hideItem && (

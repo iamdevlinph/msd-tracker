@@ -113,6 +113,9 @@ importers:
       tailwindcss:
         specifier: 4.1.18
         version: 4.1.18
+      tanstack-router-ga4:
+        specifier: ^1.6.0
+        version: 1.6.0(@tanstack/react-router@1.169.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       tw-animate-css:
         specifier: 1.3.6
         version: 1.3.6
@@ -4975,6 +4978,12 @@ packages:
 
   tailwindcss@4.1.18:
     resolution: {integrity: sha512-4+Z+0yiYyEtUVCScyfHCxOYP06L5Ne+JiHhY2IjR2KWMIWhJOYZKLSGZaP5HkZ8+bY0cxfzwDE5uOmzFXyIwxw==}
+
+  tanstack-router-ga4@1.6.0:
+    resolution: {integrity: sha512-H9SUSFvDtDH68CNmwKISeVASPKr2DmKFs3ZlfFrmWrjFLDbujMbJxhJHaSHdKcY8dFTP8qoWJSIGP0jBa6vr6Q==}
+    peerDependencies:
+      '@tanstack/react-router': '>=1'
+      react: '>=18'
 
   tapable@2.3.3:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
@@ -10194,6 +10203,11 @@ snapshots:
   tailwind-merge@3.0.2: {}
 
   tailwindcss@4.1.18: {}
+
+  tanstack-router-ga4@1.6.0(@tanstack/react-router@1.169.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
+    dependencies:
+      '@tanstack/react-router': 1.169.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react: 19.2.0
 
   tapable@2.3.3: {}
 

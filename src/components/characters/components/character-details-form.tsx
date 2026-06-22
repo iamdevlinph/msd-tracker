@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { z } from "zod";
 import { NumberControlInput } from "@/components/forms/number-control-input";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
-import type { Character } from "@/data/CHARACTERS_DATA";
+import { CHARACTERS_DATA, type Character } from "@/data/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 type CharacterOwnedDetailsProps = {
@@ -37,6 +38,8 @@ export const CharacterOwnedDetailsForm = ({
 	editCharacterData,
 	submitText = "Add",
 }: CharacterOwnedDetailsProps) => {
+	const ga = useGoogleAnalytics();
+
 	const setCharacterOwned = useAppStore((s) => s.setCharacterOwned);
 
 	const form = useForm<CharacterOwned>({
@@ -70,6 +73,9 @@ export const CharacterOwnedDetailsForm = ({
 			},
 		};
 		setCharacterOwned(object);
+
+		const charInfo = CHARACTERS_DATA[id];
+		ga.event("character_owned_submit", { character: charInfo.name });
 
 		onClose?.();
 	};

@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { z } from "zod";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
@@ -73,6 +74,8 @@ const STARTING_TRAIT = {
 };
 
 export const MonsterlingForm = (props: MonsterlingFormProps) => {
+	const ga = useGoogleAnalytics();
+
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 	const setMonsterlingOwned = useAppStore((s) => s.setMonsterlingOwned);
 
@@ -106,6 +109,9 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 
 	const onSubmit = (data: MonsterlingOwned) => {
 		setMonsterlingOwned(data, id);
+
+		const monsterlingInfo = MONSTERLINGS_DATA[data.monsterling_id];
+		ga.event("monsterling_owned_submit", { character: monsterlingInfo.name });
 
 		onClose();
 	};
