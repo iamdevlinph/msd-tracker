@@ -1,1 +1,1 @@
-pnpm check --staged
+pnpm check --write --staged --no-errors-on-unmatched
