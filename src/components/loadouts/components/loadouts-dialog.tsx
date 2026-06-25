@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, SearchIcon, Trash2Icon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
@@ -97,19 +97,14 @@ export const LoadoutsDialog = ({
 		setActiveCharacterTab("0");
 	}, [loadoutToEdit, loadouts, open]);
 
-	const selectedCharacterIds = useMemo(
-		() => new Set(draft.characters.map((slot) => slot.characterId)),
-		[draft.characters],
+	const selectedCharacterIds = new Set(
+		draft.characters.map((slot) => slot.characterId),
 	);
 
-	const selectedMonsterlingIds = useMemo(
-		() =>
-			new Set(
-				draft.characters.flatMap((slot) =>
-					slot.monsterlingIds.filter((id): id is string => id !== null),
-				),
-			),
-		[draft.characters],
+	const selectedMonsterlingIds = new Set(
+		draft.characters.flatMap((slot) =>
+			slot.monsterlingIds.filter((id): id is string => id !== null),
+		),
 	);
 
 	const ownedCharacters = Object.values(charactersOwned)

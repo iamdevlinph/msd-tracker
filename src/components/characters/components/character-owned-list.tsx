@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
@@ -15,15 +15,9 @@ export const CharacterOwnedList = () => {
 
 	const { selectedCharacterClass, selectedElements } = characterFilters;
 
-	const classSet = useMemo(
-		() => new Set(selectedCharacterClass),
-		[selectedCharacterClass],
-	);
+	const classSet = new Set(selectedCharacterClass);
 
-	const elementSet = useMemo(
-		() => new Set(selectedElements),
-		[selectedElements],
-	);
+	const elementSet = new Set(selectedElements);
 
 	const enrichedCharacters = Object.values(charactersOwned)
 		.map((c) => ({

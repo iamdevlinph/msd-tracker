@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterFilter } from "@/components/characters/components/character-filter";
@@ -26,10 +26,7 @@ export function AddCharacter() {
 
 	const charToAddInfo = hasSelectedChar ? CHARACTERS_DATA[charToAdd] : null;
 
-	const ownedSet = useMemo(
-		() => new Set(Object.values(charactersOwned).map((c) => c.id)),
-		[charactersOwned],
-	);
+	const ownedSet = new Set(Object.values(charactersOwned).map((c) => c.id));
 
 	const noCharsToAdd =
 		Object.keys(charactersOwned).length === Object.keys(CHARACTERS_DATA).length;

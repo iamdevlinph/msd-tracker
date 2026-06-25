@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
+    "@rolldown/plugin-babel": "^0.2.3",
     "@rsbuild/core": "2.0.1",
     "@tailwindcss/typography": "0.5.16",
     "@tanstack/devtools-vite": "0.6.0",
@@ -73,6 +74,7 @@
     "@types/react-dom": "19.2.0",
     "@vitejs/plugin-react": "6.0.1",
     "@vitejs/plugin-rsc": "0.5.24",
+    "babel-plugin-react-compiler": "^1.0.0",
     "husky": "9.1.7",
     "jsdom": "28.1.0",
     "lint-staged": "16.4.0",

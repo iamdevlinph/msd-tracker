@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { ComboboxFormInput } from "@/components/forms/combobox-form-input";
 import { useStatOptionStore } from "@/components/monsterlings/store/stat-options-store";
@@ -18,26 +17,24 @@ export const StatComboboxInput = <T extends FieldValues>({
 }: Props<T>) => {
 	const getStatOptions = useStatOptionStore((s) => s.getStatOptions);
 
-	const renderItem = useMemo(() => {
-		return (item: SelectOption) => {
-			const stat = STAT_DATA[+item.value];
+	const renderItem = (item: SelectOption) => {
+		const stat = STAT_DATA[+item.value];
 
-			return (
-				<ComboboxItem key={item.value} value={item.value}>
-					<img
-						src={stat.image}
-						alt={stat.stat}
-						width={30}
-						height={30}
-						loading="lazy"
-					/>
-					<p className="ellipses truncate" title={stat.stat}>
-						{stat.stat}
-					</p>
-				</ComboboxItem>
-			);
-		};
-	}, []);
+		return (
+			<ComboboxItem key={item.value} value={item.value}>
+				<img
+					src={stat.image}
+					alt={stat.stat}
+					width={30}
+					height={30}
+					loading="lazy"
+				/>
+				<p className="ellipses truncate" title={stat.stat}>
+					{stat.stat}
+				</p>
+			</ComboboxItem>
+		);
+	};
 
 	const getLabel = (value: string) => {
 		if (!value) return "";
