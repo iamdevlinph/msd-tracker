@@ -14,6 +14,7 @@ type Backup = Pick<
 	| "monsterCodexCompleted"
 	| "charactersOwned"
 	| "monsterlingsOwned"
+	| "loadouts"
 >;
 
 export function select(state: StoreState): Backup {
@@ -22,6 +23,7 @@ export function select(state: StoreState): Backup {
 		monsterCodexCompleted: state.monsterCodexCompleted,
 		charactersOwned: state.charactersOwned,
 		monsterlingsOwned: state.monsterlingsOwned,
+		loadouts: state.loadouts,
 	};
 }
 
@@ -141,6 +143,7 @@ export async function initSync() {
 						metadata: {
 							charactersOwned: Object.keys(local.charactersOwned).length,
 							monsterlingsOwned: Object.keys(local.monsterlingsOwned).length,
+							loadouts: Object.keys(local.loadouts).length,
 							codexCompleted: local.monsterCodexCompleted.length,
 						},
 					},
@@ -150,6 +153,7 @@ export async function initSync() {
 						metadata: {
 							charactersOwned: Object.keys(remote.charactersOwned).length,
 							monsterlingsOwned: Object.keys(remote.monsterlingsOwned).length,
+							loadouts: Object.keys(remote.loadouts ?? {}).length,
 							codexCompleted: remote.monsterCodexCompleted.length,
 						},
 					},

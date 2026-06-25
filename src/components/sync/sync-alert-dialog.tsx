@@ -67,12 +67,14 @@ export function SyncConflictDialog() {
 								<TableHeader>
 									<TableHead>Characters</TableHead>
 									<TableHead>Monsterlings</TableHead>
+									<TableHead>Loadouts</TableHead>
 									<TableHead>Codex</TableHead>
 								</TableHeader>
 								<TableBody>
 									<TableRow>
 										<TableCell>{local.metadata.charactersOwned}</TableCell>
 										<TableCell>{local.metadata.monsterlingsOwned}</TableCell>
+										<TableCell>{local.metadata.loadouts}</TableCell>
 										<TableCell>{local.metadata.codexCompleted}</TableCell>
 									</TableRow>
 								</TableBody>
@@ -115,12 +117,14 @@ export function SyncConflictDialog() {
 								<TableHeader>
 									<TableHead>Characters</TableHead>
 									<TableHead>Monsterlings</TableHead>
+									<TableHead>Loadouts</TableHead>
 									<TableHead>Codex</TableHead>
 								</TableHeader>
 								<TableBody>
 									<TableRow>
 										<TableCell>{remote.metadata.charactersOwned}</TableCell>
 										<TableCell>{remote.metadata.monsterlingsOwned}</TableCell>
+										<TableCell>{remote.metadata.loadouts}</TableCell>
 										<TableCell>{remote.metadata.codexCompleted}</TableCell>
 									</TableRow>
 								</TableBody>
