@@ -205,13 +205,19 @@ export const LoadoutsDialog = ({
 	const showPicker = pickerTarget !== null;
 
 	return (
-		<Dialog modal={false} open={open} onOpenChange={setOpen}>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent
 				className={cn(
 					"overflow-y-auto max-h-[calc(100dvh-50px)] content-start",
 					"max-w-[calc(100%-2rem)] sm:max-w-[620px]",
+					showPicker && "sm:max-w-[760px]",
 					!showPicker && "h-[calc(100dvh-50px)] lg:h-min",
 				)}
+				style={
+					{
+						"--monsterling-card-width": `${MONSTERLING_CARD_WIDTH}px`,
+					} as React.CSSProperties
+				}
 				onCloseAutoFocus={close}
 			>
 				{showPicker ? (
@@ -282,6 +288,7 @@ export const LoadoutsDialog = ({
 										className={cn(
 											"rounded-md border p-2 text-left transition-colors",
 											"hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+											"grid justify-items-center",
 											alreadySelected && "opacity-50 cursor-not-allowed",
 										)}
 									>
@@ -289,7 +296,7 @@ export const LoadoutsDialog = ({
 											monsterling_id={monsterling.monsterling_id}
 											tier_id={monsterling.tier_id}
 											traits={monsterling.traits}
-											className="max-w-full"
+											className="w-[var(--monsterling-card-width)]"
 										/>
 										{alreadySelected && (
 											<div className="mt-2 text-xs text-muted-foreground">
@@ -479,14 +486,7 @@ export const LoadoutsDialog = ({
 												})}
 											</div>
 
-											<div
-												className="grid justify-center gap-4 lg:grid-cols-[190px_330px]"
-												style={
-													{
-														"--monsterling-card-width": `${MONSTERLING_CARD_WIDTH}px`,
-													} as React.CSSProperties
-												}
-											>
+											<div className="grid justify-center gap-4 lg:grid-cols-[190px_330px]">
 												<div className="grid justify-items-center content-start gap-3">
 													{character ? (
 														<CharacterCard
