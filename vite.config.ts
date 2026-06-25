@@ -14,8 +14,8 @@ const config = defineConfig({
 			viteEnvironment: {
 				name: "ssr",
 				//  childEnvironments: ["rsc"]
-		},
-	}),
+			},
+		}),
 		tailwindcss(),
 		tanstackStart({
 			// rsc: {
