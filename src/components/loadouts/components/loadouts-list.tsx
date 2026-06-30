@@ -151,11 +151,7 @@ const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
 											className="size-5"
 										/>
 									)}
-									{(characterOwned?.awakening ?? 0) > 0 && (
-										<span className="rounded-sm bg-background px-1.5 py-0.5 text-xs font-medium">
-											A{characterOwned?.awakening}
-										</span>
-									)}
+
 									{characterClass && (
 										<img
 											src={characterClass.image}
@@ -164,11 +160,17 @@ const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
 											className="size-5"
 										/>
 									)}
+
+									{(characterOwned?.awakening ?? 0) > 0 && (
+										<span className="rounded-sm bg-background px-1.5 py-0.5 text-xs font-medium">
+											A{characterOwned?.awakening}
+										</span>
+									)}
 								</div>
 							</div>
 
 							<div className="grid content-center gap-2">
-								<div className="grid grid-cols-5 gap-2">
+								{/* <div className="grid grid-cols-5 gap-2">
 									<div className="grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 p-1 text-center text-[10px] text-muted-foreground">
 										Artifact
 									</div>
@@ -180,7 +182,7 @@ const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
 											Eq {equipmentIndex}
 										</div>
 									))}
-								</div>
+								</div> */}
 
 								<div className="grid grid-cols-3 gap-2">
 									{MONSTERLING_SLOT_INDEXES.map((monsterIndex) => {
@@ -197,7 +199,7 @@ const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
 											<div
 												key={`${loadout.id}-character-${index + 1}-monsterling-${monsterIndex + 1}`}
 												className={cn(
-													"grid aspect-square rounded-md border bg-background/60 p-1 text-center",
+													"grid rounded-md border bg-background/60 text-center",
 													monsterling &&
 														monsterlingInfo &&
 														"content-center gap-1",
@@ -207,13 +209,13 @@ const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
 											>
 												{monsterling && monsterlingInfo ? (
 													<div className="mx-auto grid place-items-center bg-cover bg-center relative">
-														<small className="text-center absolute bottom-2 stroke-black w-full text-shadow-sm/100 text-[14px]">
+														{/* <small className="text-center absolute bottom-2 stroke-black w-full text-shadow-sm/100 text-[14px]">
 															{monsterlingInfo.name}
-														</small>
+														</small> */}
 														<TierPortrait
 															tier={monsterling.tier_id}
 															portraitImg={monsterlingInfo.image}
-															portraitSize={150}
+															portraitSize={120}
 															name={monsterlingInfo.name}
 															hideTierBg
 														/>

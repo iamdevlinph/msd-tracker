@@ -18,7 +18,8 @@
     "fix": "biome check --fix",
     "deploy": "npm run build && wrangler deploy",
     "cf-typegen": "wrangler types",
-    "prepare": "husky"
+    "prepare": "husky",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@base-ui/react": "1.4.1",
@@ -84,5 +85,10 @@
     "vitest": "3.0.5",
     "wrangler": "4.70.0"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.2.2",
+   "lint-staged": {
+    "*": [
+      "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
+    ]
+  }
 }
