@@ -3,7 +3,7 @@ import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
 
-export const MONSTER_LING_DATA_MUWON: MonsterCodexData = {
+export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	145: {
 		id: 145,
 		name: "Baby Spirit",

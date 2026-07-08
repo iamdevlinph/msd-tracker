@@ -1,5 +1,5 @@
-import { toSentenceCase } from "common-utils-pkg";
-
+import { toTitleCase } from "common-utils-pkg";
+import { Fragment } from "react";
 import { useCodexStore } from "@/components/monster-codex/store/codex-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -14,6 +14,7 @@ export const CodexRegions = () => {
 		<ScrollArea className="">
 			<div className="flex flex-row">
 				{Object.values(REGIONS_DATA).map((region) => {
+					const regionNameTitleCase = toTitleCase(region.region);
 					return (
 						<Card
 							key={region.id}
@@ -32,7 +33,16 @@ export const CodexRegions = () => {
 									height="50"
 									alt={`${region.region} map icon`}
 								/>
-								<h1>{toSentenceCase(region.region)}</h1>
+								<h1 className="text-center break-keep whitespace-nowrap">
+									{/* {toTitleCase(region.region)} */}
+									{/* {toTitleCase()} */}
+									{regionNameTitleCase.split(" ").map((word, index) => (
+										<Fragment key={word}>
+											{index > 0 && <br />}
+											{word}
+										</Fragment>
+									))}
+								</h1>
 							</CardContent>
 						</Card>
 					);

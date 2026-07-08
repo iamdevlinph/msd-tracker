@@ -3,7 +3,9 @@ type MonsterCodexSource =
 	| "capture" // done
 	| "conquest" // done
 	| "mutation" // done
-	| "request";
+	| "request"
+	| "legendary conquest"
+	| "events";
 type MonsterCodexSourceData = Record<
 	SourceId,
 	{ id: SourceId; source: MonsterCodexSource; label: string }
@@ -15,6 +17,8 @@ export const SOURCE_ID_BY_SOURCE = {
 	CONQUEST: 2,
 	MUTATION: 3,
 	REQUEST: 4,
+	LEGENDARY_CONQUEST: 5,
+	EVENTS: 6,
 } as const;
 export type SourceId =
 	(typeof SOURCE_ID_BY_SOURCE)[keyof typeof SOURCE_ID_BY_SOURCE];
@@ -44,5 +48,15 @@ export const MONSTERLINGS_SOURCE_DATA: MonsterCodexSourceData = {
 		id: SOURCE_ID_BY_SOURCE.REQUEST,
 		source: "request",
 		label: "Request Board",
+	},
+	5: {
+		id: SOURCE_ID_BY_SOURCE.LEGENDARY_CONQUEST,
+		source: "legendary conquest",
+		label: "Legendary Conquest",
+	},
+	6: {
+		id: SOURCE_ID_BY_SOURCE.EVENTS,
+		source: "events",
+		label: "Events",
 	},
 };
