@@ -3,7 +3,7 @@ import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
 
-export const MONSTER_LING_DATA_NAMRYUNG: MonsterCodexData = {
+export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	121: {
 		id: 121,
 		name: "Black Hauntstack",

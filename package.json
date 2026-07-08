@@ -10,13 +10,16 @@
     "build": "rm -rf dist && vite build && tsc --noEmit",
     "preview": "vite preview",
     "test": "vitest run",
-    "format": "biome format --write",
-    "lint": "biome lint",
+    "format": "biome check --write .",
+    "format:check": "biome check .",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
     "check": "biome check",
     "fix": "biome check --fix",
     "deploy": "npm run build && wrangler deploy",
     "cf-typegen": "wrangler types",
-    "prepare": "husky"
+    "prepare": "husky",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@base-ui/react": "1.4.1",
@@ -61,6 +64,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
+    "@rolldown/plugin-babel": "^0.2.3",
     "@rsbuild/core": "2.0.1",
     "@tailwindcss/typography": "0.5.16",
     "@tanstack/devtools-vite": "0.6.0",
@@ -71,14 +75,20 @@
     "@types/react-dom": "19.2.0",
     "@vitejs/plugin-react": "6.0.1",
     "@vitejs/plugin-rsc": "0.5.24",
+    "babel-plugin-react-compiler": "^1.0.0",
     "husky": "9.1.7",
     "jsdom": "28.1.0",
     "lint-staged": "16.4.0",
     "react-scan": "0.5.7",
-    "typescript": "5.7.2",
+    "typescript": "7.0.1-rc",
     "vite": "8.0.0",
     "vitest": "3.0.5",
     "wrangler": "4.70.0"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.2.2",
+  "lint-staged": {
+    "*": [
+      "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
+    ]
+  }
 }

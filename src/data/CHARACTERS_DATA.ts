@@ -5,9 +5,12 @@ import {
 import { ELEMENT_ID_BY_ELEMENT, type ElementId } from "@/data/ELEMENTS_DATA";
 import { TIER_ID_BY_TIER, type TierId } from "@/data/TIERS_DATA";
 
+export type CharId = number;
+
 export type Character = {
-	id: number;
+	id: CharId;
 	name: string;
+	internal_name?: string;
 	class_id: CharacterClassId;
 	element_id: ElementId;
 	portraitImage: string;
@@ -80,6 +83,16 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_Francis_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Francis.png",
 		tier_id: TIER_ID_BY_TIER.CHOICE_4,
+	},
+	[200_005]: {
+		id: 200_005,
+		name: "Francis",
+		internal_name: "Francis: Summer Dive!",
+		class_id: CLASS_ID_BY_CLASS.SUPPORT,
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+		portraitImage: "/images/Character_Portrait/portrait_FrancisSummer_01.png",
+		fullImage: "/images/Character_Full/Img_CharacterIllust_FrancisSummer.png",
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	6: {
 		id: 6,
@@ -218,11 +231,21 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		// portraitImage:
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895150/msd/Character_Portrait/portrait_Verna_00.png",
-		// fullImage:
+		// fullImage:a
 		// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1780895146/msd/Character_Full/Img_CharacterIllust_Verna.png",
 		portraitImage: "/images/Character_Portrait/portrait_Verna_00.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Verna.png",
 		tier_id: TIER_ID_BY_TIER.CHOICE_4,
+	},
+	[200_016]: {
+		id: 200_016,
+		name: "Verna",
+		internal_name: "Verna: Summer Dive!",
+		class_id: CLASS_ID_BY_CLASS.FIGHTER,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
+		portraitImage: "/images/Character_Portrait/portrait_VernaSummer_01.png",
+		fullImage: "/images/Character_Full/Img_CharacterIllust_VernaSummer.png",
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 	17: {
 		id: 17,

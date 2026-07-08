@@ -1,6 +1,6 @@
 "use client";
 
-import { type JSX, useMemo } from "react";
+import type { JSX } from "react";
 import {
 	type Control,
 	Controller,
@@ -39,14 +39,10 @@ export const ComboboxFormInput = <T extends FieldValues>({
 	renderItem,
 	getLabel,
 }: ComboboxInputProps<T>) => {
-	const items = useMemo(
-		() =>
-			options.map((o) => ({
-				label: getLabel(o.value),
-				value: o.value,
-			})),
-		[options, getLabel],
-	);
+	const items = options.map((o) => ({
+		label: getLabel(o.value),
+		value: o.value,
+	}));
 
 	return (
 		<Controller

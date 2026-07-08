@@ -20,6 +20,7 @@ export const AccountPage = () => {
 	const resetCodexStore = useAppStore((s) => s.resetCodexStore);
 	const resetCharacterSlice = useAppStore((s) => s.resetCharacterSlice);
 	const resetMonsterlingSlice = useAppStore((s) => s.resetMonsterlingSlice);
+	const resetLoadoutsSlice = useAppStore((s) => s.resetLoadoutsSlice);
 
 	const hideItem = import.meta.env.VITE_NODE_ENV !== "development";
 
@@ -72,6 +73,15 @@ export const AccountPage = () => {
 							variant={"destructive"}
 						>
 							Clear Monsterlings Owned
+						</Button>
+						<Button
+							onClick={() => {
+								resetLoadoutsSlice();
+								ga.event("reset_loadouts");
+							}}
+							variant={"destructive"}
+						>
+							Clear Loadouts
 						</Button>
 						{!hideItem && (
 							<>

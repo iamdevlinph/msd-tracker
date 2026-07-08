@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
 export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
-	const { name, image, id } = MONSTERLINGS_DATA[monsterling_id];
+	const { name, image, id, display_id } = MONSTERLINGS_DATA[monsterling_id];
 
 	const monsterCodexCompleted = useAppStore((s) => s.monsterCodexCompleted);
 	const filterCodex = useCodexStore((s) => s.filterCodex);
@@ -50,7 +50,7 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 					{completed ? <Check /> : <X />}
 				</Button>
 				<CardHeader>
-					<small>No. {id}</small>
+					<small>No. {display_id ?? id}</small>
 				</CardHeader>
 				<CardContent>
 					<img

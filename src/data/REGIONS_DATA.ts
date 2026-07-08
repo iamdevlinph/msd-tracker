@@ -5,7 +5,9 @@ type MonsterCodexRegion =
 	| "namryung"
 	| "serenia"
 	| "surah"
-	| "varhine";
+	| "varhine"
+	| "legendary monsters"
+	| "events";
 type MonsterCodexRegionData = Record<
 	RegionId,
 	{ id: RegionId; region: MonsterCodexRegion; image: string }
@@ -19,6 +21,8 @@ export const REGION_ID_BY_REGION = {
 	SERENIA: 4,
 	SURAH: 5,
 	VARHINE: 6,
+	LEGENDARY: 7,
+	EVENTS: 8,
 } as const;
 export type RegionId =
 	(typeof REGION_ID_BY_REGION)[keyof typeof REGION_ID_BY_REGION];
@@ -72,5 +76,15 @@ export const REGIONS_DATA: MonsterCodexRegionData = {
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780904899/msd/Maps/map-icon-muwon.png",
 		image: "/images/Maps/map-icon-muwon.png",
+	},
+	7: {
+		id: REGION_ID_BY_REGION.LEGENDARY,
+		region: "legendary monsters",
+		image: "/images/Maps/map-icon-all.png",
+	},
+	8: {
+		id: REGION_ID_BY_REGION.EVENTS,
+		region: "events",
+		image: "/images/Maps/map-icon-all.png",
 	},
 };
