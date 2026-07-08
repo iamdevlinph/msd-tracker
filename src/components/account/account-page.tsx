@@ -74,17 +74,18 @@ export const AccountPage = () => {
 						>
 							Clear Monsterlings Owned
 						</Button>
-						<Button
-							onClick={() => {
-								resetLoadoutsSlice();
-								ga.event("reset_loadouts");
-							}}
-							variant={"destructive"}
-						>
-							Clear Loadouts
-						</Button>
+
 						{!hideItem && (
 							<>
+								<Button
+									onClick={() => {
+										resetLoadoutsSlice();
+										ga.event("reset_loadouts");
+									}}
+									variant={"destructive"}
+								>
+									Clear Loadouts
+								</Button>
 								<SeparatorText>Options</SeparatorText>
 								<Button
 									onClick={() =>
