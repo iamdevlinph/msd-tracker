@@ -15,7 +15,7 @@ import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
 const CHARACTER_SLOT_INDEXES = [0, 1, 2] as const;
 const MONSTERLING_SLOT_INDEXES = [0, 1, 2] as const;
-const EQUIPMENT_SLOT_INDEXES = [1, 2, 3, 4] as const;
+// const EQUIPMENT_SLOT_INDEXES = [1, 2, 3, 4] as const;
 const UNKNOWN_CHARACTER_PORTRAIT =
 	"/images/Character_Portrait/portrait_Unknown_00.png";
 

@@ -80,13 +80,13 @@
     "jsdom": "28.1.0",
     "lint-staged": "16.4.0",
     "react-scan": "0.5.7",
-    "typescript": "5.7.2",
+    "typescript": "7.0.1-rc",
     "vite": "8.0.0",
     "vitest": "3.0.5",
     "wrangler": "4.70.0"
   },
   "packageManager": "pnpm@11.2.2",
-   "lint-staged": {
+  "lint-staged": {
     "*": [
       "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
     ]
