@@ -64,6 +64,7 @@ export const CharacterOwnedList = () => {
 									class_id={charOwned.info.class_id}
 									tier_id={charOwned.info.tier_id}
 									awakening={charOwned.awakening}
+									variant={charOwned.info.variant}
 								/>
 								<CharacterSkillLevel charOwned={charOwned} />
 							</button>

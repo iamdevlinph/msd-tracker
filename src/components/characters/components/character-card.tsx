@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 type CharacterCardProps = Pick<
 	Character,
-	"class_id" | "tier_id" | "portraitImage" | "name" | "element_id"
+	"class_id" | "tier_id" | "portraitImage" | "name" | "element_id" | "variant"
 > &
 	Partial<Pick<TierPortrait, "portraitSize">> & {
 		iconSize?: number;
@@ -23,6 +23,7 @@ export default function CharacterCard({
 	portraitSize = 100,
 	iconSize = 25,
 	awakening = undefined,
+	variant = undefined,
 }: CharacterCardProps) {
 	const elemInfo = ELEMENTS_DATA[element_id];
 	const characterClassInfo = CHARACTER_CLASS_DATA[class_id];
@@ -41,6 +42,19 @@ export default function CharacterCard({
 			)}
 		>
 			<div className="relative">
+				{variant && (
+					<div
+						className={cn(
+							"absolute left-1/2 top-0 z-10",
+							"-translate-x-1/2 -translate-y-1/2",
+							"rounded-full border border-white/30 px-3 py-1",
+							"text-[10px] font-semibold tracking-wide text-white whitespace-nowrap uppercase",
+							"shadow-[0_2px_6px_rgba(0,0,0,1)] backdrop-blur-sm",
+						)}
+					>
+						{variant}
+					</div>
+				)}
 				<img
 					src={elemInfo.image}
 					width={iconSize}

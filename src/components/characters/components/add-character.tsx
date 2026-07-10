@@ -79,7 +79,7 @@ export function AddCharacter() {
 						<div className="gap-2 flex flex-col">
 							{!noCharsToAdd && <CharacterFilter />}
 
-							<div className="flex flex-wrap gap-5">
+							<div className="flex flex-wrap gap-5 mt-5">
 								{noCharsToAdd && (
 									<h1 className="flex justify-center items-center w-full">
 										No characters to add
@@ -104,6 +104,7 @@ export function AddCharacter() {
 													element_id={character.element_id}
 													class_id={character.class_id}
 													tier_id={character.tier_id}
+													variant={character.variant}
 												/>
 											</button>
 										);

@@ -16,6 +16,7 @@ export type Character = {
 	portraitImage: string;
 	fullImage: string;
 	tier_id: TierId;
+	variant?: "Summer Dive!";
 };
 
 export const CHARACTERS_DATA: Record<number, Character> = {
@@ -93,6 +94,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_FrancisSummer_01.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_FrancisSummer.png",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		variant: "Summer Dive!",
 	},
 	6: {
 		id: 6,
@@ -246,6 +248,7 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_VernaSummer_01.png",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_VernaSummer.png",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		variant: "Summer Dive!",
 	},
 	17: {
 		id: 17,
