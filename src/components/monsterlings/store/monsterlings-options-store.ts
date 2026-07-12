@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import type { SelectOption } from "@/constants";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 
-const MONSTERLING_OPTIONS_VERSION = "1.1.0";
+const MONSTERLING_OPTIONS_VERSION = "1.2.0";
 export const MONSTERLING_OPTIONS_CACHE = "monster-options-cache";
 
 const initialState = {
