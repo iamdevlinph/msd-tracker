@@ -48,10 +48,12 @@ export function AddCharacter() {
 				onCloseAutoFocus={() => setCharToAdd(null)}
 			>
 				<DialogHeader>
-					<DialogTitle>
-						{!hasSelectedChar && "Add Character"}
+					<div className="flex gap-5 items-center">
+						<DialogTitle>
+							{hasSelectedChar ? charToAddInfo?.name : "Add Character"}
+						</DialogTitle>
 						{hasSelectedChar && charToAddInfo && (
-							<div className="flex gap-5 items-center">
+							<>
 								<Button
 									variant="secondary"
 									size="icon"
@@ -60,19 +62,23 @@ export function AddCharacter() {
 								>
 									<ArrowLeft />
 								</Button>
-								<div className="flex items-center gap-2 relative">
+								<div
+									className="flex items-center gap-2 relative"
+									aria-hidden="true"
+								>
 									<TierPortrait
 										portraitImg={charToAddInfo.portraitImage}
 										portraitSize={50}
 										tier={charToAddInfo.tier_id}
 										name={charToAddInfo.name}
 									/>
-									<span>{charToAddInfo.name}</span>
 								</div>
-							</div>
+							</>
 						)}
-					</DialogTitle>
-					<DialogDescription></DialogDescription>
+					</div>
+					<DialogDescription>
+						Select a character to add to your collection.
+					</DialogDescription>
 				</DialogHeader>
 				<div className="">
 					{!hasSelectedChar && (

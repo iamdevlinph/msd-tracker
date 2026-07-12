@@ -149,7 +149,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 						id={MONSTERLING_FORM_ID}
 						className="gap-y-2 flex flex-col w-full"
 					>
-						<FieldGroup className="mb-2">
+						<FieldGroup className="mb-2 grid place-content-center">
 							<MonsterlingCard
 								monsterling_id={monsterlingValue}
 								tier_id={tierValue}

@@ -40,22 +40,23 @@ export const EditMonsterlingDialog = (props: EditMonsterlingDialogProps) => {
 					onCloseAutoFocus={() => onClose?.()}
 				>
 					<DialogHeader>
-						<DialogTitle>
-							<div className="flex items-center">
-								<Button
-									className=""
-									variant={"destructive"}
-									size={"icon-sm"}
-									onClick={() => {
-										deleteMonsterlingOwned(monsterlingToEdit);
-										setOpen(false);
-									}}
-								>
-									<Trash2Icon />
-								</Button>
-							</div>
-						</DialogTitle>
-						<DialogDescription></DialogDescription>
+						<div className="flex items-center justify-between">
+							<DialogTitle>Edit Monsterling</DialogTitle>
+							<Button
+								className=""
+								variant={"destructive"}
+								size={"icon-sm"}
+								onClick={() => {
+									deleteMonsterlingOwned(monsterlingToEdit);
+									setOpen(false);
+								}}
+							>
+								<Trash2Icon />
+							</Button>
+						</div>
+						<DialogDescription>
+							Update this monsterling or remove it from your collection.
+						</DialogDescription>
 					</DialogHeader>
 					<div className="">
 						<MonsterlingForm

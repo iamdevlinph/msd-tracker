@@ -21,13 +21,15 @@ export const MonsterlingCard = ({
 		<div
 			className={cn(
 				"grid bg-card gap-y-0 gap-x-2 rounded-lg",
-				`w-[${MONSTERLING_CARD_WIDTH}px]`,
 				"monsterling-card",
 				className,
 			)}
 			style={{
+				width: MONSTERLING_CARD_WIDTH,
+				minWidth: MONSTERLING_CARD_WIDTH,
+				maxWidth: MONSTERLING_CARD_WIDTH,
 				gridTemplateAreas: "'portrait stats'",
-				gridTemplateColumns: "",
+				gridTemplateColumns: "120px minmax(0, 1fr)",
 			}}
 		>
 			<div className="relative w-max" style={{ gridArea: "portrait" }}>
@@ -43,7 +45,11 @@ export const MonsterlingCard = ({
 				/>
 			</div>
 
-			<div className="flex flex-col" style={{ gridArea: "stats" }} id="traits">
+			<div
+				className="flex min-w-0 flex-col"
+				style={{ gridArea: "stats" }}
+				id="traits"
+			>
 				{traits.map(({ stat_id, tier_id }, idx) => {
 					if (!stat_id) return null;
 
@@ -60,7 +66,9 @@ export const MonsterlingCard = ({
 										height="100%"
 										width={20}
 									/>
-									<small className="text-shadow-sm/80">{statInfo.label}</small>
+									<small className="truncate text-shadow-sm/80">
+										{statInfo.label}
+									</small>
 								</div>
 							</div>
 							<img

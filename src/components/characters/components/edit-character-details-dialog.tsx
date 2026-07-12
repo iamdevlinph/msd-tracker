@@ -45,31 +45,34 @@ export const EditCharacterDetailsDialog = (
 				onCloseAutoFocus={() => onClose?.()}
 			>
 				<DialogHeader>
-					<DialogTitle>
-						<div className="flex gap-5 items-center">
-							<div className="flex items-center gap-2 relative">
-								<TierPortrait
-									portraitImg={charInfo.portraitImage}
-									portraitSize={50}
-									tier={charInfo.tier_id}
-									name={charInfo.name}
-								/>
-								<span>{charInfo.name}</span>
-							</div>
-							<Button
-								className=""
-								variant={"destructive"}
-								size={"icon-sm"}
-								onClick={() => {
-									deleteCharacterOwned(charIdToEdit);
-									setOpen(false);
-								}}
-							>
-								<Trash2Icon />
-							</Button>
+					<div className="flex gap-5 items-center">
+						<DialogTitle>{charInfo.name}</DialogTitle>
+						<div
+							className="flex items-center gap-2 relative"
+							aria-hidden="true"
+						>
+							<TierPortrait
+								portraitImg={charInfo.portraitImage}
+								portraitSize={50}
+								tier={charInfo.tier_id}
+								name={charInfo.name}
+							/>
 						</div>
-					</DialogTitle>
-					<DialogDescription></DialogDescription>
+						<Button
+							className=""
+							variant={"destructive"}
+							size={"icon-sm"}
+							onClick={() => {
+								deleteCharacterOwned(charIdToEdit);
+								setOpen(false);
+							}}
+						>
+							<Trash2Icon />
+						</Button>
+					</div>
+					<DialogDescription>
+						Update this character or remove it from your collection.
+					</DialogDescription>
 				</DialogHeader>
 				<div className="">
 					<CharacterOwnedDetailsForm

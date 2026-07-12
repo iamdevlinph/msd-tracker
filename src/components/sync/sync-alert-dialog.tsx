@@ -65,10 +65,12 @@ export function SyncConflictDialog() {
 
 							<Table className="">
 								<TableHeader>
-									<TableHead>Characters</TableHead>
-									<TableHead>Monsterlings</TableHead>
-									<TableHead>Loadouts</TableHead>
-									<TableHead>Codex</TableHead>
+									<TableRow>
+										<TableHead scope="col">Characters</TableHead>
+										<TableHead scope="col">Monsterlings</TableHead>
+										<TableHead scope="col">Loadouts</TableHead>
+										<TableHead scope="col">Codex</TableHead>
+									</TableRow>
 								</TableHeader>
 								<TableBody>
 									<TableRow>
@@ -115,10 +117,12 @@ export function SyncConflictDialog() {
 
 							<Table className="">
 								<TableHeader>
-									<TableHead>Characters</TableHead>
-									<TableHead>Monsterlings</TableHead>
-									<TableHead>Loadouts</TableHead>
-									<TableHead>Codex</TableHead>
+									<TableRow>
+										<TableHead scope="col">Characters</TableHead>
+										<TableHead scope="col">Monsterlings</TableHead>
+										<TableHead scope="col">Loadouts</TableHead>
+										<TableHead scope="col">Codex</TableHead>
+									</TableRow>
 								</TableHeader>
 								<TableBody>
 									<TableRow>

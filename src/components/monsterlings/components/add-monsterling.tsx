@@ -39,7 +39,9 @@ export const AddMonsterlingDialog = () => {
 				>
 					<DialogHeader>
 						<DialogTitle>{"Add Monsterling"}</DialogTitle>
-						<DialogDescription></DialogDescription>
+						<DialogDescription>
+							Add a monsterling to your collection.
+						</DialogDescription>
 					</DialogHeader>
 					<div className="">
 						<MonsterlingForm onClose={() => setOpen(false)} />

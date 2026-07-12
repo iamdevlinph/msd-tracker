@@ -6,6 +6,7 @@ import type { StoreState } from "@/stores/app-store";
 export type LoadoutCharacterSlot = {
 	characterId: CharId | null;
 	monsterlingIds: [string | null, string | null, string | null];
+	legendaryMonsterlingId?: string | null;
 };
 
 export type LoadoutOwned = {
@@ -29,6 +30,7 @@ export type LoadoutsSlice = {
 export const emptyLoadoutCharacterSlot = (): LoadoutCharacterSlot => ({
 	characterId: null,
 	monsterlingIds: [null, null, null],
+	legendaryMonsterlingId: null,
 });
 
 export const createLoadoutsSlice: StateCreator<
