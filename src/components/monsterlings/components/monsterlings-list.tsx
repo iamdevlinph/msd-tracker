@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EditMonsterlingDialog } from "@/components/monsterlings/components/edit-monsterling-dialog";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
+import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 export const MonsterlingsList = () => {
@@ -11,6 +12,12 @@ export const MonsterlingsList = () => {
 	);
 
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
+	const sortedMonsterlings = Object.entries(monsterlingsOwned).sort(
+		([idA, a], [idB, b]) =>
+			MONSTERLINGS_DATA[a.monsterling_id].name.localeCompare(
+				MONSTERLINGS_DATA[b.monsterling_id].name,
+			) || idA.localeCompare(idB),
+	);
 	return (
 		<div className="">
 			<div
@@ -19,7 +26,7 @@ export const MonsterlingsList = () => {
 					gridTemplateColumns: `repeat(auto-fit, ${MONSTERLING_CARD_WIDTH}px)`,
 				}}
 			>
-				{Object.entries(monsterlingsOwned).map(([key, monsterling]) => {
+				{sortedMonsterlings.map(([key, monsterling]) => {
 					return (
 						// browser add text-center when for buttons
 						<button
