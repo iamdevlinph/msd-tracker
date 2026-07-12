@@ -1,5 +1,6 @@
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
+import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { TierPortrait } from "@/components/shared/tier-portrait";
@@ -41,6 +42,7 @@ const UNKNOWN_CHARACTER_PORTRAIT =
 export const LoadoutsList = () => {
 	const [open, setOpen] = useState(false);
 	const [loadoutToEdit, setLoadoutToEdit] = useState<string | null>(null);
+	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 
 	const loadouts = useAppStore((s) => s.loadouts);
 	const deleteLoadout = useAppStore((s) => s.deleteLoadout);
@@ -63,6 +65,7 @@ export const LoadoutsList = () => {
 						<LoadoutCard
 							key={loadout.id}
 							loadout={loadout}
+							onPreview={() => setLoadoutToPreview(loadout.id)}
 							onEdit={() => {
 								setLoadoutToEdit(loadout.id);
 								setOpen(true);
@@ -79,17 +82,27 @@ export const LoadoutsList = () => {
 				loadoutToEdit={loadoutToEdit}
 				onClose={() => setLoadoutToEdit(null)}
 			/>
+			<LoadoutPreviewDialog
+				loadout={loadoutToPreview ? (loadouts[loadoutToPreview] ?? null) : null}
+				onOpenChange={(next) => !next && setLoadoutToPreview(null)}
+			/>
 		</div>
 	);
 };
 
 type LoadoutCardProps = {
 	loadout: LoadoutOwned;
+	onPreview: () => void;
 	onEdit: () => void;
 	onDelete: () => void;
 };
 
-const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
+const LoadoutCard = ({
+	loadout,
+	onPreview,
+	onEdit,
+	onDelete,
+}: LoadoutCardProps) => {
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 
@@ -104,7 +117,18 @@ const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
 						type="button"
 						size="icon-sm"
 						variant="outline"
+						onClick={onPreview}
+						aria-label={`Preview ${loadout.name}`}
+						title="Preview loadout"
+					>
+						<EyeIcon />
+					</Button>
+					<Button
+						type="button"
+						size="icon-sm"
+						variant="outline"
 						onClick={onEdit}
+						aria-label={`Edit ${loadout.name}`}
 						title="Edit loadout"
 					>
 						<EditIcon />
@@ -116,6 +140,7 @@ const LoadoutCard = ({ loadout, onEdit, onDelete }: LoadoutCardProps) => {
 								size="icon-sm"
 								variant="destructive"
 								title="Delete loadout"
+								aria-label={`Delete ${loadout.name}`}
 							>
 								<Trash2Icon />
 							</Button>
