@@ -94,12 +94,9 @@ export const LoadoutsDialog = ({
 	const selectedCharacterIds = new Set(
 		draft.characters.map((slot) => slot.characterId),
 	);
-	const selectedMonsterlingIds = new Set(
+	const selectedRegularMonsterlingIds = new Set(
 		draft.characters
-			.flatMap((slot) => [
-				...slot.monsterlingIds,
-				slot.legendaryMonsterlingId ?? null,
-			])
+			.flatMap((slot) => slot.monsterlingIds)
 			.filter((id): id is string => id !== null),
 	);
 	const ownedCharacters = Object.values(charactersOwned)
@@ -182,7 +179,7 @@ export const LoadoutsDialog = ({
 			<DialogContent
 				className={cn(
 					"grid h-[calc(100dvh-2rem)] max-h-[calc(100dvh-2rem)] max-w-[calc(100%-2rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 sm:max-w-2xl",
-					pickerTarget && "sm:max-w-[45rem] xl:max-w-[66rem]",
+					pickerTarget && "md:max-w-[46rem] xl:max-w-[68.5rem]",
 				)}
 				onCloseAutoFocus={close}
 			>
@@ -242,14 +239,15 @@ export const LoadoutsDialog = ({
 									</SelectContent>
 								</Select>
 							</div>
-							<div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+							<div className="grid gap-2 overflow-x-auto [scrollbar-width:none] md:grid-cols-2 xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
 								{pickerOptions.map((monsterling) => {
 									const slot = draft.characters[pickerTarget.characterIndex];
 									const currentId = pickerTarget.legendary
 										? slot.legendaryMonsterlingId
 										: slot.monsterlingIds[pickerTarget.monsterlingIndex ?? 0];
 									const disabled =
-										selectedMonsterlingIds.has(monsterling.id) &&
+										!pickerTarget.legendary &&
+										selectedRegularMonsterlingIds.has(monsterling.id) &&
 										currentId !== monsterling.id;
 									return (
 										<button
@@ -258,7 +256,7 @@ export const LoadoutsDialog = ({
 											disabled={disabled}
 											onClick={() => selectMonsterling(monsterling.id)}
 											className={cn(
-												"grid w-max max-w-full justify-self-center overflow-x-auto rounded-md border p-2 text-left [scrollbar-width:none] hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-scrollbar]:hidden",
+												"grid w-max justify-self-center rounded-md border p-2 text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
 												disabled && "cursor-not-allowed opacity-50",
 											)}
 										>
