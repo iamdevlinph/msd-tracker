@@ -39,7 +39,7 @@ describe("HomePage", () => {
 	it("shows progress and links to each available feature", () => {
 		render(<HomePage />);
 
-		expect(screen.getByText("Welcome back, Adventurer")).toBeTruthy();
+		expect(screen.getByText("Welcome back, Diver")).toBeTruthy();
 		expect(screen.getByText(/Keep your roster/)).toBeTruthy();
 		expect(screen.getAllByText("2")).toHaveLength(2);
 		expect(screen.getByText("3")).toBeTruthy();
