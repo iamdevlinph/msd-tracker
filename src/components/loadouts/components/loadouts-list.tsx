@@ -247,7 +247,7 @@ const LoadoutCard = ({
 											className={cn(
 												"grid aspect-square min-w-0 rounded-md border bg-background/60 text-center",
 												monsterIndex === "legendary" &&
-													"border-l-2 border-l-primary pl-2",
+													"border-l-2 border-l-primary",
 												monsterling &&
 													monsterlingInfo &&
 													"content-center gap-1",
