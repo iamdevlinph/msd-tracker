@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+	nextDuplicateLoadoutName,
 	nextLoadoutName,
 	showFutureLoadoutSlots,
 } from "@/components/loadouts/components/loadout-utils";
@@ -11,6 +12,16 @@ describe("nextLoadoutName", () => {
 		expect(nextLoadoutName(["New Loadout", "New Loadout #2"])).toBe(
 			"New Loadout #3",
 		);
+	});
+});
+
+describe("nextDuplicateLoadoutName", () => {
+	it("uses the first available suffix in the loadout name family", () => {
+		expect(nextDuplicateLoadoutName("Team", ["Team"])).toBe("Team #2");
+		expect(
+			nextDuplicateLoadoutName("Team #2", ["Team", "Team #2", "Team #4"]),
+		).toBe("Team #3");
+		expect(nextDuplicateLoadoutName("Team #4", ["Team #4"])).toBe("Team #2");
 	});
 });
 

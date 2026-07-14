@@ -56,7 +56,13 @@ describe("SyncConflictDialog tables", () => {
 		const tables = document.querySelectorAll("table");
 
 		expect(tables).toHaveLength(2);
+		expect(screen.getByRole("alertdialog").className).toContain("min-w-0");
+		expect(screen.getByText("Local copy").parentElement?.className).toContain(
+			"min-w-0",
+		);
 		for (const table of tables) {
+			expect(table.className).toContain("min-w-[32rem]");
+			expect(table.parentElement?.className).toContain("overflow-x-auto");
 			expect(table.querySelectorAll(":scope > thead > tr > th")).toHaveLength(
 				5,
 			);

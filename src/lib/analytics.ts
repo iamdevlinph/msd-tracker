@@ -7,6 +7,7 @@ export const ANALYTICS_EVENTS = {
 	MONSTERLING_DELETE: "monsterling_delete",
 	LOADOUT_CREATE: "loadout_create",
 	LOADOUT_UPDATE: "loadout_update",
+	LOADOUT_DUPLICATE: "loadout_duplicate",
 	LOADOUT_DELETE: "loadout_delete",
 	LOADOUT_PREVIEW: "loadout_preview",
 	CODEX_MARK_COMPLETE: "codex_mark_complete",

@@ -17,11 +17,11 @@ type SyncCopyCardProps = {
 };
 
 export const SyncCopyCard = ({ title, copy }: SyncCopyCardProps) => (
-	<div className="border rounded p-3">
+	<div className="min-w-0 max-w-full rounded border p-3">
 		<div className="font-medium">{title}</div>
 		<div>Last updated: {new Date(copy.updatedAt).toLocaleString()}</div>
 		<div>Size: {readableBytes(copy.size, { decimals: 2, minUnit: "kB" })}</div>
-		<Table>
+		<Table className="min-w-[32rem]">
 			<TableHeader>
 				<TableRow>
 					<TableHead scope="col">Characters</TableHead>

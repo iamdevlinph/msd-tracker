@@ -58,6 +58,17 @@ const loadout: LoadoutOwned = {
 	],
 };
 
+const renderPreview = () => {
+	const callbacks = {
+		onOpenChange: vi.fn(),
+		onEdit: vi.fn(),
+		onDuplicate: vi.fn(),
+		onDelete: vi.fn(),
+	};
+	render(<LoadoutPreviewDialog loadout={loadout} {...callbacks} />);
+	return callbacks;
+};
+
 describe("LoadoutPreviewDialog", () => {
 	beforeEach(() => {
 		Object.defineProperty(document, "fonts", {
@@ -104,7 +115,7 @@ describe("LoadoutPreviewDialog", () => {
 	});
 
 	it("renders three read-only character rows and fixed missing-record slots", () => {
-		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
+		renderPreview();
 
 		expect(screen.getByTestId("loadout-share-surface").className).toContain(
 			"w-[984px]",
@@ -143,16 +154,25 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.getByText("Character unavailable")).toBeTruthy();
 		expect(screen.getAllByText("Reginula")).toHaveLength(2);
 		expect(screen.getAllByText("Legendary unavailable")).toHaveLength(1);
-		expect(screen.getByRole("button", { name: "Copy image" })).not.toBe(
-			screen.getByTestId("loadout-share-surface"),
-		);
+		for (const label of [
+			"Edit Boss / Team",
+			"Duplicate Boss / Team",
+			"Copy Boss / Team image",
+			"Download Boss / Team image",
+			"Delete Boss / Team",
+		]) {
+			const action = screen.getByRole("button", { name: label });
+			expect(action.title).toBe(label);
+		}
+		expect(
+			screen.queryByRole("button", { name: "Preview Boss / Team" }),
+		).toBeNull();
+		expect(screen.queryByText("Copy image")).toBeNull();
+		expect(screen.queryByText("Download image")).toBeNull();
 	});
 
 	it("hides stat labels but keeps stat icons and tier backgrounds in compact mode", () => {
-		const onOpenChange = vi.fn();
-		render(
-			<LoadoutPreviewDialog loadout={loadout} onOpenChange={onOpenChange} />,
-		);
+		const { onOpenChange } = renderPreview();
 		const checkbox = screen.getByRole("checkbox", {
 			name: "Compact monsterlings",
 		});
@@ -194,15 +214,23 @@ describe("LoadoutPreviewDialog", () => {
 		toBlob.mockResolvedValue(new Blob(["png"], { type: "image/png" }));
 		const write = vi.fn().mockResolvedValue(undefined);
 		setClipboard(write);
-		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
+		renderPreview();
 
-		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Copy Boss / Team image" }),
+		);
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
 		expect(toBlob.mock.calls[0][0].className).toContain("w-[984px]");
 		expect(event.mock.calls).toEqual([
-			["loadout_copy_attempt", { compact_monsterlings: true }],
-			["loadout_copy_success", { compact_monsterlings: true }],
+			[
+				"loadout_copy_attempt",
+				{ compact_monsterlings: true, source: "preview" },
+			],
+			[
+				"loadout_copy_success",
+				{ compact_monsterlings: true, source: "preview" },
+			],
 		]);
 	});
 
@@ -211,9 +239,11 @@ describe("LoadoutPreviewDialog", () => {
 		toBlob.mockResolvedValue(blob);
 		const write = vi.fn().mockResolvedValue(undefined);
 		setClipboard(write);
-		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
+		renderPreview();
 
-		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Copy Boss / Team image" }),
+		);
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
 		expect(toBlob).toHaveBeenCalledWith(
 			expect.any(HTMLElement),
@@ -225,8 +255,26 @@ describe("LoadoutPreviewDialog", () => {
 			"loadout_copy_success",
 		]);
 		expect(
-			event.mock.calls.every(([, params]) => params.compact_monsterlings),
+			event.mock.calls.every(
+				([, params]) =>
+					params.compact_monsterlings && params.source === "preview",
+			),
 		).toBe(true);
+	});
+
+	it("runs edit, duplicate, and confirmed delete actions", () => {
+		const { onEdit, onDuplicate, onDelete } = renderPreview();
+
+		fireEvent.click(screen.getByRole("button", { name: "Edit Boss / Team" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Duplicate Boss / Team" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Delete Boss / Team" }));
+		fireEvent.click(screen.getByRole("button", { name: "Delete" }));
+
+		expect(onEdit).toHaveBeenCalledOnce();
+		expect(onDuplicate).toHaveBeenCalledOnce();
+		expect(onDelete).toHaveBeenCalledOnce();
 	});
 
 	it("reports copy failures without sending the raw error", async () => {
@@ -235,16 +283,24 @@ describe("LoadoutPreviewDialog", () => {
 			.fn()
 			.mockRejectedValue(new Error("private failure details"));
 		setClipboard(write);
-		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
+		renderPreview();
 
-		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Copy Boss / Team image" }),
+		);
 
 		await waitFor(() =>
 			expect(error).toHaveBeenCalledWith("private failure details"),
 		);
 		expect(event.mock.calls).toEqual([
-			["loadout_copy_attempt", { compact_monsterlings: true }],
-			["loadout_copy_failure", { compact_monsterlings: true }],
+			[
+				"loadout_copy_attempt",
+				{ compact_monsterlings: true, source: "preview" },
+			],
+			[
+				"loadout_copy_failure",
+				{ compact_monsterlings: true, source: "preview" },
+			],
 		]);
 	});
 });

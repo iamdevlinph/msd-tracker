@@ -1,17 +1,6 @@
-import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import { LoadoutActions } from "@/components/loadouts/components/loadout-actions";
 import { LoadoutCardCharacterRow } from "@/components/loadouts/components/loadout-card-character-row";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import type { LoadoutImageAction } from "@/components/loadouts/components/loadout-image-actions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
@@ -22,14 +11,24 @@ type LoadoutCardProps = {
 	loadout: LoadoutOwned;
 	onPreview: (source: "card" | "icon") => void;
 	onEdit: () => void;
+	onDuplicate: () => void;
+	onCopy: () => void;
+	onDownload: () => void;
 	onDelete: () => void;
+	activeImageAction?: LoadoutImageAction | null;
+	disabled?: boolean;
 };
 
 export const LoadoutCard = ({
 	loadout,
 	onPreview,
 	onEdit,
+	onDuplicate,
+	onCopy,
+	onDownload,
 	onDelete,
+	activeImageAction,
+	disabled,
 }: LoadoutCardProps) => {
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
@@ -39,62 +38,26 @@ export const LoadoutCard = ({
 			<button
 				type="button"
 				onClick={() => onPreview("card")}
+				disabled={disabled}
 				aria-label={`Preview ${loadout.name} loadout card`}
 				className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 			/>
-			<CardHeader className="pointer-events-none relative z-10 grid-cols-[1fr_auto] gap-2 px-3">
+			<CardHeader className="pointer-events-none relative z-10 gap-2 px-3">
 				<CardTitle className="text-base leading-tight">
 					{loadout.name}
 				</CardTitle>
-				<div className="pointer-events-auto flex gap-2">
-					<Button
-						type="button"
-						size="icon-sm"
-						variant="outline"
-						onClick={() => onPreview("icon")}
-						aria-label={`Preview ${loadout.name}`}
-						title="Preview loadout"
-					>
-						<EyeIcon />
-					</Button>
-					<Button
-						type="button"
-						size="icon-sm"
-						variant="outline"
-						onClick={onEdit}
-						aria-label={`Edit ${loadout.name}`}
-						title="Edit loadout"
-					>
-						<EditIcon />
-					</Button>
-					<AlertDialog>
-						<AlertDialogTrigger asChild>
-							<Button
-								type="button"
-								size="icon-sm"
-								variant="destructive"
-								title="Delete loadout"
-								aria-label={`Delete ${loadout.name}`}
-							>
-								<Trash2Icon />
-							</Button>
-						</AlertDialogTrigger>
-						<AlertDialogContent size="sm">
-							<AlertDialogHeader>
-								<AlertDialogTitle>Delete team loadout?</AlertDialogTitle>
-								<AlertDialogDescription>
-									This will permanently delete “{loadout.name}”.
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-							<AlertDialogFooter>
-								<AlertDialogCancel>Cancel</AlertDialogCancel>
-								<AlertDialogAction variant="destructive" onClick={onDelete}>
-									Delete
-								</AlertDialogAction>
-							</AlertDialogFooter>
-						</AlertDialogContent>
-					</AlertDialog>
-				</div>
+				<LoadoutActions
+					className="pointer-events-auto w-full justify-end"
+					loadoutName={loadout.name}
+					onPreview={() => onPreview("icon")}
+					onEdit={onEdit}
+					onDuplicate={onDuplicate}
+					onCopy={onCopy}
+					onDownload={onDownload}
+					onDelete={onDelete}
+					activeImageAction={activeImageAction}
+					disabled={disabled}
+				/>
 			</CardHeader>
 			<CardContent className="pointer-events-none relative z-10 grid gap-2 px-3">
 				{CHARACTER_SLOT_INDEXES.map((index) => (

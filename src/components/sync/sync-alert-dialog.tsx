@@ -34,7 +34,7 @@ export function SyncConflictDialog() {
 
 	return (
 		<AlertDialog open={!!conflict}>
-			<AlertDialogContent>
+			<AlertDialogContent className="max-h-[calc(100dvh-2rem)] min-w-0 overflow-y-auto">
 				<AlertDialogHeader>
 					<AlertDialogTitle>Sync conflict detected</AlertDialogTitle>
 
@@ -43,8 +43,8 @@ export function SyncConflictDialog() {
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 
-				<div className="space-y-4 text-sm">
-					<div className="space-y-2 flex flex-col">
+				<div className="min-w-0 space-y-4 text-sm">
+					<div className="flex min-w-0 flex-col space-y-2">
 						<SyncCopyCard title="Local copy" copy={local} />
 
 						<AlertDialogAction
@@ -72,7 +72,7 @@ export function SyncConflictDialog() {
 
 					<SeparatorText>or</SeparatorText>
 
-					<div className="space-y-2 flex flex-col">
+					<div className="flex min-w-0 flex-col space-y-2">
 						<SyncCopyCard title="Remote copy (Google Drive)" copy={remote} />
 
 						<AlertDialogAction
