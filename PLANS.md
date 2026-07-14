@@ -11,7 +11,20 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Persist loadouts locally and through Google Drive sync.
 - [x] Hide unfinished Artifact and Equipment slots outside development.
 
-## Chunk 1: Artifacts Inventory
+## Home Dashboard: Available
+
+- [x] Welcome users and link the available tracker features.
+- [x] Show linked counts for owned characters, owned monsterlings, cleared codex entries, and loadouts.
+- [x] Preview planned Checklist, Artifact, Equipment, and complete Loadout features.
+
+## Chunk 1: Checklist and Event Tracking
+
+- [ ] Define event, task, schedule, reset, and completion requirements when product details are available.
+- [ ] Design the durable checklist data model and evaluate local and Google Drive persistence.
+- [ ] Build an accessible, responsive Checklist page with relevant tests.
+- [ ] Expose the Checklist navigation item after the feature is release-ready.
+
+## Chunk 2: Artifacts Inventory
 
 - [ ] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
 - [ ] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.
@@ -19,7 +32,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [ ] Add Drive backup selection, legacy defaults, conflict metadata/UI, and behavioral tests.
 - [ ] Expose the Artifacts navigation item after the page is release-ready.
 
-## Chunk 2: Equipments Inventory
+## Chunk 3: Equipments Inventory
 
 - [ ] Define typed equipment data, owned-equipment fields, slot categories, images, and validation from the game source.
 - [ ] Add owned-equipment create, edit, delete, reset, local persistence, and mutation timestamps.
@@ -27,7 +40,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [ ] Add Drive backup selection, legacy defaults, conflict metadata/UI, and behavioral tests.
 - [ ] Expose the Equipments navigation item after the page is release-ready.
 
-## Chunk 3: Loadout Inventory Integration
+## Chunk 4: Loadout Inventory Integration
 
 - [ ] Confirm artifact and equipment reuse/uniqueness rules before changing the loadout schema.
 - [ ] Add one artifact and four equipment references to each character slot, with legacy defaults.
