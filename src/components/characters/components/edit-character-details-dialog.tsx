@@ -1,4 +1,5 @@
 import { Trash2Icon } from "lucide-react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { CHARACTERS_DATA, type Character } from "@/data/CHARACTERS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
@@ -23,6 +25,7 @@ type EditCharacterDetailsDialogProps = {
 export const EditCharacterDetailsDialog = (
 	props: EditCharacterDetailsDialogProps,
 ) => {
+	const ga = useGoogleAnalytics();
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const deleteCharacterOwned = useAppStore((s) => s.deleteCharacterOwned);
 
@@ -64,6 +67,10 @@ export const EditCharacterDetailsDialog = (
 							size={"icon-sm"}
 							onClick={() => {
 								deleteCharacterOwned(charIdToEdit);
+								ga.event(ANALYTICS_EVENTS.CHARACTER_DELETE, {
+									character_id: charInfo.id,
+									character_name: charInfo.name,
+								});
 								setOpen(false);
 							}}
 						>

@@ -9,6 +9,12 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
+const { event } = vi.hoisted(() => ({ event: vi.fn() }));
+
+vi.mock("tanstack-router-ga4", () => ({
+	useGoogleAnalytics: () => ({ event }),
+}));
+
 const charactersOwned = {
 	1: {
 		id: 1,
@@ -31,6 +37,7 @@ describe("LoadoutsDialog character picker", () => {
 	afterEach(cleanup);
 
 	beforeEach(() => {
+		event.mockClear();
 		useAppStore.setState({
 			charactersOwned,
 			loadouts: {},
@@ -208,5 +215,6 @@ describe("LoadoutsList", () => {
 			screen.getByRole("button", { name: "Preview Team loadout card" }),
 		);
 		expect(screen.getByRole("dialog", { name: "Team" })).toBeTruthy();
+		expect(event).toHaveBeenCalledWith("loadout_preview", { source: "card" });
 	});
 });

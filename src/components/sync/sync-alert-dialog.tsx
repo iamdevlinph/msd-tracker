@@ -1,5 +1,6 @@
 import { readableBytes } from "common-utils-pkg";
 import { useState } from "react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import {
 	download,
 	select,
@@ -23,9 +24,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 
 export function SyncConflictDialog() {
+	const ga = useGoogleAnalytics();
 	const [buttonClicked, setButtonClicked] = useState<
 		"local" | "remote" | undefined
 	>(undefined);
@@ -92,9 +95,14 @@ export function SyncConflictDialog() {
 						<AlertDialogAction
 							onClick={async () => {
 								setButtonClicked("local");
-								// KEEP LOCAL
-								await upload(select(useAppStore.getState()));
-								setConflict(null);
+								ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_LOCAL_ATTEMPT);
+								try {
+									await upload(select(useAppStore.getState()));
+									setConflict(null);
+									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_LOCAL_SUCCESS);
+								} catch {
+									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_LOCAL_FAILURE);
+								}
 							}}
 							className="w-full sm:w-max self-center"
 							variant="secondary"
@@ -148,21 +156,28 @@ export function SyncConflictDialog() {
 						</div>
 
 						<AlertDialogAction
-							onClick={() => {
+							onClick={async () => {
 								setButtonClicked("remote");
-
-								(async () => {
+								ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_ATTEMPT);
+								try {
 									const remote = await download();
 
-									if (!remote) return;
+									if (!remote) {
+										ga.event(
+											ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_FAILURE,
+										);
+										return;
+									}
 
 									useAppStore.setState({
 										...remote,
 									});
 
-									// KEEP REMOTE
 									setConflict(null);
-								})();
+									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_SUCCESS);
+								} catch {
+									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_FAILURE);
+								}
 							}}
 							className="w-full  sm:w-max flex self-center"
 							disabled={syncInProgress}

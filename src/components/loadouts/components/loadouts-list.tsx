@@ -1,5 +1,6 @@
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
@@ -29,6 +30,7 @@ import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
@@ -42,6 +44,7 @@ const UNKNOWN_CHARACTER_PORTRAIT =
 const SHOW_FUTURE_SLOTS = showFutureLoadoutSlots(import.meta.env.VITE_NODE_ENV);
 
 export const LoadoutsList = () => {
+	const ga = useGoogleAnalytics();
 	const [open, setOpen] = useState(false);
 	const [loadoutToEdit, setLoadoutToEdit] = useState<string | null>(null);
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
@@ -70,12 +73,18 @@ export const LoadoutsList = () => {
 						<LoadoutCard
 							key={loadout.id}
 							loadout={loadout}
-							onPreview={() => setLoadoutToPreview(loadout.id)}
+							onPreview={(source) => {
+								ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW, { source });
+								setLoadoutToPreview(loadout.id);
+							}}
 							onEdit={() => {
 								setLoadoutToEdit(loadout.id);
 								setOpen(true);
 							}}
-							onDelete={() => deleteLoadout(loadout.id)}
+							onDelete={() => {
+								deleteLoadout(loadout.id);
+								ga.event(ANALYTICS_EVENTS.LOADOUT_DELETE);
+							}}
 						/>
 					))}
 				</div>
@@ -97,7 +106,7 @@ export const LoadoutsList = () => {
 
 type LoadoutCardProps = {
 	loadout: LoadoutOwned;
-	onPreview: () => void;
+	onPreview: (source: "card" | "icon") => void;
 	onEdit: () => void;
 	onDelete: () => void;
 };
@@ -115,7 +124,7 @@ const LoadoutCard = ({
 		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary/40 hover:shadow-md focus-within:border-primary/40 focus-within:shadow-md">
 			<button
 				type="button"
-				onClick={onPreview}
+				onClick={() => onPreview("card")}
 				aria-label={`Preview ${loadout.name} loadout card`}
 				className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 			/>
@@ -128,7 +137,7 @@ const LoadoutCard = ({
 						type="button"
 						size="icon-sm"
 						variant="outline"
-						onClick={onPreview}
+						onClick={() => onPreview("icon")}
 						aria-label={`Preview ${loadout.name}`}
 						title="Preview loadout"
 					>

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { CHARACTERS_DATA, type Character } from "@/data/CHARACTERS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 
 type CharacterOwnedDetailsProps = {
@@ -75,7 +76,12 @@ export const CharacterOwnedDetailsForm = ({
 		setCharacterOwned(object);
 
 		const charInfo = CHARACTERS_DATA[id];
-		ga.event("character_owned_submit", { character: charInfo.name });
+		ga.event(
+			editCharacterData
+				? ANALYTICS_EVENTS.CHARACTER_UPDATE
+				: ANALYTICS_EVENTS.CHARACTER_CREATE,
+			{ character_id: charInfo.id, character_name: charInfo.name },
+		);
 
 		onClose?.();
 	};

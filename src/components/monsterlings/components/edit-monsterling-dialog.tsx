@@ -1,4 +1,5 @@
 import { Trash2Icon } from "lucide-react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { DialogBackdrop } from "@/components/dialog-backdrop";
 import { MonsterlingForm } from "@/components/monsterlings/components/monsterling-form";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
@@ -20,11 +23,15 @@ type EditMonsterlingDialogProps = {
 };
 
 export const EditMonsterlingDialog = (props: EditMonsterlingDialogProps) => {
+	const ga = useGoogleAnalytics();
+	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 	const deleteMonsterlingOwned = useAppStore((s) => s.deleteMonsterlingOwned);
 
 	const { monsterlingToEdit, open, setOpen, onClose } = props;
 
 	if (monsterlingToEdit === null) return;
+	const owned = monsterlingsOwned[monsterlingToEdit];
+	const monsterling = owned ? MONSTERLINGS_DATA[owned.monsterling_id] : null;
 
 	return (
 		<>
@@ -48,6 +55,11 @@ export const EditMonsterlingDialog = (props: EditMonsterlingDialogProps) => {
 								size={"icon-sm"}
 								onClick={() => {
 									deleteMonsterlingOwned(monsterlingToEdit);
+									ga.event(ANALYTICS_EVENTS.MONSTERLING_DELETE, {
+										monsterling_id: monsterling?.id,
+										monsterling_name: monsterling?.name,
+										tier_id: owned?.tier_id,
+									});
 									setOpen(false);
 								}}
 							>

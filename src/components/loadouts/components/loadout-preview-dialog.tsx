@@ -1,6 +1,7 @@
 import { CopyIcon, DownloadIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import type {
 	LoadoutCharacterSlot,
@@ -62,6 +64,7 @@ const safeFilename = (name: string) =>
 	}.png`;
 
 export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
+	const ga = useGoogleAnalytics();
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [rendering, setRendering] = useState(false);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
@@ -82,6 +85,7 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 	};
 
 	const copy = async () => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_ATTEMPT);
 		setRendering(true);
 		try {
 			const blob = imageBlob();
@@ -89,7 +93,9 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 				new ClipboardItem({ "image/png": blob }),
 			]);
 			toast.success("Loadout image copied");
+			ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_SUCCESS);
 		} catch (error) {
+			ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_FAILURE);
 			toast.error(
 				error instanceof Error ? error.message : "Could not copy image",
 			);
@@ -99,6 +105,7 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 	};
 
 	const download = async () => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_ATTEMPT);
 		setRendering(true);
 		try {
 			const blob = await imageBlob();
@@ -109,7 +116,9 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 			anchor.click();
 			URL.revokeObjectURL(url);
 			toast.success("Loadout image downloaded");
+			ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_SUCCESS);
 		} catch (error) {
+			ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_FAILURE);
 			toast.error(
 				error instanceof Error ? error.message : "Could not download image",
 			);

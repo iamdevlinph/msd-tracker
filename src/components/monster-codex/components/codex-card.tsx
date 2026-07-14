@@ -1,4 +1,5 @@
 import { Check, Heart, X } from "lucide-react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -7,10 +8,12 @@ import {
 	CardHeader,
 } from "@/components/ui/card";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
 export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
+	const ga = useGoogleAnalytics();
 	const { name, image, id, display_id } = MONSTERLINGS_DATA[monsterling_id];
 
 	const monsterCodexCompleted = useAppStore((s) => s.monsterCodexCompleted);
@@ -45,7 +48,15 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 							favorite &&
 								"bg-rose-100 text-rose-600 hover:bg-rose-200 dark:bg-rose-950 dark:text-rose-400 dark:hover:bg-rose-900",
 						)}
-						onClick={() => toggleMonsterCodexFavorite(id)}
+						onClick={() => {
+							toggleMonsterCodexFavorite(id);
+							ga.event(
+								favorite
+									? ANALYTICS_EVENTS.CODEX_REMOVE_FAVORITE
+									: ANALYTICS_EVENTS.CODEX_ADD_FAVORITE,
+								{ monsterling_id: id, monsterling_name: name },
+							);
+						}}
 						aria-label={
 							favorite
 								? `Remove ${name} from favorites`
@@ -64,6 +75,12 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 							completed
 								? deleteMonsterCodexComplete(id)
 								: setMonsterCodexComplete(id);
+							ga.event(
+								completed
+									? ANALYTICS_EVENTS.CODEX_MARK_INCOMPLETE
+									: ANALYTICS_EVENTS.CODEX_MARK_COMPLETE,
+								{ monsterling_id: id, monsterling_name: name },
+							);
 						}}
 						aria-label={
 							completed ? `Mark ${name} incomplete` : `Mark ${name} completed`

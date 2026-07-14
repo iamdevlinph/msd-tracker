@@ -14,6 +14,7 @@ import { Field, FieldGroup } from "@/components/ui/field";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
 import { TIER_ID_BY_TIER } from "@/data/TIERS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn, createZodEnumFromObject } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
@@ -110,8 +111,17 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const onSubmit = (data: MonsterlingOwned) => {
 		setMonsterlingOwned(data, id);
 
-		const monsterlingInfo = MONSTERLINGS_DATA[data.monsterling_id];
-		ga.event("monsterling_owned_submit", { character: monsterlingInfo.name });
+		const selectedMonsterling = MONSTERLINGS_DATA[data.monsterling_id];
+		ga.event(
+			id === undefined
+				? ANALYTICS_EVENTS.MONSTERLING_CREATE
+				: ANALYTICS_EVENTS.MONSTERLING_UPDATE,
+			{
+				monsterling_id: selectedMonsterling.id,
+				monsterling_name: selectedMonsterling.name,
+				tier_id: data.tier_id,
+			},
+		);
 
 		onClose();
 	};

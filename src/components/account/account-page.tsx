@@ -12,6 +12,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 
 export const AccountPage = () => {
@@ -50,7 +51,7 @@ export const AccountPage = () => {
 						<Button
 							onClick={() => {
 								resetCodexStore();
-								ga.event("reset_codex_store");
+								ga.event(ANALYTICS_EVENTS.CODEX_RESET);
 							}}
 							variant={"destructive"}
 						>
@@ -59,7 +60,7 @@ export const AccountPage = () => {
 						<Button
 							onClick={() => {
 								resetCharacterSlice();
-								ga.event("reset_characters_owned");
+								ga.event(ANALYTICS_EVENTS.CHARACTERS_RESET);
 							}}
 							variant={"destructive"}
 						>
@@ -68,7 +69,7 @@ export const AccountPage = () => {
 						<Button
 							onClick={() => {
 								resetMonsterlingSlice();
-								ga.event("reset_monsterlings_owned");
+								ga.event(ANALYTICS_EVENTS.MONSTERLINGS_RESET);
 							}}
 							variant={"destructive"}
 						>
@@ -80,7 +81,7 @@ export const AccountPage = () => {
 								<Button
 									onClick={() => {
 										resetLoadoutsSlice();
-										ga.event("reset_loadouts");
+										ga.event(ANALYTICS_EVENTS.LOADOUTS_RESET);
 									}}
 									variant={"destructive"}
 								>

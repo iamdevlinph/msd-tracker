@@ -5,14 +5,18 @@ import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-p
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
-const { toBlob, success, error } = vi.hoisted(() => ({
+const { toBlob, success, error, event } = vi.hoisted(() => ({
 	toBlob: vi.fn(),
 	success: vi.fn(),
 	error: vi.fn(),
+	event: vi.fn(),
 }));
 
 vi.mock("html-to-image", () => ({ toBlob }));
 vi.mock("react-hot-toast", () => ({ default: { success, error } }));
+vi.mock("tanstack-router-ga4", () => ({
+	useGoogleAnalytics: () => ({ event }),
+}));
 
 const loadout: LoadoutOwned = {
 	id: "team-1",
@@ -106,5 +110,35 @@ describe("LoadoutPreviewDialog", () => {
 			expect.objectContaining({ pixelRatio: 2 }),
 		);
 		expect(success).toHaveBeenCalledWith("Loadout image copied");
+		expect(event.mock.calls.map(([name]) => name)).toEqual([
+			"loadout_copy_attempt",
+			"loadout_copy_success",
+		]);
+	});
+
+	it("reports copy failures without sending the raw error", async () => {
+		toBlob.mockResolvedValue(new Blob(["png"], { type: "image/png" }));
+		const write = vi
+			.fn()
+			.mockRejectedValue(new Error("private failure details"));
+		Object.defineProperty(navigator, "clipboard", {
+			configurable: true,
+			value: { write },
+		});
+		class ClipboardItemMock {
+			constructor(public data: Record<string, Promise<Blob>>) {}
+		}
+		vi.stubGlobal("ClipboardItem", ClipboardItemMock);
+		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
+
+		await waitFor(() =>
+			expect(error).toHaveBeenCalledWith("private failure details"),
+		);
+		expect(event.mock.calls).toEqual([
+			["loadout_copy_attempt"],
+			["loadout_copy_failure"],
+		]);
 	});
 });

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { select } from "@/components/account/google/utils/drive-sync";
 import { CodexCard } from "@/components/monster-codex/components/codex-card";
 import { CodexFilter } from "@/components/monster-codex/components/codex-filter";
@@ -13,11 +13,18 @@ import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { useAppStore } from "@/stores/app-store";
 
+const { event } = vi.hoisted(() => ({ event: vi.fn() }));
+
+vi.mock("tanstack-router-ga4", () => ({
+	useGoogleAnalytics: () => ({ event }),
+}));
+
 const monsterlings = Object.values(MONSTERLINGS_DATA);
 const favorite = monsterlings[0];
 
 describe("monster codex favorites", () => {
 	beforeEach(() => {
+		event.mockClear();
 		useAppStore.setState({
 			monsterCodexCompleted: [],
 			monsterCodexFavorites: [favorite.id],
@@ -43,6 +50,10 @@ describe("monster codex favorites", () => {
 
 		expect(useAppStore.getState().monsterCodexFavorites).toEqual([]);
 		expect(screen.getByText("No favorite monsterlings yet")).toBeTruthy();
+		expect(event).toHaveBeenCalledWith("codex_remove_favorite", {
+			monsterling_id: favorite.id,
+			monsterling_name: favorite.name,
+		});
 	});
 
 	it("combines favorite, region, source, and search filters", () => {
@@ -118,6 +129,14 @@ describe("monster codex favorites", () => {
 		);
 		expect(useAppStore.getState().monsterCodexFavorites).toEqual([favorite.id]);
 		expect(useAppStore.getState().monsterCodexCompleted).toEqual([favorite.id]);
+		expect(event).toHaveBeenCalledWith("codex_add_favorite", {
+			monsterling_id: favorite.id,
+			monsterling_name: favorite.name,
+		});
+		expect(event).toHaveBeenCalledWith("codex_mark_complete", {
+			monsterling_id: favorite.id,
+			monsterling_name: favorite.name,
+		});
 	});
 
 	it("includes favorites in backups and clears them with codex data", () => {

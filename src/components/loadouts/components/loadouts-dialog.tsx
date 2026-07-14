@@ -1,5 +1,6 @@
 import { ArrowLeftIcon, SearchIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterFilter } from "@/components/characters/components/character-filter";
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
@@ -28,6 +29,7 @@ import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
 import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 import {
@@ -70,6 +72,7 @@ export const LoadoutsDialog = ({
 	loadoutToEdit = null,
 	onClose,
 }: LoadoutsDialogProps) => {
+	const ga = useGoogleAnalytics();
 	const loadouts = useAppStore((s) => s.loadouts);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
@@ -225,6 +228,24 @@ export const LoadoutsDialog = ({
 				})) as LoadoutOwned["characters"],
 			},
 			loadoutToEdit ?? undefined,
+		);
+		ga.event(
+			loadoutToEdit
+				? ANALYTICS_EVENTS.LOADOUT_UPDATE
+				: ANALYTICS_EVENTS.LOADOUT_CREATE,
+			{
+				character_count: draft.characters.filter(
+					({ characterId }) => characterId !== null,
+				).length,
+				monsterling_count: draft.characters.reduce(
+					(total, slot) =>
+						total + slot.monsterlingIds.filter((id) => id !== null).length,
+					0,
+				),
+				legendary_monsterling_count: draft.characters.filter(
+					({ legendaryMonsterlingId }) => legendaryMonsterlingId != null,
+				).length,
+			},
 		);
 		close();
 	};
