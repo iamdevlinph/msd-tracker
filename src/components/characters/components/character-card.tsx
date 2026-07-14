@@ -12,6 +12,11 @@ type CharacterCardProps = Pick<
 > &
 	Partial<Pick<TierPortrait, "portraitSize">> & {
 		iconSize?: number;
+		className?: string;
+		portraitClassName?: string;
+		showElement?: boolean;
+		showClass?: boolean;
+		showAwakening?: boolean;
 	} & Partial<Pick<CharacterOwned, "awakening">>;
 
 export default function CharacterCard({
@@ -24,6 +29,11 @@ export default function CharacterCard({
 	iconSize = 25,
 	awakening = undefined,
 	variant = undefined,
+	className,
+	portraitClassName,
+	showElement = true,
+	showClass = true,
+	showAwakening = true,
 }: CharacterCardProps) {
 	const elemInfo = ELEMENTS_DATA[element_id];
 	const characterClassInfo = CHARACTER_CLASS_DATA[class_id];
@@ -39,6 +49,7 @@ export default function CharacterCard({
 				"max-w-max flex justify-center flex-col items-center rounded",
 				"bg-card",
 				"cursor-pointer",
+				className,
 			)}
 		>
 			<div className="relative">
@@ -55,29 +66,33 @@ export default function CharacterCard({
 						{variant}
 					</div>
 				)}
-				<img
-					src={elemInfo.image}
-					width={iconSize}
-					height={iconSize}
-					alt={`${elemInfo.element} icon`}
-					className={cn("absolute right-0.5 top-1 z-2 drop-shadow-2xl")}
-					style={{
-						filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
-					}}
-					title={elemInfo.element}
-				/>
-				<img
-					src={characterClassInfo.image}
-					width={iconSize}
-					height={iconSize}
-					alt={`${characterClassInfo.character_class} icon`}
-					className={cn("absolute right-0.5 top-9 z-2 drop-shadow-2xl")}
-					style={{
-						filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
-					}}
-					title={characterClassInfo.character_class}
-				/>
-				{(awakening ?? 0) > 0 && (
+				{showElement && (
+					<img
+						src={elemInfo.image}
+						width={iconSize}
+						height={iconSize}
+						alt={`${elemInfo.element} icon`}
+						className={cn("absolute right-0.5 top-1 z-2 drop-shadow-2xl")}
+						style={{
+							filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
+						}}
+						title={elemInfo.element}
+					/>
+				)}
+				{showClass && (
+					<img
+						src={characterClassInfo.image}
+						width={iconSize}
+						height={iconSize}
+						alt={`${characterClassInfo.character_class} icon`}
+						className={cn("absolute right-0.5 top-9 z-2 drop-shadow-2xl")}
+						style={{
+							filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))",
+						}}
+						title={characterClassInfo.character_class}
+					/>
+				)}
+				{showAwakening && (awakening ?? 0) > 0 && (
 					<div
 						className={cn("absolute right-0.5 top-17 z-2")}
 						title={`Awakening ${awakening}`}
@@ -107,6 +122,7 @@ export default function CharacterCard({
 					portraitSize={portraitSize}
 					tier={tier_id}
 					name={name}
+					portraitClassName={portraitClassName}
 				/>
 			</div>
 			<small

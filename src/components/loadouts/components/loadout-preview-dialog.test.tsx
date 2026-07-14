@@ -47,7 +47,7 @@ const loadout: LoadoutOwned = {
 			legendaryMonsterlingId: "legendary",
 		},
 		{
-			characterId: 2,
+			characterId: 200_005,
 			monsterlingIds: [null, null, null],
 			legendaryMonsterlingId: "legendary",
 		},
@@ -76,8 +76,8 @@ describe("LoadoutPreviewDialog", () => {
 					awakening: 5,
 					skills: { basic: 1, switch: 2, special: 3, ultimate: 4 },
 				},
-				2: {
-					id: 2,
+				200005: {
+					id: 200_005,
 					awakening: 0,
 					skills: { basic: 5, switch: 6, special: 7, ultimate: 8 },
 				},
@@ -127,7 +127,20 @@ describe("LoadoutPreviewDialog", () => {
 				.every((image) => image.className.includes("h-[30px]")),
 		).toBe(true);
 		expect(screen.getByAltText("Angel portrait")).toBeTruthy();
+		expect(screen.getByAltText("Francis portrait").className).toContain(
+			"object-bottom",
+		);
+		expect(screen.getByText("Summer Dive!")).toBeTruthy();
+		expect(screen.getByAltText("Earth icon")).toBeTruthy();
+		expect(screen.queryByAltText("Support icon")).toBeNull();
+		expect(screen.queryByAltText("awakening icon")).toBeNull();
+		expect(screen.getByTitle("Awakening 5")).toBeTruthy();
 		expect(screen.getAllByTitle("Basic level 5")).toHaveLength(2);
+		expect(
+			screen
+				.getAllByTitle(/^(Special|Switch|Basic|Ultimate) level /)
+				.every((skill) => skill.className.includes("place-items-center")),
+		).toBe(true);
 		expect(screen.getAllByText("Monsterling 2 unavailable")).toHaveLength(3);
 		expect(screen.getByText("Character unavailable")).toBeTruthy();
 		expect(screen.getAllByText("Reginula")).toHaveLength(2);

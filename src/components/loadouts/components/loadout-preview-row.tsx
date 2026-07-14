@@ -1,10 +1,10 @@
+import CharacterCard from "@/components/characters/components/character-card";
 import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
@@ -44,30 +44,32 @@ export const LoadoutPreviewRow = ({
 			)}
 		>
 			{validCharacter ? (
-				<div className="grid h-[120px] grid-cols-[80px_1fr] overflow-hidden rounded-lg border bg-card">
-					<div
-						className="relative bg-cover bg-center"
-						style={{
-							backgroundImage: `url(${TIERS_DATA[character.tier_id].full})`,
-							backgroundSize: 200,
-						}}
-					>
-						<img
-							src={character.portraitImage}
-							alt={`${character.name} portrait`}
-							className="size-full object-contain"
-						/>
-					</div>
-					<div className="grid content-center gap-2 p-2">
-						<strong className="truncate text-sm">{character.name}</strong>
-						<div className="flex gap-1.5">
+				<div className="grid h-[120px] grid-cols-[84px_1fr] items-center gap-2 rounded-lg border bg-card px-1">
+					<CharacterCard
+						portraitSize={84}
+						iconSize={18}
+						portraitImage={character.portraitImage}
+						name={character.name}
+						element_id={character.element_id}
+						class_id={character.class_id}
+						tier_id={character.tier_id}
+						awakening={characterOwned.awakening}
+						variant={character.variant}
+						className="cursor-default"
+						portraitClassName="size-full object-contain object-bottom"
+						showElement={false}
+						showClass={false}
+						showAwakening={false}
+					/>
+					<div className="grid content-center gap-2">
+						<div className="flex items-center justify-center gap-1.5">
 							<img
 								src={ELEMENTS_DATA[character.element_id].image}
 								alt={`${ELEMENTS_DATA[character.element_id].element} icon`}
-								className="size-6"
+								className="size-5"
 							/>
 							<span
-								className="grid size-6 place-items-center rounded-full bg-primary/20 text-xs font-bold text-primary"
+								className="grid size-5 place-items-center rounded-full bg-primary/20 text-[10px] font-bold text-primary"
 								title={`Awakening ${characterOwned.awakening}`}
 							>
 								A{characterOwned.awakening}
