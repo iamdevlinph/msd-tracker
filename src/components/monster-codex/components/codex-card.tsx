@@ -1,5 +1,4 @@
-import { Check, X } from "lucide-react";
-import { useCodexStore } from "@/components/monster-codex/store/codex-store";
+import { Check, Heart, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -15,13 +14,17 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 	const { name, image, id, display_id } = MONSTERLINGS_DATA[monsterling_id];
 
 	const monsterCodexCompleted = useAppStore((s) => s.monsterCodexCompleted);
-	const filterCodex = useCodexStore((s) => s.filterCodex);
+	const monsterCodexFavorites = useAppStore((s) => s.monsterCodexFavorites);
 	const setMonsterCodexComplete = useAppStore((s) => s.setMonsterCodexComplete);
 	const deleteMonsterCodexComplete = useAppStore(
 		(s) => s.deleteMonsterCodexComplete,
 	);
+	const toggleMonsterCodexFavorite = useAppStore(
+		(s) => s.toggleMonsterCodexFavorite,
+	);
 
 	const completed = monsterCodexCompleted.includes(id);
+	const favorite = monsterCodexFavorites.includes(id);
 
 	return (
 		<div className="w-36 h-44">
@@ -32,23 +35,45 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 					"py-2",
 				)}
 			>
-				<Button
-					variant={completed ? "default" : "secondary"}
-					size="icon-sm"
-					className={cn(
-						"rounded-full cursor-pointer z-2",
-						"absolute -top-5 -right-5 m-2",
-					)}
-					onClick={() => {
-						completed
-							? deleteMonsterCodexComplete(id)
-							: setMonsterCodexComplete(id);
-
-						filterCodex();
-					}}
-				>
-					{completed ? <Check /> : <X />}
-				</Button>
+				<div className="absolute -top-3 -right-3 z-2 flex gap-1">
+					<Button
+						variant="secondary"
+						size="icon-sm"
+						className={cn(
+							"rounded-full cursor-pointer shadow-sm",
+							!favorite && "bg-chart-5 text-black hover:bg-chart-5/80",
+							favorite &&
+								"bg-rose-100 text-rose-600 hover:bg-rose-200 dark:bg-rose-950 dark:text-rose-400 dark:hover:bg-rose-900",
+						)}
+						onClick={() => toggleMonsterCodexFavorite(id)}
+						aria-label={
+							favorite
+								? `Remove ${name} from favorites`
+								: `Add ${name} to favorites`
+						}
+						aria-pressed={favorite}
+						title={favorite ? "Remove from favorites" : "Add to favorites"}
+					>
+						<Heart className={cn(favorite && "fill-current")} />
+					</Button>
+					<Button
+						variant={completed ? "default" : "secondary"}
+						size="icon-sm"
+						className="rounded-full cursor-pointer shadow-sm"
+						onClick={() => {
+							completed
+								? deleteMonsterCodexComplete(id)
+								: setMonsterCodexComplete(id);
+						}}
+						aria-label={
+							completed ? `Mark ${name} incomplete` : `Mark ${name} completed`
+						}
+						aria-pressed={completed}
+						title={completed ? "Mark incomplete" : "Mark completed"}
+					>
+						{completed ? <Check /> : <X />}
+					</Button>
+				</div>
 				<CardHeader>
 					<small>No. {display_id ?? id}</small>
 				</CardHeader>

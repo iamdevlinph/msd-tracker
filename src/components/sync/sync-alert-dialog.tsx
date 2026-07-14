@@ -70,6 +70,7 @@ export function SyncConflictDialog() {
 										<TableHead scope="col">Monsterlings</TableHead>
 										<TableHead scope="col">Loadouts</TableHead>
 										<TableHead scope="col">Codex</TableHead>
+										<TableHead scope="col">Codex Favorites</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -78,6 +79,7 @@ export function SyncConflictDialog() {
 										<TableCell>{local.metadata.monsterlingsOwned}</TableCell>
 										<TableCell>{local.metadata.loadouts}</TableCell>
 										<TableCell>{local.metadata.codexCompleted}</TableCell>
+										<TableCell>{local.metadata.codexFavorites}</TableCell>
 									</TableRow>
 								</TableBody>
 							</Table>
@@ -122,6 +124,7 @@ export function SyncConflictDialog() {
 										<TableHead scope="col">Monsterlings</TableHead>
 										<TableHead scope="col">Loadouts</TableHead>
 										<TableHead scope="col">Codex</TableHead>
+										<TableHead scope="col">Favorites</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -130,6 +133,7 @@ export function SyncConflictDialog() {
 										<TableCell>{remote.metadata.monsterlingsOwned}</TableCell>
 										<TableCell>{remote.metadata.loadouts}</TableCell>
 										<TableCell>{remote.metadata.codexCompleted}</TableCell>
+										<TableCell>{remote.metadata.codexFavorites}</TableCell>
 									</TableRow>
 								</TableBody>
 							</Table>

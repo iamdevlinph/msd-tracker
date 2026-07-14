@@ -12,6 +12,7 @@ type Backup = Pick<
 	StoreState,
 	| "backupUpdatedAt"
 	| "monsterCodexCompleted"
+	| "monsterCodexFavorites"
 	| "charactersOwned"
 	| "monsterlingsOwned"
 	| "loadouts"
@@ -21,6 +22,7 @@ export function select(state: StoreState): Backup {
 	return {
 		backupUpdatedAt: state.backupUpdatedAt,
 		monsterCodexCompleted: state.monsterCodexCompleted,
+		monsterCodexFavorites: state.monsterCodexFavorites,
 		charactersOwned: state.charactersOwned,
 		monsterlingsOwned: state.monsterlingsOwned,
 		loadouts: state.loadouts,
@@ -72,7 +74,13 @@ export async function download(): Promise<Backup | null> {
 			`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
 		);
 
-		return res.json();
+		const backup = (await res.json()) as Omit<Backup, "monsterCodexFavorites"> &
+			Partial<Pick<Backup, "monsterCodexFavorites">>;
+
+		return {
+			...backup,
+			monsterCodexFavorites: backup.monsterCodexFavorites ?? [],
+		};
 	} catch (e) {
 		toast.error(
 			`Something went wrong downloading remote file\n\n${(e as Error).message}`,
@@ -145,6 +153,7 @@ export async function initSync() {
 							monsterlingsOwned: Object.keys(local.monsterlingsOwned).length,
 							loadouts: Object.keys(local.loadouts).length,
 							codexCompleted: local.monsterCodexCompleted.length,
+							codexFavorites: local.monsterCodexFavorites.length,
 						},
 					},
 					remote: {
@@ -155,6 +164,7 @@ export async function initSync() {
 							monsterlingsOwned: Object.keys(remote.monsterlingsOwned).length,
 							loadouts: Object.keys(remote.loadouts ?? {}).length,
 							codexCompleted: remote.monsterCodexCompleted.length,
+							codexFavorites: remote.monsterCodexFavorites.length,
 						},
 					},
 				},

@@ -1,7 +1,8 @@
 import { toSentenceCase } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
 import {
-	initialCodexFilters,
+	CODEX_VIEWS,
+	type CodexView,
 	useCodexStore,
 } from "@/components/monster-codex/store/codex-store";
 import { Button } from "@/components/ui/button";
@@ -21,17 +22,11 @@ import {
 } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { cn } from "@/lib/utils";
 
-const COMPLETE_FILTERS = ["all", "completed", "incomplete"] as const;
-export type CompletedFilter = (typeof COMPLETE_FILTERS)[number];
-
 export const CodexFilter = () => {
-	const filterCodex = useCodexStore((s) => s.filterCodex);
+	const setCodexFilters = useCodexStore((s) => s.setCodexFilters);
+	const resetCodexFilters = useCodexStore((s) => s.resetCodexFilters);
 	const filters = useCodexStore((s) => s.filters);
-	const { source, completed, search } = filters;
-
-	const resetCodexFilters = () => {
-		filterCodex({ ...initialCodexFilters });
-	};
+	const { source, view, search } = filters;
 
 	return (
 		<div className="flex flex-row gap-2 flex-wrap">
@@ -39,20 +34,15 @@ export const CodexFilter = () => {
 				<Field>
 					<FieldLabel htmlFor="filter">Filter</FieldLabel>
 					<Select
-						onValueChange={(e: CompletedFilter) =>
-							filterCodex({
-								...filters,
-								completed: e,
-							})
-						}
-						value={completed}
+						onValueChange={(view: CodexView) => setCodexFilters({ view })}
+						value={view}
 					>
 						<SelectTrigger className="" id="filter">
 							<SelectValue placeholder="Select filter" />
 						</SelectTrigger>
 						<SelectContent className="">
 							<SelectGroup>
-								{COMPLETE_FILTERS.map((filter) => (
+								{CODEX_VIEWS.map((filter) => (
 									<SelectItem value={filter} key={filter}>
 										{toSentenceCase(filter)}
 									</SelectItem>
@@ -68,7 +58,7 @@ export const CodexFilter = () => {
 					<FieldLabel htmlFor="source">Source</FieldLabel>
 					<Select
 						onValueChange={(e: string) =>
-							filterCodex({ ...filters, source: +e as SourceId })
+							setCodexFilters({ source: +e as SourceId })
 						}
 						value={source?.toString()}
 					>
@@ -100,7 +90,7 @@ export const CodexFilter = () => {
 							placeholder="Monsterling name"
 							value={search}
 							onChange={(event) =>
-								filterCodex({ ...filters, search: event.target.value })
+								setCodexFilters({ search: event.target.value })
 							}
 							className="w-full sm:max-w-sm"
 						/>
@@ -113,12 +103,7 @@ export const CodexFilter = () => {
 								"invisible",
 								!!search && "visible",
 							)}
-							onClick={() =>
-								filterCodex({
-									...filters,
-									search: "",
-								})
-							}
+							onClick={() => setCodexFilters({ search: "" })}
 						>
 							<XIcon className="h-4 w-4" />
 							<span className="sr-only">Clear</span>
@@ -132,7 +117,7 @@ export const CodexFilter = () => {
 					<Button
 						className="w-full sm:w-auto"
 						variant={"outline"}
-						onClick={() => resetCodexFilters()}
+						onClick={resetCodexFilters}
 					>
 						Reset Filters
 					</Button>

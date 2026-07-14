@@ -16,6 +16,7 @@ describe("SyncConflictDialog tables", () => {
 				monsterlingsOwned: 1,
 				loadouts: 1,
 				codexCompleted: 1,
+				codexFavorites: 1,
 			},
 		};
 		useAppStore.setState({ syncConflict: { local: copy, remote: copy } });
@@ -25,7 +26,7 @@ describe("SyncConflictDialog tables", () => {
 		expect(tables).toHaveLength(2);
 		for (const table of tables) {
 			expect(table.querySelectorAll(":scope > thead > tr > th")).toHaveLength(
-				4,
+				5,
 			);
 			expect(table.querySelectorAll(":scope > thead > th")).toHaveLength(0);
 			for (const header of table.querySelectorAll("th")) {

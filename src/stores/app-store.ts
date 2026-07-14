@@ -32,6 +32,7 @@ export type StoreState = {
 				monsterlingsOwned: number;
 				loadouts: number;
 				codexCompleted: number;
+				codexFavorites: number;
 			};
 		};
 		remote: {
@@ -42,6 +43,7 @@ export type StoreState = {
 				monsterlingsOwned: number;
 				loadouts: number;
 				codexCompleted: number;
+				codexFavorites: number;
 			};
 		};
 	} | null;

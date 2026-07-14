@@ -7,7 +7,7 @@ import { REGIONS_DATA } from "@/data/REGIONS_DATA";
 import { cn } from "@/lib/utils";
 
 export const CodexRegions = () => {
-	const filterCodex = useCodexStore((s) => s.filterCodex);
+	const setCodexFilters = useCodexStore((s) => s.setCodexFilters);
 	const filters = useCodexStore((s) => s.filters);
 
 	return (
@@ -24,7 +24,7 @@ export const CodexRegions = () => {
 								filters.region === region.id &&
 									"bg-card border-initial border-b-0 rounded-b-none shadow-none opacity-100",
 							)}
-							onClick={() => filterCodex({ ...filters, region: region.id })}
+							onClick={() => setCodexFilters({ region: region.id })}
 						>
 							<CardContent className="w-32 flex flex-col justify-center items-center">
 								<img

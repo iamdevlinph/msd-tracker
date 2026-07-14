@@ -4,8 +4,10 @@ import type { StoreState } from "@/stores/app-store";
 
 export type CompletedCodexSlice = {
 	monsterCodexCompleted: number[];
+	monsterCodexFavorites: number[];
 	setMonsterCodexComplete: (id: number) => void;
 	deleteMonsterCodexComplete: (id: number) => void;
+	toggleMonsterCodexFavorite: (id: number) => void;
 
 	resetCodexStore: () => void;
 };
@@ -17,6 +19,7 @@ export const createMonsterCodexSlice: StateCreator<
 	CompletedCodexSlice
 > = (set) => ({
 	monsterCodexCompleted: [],
+	monsterCodexFavorites: [],
 
 	setMonsterCodexComplete: (id) =>
 		set((state) => {
@@ -35,6 +38,18 @@ export const createMonsterCodexSlice: StateCreator<
 			};
 		}),
 
+	toggleMonsterCodexFavorite: (id) =>
+		set((state) => ({
+			monsterCodexFavorites: state.monsterCodexFavorites.includes(id)
+				? arrayRemoveItem(state.monsterCodexFavorites, id)
+				: [...state.monsterCodexFavorites, id],
+			backupUpdatedAt: Date.now(),
+		})),
+
 	resetCodexStore: () =>
-		set({ monsterCodexCompleted: [], backupUpdatedAt: Date.now() }),
+		set({
+			monsterCodexCompleted: [],
+			monsterCodexFavorites: [],
+			backupUpdatedAt: Date.now(),
+		}),
 });
