@@ -1,5 +1,10 @@
 import { ArrowLeftIcon, SearchIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
+import CharacterCard from "@/components/characters/components/character-card";
+import { CharacterFilter } from "@/components/characters/components/character-filter";
+import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
+import { emptyCharacterFilters } from "@/components/characters/store/characters-filter-store";
+import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,12 +48,16 @@ const blankLoadout = (name = "New Loadout"): Omit<LoadoutOwned, "id"> => ({
 const UNKNOWN_CHARACTER_PORTRAIT =
 	"/images/Character_Portrait/portrait_Unknown_00.png";
 const SLOT_INDEXES = [0, 1, 2] as const;
-type PickerTarget = {
-	characterIndex: number;
-	monsterlingIndex?: number;
-	legendary?: boolean;
-} | null;
-type Props = {
+type PickerTarget =
+	| { type: "character"; characterIndex: number }
+	| {
+			type: "monsterling";
+			characterIndex: number;
+			monsterlingIndex?: number;
+			legendary: boolean;
+	  }
+	| null;
+type LoadoutsDialogProps = {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	loadoutToEdit?: string | null;
@@ -60,15 +69,18 @@ export const LoadoutsDialog = ({
 	setOpen,
 	loadoutToEdit = null,
 	onClose,
-}: Props) => {
+}: LoadoutsDialogProps) => {
 	const loadouts = useAppStore((s) => s.loadouts);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 	const setLoadout = useAppStore((s) => s.setLoadout);
 	const [draft, setDraft] = useState<Omit<LoadoutOwned, "id">>(blankLoadout);
 	const [pickerTarget, setPickerTarget] = useState<PickerTarget>(null);
-	const [search, setSearch] = useState("");
+	const [monsterlingSearch, setMonsterlingSearch] = useState("");
 	const [tierFilter, setTierFilter] = useState("all");
+	const [characterFilters, setCharacterFilters] = useState(
+		emptyCharacterFilters,
+	);
 	const [activeTab, setActiveTab] = useState("0");
 
 	useEffect(() => {
@@ -100,9 +112,12 @@ export const LoadoutsDialog = ({
 			.filter((id): id is string => id !== null),
 	);
 	const ownedCharacters = Object.values(charactersOwned)
-		.map((owned) => CHARACTERS_DATA[owned.id])
-		.filter(Boolean)
-		.sort((a, b) => a.name.localeCompare(b.name));
+		.map((owned) => ({ ...owned, info: CHARACTERS_DATA[owned.id] }))
+		.filter(({ info }) => !!info)
+		.sort((a, b) => a.info.name.localeCompare(b.info.name));
+	const characterPickerOptions = ownedCharacters.filter(({ info }) =>
+		matchesCharacterFilters(info, characterFilters),
+	);
 	const ownedMonsterlings = Object.entries(monsterlingsOwned)
 		.map(([id, owned]) => ({
 			id,
@@ -111,14 +126,18 @@ export const LoadoutsDialog = ({
 		}))
 		.filter(({ info }) => !!info)
 		.sort((a, b) => a.info.name.localeCompare(b.info.name));
-	const pickerOptions = ownedMonsterlings.filter(({ info, tier_id }) => {
-		const legendary = info.region_id === REGION_ID_BY_REGION.LEGENDARY;
-		return (
-			legendary === !!pickerTarget?.legendary &&
-			(!search || info.name.toLowerCase().includes(search.toLowerCase())) &&
-			(tierFilter === "all" || String(tier_id) === tierFilter)
-		);
-	});
+	const monsterlingPickerOptions = ownedMonsterlings.filter(
+		({ info, tier_id }) => {
+			const legendary = info.region_id === REGION_ID_BY_REGION.LEGENDARY;
+			return (
+				pickerTarget?.type === "monsterling" &&
+				legendary === pickerTarget.legendary &&
+				(!monsterlingSearch ||
+					info.name.toLowerCase().includes(monsterlingSearch.toLowerCase())) &&
+				(tierFilter === "all" || String(tier_id) === tierFilter)
+			);
+		},
+	);
 
 	const updateSlot = (
 		index: number,
@@ -132,11 +151,20 @@ export const LoadoutsDialog = ({
 		}));
 	const resetPicker = () => {
 		setPickerTarget(null);
-		setSearch("");
+		setMonsterlingSearch("");
 		setTierFilter("all");
+		setCharacterFilters(emptyCharacterFilters());
+	};
+	const selectCharacter = (id: number) => {
+		if (pickerTarget?.type !== "character") return;
+		updateSlot(pickerTarget.characterIndex, (slot) => ({
+			...slot,
+			characterId: id,
+		}));
+		resetPicker();
 	};
 	const selectMonsterling = (id: string) => {
-		if (!pickerTarget) return;
+		if (pickerTarget?.type !== "monsterling") return;
 		updateSlot(pickerTarget.characterIndex, (slot) => {
 			if (pickerTarget.legendary)
 				return { ...slot, legendaryMonsterlingId: id };
@@ -198,29 +226,83 @@ export const LoadoutsDialog = ({
 							</Button>
 						)}
 						<DialogTitle>
-							{pickerTarget
-								? `Select ${pickerTarget.legendary ? "Legendary " : ""}Monsterling`
-								: loadoutToEdit
-									? "Edit Team Loadout"
-									: "Add Team Loadout"}
+							{pickerTarget?.type === "character"
+								? "Select Character"
+								: pickerTarget?.type === "monsterling"
+									? `Select ${pickerTarget.legendary ? "Legendary " : ""}Monsterling`
+									: loadoutToEdit
+										? "Edit Team Loadout"
+										: "Add Team Loadout"}
 						</DialogTitle>
 					</div>
 					<DialogDescription>
-						{pickerTarget
-							? "Search owned monsterlings by name or tier."
-							: "Select three owned characters and assign their monsterlings."}
+						{pickerTarget?.type === "character"
+							? "Search and filter your owned characters."
+							: pickerTarget?.type === "monsterling"
+								? "Search owned monsterlings by name or tier."
+								: "Select three owned characters and assign their monsterlings."}
 					</DialogDescription>
 				</DialogHeader>
 
 				<div className="min-h-0 overflow-y-auto p-4">
-					{pickerTarget ? (
+					{pickerTarget?.type === "character" ? (
+						<>
+							<div className="mb-4">
+								<CharacterFilter
+									filters={characterFilters}
+									onChange={setCharacterFilters}
+								/>
+							</div>
+							<div className="grid grid-cols-[repeat(auto-fit,130px)] justify-center gap-x-5 gap-y-8">
+								{characterPickerOptions.map((character) => {
+									const currentId =
+										draft.characters[pickerTarget.characterIndex].characterId;
+									const disabled =
+										selectedCharacterIds.has(character.id) &&
+										currentId !== character.id;
+
+									return (
+										<button
+											key={character.id}
+											type="button"
+											disabled={disabled}
+											onClick={() => selectCharacter(character.id)}
+											aria-label={`Select ${character.info.name}`}
+											className={cn(
+												"rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+												disabled && "cursor-not-allowed opacity-50",
+											)}
+										>
+											<CharacterCard
+												portraitSize={130}
+												iconSize={30}
+												portraitImage={character.info.portraitImage}
+												name={character.info.name}
+												element_id={character.info.element_id}
+												class_id={character.info.class_id}
+												tier_id={character.info.tier_id}
+												awakening={character.awakening}
+												variant={character.info.variant}
+											/>
+											<CharacterSkillLevel charOwned={character} />
+										</button>
+									);
+								})}
+								{characterPickerOptions.length === 0 && (
+									<p className="col-span-full rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+										No owned characters match.
+									</p>
+								)}
+							</div>
+						</>
+					) : pickerTarget?.type === "monsterling" ? (
 						<>
 							<div className="mb-4 grid grid-cols-[1fr_auto] gap-2">
 								<div className="relative">
 									<SearchIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
 									<Input
-										value={search}
-										onChange={(e) => setSearch(e.target.value)}
+										value={monsterlingSearch}
+										onChange={(e) => setMonsterlingSearch(e.target.value)}
 										placeholder="Search name"
 										className="pl-9"
 									/>
@@ -240,7 +322,7 @@ export const LoadoutsDialog = ({
 								</Select>
 							</div>
 							<div className="grid gap-2 overflow-x-auto [scrollbar-width:none] md:grid-cols-2 xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-								{pickerOptions.map((monsterling) => {
+								{monsterlingPickerOptions.map((monsterling) => {
 									const slot = draft.characters[pickerTarget.characterIndex];
 									const currentId = pickerTarget.legendary
 										? slot.legendaryMonsterlingId
@@ -268,7 +350,7 @@ export const LoadoutsDialog = ({
 										</button>
 									);
 								})}
-								{pickerOptions.length === 0 && (
+								{monsterlingPickerOptions.length === 0 && (
 									<p className="col-span-full rounded-md border border-dashed p-4 text-sm text-muted-foreground">
 										No owned monsterlings found.
 									</p>
@@ -327,41 +409,49 @@ export const LoadoutsDialog = ({
 								</TabsList>
 								{SLOT_INDEXES.map((index) => {
 									const slot = draft.characters[index];
+									const character =
+										slot.characterId === null
+											? null
+											: CHARACTERS_DATA[slot.characterId];
 									return (
 										<TabsContent
 											key={index}
 											value={String(index)}
 											className="grid gap-4 rounded-md border p-3"
 										>
-											<Select
-												value={slot.characterId?.toString() ?? "none"}
-												onValueChange={(value) =>
-													updateSlot(index, (current) => ({
-														...current,
-														characterId:
-															value === "none" ? null : Number(value),
-													}))
-												}
-											>
-												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Select character" />
-												</SelectTrigger>
-												<SelectContent>
-													<SelectItem value="none">No character</SelectItem>
-													{ownedCharacters.map((character) => (
-														<SelectItem
-															key={character.id}
-															value={String(character.id)}
-															disabled={
-																selectedCharacterIds.has(character.id) &&
-																slot.characterId !== character.id
-															}
-														>
-															{character.name}
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
+											<div className="flex gap-2">
+												<Button
+													type="button"
+													variant="outline"
+													className="min-w-0 flex-1 justify-start"
+													onClick={() =>
+														setPickerTarget({
+															type: "character",
+															characterIndex: index,
+														})
+													}
+												>
+													<span className="truncate">
+														{character ? character.name : "Select character"}
+													</span>
+												</Button>
+												{slot.characterId !== null && (
+													<Button
+														type="button"
+														size="icon"
+														variant="destructive"
+														aria-label={`Clear character ${index + 1}`}
+														onClick={() =>
+															updateSlot(index, (current) => ({
+																...current,
+																characterId: null,
+															}))
+														}
+													>
+														<Trash2Icon />
+													</Button>
+												)}
+											</div>
 											<div className="grid grid-cols-4 gap-2">
 												{[...SLOT_INDEXES, "legendary" as const].map(
 													(monsterIndex) => {
@@ -386,6 +476,7 @@ export const LoadoutsDialog = ({
 																	type="button"
 																	onClick={() =>
 																		setPickerTarget({
+																			type: "monsterling",
 																			characterIndex: index,
 																			monsterlingIndex: legendary
 																				? undefined
@@ -409,7 +500,7 @@ export const LoadoutsDialog = ({
 																	) : legendary ? (
 																		"Legendary"
 																	) : (
-																		`Slot ${monsterIndex + 1}`
+																		`Monsterling ${monsterIndex + 1}`
 																	)}
 																</button>
 																{id && (

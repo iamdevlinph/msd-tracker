@@ -72,7 +72,6 @@ const navSections: NavSection[] = [
 				label: "Loadouts",
 				icon: { type: "lucide", icon: Blocks },
 				link: "/loadouts",
-				hidden: hideItem,
 			},
 		],
 	},

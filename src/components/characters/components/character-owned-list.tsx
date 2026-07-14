@@ -2,33 +2,25 @@ import { useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
-import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
+import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
+import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
-export const CharacterOwnedList = () => {
+type CharacterOwnedListProps = { filters: CharacterFilters };
+
+export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 	const [open, setOpen] = useState(false);
 	const [charIdToEdit, setCharIdToEdit] = useState<null | number>(null);
 
-	const characterFilters = useCharacterFilter((s) => s.characterFilters);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
-
-	const { selectedCharacterClass, selectedElements } = characterFilters;
-
-	const classSet = new Set(selectedCharacterClass);
-
-	const elementSet = new Set(selectedElements);
 
 	const enrichedCharacters = Object.values(charactersOwned)
 		.map((c) => ({
 			...c,
 			info: CHARACTERS_DATA[c.id],
 		}))
-		.filter(({ info }) => {
-			if (classSet.size && !classSet.has(info.class_id)) return false;
-			if (elementSet.size && !elementSet.has(info.element_id)) return false;
-			return true;
-		})
+		.filter(({ info }) => matchesCharacterFilters(info, filters))
 		.sort((a, b) => a.info.name.localeCompare(b.info.name));
 
 	return (

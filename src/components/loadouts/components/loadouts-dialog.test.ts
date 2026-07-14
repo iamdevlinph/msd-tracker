@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { nextLoadoutName } from "@/components/loadouts/components/loadout-utils";
+import {
+	nextLoadoutName,
+	showFutureLoadoutSlots,
+} from "@/components/loadouts/components/loadout-utils";
 
 describe("nextLoadoutName", () => {
 	it("increments generated loadout names", () => {
@@ -8,5 +11,13 @@ describe("nextLoadoutName", () => {
 		expect(nextLoadoutName(["New Loadout", "New Loadout #2"])).toBe(
 			"New Loadout #3",
 		);
+	});
+});
+
+describe("showFutureLoadoutSlots", () => {
+	it("shows unfinished slots only during development", () => {
+		expect(showFutureLoadoutSlots("development")).toBe(true);
+		expect(showFutureLoadoutSlots("production")).toBe(false);
+		expect(showFutureLoadoutSlots()).toBe(false);
 	});
 });

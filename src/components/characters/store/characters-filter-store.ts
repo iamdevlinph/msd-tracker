@@ -3,86 +3,38 @@ import type { CharacterClassId } from "@/data/CHARACTER_CLASS_DATA";
 import type { ElementId } from "@/data/ELEMENTS_DATA";
 
 export type CharacterStoreState = {
-	characterFilters: {
-		selectedCharacterClass: CharacterClassId[];
-		selectedElements: ElementId[];
-	};
+	characterFilters: CharacterFilters;
 
-	setCharacaterFilters: (
-		filters: CharacterStoreState["characterFilters"],
-	) => void;
+	setCharacaterFilters: (filters: CharacterFilters) => void;
 };
 
-export const initialCharacterState = {
-	characterFilters: {
-		selectedCharacterClass: [],
-		selectedElements: [],
-	},
+export type CharacterFilters = {
+	search: string;
+	selectedCharacterClass: CharacterClassId[];
+	selectedElements: ElementId[];
+};
+
+export const emptyCharacterFilters = (): CharacterFilters => ({
+	search: "",
+	selectedCharacterClass: [],
+	selectedElements: [],
+});
+
+export const initialCharacterState: Pick<
+	CharacterStoreState,
+	"characterFilters"
+> = {
+	characterFilters: emptyCharacterFilters(),
 };
 
 export const useCharacterFilter = create<CharacterStoreState>()((set) => ({
 	...initialCharacterState,
 
 	setCharacaterFilters: (filter) =>
-		set((state) => {
-			const nextFilter = {
+		set((state) => ({
+			characterFilters: {
 				...state.characterFilters,
 				...filter,
-			};
-
-			// const { characterClassId, elementId } = nextFilter;
-
-			// const cacheKey = `filter-${region}-${source}`;
-			// const cached = get().cachedResults[cacheKey];
-			// if (cached) {
-			// 	return {
-			// 		monsterlings: JSON.parse(cached as string),
-			// 	};
-			// }
-
-			// const ownedCharacaters = new Set(useAppStore.getState().charactersOwned);
-
-			// const filtered = MONSTERLINGS_DATA.filter((monsterling) => {
-			// 	if (search && !monsterling.name.toLowerCase().includes(search)) {
-			// 		return false;
-			// 	}
-
-			// 	if (
-			// 		region !== undefined &&
-			// 		region !== REGION_ID_BY_REGION.ALL &&
-			// 		monsterling.region_id !== region
-			// 	) {
-			// 		return false;
-			// 	}
-
-			// 	if (
-			// 		source !== undefined &&
-			// 		source !== SOURCE_ID_BY_SOURCE.ALL &&
-			// 		!monsterling.source_id.includes(source)
-			// 	) {
-			// 		return false;
-			// 	}
-
-			// 	const isCompleted = completedSet.has(monsterling.id);
-
-			// 	if (completed === "completed" && !isCompleted) {
-			// 		return false;
-			// 	}
-
-			// 	if (completed === "incomplete" && isCompleted) {
-			// 		return false;
-			// 	}
-
-			// 	return true;
-			// });
-
-			return {
-				// monsterlings: filtered,
-				characterFilters: nextFilter,
-				// cachedResults: {
-				// 	...state.cachedResults,
-				// 	[cacheKey]: JSON.stringify(filtered),
-				// },
-			};
-		}),
+			},
+		})),
 }));

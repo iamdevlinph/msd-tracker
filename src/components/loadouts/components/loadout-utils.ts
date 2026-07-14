@@ -5,3 +5,6 @@ export const nextLoadoutName = (names: string[]) => {
 	while (used.has(`New Loadout #${number}`)) number++;
 	return `New Loadout #${number}`;
 };
+
+export const showFutureLoadoutSlots = (environment?: string) =>
+	environment === "development";

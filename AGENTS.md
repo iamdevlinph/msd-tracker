@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This TanStack Start application uses React and TypeScript. Routes live in `src/routes`; keep them thin and move feature logic into `src/components/<feature>`. Shared UI is in `src/components/ui`, helpers in `src/lib`, state in `src/stores` and `src/context`, static game data in `src/data`, and public assets in `public`. Colocate `*.test.ts(x)` files. Do not edit generated `src/routeTree.gen.ts`.
+This TanStack Start application uses React and TypeScript. Routes live in `src/routes`; keep them thin and move feature logic into `src/components/<feature>`. Shared UI is in `src/components/ui`, helpers in `src/lib`, state in `src/stores` and `src/context`, static game data in `src/data`, and public assets in `public`. Colocate `*.test.ts(x)` files. Do not edit generated `src/routeTree.gen.ts`. Track feature status in `PLANS.md` and check off implemented items in the same change.
 
 ## Build, Test, and Development Commands
 
@@ -13,11 +13,11 @@ This TanStack Start application uses React and TypeScript. Routes live in `src/r
 - `pnpm format:check` checks formatting without rewriting files.
 - `pnpm check` runs the combined Biome checks.
 
-Use targeted checks first, then broader checks for route, schema, server, or shared-state changes. Change dependencies or deploy only when required.
+Use targeted checks first, then broader checks for route, schema, server, or shared-state changes. Merges to `main` deploy automatically; do not run deployment commands.
 
 ## Coding Style & Naming Conventions
 
-Biome is authoritative: use tabs, double quotes, and organized imports. Follow nearby patterns: kebab-case filenames, PascalCase components, and `export const ComponentName = ...`. Keep feature code together and reuse existing types and domain constants. Use Tailwind, `cn(...)`, and existing UI primitives. Forms use React Hook Form, Zod, and `Controller` fields.
+Biome is authoritative: use tabs, double quotes, and organized imports. Follow nearby patterns: kebab-case filenames, PascalCase components, and `export const ComponentName = ...`. Name prop types after their component, such as `CharacterFilterProps`, instead of `Props`. Keep feature code together and reuse existing types and domain constants. Use Tailwind, `cn(...)`, and existing UI primitives. Forms use React Hook Form, Zod, and `Controller` fields.
 
 ## Persistence & Drive Sync
 

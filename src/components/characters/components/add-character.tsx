@@ -3,6 +3,8 @@ import { useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterFilter } from "@/components/characters/components/character-filter";
+import { emptyCharacterFilters } from "@/components/characters/store/characters-filter-store";
+import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +24,7 @@ export function AddCharacter() {
 
 	const [open, setOpen] = useState(false);
 	const [charToAdd, setCharToAdd] = useState<null | number>(null);
+	const [filters, setFilters] = useState(emptyCharacterFilters);
 	const hasSelectedChar = !!charToAdd;
 
 	const charToAddInfo = hasSelectedChar ? CHARACTERS_DATA[charToAdd] : null;
@@ -30,9 +33,24 @@ export function AddCharacter() {
 
 	const noCharsToAdd =
 		Object.keys(charactersOwned).length === Object.keys(CHARACTERS_DATA).length;
+	const availableCharacters = Object.values(CHARACTERS_DATA)
+		.filter(
+			(character) =>
+				!ownedSet.has(character.id) &&
+				matchesCharacterFilters(character, filters),
+		)
+		.sort((a, b) => a.name.localeCompare(b.name));
+	const close = () => {
+		setOpen(false);
+		setCharToAdd(null);
+		setFilters(emptyCharacterFilters());
+	};
 
 	return (
-		<Dialog open={open} onOpenChange={setOpen}>
+		<Dialog
+			open={open}
+			onOpenChange={(next) => (next ? setOpen(true) : close())}
+		>
 			<DialogTrigger asChild>
 				<Button variant="default" className="w-min">
 					Add Character
@@ -45,7 +63,6 @@ export function AddCharacter() {
 					hasSelectedChar && "lg:min-w-max",
 					"h-[calc(100dvh-50px)] lg:h-min",
 				)}
-				onCloseAutoFocus={() => setCharToAdd(null)}
 			>
 				<DialogHeader>
 					<div className="flex gap-5 items-center">
@@ -83,7 +100,9 @@ export function AddCharacter() {
 				<div className="">
 					{!hasSelectedChar && (
 						<div className="gap-2 flex flex-col">
-							{!noCharsToAdd && <CharacterFilter />}
+							{!noCharsToAdd && (
+								<CharacterFilter filters={filters} onChange={setFilters} />
+							)}
 
 							<div className="flex flex-wrap gap-5 mt-5">
 								{noCharsToAdd && (
@@ -91,39 +110,33 @@ export function AddCharacter() {
 										No characters to add
 									</h1>
 								)}
-								{Object.values(CHARACTERS_DATA)
-									.sort((a, b) => a.name.localeCompare(b.name))
-									.map((character) => {
-										// dont display if already owned
-										if (ownedSet.has(character.id)) return null;
-
-										return (
-											<button
-												key={character.id}
-												onClick={() => setCharToAdd(character.id)}
-												type="button"
-											>
-												<CharacterCard
-													//  {...character}
-													portraitImage={character.portraitImage}
-													name={character.name}
-													element_id={character.element_id}
-													class_id={character.class_id}
-													tier_id={character.tier_id}
-													variant={character.variant}
-												/>
-											</button>
-										);
-									})}
+								{!noCharsToAdd && availableCharacters.length === 0 && (
+									<p className="text-sm text-muted-foreground">
+										No characters match these filters.
+									</p>
+								)}
+								{availableCharacters.map((character) => (
+									<button
+										key={character.id}
+										onClick={() => setCharToAdd(character.id)}
+										type="button"
+									>
+										<CharacterCard
+											portraitImage={character.portraitImage}
+											name={character.name}
+											element_id={character.element_id}
+											class_id={character.class_id}
+											tier_id={character.tier_id}
+											variant={character.variant}
+										/>
+									</button>
+								))}
 							</div>
 						</div>
 					)}
 
 					{hasSelectedChar && (
-						<CharacterOwnedDetailsForm
-							id={charToAdd}
-							onClose={() => setOpen(false)}
-						/>
+						<CharacterOwnedDetailsForm id={charToAdd} onClose={close} />
 					)}
 				</div>
 			</DialogContent>

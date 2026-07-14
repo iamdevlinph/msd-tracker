@@ -32,12 +32,14 @@ import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+import { showFutureLoadoutSlots } from "./loadout-utils";
 
 const CHARACTER_SLOT_INDEXES = [0, 1, 2] as const;
 const MONSTERLING_SLOT_INDEXES = [0, 1, 2] as const;
 const EQUIPMENT_SLOT_INDEXES = [1, 2, 3, 4] as const;
 const UNKNOWN_CHARACTER_PORTRAIT =
 	"/images/Character_Portrait/portrait_Unknown_00.png";
+const SHOW_FUTURE_SLOTS = showFutureLoadoutSlots(import.meta.env.VITE_NODE_ENV);
 
 export const LoadoutsList = () => {
 	const [open, setOpen] = useState(false);
@@ -54,8 +56,11 @@ export const LoadoutsList = () => {
 	return (
 		<div className="min-w-0">
 			{loadoutEntries.length === 0 && (
-				<div className="border rounded-md p-6 text-sm text-muted-foreground">
-					No loadouts yet.
+				<div className="flex flex-col items-center justify-center gap-1 py-10 text-center">
+					<h2 className="font-semibold">No loadouts yet</h2>
+					<p className="text-sm text-muted-foreground">
+						Create a loadout to organize your team and monsterlings.
+					</p>
 				</div>
 			)}
 
@@ -276,27 +281,32 @@ const LoadoutCard = ({
 												<span className="text-[10px] text-muted-foreground">
 													{monsterIndex === "legendary"
 														? "Legendary"
-														: `Slot ${monsterIndex + 1}`}
+														: `Monsterling ${monsterIndex + 1}`}
 												</span>
 											)}
 										</div>
 									);
 								},
 							)}
-							<div className="grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground">
-								Artifact
-							</div>
-							{EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => (
-								<div
-									key={`${loadout.id}-${index}-equipment-${equipmentIndex}`}
-									className={cn(
-										"grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground",
-										equipmentIndex === 1 && "border-l-2 border-l-primary pl-2",
-									)}
-								>
-									Equipment {equipmentIndex}
-								</div>
-							))}
+							{SHOW_FUTURE_SLOTS && (
+								<>
+									<div className="grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground">
+										Artifact
+									</div>
+									{EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => (
+										<div
+											key={`${loadout.id}-${index}-equipment-${equipmentIndex}`}
+											className={cn(
+												"grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground",
+												equipmentIndex === 1 &&
+													"border-l-2 border-l-primary pl-2",
+											)}
+										>
+											Equipment {equipmentIndex}
+										</div>
+									))}
+								</>
+							)}
 						</div>
 					);
 				})}
