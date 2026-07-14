@@ -70,7 +70,11 @@ export function SyncConflictDialog() {
 										<TableHead scope="col">Monsterlings</TableHead>
 										<TableHead scope="col">Loadouts</TableHead>
 										<TableHead scope="col">Codex</TableHead>
-										<TableHead scope="col">Codex Favorites</TableHead>
+										<TableHead scope="col">
+											Codex
+											<br />
+											Favorites
+										</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -124,7 +128,11 @@ export function SyncConflictDialog() {
 										<TableHead scope="col">Monsterlings</TableHead>
 										<TableHead scope="col">Loadouts</TableHead>
 										<TableHead scope="col">Codex</TableHead>
-										<TableHead scope="col">Favorites</TableHead>
+										<TableHead scope="col">
+											Codex
+											<br />
+											Favorites
+										</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
