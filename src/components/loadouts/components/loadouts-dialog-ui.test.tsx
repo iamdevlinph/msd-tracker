@@ -6,6 +6,7 @@ import { showFutureLoadoutSlots } from "@/components/loadouts/components/loadout
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
 import { LoadoutsList } from "@/components/loadouts/components/loadouts-list";
 import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const charactersOwned = {
@@ -51,6 +52,11 @@ describe("LoadoutsDialog character picker", () => {
 		expect((create as HTMLButtonElement).disabled).toBe(true);
 
 		fireEvent.click(screen.getByRole("button", { name: "Select character" }));
+		const emptySearch = screen.getByPlaceholderText(
+			"Search characters",
+		) as HTMLInputElement;
+		expect(emptySearch.value).toBe("");
+		expect(document.activeElement).toBe(emptySearch);
 		expect(screen.getByRole("button", { name: "Select Angel" })).toBeTruthy();
 		expect(
 			screen.getByRole("button", { name: "Select Benjamin" }),
@@ -92,7 +98,15 @@ describe("LoadoutsDialog character picker", () => {
 		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Angel" }));
+		const search = screen.getByPlaceholderText(
+			"Search characters",
+		) as HTMLInputElement;
 
+		expect(search.value).toBe("Angel");
+		expect(document.activeElement).toBe(search);
+		expect(search.selectionStart).toBe(0);
+		expect(search.selectionEnd).toBe("Angel".length);
+		fireEvent.change(search, { target: { value: "" } });
 		expect(
 			(
 				screen.getByRole("button", {
@@ -107,6 +121,40 @@ describe("LoadoutsDialog character picker", () => {
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(false);
+	});
+
+	it("prefills and selects an assigned monsterling name", () => {
+		useAppStore.setState({
+			monsterlingsOwned: {
+				regular: { monsterling_id: 1, tier_id: 5, traits: [] },
+			},
+			loadouts: {
+				team: {
+					id: "team",
+					name: "Team",
+					characters: [
+						{
+							characterId: 1,
+							monsterlingIds: ["regular", null, null],
+						},
+						{ characterId: 2, monsterlingIds: [null, null, null] },
+						{ characterId: 3, monsterlingIds: [null, null, null] },
+					],
+				},
+			},
+		});
+		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
+		const monsterlingName = MONSTERLINGS_DATA[1].name;
+
+		fireEvent.click(screen.getByRole("button", { name: monsterlingName }));
+		const search = screen.getByPlaceholderText(
+			"Search name",
+		) as HTMLInputElement;
+
+		expect(search.value).toBe(monsterlingName);
+		expect(document.activeElement).toBe(search);
+		expect(search.selectionStart).toBe(0);
+		expect(search.selectionEnd).toBe(monsterlingName.length);
 	});
 });
 
@@ -155,5 +203,10 @@ describe("LoadoutsList", () => {
 		expect(screen.queryAllByText("Artifact")).toHaveLength(futureSlotCount);
 		expect(screen.queryAllByText("Equipment 1")).toHaveLength(futureSlotCount);
 		expect(screen.getAllByText("Monsterling 1")).toHaveLength(3);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Preview Team loadout card" }),
+		);
+		expect(screen.getByRole("dialog", { name: "Team" })).toBeTruthy();
 	});
 });

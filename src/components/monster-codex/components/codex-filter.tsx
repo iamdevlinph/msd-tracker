@@ -92,6 +92,7 @@ export const CodexFilter = () => {
 							onChange={(event) =>
 								setCodexFilters({ search: event.target.value })
 							}
+							onFocus={(event) => event.currentTarget.select()}
 							className="w-full sm:max-w-sm"
 						/>
 						<Button

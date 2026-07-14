@@ -39,14 +39,20 @@ describe("character search", () => {
 
 	it("filters the owned-character screen", () => {
 		render(<CharactersPage />);
+		const search = screen.getByPlaceholderText(
+			"Search characters",
+		) as HTMLInputElement;
 
-		fireEvent.change(screen.getByPlaceholderText("Search characters"), {
+		fireEvent.change(search, {
 			target: { value: "Benjamin" },
 		});
+		fireEvent.focus(search);
 
 		expect(screen.getByText("Benjamin")).toBeTruthy();
 		expect(screen.queryByText("Angel")).toBeNull();
 		expect(screen.queryByText("Mina")).toBeNull();
+		expect(search.selectionStart).toBe(0);
+		expect(search.selectionEnd).toBe("Benjamin".length);
 	});
 
 	it("filters candidates inside Add Character independently", () => {

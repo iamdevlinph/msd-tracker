@@ -149,6 +149,36 @@ export const LoadoutsDialog = ({
 				i === index ? updater(slot) : slot,
 			) as LoadoutOwned["characters"],
 		}));
+	const openCharacterPicker = (characterIndex: number) => {
+		const characterId = draft.characters[characterIndex].characterId;
+		setCharacterFilters({
+			...emptyCharacterFilters(),
+			search:
+				characterId === null ? "" : (CHARACTERS_DATA[characterId]?.name ?? ""),
+		});
+		setPickerTarget({ type: "character", characterIndex });
+	};
+	const openMonsterlingPicker = (
+		characterIndex: number,
+		legendary: boolean,
+		monsterlingIndex?: number,
+	) => {
+		const slot = draft.characters[characterIndex];
+		const id = legendary
+			? slot.legendaryMonsterlingId
+			: slot.monsterlingIds[monsterlingIndex ?? 0];
+		const owned = id ? monsterlingsOwned[id] : null;
+		setMonsterlingSearch(
+			owned ? (MONSTERLINGS_DATA[owned.monsterling_id]?.name ?? "") : "",
+		);
+		setTierFilter("all");
+		setPickerTarget({
+			type: "monsterling",
+			characterIndex,
+			monsterlingIndex,
+			legendary,
+		});
+	};
 	const resetPicker = () => {
 		setPickerTarget(null);
 		setMonsterlingSearch("");
@@ -251,6 +281,7 @@ export const LoadoutsDialog = ({
 								<CharacterFilter
 									filters={characterFilters}
 									onChange={setCharacterFilters}
+									autoFocus
 								/>
 							</div>
 							<div className="grid grid-cols-[repeat(auto-fit,130px)] justify-center gap-x-5 gap-y-8">
@@ -301,8 +332,10 @@ export const LoadoutsDialog = ({
 								<div className="relative">
 									<SearchIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
 									<Input
+										autoFocus
 										value={monsterlingSearch}
 										onChange={(e) => setMonsterlingSearch(e.target.value)}
+										onFocus={(event) => event.currentTarget.select()}
 										placeholder="Search name"
 										className="pl-9"
 									/>
@@ -424,12 +457,7 @@ export const LoadoutsDialog = ({
 													type="button"
 													variant="outline"
 													className="min-w-0 flex-1 justify-start"
-													onClick={() =>
-														setPickerTarget({
-															type: "character",
-															characterIndex: index,
-														})
-													}
+													onClick={() => openCharacterPicker(index)}
 												>
 													<span className="truncate">
 														{character ? character.name : "Select character"}
@@ -475,14 +503,11 @@ export const LoadoutsDialog = ({
 																<button
 																	type="button"
 																	onClick={() =>
-																		setPickerTarget({
-																			type: "monsterling",
-																			characterIndex: index,
-																			monsterlingIndex: legendary
-																				? undefined
-																				: monsterIndex,
+																		openMonsterlingPicker(
+																			index,
 																			legendary,
-																		})
+																			legendary ? undefined : monsterIndex,
+																		)
 																	}
 																	className="grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
 																>

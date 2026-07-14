@@ -17,11 +17,13 @@ import { cn } from "@/lib/utils";
 type CharacterFilterProps = {
 	filters: CharacterFilters;
 	onChange: (filters: CharacterFilters) => void;
+	autoFocus?: boolean;
 };
 
 export const CharacterFilter = ({
 	filters,
 	onChange,
+	autoFocus = false,
 }: CharacterFilterProps) => {
 	const { search, selectedElements, selectedCharacterClass } = filters;
 
@@ -60,10 +62,12 @@ export const CharacterFilter = ({
 			<div className="relative">
 				<SearchIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
 				<Input
+					autoFocus={autoFocus}
 					value={search}
 					onChange={(event) =>
 						onChange({ ...filters, search: event.target.value })
 					}
+					onFocus={(event) => event.currentTarget.select()}
 					placeholder="Search characters"
 					className="pl-9"
 				/>

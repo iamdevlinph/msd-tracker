@@ -112,12 +112,18 @@ const LoadoutCard = ({
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 
 	return (
-		<Card className="min-w-0 gap-3 rounded-lg py-3">
-			<CardHeader className="grid-cols-[1fr_auto] gap-2 px-3">
+		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary/40 hover:shadow-md focus-within:border-primary/40 focus-within:shadow-md">
+			<button
+				type="button"
+				onClick={onPreview}
+				aria-label={`Preview ${loadout.name} loadout card`}
+				className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+			/>
+			<CardHeader className="pointer-events-none relative z-10 grid-cols-[1fr_auto] gap-2 px-3">
 				<CardTitle className="text-base leading-tight">
 					{loadout.name}
 				</CardTitle>
-				<div className="flex gap-2">
+				<div className="pointer-events-auto flex gap-2">
 					<Button
 						type="button"
 						size="icon-sm"
@@ -167,7 +173,7 @@ const LoadoutCard = ({
 					</AlertDialog>
 				</div>
 			</CardHeader>
-			<CardContent className="grid gap-2 px-3">
+			<CardContent className="pointer-events-none relative z-10 grid gap-2 px-3">
 				{CHARACTER_SLOT_INDEXES.map((index) => {
 					const slot = loadout.characters[index];
 					const character =
@@ -251,7 +257,7 @@ const LoadoutCard = ({
 										>
 											{monsterling && monsterlingInfo ? (
 												<Dialog>
-													<DialogTrigger className="relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+													<DialogTrigger className="pointer-events-auto relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
 														<TierPortrait
 															tier={monsterling.tier_id}
 															portraitImg={monsterlingInfo.image}

@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { select } from "@/components/account/google/utils/drive-sync";
 import { CodexCard } from "@/components/monster-codex/components/codex-card";
+import { CodexFilter } from "@/components/monster-codex/components/codex-filter";
 import { CodexList } from "@/components/monster-codex/components/codex-list";
 import {
 	initialCodexFilters,
@@ -78,6 +79,21 @@ describe("monster codex favorites", () => {
 
 		expect(screen.getByAltText(`${favorite.name} monsterling`)).toBeTruthy();
 		expect(screen.queryByAltText(`${excluded.name} monsterling`)).toBeNull();
+	});
+
+	it("selects the existing search when focused", () => {
+		useCodexStore.setState({
+			filters: { ...initialCodexFilters, search: favorite.name },
+		});
+		render(<CodexFilter />);
+		const search = screen.getByPlaceholderText(
+			"Monsterling name",
+		) as HTMLInputElement;
+
+		fireEvent.focus(search);
+
+		expect(search.selectionStart).toBe(0);
+		expect(search.selectionEnd).toBe(favorite.name.length);
 	});
 
 	it("toggles favorites independently from completion", () => {
