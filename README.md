@@ -28,6 +28,47 @@ pnpm install
 pnpm dev
 ```
 
+## Make it your own
+
+You are welcome to fork this project, change it to fit your needs, and self-host
+your own version. You do not need to contribute your changes back, but pull
+requests for fixes and improvements are welcome.
+
+### 1. Create Google credentials
+
+1. Create a project in the [Google Cloud Console](https://console.cloud.google.com/).
+2. Enable the [Google Drive API](https://developers.google.com/workspace/drive/api/quickstart/js) and configure the OAuth consent screen. Add yourself as a test user if the app is still in testing.
+3. Create an OAuth 2.0 Client ID for a **Web application**.
+4. Add `http://localhost:3000` and your production URL, such as `https://tracker.example.com`, under **Authorized JavaScript origins**.
+5. Copy `.env.sample` to `.env.local` and add the client ID and secret:
+
+```dotenv
+VITE_GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_SECRET=your-client-secret
+VITE_NODE_ENV=development
+```
+
+Never commit `.env.local` or expose `GOOGLE_CLIENT_SECRET` to the browser.
+
+### 2. Deploy to Cloudflare
+
+1. Add your domain to Cloudflare, then update the Worker `name` and `routes[0].pattern` in `wrangler.jsonc`.
+2. In **Workers & Pages**, create a Worker by importing your forked GitHub or GitLab repository. Select `main` as the production branch.
+3. Use `pnpm build` as the build command and `npx wrangler deploy` as the deploy command. Cloudflare creates the deployment API token automatically.
+4. Under **Settings > Build**, add these build variables:
+   - `VITE_GOOGLE_CLIENT_ID`: your Google OAuth client ID
+   - `VITE_NODE_ENV`: `production`
+5. Under **Settings > Variables & Secrets**, add `GOOGLE_CLIENT_SECRET` as an encrypted runtime secret.
+
+Each push to the production branch will build and deploy the Worker. See the
+[Workers Builds configuration guide](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/)
+for additional branch and preview settings.
+
+### 3. Use your own analytics
+
+Replace the GA4 measurement ID in `src/routes/__root.tsx` with your own, or
+remove the `GoogleAnalytics` component if you do not want analytics.
+
 # Building For Production
 
 To build this application for production:
@@ -220,6 +261,13 @@ Loaders simplify your data fetching logic dramatically. Check out more informati
 # Demo files
 
 Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
+
+## License
+
+Original source code and documentation are available under the [0BSD License](LICENSE).
+Attribution is not required, though credit is appreciated. Mongil: Star Dive
+artwork, names, trademarks, and other third-party materials are not covered by
+this license and remain the property of their respective owners.
 
 # Learn More
 
