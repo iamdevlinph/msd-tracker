@@ -2,8 +2,7 @@ import { CopyIcon, DownloadIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
-import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
-import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
+import { LoadoutPreviewRow } from "@/components/loadouts/components/loadout-preview-row";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,26 +14,12 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
-import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
-import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
-import type {
-	LoadoutCharacterSlot,
-	LoadoutOwned,
-} from "@/stores/loadouts-slice";
+import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
 const SLOTS = [0, 1, 2] as const;
-const SKILLS = [
-	["Basic", IMAGE_MAPPING_ID.SKILL_BASIC, "basic"],
-	["Switch", IMAGE_MAPPING_ID.SKILL_SWITCH, "switch"],
-	["Special", IMAGE_MAPPING_ID.SKILL_SPECIAL, "special"],
-	["Ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, "ultimate"],
-] as const;
 
 type LoadoutPreviewDialogProps = {
 	loadout: LoadoutOwned | null;
@@ -198,7 +183,7 @@ export const LoadoutPreviewDialog = ({
 						</header>
 						{loadout &&
 							SLOTS.map((index) => (
-								<PreviewRow
+								<LoadoutPreviewRow
 									key={`${loadout.id}-character-${index + 1}`}
 									slot={loadout.characters[index]}
 									characterOwned={
@@ -216,134 +201,3 @@ export const LoadoutPreviewDialog = ({
 		</Dialog>
 	);
 };
-
-type PreviewRowProps = {
-	slot: LoadoutCharacterSlot;
-	characterOwned?: ReturnType<
-		typeof useAppStore.getState
-	>["charactersOwned"][number];
-	monsterlingsOwned: ReturnType<
-		typeof useAppStore.getState
-	>["monsterlingsOwned"];
-	compactMonsterlings: boolean;
-};
-
-const PreviewRow = ({
-	slot,
-	characterOwned,
-	monsterlingsOwned,
-	compactMonsterlings,
-}: PreviewRowProps) => {
-	const character =
-		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
-	const validCharacter = character && characterOwned;
-
-	return (
-		<section
-			className={cn(
-				"grid items-center gap-3 border-b border-border/70 pb-4 last:border-0 last:pb-0",
-				compactMonsterlings
-					? "grid-cols-[184px_repeat(3,176px)_188px]"
-					: "grid-cols-[184px_repeat(3,330px)_342px]",
-			)}
-		>
-			{validCharacter ? (
-				<div className="grid h-[120px] grid-cols-[80px_1fr] overflow-hidden rounded-lg border bg-card">
-					<div
-						className="relative bg-cover bg-center"
-						style={{
-							backgroundImage: `url(${TIERS_DATA[character.tier_id].full})`,
-						}}
-					>
-						<img
-							src={character.portraitImage}
-							alt={`${character.name} portrait`}
-							className="size-full object-contain"
-						/>
-					</div>
-					<div className="grid content-center gap-2 p-2">
-						<strong className="truncate text-sm">{character.name}</strong>
-						<div className="flex gap-1.5">
-							<img
-								src={ELEMENTS_DATA[character.element_id].image}
-								alt={`${ELEMENTS_DATA[character.element_id].element} icon`}
-								className="size-6"
-							/>
-							<span
-								className="grid size-6 place-items-center rounded-full bg-primary/20 text-xs font-bold text-primary"
-								title={`Awakening ${characterOwned.awakening}`}
-							>
-								A{characterOwned.awakening}
-							</span>
-						</div>
-						<div className="grid grid-cols-4 gap-1">
-							{SKILLS.map(([label, icon, key]) => (
-								<div
-									key={key}
-									className="grid place-items-center gap-0.5"
-									title={`${label} level ${characterOwned.skills[key] + getAwakeningBonus(characterOwned.awakening)}`}
-								>
-									<img
-										src={IMAGE_MAPPING[icon].image}
-										alt={`${label} skill icon`}
-										className="size-4"
-									/>
-									<span className="text-xs font-bold text-amber-400">
-										{characterOwned.skills[key] +
-											getAwakeningBonus(characterOwned.awakening)}
-									</span>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-			) : (
-				<Placeholder label="Character unavailable" />
-			)}
-			{SLOTS.map((index) => (
-				<MonsterlingSlot
-					key={index}
-					id={slot.monsterlingIds[index]}
-					owned={monsterlingsOwned}
-					label={`Monsterling ${index + 1} unavailable`}
-					compactStats={compactMonsterlings}
-				/>
-			))}
-			<div className="border-l-2 border-primary pl-3">
-				<MonsterlingSlot
-					id={slot.legendaryMonsterlingId ?? null}
-					owned={monsterlingsOwned}
-					label="Legendary unavailable"
-					compactStats={compactMonsterlings}
-				/>
-			</div>
-		</section>
-	);
-};
-
-type MonsterlingSlotProps = {
-	id: string | null;
-	owned: PreviewRowProps["monsterlingsOwned"];
-	label: string;
-	compactStats: boolean;
-};
-
-const MonsterlingSlot = ({
-	id,
-	owned,
-	label,
-	compactStats,
-}: MonsterlingSlotProps) => {
-	const monsterling = id ? owned[id] : null;
-	return monsterling && MONSTERLINGS_DATA[monsterling.monsterling_id] ? (
-		<MonsterlingCard {...monsterling} compactStats={compactStats} />
-	) : (
-		<Placeholder label={label} />
-	);
-};
-
-const Placeholder = ({ label }: { label: string }) => (
-	<div className="grid h-[120px] w-full place-items-center rounded-lg border border-dashed bg-muted/20 text-sm text-muted-foreground">
-		{label}
-	</div>
-);

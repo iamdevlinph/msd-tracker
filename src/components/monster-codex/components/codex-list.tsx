@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { CodexCard } from "@/components/monster-codex/components/codex-card";
-import { EmptyCodex } from "@/components/monster-codex/components/codex-empty";
 import { useCodexStore } from "@/components/monster-codex/store/codex-store";
+import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
@@ -53,7 +53,18 @@ export const CodexList = () => {
 	return (
 		<>
 			{monsterlings.length === 0 && (
-				<EmptyCodex favoriteOnly={filters.view === "favorite"} />
+				<CollectionEmptyState
+					title={
+						filters.view === "favorite"
+							? "No favorite monsterlings yet"
+							: "No monsterling found"
+					}
+					description={
+						filters.view === "favorite"
+							? "Select All, then use the heart on a card to add favorites."
+							: undefined
+					}
+				/>
 			)}
 
 			<div

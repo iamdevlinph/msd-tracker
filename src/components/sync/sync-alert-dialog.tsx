@@ -1,4 +1,3 @@
-import { readableBytes } from "common-utils-pkg";
 import { useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import {
@@ -7,6 +6,7 @@ import {
 	upload,
 } from "@/components/account/google/utils/drive-sync";
 import { SeparatorText } from "@/components/shared/separator-text";
+import { SyncCopyCard } from "@/components/sync/sync-copy-card";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -16,14 +16,6 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 
@@ -40,8 +32,6 @@ export function SyncConflictDialog() {
 
 	const { local, remote } = conflict;
 
-	const fmt = (ts: number) => new Date(ts).toLocaleString();
-
 	return (
 		<AlertDialog open={!!conflict}>
 			<AlertDialogContent>
@@ -55,42 +45,7 @@ export function SyncConflictDialog() {
 
 				<div className="space-y-4 text-sm">
 					<div className="space-y-2 flex flex-col">
-						<div className="border rounded p-3">
-							<div className="font-medium">Local copy</div>
-							<div>Last updated: {fmt(local.updatedAt)}</div>
-							<div>
-								Size:{" "}
-								{readableBytes(local.size, {
-									decimals: 2,
-									minUnit: "kB",
-								})}
-							</div>
-
-							<Table className="">
-								<TableHeader>
-									<TableRow>
-										<TableHead scope="col">Characters</TableHead>
-										<TableHead scope="col">Monsterlings</TableHead>
-										<TableHead scope="col">Loadouts</TableHead>
-										<TableHead scope="col">Codex</TableHead>
-										<TableHead scope="col">
-											Codex
-											<br />
-											Favorites
-										</TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									<TableRow>
-										<TableCell>{local.metadata.charactersOwned}</TableCell>
-										<TableCell>{local.metadata.monsterlingsOwned}</TableCell>
-										<TableCell>{local.metadata.loadouts}</TableCell>
-										<TableCell>{local.metadata.codexCompleted}</TableCell>
-										<TableCell>{local.metadata.codexFavorites}</TableCell>
-									</TableRow>
-								</TableBody>
-							</Table>
-						</div>
+						<SyncCopyCard title="Local copy" copy={local} />
 
 						<AlertDialogAction
 							onClick={async () => {
@@ -118,42 +73,7 @@ export function SyncConflictDialog() {
 					<SeparatorText>or</SeparatorText>
 
 					<div className="space-y-2 flex flex-col">
-						<div className="border rounded p-3">
-							<div className="font-medium">Remote copy (Google Drive)</div>
-							<div>Last updated: {fmt(remote.updatedAt)}</div>
-							<div>
-								Size:{" "}
-								{readableBytes(remote.size, {
-									decimals: 2,
-									minUnit: "kB",
-								})}
-							</div>
-
-							<Table className="">
-								<TableHeader>
-									<TableRow>
-										<TableHead scope="col">Characters</TableHead>
-										<TableHead scope="col">Monsterlings</TableHead>
-										<TableHead scope="col">Loadouts</TableHead>
-										<TableHead scope="col">Codex</TableHead>
-										<TableHead scope="col">
-											Codex
-											<br />
-											Favorites
-										</TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									<TableRow>
-										<TableCell>{remote.metadata.charactersOwned}</TableCell>
-										<TableCell>{remote.metadata.monsterlingsOwned}</TableCell>
-										<TableCell>{remote.metadata.loadouts}</TableCell>
-										<TableCell>{remote.metadata.codexCompleted}</TableCell>
-										<TableCell>{remote.metadata.codexFavorites}</TableCell>
-									</TableRow>
-								</TableBody>
-							</Table>
-						</div>
+						<SyncCopyCard title="Remote copy (Google Drive)" copy={remote} />
 
 						<AlertDialogAction
 							onClick={async () => {

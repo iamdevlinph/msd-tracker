@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EditMonsterlingDialog } from "@/components/monsterlings/components/edit-monsterling-dialog";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
+import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
@@ -20,6 +21,12 @@ export const MonsterlingsList = () => {
 	);
 	return (
 		<div className="">
+			{sortedMonsterlings.length === 0 && (
+				<CollectionEmptyState
+					title="No monsterlings yet"
+					description="Add a monsterling to start building your collection."
+				/>
+			)}
 			<div
 				className="mt-5 gap-y-5 gap-x-5 grid md:flex md:flex-wrap justify-center md:justify-start "
 				style={{

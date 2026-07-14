@@ -114,9 +114,9 @@ export const CharacterOwnedDetailsForm = ({
 
 						<FieldGroup>
 							<NumberControlInput<CharacterOwned>
-								name="skills.basic"
+								name="skills.special"
 								control={form.control}
-								label="Basic"
+								label="Special"
 								min={1}
 								max={12}
 								awakeningBoost={awakeningValue}
@@ -136,9 +136,9 @@ export const CharacterOwnedDetailsForm = ({
 
 						<FieldGroup>
 							<NumberControlInput<CharacterOwned>
-								name="skills.special"
+								name="skills.basic"
 								control={form.control}
-								label="Special"
+								label="Basic"
 								min={1}
 								max={12}
 								awakeningBoost={awakeningValue}

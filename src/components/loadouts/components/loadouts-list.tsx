@@ -1,47 +1,11 @@
-import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
+import { LoadoutCard } from "@/components/loadouts/components/loadout-card";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
-import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
-import { TierPortrait } from "@/components/shared/tier-portrait";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
-import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
-import type { LoadoutOwned } from "@/stores/loadouts-slice";
-import { showFutureLoadoutSlots } from "./loadout-utils";
-
-const CHARACTER_SLOT_INDEXES = [0, 1, 2] as const;
-const MONSTERLING_SLOT_INDEXES = [0, 1, 2] as const;
-const EQUIPMENT_SLOT_INDEXES = [1, 2, 3, 4] as const;
-const UNKNOWN_CHARACTER_PORTRAIT =
-	"/images/Character_Portrait/portrait_Unknown_00.png";
-const SHOW_FUTURE_SLOTS = showFutureLoadoutSlots(import.meta.env.VITE_NODE_ENV);
 
 export const LoadoutsList = () => {
 	const ga = useGoogleAnalytics();
@@ -49,9 +13,8 @@ export const LoadoutsList = () => {
 	const [loadoutToEdit, setLoadoutToEdit] = useState<string | null>(null);
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 
-	const loadouts = useAppStore((s) => s.loadouts);
-	const deleteLoadout = useAppStore((s) => s.deleteLoadout);
-
+	const loadouts = useAppStore((state) => state.loadouts);
+	const deleteLoadout = useAppStore((state) => state.deleteLoadout);
 	const loadoutEntries = Object.values(loadouts).sort((a, b) =>
 		a.name.localeCompare(b.name),
 	);
@@ -59,12 +22,10 @@ export const LoadoutsList = () => {
 	return (
 		<div className="min-w-0">
 			{loadoutEntries.length === 0 && (
-				<div className="flex flex-col items-center justify-center gap-1 py-10 text-center">
-					<h2 className="font-semibold">No loadouts yet</h2>
-					<p className="text-sm text-muted-foreground">
-						Create a loadout to organize your team and monsterlings.
-					</p>
-				</div>
+				<CollectionEmptyState
+					title="No loadouts yet"
+					description="Create a loadout to organize your team and monsterlings."
+				/>
 			)}
 
 			<div className="overflow-x-auto pb-2">
@@ -101,231 +62,5 @@ export const LoadoutsList = () => {
 				onOpenChange={(next) => !next && setLoadoutToPreview(null)}
 			/>
 		</div>
-	);
-};
-
-type LoadoutCardProps = {
-	loadout: LoadoutOwned;
-	onPreview: (source: "card" | "icon") => void;
-	onEdit: () => void;
-	onDelete: () => void;
-};
-
-const LoadoutCard = ({
-	loadout,
-	onPreview,
-	onEdit,
-	onDelete,
-}: LoadoutCardProps) => {
-	const charactersOwned = useAppStore((s) => s.charactersOwned);
-	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
-
-	return (
-		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary/40 hover:shadow-md focus-within:border-primary/40 focus-within:shadow-md">
-			<button
-				type="button"
-				onClick={() => onPreview("card")}
-				aria-label={`Preview ${loadout.name} loadout card`}
-				className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-			/>
-			<CardHeader className="pointer-events-none relative z-10 grid-cols-[1fr_auto] gap-2 px-3">
-				<CardTitle className="text-base leading-tight">
-					{loadout.name}
-				</CardTitle>
-				<div className="pointer-events-auto flex gap-2">
-					<Button
-						type="button"
-						size="icon-sm"
-						variant="outline"
-						onClick={() => onPreview("icon")}
-						aria-label={`Preview ${loadout.name}`}
-						title="Preview loadout"
-					>
-						<EyeIcon />
-					</Button>
-					<Button
-						type="button"
-						size="icon-sm"
-						variant="outline"
-						onClick={onEdit}
-						aria-label={`Edit ${loadout.name}`}
-						title="Edit loadout"
-					>
-						<EditIcon />
-					</Button>
-					<AlertDialog>
-						<AlertDialogTrigger asChild>
-							<Button
-								type="button"
-								size="icon-sm"
-								variant="destructive"
-								title="Delete loadout"
-								aria-label={`Delete ${loadout.name}`}
-							>
-								<Trash2Icon />
-							</Button>
-						</AlertDialogTrigger>
-						<AlertDialogContent size="sm">
-							<AlertDialogHeader>
-								<AlertDialogTitle>Delete team loadout?</AlertDialogTitle>
-								<AlertDialogDescription>
-									This will permanently delete “{loadout.name}”.
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-							<AlertDialogFooter>
-								<AlertDialogCancel>Cancel</AlertDialogCancel>
-								<AlertDialogAction variant="destructive" onClick={onDelete}>
-									Delete
-								</AlertDialogAction>
-							</AlertDialogFooter>
-						</AlertDialogContent>
-					</AlertDialog>
-				</div>
-			</CardHeader>
-			<CardContent className="pointer-events-none relative z-10 grid gap-2 px-3">
-				{CHARACTER_SLOT_INDEXES.map((index) => {
-					const slot = loadout.characters[index];
-					const character =
-						slot.characterId !== null
-							? CHARACTERS_DATA[slot.characterId]
-							: null;
-					const characterOwned =
-						slot.characterId !== null
-							? charactersOwned[slot.characterId]
-							: null;
-					const element =
-						character !== null ? ELEMENTS_DATA[character.element_id] : null;
-
-					return (
-						<div
-							key={`${loadout.id}-character-${index + 1}`}
-							className="grid grid-cols-5 gap-1 rounded-md border bg-muted/20 p-2"
-						>
-							<div className="grid aspect-square min-w-0 place-items-center">
-								<div
-									className="relative grid size-full max-h-28 max-w-28 place-items-center bg-cover bg-center"
-									style={{
-										backgroundImage: character
-											? `url(${TIERS_DATA[character.tier_id].full})`
-											: undefined,
-									}}
-								>
-									<img
-										src={character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT}
-										alt={
-											character
-												? `${character.name} portrait`
-												: "Unknown character portrait"
-										}
-										className="size-full max-h-28 max-w-28 object-contain"
-									/>
-									<div className="absolute left-0.5 top-0.5 rounded-full bg-background/85 p-0.5 shadow-sm">
-										{element && (
-											<img
-												src={element.image}
-												alt={`${element.element} icon`}
-												title={element.element}
-												className="size-4"
-											/>
-										)}
-									</div>
-									{(characterOwned?.awakening ?? 0) > 0 && (
-										<span className="absolute bottom-0.5 right-0.5 rounded bg-background/90 px-1.5 py-0.5 text-xs font-bold shadow-sm">
-											A{characterOwned?.awakening}
-										</span>
-									)}
-								</div>
-							</div>
-							{[...MONSTERLING_SLOT_INDEXES, "legendary" as const].map(
-								(monsterIndex) => {
-									const monsterlingId =
-										monsterIndex === "legendary"
-											? (slot.legendaryMonsterlingId ?? null)
-											: slot.monsterlingIds[monsterIndex];
-									const monsterling =
-										monsterlingId !== null
-											? monsterlingsOwned[monsterlingId]
-											: null;
-									const monsterlingInfo = monsterling
-										? MONSTERLINGS_DATA[monsterling.monsterling_id]
-										: null;
-
-									return (
-										<div
-											key={`${loadout.id}-character-${index + 1}-monsterling-${monsterIndex}`}
-											className={cn(
-												"grid aspect-square min-w-0 rounded-md border bg-background/60 text-center",
-												monsterIndex === "legendary" &&
-													"border-l-2 border-l-primary",
-												monsterling &&
-													monsterlingInfo &&
-													"content-center gap-1",
-												(!monsterling || !monsterlingInfo) &&
-													"place-items-center border-dashed",
-											)}
-										>
-											{monsterling && monsterlingInfo ? (
-												<Dialog>
-													<DialogTrigger className="pointer-events-auto relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-														<TierPortrait
-															tier={monsterling.tier_id}
-															portraitImg={monsterlingInfo.image}
-															portraitSize={112}
-															name={monsterlingInfo.name}
-															hideTierBg
-														/>
-													</DialogTrigger>
-													<DialogContent className="max-w-[calc(100%-2rem)] sm:max-w-sm">
-														<DialogHeader>
-															<DialogTitle>{monsterlingInfo.name}</DialogTitle>
-															<DialogDescription>
-																Tier and complete stats for this owned
-																monsterling.
-															</DialogDescription>
-														</DialogHeader>
-														<div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-															<MonsterlingCard
-																monsterling_id={monsterling.monsterling_id}
-																tier_id={monsterling.tier_id}
-																traits={monsterling.traits}
-															/>
-														</div>
-													</DialogContent>
-												</Dialog>
-											) : (
-												<span className="text-[10px] text-muted-foreground">
-													{monsterIndex === "legendary"
-														? "Legendary"
-														: `Monsterling ${monsterIndex + 1}`}
-												</span>
-											)}
-										</div>
-									);
-								},
-							)}
-							{SHOW_FUTURE_SLOTS && (
-								<>
-									<div className="grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground">
-										Artifact
-									</div>
-									{EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => (
-										<div
-											key={`${loadout.id}-${index}-equipment-${equipmentIndex}`}
-											className={cn(
-												"grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground",
-												equipmentIndex === 1 &&
-													"border-l-2 border-l-primary pl-2",
-											)}
-										>
-											Equipment {equipmentIndex}
-										</div>
-									))}
-								</>
-							)}
-						</div>
-					);
-				})}
-			</CardContent>
-		</Card>
 	);
 };

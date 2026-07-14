@@ -55,6 +55,29 @@ describe("character search", () => {
 		expect(search.selectionEnd).toBe("Benjamin".length);
 	});
 
+	it("distinguishes an empty collection from empty filter results", () => {
+		useAppStore.setState({ charactersOwned: {} });
+		const { rerender } = render(<CharactersPage />);
+
+		expect(screen.getByText("No characters yet")).toBeTruthy();
+		expect(
+			screen.getByText("Add a character to start building your roster."),
+		).toBeTruthy();
+
+		useAppStore.setState({ charactersOwned: owned });
+		useCharacterFilter.setState({
+			characterFilters: { ...emptyCharacterFilters(), search: "missing" },
+		});
+		rerender(<CharactersPage />);
+
+		expect(screen.getByText("No characters match these filters")).toBeTruthy();
+		expect(
+			screen.getByText(
+				"Adjust or clear the filters to see your owned characters.",
+			),
+		).toBeTruthy();
+	});
+
 	it("filters candidates inside Add Character independently", () => {
 		useAppStore.setState({ charactersOwned: { 1: owned[1] } });
 		render(<AddCharacter />);

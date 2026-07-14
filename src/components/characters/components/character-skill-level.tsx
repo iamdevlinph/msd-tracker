@@ -6,11 +6,18 @@ import {
 import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
 import { cn } from "@/lib/utils";
 
-type CharacterSkillLevel = {
+type CharacterSkillLevelProps = {
 	charOwned: CharacterOwned;
 };
 
-export const CharacterSkillLevel = (props: CharacterSkillLevel) => {
+const SKILLS = [
+	["special", IMAGE_MAPPING_ID.SKILL_SPECIAL, 20],
+	["switch", IMAGE_MAPPING_ID.SKILL_SWITCH, 20],
+	["basic", IMAGE_MAPPING_ID.SKILL_BASIC, 17],
+	["ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, 20],
+] as const;
+
+export const CharacterSkillLevel = (props: CharacterSkillLevelProps) => {
 	const { charOwned } = props;
 	const boost = getAwakeningBonus(charOwned.awakening);
 	const boostSkills = boost > 0;
@@ -21,68 +28,30 @@ export const CharacterSkillLevel = (props: CharacterSkillLevel) => {
 			style={{
 				display: "grid",
 				// idk. might handle responsiveness
-				gridTemplateAreas:
-					"'basic switch special ult' 'basic-lvl switch-lvl special-lvl ult-lvl'",
 				gridTemplateColumns: "1fr 1fr 1fr 1fr",
 				gridTemplateRows: "1fr",
 			}}
 		>
-			<img
-				width={17}
-				height={17}
-				alt="basic skill icon"
-				src={IMAGE_MAPPING[IMAGE_MAPPING_ID.SKILL_BASIC].image}
-			/>
-			<img
-				width={20}
-				height={20}
-				alt="switch skill icon"
-				src={IMAGE_MAPPING[IMAGE_MAPPING_ID.SKILL_SWITCH].image}
-			/>
-			<img
-				width={20}
-				height={20}
-				alt="special skill icon"
-				src={IMAGE_MAPPING[IMAGE_MAPPING_ID.SKILL_SPECIAL].image}
-			/>
-			<img
-				width={20}
-				height={20}
-				alt="ultimate skill icon"
-				src={IMAGE_MAPPING[IMAGE_MAPPING_ID.SKILL_ULTIMATE].image}
-			/>
-			<small
-				className={cn(
-					isMaxSkill(charOwned.skills.basic) && "text-green-300",
-					boostSkills && "text-amber-400",
-				)}
-			>
-				{charOwned.skills.basic + boost}
-			</small>
-			<small
-				className={cn(
-					isMaxSkill(charOwned.skills.switch) && "text-green-300",
-					boostSkills && "text-amber-400",
-				)}
-			>
-				{charOwned.skills.switch + boost}
-			</small>
-			<small
-				className={cn(
-					isMaxSkill(charOwned.skills.special) && "text-green-300",
-					boostSkills && "text-amber-400",
-				)}
-			>
-				{charOwned.skills.special + boost}
-			</small>
-			<small
-				className={cn(
-					isMaxSkill(charOwned.skills.ultimate) && "text-green-300",
-					boostSkills && "text-amber-400",
-				)}
-			>
-				{charOwned.skills.ultimate + boost}
-			</small>
+			{SKILLS.map(([skill, icon, size]) => (
+				<img
+					key={skill}
+					width={size}
+					height={size}
+					alt={`${skill} skill icon`}
+					src={IMAGE_MAPPING[icon].image}
+				/>
+			))}
+			{SKILLS.map(([skill]) => (
+				<small
+					key={skill}
+					className={cn(
+						isMaxSkill(charOwned.skills[skill]) && "text-green-300",
+						boostSkills && "text-amber-400",
+					)}
+				>
+					{charOwned.skills[skill] + boost}
+				</small>
+			))}
 		</div>
 	);
 };
