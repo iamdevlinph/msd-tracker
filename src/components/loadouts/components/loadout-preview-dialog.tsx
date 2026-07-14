@@ -5,6 +5,7 @@ import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Dialog,
 	DialogContent,
@@ -12,6 +13,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
@@ -19,6 +21,7 @@ import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 import type {
 	LoadoutCharacterSlot,
@@ -33,7 +36,7 @@ const SKILLS = [
 	["Ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, "ultimate"],
 ] as const;
 
-type Props = {
+type LoadoutPreviewDialogProps = {
 	loadout: LoadoutOwned | null;
 	onOpenChange: (open: boolean) => void;
 };
@@ -63,10 +66,14 @@ const safeFilename = (name: string) =>
 			.toLowerCase() || "loadout"
 	}.png`;
 
-export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
+export const LoadoutPreviewDialog = ({
+	loadout,
+	onOpenChange,
+}: LoadoutPreviewDialogProps) => {
 	const ga = useGoogleAnalytics();
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [rendering, setRendering] = useState(false);
+	const [compactMonsterlings, setCompactMonsterlings] = useState(false);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 
@@ -85,7 +92,8 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 	};
 
 	const copy = async () => {
-		ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_ATTEMPT);
+		const params = { compact_monsterlings: compactMonsterlings };
+		ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_ATTEMPT, params);
 		setRendering(true);
 		try {
 			const blob = imageBlob();
@@ -93,9 +101,9 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 				new ClipboardItem({ "image/png": blob }),
 			]);
 			toast.success("Loadout image copied");
-			ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_SUCCESS);
+			ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_SUCCESS, params);
 		} catch (error) {
-			ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_FAILURE);
+			ga.event(ANALYTICS_EVENTS.LOADOUT_COPY_FAILURE, params);
 			toast.error(
 				error instanceof Error ? error.message : "Could not copy image",
 			);
@@ -105,7 +113,8 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 	};
 
 	const download = async () => {
-		ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_ATTEMPT);
+		const params = { compact_monsterlings: compactMonsterlings };
+		ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_ATTEMPT, params);
 		setRendering(true);
 		try {
 			const blob = await imageBlob();
@@ -116,9 +125,9 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 			anchor.click();
 			URL.revokeObjectURL(url);
 			toast.success("Loadout image downloaded");
-			ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_SUCCESS);
+			ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_SUCCESS, params);
 		} catch (error) {
-			ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_FAILURE);
+			ga.event(ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_FAILURE, params);
 			toast.error(
 				error instanceof Error ? error.message : "Could not download image",
 			);
@@ -128,29 +137,58 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 	};
 
 	return (
-		<Dialog open={!!loadout} onOpenChange={onOpenChange}>
-			<DialogContent className="grid max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-none grid-rows-[auto_auto_minmax(0,1fr)] gap-0 overflow-hidden p-0 sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1640px]">
+		<Dialog
+			open={!!loadout}
+			onOpenChange={(open) => {
+				if (!open) setCompactMonsterlings(false);
+				onOpenChange(open);
+			}}
+		>
+			<DialogContent
+				className={cn(
+					"grid max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-none grid-rows-[auto_auto_minmax(0,1fr)] gap-0 overflow-hidden p-0",
+					compactMonsterlings
+						? "sm:max-w-max"
+						: "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1640px]",
+				)}
+			>
 				<DialogHeader className="border-b p-4 pr-14">
 					<DialogTitle>{loadout?.name ?? "Loadout preview"}</DialogTitle>
 					<DialogDescription>
 						Share-ready character and monsterling overview.
 					</DialogDescription>
 				</DialogHeader>
-				<div className="flex justify-end gap-2 border-b p-3">
-					<Button onClick={copy} disabled={rendering} variant="outline">
-						{rendering ? <Spinner /> : <CopyIcon />}
-						Copy image
-					</Button>
-					<Button onClick={download} disabled={rendering} variant="outline">
-						{rendering ? <Spinner /> : <DownloadIcon />}
-						Download image
-					</Button>
+				<div className="flex flex-wrap items-center justify-between gap-3 border-b p-3">
+					<Label htmlFor="compact-monsterlings" className="cursor-pointer">
+						<Checkbox
+							id="compact-monsterlings"
+							aria-label="Compact monsterlings"
+							checked={compactMonsterlings}
+							onCheckedChange={(checked) =>
+								setCompactMonsterlings(checked === true)
+							}
+						/>
+						Compact monsterlings
+					</Label>
+					<div className="flex gap-2">
+						<Button onClick={copy} disabled={rendering} variant="outline">
+							{rendering ? <Spinner /> : <CopyIcon />}
+							Copy image
+						</Button>
+						<Button onClick={download} disabled={rendering} variant="outline">
+							{rendering ? <Spinner /> : <DownloadIcon />}
+							Download image
+						</Button>
+					</div>
 				</div>
 				<div className="min-h-0 overflow-auto bg-muted/30 p-4">
 					<div
 						ref={surfaceRef}
 						data-testid="loadout-share-surface"
-						className="grid w-[1600px] gap-4 bg-background p-3 text-foreground"
+						className={cn(
+							"grid gap-4 bg-background p-3 text-foreground",
+							compactMonsterlings ? "w-[984px]" : "w-[1600px]",
+						)}
 					>
 						<header className="flex items-baseline justify-between border-b border-primary/60 px-1 pb-3">
 							<h2 className="text-2xl font-bold">{loadout?.name}</h2>
@@ -169,6 +207,7 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 											: charactersOwned[loadout.characters[index].characterId]
 									}
 									monsterlingsOwned={monsterlingsOwned}
+									compactMonsterlings={compactMonsterlings}
 								/>
 							))}
 					</div>
@@ -178,7 +217,7 @@ export const LoadoutPreviewDialog = ({ loadout, onOpenChange }: Props) => {
 	);
 };
 
-type RowProps = {
+type PreviewRowProps = {
 	slot: LoadoutCharacterSlot;
 	characterOwned?: ReturnType<
 		typeof useAppStore.getState
@@ -186,15 +225,28 @@ type RowProps = {
 	monsterlingsOwned: ReturnType<
 		typeof useAppStore.getState
 	>["monsterlingsOwned"];
+	compactMonsterlings: boolean;
 };
 
-const PreviewRow = ({ slot, characterOwned, monsterlingsOwned }: RowProps) => {
+const PreviewRow = ({
+	slot,
+	characterOwned,
+	monsterlingsOwned,
+	compactMonsterlings,
+}: PreviewRowProps) => {
 	const character =
 		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
 	const validCharacter = character && characterOwned;
 
 	return (
-		<section className="grid grid-cols-[184px_repeat(3,330px)_342px] items-center gap-3 border-b border-border/70 pb-4 last:border-0 last:pb-0">
+		<section
+			className={cn(
+				"grid items-center gap-3 border-b border-border/70 pb-4 last:border-0 last:pb-0",
+				compactMonsterlings
+					? "grid-cols-[184px_repeat(3,176px)_188px]"
+					: "grid-cols-[184px_repeat(3,330px)_342px]",
+			)}
+		>
 			{validCharacter ? (
 				<div className="grid h-[120px] grid-cols-[80px_1fr] overflow-hidden rounded-lg border bg-card">
 					<div
@@ -254,6 +306,7 @@ const PreviewRow = ({ slot, characterOwned, monsterlingsOwned }: RowProps) => {
 					id={slot.monsterlingIds[index]}
 					owned={monsterlingsOwned}
 					label={`Monsterling ${index + 1} unavailable`}
+					compactStats={compactMonsterlings}
 				/>
 			))}
 			<div className="border-l-2 border-primary pl-3">
@@ -261,24 +314,29 @@ const PreviewRow = ({ slot, characterOwned, monsterlingsOwned }: RowProps) => {
 					id={slot.legendaryMonsterlingId ?? null}
 					owned={monsterlingsOwned}
 					label="Legendary unavailable"
+					compactStats={compactMonsterlings}
 				/>
 			</div>
 		</section>
 	);
 };
 
+type MonsterlingSlotProps = {
+	id: string | null;
+	owned: PreviewRowProps["monsterlingsOwned"];
+	label: string;
+	compactStats: boolean;
+};
+
 const MonsterlingSlot = ({
 	id,
 	owned,
 	label,
-}: {
-	id: string | null;
-	owned: RowProps["monsterlingsOwned"];
-	label: string;
-}) => {
+	compactStats,
+}: MonsterlingSlotProps) => {
 	const monsterling = id ? owned[id] : null;
 	return monsterling && MONSTERLINGS_DATA[monsterling.monsterling_id] ? (
-		<MonsterlingCard {...monsterling} />
+		<MonsterlingCard {...monsterling} compactStats={compactStats} />
 	) : (
 		<Placeholder label={label} />
 	);

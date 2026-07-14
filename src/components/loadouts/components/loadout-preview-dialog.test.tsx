@@ -1,7 +1,14 @@
 // @vitest-environment jsdom
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+	waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
+import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
@@ -17,6 +24,18 @@ vi.mock("react-hot-toast", () => ({ default: { success, error } }));
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),
 }));
+
+class ClipboardItemMock {
+	constructor(public data: Record<string, Promise<Blob>>) {}
+}
+
+const setClipboard = (write: ReturnType<typeof vi.fn>) => {
+	Object.defineProperty(navigator, "clipboard", {
+		configurable: true,
+		value: { write },
+	});
+	vi.stubGlobal("ClipboardItem", ClipboardItemMock);
+};
 
 const loadout: LoadoutOwned = {
 	id: "team-1",
@@ -64,13 +83,25 @@ describe("LoadoutPreviewDialog", () => {
 				},
 			},
 			monsterlingsOwned: {
-				regular: { monsterling_id: 1, tier_id: 5, traits: [] },
+				regular: {
+					monsterling_id: 1,
+					tier_id: 5,
+					traits: [
+						{ stat_id: STAT_ID_BY_STAT.ATK, tier_id: 5 },
+						{ stat_id: STAT_ID_BY_STAT.DEF, tier_id: 4 },
+						{ stat_id: STAT_ID_BY_STAT.HP, tier_id: 3 },
+						{ stat_id: STAT_ID_BY_STAT.CRIT_RATE, tier_id: 2 },
+					],
+				},
 				legendary: { monsterling_id: 100_001, tier_id: 5, traits: [] },
 			},
 		});
 	});
 
-	afterEach(() => vi.clearAllMocks());
+	afterEach(() => {
+		cleanup();
+		vi.clearAllMocks();
+	});
 
 	it("renders three read-only character rows and fixed missing-record slots", () => {
 		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
@@ -78,6 +109,23 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.getByTestId("loadout-share-surface").className).toContain(
 			"w-[1600px]",
 		);
+		expect(screen.getByRole("dialog").className).toContain(
+			"2xl:max-w-[1640px]",
+		);
+		expect(
+			(
+				screen.getByRole("checkbox", {
+					name: "Compact monsterlings",
+				}) as HTMLButtonElement
+			).dataset.state,
+		).toBe("unchecked");
+		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
+		expect(screen.getByText("ATK")).toBeTruthy();
+		expect(
+			screen
+				.getAllByAltText(/Tier [2-5] trait img/)
+				.every((image) => image.className.includes("h-[30px]")),
+		).toBe(true);
 		expect(screen.getByAltText("Angel portrait")).toBeTruthy();
 		expect(screen.getAllByTitle("Basic level 5")).toHaveLength(2);
 		expect(screen.getAllByText("Monsterling 2 unavailable")).toHaveLength(3);
@@ -89,18 +137,73 @@ describe("LoadoutPreviewDialog", () => {
 		);
 	});
 
+	it("hides stat labels but keeps stat icons and tier backgrounds in compact mode", () => {
+		const onOpenChange = vi.fn();
+		render(
+			<LoadoutPreviewDialog loadout={loadout} onOpenChange={onOpenChange} />,
+		);
+		const checkbox = screen.getByRole("checkbox", {
+			name: "Compact monsterlings",
+		});
+
+		fireEvent.click(checkbox);
+
+		expect(screen.getByTestId("loadout-share-surface").className).toContain(
+			"w-[984px]",
+		);
+		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
+		expect(screen.getByAltText("Stat ATK img").className).toContain("size-5");
+		expect(screen.queryByText("ATK")).toBeNull();
+		expect(screen.queryByText("DEF")).toBeNull();
+		expect(screen.queryByText("HP")).toBeNull();
+		expect(screen.queryByText("Crit Rate")).toBeNull();
+		const tierStrips = [2, 3, 4, 5].map((tier) =>
+			screen.getByAltText(`Tier ${tier} trait img`),
+		);
+		for (const tierStrip of tierStrips) {
+			expect(tierStrip.className).toContain("h-[30px]");
+			expect(tierStrip.className).toContain("w-[200px]");
+			expect(tierStrip.className).toContain("max-w-none");
+		}
+		const tierStrip = tierStrips[3];
+		expect(tierStrip.parentElement?.parentElement?.className).toContain(
+			"overflow-hidden",
+		);
+		expect(
+			(screen.getAllByAltText("5 background")[0] as HTMLImageElement).style
+				.background,
+		).not.toBe("");
+
+		fireEvent.click(screen.getByRole("button", { name: "Close" }));
+
+		expect(onOpenChange).toHaveBeenCalledWith(false);
+		expect((checkbox as HTMLButtonElement).dataset.state).toBe("unchecked");
+	});
+
+	it("captures and tracks the compact layout", async () => {
+		toBlob.mockResolvedValue(new Blob(["png"], { type: "image/png" }));
+		const write = vi.fn().mockResolvedValue(undefined);
+		setClipboard(write);
+		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
+
+		fireEvent.click(
+			screen.getByRole("checkbox", { name: "Compact monsterlings" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
+
+		await waitFor(() => expect(write).toHaveBeenCalledOnce());
+		expect(toBlob.mock.calls[0][0].className).toContain("w-[984px]");
+		expect(event.mock.calls).toEqual([
+			["loadout_copy_attempt", { compact_monsterlings: true }],
+			["loadout_copy_success", { compact_monsterlings: true }],
+		]);
+	});
+
 	it("copies the rendered PNG and reports success", async () => {
 		const blob = new Blob(["png"], { type: "image/png" });
 		toBlob.mockResolvedValue(blob);
 		const write = vi.fn().mockResolvedValue(undefined);
-		Object.defineProperty(navigator, "clipboard", {
-			configurable: true,
-			value: { write },
-		});
-		class ClipboardItemMock {
-			constructor(public data: Record<string, Promise<Blob>>) {}
-		}
-		vi.stubGlobal("ClipboardItem", ClipboardItemMock);
+		setClipboard(write);
 		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
@@ -114,6 +217,9 @@ describe("LoadoutPreviewDialog", () => {
 			"loadout_copy_attempt",
 			"loadout_copy_success",
 		]);
+		expect(
+			event.mock.calls.every(([, params]) => !params.compact_monsterlings),
+		).toBe(true);
 	});
 
 	it("reports copy failures without sending the raw error", async () => {
@@ -121,14 +227,7 @@ describe("LoadoutPreviewDialog", () => {
 		const write = vi
 			.fn()
 			.mockRejectedValue(new Error("private failure details"));
-		Object.defineProperty(navigator, "clipboard", {
-			configurable: true,
-			value: { write },
-		});
-		class ClipboardItemMock {
-			constructor(public data: Record<string, Promise<Blob>>) {}
-		}
-		vi.stubGlobal("ClipboardItem", ClipboardItemMock);
+		setClipboard(write);
 		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
@@ -137,8 +236,8 @@ describe("LoadoutPreviewDialog", () => {
 			expect(error).toHaveBeenCalledWith("private failure details"),
 		);
 		expect(event.mock.calls).toEqual([
-			["loadout_copy_attempt"],
-			["loadout_copy_failure"],
+			["loadout_copy_attempt", { compact_monsterlings: false }],
+			["loadout_copy_failure", { compact_monsterlings: false }],
 		]);
 	});
 });

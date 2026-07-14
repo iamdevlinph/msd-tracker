@@ -6,34 +6,40 @@ import { STAT_DATA } from "@/data/STAT_DATA";
 import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
+export type MonsterlingCardProps = MonsterlingOwned & {
+	className?: string;
+	compactStats?: boolean;
+};
+
 export const MonsterlingCard = ({
 	monsterling_id,
 	tier_id,
 	traits,
 	className = "",
-}: MonsterlingOwned & {
-	className?: string;
-	imageOnly?: boolean;
-}) => {
+	compactStats = false,
+}: MonsterlingCardProps) => {
 	const { name, image, id: _id } = MONSTERLINGS_DATA[monsterling_id];
+	const width = compactStats ? 162 : MONSTERLING_CARD_WIDTH;
 
 	return (
 		<div
 			className={cn(
-				"grid bg-card gap-y-0 gap-x-2 rounded-lg",
+				"grid overflow-hidden bg-card gap-y-0 gap-x-2 rounded-lg",
 				"monsterling-card",
 				className,
 			)}
 			style={{
-				width: MONSTERLING_CARD_WIDTH,
-				minWidth: MONSTERLING_CARD_WIDTH,
-				maxWidth: MONSTERLING_CARD_WIDTH,
+				width,
+				minWidth: width,
+				maxWidth: width,
 				gridTemplateAreas: "'portrait stats'",
-				gridTemplateColumns: "120px minmax(0, 1fr)",
+				gridTemplateColumns: compactStats
+					? "120px 48px"
+					: "120px minmax(0, 1fr)",
 			}}
 		>
 			<div className="relative w-max" style={{ gridArea: "portrait" }}>
-				<small className="text-center absolute bottom-2 stroke-black w-full text-shadow-sm/80 text-[10px]">
+				<small className="absolute bottom-2 z-10 w-full text-center text-[10px] text-shadow-sm/80 stroke-black">
 					{name}
 				</small>
 				<TierPortrait
@@ -41,12 +47,15 @@ export const MonsterlingCard = ({
 					portraitImg={image}
 					portraitSize={120}
 					name={name}
-					hideTierBg
+					hideTierBg={!compactStats}
 				/>
 			</div>
 
 			<div
-				className="flex min-w-0 flex-col"
+				className={cn(
+					"flex min-w-0 flex-col",
+					compactStats && "overflow-hidden",
+				)}
 				style={{ gridArea: "stats" }}
 				id="traits"
 			>
@@ -57,24 +66,28 @@ export const MonsterlingCard = ({
 					const statInfo = STAT_DATA[stat_id];
 					const tierInfo = TIERS_DATA[tier_id];
 					return (
-						<div key={key} className="relative">
+						<div key={key} className="relative h-[30px] w-[200px] shrink-0">
 							<div className="absolute inset-0 grid items-center">
-								<div className="flex px-2 gap-x-1" title={statInfo.stat}>
+								<div className="flex gap-x-1 px-2" title={statInfo.stat}>
 									<img
 										alt={`Stat ${statInfo.stat} img`}
 										src={statInfo.image}
-										height="100%"
+										className="size-5 max-w-none shrink-0"
+										height={20}
 										width={20}
 									/>
-									<small className="truncate text-shadow-sm/80">
-										{statInfo.label}
-									</small>
+									{!compactStats && (
+										<small className="truncate text-shadow-sm/80">
+											{statInfo.label}
+										</small>
+									)}
 								</div>
 							</div>
 							<img
 								alt={`Tier ${tierInfo.id} trait img`}
 								src={tierInfo.trait_image}
-								height="100%"
+								className="h-[30px] w-[200px] max-w-none"
+								height={30}
 								width={200}
 							/>
 						</div>
