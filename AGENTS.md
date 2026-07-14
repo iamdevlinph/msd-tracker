@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This is a TanStack Start application built with React and TypeScript. File-based routes live in `src/routes`; keep route components thin and move feature logic into `src/components/<feature>`. Shared UI primitives are in `src/components/ui`, reusable helpers in `src/lib`, application state in `src/stores` and `src/context`, and static game data in `src/data`. Public images and metadata belong in `public`. Tests are colocated with the code they cover as `*.test.ts` or `*.test.tsx`. Do not edit generated `src/routeTree.gen.ts` manually.
+This TanStack Start application uses React and TypeScript. Routes live in `src/routes`; keep them thin and move feature logic into `src/components/<feature>`. Shared UI is in `src/components/ui`, helpers in `src/lib`, state in `src/stores` and `src/context`, static game data in `src/data`, and public assets in `public`. Colocate `*.test.ts(x)` files. Do not edit generated `src/routeTree.gen.ts`.
 
 ## Build, Test, and Development Commands
 
@@ -13,20 +13,24 @@ This is a TanStack Start application built with React and TypeScript. File-based
 - `pnpm format:check` checks formatting without rewriting files.
 - `pnpm check` runs the combined Biome checks.
 
-Use targeted checks while working, then run broader checks for route, schema, server, or shared-state changes. Do not change dependencies or run deployment commands unless the task requires it.
+Use targeted checks first, then broader checks for route, schema, server, or shared-state changes. Change dependencies or deploy only when required.
 
 ## Coding Style & Naming Conventions
 
-Biome is authoritative: use tabs, double quotes, and organized imports. Follow nearby patterns, prefer kebab-case filenames, PascalCase React components, and `export const ComponentName = ...` for new components. Keep feature-specific hooks, stores, schemas, and utilities inside their feature. Use existing TypeScript types and domain constants instead of duplicating string literals. Style with Tailwind utilities, merge conditional classes through `cn(...)`, and reuse project or shadcn UI primitives before adding new ones. Forms use React Hook Form with Zod validation and `Controller`-based fields.
+Biome is authoritative: use tabs, double quotes, and organized imports. Follow nearby patterns: kebab-case filenames, PascalCase components, and `export const ComponentName = ...`. Keep feature code together and reuse existing types and domain constants. Use Tailwind, `cn(...)`, and existing UI primitives. Forms use React Hook Form, Zod, and `Controller` fields.
+
+## Persistence & Drive Sync
+
+Google Drive backups are manually allowlisted in `src/components/account/google/utils/drive-sync.ts`; Zustand fields do not sync automatically. Evaluate every new durable user-data field for remote-sync eligibility. For sync-worthy data—user-created or configured data expected to survive devices or local-storage loss—update `Backup` and `select(...)`, mutation-driven `backupUpdatedAt`, legacy download defaults, sync-conflict metadata/UI, and relevant tests. If sync intent is unclear, ask the user before including or omitting the field.
 
 ## Testing Guidelines
 
-Use Vitest and Testing Library for behavioral tests. Add `// @vitest-environment jsdom` to DOM-based component tests because the default environment is Node. Cover user-visible behavior and regressions, mock browser APIs at test boundaries, and keep fixtures focused. No coverage threshold is currently configured.
+Use Vitest and Testing Library for behavior. Add `// @vitest-environment jsdom` to DOM tests; Node is the default. Cover visible behavior and regressions, mock browser boundaries, and keep fixtures focused. No coverage threshold is configured.
 
 ## Commit & Pull Request Guidelines
 
-History favors short, imperative summaries such as `Add variant badge to character` or `Fix spacing for hover monsterling card`. Keep commits focused; reference issues with `Close #<number>` or `(#<number>)` when applicable. Pull requests should explain the change, link relevant issues, list verification performed, and include screenshots or recordings for visible UI changes.
+Use short, imperative commit summaries and focused commits. Reference issues with `Close #<number>` or `(#<number>)`. Pull requests should explain the change, link issues, list verification, and include evidence for visible UI changes.
 
 ## Security & Agent Workflow
 
-Copy `.env.sample` for local configuration and never commit client secrets or private keys. Preserve unrelated working-tree changes, keep edits scoped, and avoid destructive Git commands. Report changed files and verification results when handing off work.
+Copy `.env.sample` locally; never commit secrets or private keys. Preserve unrelated changes, keep edits scoped, and avoid destructive Git commands. Report changed files and verification.
