@@ -58,7 +58,7 @@ export const LoadoutPreviewDialog = ({
 	const ga = useGoogleAnalytics();
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [rendering, setRendering] = useState(false);
-	const [compactMonsterlings, setCompactMonsterlings] = useState(false);
+	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
 	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 
@@ -125,7 +125,7 @@ export const LoadoutPreviewDialog = ({
 		<Dialog
 			open={!!loadout}
 			onOpenChange={(open) => {
-				if (!open) setCompactMonsterlings(false);
+				if (!open) setCompactMonsterlings(true);
 				onOpenChange(open);
 			}}
 		>

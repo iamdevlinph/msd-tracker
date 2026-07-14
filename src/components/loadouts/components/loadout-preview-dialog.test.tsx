@@ -107,20 +107,18 @@ describe("LoadoutPreviewDialog", () => {
 		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
 
 		expect(screen.getByTestId("loadout-share-surface").className).toContain(
-			"w-[1600px]",
+			"w-[984px]",
 		);
-		expect(screen.getByRole("dialog").className).toContain(
-			"2xl:max-w-[1640px]",
-		);
+		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
 		expect(
 			(
 				screen.getByRole("checkbox", {
 					name: "Compact monsterlings",
 				}) as HTMLButtonElement
 			).dataset.state,
-		).toBe("unchecked");
+		).toBe("checked");
 		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
-		expect(screen.getByText("ATK")).toBeTruthy();
+		expect(screen.queryByText("ATK")).toBeNull();
 		expect(
 			screen
 				.getAllByAltText(/Tier [2-5] trait img/)
@@ -159,8 +157,6 @@ describe("LoadoutPreviewDialog", () => {
 			name: "Compact monsterlings",
 		});
 
-		fireEvent.click(checkbox);
-
 		expect(screen.getByTestId("loadout-share-surface").className).toContain(
 			"w-[984px]",
 		);
@@ -187,10 +183,11 @@ describe("LoadoutPreviewDialog", () => {
 				.background,
 		).not.toBe("");
 
+		fireEvent.click(checkbox);
 		fireEvent.click(screen.getByRole("button", { name: "Close" }));
 
 		expect(onOpenChange).toHaveBeenCalledWith(false);
-		expect((checkbox as HTMLButtonElement).dataset.state).toBe("unchecked");
+		expect((checkbox as HTMLButtonElement).dataset.state).toBe("checked");
 	});
 
 	it("captures and tracks the compact layout", async () => {
@@ -199,9 +196,6 @@ describe("LoadoutPreviewDialog", () => {
 		setClipboard(write);
 		render(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
 
-		fireEvent.click(
-			screen.getByRole("checkbox", { name: "Compact monsterlings" }),
-		);
 		fireEvent.click(screen.getByRole("button", { name: "Copy image" }));
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
@@ -231,7 +225,7 @@ describe("LoadoutPreviewDialog", () => {
 			"loadout_copy_success",
 		]);
 		expect(
-			event.mock.calls.every(([, params]) => !params.compact_monsterlings),
+			event.mock.calls.every(([, params]) => params.compact_monsterlings),
 		).toBe(true);
 	});
 
@@ -249,8 +243,8 @@ describe("LoadoutPreviewDialog", () => {
 			expect(error).toHaveBeenCalledWith("private failure details"),
 		);
 		expect(event.mock.calls).toEqual([
-			["loadout_copy_attempt", { compact_monsterlings: false }],
-			["loadout_copy_failure", { compact_monsterlings: false }],
+			["loadout_copy_attempt", { compact_monsterlings: true }],
+			["loadout_copy_failure", { compact_monsterlings: true }],
 		]);
 	});
 });
