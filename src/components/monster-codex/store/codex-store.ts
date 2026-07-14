@@ -6,8 +6,8 @@ import {
 import { REGION_ID_BY_REGION, type RegionId } from "@/data/REGIONS_DATA";
 
 export const CODEX_VIEWS = [
-	"favorite",
 	"all",
+	"favorite",
 	"completed",
 	"incomplete",
 ] as const;
@@ -23,7 +23,7 @@ export type CodexFilters = {
 export const initialCodexFilters: CodexFilters = {
 	source: SOURCE_ID_BY_SOURCE.ALL,
 	region: REGION_ID_BY_REGION.ALL,
-	view: "favorite",
+	view: "all",
 	search: "",
 };
 
