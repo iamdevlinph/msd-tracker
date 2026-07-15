@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This is a TanStack Start React/TypeScript app. Keep `src/routes` thin and logic in `src/components/<feature>`. Shared UI is in `src/components/ui`, helpers in `src/lib`, state in `src/stores` and `src/context`, game data in `src/data`, and assets in `public`. Colocate tests, do not edit generated `src/routeTree.gen.ts`, and keep `PLANS.md` current.
+This is a TanStack Start React/TypeScript app. Keep `src/routes` thin and logic in `src/components/<feature>`. Shared UI is in `src/components/ui`, helpers in `src/lib`, state in `src/stores` and `src/context`, game data in `src/data`, and assets in `public`. Colocate tests and do not edit generated `src/routeTree.gen.ts`. Follow nearby architecture, naming, and file organization; keep files focused, and do not reorganize features, routes, server boundaries, schemas, state patterns, or shared modules unless requested and approved.
 
 ## Build, Test, and Development Commands
 
@@ -13,11 +13,19 @@ This is a TanStack Start React/TypeScript app. Keep `src/routes` thin and logic 
 - `pnpm format:check` checks formatting without rewriting files.
 - `pnpm check` runs the combined Biome checks.
 
-Use targeted checks first, then broader checks for route, schema, server, or shared-state changes. Merges to `main` deploy automatically; do not deploy manually.
+Use the documented `pnpm` scripts and run the smallest meaningful targeted check first, then broader checks for route, schema, server, or shared-state changes. Report commands and results. Do not change dependencies, global tools, or the environment without approval, and do not inspect, generate, migrate, or query databases unless the task requires it. Merges to `main` deploy automatically; do not deploy manually.
 
 ## Coding Style & Naming Conventions
 
-Biome is authoritative: use tabs, double quotes, and organized imports. Follow nearby kebab-case filenames, PascalCase components, and `export const ComponentName = ...`. Name prop types after components, such as `CharacterFilterProps`, not `Props`. Reuse types, domain constants, Tailwind, `cn(...)`, and existing UI. Forms use React Hook Form, Zod, and `Controller`.
+Biome is authoritative: use tabs, double quotes, and organized imports. Follow nearby kebab-case filenames, PascalCase components, and `export const ComponentName = ...`. Name prop types after components, such as `CharacterFilterProps`, not `Props`. Reuse existing constants, schemas, enums, shared types, domain values, Tailwind, `cn(...)`, and UI; add reusable values at their current source of truth. Forms use React Hook Form, Zod, and `Controller`. Validate form and server inputs explicitly, and refresh or invalidate relevant cached data after successful mutations.
+
+## Agent Workflow
+
+Before code changes, inspect manifests, configuration, scripts, and nearby files for the actual stack and conventions. Keep changes minimal, localized, and limited to the request; do not introduce frameworks, abstractions, architecture changes, or project paradigms without approval. Work within existing architecture. If it prevents safe completion, explain the blocker, propose the smallest viable change, and wait for approval rather than bypassing it. Update schemas before generating migrations or derived types, and do not manually edit generated migrations or snapshots unless requested.
+
+## Planning
+
+Read `PLANS.md` before product-facing work and implement only the current request. Record durable requirements and product, workflow, permission, priority, scope, deferral, or implementation decisions in the relevant feature checklist. After product work, mark the item implemented, verified, deferred, or pending; check items only after implementation and verification, and allow manual testing to revert them. Record major resume-worthy milestones with concise technical scope and value, without invented impact or metrics. Keep durable context for a fresh session, but omit transient handoff state, command output, debugging notes, and scratch work. If `PLANS.md` conflicts with the current request, follow the request and update the plan.
 
 ## Persistence & Drive Sync
 
@@ -29,7 +37,7 @@ GA4 page views are automatic. For meaningful user actions, add a normalized name
 
 ## Testing Guidelines
 
-Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. Cover behavior and regressions, mock browser boundaries, and keep fixtures focused.
+Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. Cover behavior and regressions, mock browser boundaries, and keep fixtures focused. Prefer targeted tests before broader suites, subject to the escalation rules above.
 
 ## Commit & Pull Request Guidelines
 
@@ -37,4 +45,6 @@ Use short imperative commits. Reference issues with `Close #<number>` or `(#<num
 
 ## Security & Agent Workflow
 
-Copy `.env.sample` locally; never commit secrets. Preserve unrelated changes, keep edits scoped, avoid destructive Git commands, and report verification.
+Copy `.env.sample` locally; never commit secrets. Preserve user changes and unrelated dirty state; never revert them without an explicit request. Never run destructive Git commands such as `git reset --hard` or `git checkout --` without explicit approval. Use `apply_patch` for manual edits, and prefer `rg` and `rg --files` for searches.
+
+Completion reports must concisely state changed files and behavior, verification commands and results or suggested manual checks, relevant `PLANS.md` status, and whether the change is template-level; for template-level changes, identify the packaged template section and exact addition or replacement.
