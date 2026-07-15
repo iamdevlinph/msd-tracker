@@ -11,6 +11,7 @@ import { useCharacterFilter } from "@/components/characters/store/characters-fil
 import { showFutureLoadoutSlots } from "@/components/loadouts/components/loadout-utils";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
 import { LoadoutsList } from "@/components/loadouts/components/loadouts-list";
+import { useMonsterlingFilter } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
@@ -191,14 +192,56 @@ describe("LoadoutsDialog character picker", () => {
 		const monsterlingName = MONSTERLINGS_DATA[1].name;
 
 		fireEvent.click(screen.getByRole("button", { name: monsterlingName }));
-		const search = screen.getByPlaceholderText(
-			"Search name",
-		) as HTMLInputElement;
+		const search = screen.getByRole("textbox", {
+			name: "Search monsterlings",
+		}) as HTMLInputElement;
 
 		expect(search.value).toBe(monsterlingName);
 		expect(document.activeElement).toBe(search);
 		expect(search.selectionStart).toBe(0);
 		expect(search.selectionEnd).toBe(monsterlingName.length);
+	});
+
+	it("filters monsterlings by multiple tiers without changing page filters", () => {
+		const [first, second, third] = Object.values(MONSTERLINGS_DATA);
+		useAppStore.setState({
+			monsterlingsOwned: {
+				first: { monsterling_id: first.id, tier_id: 1, traits: [] },
+				second: { monsterling_id: second.id, tier_id: 4, traits: [] },
+				third: { monsterling_id: third.id, tier_id: 5, traits: [] },
+			},
+		});
+		useMonsterlingFilter.setState({
+			filters: { search: "page search", selectedTiers: [1] },
+		});
+		render(<LoadoutsDialog open setOpen={vi.fn()} />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Monsterling 1" }));
+		const search = screen.getByRole("textbox", {
+			name: "Search monsterlings",
+		});
+		expect(document.activeElement).toBe(search);
+		expect(screen.getByText(first.name)).toBeTruthy();
+		expect(screen.getByText(second.name)).toBeTruthy();
+		expect(screen.getByText(third.name)).toBeTruthy();
+
+		fireEvent.click(screen.getByRole("button", { name: "Tier 4" }));
+		expect(screen.queryByText(first.name)).toBeNull();
+		expect(screen.getByText(second.name)).toBeTruthy();
+		expect(screen.queryByText(third.name)).toBeNull();
+
+		fireEvent.click(screen.getByRole("button", { name: "Tier 5" }));
+		expect(screen.getByText(second.name)).toBeTruthy();
+		expect(screen.getByText(third.name)).toBeTruthy();
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear monsterling filters" }),
+		);
+		expect(screen.getByText(first.name)).toBeTruthy();
+		expect(useMonsterlingFilter.getState().filters).toEqual({
+			search: "page search",
+			selectedTiers: [1],
+		});
 	});
 });
 

@@ -14,6 +14,10 @@ import {
 	LoadoutMonsterlingPicker,
 } from "@/components/loadouts/components/loadout-monsterling-picker";
 import { nextLoadoutName } from "@/components/loadouts/components/loadout-utils";
+import {
+	emptyMonsterlingFilters,
+	type MonsterlingFilters,
+} from "@/components/monsterlings/store/monsterlings-filter-store";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -74,8 +78,8 @@ export const LoadoutsDialog = ({
 	const setLoadout = useAppStore((state) => state.setLoadout);
 	const [draft, setDraft] = useState<Omit<LoadoutOwned, "id">>(blankLoadout);
 	const [pickerTarget, setPickerTarget] = useState<PickerTarget>(null);
-	const [monsterlingSearch, setMonsterlingSearch] = useState("");
-	const [tierFilter, setTierFilter] = useState("all");
+	const [monsterlingFilters, setMonsterlingFilters] =
+		useState<MonsterlingFilters>(emptyMonsterlingFilters);
 	const [characterFilters, setCharacterFilters] = useState(
 		emptyCharacterFilters,
 	);
@@ -130,9 +134,12 @@ export const LoadoutsDialog = ({
 			return (
 				pickerTarget?.type === "monsterling" &&
 				legendary === pickerTarget.legendary &&
-				(!monsterlingSearch ||
-					info.name.toLowerCase().includes(monsterlingSearch.toLowerCase())) &&
-				(tierFilter === "all" || String(tier_id) === tierFilter)
+				(!monsterlingFilters.search ||
+					info.name
+						.toLowerCase()
+						.includes(monsterlingFilters.search.toLowerCase())) &&
+				(!monsterlingFilters.selectedTiers.length ||
+					monsterlingFilters.selectedTiers.includes(tier_id))
 			);
 		})
 		.sort((a, b) => a.info.name.localeCompare(b.info.name));
@@ -166,10 +173,12 @@ export const LoadoutsDialog = ({
 			? slot.legendaryMonsterlingId
 			: slot.monsterlingIds[monsterlingIndex ?? 0];
 		const owned = id ? monsterlingsOwned[id] : null;
-		setMonsterlingSearch(
-			owned ? (MONSTERLINGS_DATA[owned.monsterling_id]?.name ?? "") : "",
-		);
-		setTierFilter("all");
+		setMonsterlingFilters({
+			search: owned
+				? (MONSTERLINGS_DATA[owned.monsterling_id]?.name ?? "")
+				: "",
+			selectedTiers: [],
+		});
 		setPickerTarget({
 			type: "monsterling",
 			characterIndex,
@@ -179,8 +188,7 @@ export const LoadoutsDialog = ({
 	};
 	const resetPicker = () => {
 		setPickerTarget(null);
-		setMonsterlingSearch("");
-		setTierFilter("all");
+		setMonsterlingFilters(emptyMonsterlingFilters());
 		setCharacterFilters(emptyCharacterFilters());
 	};
 	const selectCharacter = (id: number) => {
@@ -305,10 +313,8 @@ export const LoadoutsDialog = ({
 						/>
 					) : pickerTarget?.type === "monsterling" ? (
 						<LoadoutMonsterlingPicker
-							search={monsterlingSearch}
-							onSearchChange={setMonsterlingSearch}
-							tier={tierFilter}
-							onTierChange={setTierFilter}
+							filters={monsterlingFilters}
+							onFiltersChange={setMonsterlingFilters}
 							options={monsterlingPickerOptions}
 							selectedRegularIds={selectedRegularMonsterlingIds}
 							currentId={

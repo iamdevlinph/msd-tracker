@@ -13,11 +13,13 @@ import { cn } from "@/lib/utils";
 type MonsterlingFilterProps = {
 	filters: MonsterlingFilters;
 	onChange: (filters: MonsterlingFilters) => void;
+	autoFocus?: boolean;
 };
 
 export const MonsterlingFilter = ({
 	filters,
 	onChange,
+	autoFocus = false,
 }: MonsterlingFilterProps) => {
 	const { search, selectedTiers } = filters;
 	const handleSelectTier = (tierId: TierId) => {
@@ -35,6 +37,7 @@ export const MonsterlingFilter = ({
 				<SearchIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
 				<Input
 					aria-label="Search monsterlings"
+					autoFocus={autoFocus}
 					value={search}
 					onChange={(event) =>
 						onChange({ ...filters, search: event.target.value })
