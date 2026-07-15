@@ -12,7 +12,7 @@ export const isMaxSkill = (level: number) => {
 };
 
 export const matchesCharacterFilters = (
-	character: Pick<Character, "class_id" | "element_id" | "name">,
+	character: Pick<Character, "class_id" | "element_id" | "name" | "tier_id">,
 	filters: CharacterFilters,
 ) =>
 	(!filters.search ||
@@ -20,4 +20,6 @@ export const matchesCharacterFilters = (
 	(!filters.selectedCharacterClass.length ||
 		filters.selectedCharacterClass.includes(character.class_id)) &&
 	(!filters.selectedElements.length ||
-		filters.selectedElements.includes(character.element_id));
+		filters.selectedElements.includes(character.element_id)) &&
+	(!filters.selectedTiers.length ||
+		filters.selectedTiers.includes(character.tier_id));

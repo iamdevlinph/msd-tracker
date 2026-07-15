@@ -7,6 +7,7 @@ import {
 	emptyCharacterFilters,
 	useCharacterFilter,
 } from "@/components/characters/store/characters-filter-store";
+import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const owned = {
@@ -90,5 +91,45 @@ describe("character search", () => {
 		expect(screen.getByText("Mina")).toBeTruthy();
 		expect(screen.queryByText("Benjamin")).toBeNull();
 		expect(useCharacterFilter.getState().characterFilters.search).toBe("");
+	});
+
+	it("toggles Tier 4 and Tier 5 and clears every character filter", () => {
+		render(<CharactersPage />);
+		const tier4 = screen.getByRole("button", { name: "Tier 4" });
+		const tier5 = screen.getByRole("button", { name: "Tier 5" });
+		const star = tier4.querySelector("svg");
+		const expectedColor = document.createElement("span").style;
+		expectedColor.color = TIERS_DATA[4].hex;
+		expect(star?.getAttribute("fill")).toBe("currentColor");
+		expect(star?.style.color).toBe(expectedColor.color);
+		expect(star?.getAttribute("aria-hidden")).toBe("true");
+
+		fireEvent.click(tier4);
+		expect(screen.getByText("Angel")).toBeTruthy();
+		expect(screen.getByText("Benjamin")).toBeTruthy();
+		expect(screen.queryByText("Mina")).toBeNull();
+
+		fireEvent.click(tier5);
+		expect(screen.getByText("Mina")).toBeTruthy();
+
+		fireEvent.click(tier4);
+		expect(screen.queryByText("Angel")).toBeNull();
+		expect(screen.queryByText("Benjamin")).toBeNull();
+		expect(screen.getByText("Mina")).toBeTruthy();
+
+		fireEvent.click(screen.getByRole("button", { name: "Fire icon" }));
+		fireEvent.change(
+			screen.getByRole("textbox", { name: "Search characters" }),
+			{
+				target: { value: "Mina" },
+			},
+		);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear character filters" }),
+		);
+		expect(screen.getByText("Angel")).toBeTruthy();
+		expect(screen.getByText("Benjamin")).toBeTruthy();
+		expect(screen.getByText("Mina")).toBeTruthy();
+		expect(tier5.getAttribute("aria-pressed")).toBe("false");
 	});
 });

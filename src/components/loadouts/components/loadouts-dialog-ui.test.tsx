@@ -84,6 +84,7 @@ describe("LoadoutsDialog character picker", () => {
 				search: "",
 				selectedCharacterClass: [],
 				selectedElements: [ELEMENT_ID_BY_ELEMENT.LIGHTNING],
+				selectedTiers: [],
 			},
 		});
 	});

@@ -1,5 +1,5 @@
 import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
-import { SearchIcon, XIcon } from "lucide-react";
+import { SearchIcon, StarIcon, XIcon } from "lucide-react";
 import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,7 @@ import {
 	type CharacterClassId,
 } from "@/data/CHARACTER_CLASS_DATA";
 import { ELEMENTS_DATA, type ElementId } from "@/data/ELEMENTS_DATA";
+import { TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type CharacterFilterProps = {
@@ -25,7 +26,8 @@ export const CharacterFilter = ({
 	onChange,
 	autoFocus = false,
 }: CharacterFilterProps) => {
-	const { search, selectedElements, selectedCharacterClass } = filters;
+	const { search, selectedElements, selectedCharacterClass, selectedTiers } =
+		filters;
 
 	const handleSelectElement = (elemId: ElementId) => {
 		if (selectedElements.includes(elemId)) {
@@ -57,11 +59,21 @@ export const CharacterFilter = ({
 		}
 	};
 
+	const handleSelectTier = (tierId: TierId) => {
+		onChange({
+			...filters,
+			selectedTiers: selectedTiers.includes(tierId)
+				? arrayRemoveItem(selectedTiers, tierId)
+				: [...selectedTiers, tierId],
+		});
+	};
+
 	return (
 		<div className="grid gap-3">
 			<div className="relative">
 				<SearchIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
 				<Input
+					aria-label="Search characters"
 					autoFocus={autoFocus}
 					value={search}
 					onChange={(event) =>
@@ -80,6 +92,8 @@ export const CharacterFilter = ({
 
 					return (
 						<Button
+							type="button"
+							aria-pressed={isElemSelected}
 							variant={isElemSelected ? "default" : "outline"}
 							key={id}
 							onClick={() => handleSelectElement(id)}
@@ -100,6 +114,8 @@ export const CharacterFilter = ({
 
 						return (
 							<Button
+								type="button"
+								aria-pressed={isCharClassSelected}
 								variant={isCharClassSelected ? "default" : "outline"}
 								key={id}
 								onClick={() => handleSelectClass(id)}
@@ -117,6 +133,35 @@ export const CharacterFilter = ({
 					},
 				)}
 
+				<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
+
+				{Object.values(TIERS_DATA)
+					.filter(({ id }) => id === 4 || id === 5)
+					.map(({ id, hex }) => {
+						const isTierSelected = selectedTiers.includes(id);
+
+						return (
+							<Button
+								type="button"
+								variant={isTierSelected ? "default" : "outline"}
+								key={id}
+								onClick={() => handleSelectTier(id)}
+								className={cn(isTierSelected && "border")}
+								aria-pressed={isTierSelected}
+								aria-label={`Tier ${id}`}
+								title={`Tier ${id}`}
+							>
+								{id}
+								<StarIcon
+									className="size-4"
+									fill="currentColor"
+									style={{ color: hex }}
+									aria-hidden
+								/>
+							</Button>
+						);
+					})}
+
 				<Button
 					variant="secondary"
 					size="icon"
@@ -126,6 +171,7 @@ export const CharacterFilter = ({
 							search: "",
 							selectedCharacterClass: [],
 							selectedElements: [],
+							selectedTiers: [],
 						})
 					}
 					aria-label="Clear character filters"

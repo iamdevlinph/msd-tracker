@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { CharacterClassId } from "@/data/CHARACTER_CLASS_DATA";
 import type { ElementId } from "@/data/ELEMENTS_DATA";
+import type { TierId } from "@/data/TIERS_DATA";
 
 export type CharacterStoreState = {
 	characterFilters: CharacterFilters;
@@ -12,12 +13,14 @@ export type CharacterFilters = {
 	search: string;
 	selectedCharacterClass: CharacterClassId[];
 	selectedElements: ElementId[];
+	selectedTiers: TierId[];
 };
 
 export const emptyCharacterFilters = (): CharacterFilters => ({
 	search: "",
 	selectedCharacterClass: [],
 	selectedElements: [],
+	selectedTiers: [],
 });
 
 export const initialCharacterState: Pick<
