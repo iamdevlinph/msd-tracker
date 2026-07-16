@@ -1,9 +1,21 @@
+import type React from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { GoogleSection } from "@/components/account/google/google-section";
 import { MONSTERLING_OPTIONS_CACHE } from "@/components/monsterlings/store/monsterlings-options-store";
 import { STAT_OPTIONS_CACHE } from "@/components/monsterlings/store/stat-options-store";
 import { PageTitle } from "@/components/shared/page-title";
 import { SeparatorText } from "@/components/shared/separator-text";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -14,6 +26,38 @@ import {
 } from "@/components/ui/card";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
+
+type ClearDataButtonProps = {
+	children: React.ReactNode;
+	description: string;
+	onConfirm: () => void;
+	target: string;
+};
+
+const ClearDataButton = ({
+	children,
+	description,
+	onConfirm,
+	target,
+}: ClearDataButtonProps) => (
+	<AlertDialog>
+		<AlertDialogTrigger asChild>
+			<Button variant="destructive">{children}</Button>
+		</AlertDialogTrigger>
+		<AlertDialogContent size="sm">
+			<AlertDialogHeader>
+				<AlertDialogTitle>Clear {target}?</AlertDialogTitle>
+				<AlertDialogDescription>{description}</AlertDialogDescription>
+			</AlertDialogHeader>
+			<AlertDialogFooter>
+				<AlertDialogCancel>Cancel</AlertDialogCancel>
+				<AlertDialogAction variant="destructive" onClick={onConfirm}>
+					Clear
+				</AlertDialogAction>
+			</AlertDialogFooter>
+		</AlertDialogContent>
+	</AlertDialog>
+);
 
 export const AccountPage = () => {
 	const ga = useGoogleAnalytics();
@@ -48,60 +92,66 @@ export const AccountPage = () => {
 						<CardDescription>Reset data to empty.</CardDescription>
 					</CardHeader>
 					<CardContent className="w-full flex gap-5 flex-wrap">
-						<Button
-							onClick={() => {
+						<ClearDataButton
+							description="This permanently clears your Monster Codex progress and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
+							onConfirm={() => {
 								resetCodexStore();
 								ga.event(ANALYTICS_EVENTS.CODEX_RESET);
 							}}
-							variant={"destructive"}
+							target="Monster Codex"
 						>
 							Clear Monster Codex
-						</Button>
-						<Button
-							onClick={() => {
+						</ClearDataButton>
+						<ClearDataButton
+							description="This permanently clears your owned characters and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
+							onConfirm={() => {
 								resetCharacterSlice();
 								ga.event(ANALYTICS_EVENTS.CHARACTERS_RESET);
 							}}
-							variant={"destructive"}
+							target="Characters Owned"
 						>
-							Clear Characaters Owned
-						</Button>
-						<Button
-							onClick={() => {
+							Clear Characters Owned
+						</ClearDataButton>
+						<ClearDataButton
+							description="This permanently clears your owned monsterlings and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
+							onConfirm={() => {
 								resetMonsterlingSlice();
 								ga.event(ANALYTICS_EVENTS.MONSTERLINGS_RESET);
 							}}
-							variant={"destructive"}
+							target="Monsterlings Owned"
 						>
 							Clear Monsterlings Owned
-						</Button>
+						</ClearDataButton>
 
 						{!hideItem && (
 							<>
-								<Button
-									onClick={() => {
+								<ClearDataButton
+									description="This permanently clears your loadouts and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
+									onConfirm={() => {
 										resetLoadoutsSlice();
 										ga.event(ANALYTICS_EVENTS.LOADOUTS_RESET);
 									}}
-									variant={"destructive"}
+									target="Loadouts"
 								>
 									Clear Loadouts
-								</Button>
+								</ClearDataButton>
 								<SeparatorText>Options</SeparatorText>
-								<Button
-									onClick={() =>
+								<ClearDataButton
+									description="This only clears Monsterlings options cached in this browser. This cannot be undone."
+									onConfirm={() =>
 										localStorage.removeItem(MONSTERLING_OPTIONS_CACHE)
 									}
-									variant={"destructive"}
+									target="Monsterlings Options"
 								>
 									Clear Monsterlings Options
-								</Button>
-								<Button
-									onClick={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
-									variant={"destructive"}
+								</ClearDataButton>
+								<ClearDataButton
+									description="This only clears stat options cached in this browser. This cannot be undone."
+									onConfirm={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
+									target="Stat Options"
 								>
 									Clear Stat Options
-								</Button>
+								</ClearDataButton>
 							</>
 						)}
 					</CardContent>

@@ -26,6 +26,10 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Show linked counts for owned characters, owned monsterlings, cleared codex entries, and loadouts.
 - [x] Preview planned Checklist, Artifact, Equipment, and complete Loadout features.
 
+## Account
+
+- [ ] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
+
 ## Chunk 1: Checklist and Event Tracking
 
 - [ ] Define event, task, schedule, reset, and completion requirements when product details are available.
