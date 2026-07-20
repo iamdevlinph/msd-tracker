@@ -1,0 +1,4 @@
+interface:
+  display_name: "Google Drive Backup"
+  short_description: "Keep durable app data safe across Drive sync"
+  default_prompt: "Use $google-drive-backup to add a durable store field to Google Drive sync safely."

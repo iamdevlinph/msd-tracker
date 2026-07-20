@@ -31,7 +31,7 @@ Read `PLANS.md` before product-facing work and implement only the current reques
 
 ## Persistence & Drive Sync
 
-Google Drive backups are manually allowlisted in `src/components/account/google/utils/drive-sync.ts`; Zustand fields do not sync automatically. Evaluate every new durable user-data field for remote-sync eligibility. For sync-worthy data—user-created or configured data expected to survive devices or local-storage loss—update `Backup` and `select(...)`, mutation-driven `backupUpdatedAt`, legacy download defaults, sync-conflict metadata/UI, and relevant tests. If sync intent is unclear, ask the user before including or omitting the field.
+Google Drive backups are manually allowlisted in `src/components/account/google/utils/drive-sync.ts`; Zustand fields do not sync automatically. For new or changed durable user data, follow `.agents/skills/google-drive-backup/SKILL.md`. If sync intent is unclear, ask the user before including or omitting the field.
 
 ## Analytics
 
