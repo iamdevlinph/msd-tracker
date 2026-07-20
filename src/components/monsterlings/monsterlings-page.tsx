@@ -10,7 +10,10 @@ export const MonsterlingsPage = () => {
 
 	return (
 		<div>
-			<PageTitle title="Monsterlings" />
+			<PageTitle
+				title="Monsterlings"
+				description="Organize your owned regular and legendary Monsterlings by tier."
+			/>
 
 			<div className="flex gap-5 flex-col">
 				<AddMonsterlingDialog />

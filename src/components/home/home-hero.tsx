@@ -12,7 +12,7 @@ export const HomeHero = () => (
 				Mongil: Star Dive Tracker
 			</div>
 			<h1 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-				Welcome back, Diver
+				Mongil: Star Dive Tracker for Players
 			</h1>
 			<p className="mt-4 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg">
 				Keep your roster, monsterlings, codex progress, and team loadouts

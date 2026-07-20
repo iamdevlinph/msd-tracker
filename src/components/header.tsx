@@ -24,7 +24,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }: Sidebar) {
 			>
 				<div className="px-6 py-6 border-b border-border flex items-center justify-between">
 					<Link to="/">
-						<h1 className="text-lg font-semibold">Mongil: Star Dive</h1>
+						<div className="text-lg font-semibold">Mongil: Star Dive</div>
 						<p className="text-xs text-muted-foreground mt-0.5">Tracker</p>
 					</Link>
 					{/* <button

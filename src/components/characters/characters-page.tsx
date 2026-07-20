@@ -10,7 +10,10 @@ export const CharactersPage = () => {
 
 	return (
 		<div>
-			<PageTitle title="Characters" />
+			<PageTitle
+				title="Characters"
+				description="Track your owned characters, tiers, awakening levels, and skill progress."
+			/>
 
 			<div className="flex gap-5 flex-col">
 				<AddCharacter />

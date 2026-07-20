@@ -33,7 +33,7 @@ export const CodexRegions = () => {
 									height="50"
 									alt={`${region.region} map icon`}
 								/>
-								<h1 className="text-center break-keep whitespace-nowrap">
+								<div className="text-center break-keep whitespace-nowrap">
 									{/* {toTitleCase(region.region)} */}
 									{/* {toTitleCase()} */}
 									{regionNameTitleCase.split(" ").map((word, index) => (
@@ -42,7 +42,7 @@ export const CodexRegions = () => {
 											{word}
 										</Fragment>
 									))}
-								</h1>
+								</div>
 							</CardContent>
 						</Card>
 					);

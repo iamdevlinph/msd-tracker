@@ -6,7 +6,10 @@ import { PageTitle } from "@/components/shared/page-title";
 export const MonsterCodexPage = () => {
 	return (
 		<div>
-			<PageTitle title="Monster Codex" />
+			<PageTitle
+				title="Monster Codex"
+				description="Record cleared encounters and keep your Monster Codex progress organized."
+			/>
 
 			<div className="flex gap-5 flex-col">
 				<CodexRegions />

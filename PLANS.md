@@ -26,6 +26,13 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Show linked counts for owned characters, owned monsterlings, cleared codex entries, and loadouts.
 - [x] Preview planned Checklist, Artifact, Equipment, and complete Loadout features.
 
+## SEO: Available
+
+- [x] Add player-focused titles, descriptions, canonicals, social metadata, and visible H1 copy for public tracker pages.
+- [x] Use `Mongil: Star Dive Tracker - <Page>` route titles with concise page-specific H1 copy.
+- [x] Prevent unfinished and account routes from being indexed.
+- [x] Publish a sitemap, crawler directive, branded manifest, and home WebSite structured data.
+
 ## Account
 
 - [ ] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.

@@ -17,6 +17,7 @@ import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { ThemeProvider } from "@/components/themes/theme-provider";
 import { GC_TIME, STALE_TIME } from "@/constants";
 import { AppProvider } from "@/context/app-provider";
+import { SITE_NAME } from "@/lib/seo";
 import Header from "../components/header";
 import appCss from "../styles.css?url";
 
@@ -40,10 +41,17 @@ export const Route = createRootRoute({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "Mongil: Star Dive Tracker",
+				title: SITE_NAME,
+			},
+			{
+				name: "description",
+				content:
+					"Free unofficial fan-made tracker for Mongil: Star Dive players to organize characters, Monsterlings, Monster Codex progress, and team loadouts.",
 			},
 		],
 		links: [
+			{ rel: "icon", href: "/favicon.ico" },
+			{ rel: "manifest", href: "/manifest.json" },
 			{
 				rel: "stylesheet",
 				href: appCss,
@@ -120,7 +128,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 									<main className="flex-1 overflow-y-auto bg-background w-full">
 										<div className="lg:hidden sticky top-0 z-30 bg-card border-b border-border px-4 py-3 flex items-center justify-between">
 											<div>
-												<h1 className="font-semibold">Mongil: Star Dive</h1>
+												<div className="font-semibold">Mongil: Star Dive</div>
 												<p className="text-xs text-muted-foreground">
 													{/* {navigation.find((n) => n.id === activeTab)?.label} */}
 													Tracker

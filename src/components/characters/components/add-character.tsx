@@ -106,9 +106,9 @@ export function AddCharacter() {
 
 							<div className="flex flex-wrap gap-5 mt-5">
 								{noCharsToAdd && (
-									<h1 className="flex justify-center items-center w-full">
+									<p className="flex justify-center items-center w-full">
 										No characters to add
-									</h1>
+									</p>
 								)}
 								{!noCharsToAdd && availableCharacters.length === 0 && (
 									<p className="text-sm text-muted-foreground">
