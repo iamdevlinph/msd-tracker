@@ -45,7 +45,11 @@ export function SyncConflictDialog() {
 
 				<div className="min-w-0 space-y-4 text-sm">
 					<div className="flex min-w-0 flex-col space-y-2">
-						<SyncCopyCard title="Local copy" copy={local} />
+						<SyncCopyCard
+							title="Local copy"
+							copy={local}
+							isNewer={local.updatedAt > remote.updatedAt}
+						/>
 
 						<AlertDialogAction
 							onClick={async () => {
@@ -73,7 +77,11 @@ export function SyncConflictDialog() {
 					<SeparatorText>or</SeparatorText>
 
 					<div className="flex min-w-0 flex-col space-y-2">
-						<SyncCopyCard title="Remote copy (Google Drive)" copy={remote} />
+						<SyncCopyCard
+							title="Remote copy (Google Drive)"
+							copy={remote}
+							isNewer={remote.updatedAt > local.updatedAt}
+						/>
 
 						<AlertDialogAction
 							onClick={async () => {

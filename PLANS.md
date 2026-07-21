@@ -36,6 +36,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 ## Account
 
+- [x] Highlight the newer timestamp when choosing between local and Google Drive copies during a sync conflict.
 - [ ] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
 
 ## Chunk 1: Checklist and Event Tracking

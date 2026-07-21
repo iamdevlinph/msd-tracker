@@ -73,6 +73,28 @@ describe("SyncConflictDialog tables", () => {
 		}
 	});
 
+	it.each([
+		["local", 2_000, 1_000],
+		["remote", 1_000, 2_000],
+	])("highlights the newer %s copy date", (_copyName, localAt, remoteAt) => {
+		useAppStore.setState({
+			syncConflict: {
+				local: { ...copy, updatedAt: localAt },
+				remote: { ...copy, updatedAt: remoteAt },
+			},
+		});
+		render(<SyncConflictDialog />);
+
+		const newerAt = Math.max(localAt, remoteAt);
+		const olderAt = Math.min(localAt, remoteAt);
+		expect(
+			screen.getByText(new Date(newerAt).toLocaleString()).className,
+		).toContain("text-green-600 dark:text-green-400");
+		expect(
+			screen.getByText(new Date(olderAt).toLocaleString()).className,
+		).not.toContain("text-green");
+	});
+
 	it("tracks keeping the local copy through success", async () => {
 		upload.mockResolvedValue(undefined);
 		render(<SyncConflictDialog />);
