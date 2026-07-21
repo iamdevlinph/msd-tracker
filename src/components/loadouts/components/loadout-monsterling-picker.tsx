@@ -15,6 +15,7 @@ type LoadoutMonsterlingPickerProps = {
 	onFiltersChange: (filters: MonsterlingFilters) => void;
 	options: LoadoutMonsterlingOption[];
 	selectedRegularIds: Set<string>;
+	currentCharacterRegularIds: Set<string>;
 	currentId: string | null;
 	legendary: boolean;
 	onSelect: (id: string) => void;
@@ -25,6 +26,7 @@ export const LoadoutMonsterlingPicker = ({
 	onFiltersChange,
 	options,
 	selectedRegularIds,
+	currentCharacterRegularIds,
 	currentId,
 	legendary,
 	onSelect,
@@ -42,7 +44,8 @@ export const LoadoutMonsterlingPicker = ({
 				const disabled =
 					!legendary &&
 					selectedRegularIds.has(monsterling.id) &&
-					currentId !== monsterling.id;
+					currentId !== monsterling.id &&
+					!currentCharacterRegularIds.has(monsterling.id);
 				return (
 					<button
 						key={monsterling.id}

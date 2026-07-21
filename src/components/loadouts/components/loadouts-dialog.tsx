@@ -113,6 +113,13 @@ export const LoadoutsDialog = ({
 			.flatMap((slot) => slot.monsterlingIds)
 			.filter((id): id is string => id !== null),
 	);
+	const currentCharacterRegularMonsterlingIds = new Set(
+		pickerTarget?.type === "monsterling"
+			? draft.characters[pickerTarget.characterIndex].monsterlingIds.filter(
+					(id): id is string => id !== null,
+				)
+			: [],
+	);
 	const characterPickerOptions: LoadoutCharacterOption[] = Object.values(
 		charactersOwned,
 	)
@@ -207,7 +214,12 @@ export const LoadoutsDialog = ({
 			const monsterlingIds = [
 				...slot.monsterlingIds,
 			] as LoadoutCharacterSlot["monsterlingIds"];
-			monsterlingIds[pickerTarget.monsterlingIndex ?? 0] = id;
+			const targetIndex = pickerTarget.monsterlingIndex ?? 0;
+			const sourceIndex = monsterlingIds.indexOf(id);
+			if (sourceIndex !== -1) {
+				monsterlingIds[sourceIndex] = monsterlingIds[targetIndex];
+			}
+			monsterlingIds[targetIndex] = id;
 			return { ...slot, monsterlingIds };
 		});
 		resetPicker();
@@ -317,6 +329,7 @@ export const LoadoutsDialog = ({
 							onFiltersChange={setMonsterlingFilters}
 							options={monsterlingPickerOptions}
 							selectedRegularIds={selectedRegularMonsterlingIds}
+							currentCharacterRegularIds={currentCharacterRegularMonsterlingIds}
 							currentId={
 								pickerTarget.legendary
 									? (draft.characters[pickerTarget.characterIndex]

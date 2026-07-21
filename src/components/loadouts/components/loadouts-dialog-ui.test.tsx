@@ -70,6 +70,25 @@ const teamLoadout: LoadoutOwned = {
 	],
 };
 
+const setMonsterlingSwapFixture = () =>
+	useAppStore.setState({
+		monsterlingsOwned: {
+			first: { monsterling_id: 1, tier_id: 5, traits: [] },
+			second: { monsterling_id: 2, tier_id: 5, traits: [] },
+			other: { monsterling_id: 3, tier_id: 5, traits: [] },
+		},
+		loadouts: {
+			team: {
+				...teamLoadout,
+				characters: [
+					{ characterId: 1, monsterlingIds: ["first", "second", null] },
+					{ characterId: 2, monsterlingIds: ["other", null, null] },
+					{ characterId: 3, monsterlingIds: [null, null, null] },
+				],
+			},
+		},
+	});
+
 describe("LoadoutsDialog character picker", () => {
 	afterEach(cleanup);
 
@@ -200,6 +219,52 @@ describe("LoadoutsDialog character picker", () => {
 		expect(document.activeElement).toBe(search);
 		expect(search.selectionStart).toBe(0);
 		expect(search.selectionEnd).toBe(monsterlingName.length);
+	});
+
+	it("swaps regular monsterlings within a character", () => {
+		setMonsterlingSwapFixture();
+		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: MONSTERLINGS_DATA[1].name }),
+		);
+		fireEvent.change(
+			screen.getByRole("textbox", { name: "Search monsterlings" }),
+			{ target: { value: "" } },
+		);
+		const sameCharacterOption = screen
+			.getByText(MONSTERLINGS_DATA[2].name)
+			.closest("button") as HTMLButtonElement;
+		const otherCharacterOption = screen
+			.getByText(MONSTERLINGS_DATA[3].name)
+			.closest("button") as HTMLButtonElement;
+
+		expect(sameCharacterOption.disabled).toBe(false);
+		expect(otherCharacterOption.disabled).toBe(true);
+		fireEvent.click(sameCharacterOption);
+		fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+		expect(
+			useAppStore.getState().loadouts.team.characters[0].monsterlingIds,
+		).toEqual(["second", "first", null]);
+	});
+
+	it("moves an equipped regular monsterling into an empty slot", () => {
+		setMonsterlingSwapFixture();
+		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Monsterling 3" }));
+		const option = screen
+			.getByText(MONSTERLINGS_DATA[1].name)
+			.closest("button") as HTMLButtonElement;
+
+		expect(option.disabled).toBe(false);
+		fireEvent.click(option);
+		fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+		expect(
+			useAppStore.getState().loadouts.team.characters[0].monsterlingIds,
+		).toEqual([null, "second", "first"]);
 	});
 
 	it("filters monsterlings by multiple tiers without changing page filters", () => {
