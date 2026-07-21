@@ -25,6 +25,8 @@ Before code changes, inspect manifests, configuration, scripts, and nearby files
 
 Keep `AGENTS.md` focused on durable, always-applicable repository guidance. Add project skills under `.agents/skills/<skill-name>/SKILL.md` only for concrete, repeatable task-specific workflows, and avoid duplicating detailed instructions between this file and a skill. Keep critical safety, authorization, destructive-operation, database, and deployment restrictions here. Every project skill must have valid YAML frontmatter with a clear `name` and trigger-focused `description`, and must be validated after creation or modification.
 
+`TEMPLATE_AGENTS.md` is a staged codex-kit reference, not active guidance. When it is refreshed or `codex-kit project status` requires reconciliation, use the global `$codex-kit-reconcile-agents` skill; preserve local rules, keep project-specific content out of the template, avoid managed markers, and mark applied only after validation. Updating `AGENTS.md` does not update the packaged template automatically.
+
 ## Planning
 
 Read `PLANS.md` before product-facing work and implement only the current request. Record durable requirements and product, workflow, permission, priority, scope, deferral, or implementation decisions in the relevant feature checklist. After product work, mark the item implemented, verified, deferred, or pending; check items only after implementation and verification, and allow manual testing to revert them. Record major resume-worthy milestones with concise technical scope and value, without invented impact or metrics. Keep durable context for a fresh session, but omit transient handoff state, command output, debugging notes, and scratch work. If `PLANS.md` conflicts with the current request, follow the request and update the plan.
@@ -39,7 +41,7 @@ GA4 page views are automatic. For meaningful user actions, add a normalized name
 
 ## Testing Guidelines
 
-Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. Cover behavior and regressions, mock browser boundaries, and keep fixtures focused. Prefer targeted tests before broader suites, subject to the escalation rules above.
+Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. For behavior changes and bug fixes, add or update the smallest focused regression tests and run them before broader suites. Do not introduce a test framework or low-value tests solely for coverage; when automation is impractical, explain why and perform the strongest targeted verification available. Mock browser boundaries and keep fixtures focused, subject to the escalation rules above.
 
 ## Commit & Pull Request Guidelines
 

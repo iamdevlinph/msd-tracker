@@ -1,6 +1,7 @@
 {
   "name": "msd-tracker",
   "private": true,
+  "license": "ISC",
   "type": "module",
   "imports": {
     "@/*": "./src/*"

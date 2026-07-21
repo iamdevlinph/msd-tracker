@@ -264,10 +264,10 @@ Files prefixed with `demo` can be safely deleted. They are there to provide a st
 
 ## License
 
-Original source code and documentation are available under the [0BSD License](LICENSE).
-Attribution is not required, though credit is appreciated. Mongil: Star Dive
-artwork, names, trademarks, and other third-party materials are not covered by
-this license and remain the property of their respective owners.
+Original source code and documentation are available under the [ISC License](LICENSE).
+Copies must retain the copyright and permission notices. Mongil: Star Dive artwork,
+names, trademarks, and other third-party materials are not covered by this license
+and remain the property of their respective owners.
 
 # Learn More
 
