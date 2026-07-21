@@ -9,6 +9,7 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
 import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
+import { SITE_URL } from "@/lib/seo";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
@@ -117,9 +118,19 @@ describe("LoadoutPreviewDialog", () => {
 	it("renders three read-only character rows and fixed missing-record slots", () => {
 		renderPreview();
 
-		expect(screen.getByTestId("loadout-share-surface").className).toContain(
-			"w-[984px]",
-		);
+		const surface = screen.getByTestId("loadout-share-surface");
+		expect(surface.className).toContain("w-[984px]");
+		const title = surface.querySelector("h2") as HTMLHeadingElement;
+		expect(title.className).toContain("min-w-0");
+		expect(title.className).toContain("flex-1");
+		expect(title.className).toContain("truncate");
+		expect(title.title).toBe(loadout.name);
+		expect(screen.getByText("Team Loadout").className).toContain("shrink-0");
+		const siteLink = screen.getByRole("link", { name: SITE_URL });
+		expect(siteLink.getAttribute("href")).toBe(SITE_URL);
+		expect(siteLink.parentElement?.className).toContain("justify-end");
+		expect(siteLink.parentElement?.className).toContain("pb-1");
+		expect(siteLink.parentElement?.className).toContain("pt-2");
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
 		expect(
 			(

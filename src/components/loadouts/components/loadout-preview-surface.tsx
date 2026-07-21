@@ -1,5 +1,6 @@
 import type { Ref } from "react";
 import { LoadoutPreviewRow } from "@/components/loadouts/components/loadout-preview-row";
+import { SITE_URL } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
@@ -32,9 +33,16 @@ export const LoadoutPreviewSurface = ({
 				className,
 			)}
 		>
-			<header className="flex items-baseline justify-between border-b border-primary/60 px-1 pb-3">
-				<h2 className="text-2xl font-bold">{loadout.name}</h2>
-				<span className="text-sm text-muted-foreground">Team Loadout</span>
+			<header className="flex items-baseline justify-between gap-4 border-b border-primary/60 px-1 pb-3">
+				<h2
+					className="min-w-0 flex-1 truncate text-2xl font-bold"
+					title={loadout.name}
+				>
+					{loadout.name}
+				</h2>
+				<span className="shrink-0 text-sm text-muted-foreground">
+					Team Loadout
+				</span>
 			</header>
 			{SLOTS.map((index) => (
 				<LoadoutPreviewRow
@@ -49,6 +57,11 @@ export const LoadoutPreviewSurface = ({
 					compactMonsterlings={compactMonsterlings}
 				/>
 			))}
+			<footer className="flex justify-end px-1 pb-1 pt-2 text-sm text-muted-foreground">
+				<a href={SITE_URL} target="_blank" rel="noreferrer">
+					{SITE_URL}
+				</a>
+			</footer>
 		</div>
 	);
 };

@@ -1,6 +1,6 @@
 import { ArrowLeftIcon } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { emptyCharacterFilters } from "@/components/characters/store/characters-filter-store";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
@@ -84,6 +84,7 @@ export const LoadoutsDialog = ({
 		emptyCharacterFilters,
 	);
 	const [activeTab, setActiveTab] = useState("0");
+	const nameManuallyEdited = useRef(false);
 
 	useEffect(() => {
 		if (!open) return;
@@ -103,6 +104,7 @@ export const LoadoutsDialog = ({
 					),
 		);
 		setActiveTab("0");
+		nameManuallyEdited.current = false;
 	}, [loadoutToEdit, loadouts, open]);
 
 	const selectedCharacterIds = new Set(
@@ -200,9 +202,22 @@ export const LoadoutsDialog = ({
 	};
 	const selectCharacter = (id: number) => {
 		if (pickerTarget?.type !== "character") return;
-		updateSlot(pickerTarget.characterIndex, (slot) => ({
-			...slot,
-			characterId: id,
+		setDraft((current) => ({
+			...current,
+			name:
+				!loadoutToEdit &&
+				!nameManuallyEdited.current &&
+				current.characters.every(({ characterId }) => characterId === null)
+					? nextLoadoutName(
+							Object.values(loadouts).map(({ name }) => name),
+							CHARACTERS_DATA[id].name,
+						)
+					: current.name,
+			characters: current.characters.map((slot, index) =>
+				index === pickerTarget.characterIndex
+					? { ...slot, characterId: id }
+					: slot,
+			) as LoadoutOwned["characters"],
 		}));
 		resetPicker();
 	};
@@ -345,9 +360,10 @@ export const LoadoutsDialog = ({
 							draft={draft}
 							activeTab={activeTab}
 							monsterlingsOwned={monsterlingsOwned}
-							onNameChange={(name) =>
-								setDraft((current) => ({ ...current, name }))
-							}
+							onNameChange={(name) => {
+								nameManuallyEdited.current = true;
+								setDraft((current) => ({ ...current, name }));
+							}}
 							onActiveTabChange={setActiveTab}
 							onOpenCharacterPicker={openCharacterPicker}
 							onOpenMonsterlingPicker={openMonsterlingPicker}

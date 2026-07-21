@@ -14,6 +14,7 @@ import { LoadoutsList } from "@/components/loadouts/components/loadouts-list";
 import { useMonsterlingFilter } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { SITE_URL } from "@/lib/seo";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
@@ -142,7 +143,39 @@ describe("LoadoutsDialog character picker", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Select Mina" }));
 
 		expect(screen.getByRole("tab", { name: "Mina" })).toBeTruthy();
+		expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe(
+			"Mina",
+		);
 		expect((create as HTMLButtonElement).disabled).toBe(true);
+	});
+
+	it("auto-names from the first character selected in any slot", () => {
+		useAppStore.setState({
+			loadouts: { mina: { ...teamLoadout, id: "mina", name: "Mina" } },
+		});
+		render(<LoadoutsDialog open setOpen={vi.fn()} />);
+
+		fireEvent.click(screen.getByRole("tab", { name: "Character 2" }));
+		fireEvent.click(screen.getByRole("button", { name: "Select character" }));
+		fireEvent.click(screen.getByRole("button", { name: "Select Mina" }));
+
+		expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe(
+			"Mina #2",
+		);
+	});
+
+	it("preserves a manually edited name after character selection", () => {
+		render(<LoadoutsDialog open setOpen={vi.fn()} />);
+
+		fireEvent.change(screen.getByLabelText("Name"), {
+			target: { value: "Custom Team" },
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Select character" }));
+		fireEvent.click(screen.getByRole("button", { name: "Select Angel" }));
+
+		expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe(
+			"Custom Team",
+		);
 	});
 
 	it("prevents selecting the same character for two slots", () => {
@@ -185,6 +218,10 @@ describe("LoadoutsDialog character picker", () => {
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(false);
+		fireEvent.click(screen.getByRole("button", { name: "Select Angel" }));
+		expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe(
+			"Team",
+		);
 	});
 
 	it("prefills and selects an assigned monsterling name", () => {
@@ -382,7 +419,7 @@ describe("LoadoutsList", () => {
 		expect(actionRow?.className).toContain("justify-end");
 		expect(actionRow?.className).toContain("pointer-events-none");
 		expect(actionRow?.className).toContain(
-			"[&_[data-slot=button]]:pointer-events-auto",
+			"**:data-[slot=button]:pointer-events-auto",
 		);
 		expect(
 			screen.getByRole("button", { name: "Delete Team" }).className,
@@ -478,6 +515,7 @@ describe("LoadoutsList", () => {
 		);
 		expect(write).toHaveBeenCalledOnce();
 		expect(toBlob.mock.calls[0][0].className).toContain("w-[984px]");
+		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {
 			compact_monsterlings: true,

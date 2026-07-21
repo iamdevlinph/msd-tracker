@@ -12,6 +12,9 @@ describe("nextLoadoutName", () => {
 		expect(nextLoadoutName(["New Loadout", "New Loadout #2"])).toBe(
 			"New Loadout #3",
 		);
+		expect(nextLoadoutName(["Ellie"], "Ellie")).toBe("Ellie #2");
+		expect(nextLoadoutName(["Ellie", "Ellie #3"], "Ellie")).toBe("Ellie #2");
+		expect(nextLoadoutName(["ellie"], "Ellie")).toBe("Ellie");
 	});
 });
 
