@@ -311,10 +311,14 @@ describe("LoadoutsList", () => {
 			const action = screen.getByRole("button", { name: label });
 			expect(action.title).toBe(label);
 		}
-		expect(
-			screen.getByRole("button", { name: "Preview Team" }).parentElement
-				?.className,
-		).toContain("justify-end");
+		const actionRow = screen.getByRole("button", {
+			name: "Preview Team",
+		}).parentElement;
+		expect(actionRow?.className).toContain("justify-end");
+		expect(actionRow?.className).toContain("pointer-events-none");
+		expect(actionRow?.className).toContain(
+			"[&_[data-slot=button]]:pointer-events-auto",
+		);
 		expect(
 			screen.getByRole("button", { name: "Delete Team" }).className,
 		).not.toContain("ml-auto");

@@ -13,7 +13,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 ## Loadouts: Available
 
 - [x] Expose Loadouts in production navigation.
-- [x] Create, edit, duplicate, delete, preview, copy, and download team loadouts.
+- [x] Create, edit, duplicate, delete, copy, and download team loadouts; preview them from any non-button card area.
 - [x] Offer detailed and compact monsterling stat-label share previews.
 - [x] Require three unique owned characters selected through searchable, filterable character cards.
 - [x] Assign three regular and one legendary owned monsterling per character through searchable, multi-tier-filterable cards.

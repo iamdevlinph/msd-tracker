@@ -47,7 +47,7 @@ export const LoadoutCard = ({
 					{loadout.name}
 				</CardTitle>
 				<LoadoutActions
-					className="pointer-events-auto w-full justify-end"
+					className="pointer-events-none w-full justify-end **:data-[slot=button]:pointer-events-auto"
 					loadoutName={loadout.name}
 					onPreview={() => onPreview("icon")}
 					onEdit={onEdit}
