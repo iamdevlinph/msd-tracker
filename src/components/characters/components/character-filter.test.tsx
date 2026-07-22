@@ -79,18 +79,25 @@ describe("character search", () => {
 		).toBeTruthy();
 	});
 
-	it("filters candidates inside Add Character independently", () => {
+	it("filters candidates locally and clears before closing Add Character", () => {
 		useAppStore.setState({ charactersOwned: { 1: owned[1] } });
 		render(<AddCharacter />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Add Character" }));
-		fireEvent.change(screen.getByPlaceholderText("Search characters"), {
+		const search = screen.getByPlaceholderText(
+			"Search characters",
+		) as HTMLInputElement;
+		fireEvent.change(search, {
 			target: { value: "Mina" },
 		});
 
 		expect(screen.getByText("Mina")).toBeTruthy();
 		expect(screen.queryByText("Benjamin")).toBeNull();
 		expect(useCharacterFilter.getState().characterFilters.search).toBe("");
+
+		fireEvent.keyDown(search, { key: "Escape" });
+		expect(search.value).toBe("");
+		expect(screen.getByRole("dialog")).toBeTruthy();
 	});
 
 	it("toggles Tier 4 and Tier 5 and clears every character filter", () => {
@@ -131,5 +138,24 @@ describe("character search", () => {
 		expect(screen.getByText("Benjamin")).toBeTruthy();
 		expect(screen.getByText("Mina")).toBeTruthy();
 		expect(tier5.getAttribute("aria-pressed")).toBe("false");
+	});
+
+	it("clears only search from the search button", () => {
+		render(<CharactersPage />);
+		fireEvent.click(screen.getByRole("button", { name: "Tier 5" }));
+		fireEvent.change(
+			screen.getByRole("textbox", { name: "Search characters" }),
+			{
+				target: { value: "missing" },
+			},
+		);
+
+		fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
+
+		expect(screen.getByText("Mina")).toBeTruthy();
+		expect(screen.queryByText("Angel")).toBeNull();
+		expect(
+			useCharacterFilter.getState().characterFilters.selectedTiers,
+		).toEqual([5]);
 	});
 });

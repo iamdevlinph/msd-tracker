@@ -27,6 +27,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { preventSearchInputDismissOnEscape } from "@/components/ui/search-input";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
@@ -301,6 +302,7 @@ export const LoadoutsDialog = ({
 			onOpenChange={(next) => (next ? setOpen(true) : close())}
 		>
 			<DialogContent
+				onEscapeKeyDown={preventSearchInputDismissOnEscape}
 				className={cn(
 					"grid h-[calc(100dvh-2rem)] max-h-[calc(100dvh-2rem)] max-w-[calc(100%-2rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 sm:max-w-2xl",
 					pickerTarget && "md:max-w-[46rem] xl:max-w-[68.5rem]",

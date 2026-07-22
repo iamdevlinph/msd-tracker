@@ -149,6 +149,23 @@ describe("LoadoutsDialog character picker", () => {
 		expect((create as HTMLButtonElement).disabled).toBe(true);
 	});
 
+	it("clears picker search before Escape closes the dialog", async () => {
+		const setOpen = vi.fn();
+		render(<LoadoutsDialog open setOpen={setOpen} />);
+		fireEvent.click(screen.getByRole("button", { name: "Select character" }));
+		const search = screen.getByRole("textbox", {
+			name: "Search characters",
+		}) as HTMLInputElement;
+		fireEvent.change(search, { target: { value: "Mina" } });
+
+		fireEvent.keyDown(search, { key: "Escape" });
+		expect(search.value).toBe("");
+		expect(setOpen).not.toHaveBeenCalled();
+
+		fireEvent.keyDown(search, { key: "Escape" });
+		await waitFor(() => expect(setOpen).toHaveBeenCalledWith(false));
+	});
+
 	it("auto-names from the first character selected in any slot", () => {
 		useAppStore.setState({
 			loadouts: { mina: { ...teamLoadout, id: "mina", name: "Mina" } },

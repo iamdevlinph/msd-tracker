@@ -1,5 +1,4 @@
 import { toSentenceCase } from "common-utils-pkg";
-import { XIcon } from "lucide-react";
 import {
 	CODEX_VIEWS,
 	type CodexView,
@@ -7,7 +6,7 @@ import {
 } from "@/components/monster-codex/store/codex-store";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/search-input";
 import {
 	Select,
 	SelectContent,
@@ -20,7 +19,6 @@ import {
 	MONSTERLINGS_SOURCE_DATA,
 	type SourceId,
 } from "@/data/MONSTERLINGS_SOURCE_DATA";
-import { cn } from "@/lib/utils";
 
 export const CodexFilter = () => {
 	const setCodexFilters = useCodexStore((s) => s.setCodexFilters);
@@ -84,32 +82,15 @@ export const CodexFilter = () => {
 
 			<FieldGroup className="w-full sm:w-2/12">
 				<Field>
-					<FieldLabel>Search</FieldLabel>
-					<div className="">
-						<Input
-							placeholder="Monsterling name"
-							value={search}
-							onChange={(event) =>
-								setCodexFilters({ search: event.target.value })
-							}
-							onFocus={(event) => event.currentTarget.select()}
-							className="w-full sm:max-w-sm"
-						/>
-						<Button
-							type="button"
-							variant="ghost"
-							size="icon"
-							className={cn(
-								"absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100",
-								"invisible",
-								!!search && "visible",
-							)}
-							onClick={() => setCodexFilters({ search: "" })}
-						>
-							<XIcon className="h-4 w-4" />
-							<span className="sr-only">Clear</span>
-						</Button>
-					</div>
+					<FieldLabel htmlFor="codex-search">Search</FieldLabel>
+					<SearchInput
+						id="codex-search"
+						placeholder="Monsterling name"
+						value={search}
+						onValueChange={(value) => setCodexFilters({ search: value })}
+						onFocus={(event) => event.currentTarget.select()}
+						className="w-full sm:max-w-sm"
+					/>
 				</Field>
 			</FieldGroup>
 

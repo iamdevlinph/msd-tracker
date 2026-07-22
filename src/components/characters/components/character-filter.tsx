@@ -1,12 +1,12 @@
 import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
-import { SearchIcon, StarIcon, XIcon } from "lucide-react";
+import { StarIcon, XIcon } from "lucide-react";
 import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
 import { Button } from "@/components/ui/button";
 import {
 	ButtonGroup,
 	ButtonGroupSeparator,
 } from "@/components/ui/button-group";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/search-input";
 import {
 	CHARACTER_CLASS_DATA,
 	type CharacterClassId,
@@ -70,20 +70,14 @@ export const CharacterFilter = ({
 
 	return (
 		<div className="grid gap-3">
-			<div className="relative">
-				<SearchIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
-				<Input
-					aria-label="Search characters"
-					autoFocus={autoFocus}
-					value={search}
-					onChange={(event) =>
-						onChange({ ...filters, search: event.target.value })
-					}
-					onFocus={(event) => event.currentTarget.select()}
-					placeholder="Search characters"
-					className="pl-9"
-				/>
-			</div>
+			<SearchInput
+				aria-label="Search characters"
+				autoFocus={autoFocus}
+				value={search}
+				onValueChange={(value) => onChange({ ...filters, search: value })}
+				onFocus={(event) => event.currentTarget.select()}
+				placeholder="Search characters"
+			/>
 			<ButtonGroup className="flex flex-wrap">
 				{Object.values(ELEMENTS_DATA).map(({ id, image, element, hide }) => {
 					if (hide) return null;

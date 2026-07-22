@@ -103,6 +103,14 @@ describe("MonsterlingsList", () => {
 		});
 		expect(screen.queryByText(first.name)).toBeNull();
 		expect(screen.getByText(second.name)).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Tier 4" }));
+		fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
+		expect(screen.queryByText(first.name)).toBeNull();
+		expect(screen.getByText(second.name)).toBeTruthy();
+		fireEvent.change(search, {
+			target: { value: second.name.toUpperCase() },
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Tier 4" }));
 
 		fireEvent.click(screen.getByRole("button", { name: "Tier 1" }));
 		expect(

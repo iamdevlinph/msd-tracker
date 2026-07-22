@@ -34,6 +34,10 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Prevent unfinished and account routes from being indexed.
 - [x] Publish a sitemap, crawler directive, branded manifest, and home WebSite structured data.
 
+## Shared UI: Available
+
+- [x] Provide clear buttons and Escape-to-clear behavior for standalone search inputs.
+
 ## Account
 
 - [x] Highlight the newer timestamp when choosing between local and Google Drive copies during a sync conflict.

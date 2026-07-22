@@ -94,17 +94,29 @@ describe("monster codex favorites", () => {
 
 	it("selects the existing search when focused", () => {
 		useCodexStore.setState({
-			filters: { ...initialCodexFilters, search: favorite.name },
+			filters: {
+				...initialCodexFilters,
+				view: "favorite",
+				search: favorite.name,
+			},
 		});
 		render(<CodexFilter />);
 		const search = screen.getByPlaceholderText(
 			"Monsterling name",
 		) as HTMLInputElement;
+		expect(screen.getByRole("textbox", { name: "Search" })).toBe(search);
 
 		fireEvent.focus(search);
 
 		expect(search.selectionStart).toBe(0);
 		expect(search.selectionEnd).toBe(favorite.name.length);
+
+		fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
+		expect(useCodexStore.getState().filters).toEqual({
+			...initialCodexFilters,
+			view: "favorite",
+			search: "",
+		});
 	});
 
 	it("toggles favorites independently from completion", () => {

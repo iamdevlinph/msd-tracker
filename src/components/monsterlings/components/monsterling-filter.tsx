@@ -1,12 +1,12 @@
 import { arrayRemoveItem } from "common-utils-pkg";
-import { SearchIcon, StarIcon, XIcon } from "lucide-react";
+import { StarIcon, XIcon } from "lucide-react";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { Button } from "@/components/ui/button";
 import {
 	ButtonGroup,
 	ButtonGroupSeparator,
 } from "@/components/ui/button-group";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/search-input";
 import { TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
@@ -33,20 +33,14 @@ export const MonsterlingFilter = ({
 
 	return (
 		<div className="grid gap-3">
-			<div className="relative">
-				<SearchIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
-				<Input
-					aria-label="Search monsterlings"
-					autoFocus={autoFocus}
-					value={search}
-					onChange={(event) =>
-						onChange({ ...filters, search: event.target.value })
-					}
-					onFocus={(event) => event.currentTarget.select()}
-					placeholder="Search monsterlings"
-					className="pl-9"
-				/>
-			</div>
+			<SearchInput
+				aria-label="Search monsterlings"
+				autoFocus={autoFocus}
+				value={search}
+				onValueChange={(value) => onChange({ ...filters, search: value })}
+				onFocus={(event) => event.currentTarget.select()}
+				placeholder="Search monsterlings"
+			/>
 			<ButtonGroup className="flex flex-wrap">
 				{Object.values(TIERS_DATA).map(({ id, hex }) => {
 					const isTierSelected = selectedTiers.includes(id);

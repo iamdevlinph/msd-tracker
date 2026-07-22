@@ -15,6 +15,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { preventSearchInputDismissOnEscape } from "@/components/ui/search-input";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
@@ -57,6 +58,7 @@ export function AddCharacter() {
 				</Button>
 			</DialogTrigger>
 			<DialogContent
+				onEscapeKeyDown={preventSearchInputDismissOnEscape}
 				className={cn(
 					"overflow-y-auto max-h-screen",
 					"max-w-sm sm:min-w-min lg:min-w-218",
