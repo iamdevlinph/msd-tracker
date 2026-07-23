@@ -1,6 +1,12 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import {
+	act,
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+} from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CharactersPage } from "@/components/characters/characters-page";
 import { AddCharacter } from "@/components/characters/components/add-character";
 import {
@@ -13,25 +19,31 @@ import { useAppStore } from "@/stores/app-store";
 const owned = {
 	1: {
 		id: 1,
-		awakening: 0,
+		awakening: 2,
 		skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
 	},
 	2: {
 		id: 2,
-		awakening: 0,
+		awakening: 5,
 		skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
 	},
 	3: {
 		id: 3,
-		awakening: 0,
+		awakening: 2,
 		skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
 	},
 };
+
+const ownedCharacterNames = () =>
+	screen
+		.getAllByText(/^(Angel|Benjamin|Mina)$/)
+		.map((element) => element.textContent);
 
 describe("character search", () => {
 	afterEach(cleanup);
 
 	beforeEach(() => {
+		Element.prototype.scrollIntoView = vi.fn();
 		useAppStore.setState({ charactersOwned: owned });
 		useCharacterFilter.setState({
 			characterFilters: emptyCharacterFilters(),
@@ -131,6 +143,14 @@ describe("character search", () => {
 				target: { value: "Mina" },
 			},
 		);
+		act(() => {
+			useCharacterFilter.setState({
+				characterFilters: {
+					...useCharacterFilter.getState().characterFilters,
+					sort: "awakening-desc",
+				},
+			});
+		});
 		fireEvent.click(
 			screen.getByRole("button", { name: "Clear character filters" }),
 		);
@@ -138,6 +158,56 @@ describe("character search", () => {
 		expect(screen.getByText("Benjamin")).toBeTruthy();
 		expect(screen.getByText("Mina")).toBeTruthy();
 		expect(tier5.getAttribute("aria-pressed")).toBe("false");
+		expect(useCharacterFilter.getState().characterFilters.sort).toBe(
+			"name-asc",
+		);
+	});
+
+	it("sorts owned characters by name and awakening level", () => {
+		render(<CharactersPage />);
+
+		const sortSelect = screen.getByRole("combobox", {
+			name: "Sort owned characters",
+		});
+		expect(sortSelect.textContent).toContain("Name: A–Z");
+		expect(ownedCharacterNames()).toEqual(["Angel", "Benjamin", "Mina"]);
+
+		fireEvent.keyDown(sortSelect, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "Name: Z–A" }));
+		expect(ownedCharacterNames()).toEqual(["Mina", "Benjamin", "Angel"]);
+
+		for (const [sort, expected] of [
+			["awakening-asc", ["Angel", "Mina", "Benjamin"]],
+			["awakening-desc", ["Benjamin", "Angel", "Mina"]],
+		] as const) {
+			act(() => {
+				useCharacterFilter.setState({
+					characterFilters: {
+						...useCharacterFilter.getState().characterFilters,
+						sort,
+					},
+				});
+			});
+			expect(ownedCharacterNames()).toEqual(expected);
+		}
+	});
+
+	it("preserves sorting when clearing search", () => {
+		useCharacterFilter.setState({
+			characterFilters: {
+				...emptyCharacterFilters(),
+				search: "missing",
+				sort: "name-desc",
+			},
+		});
+		render(<CharactersPage />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
+
+		expect(ownedCharacterNames()).toEqual(["Mina", "Benjamin", "Angel"]);
+		expect(useCharacterFilter.getState().characterFilters.sort).toBe(
+			"name-desc",
+		);
 	});
 
 	it("clears only search from the search button", () => {

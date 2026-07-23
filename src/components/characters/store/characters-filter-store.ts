@@ -9,11 +9,18 @@ export type CharacterStoreState = {
 	setCharacaterFilters: (filters: CharacterFilters) => void;
 };
 
+export type CharacterSort =
+	| "name-asc"
+	| "name-desc"
+	| "awakening-asc"
+	| "awakening-desc";
+
 export type CharacterFilters = {
 	search: string;
 	selectedCharacterClass: CharacterClassId[];
 	selectedElements: ElementId[];
 	selectedTiers: TierId[];
+	sort: CharacterSort;
 };
 
 export const emptyCharacterFilters = (): CharacterFilters => ({
@@ -21,6 +28,7 @@ export const emptyCharacterFilters = (): CharacterFilters => ({
 	selectedCharacterClass: [],
 	selectedElements: [],
 	selectedTiers: [],
+	sort: "name-asc",
 });
 
 export const initialCharacterState: Pick<

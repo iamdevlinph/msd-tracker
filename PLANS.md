@@ -5,6 +5,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 ## Characters: Available
 
 - [x] Filter owned and selectable characters by Tier 4 and Tier 5.
+- [x] Sort owned characters by name or awakening level in either direction.
 
 ## Monsterlings: Available
 

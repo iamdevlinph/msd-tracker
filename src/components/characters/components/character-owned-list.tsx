@@ -22,7 +22,20 @@ export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 			info: CHARACTERS_DATA[c.id],
 		}))
 		.filter(({ info }) => matchesCharacterFilters(info, filters))
-		.sort((a, b) => a.info.name.localeCompare(b.info.name));
+		.sort((a, b) => {
+			const nameOrder = a.info.name.localeCompare(b.info.name);
+
+			switch (filters.sort) {
+				case "name-desc":
+					return -nameOrder;
+				case "awakening-asc":
+					return a.awakening - b.awakening || nameOrder;
+				case "awakening-desc":
+					return b.awakening - a.awakening || nameOrder;
+				default:
+					return nameOrder;
+			}
+		});
 
 	return (
 		<>

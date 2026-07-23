@@ -106,6 +106,7 @@ describe("LoadoutsDialog character picker", () => {
 				selectedCharacterClass: [],
 				selectedElements: [ELEMENT_ID_BY_ELEMENT.LIGHTNING],
 				selectedTiers: [],
+				sort: "name-asc",
 			},
 		});
 	});

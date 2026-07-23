@@ -1,6 +1,10 @@
 import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
 import { StarIcon, XIcon } from "lucide-react";
-import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
+import type {
+	CharacterFilters,
+	CharacterSort,
+} from "@/components/characters/store/characters-filter-store";
+import { SortSelect } from "@/components/shared/sort-select";
 import { Button } from "@/components/ui/button";
 import {
 	ButtonGroup,
@@ -19,15 +23,29 @@ type CharacterFilterProps = {
 	filters: CharacterFilters;
 	onChange: (filters: CharacterFilters) => void;
 	autoFocus?: boolean;
+	showSort?: boolean;
 };
+
+const sortOptions: { label: string; value: CharacterSort }[] = [
+	{ label: "Name: A–Z", value: "name-asc" },
+	{ label: "Name: Z–A", value: "name-desc" },
+	{ label: "Awakening: Low–High", value: "awakening-asc" },
+	{ label: "Awakening: High–Low", value: "awakening-desc" },
+];
 
 export const CharacterFilter = ({
 	filters,
 	onChange,
 	autoFocus = false,
+	showSort = false,
 }: CharacterFilterProps) => {
-	const { search, selectedElements, selectedCharacterClass, selectedTiers } =
-		filters;
+	const {
+		search,
+		selectedElements,
+		selectedCharacterClass,
+		selectedTiers,
+		sort,
+	} = filters;
 
 	const handleSelectElement = (elemId: ElementId) => {
 		if (selectedElements.includes(elemId)) {
@@ -156,6 +174,23 @@ export const CharacterFilter = ({
 						);
 					})}
 
+				{showSort && (
+					<>
+						<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
+
+						<SortSelect
+							ariaLabel="Sort owned characters"
+							options={sortOptions}
+							value={sort}
+							onValueChange={(nextSort) =>
+								onChange({ ...filters, sort: nextSort })
+							}
+						/>
+
+						<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
+					</>
+				)}
+
 				<Button
 					variant="secondary"
 					size="icon"
@@ -166,6 +201,7 @@ export const CharacterFilter = ({
 							selectedCharacterClass: [],
 							selectedElements: [],
 							selectedTiers: [],
+							sort: "name-asc",
 						})
 					}
 					aria-label="Clear character filters"
