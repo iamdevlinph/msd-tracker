@@ -1,4 +1,5 @@
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
+import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import {
 	Dialog,
@@ -29,6 +30,7 @@ type LoadoutCardCharacterRowProps = {
 	slot: LoadoutCharacterSlot;
 	charactersOwned: StoreState["charactersOwned"];
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
+	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
 };
 
 export const LoadoutCardCharacterRow = ({
@@ -37,6 +39,7 @@ export const LoadoutCardCharacterRow = ({
 	slot,
 	charactersOwned,
 	monsterlingsOwned,
+	monsterlingLinkChainLevels,
 }: LoadoutCardCharacterRowProps) => {
 	const character =
 		slot.characterId !== null ? CHARACTERS_DATA[slot.characterId] : null;
@@ -127,7 +130,10 @@ export const LoadoutCardCharacterRow = ({
 											<MonsterlingCard
 												monsterling_id={monsterling.monsterling_id}
 												tier_id={monsterling.tier_id}
-												link_chain_level={monsterling.link_chain_level}
+												linkChainLevel={getMonsterlingLinkChainLevel(
+													monsterling.monsterling_id,
+													monsterlingLinkChainLevels,
+												)}
 												traits={monsterling.traits}
 											/>
 										</div>

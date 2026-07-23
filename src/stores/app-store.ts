@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
+import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import {
 	type CharactersOwnedSlice,
 	createCharactersOwnedSlice,
@@ -33,6 +34,7 @@ export type StoreState = {
 				loadouts: number;
 				codexCompleted: number;
 				codexFavorites: number;
+				linkChainsUpgraded: number;
 			};
 		};
 		remote: {
@@ -44,6 +46,7 @@ export type StoreState = {
 				loadouts: number;
 				codexCompleted: number;
 				codexFavorites: number;
+				linkChainsUpgraded: number;
 			};
 		};
 	} | null;
@@ -61,6 +64,19 @@ const initialState = {
 	syncInProgress: false,
 	syncConflict: null,
 	isHydrated: false,
+};
+
+export const migrateAppStore = (persistedState: unknown) => {
+	const state = persistedState as Partial<StoreState>;
+	return {
+		...state,
+		...consolidateMonsterlingLinkChainLevels(
+			state.monsterlingsOwned as Parameters<
+				typeof consolidateMonsterlingLinkChainLevels
+			>[0],
+			state.monsterlingLinkChainLevels,
+		),
+	};
 };
 
 export const useAppStore = create<StoreState>()(
@@ -84,6 +100,8 @@ export const useAppStore = create<StoreState>()(
 			}),
 			{
 				name: "msd-tracker",
+				version: 1,
+				migrate: migrateAppStore,
 				onRehydrateStorage: (_state) => {
 					// NOTE: In the `google-section.tsx` I get hydration error
 					// when setting `disabled={!authenticatedGithub}` for the Login with Google button

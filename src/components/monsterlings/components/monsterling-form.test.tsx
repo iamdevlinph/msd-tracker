@@ -4,6 +4,7 @@ import {
 	fireEvent,
 	render,
 	screen,
+	waitFor,
 	within,
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -17,7 +18,10 @@ vi.mock("tanstack-router-ga4", () => ({
 describe("MonsterlingForm", () => {
 	afterEach(() => {
 		cleanup();
-		useAppStore.setState({ monsterlingsOwned: {} });
+		useAppStore.setState({
+			monsterlingsOwned: {},
+			monsterlingLinkChainLevels: {},
+		});
 	});
 
 	it("hides link-chain controls for ineligible monsterlings", () => {
@@ -27,13 +31,12 @@ describe("MonsterlingForm", () => {
 		expect(screen.queryByAltText("Link Chain Level 1")).toBeNull();
 	});
 
-	it("selects a link-chain level for eligible monsterlings", () => {
+	it("selects a link-chain level for eligible monsterlings", async () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
 				current: {
 					monsterling_id: 67,
 					tier_id: 5,
-					link_chain_level: 1,
 					traits: [],
 				},
 			},
@@ -58,6 +61,16 @@ describe("MonsterlingForm", () => {
 		expect(badge.getAttribute("src")).toBe(
 			"/images/MonsterLinkChain/link-4.png",
 		);
+
+		fireEvent.click(screen.getByRole("button", { name: "Add" }));
+		await waitFor(() =>
+			expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+				67: 4,
+			}),
+		);
+		expect(useAppStore.getState().monsterlingsOwned.current).not.toHaveProperty(
+			"link_chain_level",
+		);
 	});
 
 	it("updates link-chain controls when changing monsterlings", () => {
@@ -66,10 +79,10 @@ describe("MonsterlingForm", () => {
 				current: {
 					monsterling_id: 67,
 					tier_id: 5,
-					link_chain_level: 3,
 					traits: [],
 				},
 			},
+			monsterlingLinkChainLevels: { 67: 3 },
 		});
 		render(<MonsterlingForm id="current" onClose={vi.fn()} />);
 
@@ -90,16 +103,16 @@ describe("MonsterlingForm", () => {
 		expect(screen.getByAltText("Link Chain Level 3")).toBeTruthy();
 	});
 
-	it("uses level one when editing an invalid legacy value", () => {
+	it("uses level one when editing an invalid shared value", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
 				legacy: {
 					monsterling_id: 67,
 					tier_id: 5,
-					link_chain_level: 8,
 					traits: [],
-				} as never,
+				},
 			},
+			monsterlingLinkChainLevels: { 67: 8 } as never,
 		});
 
 		render(<MonsterlingForm id="legacy" onClose={vi.fn()} />);

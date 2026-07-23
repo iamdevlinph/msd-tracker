@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
-import { getLinkChainLevelOrOne } from "@/components/monsterlings/components/monsterling-link-chain-utils";
+import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 
@@ -16,34 +16,23 @@ type Backup = Pick<
 	| "monsterCodexFavorites"
 	| "charactersOwned"
 	| "monsterlingsOwned"
+	| "monsterlingLinkChainLevels"
 	| "loadouts"
 >;
 
 export function select(state: StoreState): Backup {
+	const consolidatedMonsterlingState = consolidateMonsterlingLinkChainLevels(
+		state.monsterlingsOwned,
+		state.monsterlingLinkChainLevels,
+	);
 	return {
 		backupUpdatedAt: state.backupUpdatedAt,
 		monsterCodexCompleted: state.monsterCodexCompleted,
 		monsterCodexFavorites: state.monsterCodexFavorites,
 		charactersOwned: state.charactersOwned,
-		monsterlingsOwned: setMissingOrInvalidLinkChainLevelsToOne(
-			state.monsterlingsOwned,
-		),
+		...consolidatedMonsterlingState,
 		loadouts: state.loadouts,
 	};
-}
-
-export function setMissingOrInvalidLinkChainLevelsToOne(
-	monsterlingsOwned: Backup["monsterlingsOwned"],
-): Backup["monsterlingsOwned"] {
-	return Object.fromEntries(
-		Object.entries(monsterlingsOwned).map(([id, monsterling]) => [
-			id,
-			{
-				...monsterling,
-				link_chain_level: getLinkChainLevelOrOne(monsterling.link_chain_level),
-			},
-		]),
-	) as Backup["monsterlingsOwned"];
 }
 
 async function findFile() {
@@ -91,13 +80,19 @@ export async function download(): Promise<Backup | null> {
 			`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
 		);
 
-		const backup = (await res.json()) as Omit<Backup, "monsterCodexFavorites"> &
-			Partial<Pick<Backup, "monsterCodexFavorites">>;
+		const backup = (await res.json()) as Omit<
+			Backup,
+			"monsterCodexFavorites" | "monsterlingLinkChainLevels"
+		> &
+			Partial<
+				Pick<Backup, "monsterCodexFavorites" | "monsterlingLinkChainLevels">
+			>;
 
 		return {
 			...backup,
-			monsterlingsOwned: setMissingOrInvalidLinkChainLevelsToOne(
+			...consolidateMonsterlingLinkChainLevels(
 				backup.monsterlingsOwned ?? {},
+				backup.monsterlingLinkChainLevels,
 			),
 			monsterCodexFavorites: backup.monsterCodexFavorites ?? [],
 		};
@@ -174,6 +169,8 @@ export async function initSync() {
 							loadouts: Object.keys(local.loadouts).length,
 							codexCompleted: local.monsterCodexCompleted.length,
 							codexFavorites: local.monsterCodexFavorites.length,
+							linkChainsUpgraded: Object.keys(local.monsterlingLinkChainLevels)
+								.length,
 						},
 					},
 					remote: {
@@ -185,6 +182,9 @@ export async function initSync() {
 							loadouts: Object.keys(remote.loadouts ?? {}).length,
 							codexCompleted: remote.monsterCodexCompleted.length,
 							codexFavorites: remote.monsterCodexFavorites.length,
+							linkChainsUpgraded: Object.keys(
+								remote.monsterlingLinkChainLevels ?? {},
+							).length,
 						},
 					},
 				},

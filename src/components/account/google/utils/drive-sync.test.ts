@@ -4,7 +4,6 @@ import {
 	download,
 	initSync,
 	select,
-	setMissingOrInvalidLinkChainLevelsToOne,
 } from "@/components/account/google/utils/drive-sync";
 import { useAppStore } from "@/stores/app-store";
 
@@ -17,41 +16,66 @@ vi.mock("@/components/account/google/utils/drive-client", () => ({
 describe("Drive Monsterling backups", () => {
 	afterEach(() => {
 		driveFetch.mockReset();
-		useAppStore.setState({ monsterlingsOwned: {}, syncConflict: null });
+		useAppStore.setState({
+			monsterlingsOwned: {},
+			monsterlingLinkChainLevels: {},
+			syncConflict: null,
+		});
 	});
 
-	it("keeps valid link-chain levels and sets missing or invalid values to one", () => {
+	it("selects canonical levels and strips legacy instance values", () => {
 		const monsterling = {
-			monsterling_id: 1,
+			monsterling_id: 67,
 			tier_id: 5 as const,
 			traits: [],
 		};
 		useAppStore.setState({
 			monsterlingsOwned: {
-				legacy: monsterling as never,
-				current: { ...monsterling, link_chain_level: 5 },
+				lower: { ...monsterling, link_chain_level: 3 } as never,
+				current: { ...monsterling, link_chain_level: 5 } as never,
+				ineligible: {
+					...monsterling,
+					monsterling_id: 1,
+					link_chain_level: 5,
+				} as never,
 			},
+			monsterlingLinkChainLevels: { 67: 4, 68: 2 },
 		});
 
-		const selected = select(useAppStore.getState()).monsterlingsOwned;
-		expect(selected.legacy.link_chain_level).toBe(1);
-		expect(selected.current.link_chain_level).toBe(5);
-		expect(
-			setMissingOrInvalidLinkChainLevelsToOne({
-				invalid: { ...monsterling, link_chain_level: 8 } as never,
-			}).invalid.link_chain_level,
-		).toBe(1);
+		const selected = select(useAppStore.getState());
+		expect(selected.monsterlingLinkChainLevels).toEqual({ 67: 5, 68: 2 });
+		expect(selected.monsterlingsOwned.lower).not.toHaveProperty(
+			"link_chain_level",
+		);
+		expect(selected.monsterlingsOwned.current).not.toHaveProperty(
+			"link_chain_level",
+		);
+		expect(selected.monsterlingLinkChainLevels).not.toHaveProperty("1");
+		expect(selected).not.toHaveProperty("syncInProgress");
 	});
 
-	it("adds level one when downloading a legacy backup", async () => {
+	it("migrates existing levels when downloading a legacy backup", async () => {
 		const legacyBackup = {
 			backupUpdatedAt: 1,
 			monsterCodexCompleted: [],
 			charactersOwned: {},
 			monsterlingsOwned: {
-				legacy: {
-					monsterling_id: 1,
+				lower: {
+					monsterling_id: 67,
 					tier_id: 5,
+					link_chain_level: 3,
+					traits: [],
+				},
+				higher: {
+					monsterling_id: 67,
+					tier_id: 4,
+					link_chain_level: 5,
+					traits: [],
+				},
+				invalid: {
+					monsterling_id: 68,
+					tier_id: 5,
+					link_chain_level: 8,
 					traits: [],
 				},
 			},
@@ -68,6 +92,12 @@ describe("Drive Monsterling backups", () => {
 
 		const downloaded = await download();
 
-		expect(downloaded?.monsterlingsOwned.legacy.link_chain_level).toBe(1);
+		expect(downloaded?.monsterlingLinkChainLevels).toEqual({ 67: 5 });
+		expect(downloaded?.monsterlingsOwned.lower).not.toHaveProperty(
+			"link_chain_level",
+		);
+		expect(downloaded?.monsterlingsOwned.higher).not.toHaveProperty(
+			"link_chain_level",
+		);
 	});
 });

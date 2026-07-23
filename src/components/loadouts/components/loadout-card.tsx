@@ -32,6 +32,9 @@ export const LoadoutCard = ({
 }: LoadoutCardProps) => {
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const monsterlingLinkChainLevels = useAppStore(
+		(state) => state.monsterlingLinkChainLevels,
+	);
 
 	return (
 		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary/40 hover:shadow-md focus-within:border-primary/40 focus-within:shadow-md">
@@ -68,6 +71,7 @@ export const LoadoutCard = ({
 						slot={loadout.characters[index]}
 						charactersOwned={charactersOwned}
 						monsterlingsOwned={monsterlingsOwned}
+						monsterlingLinkChainLevels={monsterlingLinkChainLevels}
 					/>
 				))}
 			</CardContent>

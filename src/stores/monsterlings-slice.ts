@@ -1,13 +1,24 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
+import {
+	getLinkChainLevelOrOne,
+	type LinkChainLevel,
+	type MonsterlingLinkChainLevels,
+} from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { CharId } from "@/data/CHARACTERS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import type { StoreState } from "@/stores/app-store";
 
 export type MonsterlingsSlice = {
 	monsterlingsOwned: Record<string, MonsterlingOwned & { usedBy?: CharId[] }>;
+	monsterlingLinkChainLevels: MonsterlingLinkChainLevels;
 
-	setMonsterlingOwned: (monsterling: MonsterlingOwned, id?: string) => void;
+	setMonsterlingOwned: (
+		monsterling: MonsterlingOwned,
+		id: string | undefined,
+		linkChainLevel: LinkChainLevel,
+	) => void;
 	deleteMonsterlingOwned: (id: string) => void;
 
 	resetMonsterlingSlice: () => void;
@@ -21,17 +32,25 @@ export const createMonsterlingsSlice: StateCreator<
 > = (set) => {
 	return {
 		monsterlingsOwned: {},
+		monsterlingLinkChainLevels: {},
 
-		setMonsterlingOwned: (monsterling, id) =>
+		setMonsterlingOwned: (monsterling, id, linkChainLevel) =>
 			set((state) => {
 				const monsterlingOwnedId = id ?? nanoid();
+				const info = MONSTERLINGS_DATA[monsterling.monsterling_id];
+				const nextLevel = getLinkChainLevelOrOne(linkChainLevel);
+				const levels = { ...state.monsterlingLinkChainLevels };
+				if (info?.linkChain && nextLevel > 1) {
+					levels[monsterling.monsterling_id] = nextLevel;
+				} else {
+					delete levels[monsterling.monsterling_id];
+				}
 				return {
 					monsterlingsOwned: {
 						...state.monsterlingsOwned,
-						[monsterlingOwnedId]: {
-							...monsterling,
-						},
+						[monsterlingOwnedId]: monsterling,
 					},
+					monsterlingLinkChainLevels: levels,
 					backupUpdatedAt: Date.now(),
 				};
 			}),
@@ -48,6 +67,7 @@ export const createMonsterlingsSlice: StateCreator<
 		resetMonsterlingSlice: () =>
 			set({
 				monsterlingsOwned: {},
+				monsterlingLinkChainLevels: {},
 				backupUpdatedAt: Date.now(),
 			}),
 	};

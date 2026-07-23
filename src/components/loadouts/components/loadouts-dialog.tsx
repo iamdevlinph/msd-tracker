@@ -14,6 +14,7 @@ import {
 	LoadoutMonsterlingPicker,
 } from "@/components/loadouts/components/loadout-monsterling-picker";
 import { nextLoadoutName } from "@/components/loadouts/components/loadout-utils";
+import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import {
 	emptyMonsterlingFilters,
 	type MonsterlingFilters,
@@ -76,6 +77,9 @@ export const LoadoutsDialog = ({
 	const loadouts = useAppStore((state) => state.loadouts);
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const monsterlingLinkChainLevels = useAppStore(
+		(state) => state.monsterlingLinkChainLevels,
+	);
 	const setLoadout = useAppStore((state) => state.setLoadout);
 	const [draft, setDraft] = useState<Omit<LoadoutOwned, "id">>(blankLoadout);
 	const [pickerTarget, setPickerTarget] = useState<PickerTarget>(null);
@@ -137,7 +141,19 @@ export const LoadoutsDialog = ({
 	)
 		.flatMap(([id, owned]) => {
 			const info = MONSTERLINGS_DATA[owned.monsterling_id];
-			return info ? [{ id, ...owned, info }] : [];
+			return info
+				? [
+						{
+							id,
+							...owned,
+							info,
+							linkChainLevel: getMonsterlingLinkChainLevel(
+								owned.monsterling_id,
+								monsterlingLinkChainLevels,
+							),
+						},
+					]
+				: [];
 		})
 		.filter(({ info, tier_id }) => {
 			const legendary = info.region_id === REGION_ID_BY_REGION.LEGENDARY;

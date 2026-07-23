@@ -1,6 +1,7 @@
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MonsterlingFilter } from "@/components/monsterlings/components/monsterling-filter";
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
+import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
 import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ import { cn } from "@/lib/utils";
 export type LoadoutMonsterlingOption = MonsterlingOwned & {
 	id: string;
 	info: MonsterCodexEntry;
+	linkChainLevel: LinkChainLevel;
 };
 
 type LoadoutMonsterlingPickerProps = {
@@ -60,7 +62,7 @@ export const LoadoutMonsterlingPicker = ({
 						<MonsterlingCard
 							monsterling_id={monsterling.monsterling_id}
 							tier_id={monsterling.tier_id}
-							link_chain_level={monsterling.link_chain_level}
+							linkChainLevel={monsterling.linkChainLevel}
 							traits={monsterling.traits}
 						/>
 					</button>

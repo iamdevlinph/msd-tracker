@@ -1,6 +1,7 @@
 import CharacterCard from "@/components/characters/components/character-card";
 import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
+import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
@@ -21,6 +22,7 @@ type LoadoutPreviewRowProps = {
 	slot: LoadoutCharacterSlot;
 	characterOwned?: StoreState["charactersOwned"][number];
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
+	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
 	compactMonsterlings: boolean;
 };
 
@@ -28,6 +30,7 @@ export const LoadoutPreviewRow = ({
 	slot,
 	characterOwned,
 	monsterlingsOwned,
+	monsterlingLinkChainLevels,
 	compactMonsterlings,
 }: LoadoutPreviewRowProps) => {
 	const character =
@@ -104,6 +107,7 @@ export const LoadoutPreviewRow = ({
 					key={index}
 					id={slot.monsterlingIds[index]}
 					owned={monsterlingsOwned}
+					levels={monsterlingLinkChainLevels}
 					label={`Monsterling ${index + 1} unavailable`}
 					compactStats={compactMonsterlings}
 				/>
@@ -112,6 +116,7 @@ export const LoadoutPreviewRow = ({
 				<PreviewMonsterlingSlot
 					id={slot.legendaryMonsterlingId ?? null}
 					owned={monsterlingsOwned}
+					levels={monsterlingLinkChainLevels}
 					label="Legendary unavailable"
 					compactStats={compactMonsterlings}
 				/>
@@ -123,6 +128,7 @@ export const LoadoutPreviewRow = ({
 type PreviewMonsterlingSlotProps = {
 	id: string | null;
 	owned: StoreState["monsterlingsOwned"];
+	levels: StoreState["monsterlingLinkChainLevels"];
 	label: string;
 	compactStats: boolean;
 };
@@ -130,12 +136,20 @@ type PreviewMonsterlingSlotProps = {
 const PreviewMonsterlingSlot = ({
 	id,
 	owned,
+	levels,
 	label,
 	compactStats,
 }: PreviewMonsterlingSlotProps) => {
 	const monsterling = id ? owned[id] : null;
 	return monsterling && MONSTERLINGS_DATA[monsterling.monsterling_id] ? (
-		<MonsterlingCard {...monsterling} compactStats={compactStats} />
+		<MonsterlingCard
+			{...monsterling}
+			linkChainLevel={getMonsterlingLinkChainLevel(
+				monsterling.monsterling_id,
+				levels,
+			)}
+			compactStats={compactStats}
+		/>
 	) : (
 		<PreviewPlaceholder label={label} />
 	);

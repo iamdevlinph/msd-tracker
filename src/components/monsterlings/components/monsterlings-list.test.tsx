@@ -18,7 +18,10 @@ const third = MONSTERLINGS_DATA[2];
 describe("MonsterlingsList", () => {
 	afterEach(cleanup);
 	beforeEach(() => {
-		useAppStore.setState({ monsterlingsOwned: {} });
+		useAppStore.setState({
+			monsterlingsOwned: {},
+			monsterlingLinkChainLevels: {},
+		});
 		useMonsterlingFilter.setState({ filters: emptyMonsterlingFilters() });
 	});
 
@@ -38,7 +41,6 @@ describe("MonsterlingsList", () => {
 				owned: {
 					monsterling_id: first.id,
 					tier_id: 5,
-					link_chain_level: 1,
 					traits: [],
 				},
 			},
@@ -55,27 +57,32 @@ describe("MonsterlingsList", () => {
 				current: {
 					monsterling_id: first.id,
 					tier_id: 5,
-					link_chain_level: 5,
 					traits: [],
 				},
-				legacy: {
+				duplicate: {
+					monsterling_id: first.id,
+					tier_id: 4,
+					traits: [],
+				},
+				ineligible: {
 					monsterling_id: second.id,
 					tier_id: 5,
 					traits: [],
-				} as never,
+				},
 			},
+			monsterlingLinkChainLevels: { [first.id]: 5 },
 		});
 		render(<MonsterlingsList filters={emptyMonsterlingFilters()} />);
 
-		expect(
-			(
-				screen.getByAltText("Link Chain Level 5") as HTMLImageElement
-			).getAttribute("src"),
-		).toBe("/images/MonsterLinkChain/link-5.png");
+		const badges = screen.getAllByAltText("Link Chain Level 5");
+		expect(badges).toHaveLength(2);
+		expect((badges[0] as HTMLImageElement).getAttribute("src")).toBe(
+			"/images/MonsterLinkChain/link-5.png",
+		);
 		expect(screen.queryByAltText("Link Chain Level 1")).toBeNull();
 
 		fireEvent.click(
-			screen.getByText(first.name).closest("button") as HTMLElement,
+			screen.getAllByText(first.name)[0].closest("button") as HTMLElement,
 		);
 
 		expect(screen.getByRole("dialog")).toBeTruthy();
@@ -88,19 +95,16 @@ describe("MonsterlingsList", () => {
 				first: {
 					monsterling_id: first.id,
 					tier_id: 1,
-					link_chain_level: 1,
 					traits: [],
 				},
 				second: {
 					monsterling_id: second.id,
 					tier_id: 4,
-					link_chain_level: 1,
 					traits: [],
 				},
 				third: {
 					monsterling_id: third.id,
 					tier_id: 5,
-					link_chain_level: 1,
 					traits: [],
 				},
 			},
@@ -149,13 +153,11 @@ describe("MonsterlingsList", () => {
 				first: {
 					monsterling_id: first.id,
 					tier_id: 1,
-					link_chain_level: 1,
 					traits: [],
 				},
 				second: {
 					monsterling_id: second.id,
 					tier_id: 4,
-					link_chain_level: 1,
 					traits: [],
 				},
 			},

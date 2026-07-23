@@ -22,6 +22,9 @@ export const LoadoutPreviewSurface = ({
 }: LoadoutPreviewSurfaceProps) => {
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const monsterlingLinkChainLevels = useAppStore(
+		(state) => state.monsterlingLinkChainLevels,
+	);
 
 	return (
 		<div
@@ -54,6 +57,7 @@ export const LoadoutPreviewSurface = ({
 							: charactersOwned[loadout.characters[index].characterId]
 					}
 					monsterlingsOwned={monsterlingsOwned}
+					monsterlingLinkChainLevels={monsterlingLinkChainLevels}
 					compactMonsterlings={compactMonsterlings}
 				/>
 			))}

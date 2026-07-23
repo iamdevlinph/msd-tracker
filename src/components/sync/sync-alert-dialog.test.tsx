@@ -35,6 +35,7 @@ const copy = {
 		loadouts: 1,
 		codexCompleted: 1,
 		codexFavorites: 1,
+		linkChainsUpgraded: 1,
 	},
 };
 
@@ -42,6 +43,8 @@ beforeEach(() => {
 	event.mockClear();
 	upload.mockReset();
 	download.mockReset();
+	select.mockReset();
+	select.mockReturnValue({ monsterlingLinkChainLevels: { 67: 4 } });
 	useAppStore.setState({
 		syncConflict: { local: copy, remote: copy },
 		syncInProgress: false,
@@ -64,7 +67,7 @@ describe("SyncConflictDialog tables", () => {
 			expect(table.className).toContain("min-w-[32rem]");
 			expect(table.parentElement?.className).toContain("overflow-x-auto");
 			expect(table.querySelectorAll(":scope > thead > tr > th")).toHaveLength(
-				5,
+				6,
 			);
 			expect(table.querySelectorAll(":scope > thead > th")).toHaveLength(0);
 			for (const header of table.querySelectorAll("th")) {
@@ -106,6 +109,24 @@ describe("SyncConflictDialog tables", () => {
 				"sync_conflict_keep_local_attempt",
 				"sync_conflict_keep_local_success",
 			]),
+		);
+		expect(upload).toHaveBeenCalledWith({
+			monsterlingLinkChainLevels: { 67: 4 },
+		});
+	});
+
+	it("restores shared Link Chain levels from the remote copy", async () => {
+		download.mockResolvedValue({
+			monsterlingLinkChainLevels: { 67: 5 },
+		});
+		render(<SyncConflictDialog />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Keep Remote" }));
+
+		await waitFor(() =>
+			expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+				67: 5,
+			}),
 		);
 	});
 

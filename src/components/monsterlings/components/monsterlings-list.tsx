@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EditMonsterlingDialog } from "@/components/monsterlings/components/edit-monsterling-dialog";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
+import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
@@ -16,6 +17,9 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 	);
 
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
+	const monsterlingLinkChainLevels = useAppStore(
+		(s) => s.monsterlingLinkChainLevels,
+	);
 	const sortedMonsterlings = Object.entries(monsterlingsOwned)
 		.filter(([, monsterling]) => {
 			const { name } = MONSTERLINGS_DATA[monsterling.monsterling_id];
@@ -69,7 +73,10 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 							<MonsterlingCard
 								monsterling_id={monsterling.monsterling_id}
 								tier_id={monsterling.tier_id}
-								link_chain_level={monsterling.link_chain_level}
+								linkChainLevel={getMonsterlingLinkChainLevel(
+									monsterling.monsterling_id,
+									monsterlingLinkChainLevels,
+								)}
 								traits={monsterling.traits}
 							/>
 						</button>

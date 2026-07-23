@@ -96,9 +96,8 @@ describe("LoadoutPreviewDialog", () => {
 			},
 			monsterlingsOwned: {
 				regular: {
-					monsterling_id: 1,
+					monsterling_id: 67,
 					tier_id: 5,
-					link_chain_level: 1,
 					traits: [
 						{ stat_id: STAT_ID_BY_STAT.ATK, tier_id: 5 },
 						{ stat_id: STAT_ID_BY_STAT.DEF, tier_id: 4 },
@@ -109,10 +108,10 @@ describe("LoadoutPreviewDialog", () => {
 				legendary: {
 					monsterling_id: 100_001,
 					tier_id: 5,
-					link_chain_level: 1,
 					traits: [],
 				},
 			},
+			monsterlingLinkChainLevels: { 67: 5 },
 		});
 	});
 
@@ -146,6 +145,7 @@ describe("LoadoutPreviewDialog", () => {
 			).dataset.state,
 		).toBe("checked");
 		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
+		expect(screen.getByAltText("Link Chain Level 5")).toBeTruthy();
 		expect(screen.queryByText("ATK")).toBeNull();
 		expect(
 			screen

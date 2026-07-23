@@ -11,7 +11,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 ## Monsterlings: Available
 
 - [x] Search owned monsterlings by name and filter them across Tier 1 through Tier 5.
-- [x] Track Levels 1 through 5 only for Link Chain-capable Monsterlings in forms, portraits, loadouts, and Drive backups, with verified names, triggers, and effects.
+- [x] Track one shared Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups, with verified names, triggers, and effects.
 
 ## Loadouts: Available
 

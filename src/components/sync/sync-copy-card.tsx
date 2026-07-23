@@ -41,6 +41,7 @@ export const SyncCopyCard = ({ title, copy, isNewer }: SyncCopyCardProps) => (
 						<br />
 						Favorites
 					</TableHead>
+					<TableHead scope="col">Upgraded Link Chains</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -50,6 +51,7 @@ export const SyncCopyCard = ({ title, copy, isNewer }: SyncCopyCardProps) => (
 					<TableCell>{copy.metadata.loadouts}</TableCell>
 					<TableCell>{copy.metadata.codexCompleted}</TableCell>
 					<TableCell>{copy.metadata.codexFavorites}</TableCell>
+					<TableCell>{copy.metadata.linkChainsUpgraded ?? 0}</TableCell>
 				</TableRow>
 			</TableBody>
 		</Table>
