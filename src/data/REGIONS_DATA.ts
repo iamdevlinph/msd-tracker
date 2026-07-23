@@ -80,11 +80,11 @@ export const REGIONS_DATA: MonsterCodexRegionData = {
 	7: {
 		id: REGION_ID_BY_REGION.LEGENDARY,
 		region: "legendary monsters",
-		image: "/images/Maps/map-icon-all.png",
+		image: "/images/Maps/map-icon-legendary.png",
 	},
 	8: {
 		id: REGION_ID_BY_REGION.EVENTS,
 		region: "events",
-		image: "/images/Maps/map-icon-all.png",
+		image: "/images/Maps/map-icon-event.png",
 	},
 };
