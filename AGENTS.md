@@ -13,11 +13,13 @@ This is a TanStack Start React/TypeScript app. Keep `src/routes` thin and logic 
 - `pnpm format:check` checks formatting without rewriting files.
 - `pnpm check` runs the combined Biome checks.
 
-Use the documented `pnpm` scripts and run the smallest meaningful targeted check first, then broader checks for route, schema, server, or shared-state changes. Report commands and results. Do not change dependencies, global tools, or the environment without approval, and do not inspect, generate, migrate, or query databases unless the task requires it. Merges to `main` deploy automatically; do not deploy manually.
+Use the documented `pnpm` scripts and run the smallest meaningful targeted check first, then broader checks for route, schema, server, or shared-state changes. Report commands and results. Do not change dependencies, global tools, or the environment without approval. When dependency changes are approved, pin exact versions with `pnpm add -E` (`--save-exact`). Do not inspect, generate, migrate, or query databases unless the task requires it. Merges to `main` deploy automatically; do not deploy manually.
 
 ## Coding Style & Naming Conventions
 
 Biome is authoritative: use tabs, double quotes, and organized imports. Follow nearby kebab-case filenames, PascalCase components, and `export const ComponentName = ...`. Name prop types after components, such as `CharacterFilterProps`, not `Props`. Reuse existing constants, schemas, enums, shared types, domain values, Tailwind, `cn(...)`, and UI; add reusable values at their current source of truth. Forms use React Hook Form, Zod, and `Controller`. Validate form and server inputs explicitly, and refresh or invalidate relevant cached data after successful mutations.
+
+Use intent-revealing domain names. A reader should understand what a variable contains or what a helper guarantees at the call site without opening its implementation. Avoid vague transformation names such as `normalized`, `processed`, `result`, or `data` when a value- or behavior-specific name is available.
 
 ## Agent Workflow
 

@@ -38,6 +38,7 @@ export const EditMonsterlingDialog = (props: EditMonsterlingDialogProps) => {
 			{open && <DialogBackdrop />}
 			<Dialog modal={false} open={open} onOpenChange={setOpen}>
 				<DialogContent
+					showCloseButton={false}
 					className={cn(
 						"overflow-y-auto max-h-screen",
 						"max-w-sm sm:min-w-min lg:min-w-218",

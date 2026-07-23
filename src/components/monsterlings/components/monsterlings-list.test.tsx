@@ -33,7 +33,12 @@ describe("MonsterlingsList", () => {
 	it("renders owned monsterlings instead of the empty state", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
-				owned: { monsterling_id: first.id, tier_id: 5, traits: [] },
+				owned: {
+					monsterling_id: first.id,
+					tier_id: 5,
+					link_chain_level: 1,
+					traits: [],
+				},
 			},
 		});
 		render(<MonsterlingsList filters={emptyMonsterlingFilters()} />);
@@ -42,12 +47,60 @@ describe("MonsterlingsList", () => {
 		expect(screen.queryByText("No monsterlings yet")).toBeNull();
 	});
 
+	it("shows link-chain badges and hides the overlapping edit close button", () => {
+		useAppStore.setState({
+			monsterlingsOwned: {
+				current: {
+					monsterling_id: first.id,
+					tier_id: 5,
+					link_chain_level: 5,
+					traits: [],
+				},
+				legacy: {
+					monsterling_id: second.id,
+					tier_id: 5,
+					traits: [],
+				} as never,
+			},
+		});
+		render(<MonsterlingsList filters={emptyMonsterlingFilters()} />);
+
+		expect(
+			(
+				screen.getByAltText("Link Chain Level 5") as HTMLImageElement
+			).getAttribute("src"),
+		).toBe("/images/MonsterLinkChain/link-5.png");
+		expect(screen.getByAltText("Link Chain Level 1")).toBeTruthy();
+
+		fireEvent.click(
+			screen.getByText(first.name).closest("button") as HTMLElement,
+		);
+
+		expect(screen.getByRole("dialog")).toBeTruthy();
+		expect(screen.queryByRole("button", { name: "Close" })).toBeNull();
+	});
+
 	it("toggles multiple tiers and clears the filters", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
-				first: { monsterling_id: first.id, tier_id: 1, traits: [] },
-				second: { monsterling_id: second.id, tier_id: 4, traits: [] },
-				third: { monsterling_id: third.id, tier_id: 5, traits: [] },
+				first: {
+					monsterling_id: first.id,
+					tier_id: 1,
+					link_chain_level: 1,
+					traits: [],
+				},
+				second: {
+					monsterling_id: second.id,
+					tier_id: 4,
+					link_chain_level: 1,
+					traits: [],
+				},
+				third: {
+					monsterling_id: third.id,
+					tier_id: 5,
+					link_chain_level: 1,
+					traits: [],
+				},
 			},
 		});
 		render(<MonsterlingsPage />);
@@ -91,8 +144,18 @@ describe("MonsterlingsList", () => {
 	it("combines case-insensitive search with tiers and shows filtered empty copy", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
-				first: { monsterling_id: first.id, tier_id: 1, traits: [] },
-				second: { monsterling_id: second.id, tier_id: 4, traits: [] },
+				first: {
+					monsterling_id: first.id,
+					tier_id: 1,
+					link_chain_level: 1,
+					traits: [],
+				},
+				second: {
+					monsterling_id: second.id,
+					tier_id: 4,
+					link_chain_level: 1,
+					traits: [],
+				},
 			},
 		});
 		render(<MonsterlingsPage />);

@@ -98,6 +98,7 @@ describe("LoadoutPreviewDialog", () => {
 				regular: {
 					monsterling_id: 1,
 					tier_id: 5,
+					link_chain_level: 1,
 					traits: [
 						{ stat_id: STAT_ID_BY_STAT.ATK, tier_id: 5 },
 						{ stat_id: STAT_ID_BY_STAT.DEF, tier_id: 4 },
@@ -105,7 +106,12 @@ describe("LoadoutPreviewDialog", () => {
 						{ stat_id: STAT_ID_BY_STAT.CRIT_RATE, tier_id: 2 },
 					],
 				},
-				legendary: { monsterling_id: 100_001, tier_id: 5, traits: [] },
+				legendary: {
+					monsterling_id: 100_001,
+					tier_id: 5,
+					link_chain_level: 1,
+					traits: [],
+				},
 			},
 		});
 	});

@@ -74,9 +74,14 @@ const teamLoadout: LoadoutOwned = {
 const setMonsterlingSwapFixture = () =>
 	useAppStore.setState({
 		monsterlingsOwned: {
-			first: { monsterling_id: 1, tier_id: 5, traits: [] },
-			second: { monsterling_id: 2, tier_id: 5, traits: [] },
-			other: { monsterling_id: 3, tier_id: 5, traits: [] },
+			first: { monsterling_id: 1, tier_id: 5, link_chain_level: 1, traits: [] },
+			second: {
+				monsterling_id: 2,
+				tier_id: 5,
+				link_chain_level: 1,
+				traits: [],
+			},
+			other: { monsterling_id: 3, tier_id: 5, link_chain_level: 1, traits: [] },
 		},
 		loadouts: {
 			team: {
@@ -245,7 +250,12 @@ describe("LoadoutsDialog character picker", () => {
 	it("prefills and selects an assigned monsterling name", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
-				regular: { monsterling_id: 1, tier_id: 5, traits: [] },
+				regular: {
+					monsterling_id: 1,
+					tier_id: 5,
+					link_chain_level: 1,
+					traits: [],
+				},
 			},
 			loadouts: {
 				team: {
@@ -326,9 +336,24 @@ describe("LoadoutsDialog character picker", () => {
 		const [first, second, third] = Object.values(MONSTERLINGS_DATA);
 		useAppStore.setState({
 			monsterlingsOwned: {
-				first: { monsterling_id: first.id, tier_id: 1, traits: [] },
-				second: { monsterling_id: second.id, tier_id: 4, traits: [] },
-				third: { monsterling_id: third.id, tier_id: 5, traits: [] },
+				first: {
+					monsterling_id: first.id,
+					tier_id: 1,
+					link_chain_level: 1,
+					traits: [],
+				},
+				second: {
+					monsterling_id: second.id,
+					tier_id: 4,
+					link_chain_level: 1,
+					traits: [],
+				},
+				third: {
+					monsterling_id: third.id,
+					tier_id: 5,
+					link_chain_level: 1,
+					traits: [],
+				},
 			},
 		});
 		useMonsterlingFilter.setState({

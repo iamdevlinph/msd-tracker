@@ -69,6 +69,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 							<MonsterlingCard
 								monsterling_id={monsterling.monsterling_id}
 								tier_id={monsterling.tier_id}
+								link_chain_level={monsterling.link_chain_level}
 								traits={monsterling.traits}
 							/>
 						</button>

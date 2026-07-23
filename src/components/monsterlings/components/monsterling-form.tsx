@@ -5,6 +5,10 @@ import { z } from "zod";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MonsterlingComboboxInput } from "@/components/monsterlings/components/monsterling-combobox-input";
+import {
+	getLinkChainLevelOrOne,
+	LINK_CHAIN_LEVELS,
+} from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { MonsterlingTraitsFields } from "@/components/monsterlings/components/monsterling-traits-fields";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
@@ -30,6 +34,7 @@ const StatIdSchema = createZodEnumFromObject(STAT_ID_BY_STAT);
 const monsterlingFormSchema = z.object({
 	monsterling_id: z.number(),
 	tier_id: TierIdSchema,
+	link_chain_level: z.number().int().min(1).max(5),
 	traits: z
 		.array(
 			z.object({
@@ -93,6 +98,9 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 			monsterling_id:
 				monsterlingInfo?.monsterling_id ?? MONSTERLINGS_DATA[1].id,
 			tier_id: monsterlingInfo?.tier_id ?? TIER_ID_BY_TIER.PRIME_5,
+			link_chain_level: getLinkChainLevelOrOne(
+				monsterlingInfo?.link_chain_level,
+			),
 			traits: monsterlingInfo?.traits ?? [
 				{
 					...STARTING_TRAIT,
@@ -135,6 +143,11 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 		name: "tier_id",
 	});
 
+	const linkChainLevelValue = useWatch({
+		control: form.control,
+		name: "link_chain_level",
+	});
+
 	const traitsValue = useWatch({
 		control: form.control,
 		name: "traits",
@@ -162,6 +175,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 							<MonsterlingCard
 								monsterling_id={monsterlingValue}
 								tier_id={tierValue}
+								link_chain_level={linkChainLevelValue}
 								traits={traitsValue}
 								className="w-full monsterling-card-form"
 							/>
@@ -184,6 +198,16 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 								label="Tier"
 								control={form.control}
 								options={[1, 2, 3, 4, 5]}
+								buttonGroupClass="flex justify-center"
+							/>
+						</FieldGroup>
+
+						<FieldGroup className="flex flex-col sm:flex-row gap-2 sm:gap-7 justify-between">
+							<TierSelectorInput<MonsterlingOwned>
+								name="link_chain_level"
+								label="Link Chain Level"
+								control={form.control}
+								options={[...LINK_CHAIN_LEVELS]}
 								buttonGroupClass="flex justify-center"
 							/>
 						</FieldGroup>

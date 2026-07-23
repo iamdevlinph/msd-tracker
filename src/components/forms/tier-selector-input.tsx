@@ -53,7 +53,10 @@ export const TierSelectorInput = <T extends FieldValues>({
 						{!!label && <FieldLabel>{label}</FieldLabel>}
 
 						{variant === "buttons" && (
-							<ButtonGroup className={cn("", buttonGroupClass)}>
+							<ButtonGroup
+								aria-label={label || name}
+								className={cn("", buttonGroupClass)}
+							>
 								{options.map((tier) => {
 									return (
 										<Button

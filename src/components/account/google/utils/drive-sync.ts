@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
+import { getLinkChainLevelOrOne } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 
@@ -24,9 +25,25 @@ export function select(state: StoreState): Backup {
 		monsterCodexCompleted: state.monsterCodexCompleted,
 		monsterCodexFavorites: state.monsterCodexFavorites,
 		charactersOwned: state.charactersOwned,
-		monsterlingsOwned: state.monsterlingsOwned,
+		monsterlingsOwned: setMissingOrInvalidLinkChainLevelsToOne(
+			state.monsterlingsOwned,
+		),
 		loadouts: state.loadouts,
 	};
+}
+
+export function setMissingOrInvalidLinkChainLevelsToOne(
+	monsterlingsOwned: Backup["monsterlingsOwned"],
+): Backup["monsterlingsOwned"] {
+	return Object.fromEntries(
+		Object.entries(monsterlingsOwned).map(([id, monsterling]) => [
+			id,
+			{
+				...monsterling,
+				link_chain_level: getLinkChainLevelOrOne(monsterling.link_chain_level),
+			},
+		]),
+	) as Backup["monsterlingsOwned"];
 }
 
 async function findFile() {
@@ -79,6 +96,9 @@ export async function download(): Promise<Backup | null> {
 
 		return {
 			...backup,
+			monsterlingsOwned: setMissingOrInvalidLinkChainLevelsToOne(
+				backup.monsterlingsOwned ?? {},
+			),
 			monsterCodexFavorites: backup.monsterCodexFavorites ?? [],
 		};
 	} catch (e) {

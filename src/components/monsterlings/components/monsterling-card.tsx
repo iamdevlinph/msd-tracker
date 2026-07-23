@@ -1,5 +1,6 @@
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
+import { MonsterlingLinkChainBadge } from "@/components/monsterlings/components/monsterling-link-chain";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { STAT_DATA } from "@/data/STAT_DATA";
@@ -14,6 +15,7 @@ export type MonsterlingCardProps = MonsterlingOwned & {
 export const MonsterlingCard = ({
 	monsterling_id,
 	tier_id,
+	link_chain_level,
 	traits,
 	className = "",
 	compactStats = false,
@@ -39,6 +41,7 @@ export const MonsterlingCard = ({
 			}}
 		>
 			<div className="relative w-max" style={{ gridArea: "portrait" }}>
+				<MonsterlingLinkChainBadge level={link_chain_level} />
 				<small className="absolute bottom-2 z-10 w-full text-center text-[10px] text-shadow-sm/80 stroke-black">
 					{name}
 				</small>
