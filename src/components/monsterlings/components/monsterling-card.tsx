@@ -20,7 +20,7 @@ export const MonsterlingCard = ({
 	className = "",
 	compactStats = false,
 }: MonsterlingCardProps) => {
-	const { name, image, id: _id } = MONSTERLINGS_DATA[monsterling_id];
+	const { name, image, linkChain } = MONSTERLINGS_DATA[monsterling_id];
 	const width = compactStats ? 162 : MONSTERLING_CARD_WIDTH;
 
 	return (
@@ -41,7 +41,9 @@ export const MonsterlingCard = ({
 			}}
 		>
 			<div className="relative w-max" style={{ gridArea: "portrait" }}>
-				<MonsterlingLinkChainBadge level={link_chain_level} />
+				{linkChain?.name && (
+					<MonsterlingLinkChainBadge level={link_chain_level} />
+				)}
 				<small className="absolute bottom-2 z-10 w-full text-center text-[10px] text-shadow-sm/80 stroke-black">
 					{name}
 				</small>

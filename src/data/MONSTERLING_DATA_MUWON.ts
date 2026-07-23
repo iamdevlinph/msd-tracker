@@ -66,6 +66,12 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	150: {
 		id: 150,
 		name: "Phantom Snow Tiger",
+		linkChain: {
+			name: "Cold Mane",
+			trigger: ["Using a Switch Skill"],
+			effect: "Breathes frost at the enemy, dealing Ice DMG.",
+			bonusEffects: ["Freeze (2s)", "3% Ice RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeast.png",
 		image: "/images/Monsterling_Icons/MonsterlingSnowyBeast.png",
@@ -77,6 +83,12 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	151: {
 		id: 151,
 		name: "Phantom Stone Tiger",
+		linkChain: {
+			name: "Mystic Stone Horn",
+			trigger: ["Using a Switch Skill"],
+			effect: "Drops onto the enemy with a powerful impact, dealing Earth DMG.",
+			bonusEffects: ["Petrify (3s)", "5% Earth RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
@@ -165,6 +177,12 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	159: {
 		id: 159,
 		name: "Toad-alee",
+		linkChain: {
+			name: "Ornate Shield",
+			trigger: ["Using Air Counter"],
+			effect:
+				"Drops in and repeatedly strikes with its shield, dealing Physical DMG and rendering enemies Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShield.png",
 		image: "/images/Monsterling_Icons/MonsterlingMeoguriShield.png",
@@ -176,6 +194,12 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	160: {
 		id: 160,
 		name: "Irontoise",
+		linkChain: {
+			name: "Turtle's Stone Hammer",
+			trigger: ["Landing an attack"],
+			effect:
+				"Charges and strikes repeatedly with its morning star, dealing Physical DMG and rendering enemies Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtle.png",
 		image: "/images/Monsterling_Icons/MonsterlingHermanTurtle.png",
@@ -188,6 +212,13 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	161: {
 		id: 161,
 		name: "Treetoise",
+		linkChain: {
+			name: "Tree Tortoiseshell",
+			trigger: ["Landing an attack"],
+			effect:
+				"Rapidly fires a crossbow, then attacks with its morning star, dealing Physical DMG.",
+			bonusEffects: ["Stun (3s)", "15% Neutralization RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
 		image: "/images/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
@@ -222,6 +253,16 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	164: {
 		id: 164,
 		name: "Red Shadow",
+		linkChain: {
+			name: "Red Gem",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Burrows underground and leaps at the enemy, dealing Ice DMG and rendering them Airborne.",
+			bonusEffects: [
+				"10% Ice RES Reduction (5s)",
+				"15% Neutralization RES Reduction (5s)",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMaster.png",
 		image: "/images/Monsterling_Icons/MonsterlingWetlandMaster.png",
@@ -233,6 +274,16 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	165: {
 		id: 165,
 		name: "Blue Shadow",
+		linkChain: {
+			name: "Purple Gem",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Attacks repeatedly with a whirlwind, then leaps from the water, dealing Ice DMG and rendering enemies Airborne.",
+			bonusEffects: [
+				"10% Ice RES Reduction (5s)",
+				"15% Elemental Weakness DMG Boost (5s)",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMasterBlue.png",
 		image: "/images/Monsterling_Icons/MonsterlingWetlandMasterBlue.png",

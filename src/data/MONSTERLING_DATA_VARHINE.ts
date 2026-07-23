@@ -7,6 +7,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	40: {
 		id: 40,
 		name: "Rock Fist Dude",
+		linkChain: {
+			name: "Frangible Pebble",
+			trigger: ["Using a Switch Skill"],
+			effect: "Unleashes energy toward the enemy, dealing Earth DMG.",
+			bonusEffects: ["5% Earth RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneguy.png",
 		image: "/images/Monsterling_Icons/MonsterlingStoneguy.png",
@@ -18,6 +24,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	41: {
 		id: 41,
 		name: "Golden Fist Dude",
+		linkChain: {
+			name: "Golden Heart",
+			trigger: ["Using a Switch Skill"],
+			effect: "Takes a defensive stance and grants nearby allies Super Armor.",
+			bonusEffects: ["Super Armor (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneGuyGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingStoneGuyGold.png",
@@ -129,6 +141,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	51: {
 		id: 51,
 		name: "Urgash",
+		linkChain: {
+			name: "Destroyer's Horn",
+			trigger: ["When Burst is triggered"],
+			effect:
+				"Leaps at the enemy and strikes several times, dealing Physical DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingTrollKing.png",
 		image: "/images/Monsterling_Icons/MonsterlingTrollKing.png",
@@ -162,6 +180,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	54: {
 		id: 54,
 		name: "Behemo-Wolf",
+		linkChain: {
+			name: "Giant Wolf's Fang",
+			trigger: ["Landing an attack"],
+			effect:
+				"Leaps toward the enemy and roars, dealing Physical DMG to nearby targets.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHuge.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolfHuge.png",
@@ -173,6 +197,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	55: {
 		id: 55,
 		name: "Scar",
+		linkChain: {
+			name: "Void's Crimson Bead",
+			trigger: ["Landing a critical hit"],
+			effect:
+				"Charges repeatedly, then attacks with Wolf's Soul, dealing Dark DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHugeScar.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolfHugeScar.png",
@@ -185,6 +215,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	56: {
 		id: 56,
 		name: "Frostbite",
+		linkChain: {
+			name: "Giant Wolf's Helm",
+			trigger: ["Landing a critical hit"],
+			effect:
+				"Opens a Void rift and strikes with a sword, dealing Dark DMG and rendering the enemy Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWolfHugeScarWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingWolfHugeScarWhite.png",
@@ -275,6 +311,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	64: {
 		id: 64,
 		name: "Vectus",
+		linkChain: {
+			name: "Void's Balance",
+			trigger: ["Landing a critical hit"],
+			effect:
+				"Detonates a thorny crown around the enemy, dealing Dark DMG and rendering them Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingBlackKnightagePriest.png",
 		image: "/images/Monsterling_Icons/MonsterlingBlackKnightagePriest.png",
@@ -286,6 +328,12 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	65: {
 		id: 65,
 		name: "Mountaintaur",
+		linkChain: {
+			name: "Bloodstained Bridle",
+			trigger: ["Using a Switch Skill"],
+			effect: "Breathes flames at the enemy, dealing Fire DMG.",
+			bonusEffects: ["5% Fire RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaMountain.png",
 		image: "/images/Monsterling_Icons/MonsterlingMinotaMountain.png",
@@ -297,6 +345,13 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	66: {
 		id: 66,
 		name: "Tealtaur",
+		linkChain: {
+			name: "Weathered Hoof",
+			trigger: ["Using a Switch Skill"],
+			effect:
+				"Strikes twice with an axe, dealing Fire DMG and rendering the enemy Airborne.",
+			bonusEffects: ["10% Fire RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaForestWind.png",
 		image: "/images/Monsterling_Icons/MonsterlingMinotaForestWind.png",
@@ -308,6 +363,13 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	67: {
 		id: 67,
 		name: "Amon",
+		linkChain: {
+			name: "Void's Seed",
+			trigger: ["Using a Special Skill"],
+			effect:
+				"Jumps toward the enemy and strikes with a sword, dealing Dark DMG and rendering them Airborne.",
+			bonusEffects: ["5% Elemental Weakness DMG Boost (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmon.png",
 		image: "/images/Monsterling_Icons/MonsterlingAmon.png",
@@ -320,6 +382,13 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	68: {
 		id: 68,
 		name: "Amon's Shadow",
+		linkChain: {
+			name: "Token of Obedience",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Attacks with dual swords, then lands a final strike that deals Dark DMG and renders the enemy Airborne.",
+			bonusEffects: ["15% Elemental Weakness DMG Boost (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAmonWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingAmonWhite.png",

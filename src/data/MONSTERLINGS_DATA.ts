@@ -20,7 +20,10 @@ export type MonsterCodexEntry = {
 	element_id: ElementId;
 	ability: string;
 	linkChain?: {
-		trigger: [];
+		name: string;
+		trigger: string[];
+		effect: string;
+		bonusEffects?: string[];
 	};
 };
 

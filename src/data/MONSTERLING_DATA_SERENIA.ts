@@ -7,6 +7,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	69: {
 		id: 69,
 		name: "Gorrik",
+		linkChain: {
+			name: "Taskmaster's Leather Gloves",
+			trigger: ["Landing an attack"],
+			effect:
+				"Leaps at the enemy and strikes twice with a sword, dealing Physical DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinEnforcer.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinEnforcer.png",
@@ -51,6 +57,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	73: {
 		id: 73,
 		name: "Queen Slime",
+		linkChain: {
+			name: "Queen's Crown",
+			trigger: ["Using Evasion Counter"],
+			effect:
+				"Punches the enemy, dealing Physical DMG and rendering them Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeQueen.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeQueen.png",
@@ -62,6 +74,13 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	74: {
 		id: 74,
 		name: "Empress Slime",
+		linkChain: {
+			name: "Queen's Mascara",
+			trigger: ["Using Evasion Counter"],
+			effect:
+				"Unleashes a flurry of punches, dealing Physical DMG and rendering the enemy Airborne.",
+			bonusEffects: ["15% Neutralization RES Reduction (10s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeQueenRed.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeQueenRed.png",
@@ -118,6 +137,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	79: {
 		id: 79,
 		name: "Spadupa",
+		linkChain: {
+			name: "Poisoned Claw",
+			trigger: ["Using Air Counter"],
+			effect: "Launches spider silk at the enemy, dealing Earth DMG.",
+			bonusEffects: ["30% Movement Speed Reduction (10s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpadupa.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpadupa.png",
@@ -129,6 +154,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	80: {
 		id: 80,
 		name: "Greenpadupa",
+		linkChain: {
+			name: "Precious Spider Cocoon",
+			trigger: ["Using Air Counter"],
+			effect: "Launches spider silk at the enemy, dealing Earth DMG.",
+			bonusEffects: ["50% Movement Speed Reduction (10s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpaDupaGreen.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpaDupaGreen.png",
@@ -239,6 +270,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	90: {
 		id: 90,
 		name: "Ice Fist Dude",
+		linkChain: {
+			name: "Frozen Gem",
+			trigger: ["Using a Special Skill"],
+			effect: "Launches ice fragments at the enemy, dealing Ice DMG.",
+			bonusEffects: ["Freeze (5s)", "5% Ice RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingStoneguyCrystal.png",
 		image: "/images/Monsterling_Icons/MonsterlingStoneguyCrystal.png",
@@ -250,6 +287,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	91: {
 		id: 91,
 		name: "Plains Minotaur",
+		linkChain: {
+			name: "Leather Halter",
+			trigger: ["Using a Switch Skill"],
+			effect: "Swings its axe and creates a whirlwind, dealing Wind DMG.",
+			bonusEffects: ["5% Wind RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMinotaGrassland.png",
 		image: "/images/Monsterling_Icons/MonsterlingMinotaGrassland.png",
@@ -261,6 +304,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	92: {
 		id: 92,
 		name: "Spoonmugger",
+		linkChain: {
+			name: "Ravenous Spoon",
+			trigger: ["When all Stamina is consumed"],
+			effect: "Cheers nearby allies and restores their Stamina.",
+			bonusEffects: ["Restores 40 Stamina"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmugger.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpoonmugger.png",
@@ -273,6 +322,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	93: {
 		id: 93,
 		name: "Stickmugger",
+		linkChain: {
+			name: "Gourmet Chopsticks",
+			trigger: ["When all Stamina is consumed"],
+			effect: "Cheers nearby allies and restores their Stamina.",
+			bonusEffects: ["Restores 80 Stamina"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmuggerQueen.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpoonmuggerQueen.png",
@@ -285,6 +340,16 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	94: {
 		id: 94,
 		name: "Avardan",
+		linkChain: {
+			name: "Golem's Gem",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Body-slams the enemy, dealing Earth DMG and rendering them Airborne.",
+			bonusEffects: [
+				"10% Earth RES Reduction (5s)",
+				"15% Neutralization RES Reduction (5s)",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAvadanBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingAvadanBlack.png",
@@ -297,6 +362,12 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	95: {
 		id: 95,
 		name: "Avardan's Mana",
+		linkChain: {
+			name: "Shadowed Stone",
+			trigger: ["Attacking a Staggered target"],
+			effect: "Releases earth energy toward the enemy, dealing Earth DMG.",
+			bonusEffects: ["30% Elemental Weakness DMG Boost (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingAvadan.png",
 		image: "/images/Monsterling_Icons/MonsterlingAvadan.png",

@@ -9,6 +9,12 @@ export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
 		id: 100_001,
 		display_id: 1,
 		name: "Reginula",
+		linkChain: {
+			name: "Star Waves",
+			trigger: ["While equipped"],
+			effect:
+				"Accompanies the character into battle and actively participates in combat.",
+		},
 		image: "/images/Monsterling_Icons/MIcon_MonsterlingReginula.png",
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE, // TODO: need to find out
 		region_id: REGION_ID_BY_REGION.LEGENDARY,

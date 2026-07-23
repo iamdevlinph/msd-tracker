@@ -11,7 +11,9 @@ import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
-const [first, second, third] = Object.values(MONSTERLINGS_DATA);
+const first = MONSTERLINGS_DATA[67];
+const second = MONSTERLINGS_DATA[1];
+const third = MONSTERLINGS_DATA[2];
 
 describe("MonsterlingsList", () => {
 	afterEach(cleanup);
@@ -47,7 +49,7 @@ describe("MonsterlingsList", () => {
 		expect(screen.queryByText("No monsterlings yet")).toBeNull();
 	});
 
-	it("shows link-chain badges and hides the overlapping edit close button", () => {
+	it("shows link-chain badges only for eligible monsterlings", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
 				current: {
@@ -70,7 +72,7 @@ describe("MonsterlingsList", () => {
 				screen.getByAltText("Link Chain Level 5") as HTMLImageElement
 			).getAttribute("src"),
 		).toBe("/images/MonsterLinkChain/link-5.png");
-		expect(screen.getByAltText("Link Chain Level 1")).toBeTruthy();
+		expect(screen.queryByAltText("Link Chain Level 1")).toBeNull();
 
 		fireEvent.click(
 			screen.getByText(first.name).closest("button") as HTMLElement,

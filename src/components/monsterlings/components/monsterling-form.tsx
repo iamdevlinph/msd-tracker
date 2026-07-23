@@ -148,6 +148,9 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 		name: "link_chain_level",
 	});
 
+	const selectedMonsterling = MONSTERLINGS_DATA[monsterlingValue];
+	const hasLinkChain = Boolean(selectedMonsterling?.linkChain?.name);
+
 	const traitsValue = useWatch({
 		control: form.control,
 		name: "traits",
@@ -202,15 +205,17 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 							/>
 						</FieldGroup>
 
-						<FieldGroup className="flex flex-col sm:flex-row gap-2 sm:gap-7 justify-between">
-							<TierSelectorInput<MonsterlingOwned>
-								name="link_chain_level"
-								label="Link Chain Level"
-								control={form.control}
-								options={[...LINK_CHAIN_LEVELS]}
-								buttonGroupClass="flex justify-center"
-							/>
-						</FieldGroup>
+						{hasLinkChain && (
+							<FieldGroup className="flex flex-col sm:flex-row gap-2 sm:gap-7 justify-between">
+								<TierSelectorInput<MonsterlingOwned>
+									name="link_chain_level"
+									label="Link Chain Level"
+									control={form.control}
+									options={[...LINK_CHAIN_LEVELS]}
+									buttonGroupClass="flex justify-center"
+								/>
+							</FieldGroup>
+						)}
 
 						<SeparatorText>Traits</SeparatorText>
 

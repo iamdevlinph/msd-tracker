@@ -29,6 +29,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	3: {
 		id: 3,
 		name: "Cappy Mama",
+		linkChain: {
+			name: "Mother's Leaf",
+			trigger: ["Using a Special Skill"],
+			effect:
+				"Jumps toward the enemy with a powerful body slam, dealing Physical DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyKing.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyKing.png",
@@ -41,6 +47,13 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	4: {
 		id: 4,
 		name: "Leafy Mama",
+		linkChain: {
+			name: "Queenshroom's Halo",
+			trigger: ["When HP is 50% or lower"],
+			effect:
+				"Dances to cheer nearby allies, then grants them a healing effect.",
+			bonusEffects: ["Heals 10% of Max HP"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyKingSlimeling.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyKingSlimeling.png",
@@ -168,6 +181,11 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	15: {
 		id: 15,
 		name: "Forkmugger",
+		linkChain: {
+			name: "Gluttonous Fork",
+			trigger: ["Using Evasion Counter"],
+			effect: "Strikes a potato with its fork, dealing Physical DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSpoonmuggerFork.png",
 		image: "/images/Monsterling_Icons/MonsterlingSpoonmuggerFork.png",
@@ -180,6 +198,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	16: {
 		id: 16,
 		name: "King Slime",
+		linkChain: {
+			name: "Gooey Crown",
+			trigger: ["Using a Special Skill"],
+			effect: "Slams into the enemy, dealing Water DMG.",
+			bonusEffects: ["30% Movement Speed Reduction (10s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeKing.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeKing.png",
@@ -192,6 +216,13 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	17: {
 		id: 17,
 		name: "Scarlet Queen",
+		linkChain: {
+			name: "Queen's Crimson Tears",
+			trigger: ["Using a Special Skill"],
+			effect:
+				"Charges and body-slams the enemy, dealing Water DMG and rendering them Airborne.",
+			bonusEffects: ["50% Movement Speed Reduction (10s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeRed.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeRed.png",
@@ -203,6 +234,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	18: {
 		id: 18,
 		name: "Taglock",
+		linkChain: {
+			name: "Broken Fang",
+			trigger: ["Using a Switch Skill"],
+			effect:
+				"Jumps toward the enemy and strikes with a hammer, dealing Physical DMG and rendering them Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinChief.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinChief.png",
@@ -215,6 +252,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	19: {
 		id: 19,
 		name: "Big Bro Goblin",
+		linkChain: {
+			name: "Commanding Flute",
+			trigger: ["Using a Switch Skill"],
+			effect:
+				"Strikes the enemy twice with a hammer, dealing Physical DMG and rendering them Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGoblinChiefWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingGoblinChiefWhite.png",
@@ -227,6 +270,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	20: {
 		id: 20,
 		name: "Lupe",
+		linkChain: {
+			name: "Warrior's Mark",
+			trigger: ["Landing an Ice Attack"],
+			effect: "Charges the enemy, dealing Ice DMG.",
+			bonusEffects: ["Freeze (2s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHaka.png",
 		image: "/images/Monsterling_Icons/MonsterlingHaka.png",
@@ -239,6 +288,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	21: {
 		id: 21,
 		name: "Moon Shadow Lupe",
+		linkChain: {
+			name: "Moonlight-Touched Claw",
+			trigger: ["Using a Special Skill"],
+			effect: "Charges twice with its claws, dealing Ice DMG.",
+			bonusEffects: ["Freeze (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHakaPurple.png",
 		image: "/images/Monsterling_Icons/MonsterlingHakaPurple.png",
@@ -250,6 +305,11 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	22: {
 		id: 22,
 		name: "Ring Slime",
+		linkChain: {
+			name: "Wet Leaf",
+			trigger: ["Landing an attack"],
+			effect: "Charges the enemy twice, dealing Water DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSlimeLing.png",
 		image: "/images/Monsterling_Icons/MonsterlingSlimeLing.png",
@@ -261,6 +321,11 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	23: {
 		id: 23,
 		name: "Uncle Cappy",
+		linkChain: {
+			name: "Mushroom Basket",
+			trigger: ["Using Dodge"],
+			effect: "Kicks a Bombshroom at the enemy, dealing Fire DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopyThrowUncle.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopyThrowUncle.png",
@@ -272,6 +337,11 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	24: {
 		id: 24,
 		name: "Green Cappy Bro",
+		linkChain: {
+			name: "Mushroom Man's Pouch",
+			trigger: ["Using a Special Skill"],
+			effect: "Throws poisonous mushrooms at the enemy, dealing Earth DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopaThrowUncle1.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopaThrowUncle1.png",
@@ -382,6 +452,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	34: {
 		id: 34,
 		name: "White Wolf Fulminator",
+		linkChain: {
+			name: "Shaman's Staff",
+			trigger: ["Using Evasion Counter"],
+			effect:
+				"Leaps up and creates an explosion with its staff, dealing Lightning DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWerewolf_MagicianLightning.png",
 		image:
@@ -394,6 +470,11 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	35: {
 		id: 35,
 		name: "Moley Mole",
+		linkChain: {
+			name: "Mole's Shovel",
+			trigger: ["Rendering the enemy Airborne"],
+			effect: "Charges with a shovel, dealing Physical DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMolly.png",
 		image: "/images/Monsterling_Icons/MonsterlingMolly.png",
@@ -405,6 +486,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	36: {
 		id: 36,
 		name: "Gold Digger Moley Mole",
+		linkChain: {
+			name: "Mole's Treasure",
+			trigger: ["Rendering the enemy Airborne"],
+			effect:
+				"Charges twice, dealing Physical DMG and rendering the enemy Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMoleyGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingMoleyGold.png",
@@ -416,6 +503,11 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	37: {
 		id: 37,
 		name: "Green Cappy Papa",
+		linkChain: {
+			name: "Green Swaddle",
+			trigger: ["When Hit"],
+			effect: "Releases a spore explosion, dealing Earth DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChopaDaddy.png",
 		image: "/images/Monsterling_Icons/MonsterlingChopaDaddy.png",
@@ -427,6 +519,13 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	38: {
 		id: 38,
 		name: "Custos",
+		linkChain: {
+			name: "Warden's Core",
+			trigger: ["Using a Special Skill"],
+			effect:
+				"Throws nature energy that drags enemies in, then explodes for Earth DMG and renders them Airborne.",
+			bonusEffects: ["15% Neutralization RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGolemBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingGolemBlack.png",
@@ -439,6 +538,12 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 	39: {
 		id: 39,
 		name: "El Dorado Guardian",
+		linkChain: {
+			name: "Mutated Spirit Core",
+			trigger: ["Attacking a Staggered target"],
+			effect: "Unleashes energy toward the enemy, dealing Earth DMG.",
+			bonusEffects: ["30% Elemental Weakness DMG Boost (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGolemGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingGolemGold.png",

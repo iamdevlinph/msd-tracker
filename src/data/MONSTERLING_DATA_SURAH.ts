@@ -96,6 +96,12 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	104: {
 		id: 104,
 		name: "Odong",
+		linkChain: {
+			name: "Mysterious Branch",
+			trigger: ["Using a Special Skill"],
+			effect: "Summons roots beneath the enemy, dealing Earth DMG.",
+			bonusEffects: ["Shackle (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKimodong.png",
 		image: "/images/Monsterling_Icons/MonsterlingKimodong.png",
@@ -107,6 +113,12 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	105: {
 		id: 105,
 		name: "Maple Odong",
+		linkChain: {
+			name: "Autumn Branch",
+			trigger: ["Using a Special Skill"],
+			effect: "Creates a poisonous rooted area, dealing Earth DMG.",
+			bonusEffects: ["10% Earth RES Reduction (5s)", "Shackle (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKimodongMaple.png",
 		image: "/images/Monsterling_Icons/MonsterlingKimodongMaple.png",
@@ -206,6 +218,11 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	114: {
 		id: 114,
 		name: "Shademask",
+		linkChain: {
+			name: "Dokkaebi Mask",
+			trigger: ["Landing an attack"],
+			effect: "Leaps at the enemy and attacks, dealing Fire DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDuoxiniMiddleBoss.png",
 		image: "/images/Monsterling_Icons/MonsterlingDuoxiniMiddleBoss.png",
@@ -218,6 +235,18 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	115: {
 		id: 115,
 		name: "Ashen Mask",
+		linkChain: {
+			name: "Ancient Dokkaebi's White Mask",
+			trigger: ["Using a Special Skill"],
+			effect:
+				"Throws a fireball that creates Fire, Earth, and Ice elemental zones.",
+			bonusEffects: [
+				"Elemental Zone Duration (5s)",
+				"3% Fire RES Reduction",
+				"3% Earth RES Reduction",
+				"3% Ice RES Reduction",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDuoxiniMiddleBossWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingDuoxiniMiddleBossWhite.png",
@@ -254,6 +283,12 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	118: {
 		id: 118,
 		name: "Swamp Odong",
+		linkChain: {
+			name: "Fabric Talismans",
+			trigger: ["Using a Special Skill"],
+			effect: "Creates a poisonous area, dealing Earth DMG.",
+			bonusEffects: ["3% Earth RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKimodongSwamp.png",
 		image: "/images/Monsterling_Icons/MonsterlingKimodongSwamp.png",
@@ -265,6 +300,16 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	119: {
 		id: 119,
 		name: "Duoxini",
+		linkChain: {
+			name: "Dokkaebi King's Mask",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Summons a totem that drags enemies in and explodes, dealing Fire DMG and rendering them Airborne.",
+			bonusEffects: [
+				"10% Fire RES Reduction (5s)",
+				"15% Neutralization RES Reduction (5s)",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDuoxini.png",
 		image: "/images/Monsterling_Icons/MonsterlingDuoxini.png",
@@ -277,6 +322,17 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	120: {
 		id: 120,
 		name: "Fiend",
+		linkChain: {
+			name: "Ancient Dokkaebi's Bat",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Throws and climbs a totem before crashing down, dealing Fire DMG and rendering enemies Airborne.",
+			bonusEffects: [
+				"Totem Duration (10s)",
+				"Super Armor for nearby allies",
+				"15% Elemental Weakness DMG Boost against nearby enemies",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingDuoxiniRed.png",
 		image: "/images/Monsterling_Icons/MonsterlingDuoxiniRed.png",

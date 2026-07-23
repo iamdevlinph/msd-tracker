@@ -7,6 +7,12 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	121: {
 		id: 121,
 		name: "Black Hauntstack",
+		linkChain: {
+			name: "Youkai's Giant Charm",
+			trigger: ["Landing an attack"],
+			effect:
+				"Creates a whirlwind and finishes with a descending strike, dealing Water DMG and rendering the enemy Airborne.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGeuseunsaeBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingGeuseunsaeBlack.png",
@@ -106,6 +112,11 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	130: {
 		id: 130,
 		name: "Borborg",
+		linkChain: {
+			name: "Thorny Shield",
+			trigger: ["Landing an attack"],
+			effect: "Spins into the enemy, dealing Physical DMG.",
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShieldBoss.png",
 		image: "/images/Monsterling_Icons/MonsterlingMeoguriShieldBoss.png",
@@ -117,6 +128,12 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	131: {
 		id: 131,
 		name: "Goald",
+		linkChain: {
+			name: "Gold-Plated Spiky Shield",
+			trigger: ["Landing a Fire Attack"],
+			effect: "Attacks the enemy and applies a Fire resistance reduction.",
+			bonusEffects: ["5% Fire RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShieldBossGold.png",
 		image: "/images/Monsterling_Icons/MonsterlingMeoguriShieldBossGold.png",
@@ -207,6 +224,13 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	139: {
 		id: 139,
 		name: "Manwol",
+		linkChain: {
+			name: "Shining Hoof",
+			trigger: ["Landing a Wind Attack"],
+			effect:
+				"Creates a feather-filled whirlwind that drags enemies in, dealing Wind DMG and rendering them Airborne.",
+			bonusEffects: ["5% Wind RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingManwollok.png",
 		image: "/images/Monsterling_Icons/MonsterlingManwollok.png",
@@ -218,6 +242,13 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	140: {
 		id: 140,
 		name: "Nokjung",
+		linkChain: {
+			name: "Black Antler",
+			trigger: ["Landing a Wind Attack"],
+			effect:
+				"Fires feathers, then charges the enemy, dealing Wind DMG and rendering them Airborne.",
+			bonusEffects: ["10% Wind RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingManwollokBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingManwollokBlack.png",
@@ -229,6 +260,12 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	141: {
 		id: 141,
 		name: "Onsae",
+		linkChain: {
+			name: "Flaming Fox Fur",
+			trigger: ["Landing a Fire Attack"],
+			effect: "Spins into the enemy, dealing Fire DMG.",
+			bonusEffects: ["5% Fire RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHakaBackah.png",
 		image: "/images/Monsterling_Icons/MonsterlingHakaBackah.png",
@@ -241,6 +278,12 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	142: {
 		id: 142,
 		name: "Cinder",
+		linkChain: {
+			name: "Hot Furball",
+			trigger: ["Landing a Fire Attack"],
+			effect: "Breathes fire at the enemy, dealing Fire DMG.",
+			bonusEffects: ["10% Fire RES Reduction (5s)"],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHakaBackahBlack.png",
 		image: "/images/Monsterling_Icons/MonsterlingHakaBackahBlack.png",
@@ -253,6 +296,16 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	143: {
 		id: 143,
 		name: "Hahnul",
+		linkChain: {
+			name: "Giant Tiger's Claw",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Leaps at the enemy and strikes with its paw, dealing Lightning DMG and rendering them Airborne.",
+			bonusEffects: [
+				"10% Lightning RES Reduction (5s)",
+				"15% Neutralization RES Reduction (5s)",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHanul.png",
 		image: "/images/Monsterling_Icons/MonsterlingHanul.png",
@@ -265,6 +318,16 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	144: {
 		id: 144,
 		name: "Gulgak",
+		linkChain: {
+			name: "Cursed Rosary",
+			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
+			effect:
+				"Strikes the ground and roars, dealing Lightning DMG and rendering enemies Airborne.",
+			bonusEffects: [
+				"5% Lightning RES Reduction (5s)",
+				"15% Elemental Weakness DMG Boost (5s)",
+			],
+		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHanulWhite.png",
 		image: "/images/Monsterling_Icons/MonsterlingHanulWhite.png",
