@@ -324,4 +324,13 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Nagi.png",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
+	23: {
+		id: 23,
+		name: "Mabel",
+		class_id: CLASS_ID_BY_CLASS.DESTROYER,
+		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+		portraitImage: "/images/Character_Portrait/portrait_Maybell_01.png",
+		fullImage: "/images/Character_Full/Img_CharacterIllust_Maybell.png",
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
+	},
 };
