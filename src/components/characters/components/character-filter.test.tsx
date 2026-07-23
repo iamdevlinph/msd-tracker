@@ -13,6 +13,7 @@ import {
 	emptyCharacterFilters,
 	useCharacterFilter,
 } from "@/components/characters/store/characters-filter-store";
+import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
@@ -89,6 +90,38 @@ describe("character search", () => {
 				"Adjust or clear the filters to see your owned characters.",
 			),
 		).toBeTruthy();
+	});
+
+	it("shows roster progress and disables adding when every character is owned", () => {
+		const total = Object.keys(CHARACTERS_DATA).length;
+		render(<AddCharacter />);
+
+		expect(screen.getByText(`3/${total}`)).toBeTruthy();
+		expect(
+			screen
+				.getByRole("button", { name: "Add Character" })
+				.hasAttribute("disabled"),
+		).toBe(false);
+
+		act(() => {
+			useAppStore.setState({
+				charactersOwned: Object.fromEntries(
+					Object.values(CHARACTERS_DATA).map(({ id }) => [
+						id,
+						{ ...owned[1], id },
+					]),
+				),
+			});
+		});
+
+		const disabledButton = screen.getByRole("button", {
+			name: "No available characters",
+		});
+		expect(screen.getByText(`${total}/${total}`)).toBeTruthy();
+		expect(disabledButton.hasAttribute("disabled")).toBe(true);
+
+		fireEvent.click(disabledButton);
+		expect(screen.queryByRole("dialog")).toBeNull();
 	});
 
 	it("filters candidates locally and clears before closing Add Character", () => {

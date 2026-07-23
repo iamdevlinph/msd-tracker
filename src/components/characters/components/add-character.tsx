@@ -31,10 +31,13 @@ export function AddCharacter() {
 	const charToAddInfo = hasSelectedChar ? CHARACTERS_DATA[charToAdd] : null;
 
 	const ownedSet = new Set(Object.values(charactersOwned).map((c) => c.id));
-
-	const noCharsToAdd =
-		Object.keys(charactersOwned).length === Object.keys(CHARACTERS_DATA).length;
-	const availableCharacters = Object.values(CHARACTERS_DATA)
+	const characters = Object.values(CHARACTERS_DATA);
+	const ownedCount = characters.filter((character) =>
+		ownedSet.has(character.id),
+	).length;
+	const totalCount = characters.length;
+	const noCharsToAdd = ownedCount === totalCount;
+	const availableCharacters = characters
 		.filter(
 			(character) =>
 				!ownedSet.has(character.id) &&
@@ -52,11 +55,21 @@ export function AddCharacter() {
 			open={open}
 			onOpenChange={(next) => (next ? setOpen(true) : close())}
 		>
-			<DialogTrigger asChild>
-				<Button variant="default" className="w-min">
-					Add Character
-				</Button>
-			</DialogTrigger>
+			<div className="flex items-center gap-3">
+				<DialogTrigger asChild>
+					<Button variant="default" className="w-min" disabled={noCharsToAdd}>
+						{noCharsToAdd ? "No available characters" : "Add Character"}
+					</Button>
+				</DialogTrigger>
+				<span className="text-sm text-muted-foreground tabular-nums">
+					<span aria-hidden="true">
+						{ownedCount}/{totalCount}
+					</span>
+					<span className="sr-only">
+						{ownedCount} of {totalCount} characters owned
+					</span>
+				</span>
+			</div>
 			<DialogContent
 				onEscapeKeyDown={preventSearchInputDismissOnEscape}
 				className={cn(

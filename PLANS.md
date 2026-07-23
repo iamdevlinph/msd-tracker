@@ -6,6 +6,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 - [x] Filter owned and selectable characters by Tier 4 and Tier 5.
 - [x] Sort owned characters by name or awakening level in either direction.
+- [x] Show owned/total roster progress and disable additions when every character is owned.
 
 ## Monsterlings: Available
 
