@@ -61,6 +61,8 @@ describe("MonsterlingForm", () => {
 		expect(badge.getAttribute("src")).toBe(
 			"/images/MonsterLinkChain/link-4.png",
 		);
+		expect(badge.className).toContain("left-0.5");
+		expect(badge.className).not.toContain("right-0.5");
 
 		fireEvent.click(screen.getByRole("button", { name: "Add" }));
 		await waitFor(() =>

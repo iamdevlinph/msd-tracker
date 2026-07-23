@@ -16,7 +16,7 @@ export function MonsterlingLinkChainBadge({
 			alt={`Link Chain Level ${linkChainLevelToDisplay}`}
 			title={`Link Chain Level ${linkChainLevelToDisplay}`}
 			className={cn(
-				"absolute right-0.5 top-1 z-2 h-auto drop-shadow-2xl",
+				"absolute left-0.5 top-1 z-2 h-auto drop-shadow-2xl",
 				className,
 			)}
 			style={{ filter: "drop-shadow(0px 0px 3px rgb(0, 0, 0))" }}
