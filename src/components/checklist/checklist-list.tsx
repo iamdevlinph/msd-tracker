@@ -126,7 +126,7 @@ export const ChecklistList = ({
 				<li
 					key={`${definition.id}-${occurrence.startAt}`}
 					className={cn(
-						"group relative flex min-h-14 w-full items-center justify-between overflow-hidden rounded-2xl border bg-card/85 p-2 shadow-sm backdrop-blur-sm transition-all hover:border-primary/30 hover:shadow-md",
+						"group relative flex min-h-14 w-full flex-col items-stretch justify-between overflow-hidden rounded-2xl border bg-card/85 p-2 shadow-sm backdrop-blur-sm transition-all hover:border-primary/30 hover:shadow-md sm:flex-row sm:items-center",
 						!customTask &&
 							"bg-gradient-to-r from-primary/10 via-card/90 to-card",
 						status === "ending-soon" &&
@@ -137,7 +137,7 @@ export const ChecklistList = ({
 						status === "expired" && "opacity-50",
 					)}
 				>
-					<div className="flex min-w-0 flex-1 items-center">
+					<div className="flex w-full min-w-0 flex-1 items-center sm:w-auto">
 						<Button
 							aria-label={
 								status === "completed"
@@ -218,7 +218,7 @@ export const ChecklistList = ({
 							</div>
 						)}
 					</div>
-					<div className="z-10 ml-2 flex shrink-0 items-center gap-1">
+					<div className="z-10 mt-2 flex shrink-0 self-end items-center gap-1 sm:mt-0 sm:ml-2 sm:self-auto">
 						{completedCountdown && (
 							<span
 								title={completedCountdown.label}

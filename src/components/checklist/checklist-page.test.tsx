@@ -46,6 +46,9 @@ describe("ChecklistPage", () => {
 		const allFilter = screen.getByRole("button", { name: "All" });
 		expect(allFilter.getAttribute("data-size")).toBe("default");
 		expect(allFilter.parentElement?.className).toContain("flex-wrap");
+		const toolbar = allFilter.parentElement?.parentElement?.parentElement;
+		expect(toolbar?.className).toContain("flex-col");
+		expect(toolbar?.className).toContain("sm:flex-row");
 		expect(
 			screen
 				.getByRole("button", { name: "Checklist settings" })
@@ -56,6 +59,12 @@ describe("ChecklistPage", () => {
 				.getByRole("button", { name: "Add item" })
 				.getAttribute("data-size"),
 		).toBe("default");
+		expect(
+			screen.getByRole("button", { name: "Checklist settings" }).className,
+		).toContain("flex-1");
+		expect(
+			screen.getByRole("button", { name: "Add item" }).className,
+		).toContain("sm:flex-none");
 
 		const conquestRow = screen.getByText("Conquest").closest("li");
 		expect(conquestRow).toBeTruthy();
@@ -237,6 +246,10 @@ describe("ChecklistPage", () => {
 
 		const futureRow = screen.getByText("Future task").closest("li");
 		expect(futureRow).toBeTruthy();
+		expect(futureRow?.className).toContain("flex-col");
+		expect(futureRow?.className).toContain("sm:flex-row");
+		expect(futureRow?.lastElementChild?.className).toContain("self-end");
+		expect(futureRow?.lastElementChild?.className).toContain("sm:mt-0");
 		expect(within(futureRow as HTMLElement).getByText("Custom")).toBeTruthy();
 		expect(
 			within(futureRow as HTMLElement).getByText(

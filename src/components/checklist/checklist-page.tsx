@@ -85,7 +85,7 @@ export const ChecklistPage = () => {
 				description="Stay on top of server resets, limited events, and your own recurring tasks."
 			/>
 			<div className="flex flex-col gap-5">
-				<div className="flex items-center gap-2">
+				<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
 					<div className="-mx-1 min-w-0 flex-1 overflow-x-auto px-1 pb-1">
 						<ButtonGroup className="flex flex-wrap">
 							{visibleCategories.map(([value, label]) => {
@@ -105,18 +105,23 @@ export const ChecklistPage = () => {
 							})}
 						</ButtonGroup>
 					</div>
-					<div className="flex shrink-0 gap-2">
+					<div className="flex w-full shrink-0 gap-2 sm:w-auto">
 						<Button
 							aria-label="Checklist settings"
+							className="flex-1 sm:flex-none"
 							variant="outline"
 							onClick={() => setSettingsOpen(true)}
 						>
 							<Settings className="size-4" />
-							<span className="hidden sm:inline">Settings</span>
+							<span>Settings</span>
 						</Button>
-						<Button aria-label="Add item" onClick={openAddTask}>
+						<Button
+							aria-label="Add item"
+							className="flex-1 sm:flex-none"
+							onClick={openAddTask}
+						>
 							<Plus className="size-4" />
-							<span className="hidden sm:inline">Add item</span>
+							<span>Add item</span>
 						</Button>
 					</div>
 				</div>
