@@ -39,9 +39,10 @@ export default function Header({ sidebarOpen, setSidebarOpen }: Sidebar) {
 				<Nav />
 
 				<footer className="border-t border-border px-4 py-3 text-[10px] leading-relaxed text-muted-foreground">
-					Unofficial fan project. Not affiliated with or endorsed by Netmarble.
-					Mongil: Star Dive names, trademarks, and assets belong to their
-					respective owners.
+					Unofficial fan project. This site is not monetized and is provided on
+					a not-for-profit, non-commercial basis. Not affiliated with or
+					endorsed by Netmarble. Mongil: Star Dive names, trademarks, and assets
+					belong to their respective owners.
 				</footer>
 			</aside>
 		</>
