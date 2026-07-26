@@ -69,4 +69,35 @@ describe("normalizeChecklistPersistedState", () => {
 		expect(Object.keys(state.checklistTasks)).toEqual(["valid"]);
 		expect(state.checklistTasks.valid.id).toBe("valid");
 	});
+
+	it("preserves player event UTC boundaries and marks them as user-created", () => {
+		const state = normalizeChecklistPersistedState({
+			checklistTasks: {
+				anniversary: {
+					id: "anniversary",
+					title: "Anniversary check-in",
+					noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
+					kind: "event",
+					startAt: "2026-07-22T00:00:00.000Z",
+					endAt: "2026-08-11T23:59:00.000Z",
+					recurrence: "daily",
+					mode: "fixed",
+					dueDurationMinutes: 60,
+					scheduleVersion: 1,
+				},
+			},
+		});
+
+		expect(state.checklistTasks.anniversary).toMatchObject({
+			kind: "event",
+			source: "user",
+			noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
+			startAt: "2026-07-22T00:00:00.000Z",
+			endAt: "2026-08-11T23:59:00.000Z",
+			recurrence: "daily",
+			mode: undefined,
+			dueDurationMinutes: undefined,
+			scheduleVersion: 1,
+		});
+	});
 });

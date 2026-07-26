@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import {
@@ -20,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import type { ChecklistTask } from "@/lib/checklist-task";
 import { useAppStore } from "@/stores/app-store";
 
 type ChecklistTaskDialogProps = {
@@ -27,8 +29,6 @@ type ChecklistTaskDialogProps = {
 	onOpenChange: (open: boolean) => void;
 	task?: ChecklistTask;
 };
-
-import type { ChecklistTask } from "@/lib/checklist-task";
 
 export const ChecklistTaskDialog = ({
 	open,
@@ -44,6 +44,13 @@ export const ChecklistTaskDialog = ({
 		mode: "onSubmit",
 	});
 	const recurrence = useWatch({ control: form.control, name: "recurrence" });
+	const type = useWatch({ control: form.control, name: "type" });
+
+	useEffect(() => {
+		if (type !== "event") return;
+		if (recurrence === "interval_days") form.setValue("recurrence", "none");
+		form.setValue("mode", "fixed");
+	}, [form, recurrence, type]);
 
 	const submit = (values: TaskForm) => {
 		const checklistTask = taskFormToChecklistTask(values);
@@ -62,10 +69,14 @@ export const ChecklistTaskDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-xl">
 				<DialogHeader>
-					<DialogTitle>{task ? "Edit task" : "Add item"}</DialogTitle>
+					<DialogTitle>
+						{task
+							? `Edit ${task.kind === "event" ? "event" : "task"}`
+							: "Add item"}
+					</DialogTitle>
 					<DialogDescription>
-						Dates follow the daily reset at 08:00 GMT+8 and stay consistent
-						across devices.
+						Dates use UTC. Daily reset is 00:00 UTC; weekly reset is Monday
+						00:00 UTC.
 					</DialogDescription>
 				</DialogHeader>
 				<form
@@ -74,7 +85,20 @@ export const ChecklistTaskDialog = ({
 					onSubmit={form.handleSubmit(submit)}
 				>
 					<div className="grid gap-2">
-						<Label htmlFor="checklist-task-name">Task name</Label>
+						<Label htmlFor="checklist-task-type">Type</Label>
+						<select
+							id="checklist-task-type"
+							className="h-9 rounded-md border border-input bg-transparent px-3 text-sm"
+							{...form.register("type")}
+						>
+							<option value="task">Task</option>
+							<option value="event">Event</option>
+						</select>
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="checklist-task-name">
+							{type === "event" ? "Event name" : "Task name"}
+						</Label>
 						<Input
 							id="checklist-task-name"
 							autoFocus
@@ -95,12 +119,32 @@ export const ChecklistTaskDialog = ({
 							</p>
 						)}
 					</div>
+					{type === "event" && (
+						<div className="grid gap-2">
+							<Label htmlFor="checklist-event-notice">
+								Event notice (optional)
+							</Label>
+							<Input
+								id="checklist-event-notice"
+								placeholder="MONGIL: STAR DIVE 100-Day Anniversary Events Notice"
+								aria-describedby="checklist-event-notice-description"
+								{...form.register("noticeTitle")}
+							/>
+							<p
+								id="checklist-event-notice-description"
+								className="text-xs text-muted-foreground"
+							>
+								Stored for reference and not shown in the checklist.
+							</p>
+						</div>
+					)}
 					<div className="grid gap-4 sm:grid-cols-2">
 						<div className="grid gap-2">
-							<Label htmlFor="checklist-task-start">Start</Label>
+							<Label htmlFor="checklist-task-start">Start (UTC)</Label>
 							<Input
 								id="checklist-task-start"
-								type="date"
+								type="datetime-local"
+								step={60}
 								aria-describedby={
 									form.formState.errors.startAt
 										? "checklist-task-start-error"
@@ -119,10 +163,13 @@ export const ChecklistTaskDialog = ({
 							)}
 						</div>
 						<div className="grid gap-2">
-							<Label htmlFor="checklist-task-due">End (optional)</Label>
+							<Label htmlFor="checklist-task-due">
+								End {type === "event" ? "(UTC)" : "(optional, UTC)"}
+							</Label>
 							<Input
 								id="checklist-task-due"
-								type="date"
+								type="datetime-local"
+								step={60}
 								aria-describedby={
 									form.formState.errors.dueAt
 										? "checklist-task-due-error"
@@ -152,7 +199,9 @@ export const ChecklistTaskDialog = ({
 								<option value="none">Does not repeat</option>
 								<option value="daily">Daily</option>
 								<option value="weekly">Weekly</option>
-								<option value="interval_days">Every N days</option>
+								{type === "task" && (
+									<option value="interval_days">Every N days</option>
+								)}
 							</select>
 						</div>
 						{recurrence === "interval_days" && (
@@ -185,7 +234,7 @@ export const ChecklistTaskDialog = ({
 							</div>
 						)}
 					</div>
-					{recurrence !== "none" && (
+					{type === "task" && recurrence !== "none" && (
 						<div className="grid gap-2">
 							<Label htmlFor="checklist-task-mode">Recurrence mode</Label>
 							<select

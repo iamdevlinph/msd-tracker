@@ -19,6 +19,7 @@ export {
 } from "@/lib/checklist-task";
 
 const scheduleFields = [
+	"kind",
 	"startAt",
 	"endAt",
 	"recurrence",
@@ -32,13 +33,16 @@ export type ChecklistSlice = {
 	checklistCompletions: Record<string, number>;
 	checklistPreferences: ChecklistPreferences;
 	recordChecklistTask: (
-		task: Omit<ChecklistTask, "id" | "scheduleVersion" | "kind"> & {
+		task: Omit<ChecklistTask, "id" | "scheduleVersion" | "source" | "kind"> & {
 			id?: string;
+			kind?: ChecklistTask["kind"];
 		},
 	) => string;
 	updateChecklistTask: (
 		id: string,
-		task: Omit<ChecklistTask, "id" | "kind" | "scheduleVersion">,
+		task: Omit<ChecklistTask, "id" | "scheduleVersion" | "source" | "kind"> & {
+			kind?: ChecklistTask["kind"];
+		},
 	) => void;
 	deleteChecklistTask: (id: string) => void;
 	completeChecklist: (key: string) => void;
@@ -61,7 +65,13 @@ export const createChecklistSlice: StateCreator<
 		set((state) => ({
 			checklistTasks: {
 				...state.checklistTasks,
-				[id]: { ...task, id, kind: "custom", scheduleVersion: 1 },
+				[id]: {
+					...task,
+					id,
+					kind: task.kind ?? "custom",
+					source: "user",
+					scheduleVersion: 1,
+				},
 			},
 			backupUpdatedAt: Date.now(),
 		}));
@@ -71,15 +81,20 @@ export const createChecklistSlice: StateCreator<
 		set((state) => {
 			const currentTask = state.checklistTasks[id];
 			if (!currentTask) return state;
+			const nextTask = {
+				...task,
+				kind: task.kind ?? currentTask.kind,
+			};
 			const scheduleChanged = scheduleFields.some(
-				(field) => currentTask[field] !== task[field],
+				(field) => currentTask[field] !== nextTask[field],
 			);
 			return {
 				checklistTasks: {
 					...state.checklistTasks,
 					[id]: {
 						...currentTask,
-						...task,
+						...nextTask,
+						source: "user",
 						scheduleVersion:
 							currentTask.scheduleVersion + Number(scheduleChanged),
 					},

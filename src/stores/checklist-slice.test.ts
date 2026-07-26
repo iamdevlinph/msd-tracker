@@ -88,6 +88,7 @@ describe("Checklist store", () => {
 			...task,
 			id,
 			kind: "custom",
+			source: "user",
 			scheduleVersion: 1,
 		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
@@ -115,6 +116,31 @@ describe("Checklist store", () => {
 		useAppStore.getState().deleteChecklistTask(id);
 		expect(useAppStore.getState().checklistTasks).toEqual({});
 		expect(useAppStore.getState().checklistCompletions).toEqual({});
+	});
+
+	it("stores player events with their absolute UTC end and invalidates completions when their type changes", () => {
+		const id = useAppStore.getState().recordChecklistTask({
+			...task,
+			kind: "event",
+			endAt: "2026-08-11T23:59:00.000Z",
+		});
+
+		expect(useAppStore.getState().checklistTasks[id]).toMatchObject({
+			kind: "event",
+			source: "user",
+			endAt: "2026-08-11T23:59:00.000Z",
+			scheduleVersion: 1,
+		});
+
+		useAppStore.getState().updateChecklistTask(id, {
+			...task,
+			kind: "custom",
+		});
+		expect(useAppStore.getState().checklistTasks[id]).toMatchObject({
+			kind: "custom",
+			source: "user",
+			scheduleVersion: 2,
+		});
 	});
 
 	it("persists preference changes and resets the complete slice", () => {

@@ -119,7 +119,7 @@ describe("Drive Monsterling backups", () => {
 		);
 	});
 
-	it("anchors legacy checklist dates without changing the local backup timestamp", async () => {
+	it("normalizes checklist tasks and event metadata without changing the local backup timestamp", async () => {
 		useAppStore.setState({ backupUpdatedAt: 77 });
 		driveFetch.mockResolvedValueOnce({
 			json: async () => ({
@@ -136,6 +136,15 @@ describe("Drive Monsterling backups", () => {
 						recurrence: "daily",
 						scheduleVersion: 1,
 					},
+					anniversary: {
+						title: "Anniversary check-in",
+						noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
+						kind: "event",
+						startAt: "2026-07-22T00:00:00.000Z",
+						endAt: "2026-08-11T23:59:00.000Z",
+						recurrence: "daily",
+						scheduleVersion: 1,
+					},
 				},
 			}),
 		});
@@ -145,6 +154,12 @@ describe("Drive Monsterling backups", () => {
 			"2026-07-27T00:00:00.000Z",
 		);
 		expect(downloaded?.checklistTasks.legacy.scheduleVersion).toBe(2);
+		expect(downloaded?.checklistTasks.anniversary).toMatchObject({
+			kind: "event",
+			source: "user",
+			noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
+			endAt: "2026-08-11T23:59:00.000Z",
+		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(77);
 	});
 });

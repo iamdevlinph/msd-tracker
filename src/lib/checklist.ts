@@ -156,4 +156,7 @@ export function sortChecklistItems<
 
 export const isChecklistTask = (
 	definition: ChecklistDefinition,
-): definition is ChecklistTask => definition.kind === "custom";
+): definition is ChecklistTask =>
+	("scheduleVersion" in definition &&
+		typeof definition.scheduleVersion === "number") ||
+	("source" in definition && definition.source === "user");

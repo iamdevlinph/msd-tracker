@@ -145,23 +145,25 @@ describe("ChecklistPage", () => {
 	it("shows inline validation in the accessible add-task dialog", async () => {
 		render(<ChecklistPage />);
 		fireEvent.click(screen.getByRole("button", { name: "Add item" }));
-		expect(screen.getByLabelText("Start").getAttribute("type")).toBe("date");
-		expect(screen.getByLabelText("End (optional)").getAttribute("type")).toBe(
-			"date",
+		expect(screen.getByLabelText("Start (UTC)").getAttribute("type")).toBe(
+			"datetime-local",
 		);
+		expect(
+			screen.getByLabelText("End (optional, UTC)").getAttribute("type"),
+		).toBe("datetime-local");
 		fireEvent.click(
 			within(screen.getByRole("dialog")).getByRole("button", {
 				name: "Add item",
 			}),
 		);
 
-		expect(await screen.findByText("Task name is required.")).toBeTruthy();
-		expect(screen.getByText("Start date is required.")).toBeTruthy();
+		expect(await screen.findByText("Name is required.")).toBeTruthy();
+		expect(screen.getByText("Start date and time are required.")).toBeTruthy();
 		expect(
 			screen.getByLabelText("Task name").getAttribute("aria-describedby"),
 		).toBe("checklist-task-name-error");
 		expect(
-			screen.getByLabelText("Start").getAttribute("aria-describedby"),
+			screen.getByLabelText("Start (UTC)").getAttribute("aria-describedby"),
 		).toBe("checklist-task-start-error");
 	});
 });

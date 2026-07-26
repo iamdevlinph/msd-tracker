@@ -6,6 +6,7 @@ export type ChecklistDefinition = {
 	id: string;
 	title: string;
 	description?: string;
+	noticeTitle?: string;
 	kind: ChecklistKind;
 	startAt: string;
 	endAt?: string;

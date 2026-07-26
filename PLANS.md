@@ -51,7 +51,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Keep checklist orchestration, task-form conversion, reset anchors, and persisted normalization maintainable without changing reset, sync, completion, or accessibility behavior (verified with focused tests, repository checks, and a production build).
 - [x] Use single-check completion indicators, switch completed actions to undo, hide disabled category filters while keeping All available, and align toolbar controls with shared page button styling.
 
-- [x] Define typed limited events with reset-aligned recurring schedule and expiry behavior.
+- [x] Define typed limited events with non-displayed notice-title metadata, UTC source timestamps, recurring reset schedules, expiry behavior, and player-created UTC Start/End times verified across daily and weekly UTC boundaries.
 - [ ] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [ ] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [ ] Expose the Checklist navigation item after the feature is release-ready.
