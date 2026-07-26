@@ -75,10 +75,16 @@ describe("ChecklistPage", () => {
 			name: "Mark Conquest incomplete",
 		});
 		expect(undoButton.querySelector(".lucide-undo-2")).toBeTruthy();
+		const completedBadge = within(conquestRow as HTMLElement).getByTitle(
+			"Completed",
+		);
+		const countdownBadge = within(conquestRow as HTMLElement).getByTitle(
+			"Resets in 23h 30m",
+		);
+		expect(completedBadge.querySelector(".lucide-check")).toBeTruthy();
+		expect(countdownBadge.nextElementSibling).toBe(completedBadge);
 		expect(
-			within(conquestRow as HTMLElement)
-				.getByTitle("Completed")
-				.querySelector(".lucide-check"),
+			within(conquestRow as HTMLElement).getByText("23h 30m"),
 		).toBeTruthy();
 		expect(event).toHaveBeenLastCalledWith(ANALYTICS_EVENTS.CHECKLIST_COMPLETE);
 		fireEvent.click(undoButton);
@@ -95,6 +101,86 @@ describe("ChecklistPage", () => {
 		expect(eventsFilter.getAttribute("aria-pressed")).toBe("true");
 		expect(screen.getByText("Anomaly: Gulgak")).toBeTruthy();
 		expect(screen.queryByText("Dimensional Rift")).toBeNull();
+	});
+
+	it("shows the next reset or end beside completed status", () => {
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-07-28T23:58:00.000Z"));
+		useAppStore.setState({
+			checklistTasks: {
+				rolling: {
+					id: "rolling",
+					title: "Rolling task",
+					kind: "custom",
+					startAt: "2026-07-27T00:00:00.000Z",
+					recurrence: "daily",
+					mode: "after_completion",
+					scheduleVersion: 1,
+				},
+				"one-time-event": {
+					id: "one-time-event",
+					title: "One-time player event",
+					kind: "event",
+					source: "user",
+					startAt: "2026-07-27T00:00:00.000Z",
+					endAt: "2026-07-29T00:58:00.000Z",
+					recurrence: "none",
+					scheduleVersion: 1,
+				},
+				"one-time-task": {
+					id: "one-time-task",
+					title: "One-time task",
+					kind: "custom",
+					startAt: "2026-07-27T00:00:00.000Z",
+					recurrence: "none",
+					scheduleVersion: 1,
+				},
+			},
+			checklistCompletions: {
+				"conquest-daily:2026-07-28T00:00:00.000Z": Date.parse(
+					"2026-07-28T01:00:00.000Z",
+				),
+				"anomaly-gulgak:2026-07-28T00:00:00.000Z": Date.parse(
+					"2026-07-28T01:00:00.000Z",
+				),
+				"rolling:v1:2026-07-27T00:00:00.000Z": Date.parse(
+					"2026-07-28T00:00:00.000Z",
+				),
+				"one-time-event:v1:2026-07-27T00:00:00.000Z": Date.parse(
+					"2026-07-28T01:00:00.000Z",
+				),
+				"one-time-task:v1:2026-07-27T00:00:00.000Z": Date.parse(
+					"2026-07-28T01:00:00.000Z",
+				),
+			},
+		});
+
+		render(<ChecklistPage />);
+
+		expect(
+			within(
+				screen.getByText("Conquest").closest("li") as HTMLElement,
+			).getByTitle("Resets in 2m"),
+		).toBeTruthy();
+		expect(
+			within(
+				screen.getByText("Rolling task").closest("li") as HTMLElement,
+			).getByTitle("Resets in 2m"),
+		).toBeTruthy();
+		expect(
+			within(
+				screen.getByText("One-time player event").closest("li") as HTMLElement,
+			).getByTitle("Ends in 1h 0m"),
+		).toBeTruthy();
+		expect(
+			within(
+				screen.getByText("Anomaly: Gulgak").closest("li") as HTMLElement,
+			).getByTitle("Ends in 1m"),
+		).toBeTruthy();
+		expect(
+			within(
+				screen.getByText("One-time task").closest("li") as HTMLElement,
+			).getByTitle("Completed"),
+		).toBeTruthy();
 	});
 
 	it("hides disabled category filters and returns an active filter to All", () => {

@@ -37,6 +37,45 @@ type ChecklistListProps = {
 	onDelete: (task: ChecklistTask) => void;
 };
 
+const getCompletedCountdown = (
+	item: ChecklistViewItem,
+	now: number,
+): { label: string; text: string } | undefined => {
+	const { definition, occurrence } = item;
+	let boundary: number | undefined;
+	let action: "due" | "ends" | "resets" = "resets";
+
+	if (definition.mode === "after_completion" && now < occurrence.startAt) {
+		boundary = occurrence.startAt;
+	} else if (occurrence.nextResetAt) {
+		boundary = occurrence.nextResetAt;
+	} else if (occurrence.endAt) {
+		boundary = occurrence.endAt;
+		action = definition.kind === "event" ? "ends" : "due";
+	}
+
+	if (
+		definition.kind === "event" &&
+		occurrence.endAt &&
+		(!boundary || occurrence.endAt < boundary)
+	) {
+		boundary = occurrence.endAt;
+		action = "ends";
+	}
+	if (!boundary || boundary <= now) return undefined;
+
+	const remaining = formatCountdown(boundary - now);
+	const actionLabel = {
+		due: "Due",
+		ends: "Ends",
+		resets: "Resets",
+	}[action];
+	return {
+		label: `${actionLabel} in ${remaining}`,
+		text: remaining,
+	};
+};
+
 export const ChecklistList = ({
 	items,
 	now,
@@ -46,9 +85,12 @@ export const ChecklistList = ({
 	onDelete,
 }: ChecklistListProps) => (
 	<ul aria-label="Checklist items" className="grid gap-2">
-		{items.map(({ definition, occurrence, completionKey, status }) => {
+		{items.map((item) => {
+			const { definition, occurrence, completionKey, status } = item;
 			const canComplete = status !== "upcoming" && status !== "expired";
 			const customTask = isChecklistTask(definition);
+			const completedCountdown =
+				status === "completed" ? getCompletedCountdown(item, now) : undefined;
 			const typeBadges: Array<keyof typeof typeBadgeStyles> = [];
 			if (definition.kind === "event") typeBadges.push("Event");
 			if (definition.recurrence === "weekly") typeBadges.push("Weekly");
@@ -72,11 +114,13 @@ export const ChecklistList = ({
 											? `Resets in ${formatCountdown(occurrence.nextResetAt - now)}`
 											: "Available now";
 			const countdown =
-				status === "upcoming"
-					? `in ${formatCountdown(occurrence.startAt - now)}`
-					: countdownLabel.includes(" in ")
-						? countdownLabel.slice(countdownLabel.indexOf(" in ") + 4)
-						: countdownLabel;
+				status === "completed"
+					? "Completed"
+					: status === "upcoming"
+						? `in ${formatCountdown(occurrence.startAt - now)}`
+						: countdownLabel.includes(" in ")
+							? countdownLabel.slice(countdownLabel.indexOf(" in ") + 4)
+							: countdownLabel;
 
 			return (
 				<li
@@ -174,25 +218,39 @@ export const ChecklistList = ({
 							</div>
 						)}
 					</div>
-					<span
-						title={countdownLabel}
-						className={cn(
-							"z-10 ml-2 inline-flex shrink-0 items-center rounded px-2 py-1 text-xs font-semibold whitespace-nowrap tabular-nums",
-							statusPillStyles[status],
+					<div className="z-10 ml-2 flex shrink-0 items-center gap-1">
+						{completedCountdown && (
+							<span
+								title={completedCountdown.label}
+								className="inline-flex items-center rounded bg-muted px-2 py-1 text-xs font-semibold whitespace-nowrap text-muted-foreground tabular-nums"
+							>
+								<span className="sr-only">{completedCountdown.label}</span>
+								<span aria-hidden="true" className="inline-flex items-center">
+									<CalendarDays className="mr-1 size-4" />
+									{completedCountdown.text}
+								</span>
+							</span>
 						)}
-					>
-						<span className="sr-only">{countdownLabel}</span>
-						<span aria-hidden="true" className="inline-flex items-center">
-							{status === "overdue" || status === "expired" ? (
-								<RotateCcw className="mr-1 size-4" />
-							) : status === "completed" ? (
-								<Check className="mr-1 size-4" />
-							) : (
-								<CalendarDays className="mr-1 size-4" />
+						<span
+							title={countdownLabel}
+							className={cn(
+								"inline-flex items-center rounded px-2 py-1 text-xs font-semibold whitespace-nowrap tabular-nums",
+								statusPillStyles[status],
 							)}
-							{countdown}
+						>
+							<span className="sr-only">{countdownLabel}</span>
+							<span aria-hidden="true" className="inline-flex items-center">
+								{status === "overdue" || status === "expired" ? (
+									<RotateCcw className="mr-1 size-4" />
+								) : status === "completed" ? (
+									<Check className="mr-1 size-4" />
+								) : (
+									<CalendarDays className="mr-1 size-4" />
+								)}
+								{countdown}
+							</span>
 						</span>
-					</span>
+					</div>
 				</li>
 			);
 		})}
