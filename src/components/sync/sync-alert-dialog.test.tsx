@@ -9,6 +9,7 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { useAppStore } from "@/stores/app-store";
+import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
 const { event, upload, download, select } = vi.hoisted(() => ({
 	event: vi.fn(),
@@ -64,10 +65,10 @@ describe("SyncConflictDialog tables", () => {
 			"min-w-0",
 		);
 		for (const table of tables) {
-			expect(table.className).toContain("min-w-[32rem]");
+			expect(table.className).toContain("min-w-[30rem]");
 			expect(table.parentElement?.className).toContain("overflow-x-auto");
 			expect(table.querySelectorAll(":scope > thead > tr > th")).toHaveLength(
-				6,
+				4,
 			);
 			expect(table.querySelectorAll(":scope > thead > th")).toHaveLength(0);
 			for (const header of table.querySelectorAll("th")) {
@@ -115,9 +116,23 @@ describe("SyncConflictDialog tables", () => {
 		});
 	});
 
-	it("restores shared Link Chain levels from the remote copy", async () => {
+	it("restores shared levels and checklist data from the remote copy", async () => {
 		download.mockResolvedValue({
 			monsterlingLinkChainLevels: { 67: 5 },
+			checklistTasks: {
+				task: {
+					id: "task",
+					title: "Remote task",
+					kind: "custom",
+					startAt: "2026-07-27T00:00:00.000Z",
+					scheduleVersion: 1,
+				},
+			},
+			checklistCompletions: { "task:v1:occurrence": 123 },
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showExpired: true,
+			},
 		});
 		render(<SyncConflictDialog />);
 
@@ -128,6 +143,13 @@ describe("SyncConflictDialog tables", () => {
 				67: 5,
 			}),
 		);
+		expect(useAppStore.getState().checklistTasks.task.title).toBe(
+			"Remote task",
+		);
+		expect(useAppStore.getState().checklistCompletions).toEqual({
+			"task:v1:occurrence": 123,
+		});
+		expect(useAppStore.getState().checklistPreferences.showExpired).toBe(true);
 	});
 
 	it("tracks a missing remote copy as a failure", async () => {

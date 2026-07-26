@@ -29,19 +29,13 @@ export const SyncCopyCard = ({ title, copy, isNewer }: SyncCopyCardProps) => (
 			</span>
 		</div>
 		<div>Size: {readableBytes(copy.size, { decimals: 2, minUnit: "kB" })}</div>
-		<Table className="min-w-[32rem]">
+		<Table className="min-w-[30rem]">
 			<TableHeader>
 				<TableRow>
 					<TableHead scope="col">Characters</TableHead>
 					<TableHead scope="col">Monsterlings</TableHead>
 					<TableHead scope="col">Loadouts</TableHead>
 					<TableHead scope="col">Codex</TableHead>
-					<TableHead scope="col">
-						Codex
-						<br />
-						Favorites
-					</TableHead>
-					<TableHead scope="col">Upgraded Link Chains</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -50,8 +44,6 @@ export const SyncCopyCard = ({ title, copy, isNewer }: SyncCopyCardProps) => (
 					<TableCell>{copy.metadata.monsterlingsOwned}</TableCell>
 					<TableCell>{copy.metadata.loadouts}</TableCell>
 					<TableCell>{copy.metadata.codexCompleted}</TableCell>
-					<TableCell>{copy.metadata.codexFavorites}</TableCell>
-					<TableCell>{copy.metadata.linkChainsUpgraded ?? 0}</TableCell>
 				</TableRow>
 			</TableBody>
 		</Table>

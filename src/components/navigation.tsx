@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import type { FileRoutesByTo } from "@/routeTree.gen";
 
 type Tab =
-	| "events"
+	| "checklist"
 	| "characters"
 	| "monster-codex"
 	| "account"
@@ -48,11 +48,10 @@ const navSections: NavSection[] = [
 	{
 		items: [
 			{
-				id: "events",
+				id: "checklist",
 				label: "Checklist",
 				icon: { type: "lucide", icon: CalendarCheck2 },
-				link: "/events",
-				hidden: hideItem,
+				link: "/checklist",
 			},
 			{
 				id: "characters",

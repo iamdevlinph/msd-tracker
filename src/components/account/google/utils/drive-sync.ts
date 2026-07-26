@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
+import { normalizeChecklistPersistedState } from "@/lib/checklist-persistence";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 
 const FILE_NAME = "state.json";
@@ -18,6 +19,9 @@ type Backup = Pick<
 	| "monsterlingsOwned"
 	| "monsterlingLinkChainLevels"
 	| "loadouts"
+	| "checklistTasks"
+	| "checklistCompletions"
+	| "checklistPreferences"
 >;
 
 export function select(state: StoreState): Backup {
@@ -32,6 +36,9 @@ export function select(state: StoreState): Backup {
 		charactersOwned: state.charactersOwned,
 		...consolidatedMonsterlingState,
 		loadouts: state.loadouts,
+		checklistTasks: state.checklistTasks,
+		checklistCompletions: state.checklistCompletions,
+		checklistPreferences: state.checklistPreferences,
 	};
 }
 
@@ -90,6 +97,7 @@ export async function download(): Promise<Backup | null> {
 
 		return {
 			...backup,
+			...normalizeChecklistPersistedState(backup),
 			...consolidateMonsterlingLinkChainLevels(
 				backup.monsterlingsOwned ?? {},
 				backup.monsterlingLinkChainLevels,
@@ -171,6 +179,9 @@ export async function initSync() {
 							codexFavorites: local.monsterCodexFavorites.length,
 							linkChainsUpgraded: Object.keys(local.monsterlingLinkChainLevels)
 								.length,
+							checklistTasks: Object.keys(local.checklistTasks).length,
+							checklistCompletions: Object.keys(local.checklistCompletions)
+								.length,
 						},
 					},
 					remote: {
@@ -184,6 +195,10 @@ export async function initSync() {
 							codexFavorites: remote.monsterCodexFavorites.length,
 							linkChainsUpgraded: Object.keys(
 								remote.monsterlingLinkChainLevels ?? {},
+							).length,
+							checklistTasks: Object.keys(remote.checklistTasks ?? {}).length,
+							checklistCompletions: Object.keys(
+								remote.checklistCompletions ?? {},
 							).length,
 						},
 					},

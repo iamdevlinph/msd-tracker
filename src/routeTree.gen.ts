@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MonsterlingsRouteImport } from './routes/monsterlings'
 import { Route as MonsterCodexRouteImport } from './routes/monster-codex'
 import { Route as LoadoutsRouteImport } from './routes/loadouts'
-import { Route as EventsRouteImport } from './routes/events'
 import { Route as EquipmentsRouteImport } from './routes/equipments'
+import { Route as ChecklistRouteImport } from './routes/checklist'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as ArtifactsRouteImport } from './routes/artifacts'
 import { Route as AccountRouteImport } from './routes/account'
@@ -37,14 +37,14 @@ const LoadoutsRoute = LoadoutsRouteImport.update({
   path: '/loadouts',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EquipmentsRoute = EquipmentsRouteImport.update({
   id: '/equipments',
   path: '/equipments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChecklistRoute = ChecklistRouteImport.update({
+  id: '/checklist',
+  path: '/checklist',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CharactersRoute = CharactersRouteImport.update({
@@ -88,8 +88,8 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/artifacts': typeof ArtifactsRoute
   '/characters': typeof CharactersRoute
+  '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
-  '/events': typeof EventsRoute
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
@@ -102,8 +102,8 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/artifacts': typeof ArtifactsRoute
   '/characters': typeof CharactersRoute
+  '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
-  '/events': typeof EventsRoute
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
@@ -117,8 +117,8 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/artifacts': typeof ArtifactsRoute
   '/characters': typeof CharactersRoute
+  '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
-  '/events': typeof EventsRoute
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
@@ -133,8 +133,8 @@ export interface FileRouteTypes {
     | '/account'
     | '/artifacts'
     | '/characters'
+    | '/checklist'
     | '/equipments'
-    | '/events'
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
@@ -147,8 +147,8 @@ export interface FileRouteTypes {
     | '/account'
     | '/artifacts'
     | '/characters'
+    | '/checklist'
     | '/equipments'
-    | '/events'
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
@@ -161,8 +161,8 @@ export interface FileRouteTypes {
     | '/account'
     | '/artifacts'
     | '/characters'
+    | '/checklist'
     | '/equipments'
-    | '/events'
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
@@ -176,8 +176,8 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   ArtifactsRoute: typeof ArtifactsRoute
   CharactersRoute: typeof CharactersRoute
+  ChecklistRoute: typeof ChecklistRoute
   EquipmentsRoute: typeof EquipmentsRoute
-  EventsRoute: typeof EventsRoute
   LoadoutsRoute: typeof LoadoutsRoute
   MonsterCodexRoute: typeof MonsterCodexRoute
   MonsterlingsRoute: typeof MonsterlingsRoute
@@ -209,18 +209,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoadoutsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/equipments': {
       id: '/equipments'
       path: '/equipments'
       fullPath: '/equipments'
       preLoaderRoute: typeof EquipmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checklist': {
+      id: '/checklist'
+      path: '/checklist'
+      fullPath: '/checklist'
+      preLoaderRoute: typeof ChecklistRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/characters': {
@@ -280,8 +280,8 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   ArtifactsRoute: ArtifactsRoute,
   CharactersRoute: CharactersRoute,
+  ChecklistRoute: ChecklistRoute,
   EquipmentsRoute: EquipmentsRoute,
-  EventsRoute: EventsRoute,
   LoadoutsRoute: LoadoutsRoute,
   MonsterCodexRoute: MonsterCodexRoute,
   MonsterlingsRoute: MonsterlingsRoute,

@@ -10,10 +10,11 @@ import {
 describe("SEO metadata", () => {
 	it("shares consistently formatted public page titles", () => {
 		expect(PUBLIC_PAGE_TITLES).toEqual({
-			CHARACTERS: `${SITE_NAME} - Characters`,
-			MONSTERLINGS: `${SITE_NAME} - Monsterlings`,
-			MONSTER_CODEX: `${SITE_NAME} - Monster Codex`,
-			LOADOUTS: `${SITE_NAME} - Loadouts`,
+			CHECKLIST: `Checklist - ${SITE_NAME}`,
+			CHARACTERS: `Characters - ${SITE_NAME}`,
+			MONSTERLINGS: `Monsterlings - ${SITE_NAME}`,
+			MONSTER_CODEX: `Monster Codex - ${SITE_NAME}`,
+			LOADOUTS: `Loadouts - ${SITE_NAME}`,
 		});
 	});
 
@@ -28,7 +29,7 @@ describe("SEO metadata", () => {
 			{ rel: "canonical", href: `${SITE_URL}/characters` },
 		]);
 		expect(head.meta).toContainEqual({
-			title: `${SITE_NAME} - Characters`,
+			title: `Characters - ${SITE_NAME}`,
 		});
 		expect(head.meta).toContainEqual({
 			name: "description",

@@ -33,7 +33,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 ## SEO: Available
 
 - [x] Add player-focused titles, descriptions, canonicals, social metadata, and visible H1 copy for public tracker pages.
-- [x] Use `Mongil: Star Dive Tracker - <Page>` route titles with concise page-specific H1 copy.
+- [x] Use `<Page> - Mongil: Star Dive Tracker` route titles with concise page-specific H1 copy.
 - [x] Prevent unfinished and account routes from being indexed.
 - [x] Publish a sitemap, crawler directive, branded manifest, and home WebSite structured data.
 
@@ -48,9 +48,12 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 ## Chunk 1: Checklist and Event Tracking
 
-- [ ] Define event, task, schedule, reset, and completion requirements when product details are available.
+- [x] Keep checklist orchestration, task-form conversion, reset anchors, and persisted normalization maintainable without changing reset, sync, completion, or accessibility behavior (verified with focused tests, repository checks, and a production build).
+- [x] Use single-check completion indicators, switch completed actions to undo, hide disabled category filters while keeping All available, and align toolbar controls with shared page button styling.
+
+- [x] Define typed limited events with reset-aligned recurring schedule and expiry behavior.
 - [ ] Design the durable checklist data model and evaluate local and Google Drive persistence.
-- [ ] Build an accessible, responsive Checklist page with relevant tests.
+- [ ] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [ ] Expose the Checklist navigation item after the feature is release-ready.
 
 ## Chunk 2: Artifacts Inventory

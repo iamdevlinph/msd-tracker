@@ -22,6 +22,12 @@ import { useAppStore } from "@/stores/app-store";
 
 const features: HomeFeature[] = [
 	{
+		title: "Checklist",
+		description: "Keep event tasks and recurring goals organized.",
+		to: "/checklist",
+		icon: CalendarCheck2,
+	},
+	{
 		title: "Characters",
 		description:
 			"Track owned characters, awakening levels, and skill progress.",
@@ -51,11 +57,6 @@ const features: HomeFeature[] = [
 ];
 
 const upcomingFeatures: UpcomingFeature[] = [
-	{
-		title: "Event Checklist",
-		description: "Keep event tasks and limited-time goals organized.",
-		icon: CalendarCheck2,
-	},
 	{
 		title: "Artifacts",
 		description: "Catalog owned artifacts and their important details.",

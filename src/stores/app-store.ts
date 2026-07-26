@@ -1,10 +1,15 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
+import { normalizeChecklistPersistedState } from "@/lib/checklist-persistence";
 import {
 	type CharactersOwnedSlice,
 	createCharactersOwnedSlice,
 } from "@/stores/characters-owned-slice";
+import {
+	type ChecklistSlice,
+	createChecklistSlice,
+} from "@/stores/checklist-slice";
 import {
 	type CompletedCodexSlice,
 	createMonsterCodexSlice,
@@ -35,6 +40,8 @@ export type StoreState = {
 				codexCompleted: number;
 				codexFavorites: number;
 				linkChainsUpgraded: number;
+				checklistTasks?: number;
+				checklistCompletions?: number;
 			};
 		};
 		remote: {
@@ -47,6 +54,8 @@ export type StoreState = {
 				codexCompleted: number;
 				codexFavorites: number;
 				linkChainsUpgraded: number;
+				checklistTasks?: number;
+				checklistCompletions?: number;
 			};
 		};
 	} | null;
@@ -57,7 +66,8 @@ export type StoreState = {
 } & CompletedCodexSlice &
 	CharactersOwnedSlice &
 	MonsterlingsSlice &
-	LoadoutsSlice;
+	LoadoutsSlice &
+	ChecklistSlice;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
@@ -70,6 +80,7 @@ export const migrateAppStore = (persistedState: unknown) => {
 	const state = persistedState as Partial<StoreState>;
 	return {
 		...state,
+		...normalizeChecklistPersistedState(state),
 		...consolidateMonsterlingLinkChainLevels(
 			state.monsterlingsOwned as Parameters<
 				typeof consolidateMonsterlingLinkChainLevels
@@ -97,10 +108,11 @@ export const useAppStore = create<StoreState>()(
 				...createCharactersOwnedSlice(set, get, api),
 				...createMonsterlingsSlice(set, get, api),
 				...createLoadoutsSlice(set, get, api),
+				...createChecklistSlice(set, get, api),
 			}),
 			{
 				name: "msd-tracker",
-				version: 1,
+				version: 3,
 				migrate: migrateAppStore,
 				onRehydrateStorage: (_state) => {
 					// NOTE: In the `google-section.tsx` I get hydration error

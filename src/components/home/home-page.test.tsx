@@ -49,6 +49,7 @@ describe("HomePage", () => {
 
 		for (const [name, href] of [
 			["Characters", "/characters"],
+			["Checklist", "/checklist"],
 			["Monsterlings", "/monsterlings"],
 			["Monster Codex", "/monster-codex"],
 			["Loadouts", "/loadouts"],
@@ -88,9 +89,10 @@ describe("HomePage", () => {
 	it("presents upcoming features without linking to unfinished pages", () => {
 		render(<HomePage />);
 
-		expect(screen.getByText("Event Checklist")).toBeTruthy();
 		expect(screen.getByText("Artifacts")).toBeTruthy();
 		expect(screen.getByText("Equipment")).toBeTruthy();
-		expect(screen.queryByRole("link", { name: /Event Checklist/ })).toBeNull();
+		expect(
+			screen.getByRole("link", { name: "Explore Checklist" }),
+		).toBeTruthy();
 	});
 });

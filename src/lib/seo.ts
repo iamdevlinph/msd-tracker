@@ -2,10 +2,11 @@ export const SITE_URL = "https://msd-tracker.debu.games";
 export const SITE_NAME = "Mongil: Star Dive Tracker";
 
 export const PUBLIC_PAGE_TITLES = {
-	CHARACTERS: `${SITE_NAME} - Characters`,
-	MONSTERLINGS: `${SITE_NAME} - Monsterlings`,
-	MONSTER_CODEX: `${SITE_NAME} - Monster Codex`,
-	LOADOUTS: `${SITE_NAME} - Loadouts`,
+	CHECKLIST: `Checklist - ${SITE_NAME}`,
+	CHARACTERS: `Characters - ${SITE_NAME}`,
+	MONSTERLINGS: `Monsterlings - ${SITE_NAME}`,
+	MONSTER_CODEX: `Monster Codex - ${SITE_NAME}`,
+	LOADOUTS: `Loadouts - ${SITE_NAME}`,
 };
 
 export type SeoPage = {

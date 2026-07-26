@@ -6,6 +6,7 @@ import {
 	select,
 } from "@/components/account/google/utils/drive-sync";
 import { useAppStore } from "@/stores/app-store";
+import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
 const { driveFetch } = vi.hoisted(() => ({ driveFetch: vi.fn() }));
 
@@ -19,6 +20,9 @@ describe("Drive Monsterling backups", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: {},
+			checklistTasks: {},
+			checklistCompletions: {},
+			checklistPreferences: defaultChecklistPreferences,
 			syncConflict: null,
 		});
 	});
@@ -52,6 +56,9 @@ describe("Drive Monsterling backups", () => {
 		);
 		expect(selected.monsterlingLinkChainLevels).not.toHaveProperty("1");
 		expect(selected).not.toHaveProperty("syncInProgress");
+		expect(selected.checklistTasks).toEqual({});
+		expect(selected.checklistCompletions).toEqual({});
+		expect(selected.checklistPreferences).toEqual(defaultChecklistPreferences);
 	});
 
 	it("migrates existing levels when downloading a legacy backup", async () => {
@@ -88,6 +95,12 @@ describe("Drive Monsterling backups", () => {
 			.mockResolvedValueOnce({ json: async () => legacyBackup });
 
 		await initSync();
+		expect(
+			useAppStore.getState().syncConflict?.local.metadata.checklistTasks,
+		).toBe(0);
+		expect(
+			useAppStore.getState().syncConflict?.remote.metadata.checklistCompletions,
+		).toBe(0);
 		driveFetch.mockResolvedValueOnce({ json: async () => legacyBackup });
 
 		const downloaded = await download();
@@ -99,5 +112,39 @@ describe("Drive Monsterling backups", () => {
 		expect(downloaded?.monsterlingsOwned.higher).not.toHaveProperty(
 			"link_chain_level",
 		);
+		expect(downloaded?.checklistTasks).toEqual({});
+		expect(downloaded?.checklistCompletions).toEqual({});
+		expect(downloaded?.checklistPreferences).toEqual(
+			defaultChecklistPreferences,
+		);
+	});
+
+	it("anchors legacy checklist dates without changing the local backup timestamp", async () => {
+		useAppStore.setState({ backupUpdatedAt: 77 });
+		driveFetch.mockResolvedValueOnce({
+			json: async () => ({
+				backupUpdatedAt: 1,
+				monsterCodexCompleted: [],
+				charactersOwned: {},
+				monsterlingsOwned: {},
+				loadouts: {},
+				checklistTasks: {
+					legacy: {
+						title: "Legacy",
+						kind: "custom",
+						startAt: "2026-07-27T00:00:00+08:00",
+						recurrence: "daily",
+						scheduleVersion: 1,
+					},
+				},
+			}),
+		});
+
+		const downloaded = await download();
+		expect(downloaded?.checklistTasks.legacy.startAt).toBe(
+			"2026-07-27T00:00:00.000Z",
+		);
+		expect(downloaded?.checklistTasks.legacy.scheduleVersion).toBe(2);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(77);
 	});
 });

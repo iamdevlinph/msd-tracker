@@ -36,6 +36,12 @@ export const ANALYTICS_EVENTS = {
 	SYNC_CONFLICT_KEEP_REMOTE_ATTEMPT: "sync_conflict_keep_remote_attempt",
 	SYNC_CONFLICT_KEEP_REMOTE_SUCCESS: "sync_conflict_keep_remote_success",
 	SYNC_CONFLICT_KEEP_REMOTE_FAILURE: "sync_conflict_keep_remote_failure",
+	CHECKLIST_CREATE: "checklist_create",
+	CHECKLIST_UPDATE: "checklist_update",
+	CHECKLIST_DELETE: "checklist_delete",
+	CHECKLIST_COMPLETE: "checklist_complete",
+	CHECKLIST_UNDO: "checklist_undo",
+	CHECKLIST_RESET: "checklist_reset",
 } as const;
 
 export type AnalyticsEventName =
