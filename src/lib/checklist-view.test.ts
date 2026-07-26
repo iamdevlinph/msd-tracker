@@ -100,15 +100,17 @@ describe("getChecklistView", () => {
 			recurrence: "daily",
 			scheduleVersion: 1,
 		};
-		const [item] = getChecklistView({
+		const item = getChecklistView({
 			tasks: { [playerEvent.id]: playerEvent },
 			completions: {},
 			preferences: defaultChecklistPreferences,
 			tab: "event",
 			now,
-		});
+		}).find(({ definition }) => definition.id === playerEvent.id);
 
-		expect(item.definition).toEqual(playerEvent);
-		expect(item.occurrence.endAt).toBe(Date.parse(playerEvent.endAt as string));
+		expect(item?.definition).toEqual(playerEvent);
+		expect(item?.occurrence.endAt).toBe(
+			Date.parse(playerEvent.endAt as string),
+		);
 	});
 });

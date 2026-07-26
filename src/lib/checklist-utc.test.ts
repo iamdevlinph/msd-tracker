@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import { EVENTS_DATA } from "@/data/EVENTS_DATA";
 import {
 	formatCountdown,
 	getChecklistStatus,
@@ -7,25 +7,35 @@ import {
 	occurrenceKey,
 } from "@/lib/checklist";
 
-const event = {
-	id: "100-day-launch-anniversary-check-in",
-	title: "100 Day Launch Anniversary 14-Day Check-In Pass",
-	kind: "event",
-	startAt: "2026-07-22T00:00:00.000Z",
-	endAt: "2026-08-11T23:59:00.000Z",
-	recurrence: "daily",
-} satisfies ChecklistDefinition;
+const [checkInEvent, bonusTimeEvent] = EVENTS_DATA;
 
 describe("checklist UTC scheduling", () => {
-	it("uses published UTC event timestamps without player-timezone conversion", () => {
-		expect(Date.parse(event.startAt)).toBe(Date.UTC(2026, 6, 22, 0, 0));
-		expect(Date.parse(event.endAt)).toBe(Date.UTC(2026, 7, 11, 23, 59));
-		expect(
-			getOccurrence(event, Date.parse("2026-07-22T12:00:00.000Z")).endAt,
-		).toBe(Date.parse(event.endAt));
+	it("records the published anniversary events with exact UTC timestamps", () => {
+		expect(EVENTS_DATA).toEqual([
+			{
+				id: "100-day-launch-anniversary-check-in",
+				title: "100 Day Launch Anniversary 14-Day Check-In Pass",
+				noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
+				kind: "event",
+				startAt: "2026-07-22T00:00:00.000Z",
+				endAt: "2026-08-11T23:59:00.000Z",
+				recurrence: "daily",
+			},
+			{
+				id: "100-day-anniversary-bonus-time",
+				title: "Bonus Time Event",
+				noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
+				kind: "event",
+				startAt: "2026-07-22T00:00:00.000Z",
+				endAt: "2026-07-28T23:59:00.000Z",
+				recurrence: "daily",
+			},
+		]);
 	});
 
-	it("refreshes daily completion keys at 00:00 UTC", () => {
+	it.each(
+		EVENTS_DATA,
+	)("refreshes $title completion keys at 00:00 UTC", (event) => {
 		const before = getOccurrence(event, Date.parse("2026-07-22T23:59:00.000Z"));
 		const after = getOccurrence(event, Date.parse("2026-07-23T00:01:00.000Z"));
 
@@ -38,7 +48,7 @@ describe("checklist UTC scheduling", () => {
 
 	it("refreshes weekly completion keys on Monday at 00:00 UTC", () => {
 		const weekly = {
-			...event,
+			...checkInEvent,
 			id: "weekly-shop",
 			recurrence: "weekly" as const,
 			startAt: "2026-07-27T00:00:00.000Z",
@@ -58,9 +68,11 @@ describe("checklist UTC scheduling", () => {
 
 	it("keeps elapsed time and expiry independent of display timezone", () => {
 		expect(formatCountdown(8 * 60 * 60_000)).toBe("8h 0m");
-		const end = Date.parse(event.endAt);
-		expect(getChecklistStatus(event, getOccurrence(event, end), end)).toBe(
-			"expired",
-		);
+		for (const event of [checkInEvent, bonusTimeEvent]) {
+			const end = Date.parse(event.endAt);
+			expect(getChecklistStatus(event, getOccurrence(event, end), end)).toBe(
+				"expired",
+			);
+		}
 	});
 });
