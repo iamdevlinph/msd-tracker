@@ -49,16 +49,12 @@ export const ChecklistList = ({
 		{items.map(({ definition, occurrence, completionKey, status }) => {
 			const canComplete = status !== "upcoming" && status !== "expired";
 			const customTask = isChecklistTask(definition);
-			const typeBadge =
-				definition.recurrence === "weekly"
-					? "Weekly"
-					: definition.recurrence === "daily"
-						? "Daily"
-						: definition.kind === "event"
-							? "Event"
-							: customTask
-								? "Custom"
-								: undefined;
+			const typeBadges: Array<keyof typeof typeBadgeStyles> = [];
+			if (definition.kind === "event") typeBadges.push("Event");
+			if (definition.recurrence === "weekly") typeBadges.push("Weekly");
+			else if (definition.recurrence === "daily") typeBadges.push("Daily");
+			else if (customTask && definition.kind !== "event")
+				typeBadges.push("Custom");
 			const countdownLabel =
 				status === "completed"
 					? "Completed"
@@ -94,6 +90,7 @@ export const ChecklistList = ({
 						status === "overdue" &&
 							"from-destructive/10 hover:border-destructive/40",
 						status === "completed" && "opacity-70",
+						status === "expired" && "opacity-50",
 					)}
 				>
 					<div className="flex min-w-0 flex-1 items-center">
@@ -124,9 +121,10 @@ export const ChecklistList = ({
 								<Check className="size-5" />
 							)}
 						</Button>
-						<div className="mr-2 flex min-w-0 flex-1 items-center gap-2 leading-tight">
-							{typeBadge && (
+						<div className="mr-2 flex min-w-0 flex-1 items-center gap-1.5 leading-tight">
+							{typeBadges.map((typeBadge) => (
 								<span
+									key={typeBadge}
 									className={cn(
 										"shrink-0 rounded px-2 py-1 text-[10px] font-semibold sm:text-xs",
 										typeBadgeStyles[typeBadge],
@@ -134,14 +132,15 @@ export const ChecklistList = ({
 								>
 									{typeBadge}
 								</span>
-							)}
+							))}
 							<span
 								className={cn(
 									"line-clamp-2 font-semibold",
 									customTask
 										? "text-sm sm:text-base"
 										: "text-xs sm:text-sm md:text-base",
-									status === "completed" && "line-through",
+									(status === "completed" || status === "expired") &&
+										"line-through",
 								)}
 							>
 								{definition.title}

@@ -145,8 +145,8 @@ describe("Checklist store", () => {
 
 	it("persists preference changes and resets the complete slice", () => {
 		vi.spyOn(Date, "now").mockReturnValue(456);
-		useAppStore.getState().setChecklistPreferences({ showExpired: true });
-		expect(useAppStore.getState().checklistPreferences.showExpired).toBe(true);
+		useAppStore.getState().setChecklistPreferences({ showExpired: false });
+		expect(useAppStore.getState().checklistPreferences.showExpired).toBe(false);
 		expect(useAppStore.getState().backupUpdatedAt).toBe(456);
 
 		useAppStore.getState().resetChecklist();

@@ -26,7 +26,7 @@ describe("normalizeChecklistPersistedState", () => {
 				},
 			},
 			checklistPreferences: {
-				showExpired: true,
+				showExpired: false,
 				categories: { event: false },
 			},
 		});
@@ -37,7 +37,7 @@ describe("normalizeChecklistPersistedState", () => {
 		});
 		expect(state.checklistPreferences).toEqual({
 			...defaultChecklistPreferences,
-			showExpired: true,
+			showExpired: false,
 			categories: {
 				...defaultChecklistPreferences.categories,
 				event: false,

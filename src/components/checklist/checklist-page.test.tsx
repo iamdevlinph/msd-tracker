@@ -79,11 +79,17 @@ describe("ChecklistPage", () => {
 		fireEvent.click(undoButton);
 		expect(event).toHaveBeenLastCalledWith(ANALYTICS_EVENTS.CHECKLIST_UNDO);
 
+		const anomalyRow = screen.getByText("Anomaly: Gulgak").closest("li");
+		expect(anomalyRow).toBeTruthy();
+		expect(within(anomalyRow as HTMLElement).getByText("Event")).toBeTruthy();
+		expect(within(anomalyRow as HTMLElement).getByText("Daily")).toBeTruthy();
+
 		const eventsFilter = screen.getByRole("button", { name: "Events" });
 		expect(eventsFilter.getAttribute("aria-pressed")).toBe("false");
 		fireEvent.click(eventsFilter);
 		expect(eventsFilter.getAttribute("aria-pressed")).toBe("true");
-		expect(screen.getByText("No dated events are available yet.")).toBeTruthy();
+		expect(screen.getByText("Anomaly: Gulgak")).toBeTruthy();
+		expect(screen.queryByText("Dimensional Rift")).toBeNull();
 	});
 
 	it("hides disabled category filters and returns an active filter to All", () => {
@@ -140,6 +146,16 @@ describe("ChecklistPage", () => {
 				name: "Delete Future task",
 			}),
 		).toBeTruthy();
+	});
+
+	it("strikes through expired event names when expired items are visible", () => {
+		render(<ChecklistPage />);
+
+		const expiredName = screen.getByText(
+			"Cool Summer Vacation! Login Reward Event",
+		);
+		expect(expiredName.className).toContain("line-through");
+		expect(expiredName.closest("li")?.className).toContain("opacity-50");
 	});
 
 	it("shows inline validation in the accessible add-task dialog", async () => {

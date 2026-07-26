@@ -15,7 +15,7 @@ export const defaultChecklistPreferences: ChecklistPreferences = {
 	categories: { event: true, permanent: true, custom: true },
 	showUpcoming: true,
 	showCompleted: true,
-	showExpired: false,
+	showExpired: true,
 	endingSoonHours: 24,
 };
 
