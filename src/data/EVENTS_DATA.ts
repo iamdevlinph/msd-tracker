@@ -133,13 +133,4 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		endAt: "2026-07-28T23:59:00.000Z",
 		recurrence: "daily",
 	},
-	{
-		id: "cool-summer-vacation-login-reward",
-		title: "Cool Summer Vacation! Login Reward Event",
-		noticeTitle: "7/15 (Wed) Cool Summer Vacation! Login Reward Event",
-		kind: "event",
-		startAt: "2026-07-15T10:00:00.000Z",
-		endAt: "2026-07-22T09:59:00.000Z",
-		recurrence: "none",
-	},
 ];
