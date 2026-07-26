@@ -60,6 +60,11 @@ describe("ChecklistPage", () => {
 		const conquestRow = screen.getByText("Conquest").closest("li");
 		expect(conquestRow).toBeTruthy();
 		expect(within(conquestRow as HTMLElement).getByText("Daily")).toBeTruthy();
+		const requestBoardRow = screen.getByText("Request Board").closest("li");
+		expect(requestBoardRow).toBeTruthy();
+		expect(
+			within(requestBoardRow as HTMLElement).getByText("Daily"),
+		).toBeTruthy();
 		const completeButton = within(conquestRow as HTMLElement).getByRole(
 			"button",
 			{ name: "Mark Conquest complete" },

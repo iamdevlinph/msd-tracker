@@ -56,6 +56,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Add the First Summer Dive event set and Cool Summer Vacation login reward using their published UTC periods and explicit daily-reset behavior.
 - [x] Show Event alongside Daily or Weekly badges when an event also has a recurring reset, and show expired rows by default with reduced opacity and struck-through names.
 - [x] Show player-created Task and Event notes beneath item names with a compact two-line limit.
+- [x] Track Request Board as a permanent daily activity resetting at 00:00 UTC.
 - [ ] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [ ] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [ ] Expose the Checklist navigation item after the feature is release-ready.

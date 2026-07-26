@@ -45,4 +45,11 @@ export const PERMANENT_EVENTS: ChecklistDefinition[] = [
 		startAt: "2024-01-01T00:00:00.000Z",
 		recurrence: "daily",
 	},
+	{
+		id: "request-board",
+		title: "Request Board",
+		kind: "permanent",
+		startAt: "2024-01-01T00:00:00.000Z",
+		recurrence: "daily",
+	},
 ];
