@@ -133,18 +133,25 @@ export const ChecklistList = ({
 									{typeBadge}
 								</span>
 							))}
-							<span
-								className={cn(
-									"line-clamp-2 font-semibold",
-									customTask
-										? "text-sm sm:text-base"
-										: "text-xs sm:text-sm md:text-base",
-									(status === "completed" || status === "expired") &&
-										"line-through",
+							<div className="min-w-0 flex-1">
+								<span
+									className={cn(
+										"line-clamp-2 font-semibold",
+										customTask
+											? "text-sm sm:text-base"
+											: "text-xs sm:text-sm md:text-base",
+										(status === "completed" || status === "expired") &&
+											"line-through",
+									)}
+								>
+									{definition.title}
+								</span>
+								{customTask && definition.notes && (
+									<p className="mt-0.5 line-clamp-2 break-words whitespace-pre-line text-xs font-normal text-muted-foreground">
+										{definition.notes}
+									</p>
 								)}
-							>
-								{definition.title}
-							</span>
+							</div>
 						</div>
 						{customTask && (
 							<div className="flex shrink-0 items-center gap-1 opacity-60 transition-opacity sm:opacity-0 sm:group-hover:opacity-75 sm:group-focus-within:opacity-100">

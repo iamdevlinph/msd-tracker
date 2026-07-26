@@ -122,8 +122,20 @@ describe("ChecklistPage", () => {
 				future: {
 					id: "future",
 					title: "Future task",
+					notes: "Bring the strongest team.\nCheck equipment first.",
 					kind: "custom",
 					startAt: "2026-07-28T00:30:00.000Z",
+					recurrence: "none",
+					scheduleVersion: 1,
+				},
+				"player-event": {
+					id: "player-event",
+					title: "Player event",
+					notes: "Claim rewards before the event ends.",
+					kind: "event",
+					source: "user",
+					startAt: "2026-07-26T00:00:00.000Z",
+					endAt: "2026-08-01T00:00:00.000Z",
 					recurrence: "none",
 					scheduleVersion: 1,
 				},
@@ -135,6 +147,11 @@ describe("ChecklistPage", () => {
 		const futureRow = screen.getByText("Future task").closest("li");
 		expect(futureRow).toBeTruthy();
 		expect(within(futureRow as HTMLElement).getByText("Custom")).toBeTruthy();
+		expect(
+			within(futureRow as HTMLElement).getByText(
+				"Bring the strongest team. Check equipment first.",
+			).className,
+		).toContain("line-clamp-2");
 		expect(within(futureRow as HTMLElement).getByText("in 1d 0h")).toBeTruthy();
 		expect(
 			within(futureRow as HTMLElement).getByRole("button", {
@@ -146,6 +163,14 @@ describe("ChecklistPage", () => {
 				name: "Delete Future task",
 			}),
 		).toBeTruthy();
+
+		const playerEventRow = screen.getByText("Player event").closest("li");
+		expect(playerEventRow).toBeTruthy();
+		expect(
+			within(playerEventRow as HTMLElement).getByText(
+				"Claim rewards before the event ends.",
+			).className,
+		).toContain("line-clamp-2");
 	});
 
 	it("strikes through expired event names when expired items are visible", () => {
