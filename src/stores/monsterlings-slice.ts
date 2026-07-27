@@ -40,10 +40,13 @@ export const createMonsterlingsSlice: StateCreator<
 				const info = MONSTERLINGS_DATA[monsterling.monsterling_id];
 				const nextLevel = getLinkChainLevelOrOne(linkChainLevel);
 				const levels = { ...state.monsterlingLinkChainLevels };
-				if (info?.linkChain && nextLevel > 1) {
-					levels[monsterling.monsterling_id] = nextLevel;
-				} else {
+				const existingLevel = getLinkChainLevelOrOne(
+					levels[monsterling.monsterling_id],
+				);
+				if (!info?.linkChain) {
 					delete levels[monsterling.monsterling_id];
+				} else if (nextLevel > existingLevel) {
+					levels[monsterling.monsterling_id] = nextLevel;
 				}
 				return {
 					monsterlingsOwned: {
@@ -67,7 +70,6 @@ export const createMonsterlingsSlice: StateCreator<
 		resetMonsterlingSlice: () =>
 			set({
 				monsterlingsOwned: {},
-				monsterlingLinkChainLevels: {},
 				backupUpdatedAt: Date.now(),
 			}),
 	};

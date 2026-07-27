@@ -69,6 +69,19 @@ describe("AccountPage clear confirmations", () => {
 		expect(event).not.toHaveBeenCalled();
 	});
 
+	it("explains that clearing owned Monsterlings keeps Link Chain Levels", () => {
+		render(<AccountPage />);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear Monsterlings Owned" }),
+		);
+
+		expect(
+			screen.getByText(
+				/Saved Link Chain Levels remain available when you re-add a species/,
+			),
+		).toBeTruthy();
+	});
+
 	it.each([
 		["Clear Monster Codex", "resetCodexStore", ANALYTICS_EVENTS.CODEX_RESET],
 		[

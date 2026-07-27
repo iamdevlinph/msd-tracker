@@ -114,7 +114,7 @@ export const AccountPage = () => {
 							Clear Characters Owned
 						</ClearDataButton>
 						<ClearDataButton
-							description="This permanently clears your owned monsterlings and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
+							description="This permanently clears your owned Monsterlings. Saved Link Chain Levels remain available when you re-add a species. If Google Drive sync is active, the cleared data will be included in the next backup."
 							onConfirm={() => {
 								resetMonsterlingSlice();
 								ga.event(ANALYTICS_EVENTS.MONSTERLINGS_RESET);

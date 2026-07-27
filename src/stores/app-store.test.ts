@@ -2,6 +2,29 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { migrateAppStore, useAppStore } from "@/stores/app-store";
 
+const { monsterlingsData } = vi.hoisted(() => ({
+	monsterlingsData: {
+		1: {
+			id: 1,
+			name: "Fixture Ineligible",
+		},
+		67: {
+			id: 67,
+			name: "Fixture Linker",
+			linkChain: { name: "Fixture Link Chain" },
+		},
+		68: {
+			id: 68,
+			name: "Fixture Second Linker",
+			linkChain: { name: "Fixture Second Link Chain" },
+		},
+	},
+}));
+
+vi.mock("@/data/MONSTERLINGS_DATA", () => ({
+	MONSTERLINGS_DATA: monsterlingsData,
+}));
+
 const ownedMonsterling = {
 	monsterling_id: 67,
 	tier_id: 5 as const,
@@ -43,7 +66,7 @@ describe("Monsterling Link Chain persistence", () => {
 		expect(migrateAppStore(migrated)).toEqual(migrated);
 	});
 
-	it("saves one shared level, retains it on delete, and clears it on reset", () => {
+	it("saves one shared level, retains it on delete and reset", () => {
 		vi.spyOn(Date, "now").mockReturnValue(123);
 		const store = useAppStore.getState();
 
@@ -84,14 +107,40 @@ describe("Monsterling Link Chain persistence", () => {
 		});
 
 		useAppStore.getState().resetMonsterlingSlice();
-		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({});
+		expect(useAppStore.getState().monsterlingsOwned).toEqual({});
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+			67: 5,
+		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 	});
 
-	it("removes the sparse shared entry when saving level one", () => {
-		useAppStore.setState({ monsterlingLinkChainLevels: { 67: 5 } });
+	it("does not downgrade a shared level when saving a lower level", () => {
+		useAppStore.setState({
+			monsterlingLinkChainLevels: { 1: 5, 67: 5 } as never,
+		});
 
 		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 1);
+		useAppStore
+			.getState()
+			.setMonsterlingOwned(
+				{ ...ownedMonsterling, monsterling_id: 1 },
+				undefined,
+				1,
+			);
 
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+			67: 5,
+		});
+	});
+
+	it("keeps a first-time level-one species implicit and upgrades higher levels", () => {
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 1);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({});
+
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 3);
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 2);
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+			67: 3,
+		});
 	});
 });

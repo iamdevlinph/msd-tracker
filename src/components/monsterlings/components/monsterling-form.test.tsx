@@ -11,6 +11,36 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterlingForm } from "@/components/monsterlings/components/monsterling-form";
 import { useAppStore } from "@/stores/app-store";
 
+const { monsterlingsData, monsterlingOptions } = vi.hoisted(() => ({
+	monsterlingsData: {
+		1: {
+			id: 1,
+			name: "Fixture Ineligible",
+			image: "/fixture-ineligible.png",
+		},
+		67: {
+			id: 67,
+			name: "Fixture Linker",
+			image: "/fixture-linker.png",
+			linkChain: { name: "Fixture Link Chain" },
+		},
+	},
+	monsterlingOptions: [
+		{ label: "Fixture Ineligible", value: "1" },
+		{ label: "Fixture Linker", value: "67" },
+	],
+}));
+
+vi.mock("@/data/MONSTERLINGS_DATA", () => ({
+	MONSTERLINGS_DATA: monsterlingsData,
+}));
+vi.mock("@/components/monsterlings/store/monsterlings-options-store", () => ({
+	useMonsterOptionStore: (
+		selector: (state: {
+			getMonsterlingOptions: () => typeof monsterlingOptions;
+		}) => unknown,
+	) => selector({ getMonsterlingOptions: () => monsterlingOptions }),
+}));
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event: vi.fn() }),
 }));
@@ -95,14 +125,33 @@ describe("MonsterlingForm", () => {
 			.closest('[data-slot="input-group"]')
 			?.querySelector("button") as HTMLElement;
 		fireEvent.click(monsterlingTrigger);
-		fireEvent.click(screen.getByText("Cappy"));
+		fireEvent.click(screen.getByText("Fixture Ineligible"));
 		expect(screen.queryByText("Link Chain Level")).toBeNull();
 		expect(screen.queryByAltText("Link Chain Level 3")).toBeNull();
 
 		fireEvent.click(monsterlingTrigger);
-		fireEvent.click(screen.getByText("Amon"));
+		fireEvent.click(screen.getByText("Fixture Linker"));
 		expect(screen.getByText("Link Chain Level")).toBeTruthy();
 		expect(screen.getByAltText("Link Chain Level 3")).toBeTruthy();
+	});
+
+	it("restores a retained level when re-adding a deleted species", () => {
+		useAppStore.setState({
+			monsterlingsOwned: {},
+			monsterlingLinkChainLevels: { 67: 4 },
+		});
+		render(<MonsterlingForm onClose={vi.fn()} />);
+
+		const monsterlingInput = screen
+			.getAllByDisplayValue("Fixture Ineligible")
+			.find((input) => input.getAttribute("aria-hidden") !== "true");
+		const monsterlingTrigger = monsterlingInput
+			?.closest('[data-slot="input-group"]')
+			?.querySelector("button") as HTMLElement;
+		fireEvent.click(monsterlingTrigger);
+		fireEvent.click(screen.getByText("Fixture Linker"));
+
+		expect(screen.getByAltText("Link Chain Level 4")).toBeTruthy();
 	});
 
 	it("uses level one when editing an invalid shared value", () => {

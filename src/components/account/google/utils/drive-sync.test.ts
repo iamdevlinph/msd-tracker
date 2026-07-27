@@ -10,8 +10,30 @@ import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
 const { driveFetch } = vi.hoisted(() => ({ driveFetch: vi.fn() }));
 
+const { monsterlingsData } = vi.hoisted(() => ({
+	monsterlingsData: {
+		1: {
+			id: 1,
+			name: "Fixture Ineligible",
+		},
+		67: {
+			id: 67,
+			name: "Fixture Linker",
+			linkChain: { name: "Fixture Link Chain" },
+		},
+		68: {
+			id: 68,
+			name: "Fixture Second Linker",
+			linkChain: { name: "Fixture Second Link Chain" },
+		},
+	},
+}));
+
 vi.mock("@/components/account/google/utils/drive-client", () => ({
 	driveFetch,
+}));
+vi.mock("@/data/MONSTERLINGS_DATA", () => ({
+	MONSTERLINGS_DATA: monsterlingsData,
 }));
 
 describe("Drive Monsterling backups", () => {
@@ -61,6 +83,40 @@ describe("Drive Monsterling backups", () => {
 		expect(selected.checklistCompletions).toEqual({});
 		expect(selected.checklistPermanentNotes).toEqual({});
 		expect(selected.checklistPreferences).toEqual(defaultChecklistPreferences);
+	});
+
+	it("selects retained levels without owned copies", () => {
+		useAppStore.setState({
+			monsterlingsOwned: {},
+			monsterlingLinkChainLevels: { 67: 4 },
+		});
+
+		expect(select(useAppStore.getState()).monsterlingLinkChainLevels).toEqual({
+			67: 4,
+		});
+	});
+
+	it("downloads retained levels without owned copies", async () => {
+		const backup = {
+			backupUpdatedAt: 1,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			monsterlingLinkChainLevels: { 67: 4 },
+			loadouts: {},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ json: async () => backup });
+
+		await initSync();
+		driveFetch.mockResolvedValueOnce({ json: async () => backup });
+
+		const downloaded = await download();
+		expect(downloaded?.monsterlingsOwned).toEqual({});
+		expect(downloaded?.monsterlingLinkChainLevels).toEqual({ 67: 4 });
 	});
 
 	it("migrates existing levels when downloading a legacy backup", async () => {
