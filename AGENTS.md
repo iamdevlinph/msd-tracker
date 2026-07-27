@@ -43,7 +43,7 @@ GA4 page views are automatic. For meaningful user actions, add a normalized name
 
 ## Testing Guidelines
 
-Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. For behavior changes and bug fixes, add or update the smallest focused regression tests and run them before broader suites. Do not introduce a test framework or low-value tests solely for coverage; when automation is impractical, explain why and perform the strongest targeted verification available. Mock browser boundaries and keep fixtures focused, subject to the escalation rules above.
+Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. For behavior changes and bug fixes, add or update the smallest focused regression tests and run them before broader suites. Behavior tests use test-owned fixtures or module mocks rather than mutable game datasets; direct live-data imports are reserved for dedicated dataset-validation tests. Do not introduce a test framework or low-value tests solely for coverage; when automation is impractical, explain why and perform the strongest targeted verification available. Mock browser boundaries and keep fixtures focused, subject to the escalation rules above.
 
 ## Commit & Pull Request Guidelines
 

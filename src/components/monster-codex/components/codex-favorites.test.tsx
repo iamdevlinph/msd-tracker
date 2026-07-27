@@ -9,18 +9,47 @@ import {
 	initialCodexFilters,
 	useCodexStore,
 } from "@/components/monster-codex/store/codex-store";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const { event } = vi.hoisted(() => ({ event: vi.fn() }));
 
+const { monsterlingData } = vi.hoisted(() => ({
+	monsterlingData: {
+		1: {
+			id: 1,
+			display_id: 1,
+			name: "Fixture Favorite",
+			region_id: 1,
+			source_id: [1],
+			image: "/images/fixture-favorite.png",
+			element_id: 1,
+			ability: "Fixture ability",
+		},
+		2: {
+			id: 2,
+			display_id: 2,
+			name: "Fixture Other",
+			region_id: 2,
+			source_id: [2],
+			image: "/images/fixture-other.png",
+			element_id: 2,
+			ability: "Fixture ability",
+		},
+	} satisfies MonsterCodexData,
+}));
+
+vi.mock("@/data/MONSTERLINGS_DATA", () => ({
+	MONSTERLINGS_DATA: monsterlingData,
+}));
+
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),
 }));
 
-const monsterlings = Object.values(MONSTERLINGS_DATA);
-const favorite = monsterlings[0];
+const favorite = monsterlingData[1];
+const other = monsterlingData[2];
 
 describe("monster codex favorites", () => {
 	beforeEach(() => {
@@ -34,13 +63,14 @@ describe("monster codex favorites", () => {
 
 	afterEach(cleanup);
 
-	it("shows favorites by default and removes them immediately", () => {
+	it("shows only favorites and removes them immediately", () => {
+		useCodexStore.setState({
+			filters: { ...initialCodexFilters, view: "favorite" },
+		});
 		render(<CodexList />);
 
 		expect(screen.getByAltText(`${favorite.name} monsterling`)).toBeTruthy();
-		expect(
-			screen.queryByAltText(`${monsterlings[1].name} monsterling`),
-		).toBeNull();
+		expect(screen.queryByAltText(`${other.name} monsterling`)).toBeNull();
 
 		fireEvent.click(
 			screen.getByRole("button", {
@@ -57,22 +87,8 @@ describe("monster codex favorites", () => {
 	});
 
 	it("combines favorite, region, source, and search filters", () => {
-		const source = favorite.source_id.find(
-			(id) => id !== SOURCE_ID_BY_SOURCE.ALL,
-		);
-		if (source === undefined)
-			throw new Error("Favorite fixture needs a source");
-
-		const excluded = monsterlings.find(
-			(monsterling) =>
-				monsterling.id !== favorite.id &&
-				(monsterling.region_id !== favorite.region_id ||
-					!monsterling.source_id.includes(source) ||
-					!monsterling.name
-						.toLowerCase()
-						.includes(favorite.name.toLowerCase())),
-		);
-		if (!excluded) throw new Error("Favorite fixture needs an excluded entry");
+		const source = SOURCE_ID_BY_SOURCE.CAPTURE;
+		const excluded = other;
 
 		useAppStore.setState({
 			monsterCodexFavorites: [favorite.id, excluded.id],

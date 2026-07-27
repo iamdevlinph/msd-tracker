@@ -1,11 +1,34 @@
-import { describe, expect, it } from "vitest";
-import { type ChecklistEvent, EVENTS_DATA } from "@/data/EVENTS_DATA";
+import { describe, expect, it, vi } from "vitest";
+import type { ChecklistEvent } from "@/data/EVENTS_DATA";
 import { fullCompletionKey, occurrenceKey } from "@/lib/checklist";
 import { defaultChecklistPreferences } from "@/lib/checklist-persistence";
 import type { ChecklistTask } from "@/lib/checklist-task";
 import { getChecklistView } from "@/lib/checklist-view";
 
 const now = Date.parse("2026-07-27T00:30:00.000Z");
+
+const { fixtureEvent, fullEvent } = vi.hoisted(() => ({
+	fixtureEvent: {
+		id: "fixture-limited-event",
+		title: "Fixture limited event",
+		kind: "event",
+		startAt: "2026-07-27T00:00:00.000Z",
+		endAt: "2026-07-28T00:00:00.000Z",
+		recurrence: "daily",
+	} satisfies ChecklistEvent,
+	fullEvent: {
+		id: "fixture-full-event",
+		title: "Fixture full event",
+		kind: "event",
+		startAt: "2026-07-27T00:00:00.000Z",
+		endAt: "2026-07-29T00:00:00.000Z",
+		recurrence: "daily",
+	} satisfies ChecklistEvent,
+}));
+
+vi.mock("@/data/EVENTS_DATA", () => ({
+	EVENTS_DATA: [fixtureEvent, fullEvent],
+}));
 
 const task: ChecklistTask = {
 	id: "daily-task",
@@ -66,71 +89,45 @@ describe("getChecklistView", () => {
 	});
 
 	it("projects official events in the Events tab", () => {
-		const event = {
-			id: "limited-event",
-			title: "Limited event",
-			kind: "event",
-			startAt: "2026-07-27T00:00:00.000Z",
-			endAt: "2026-07-28T00:00:00.000Z",
-			recurrence: "daily",
-		} satisfies ChecklistEvent;
-		EVENTS_DATA.push(event);
-		try {
-			const item = getChecklistView({
-				tasks: {},
-				completions: {},
-				preferences: defaultChecklistPreferences,
-				tab: "event",
-				now,
-			}).find(({ definition }) => definition.id === event.id);
-			expect(item?.definition).toEqual(event);
-		} finally {
-			EVENTS_DATA.pop();
-		}
+		const item = getChecklistView({
+			tasks: {},
+			completions: {},
+			preferences: defaultChecklistPreferences,
+			tab: "event",
+			now,
+		}).find(({ definition }) => definition.id === fixtureEvent.id);
+		expect(item?.definition).toEqual(fixtureEvent);
 	});
 
 	it("keeps full-event completion across resets until expiry", () => {
-		const event = {
-			id: "full-event",
-			title: "Full event",
-			kind: "event",
-			startAt: "2026-07-27T00:00:00.000Z",
-			endAt: "2026-07-29T00:00:00.000Z",
-			recurrence: "daily",
-		} satisfies ChecklistEvent;
 		const completions = {
-			[fullCompletionKey(event)]: Date.parse("2026-07-27T01:00:00.000Z"),
+			[fullCompletionKey(fullEvent)]: Date.parse("2026-07-27T01:00:00.000Z"),
 		};
-		EVENTS_DATA.push(event);
-		try {
-			const getEvent = (at: number) =>
-				getChecklistView({
-					tasks: {},
-					completions,
-					preferences: defaultChecklistPreferences,
-					tab: "event",
-					now: at,
-				}).find(({ definition }) => definition.id === event.id);
-			const first = getEvent(Date.parse("2026-07-27T12:00:00.000Z"));
-			const second = getEvent(Date.parse("2026-07-28T12:00:00.000Z"));
-			const expired = getEvent(Date.parse(event.endAt));
+		const getEvent = (at: number) =>
+			getChecklistView({
+				tasks: {},
+				completions,
+				preferences: defaultChecklistPreferences,
+				tab: "event",
+				now: at,
+			}).find(({ definition }) => definition.id === fullEvent.id);
+		const first = getEvent(Date.parse("2026-07-27T12:00:00.000Z"));
+		const second = getEvent(Date.parse("2026-07-28T12:00:00.000Z"));
+		const expired = getEvent(Date.parse(fullEvent.endAt));
 
-			expect(first).toMatchObject({
-				fullyCompleted: true,
-				status: "completed",
-			});
-			expect(second).toMatchObject({
-				fullyCompleted: true,
-				status: "completed",
-			});
-			expect(second?.occurrence.startAt).not.toBe(first?.occurrence.startAt);
-			expect(expired).toMatchObject({
-				fullyCompleted: false,
-				status: "expired",
-			});
-		} finally {
-			EVENTS_DATA.pop();
-		}
+		expect(first).toMatchObject({
+			fullyCompleted: true,
+			status: "completed",
+		});
+		expect(second).toMatchObject({
+			fullyCompleted: true,
+			status: "completed",
+		});
+		expect(second?.occurrence.startAt).not.toBe(first?.occurrence.startAt);
+		expect(expired).toMatchObject({
+			fullyCompleted: false,
+			status: "expired",
+		});
 	});
 
 	it("projects player-created events in the Events tab", () => {

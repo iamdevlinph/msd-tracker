@@ -8,11 +8,74 @@ import {
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ChecklistPage } from "@/components/checklist/checklist-page";
+import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import type { ChecklistEvent } from "@/data/EVENTS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
 const event = vi.fn();
+
+const { permanentEvents, eventsData } = vi.hoisted(() => ({
+	permanentEvents: [
+		{
+			id: "fixture-rift",
+			title: "Fixture Rift",
+			kind: "permanent",
+			startAt: "2024-01-01T00:00:00.000Z",
+			recurrence: "weekly",
+		},
+		{
+			id: "fixture-conquest-weekly",
+			title: "Fixture Conquest Weekly",
+			kind: "permanent",
+			startAt: "2024-01-01T00:00:00.000Z",
+			recurrence: "weekly",
+		},
+		{
+			id: "fixture-conquest",
+			title: "Fixture Conquest",
+			kind: "permanent",
+			startAt: "2024-01-01T00:00:00.000Z",
+			recurrence: "daily",
+		},
+		{
+			id: "fixture-dispatch",
+			title: "Fixture Dispatch",
+			kind: "permanent",
+			startAt: "2024-01-01T00:00:00.000Z",
+			recurrence: "daily",
+		},
+		{
+			id: "fixture-request-board",
+			title: "Fixture Request Board",
+			kind: "permanent",
+			startAt: "2024-01-01T00:00:00.000Z",
+			recurrence: "daily",
+		},
+	] satisfies ChecklistDefinition[],
+	eventsData: [
+		{
+			id: "fixture-gulgak",
+			title: "Fixture Gulgak",
+			kind: "event",
+			startAt: "2026-07-15T00:00:00.000Z",
+			endAt: "2026-07-28T23:59:00.000Z",
+			recurrence: "daily",
+		},
+		{
+			id: "fixture-ice",
+			title: "Fixture Ice",
+			kind: "event",
+			startAt: "2026-07-22T00:00:00.000Z",
+			endAt: "2026-07-28T23:59:00.000Z",
+			recurrence: "none",
+		},
+	] satisfies ChecklistEvent[],
+}));
+
+vi.mock("@/data/CHECKLIST_DATA", () => ({ PERMANENT_EVENTS: permanentEvents }));
+vi.mock("@/data/EVENTS_DATA", () => ({ EVENTS_DATA: eventsData }));
 
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),
@@ -40,9 +103,9 @@ describe("ChecklistPage", () => {
 	it("filters categories and toggles the current occurrence", () => {
 		render(<ChecklistPage />);
 
-		expect(screen.getByText("Dimensional Rift")).toBeTruthy();
-		expect(screen.getByText("Legendary Conquest")).toBeTruthy();
-		expect(screen.getByText("Conquest")).toBeTruthy();
+		expect(screen.getByText("Fixture Rift")).toBeTruthy();
+		expect(screen.getByText("Fixture Conquest Weekly")).toBeTruthy();
+		expect(screen.getByText("Fixture Conquest")).toBeTruthy();
 		const allFilter = screen.getByRole("button", { name: "All" });
 		expect(allFilter.getAttribute("data-size")).toBe("default");
 		expect(allFilter.parentElement?.className).toContain("flex-wrap");
@@ -66,28 +129,30 @@ describe("ChecklistPage", () => {
 			screen.getByRole("button", { name: "Add item" }).className,
 		).toContain("sm:flex-none");
 
-		const conquestRow = screen.getByText("Conquest").closest("li");
+		const conquestRow = screen.getByText("Fixture Conquest").closest("li");
 		expect(conquestRow).toBeTruthy();
 		expect(within(conquestRow as HTMLElement).getByText("Daily")).toBeTruthy();
-		const requestBoardRow = screen.getByText("Request Board").closest("li");
+		const requestBoardRow = screen
+			.getByText("Fixture Request Board")
+			.closest("li");
 		expect(requestBoardRow).toBeTruthy();
 		expect(
 			within(requestBoardRow as HTMLElement).getByText("Daily"),
 		).toBeTruthy();
 		const completeButton = within(conquestRow as HTMLElement).getByRole(
 			"button",
-			{ name: "Mark Conquest complete" },
+			{ name: "Mark Fixture Conquest complete" },
 		);
 		expect(
 			within(conquestRow as HTMLElement).queryByRole("button", {
-				name: "Mark Conquest fully complete",
+				name: "Mark Fixture Conquest fully complete",
 			}),
 		).toBeNull();
 		expect(completeButton.querySelector(".lucide-check")).toBeTruthy();
 		fireEvent.click(completeButton);
 		expect(conquestRow?.parentElement?.lastElementChild).toBe(conquestRow);
 		const undoButton = within(conquestRow as HTMLElement).getByRole("button", {
-			name: "Mark Conquest incomplete",
+			name: "Mark Fixture Conquest incomplete",
 		});
 		expect(undoButton.querySelector(".lucide-undo-2")).toBeTruthy();
 		const completedBadge = within(conquestRow as HTMLElement).getByTitle(
@@ -105,31 +170,29 @@ describe("ChecklistPage", () => {
 		fireEvent.click(undoButton);
 		expect(event).toHaveBeenLastCalledWith(ANALYTICS_EVENTS.CHECKLIST_UNDO);
 
-		const anomalyRow = screen.getByText("Anomaly: Gulgak").closest("li");
+		const anomalyRow = screen.getByText("Fixture Gulgak").closest("li");
 		expect(anomalyRow).toBeTruthy();
 		expect(within(anomalyRow as HTMLElement).getByText("Event")).toBeTruthy();
 		expect(within(anomalyRow as HTMLElement).getByText("Daily")).toBeTruthy();
 		expect(
 			within(anomalyRow as HTMLElement)
 				.getByRole("group", {
-					name: "Anomaly: Gulgak completion controls",
+					name: "Fixture Gulgak completion controls",
 				})
 				.getAttribute("data-slot"),
 		).toBe("button-group");
 		expect(
 			within(anomalyRow as HTMLElement)
 				.getByRole("button", {
-					name: "Mark Anomaly: Gulgak fully complete",
+					name: "Mark Fixture Gulgak fully complete",
 				})
 				.querySelector(".lucide-check-check"),
 		).toBeTruthy();
 
-		const oneTimeEventRow = screen
-			.getByText("An Invitation to Break the Ice")
-			.closest("li");
+		const oneTimeEventRow = screen.getByText("Fixture Ice").closest("li");
 		expect(
 			within(oneTimeEventRow as HTMLElement).getByRole("group", {
-				name: "An Invitation to Break the Ice completion controls",
+				name: "Fixture Ice completion controls",
 			}),
 		).toBeTruthy();
 
@@ -137,35 +200,35 @@ describe("ChecklistPage", () => {
 		expect(eventsFilter.getAttribute("aria-pressed")).toBe("false");
 		fireEvent.click(eventsFilter);
 		expect(eventsFilter.getAttribute("aria-pressed")).toBe("true");
-		expect(screen.getByText("Anomaly: Gulgak")).toBeTruthy();
-		expect(screen.queryByText("Dimensional Rift")).toBeNull();
+		expect(screen.getByText("Fixture Gulgak")).toBeTruthy();
+		expect(screen.queryByText("Fixture Rift")).toBeNull();
 	});
 
 	it("fully completes an event without losing its occurrence completion", () => {
 		render(<ChecklistPage />);
 
-		const anomalyRow = screen.getByText("Anomaly: Gulgak").closest("li");
+		const anomalyRow = screen.getByText("Fixture Gulgak").closest("li");
 		const row = within(anomalyRow as HTMLElement);
 		fireEvent.click(
 			row.getByRole("button", {
-				name: "Mark Anomaly: Gulgak complete",
+				name: "Mark Fixture Gulgak complete",
 			}),
 		);
 		fireEvent.click(
 			row.getByRole("button", {
-				name: "Mark Anomaly: Gulgak fully complete",
+				name: "Mark Fixture Gulgak fully complete",
 			}),
 		);
 
 		const occurrenceButton = row.getByRole("button", {
-			name: "Mark Anomaly: Gulgak incomplete",
+			name: "Mark Fixture Gulgak incomplete",
 		});
 		expect(occurrenceButton.hasAttribute("disabled")).toBe(true);
 		expect(occurrenceButton.getAttribute("aria-pressed")).toBe("true");
 		expect(
 			row
 				.getByRole("button", {
-					name: "Mark Anomaly: Gulgak not fully complete",
+					name: "Mark Fixture Gulgak not fully complete",
 				})
 				.querySelector(".lucide-undo-2"),
 		).toBeTruthy();
@@ -174,8 +237,8 @@ describe("ChecklistPage", () => {
 		).toBeTruthy();
 		expect(row.getByTitle("Ends in 1d 23h")).toBeTruthy();
 		expect(useAppStore.getState().checklistCompletions).toMatchObject({
-			"anomaly-gulgak:2026-07-27T00:00:00.000Z": expect.any(Number),
-			"anomaly-gulgak:full": expect.any(Number),
+			"fixture-gulgak:2026-07-27T00:00:00.000Z": expect.any(Number),
+			"fixture-gulgak:full": expect.any(Number),
 		});
 		expect(event).toHaveBeenLastCalledWith(
 			ANALYTICS_EVENTS.CHECKLIST_FULL_COMPLETE,
@@ -183,20 +246,20 @@ describe("ChecklistPage", () => {
 
 		fireEvent.click(
 			row.getByRole("button", {
-				name: "Mark Anomaly: Gulgak not fully complete",
+				name: "Mark Fixture Gulgak not fully complete",
 			}),
 		);
 
 		expect(
 			row
 				.getByRole("button", {
-					name: "Mark Anomaly: Gulgak incomplete",
+					name: "Mark Fixture Gulgak incomplete",
 				})
 				.hasAttribute("disabled"),
 		).toBe(false);
 		expect(row.getByTitle("Completed")).toBeTruthy();
 		expect(
-			useAppStore.getState().checklistCompletions["anomaly-gulgak:full"],
+			useAppStore.getState().checklistCompletions["fixture-gulgak:full"],
 		).toBeUndefined();
 		expect(event).toHaveBeenLastCalledWith(
 			ANALYTICS_EVENTS.CHECKLIST_FULL_UNDO,
@@ -236,10 +299,10 @@ describe("ChecklistPage", () => {
 				},
 			},
 			checklistCompletions: {
-				"conquest-daily:2026-07-28T00:00:00.000Z": Date.parse(
+				"fixture-conquest:2026-07-28T00:00:00.000Z": Date.parse(
 					"2026-07-28T01:00:00.000Z",
 				),
-				"anomaly-gulgak:2026-07-28T00:00:00.000Z": Date.parse(
+				"fixture-gulgak:2026-07-28T00:00:00.000Z": Date.parse(
 					"2026-07-28T01:00:00.000Z",
 				),
 				"rolling:v1:2026-07-27T00:00:00.000Z": Date.parse(
@@ -258,7 +321,7 @@ describe("ChecklistPage", () => {
 
 		expect(
 			within(
-				screen.getByText("Conquest").closest("li") as HTMLElement,
+				screen.getByText("Fixture Conquest").closest("li") as HTMLElement,
 			).getByTitle("Resets in 2m"),
 		).toBeTruthy();
 		expect(
@@ -273,7 +336,7 @@ describe("ChecklistPage", () => {
 		).toBeTruthy();
 		expect(
 			within(
-				screen.getByText("Anomaly: Gulgak").closest("li") as HTMLElement,
+				screen.getByText("Fixture Gulgak").closest("li") as HTMLElement,
 			).getByTitle("Ends in 1m"),
 		).toBeTruthy();
 		expect(
