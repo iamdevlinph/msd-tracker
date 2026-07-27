@@ -25,15 +25,19 @@ const imageBlob = async (node: HTMLElement | null) => {
 	if (!node) throw new Error("Preview is not ready.");
 	await waitForAssets(node);
 	const { toBlob } = await import("html-to-image");
-	const exportBackgroundProperty = "--loadout-export-variant-background";
-	const previousBackground = node.style.getPropertyValue(
-		exportBackgroundProperty,
-	);
-	const previousPriority = node.style.getPropertyPriority(
-		exportBackgroundProperty,
-	);
+	const exportProperties = [
+		["--loadout-export-variant-background", "#18181b"],
+		["--loadout-export-skill-columns", "repeat(2, minmax(0, 1fr))"],
+	] as const;
+	const previousProperties = exportProperties.map(([property]) => ({
+		property,
+		value: node.style.getPropertyValue(property),
+		priority: node.style.getPropertyPriority(property),
+	}));
 	let blob: Blob | null;
-	node.style.setProperty(exportBackgroundProperty, "#18181b");
+	for (const [property, value] of exportProperties) {
+		node.style.setProperty(property, value);
+	}
 	try {
 		blob = await toBlob(node, {
 			pixelRatio: 2,
@@ -41,14 +45,12 @@ const imageBlob = async (node: HTMLElement | null) => {
 			backgroundColor: getComputedStyle(node).backgroundColor,
 		});
 	} finally {
-		if (previousBackground) {
-			node.style.setProperty(
-				exportBackgroundProperty,
-				previousBackground,
-				previousPriority,
-			);
-		} else {
-			node.style.removeProperty(exportBackgroundProperty);
+		for (const { property, value, priority } of previousProperties) {
+			if (value) {
+				node.style.setProperty(property, value, priority);
+			} else {
+				node.style.removeProperty(property);
+			}
 		}
 	}
 	if (!blob) throw new Error("Could not render the preview.");

@@ -166,10 +166,21 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.queryByAltText("awakening icon")).toBeNull();
 		expect(screen.getByTitle("Awakening 5")).toBeTruthy();
 		expect(screen.getAllByTitle("Basic level 5")).toHaveLength(2);
+		const skillCells = screen.getAllByTitle(
+			/^(Special|Switch|Basic|Ultimate) level /,
+		);
 		expect(
-			screen
-				.getAllByTitle(/^(Special|Switch|Basic|Ultimate) level /)
-				.every((skill) => skill.className.includes("place-items-center")),
+			skillCells.every((skill) =>
+				skill.className.includes("place-items-center"),
+			),
+		).toBe(true);
+		expect(skillCells[0].parentElement?.style.gridTemplateColumns).toBe(
+			"var(--loadout-export-skill-columns, repeat(4, minmax(0, 1fr)))",
+		);
+		expect(
+			skillCells.every((skill) =>
+				skill.querySelector("span")?.className.includes("whitespace-nowrap"),
+			),
 		).toBe(true);
 		expect(screen.getAllByText("Monsterling 2 unavailable")).toHaveLength(3);
 		expect(screen.getByText("Character unavailable")).toBeTruthy();
@@ -233,9 +244,13 @@ describe("LoadoutPreviewDialog", () => {
 
 	it("captures and tracks the compact layout", async () => {
 		let exportBackgroundDuringCapture = "";
+		let exportSkillColumnsDuringCapture = "";
 		toBlob.mockImplementation((node: HTMLElement) => {
 			exportBackgroundDuringCapture = node.style.getPropertyValue(
 				"--loadout-export-variant-background",
+			);
+			exportSkillColumnsDuringCapture = node.style.getPropertyValue(
+				"--loadout-export-skill-columns",
 			);
 			return Promise.resolve(new Blob(["png"], { type: "image/png" }));
 		});
@@ -251,10 +266,14 @@ describe("LoadoutPreviewDialog", () => {
 		const capturedSurface = toBlob.mock.calls[0][0] as HTMLElement;
 		expect(capturedSurface.className).toContain("w-[984px]");
 		expect(exportBackgroundDuringCapture).toBe("#18181b");
+		expect(exportSkillColumnsDuringCapture).toBe("repeat(2, minmax(0, 1fr))");
 		expect(
 			capturedSurface.style.getPropertyValue(
 				"--loadout-export-variant-background",
 			),
+		).toBe("");
+		expect(
+			capturedSurface.style.getPropertyValue("--loadout-export-skill-columns"),
 		).toBe("");
 		expect(event.mock.calls).toEqual([
 			[
@@ -338,13 +357,16 @@ describe("LoadoutPreviewDialog", () => {
 		]);
 	});
 
-	it("restores the export background after image conversion fails", async () => {
+	it("restores export styles after image conversion fails", async () => {
 		let capturedSurface: HTMLElement | undefined;
 		toBlob.mockImplementation((node: HTMLElement) => {
 			capturedSurface = node;
 			expect(
 				node.style.getPropertyValue("--loadout-export-variant-background"),
 			).toBe("#18181b");
+			expect(
+				node.style.getPropertyValue("--loadout-export-skill-columns"),
+			).toBe("repeat(2, minmax(0, 1fr))");
 			return Promise.reject(new Error("conversion failed"));
 		});
 		setClipboard(vi.fn());
@@ -361,6 +383,9 @@ describe("LoadoutPreviewDialog", () => {
 			capturedSurface?.style.getPropertyValue(
 				"--loadout-export-variant-background",
 			),
+		).toBe("");
+		expect(
+			capturedSurface?.style.getPropertyValue("--loadout-export-skill-columns"),
 		).toBe("");
 	});
 });

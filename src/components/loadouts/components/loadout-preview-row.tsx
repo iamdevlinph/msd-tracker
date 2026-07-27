@@ -78,7 +78,13 @@ export const LoadoutPreviewRow = ({
 								A{characterOwned.awakening}
 							</span>
 						</div>
-						<div className="grid grid-cols-4 gap-1">
+						<div
+							className="grid gap-1"
+							style={{
+								gridTemplateColumns:
+									"var(--loadout-export-skill-columns, repeat(4, minmax(0, 1fr)))",
+							}}
+						>
 							{SKILLS.map(([label, icon, key]) => (
 								<div
 									key={key}
@@ -90,7 +96,7 @@ export const LoadoutPreviewRow = ({
 										alt={`${label} skill icon`}
 										className="size-4"
 									/>
-									<span className="text-xs font-bold text-amber-400">
+									<span className="whitespace-nowrap text-xs font-bold text-amber-400">
 										{characterOwned.skills[key] +
 											getAwakeningBonus(characterOwned.awakening)}
 									</span>
