@@ -473,6 +473,27 @@ describe("LoadoutsList", () => {
 		expect(event).toHaveBeenCalledWith("loadout_preview", { source: "card" });
 	});
 
+	it("opens the delete dialog without previewing the card", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {},
+			loadouts: { team: teamLoadout },
+		});
+		render(<LoadoutsList />);
+
+		const deleteTrigger = screen.getByRole("button", { name: "Delete Team" });
+		expect(deleteTrigger.className).toContain("pointer-events-auto");
+		fireEvent.click(deleteTrigger);
+
+		expect(
+			screen.getByRole("alertdialog", { name: "Delete team loadout?" }),
+		).toBeTruthy();
+		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
+		expect(event).not.toHaveBeenCalledWith("loadout_preview", {
+			source: "card",
+		});
+	});
+
 	it("duplicates a loadout into the first available name", () => {
 		useAppStore.setState({
 			backupUpdatedAt: 1,

@@ -124,6 +124,7 @@ export const LoadoutActions = ({
 						type="button"
 						size="icon-sm"
 						variant="destructive"
+						className="pointer-events-auto"
 						disabled={busy}
 						aria-label={labels.delete}
 						title={labels.delete}
