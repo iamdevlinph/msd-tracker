@@ -1,9 +1,9 @@
 import {
-	CopyIcon,
 	CopyPlusIcon,
 	DownloadIcon,
 	EditIcon,
 	EyeIcon,
+	ShareIcon,
 	Trash2Icon,
 } from "lucide-react";
 import type { LoadoutImageAction } from "@/components/loadouts/components/loadout-image-actions";
@@ -104,7 +104,7 @@ export const LoadoutActions = ({
 				aria-label={labels.copy}
 				title={labels.copy}
 			>
-				{activeImageAction === "copy" ? <Spinner /> : <CopyIcon />}
+				{activeImageAction === "copy" ? <Spinner /> : <ShareIcon />}
 			</Button>
 			<Button
 				type="button"

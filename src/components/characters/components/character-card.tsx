@@ -62,6 +62,10 @@ export default function CharacterCard({
 							"text-[10px] font-semibold tracking-wide text-white whitespace-nowrap uppercase",
 							"shadow-[0_2px_6px_rgba(0,0,0,1)] backdrop-blur-sm",
 						)}
+						style={{
+							background:
+								"var(--loadout-export-variant-background, transparent)",
+						}}
 					>
 						{variant}
 					</div>

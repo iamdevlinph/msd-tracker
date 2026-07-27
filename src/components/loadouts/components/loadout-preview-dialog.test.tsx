@@ -156,7 +156,11 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.getByAltText("Francis portrait").className).toContain(
 			"object-bottom",
 		);
-		expect(screen.getByText("Summer Dive!")).toBeTruthy();
+		const variantBadge = screen.getByText("Summer Dive!");
+		expect(variantBadge.className).toContain("backdrop-blur-sm");
+		expect(variantBadge.style.background).toBe(
+			"var(--loadout-export-variant-background, transparent)",
+		);
 		expect(screen.getByAltText("Earth icon")).toBeTruthy();
 		expect(screen.queryByAltText("Support icon")).toBeNull();
 		expect(screen.queryByAltText("awakening icon")).toBeNull();
@@ -228,7 +232,13 @@ describe("LoadoutPreviewDialog", () => {
 	});
 
 	it("captures and tracks the compact layout", async () => {
-		toBlob.mockResolvedValue(new Blob(["png"], { type: "image/png" }));
+		let exportBackgroundDuringCapture = "";
+		toBlob.mockImplementation((node: HTMLElement) => {
+			exportBackgroundDuringCapture = node.style.getPropertyValue(
+				"--loadout-export-variant-background",
+			);
+			return Promise.resolve(new Blob(["png"], { type: "image/png" }));
+		});
 		const write = vi.fn().mockResolvedValue(undefined);
 		setClipboard(write);
 		renderPreview();
@@ -238,7 +248,14 @@ describe("LoadoutPreviewDialog", () => {
 		);
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
-		expect(toBlob.mock.calls[0][0].className).toContain("w-[984px]");
+		const capturedSurface = toBlob.mock.calls[0][0] as HTMLElement;
+		expect(capturedSurface.className).toContain("w-[984px]");
+		expect(exportBackgroundDuringCapture).toBe("#18181b");
+		expect(
+			capturedSurface.style.getPropertyValue(
+				"--loadout-export-variant-background",
+			),
+		).toBe("");
 		expect(event.mock.calls).toEqual([
 			[
 				"loadout_copy_attempt",
@@ -319,5 +336,31 @@ describe("LoadoutPreviewDialog", () => {
 				{ compact_monsterlings: true, source: "preview" },
 			],
 		]);
+	});
+
+	it("restores the export background after image conversion fails", async () => {
+		let capturedSurface: HTMLElement | undefined;
+		toBlob.mockImplementation((node: HTMLElement) => {
+			capturedSurface = node;
+			expect(
+				node.style.getPropertyValue("--loadout-export-variant-background"),
+			).toBe("#18181b");
+			return Promise.reject(new Error("conversion failed"));
+		});
+		setClipboard(vi.fn());
+		renderPreview();
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Copy Boss / Team image" }),
+		);
+
+		await waitFor(() =>
+			expect(error).toHaveBeenCalledWith("conversion failed"),
+		);
+		expect(
+			capturedSurface?.style.getPropertyValue(
+				"--loadout-export-variant-background",
+			),
+		).toBe("");
 	});
 });

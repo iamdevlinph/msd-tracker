@@ -21,6 +21,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Require three unique owned characters selected through searchable, filterable character cards.
 - [x] Assign three regular and one legendary owned monsterling per character through searchable, multi-tier-filterable cards, with regular-slot swapping and moving within a character.
 - [x] Auto-name new loadouts from their first character and brand generated images with the site URL.
+- [x] Render variant badges with export-safe solid backgrounds in generated loadout images while preserving transparent blurred badges in the app.
 - [x] Persist loadouts locally and through Google Drive sync.
 - [x] Hide unfinished Artifact and Equipment slots outside development.
 

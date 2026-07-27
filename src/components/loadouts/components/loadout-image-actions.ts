@@ -25,11 +25,32 @@ const imageBlob = async (node: HTMLElement | null) => {
 	if (!node) throw new Error("Preview is not ready.");
 	await waitForAssets(node);
 	const { toBlob } = await import("html-to-image");
-	const blob = await toBlob(node, {
-		pixelRatio: 2,
-		cacheBust: true,
-		backgroundColor: getComputedStyle(node).backgroundColor,
-	});
+	const exportBackgroundProperty = "--loadout-export-variant-background";
+	const previousBackground = node.style.getPropertyValue(
+		exportBackgroundProperty,
+	);
+	const previousPriority = node.style.getPropertyPriority(
+		exportBackgroundProperty,
+	);
+	let blob: Blob | null;
+	node.style.setProperty(exportBackgroundProperty, "#18181b");
+	try {
+		blob = await toBlob(node, {
+			pixelRatio: 2,
+			cacheBust: true,
+			backgroundColor: getComputedStyle(node).backgroundColor,
+		});
+	} finally {
+		if (previousBackground) {
+			node.style.setProperty(
+				exportBackgroundProperty,
+				previousBackground,
+				previousPriority,
+			);
+		} else {
+			node.style.removeProperty(exportBackgroundProperty);
+		}
+	}
 	if (!blob) throw new Error("Could not render the preview.");
 	return blob;
 };
