@@ -19,7 +19,7 @@ const expectedSummerEvents = [
 		SUMMER_DIVE_NOTICE_TITLE,
 		"2026-07-07T00:00:00.000Z",
 		"2026-07-28T23:59:00.000Z",
-		"none",
+		"daily",
 	],
 	[
 		"unforgettable-first-summer-dive-event-stage",

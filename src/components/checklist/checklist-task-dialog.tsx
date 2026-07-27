@@ -140,7 +140,9 @@ export const ChecklistTaskDialog = ({
 					)}
 					<div className="grid gap-4 sm:grid-cols-2">
 						<div className="grid gap-2">
-							<Label htmlFor="checklist-task-start">Start (UTC)</Label>
+							<Label htmlFor="checklist-task-start">
+								Start (Game Time - UTC)
+							</Label>
 							<Input
 								id="checklist-task-start"
 								type="datetime-local"
@@ -164,7 +166,10 @@ export const ChecklistTaskDialog = ({
 						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="checklist-task-due">
-								End {type === "event" ? "(UTC)" : "(optional, UTC)"}
+								End{" "}
+								{type === "event"
+									? "(Game Time - UTC)"
+									: "(optional, Game Time - UTC)"}
 							</Label>
 							<Input
 								id="checklist-task-due"

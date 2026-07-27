@@ -420,11 +420,13 @@ describe("ChecklistPage", () => {
 	it("shows inline validation in the accessible add-task dialog", async () => {
 		render(<ChecklistPage />);
 		fireEvent.click(screen.getByRole("button", { name: "Add item" }));
-		expect(screen.getByLabelText("Start (UTC)").getAttribute("type")).toBe(
-			"datetime-local",
-		);
 		expect(
-			screen.getByLabelText("End (optional, UTC)").getAttribute("type"),
+			screen.getByLabelText("Start (Game Time - UTC)").getAttribute("type"),
+		).toBe("datetime-local");
+		expect(
+			screen
+				.getByLabelText("End (optional, Game Time - UTC)")
+				.getAttribute("type"),
 		).toBe("datetime-local");
 		fireEvent.click(
 			within(screen.getByRole("dialog")).getByRole("button", {
@@ -438,7 +440,9 @@ describe("ChecklistPage", () => {
 			screen.getByLabelText("Task name").getAttribute("aria-describedby"),
 		).toBe("checklist-task-name-error");
 		expect(
-			screen.getByLabelText("Start (UTC)").getAttribute("aria-describedby"),
+			screen
+				.getByLabelText("Start (Game Time - UTC)")
+				.getAttribute("aria-describedby"),
 		).toBe("checklist-task-start-error");
 	});
 });
