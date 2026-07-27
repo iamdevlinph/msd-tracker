@@ -114,12 +114,17 @@ describe("Monsterling Link Chain persistence", () => {
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 	});
 
-	it("does not downgrade a shared level when saving a lower level", () => {
+	it("allows exact shared-level downgrades, including clearing to implicit level one", () => {
 		useAppStore.setState({
 			monsterlingLinkChainLevels: { 1: 5, 67: 5 } as never,
 		});
 
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 1);
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 3);
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+			1: 5,
+			67: 3,
+		});
+
 		useAppStore
 			.getState()
 			.setMonsterlingOwned(
@@ -129,18 +134,39 @@ describe("Monsterling Link Chain persistence", () => {
 			);
 
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
-			67: 5,
+			67: 3,
+		});
+
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 1);
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({});
+	});
+
+	it("retains a downgraded non-one level after deleting copies and resetting owned data", () => {
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 5);
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 3);
+
+		const ownedIds = Object.keys(useAppStore.getState().monsterlingsOwned);
+		for (const id of ownedIds) {
+			useAppStore.getState().deleteMonsterlingOwned(id);
+		}
+
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+			67: 3,
+		});
+		useAppStore.getState().resetMonsterlingSlice();
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+			67: 3,
 		});
 	});
 
-	it("keeps a first-time level-one species implicit and upgrades higher levels", () => {
+	it("keeps a first-time level-one species implicit and stores exact later levels", () => {
 		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 1);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({});
 
 		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 3);
 		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 2);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
-			67: 3,
+			67: 2,
 		});
 	});
 });

@@ -135,6 +135,34 @@ describe("MonsterlingForm", () => {
 		expect(screen.getByAltText("Link Chain Level 3")).toBeTruthy();
 	});
 
+	it("saves an edited species at a lower shared link-chain level", async () => {
+		useAppStore.setState({
+			monsterlingsOwned: {
+				current: {
+					monsterling_id: 67,
+					tier_id: 5,
+					traits: [],
+				},
+			},
+			monsterlingLinkChainLevels: { 67: 5 },
+		});
+		render(<MonsterlingForm id="current" onClose={vi.fn()} />);
+
+		fireEvent.click(
+			within(screen.getByRole("group", { name: "Link Chain Level" })).getByRole(
+				"button",
+				{ name: "3" },
+			),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Add" }));
+
+		await waitFor(() =>
+			expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+				67: 3,
+			}),
+		);
+	});
+
 	it("restores a retained level when re-adding a deleted species", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {},
