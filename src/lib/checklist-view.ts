@@ -7,6 +7,7 @@ import { EVENTS_DATA } from "@/data/EVENTS_DATA";
 import {
 	type ChecklistOccurrence,
 	type ChecklistStatus,
+	fullCompletionKey,
 	getChecklistStatus,
 	getOccurrence,
 	latestCompletion,
@@ -22,6 +23,9 @@ export type ChecklistViewItem = {
 	definition: ChecklistDefinition;
 	occurrence: ChecklistOccurrence;
 	completionKey: string;
+	fullCompletionKey: string;
+	occurrenceCompleted: boolean;
+	fullyCompleted: boolean;
 	status: ChecklistStatus;
 };
 
@@ -51,20 +55,30 @@ export const getChecklistView = ({
 				const latest = latestCompletion(definition, completions);
 				const occurrence = getOccurrence(definition, now, latest?.[1]);
 				const currentKey = occurrenceKey(definition, occurrence.startAt);
+				const eventFullKey = fullCompletionKey(definition);
+				const occurrenceCompleted = Boolean(completions[currentKey]);
+				const fullyCompleted =
+					definition.kind === "event" &&
+					Boolean(completions[eventFullKey]) &&
+					now >= occurrence.startAt &&
+					!(occurrence.endAt !== undefined && now >= occurrence.endAt);
 				const waitingForRollingReset =
 					definition.kind === "custom" &&
 					definition.mode === "after_completion" &&
 					Boolean(latest) &&
 					now < occurrence.startAt;
-				const completed = waitingForRollingReset
-					? true
-					: Boolean(completions[currentKey]);
+				const completed =
+					fullyCompleted ||
+					(waitingForRollingReset ? true : occurrenceCompleted);
 
 				return {
 					definition,
 					occurrence,
 					completionKey:
 						waitingForRollingReset && latest ? latest[0] : currentKey,
+					fullCompletionKey: eventFullKey,
+					occurrenceCompleted,
+					fullyCompleted,
 					status: getChecklistStatus(
 						definition,
 						occurrence,

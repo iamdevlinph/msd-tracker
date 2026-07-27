@@ -13,6 +13,18 @@ describe("normalizeChecklistPersistedState", () => {
 		});
 	});
 
+	it("preserves full-event completion keys", () => {
+		const checklistCompletions = {
+			"official-event:full": 1,
+			"player-event:v2:full": 2,
+		};
+
+		expect(
+			normalizeChecklistPersistedState({ checklistCompletions })
+				.checklistCompletions,
+		).toEqual(checklistCompletions);
+	});
+
 	it("merges partial preferences and migrates legacy reset dates", () => {
 		const state = normalizeChecklistPersistedState({
 			checklistTasks: {

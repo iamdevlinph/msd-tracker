@@ -57,7 +57,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Show Event alongside Daily or Weekly badges when an event also has a recurring reset, and show expired rows by default with reduced opacity and struck-through names.
 - [x] Show player-created Task and Event notes beneath item names with a compact two-line limit.
 - [x] Track Request Board as a permanent daily activity resetting at 00:00 UTC.
-- [x] Keep the next reset or End countdown in a separate badge before completed checklist status.
+- [x] Keep single occurrence checks and grouped full-event checks, sort non-completed before completed and then by event > permanent > custom and weekly > daily > other, and show reset/End countdowns beside status.
 - [ ] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [ ] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [ ] Expose the Checklist navigation item after the feature is release-ready.

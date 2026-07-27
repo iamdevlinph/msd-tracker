@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { type ChecklistEvent, EVENTS_DATA } from "@/data/EVENTS_DATA";
-import { occurrenceKey } from "@/lib/checklist";
+import { fullCompletionKey, occurrenceKey } from "@/lib/checklist";
 import { defaultChecklistPreferences } from "@/lib/checklist-persistence";
 import type { ChecklistTask } from "@/lib/checklist-task";
 import { getChecklistView } from "@/lib/checklist-view";
@@ -76,14 +76,58 @@ describe("getChecklistView", () => {
 		} satisfies ChecklistEvent;
 		EVENTS_DATA.push(event);
 		try {
-			const [item] = getChecklistView({
+			const item = getChecklistView({
 				tasks: {},
 				completions: {},
 				preferences: defaultChecklistPreferences,
 				tab: "event",
 				now,
+			}).find(({ definition }) => definition.id === event.id);
+			expect(item?.definition).toEqual(event);
+		} finally {
+			EVENTS_DATA.pop();
+		}
+	});
+
+	it("keeps full-event completion across resets until expiry", () => {
+		const event = {
+			id: "full-event",
+			title: "Full event",
+			kind: "event",
+			startAt: "2026-07-27T00:00:00.000Z",
+			endAt: "2026-07-29T00:00:00.000Z",
+			recurrence: "daily",
+		} satisfies ChecklistEvent;
+		const completions = {
+			[fullCompletionKey(event)]: Date.parse("2026-07-27T01:00:00.000Z"),
+		};
+		EVENTS_DATA.push(event);
+		try {
+			const getEvent = (at: number) =>
+				getChecklistView({
+					tasks: {},
+					completions,
+					preferences: defaultChecklistPreferences,
+					tab: "event",
+					now: at,
+				}).find(({ definition }) => definition.id === event.id);
+			const first = getEvent(Date.parse("2026-07-27T12:00:00.000Z"));
+			const second = getEvent(Date.parse("2026-07-28T12:00:00.000Z"));
+			const expired = getEvent(Date.parse(event.endAt));
+
+			expect(first).toMatchObject({
+				fullyCompleted: true,
+				status: "completed",
 			});
-			expect(item.definition).toEqual(event);
+			expect(second).toMatchObject({
+				fullyCompleted: true,
+				status: "completed",
+			});
+			expect(second?.occurrence.startAt).not.toBe(first?.occurrence.startAt);
+			expect(expired).toMatchObject({
+				fullyCompleted: false,
+				status: "expired",
+			});
 		} finally {
 			EVENTS_DATA.pop();
 		}

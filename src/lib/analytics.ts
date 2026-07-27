@@ -41,6 +41,8 @@ export const ANALYTICS_EVENTS = {
 	CHECKLIST_DELETE: "checklist_delete",
 	CHECKLIST_COMPLETE: "checklist_complete",
 	CHECKLIST_UNDO: "checklist_undo",
+	CHECKLIST_FULL_COMPLETE: "checklist_full_complete",
+	CHECKLIST_FULL_UNDO: "checklist_full_undo",
 	CHECKLIST_RESET: "checklist_reset",
 } as const;
 

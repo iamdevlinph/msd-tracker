@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
 import {
 	formatCountdown,
+	fullCompletionKey,
 	getChecklistStatus,
 	getOccurrence,
 	occurrenceKey,
+	sortChecklistItems,
 } from "@/lib/checklist";
 import type { ChecklistTask } from "@/stores/checklist-slice";
 
@@ -195,5 +197,54 @@ describe("checklist schedule utilities", () => {
 		const revisedTask: ChecklistTask = { ...task, scheduleVersion: 2 };
 		const next = occurrenceKey(revisedTask, Date.parse(task.startAt));
 		expect(first).not.toBe(next);
+	});
+
+	it("uses stable version-aware full-event completion keys", () => {
+		const officialEvent = { ...daily, kind: "event" as const };
+		const playerEvent = {
+			...officialEvent,
+			scheduleVersion: 2,
+		} as ChecklistTask;
+
+		expect(fullCompletionKey(officialEvent)).toBe("daily:full");
+		expect(fullCompletionKey(playerEvent)).toBe("daily:v2:full");
+	});
+
+	it("sorts incomplete items first, then kind, recurrence, and title", () => {
+		const item = (
+			title: string,
+			kind: ChecklistDefinition["kind"],
+			recurrence: ChecklistDefinition["recurrence"],
+			status: "active" | "completed" = "active",
+		) => ({
+			status,
+			definition: { ...daily, title, kind, recurrence },
+			occurrence: { startAt: 0 },
+		});
+		const sorted = sortChecklistItems([
+			item("Completed event", "event", "weekly", "completed"),
+			item("Custom other B", "custom", "none"),
+			item("Permanent daily", "permanent", "daily"),
+			item("Event other", "event", "none"),
+			item("Custom daily", "custom", "daily"),
+			item("Event daily", "event", "daily"),
+			item("Permanent weekly", "permanent", "weekly"),
+			item("Custom other A", "custom", "interval_days"),
+			item("Event weekly", "event", "weekly"),
+			item("Completed permanent", "permanent", "weekly", "completed"),
+		]);
+
+		expect(sorted.map(({ definition }) => definition.title)).toEqual([
+			"Event weekly",
+			"Event daily",
+			"Event other",
+			"Permanent weekly",
+			"Permanent daily",
+			"Custom daily",
+			"Custom other A",
+			"Custom other B",
+			"Completed event",
+			"Completed permanent",
+		]);
 	});
 });

@@ -36,6 +36,12 @@ export function occurrenceKey(
 	return `${definition.id}:${version}${new Date(startAt).toISOString()}`;
 }
 
+export function fullCompletionKey(definition: ChecklistDefinition) {
+	const version =
+		"scheduleVersion" in definition ? `v${definition.scheduleVersion}:` : "";
+	return `${definition.id}:${version}full`;
+}
+
 export function latestCompletion(
 	definition: ChecklistDefinition,
 	completions: Record<string, number>,
@@ -44,7 +50,7 @@ export function latestCompletion(
 		"scheduleVersion" in definition ? `v${definition.scheduleVersion}:` : "";
 	const prefix = `${definition.id}:${version}`;
 	return Object.entries(completions)
-		.filter(([key]) => key.startsWith(prefix))
+		.filter(([key]) => key.startsWith(prefix) && !key.endsWith(":full"))
 		.sort(([, a], [, b]) => b - a)[0];
 }
 
@@ -132,24 +138,28 @@ export function sortChecklistItems<
 		occurrence: ChecklistOccurrence;
 	},
 >(items: T[]) {
-	const rank: Record<ChecklistStatus, number> = {
-		"ending-soon": 0,
-		active: 1,
-		overdue: 2,
-		upcoming: 3,
-		completed: 4,
-		expired: 5,
+	const kindRank: Record<ChecklistDefinition["kind"], number> = {
+		event: 0,
+		permanent: 1,
+		custom: 2,
+	};
+	const recurrenceRank: Record<ChecklistRecurrence, number> = {
+		weekly: 0,
+		daily: 1,
+		none: 2,
+		interval_days: 2,
 	};
 	return [...items].sort((a, b) => {
-		const statusOrder = rank[a.status] - rank[b.status];
-		if (statusOrder) return statusOrder;
-		const priorityOrder =
-			(b.definition.kind === "event" ? 1 : 0) -
-			(a.definition.kind === "event" ? 1 : 0);
+		const completionOrder =
+			Number(a.status === "completed") - Number(b.status === "completed");
+		if (completionOrder) return completionOrder;
+		const kindOrder = kindRank[a.definition.kind] - kindRank[b.definition.kind];
+		if (kindOrder) return kindOrder;
+		const recurrenceOrder =
+			recurrenceRank[a.definition.recurrence ?? "none"] -
+			recurrenceRank[b.definition.recurrence ?? "none"];
 		return (
-			priorityOrder ||
-			a.occurrence.startAt - b.occurrence.startAt ||
-			a.definition.title.localeCompare(b.definition.title)
+			recurrenceOrder || a.definition.title.localeCompare(b.definition.title)
 		);
 	});
 }

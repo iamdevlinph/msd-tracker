@@ -1,12 +1,14 @@
 import {
 	CalendarDays,
 	Check,
+	CheckCheck,
 	Pencil,
 	RotateCcw,
 	Trash2,
 	Undo2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import { formatCountdown, isChecklistTask } from "@/lib/checklist";
 import type { ChecklistTask } from "@/lib/checklist-task";
 import type { ChecklistViewItem } from "@/lib/checklist-view";
@@ -33,6 +35,8 @@ type ChecklistListProps = {
 	now: number;
 	onComplete: (key: string) => void;
 	onUndo: (key: string) => void;
+	onFullComplete: (key: string) => void;
+	onFullUndo: (key: string) => void;
 	onEdit: (task: ChecklistTask) => void;
 	onDelete: (task: ChecklistTask) => void;
 };
@@ -42,6 +46,11 @@ const getCompletedCountdown = (
 	now: number,
 ): { label: string; text: string } | undefined => {
 	const { definition, occurrence } = item;
+	if (item.fullyCompleted && occurrence.endAt) {
+		if (occurrence.endAt <= now) return undefined;
+		const text = formatCountdown(occurrence.endAt - now);
+		return { label: `Ends in ${text}`, text };
+	}
 	let boundary: number | undefined;
 	let action: "due" | "ends" | "resets" = "resets";
 
@@ -81,13 +90,30 @@ export const ChecklistList = ({
 	now,
 	onComplete,
 	onUndo,
+	onFullComplete,
+	onFullUndo,
 	onEdit,
 	onDelete,
 }: ChecklistListProps) => (
 	<ul aria-label="Checklist items" className="grid gap-2">
 		{items.map((item) => {
-			const { definition, occurrence, completionKey, status } = item;
+			const {
+				definition,
+				occurrence,
+				completionKey,
+				fullCompletionKey,
+				occurrenceCompleted,
+				fullyCompleted,
+				status,
+			} = item;
 			const canComplete = status !== "upcoming" && status !== "expired";
+			const isOccurrenceCompleted =
+				definition.kind === "event"
+					? occurrenceCompleted
+					: status === "completed";
+			const fullLabel = fullyCompleted
+				? `Mark ${definition.title} not fully complete`
+				: `Mark ${definition.title} fully complete`;
 			const customTask = isChecklistTask(definition);
 			const completedCountdown =
 				status === "completed" ? getCompletedCountdown(item, now) : undefined;
@@ -97,8 +123,9 @@ export const ChecklistList = ({
 			else if (definition.recurrence === "daily") typeBadges.push("Daily");
 			else if (customTask && definition.kind !== "event")
 				typeBadges.push("Custom");
-			const countdownLabel =
-				status === "completed"
+			const countdownLabel = fullyCompleted
+				? "Fully completed"
+				: status === "completed"
 					? "Completed"
 					: status === "expired"
 						? "Expired"
@@ -113,14 +140,45 @@ export const ChecklistList = ({
 										: occurrence.nextResetAt
 											? `Resets in ${formatCountdown(occurrence.nextResetAt - now)}`
 											: "Available now";
-			const countdown =
-				status === "completed"
+			const countdown = fullyCompleted
+				? "Fully completed"
+				: status === "completed"
 					? "Completed"
 					: status === "upcoming"
 						? `in ${formatCountdown(occurrence.startAt - now)}`
 						: countdownLabel.includes(" in ")
 							? countdownLabel.slice(countdownLabel.indexOf(" in ") + 4)
 							: countdownLabel;
+			const occurrenceButton = (
+				<Button
+					aria-label={
+						isOccurrenceCompleted
+							? `Mark ${definition.title} incomplete`
+							: `Mark ${definition.title} complete`
+					}
+					aria-pressed={isOccurrenceCompleted}
+					className={cn(
+						"size-8 border-0 bg-muted-foreground/35 p-1 text-foreground shadow-none hover:bg-muted-foreground/55",
+						definition.kind !== "event" && "mr-2 rounded-full",
+						isOccurrenceCompleted &&
+							"bg-primary text-primary-foreground hover:bg-primary/90",
+					)}
+					disabled={!canComplete || fullyCompleted}
+					size="icon-sm"
+					variant="ghost"
+					onClick={() =>
+						isOccurrenceCompleted
+							? onUndo(completionKey)
+							: onComplete(completionKey)
+					}
+				>
+					{isOccurrenceCompleted ? (
+						<Undo2 className="size-5" />
+					) : (
+						<Check className="size-5" />
+					)}
+				</Button>
+			);
 
 			return (
 				<li
@@ -138,33 +196,39 @@ export const ChecklistList = ({
 					)}
 				>
 					<div className="flex w-full min-w-0 flex-1 items-center sm:w-auto">
-						<Button
-							aria-label={
-								status === "completed"
-									? `Mark ${definition.title} incomplete`
-									: `Mark ${definition.title} complete`
-							}
-							aria-pressed={status === "completed"}
-							className={cn(
-								"mr-2 size-8 rounded-full border-0 bg-muted-foreground/35 p-1 text-foreground shadow-none hover:bg-muted-foreground/55",
-								status === "completed" &&
-									"bg-primary text-primary-foreground hover:bg-primary/90",
-							)}
-							disabled={!canComplete}
-							size="icon-sm"
-							variant="ghost"
-							onClick={() =>
-								status === "completed"
-									? onUndo(completionKey)
-									: onComplete(completionKey)
-							}
-						>
-							{status === "completed" ? (
-								<Undo2 className="size-5" />
-							) : (
-								<Check className="size-5" />
-							)}
-						</Button>
+						{definition.kind === "event" ? (
+							<ButtonGroup
+								aria-label={`${definition.title} completion controls`}
+								className="mr-2 shrink-0 [&>*:first-child]:rounded-l-full [&>*:last-child]:rounded-r-full"
+							>
+								{occurrenceButton}
+								<Button
+									aria-label={fullLabel}
+									aria-pressed={fullyCompleted}
+									className={cn(
+										"size-8 border-0 bg-muted-foreground/35 p-1 text-foreground shadow-none hover:bg-muted-foreground/55",
+										fullyCompleted &&
+											"bg-primary text-primary-foreground hover:bg-primary/90",
+									)}
+									disabled={!canComplete}
+									size="icon-sm"
+									variant="ghost"
+									onClick={() =>
+										fullyCompleted
+											? onFullUndo(fullCompletionKey)
+											: onFullComplete(fullCompletionKey)
+									}
+								>
+									{fullyCompleted ? (
+										<Undo2 className="size-5" />
+									) : (
+										<CheckCheck className="size-5" />
+									)}
+								</Button>
+							</ButtonGroup>
+						) : (
+							occurrenceButton
+						)}
 						<div className="mr-2 flex min-w-0 flex-1 items-center gap-1.5 leading-tight">
 							{typeBadges.map((typeBadge) => (
 								<span
@@ -242,6 +306,8 @@ export const ChecklistList = ({
 							<span aria-hidden="true" className="inline-flex items-center">
 								{status === "overdue" || status === "expired" ? (
 									<RotateCcw className="mr-1 size-4" />
+								) : fullyCompleted ? (
+									<CheckCheck className="mr-1 size-4" />
 								) : status === "completed" ? (
 									<Check className="mr-1 size-4" />
 								) : (

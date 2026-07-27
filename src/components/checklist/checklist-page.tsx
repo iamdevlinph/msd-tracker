@@ -139,11 +139,19 @@ export const ChecklistPage = () => {
 							complete(key);
 							ga.event(ANALYTICS_EVENTS.CHECKLIST_COMPLETE);
 						}}
+						onFullComplete={(key) => {
+							complete(key);
+							ga.event(ANALYTICS_EVENTS.CHECKLIST_FULL_COMPLETE);
+						}}
 						onDelete={setTaskToDelete}
 						onEdit={openEditTask}
 						onUndo={(key) => {
 							undo(key);
 							ga.event(ANALYTICS_EVENTS.CHECKLIST_UNDO);
+						}}
+						onFullUndo={(key) => {
+							undo(key);
+							ga.event(ANALYTICS_EVENTS.CHECKLIST_FULL_UNDO);
 						}}
 					/>
 				)}
