@@ -480,17 +480,23 @@ describe("ChecklistPage", () => {
 		expect(expiredRow?.className).toContain("opacity-50");
 	});
 
-	it("shows inline validation in the accessible add-task dialog", async () => {
+	it("defaults new items to UTC midnight and shows inline validation", async () => {
 		render(<ChecklistPage />);
 		fireEvent.click(screen.getByRole("button", { name: "Add item" }));
-		expect(
-			screen.getByLabelText("Start (Game Time - UTC)").getAttribute("type"),
-		).toBe("datetime-local");
+		const startInput = screen.getByLabelText(
+			"Start (Game Time - UTC)",
+		) as HTMLInputElement;
+		expect(startInput.getAttribute("type")).toBe("datetime-local");
+		expect(startInput.value).toBe("2026-07-27T00:00");
 		expect(
 			screen
 				.getByLabelText("End (optional, Game Time - UTC)")
 				.getAttribute("type"),
 		).toBe("datetime-local");
+		const typeInput = screen.getByLabelText("Type");
+		fireEvent.change(typeInput, { target: { value: "event" } });
+		expect(startInput.value).toBe("2026-07-27T00:00");
+		fireEvent.change(typeInput, { target: { value: "task" } });
 		fireEvent.click(
 			within(screen.getByRole("dialog")).getByRole("button", {
 				name: "Add item",
@@ -498,14 +504,10 @@ describe("ChecklistPage", () => {
 		);
 
 		expect(await screen.findByText("Name is required.")).toBeTruthy();
-		expect(screen.getByText("Start date and time are required.")).toBeTruthy();
+		expect(screen.queryByText("Start date and time are required.")).toBeNull();
 		expect(
 			screen.getByLabelText("Task name").getAttribute("aria-describedby"),
 		).toBe("checklist-task-name-error");
-		expect(
-			screen
-				.getByLabelText("Start (Game Time - UTC)")
-				.getAttribute("aria-describedby"),
-		).toBe("checklist-task-start-error");
+		expect(startInput.getAttribute("aria-describedby")).toBeNull();
 	});
 });

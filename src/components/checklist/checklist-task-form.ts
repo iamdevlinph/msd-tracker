@@ -74,7 +74,9 @@ const toUtcInput = (iso: string) => {
 };
 
 export const taskDefaults = (task?: ChecklistTask): TaskForm => {
-	const startAt = task ? toUtcInput(task.startAt) : "";
+	const startAt = task
+		? toUtcInput(task.startAt)
+		: `${new Date(Date.now()).toISOString().slice(0, 10)}T00:00`;
 	const dueAt =
 		task?.kind === "event" && task.endAt
 			? toUtcInput(task.endAt)

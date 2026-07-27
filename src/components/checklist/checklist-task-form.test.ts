@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	taskDefaults,
 	taskFormToChecklistTask,
@@ -19,6 +19,20 @@ const formValues = {
 };
 
 describe("checklist task form", () => {
+	afterEach(() => vi.restoreAllMocks());
+
+	it("defaults new items to the current UTC day at midnight", () => {
+		vi.spyOn(Date, "now").mockReturnValue(
+			Date.parse("2026-07-28T07:30:00+08:00"),
+		);
+
+		expect(taskDefaults()).toMatchObject({
+			type: "task",
+			startAt: "2026-07-27T00:00",
+			dueAt: "",
+		});
+	});
+
 	it("maps task start and end times as exact UTC values", () => {
 		expect(taskFormToChecklistTask(formValues)).toMatchObject({
 			kind: "custom",
