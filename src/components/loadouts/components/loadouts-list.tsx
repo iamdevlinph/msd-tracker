@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import toast from "react-hot-toast";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
+import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
 import { LoadoutCard } from "@/components/loadouts/components/loadout-card";
 import {
 	type LoadoutActionSource,
@@ -12,6 +13,7 @@ import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-p
 import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-preview-surface";
 import { nextDuplicateLoadoutName } from "@/components/loadouts/components/loadout-utils";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
+import { EditMonsterlingDialog } from "@/components/monsterlings/components/edit-monsterling-dialog";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
@@ -23,6 +25,11 @@ export const LoadoutsList = () => {
 	const [loadoutToEdit, setLoadoutToEdit] = useState<string | null>(null);
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 	const [loadoutToExport, setLoadoutToExport] = useState<string | null>(null);
+	const [editorTarget, setEditorTarget] = useState<
+		| { type: "character"; id: number }
+		| { type: "monsterling"; id: string }
+		| null
+	>(null);
 	const exportSurfaceRef = useRef<HTMLDivElement>(null);
 	const imageActions = useLoadoutImageActions("card");
 
@@ -78,6 +85,11 @@ export const LoadoutsList = () => {
 			setLoadoutToExport(null);
 		}
 	};
+	const setEditorOpen = (next: boolean | ((open: boolean) => boolean)) => {
+		const isOpen = editorTarget !== null;
+		if (!(typeof next === "function" ? next(isOpen) : next))
+			setEditorTarget(null);
+	};
 
 	return (
 		<div className="min-w-0">
@@ -105,6 +117,12 @@ export const LoadoutsList = () => {
 							onCopy={() => void exportImage("copy", loadout)}
 							onDownload={() => void exportImage("download", loadout)}
 							onDelete={() => remove(loadout.id)}
+							onEditCharacter={(id) =>
+								setEditorTarget({ type: "character", id })
+							}
+							onEditMonsterling={(id) =>
+								setEditorTarget({ type: "monsterling", id })
+							}
 							activeImageAction={
 								loadoutToExport === loadout.id
 									? imageActions.activeAction
@@ -130,6 +148,22 @@ export const LoadoutsList = () => {
 					previewLoadout && duplicate(previewLoadout, "preview")
 				}
 				onDelete={() => previewLoadout && remove(previewLoadout.id)}
+			/>
+			<EditCharacterDetailsDialog
+				charIdToEdit={
+					editorTarget?.type === "character" ? editorTarget.id : null
+				}
+				open={editorTarget?.type === "character"}
+				setOpen={setEditorOpen}
+				onClose={() => setEditorTarget(null)}
+			/>
+			<EditMonsterlingDialog
+				monsterlingToEdit={
+					editorTarget?.type === "monsterling" ? editorTarget.id : null
+				}
+				open={editorTarget?.type === "monsterling"}
+				setOpen={setEditorOpen}
+				onClose={() => setEditorTarget(null)}
 			/>
 			{exportLoadout && (
 				<div

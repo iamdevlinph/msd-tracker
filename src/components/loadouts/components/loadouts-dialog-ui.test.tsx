@@ -423,6 +423,46 @@ describe("LoadoutsList", () => {
 		).toBeTruthy();
 	});
 
+	it("opens owned character and monsterling editors without previewing", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {
+				regular: { monsterling_id: 1, tier_id: 5, traits: [] },
+			},
+			loadouts: {
+				team: {
+					...teamLoadout,
+					characters: [
+						{ characterId: 1, monsterlingIds: ["regular", null, null] },
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
+		});
+		render(<LoadoutsList />);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Edit Angel character" }),
+		);
+		expect(screen.getByRole("dialog", { name: "Angel" })).toBeTruthy();
+		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
+		expect(event).not.toHaveBeenCalledWith("loadout_preview", {
+			source: "card",
+		});
+
+		fireEvent.click(screen.getByRole("button", { name: "Close" }));
+		fireEvent.click(
+			screen.getByRole("button", {
+				name: `Edit ${MONSTERLINGS_DATA[1].name} monsterling`,
+			}),
+		);
+		expect(
+			screen.getByRole("dialog", { name: "Edit Monsterling" }),
+		).toBeTruthy();
+		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
+	});
+
 	it("uses the environment gate for future slots", () => {
 		useAppStore.setState({
 			charactersOwned,

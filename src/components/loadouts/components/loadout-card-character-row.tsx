@@ -1,14 +1,4 @@
-import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
-import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { TierPortrait } from "@/components/shared/tier-portrait";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
@@ -30,7 +20,8 @@ type LoadoutCardCharacterRowProps = {
 	slot: LoadoutCharacterSlot;
 	charactersOwned: StoreState["charactersOwned"];
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
-	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
+	onEditCharacter: (id: number) => void;
+	onEditMonsterling: (id: string) => void;
 };
 
 export const LoadoutCardCharacterRow = ({
@@ -39,7 +30,8 @@ export const LoadoutCardCharacterRow = ({
 	slot,
 	charactersOwned,
 	monsterlingsOwned,
-	monsterlingLinkChainLevels,
+	onEditCharacter,
+	onEditMonsterling,
 }: LoadoutCardCharacterRowProps) => {
 	const character =
 		slot.characterId !== null ? CHARACTERS_DATA[slot.characterId] : null;
@@ -58,15 +50,33 @@ export const LoadoutCardCharacterRow = ({
 							: undefined,
 					}}
 				>
-					<img
-						src={character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT}
-						alt={
-							character
-								? `${character.name} portrait`
-								: "Unknown character portrait"
-						}
-						className="size-full max-h-28 max-w-28 object-contain"
-					/>
+					{character && characterOwned ? (
+						<button
+							type="button"
+							aria-label={`Edit ${character.name} character`}
+							onClick={(event) => {
+								event.stopPropagation();
+								onEditCharacter(character.id);
+							}}
+							className="pointer-events-auto relative size-full max-h-28 max-w-28 rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+						>
+							<img
+								src={character.portraitImage}
+								alt={`${character.name} portrait`}
+								className="size-full max-h-28 max-w-28 object-contain"
+							/>
+						</button>
+					) : (
+						<img
+							src={character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT}
+							alt={
+								character
+									? `${character.name} portrait`
+									: "Unknown character portrait"
+							}
+							className="size-full max-h-28 max-w-28 object-contain"
+						/>
+					)}
 					<div className="absolute left-0.5 top-0.5 rounded-full bg-background/85 p-0.5 shadow-sm">
 						{element && (
 							<img
@@ -108,37 +118,24 @@ export const LoadoutCardCharacterRow = ({
 									: "place-items-center border-dashed",
 							)}
 						>
-							{monsterling && info ? (
-								<Dialog>
-									<DialogTrigger className="pointer-events-auto relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-										<TierPortrait
-											tier={monsterling.tier_id}
-											portraitImg={info.image}
-											portraitSize={112}
-											name={info.name}
-											hideTierBg
-										/>
-									</DialogTrigger>
-									<DialogContent className="max-w-[calc(100%-2rem)] sm:max-w-sm">
-										<DialogHeader>
-											<DialogTitle>{info.name}</DialogTitle>
-											<DialogDescription>
-												Tier and complete stats for this owned monsterling.
-											</DialogDescription>
-										</DialogHeader>
-										<div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-											<MonsterlingCard
-												monsterling_id={monsterling.monsterling_id}
-												tier_id={monsterling.tier_id}
-												linkChainLevel={getMonsterlingLinkChainLevel(
-													monsterling.monsterling_id,
-													monsterlingLinkChainLevels,
-												)}
-												traits={monsterling.traits}
-											/>
-										</div>
-									</DialogContent>
-								</Dialog>
+							{monsterling && info && monsterlingId ? (
+								<button
+									type="button"
+									aria-label={`Edit ${info.name} monsterling`}
+									onClick={(event) => {
+										event.stopPropagation();
+										onEditMonsterling(monsterlingId);
+									}}
+									className="pointer-events-auto relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								>
+									<TierPortrait
+										tier={monsterling.tier_id}
+										portraitImg={info.image}
+										portraitSize={112}
+										name={info.name}
+										hideTierBg
+									/>
+								</button>
 							) : (
 								<span className="text-[10px] text-muted-foreground">
 									{monsterIndex === "legendary"
