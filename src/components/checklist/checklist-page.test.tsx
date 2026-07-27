@@ -4,6 +4,7 @@ import {
 	fireEvent,
 	render,
 	screen,
+	waitFor,
 	within,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -89,6 +90,7 @@ describe("ChecklistPage", () => {
 		useAppStore.setState({
 			checklistTasks: {},
 			checklistCompletions: {},
+			checklistPermanentNotes: {},
 			checklistPreferences: defaultChecklistPreferences,
 			isHydrated: true,
 		});
@@ -429,6 +431,109 @@ describe("ChecklistPage", () => {
 				"Claim rewards before the event ends.",
 			).className,
 		).toContain("line-clamp-2");
+		expect(
+			within(playerEventRow as HTMLElement)
+				.getByRole("button", { name: "Delete Player event" })
+				.querySelector(".lucide-trash-2")?.classList,
+		).toContain("text-destructive");
+		expect(
+			within(futureRow as HTMLElement)
+				.getByRole("button", { name: "Delete Future task" })
+				.querySelector(".lucide-trash-2")?.classList,
+		).toContain("text-destructive");
+		expect(
+			screen.queryByRole("button", { name: "Delete Fixture Gulgak" }),
+		).toBeNull();
+
+		fireEvent.click(
+			within(playerEventRow as HTMLElement).getByRole("button", {
+				name: "Delete Player event",
+			}),
+		);
+		expect(
+			screen.getByRole("heading", { name: "Delete “Player event”?" }),
+		).toBeTruthy();
+		expect(
+			screen.getByText(
+				"This removes the event and all of its completion records. This cannot be undone.",
+			),
+		).toBeTruthy();
+		expect(screen.getByRole("button", { name: "Delete event" })).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+		fireEvent.click(
+			within(futureRow as HTMLElement).getByRole("button", {
+				name: "Delete Future task",
+			}),
+		);
+		expect(
+			screen.getByRole("heading", { name: "Delete “Future task”?" }),
+		).toBeTruthy();
+		expect(
+			screen.getByText(
+				"This removes the task and all of its completion records. This cannot be undone.",
+			),
+		).toBeTruthy();
+		expect(screen.getByRole("button", { name: "Delete task" })).toBeTruthy();
+	});
+
+	it("adds, limits, displays, and clears permanent notes", async () => {
+		render(<ChecklistPage />);
+
+		fireEvent.click(
+			screen.getByRole("button", {
+				name: "Edit notes for Fixture Conquest",
+			}),
+		);
+		expect(
+			screen.getByRole("heading", { name: "Notes for Fixture Conquest" }),
+		).toBeTruthy();
+		const notes = screen.getByLabelText("Notes");
+		fireEvent.change(notes, { target: { value: "Unsaved draft" } });
+		fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+		fireEvent.click(
+			screen.getByRole("button", {
+				name: "Edit notes for Fixture Conquest",
+			}),
+		);
+		const reopenedNotes = screen.getByLabelText("Notes");
+		expect(reopenedNotes).toHaveProperty("value", "");
+		expect(reopenedNotes.getAttribute("maxLength")).toBe("500");
+		fireEvent.change(reopenedNotes, {
+			target: { value: "  Bring support.\nCheck gear.  " },
+		});
+		expect(reopenedNotes).toHaveProperty(
+			"value",
+			"  Bring support.\nCheck gear.  ",
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Save notes" }));
+
+		await waitFor(() =>
+			expect(useAppStore.getState().checklistPermanentNotes).toEqual({
+				"fixture-conquest": "Bring support.\nCheck gear.",
+			}),
+		);
+		expect(screen.getByText(/^Bring support\./).className).toContain(
+			"line-clamp-2",
+		);
+		expect(event).toHaveBeenLastCalledWith(ANALYTICS_EVENTS.CHECKLIST_UPDATE);
+
+		fireEvent.click(
+			screen.getByRole("button", {
+				name: "Edit notes for Fixture Conquest",
+			}),
+		);
+		expect(screen.getByLabelText("Notes")).toHaveProperty(
+			"value",
+			"Bring support.\nCheck gear.",
+		);
+		fireEvent.change(screen.getByLabelText("Notes"), {
+			target: { value: "   " },
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Save notes" }));
+		await waitFor(() =>
+			expect(useAppStore.getState().checklistPermanentNotes).toEqual({}),
+		);
+		expect(screen.queryByText(/^Bring support\./)).toBeNull();
 	});
 
 	it("disables completion controls outside an event's active period", () => {

@@ -10,6 +10,7 @@ import {
 	fullCompletionKey,
 	getChecklistStatus,
 	getOccurrence,
+	isChecklistTask,
 	latestCompletion,
 	occurrenceKey,
 	sortChecklistItems,
@@ -27,12 +28,14 @@ export type ChecklistViewItem = {
 	occurrenceCompleted: boolean;
 	fullyCompleted: boolean;
 	status: ChecklistStatus;
+	notes?: string;
 };
 
 type ChecklistViewInput = {
 	tasks: Record<string, ChecklistTask>;
 	completions: Record<string, number>;
 	preferences: ChecklistPreferences;
+	permanentNotes?: Record<string, string>;
 	tab: ChecklistTab;
 	now: number;
 };
@@ -41,6 +44,7 @@ export const getChecklistView = ({
 	tasks,
 	completions,
 	preferences,
+	permanentNotes = {},
 	tab,
 	now,
 }: ChecklistViewInput): ChecklistViewItem[] =>
@@ -73,6 +77,12 @@ export const getChecklistView = ({
 
 				return {
 					definition,
+					notes:
+						definition.kind === "permanent"
+							? permanentNotes[definition.id]
+							: isChecklistTask(definition)
+								? definition.notes
+								: undefined,
 					occurrence,
 					completionKey:
 						waitingForRollingReset && latest ? latest[0] : currentKey,

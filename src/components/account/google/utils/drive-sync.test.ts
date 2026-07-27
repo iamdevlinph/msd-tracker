@@ -22,6 +22,7 @@ describe("Drive Monsterling backups", () => {
 			monsterlingLinkChainLevels: {},
 			checklistTasks: {},
 			checklistCompletions: {},
+			checklistPermanentNotes: {},
 			checklistPreferences: defaultChecklistPreferences,
 			syncConflict: null,
 		});
@@ -58,6 +59,7 @@ describe("Drive Monsterling backups", () => {
 		expect(selected).not.toHaveProperty("syncInProgress");
 		expect(selected.checklistTasks).toEqual({});
 		expect(selected.checklistCompletions).toEqual({});
+		expect(selected.checklistPermanentNotes).toEqual({});
 		expect(selected.checklistPreferences).toEqual(defaultChecklistPreferences);
 	});
 
@@ -114,6 +116,7 @@ describe("Drive Monsterling backups", () => {
 		);
 		expect(downloaded?.checklistTasks).toEqual({});
 		expect(downloaded?.checklistCompletions).toEqual({});
+		expect(downloaded?.checklistPermanentNotes).toEqual({});
 		expect(downloaded?.checklistPreferences).toEqual(
 			defaultChecklistPreferences,
 		);
@@ -146,6 +149,10 @@ describe("Drive Monsterling backups", () => {
 						scheduleVersion: 1,
 					},
 				},
+				checklistPermanentNotes: {
+					"missing-definition": "  Remote note  ",
+					blank: " ",
+				},
 			}),
 		});
 
@@ -159,6 +166,9 @@ describe("Drive Monsterling backups", () => {
 			source: "user",
 			noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
 			endAt: "2026-08-11T23:59:00.000Z",
+		});
+		expect(downloaded?.checklistPermanentNotes).toEqual({
+			"missing-definition": "Remote note",
 		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(77);
 	});

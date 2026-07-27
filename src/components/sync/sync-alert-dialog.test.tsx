@@ -129,6 +129,7 @@ describe("SyncConflictDialog tables", () => {
 				},
 			},
 			checklistCompletions: { "task:v1:occurrence": 123 },
+			checklistPermanentNotes: { permanent: "Remote note" },
 			checklistPreferences: {
 				...defaultChecklistPreferences,
 				showExpired: true,
@@ -148,6 +149,9 @@ describe("SyncConflictDialog tables", () => {
 		);
 		expect(useAppStore.getState().checklistCompletions).toEqual({
 			"task:v1:occurrence": 123,
+		});
+		expect(useAppStore.getState().checklistPermanentNotes).toEqual({
+			permanent: "Remote note",
 		});
 		expect(useAppStore.getState().checklistPreferences.showExpired).toBe(true);
 	});

@@ -24,6 +24,7 @@ afterEach(() => {
 	useAppStore.setState({
 		checklistTasks: {},
 		checklistCompletions: {},
+		checklistPermanentNotes: {},
 		checklistPreferences: defaultChecklistPreferences,
 	});
 });
@@ -62,6 +63,7 @@ describe("Checklist store", () => {
 		const migrated = migrateAppStore({});
 		expect(migrated.checklistTasks).toEqual({});
 		expect(migrated.checklistCompletions).toEqual({});
+		expect(migrated.checklistPermanentNotes).toEqual({});
 		expect(migrated.checklistPreferences).toEqual(defaultChecklistPreferences);
 	});
 
@@ -153,5 +155,48 @@ describe("Checklist store", () => {
 		expect(useAppStore.getState().checklistPreferences).toEqual(
 			defaultChecklistPreferences,
 		);
+	});
+
+	it("stores permanent notes only on effective changes and clears them on reset", () => {
+		vi.spyOn(Date, "now").mockReturnValue(100);
+		useAppStore
+			.getState()
+			.setChecklistPermanentNote("fixture-permanent", "  Remember this  ");
+		expect(useAppStore.getState().checklistPermanentNotes).toEqual({
+			"fixture-permanent": "Remember this",
+		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(100);
+
+		vi.mocked(Date.now).mockReturnValue(200);
+		useAppStore
+			.getState()
+			.setChecklistPermanentNote("fixture-permanent", "Remember this");
+		expect(useAppStore.getState().backupUpdatedAt).toBe(100);
+
+		useAppStore.setState({
+			checklistTasks: {
+				custom: {
+					id: "custom",
+					...task,
+					kind: "custom",
+					source: "user",
+					scheduleVersion: 1,
+				},
+			},
+		});
+		useAppStore.getState().deleteChecklistTask("custom");
+		expect(useAppStore.getState().checklistPermanentNotes).toEqual({
+			"fixture-permanent": "Remember this",
+		});
+
+		useAppStore.getState().setChecklistPermanentNote("fixture-permanent", " ");
+		expect(useAppStore.getState().checklistPermanentNotes).toEqual({});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(200);
+
+		useAppStore
+			.getState()
+			.setChecklistPermanentNote("fixture-permanent", "Restore");
+		useAppStore.getState().resetChecklist();
+		expect(useAppStore.getState().checklistPermanentNotes).toEqual({});
 	});
 });

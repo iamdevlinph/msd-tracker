@@ -9,8 +9,22 @@ describe("normalizeChecklistPersistedState", () => {
 		expect(normalizeChecklistPersistedState({})).toEqual({
 			checklistTasks: {},
 			checklistCompletions: {},
+			checklistPermanentNotes: {},
 			checklistPreferences: defaultChecklistPreferences,
 		});
+	});
+
+	it("keeps valid orphan permanent notes and removes invalid values", () => {
+		expect(
+			normalizeChecklistPersistedState({
+				checklistPermanentNotes: {
+					"missing-definition": "  Keep for later  ",
+					blank: " ",
+					long: "a".repeat(501),
+					invalid: 1,
+				},
+			}).checklistPermanentNotes,
+		).toEqual({ "missing-definition": "Keep for later" });
 	});
 
 	it("preserves full-event completion keys", () => {

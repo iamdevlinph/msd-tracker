@@ -24,10 +24,12 @@ export const ChecklistDeleteDialog = ({
 	<AlertDialog open={Boolean(task)} onOpenChange={onOpenChange}>
 		<AlertDialogContent>
 			<AlertDialogHeader>
-				<AlertDialogTitle>Delete custom task?</AlertDialogTitle>
+				<AlertDialogTitle>
+					{task ? `Delete “${task.title}”?` : "Delete item?"}
+				</AlertDialogTitle>
 				<AlertDialogDescription>
-					This removes the task and all of its completion records. This cannot
-					be undone.
+					This removes the {task?.kind === "event" ? "event" : "task"} and all
+					of its completion records. This cannot be undone.
 				</AlertDialogDescription>
 			</AlertDialogHeader>
 			<AlertDialogFooter>
@@ -36,7 +38,7 @@ export const ChecklistDeleteDialog = ({
 					variant="destructive"
 					onClick={() => task && onDelete(task)}
 				>
-					Delete task
+					Delete {task?.kind === "event" ? "event" : "task"}
 				</AlertDialogAction>
 			</AlertDialogFooter>
 		</AlertDialogContent>

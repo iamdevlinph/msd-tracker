@@ -22,9 +22,23 @@ export const defaultChecklistPreferences: ChecklistPreferences = {
 type PersistedChecklistState = {
 	checklistTasks?: unknown;
 	checklistCompletions?: Record<string, number>;
+	checklistPermanentNotes?: unknown;
 	checklistPreferences?: Partial<Omit<ChecklistPreferences, "categories">> & {
 		categories?: Partial<ChecklistPreferences["categories"]>;
 	};
+};
+
+export const normalizeChecklistPermanentNotes = (
+	notes: unknown,
+): Record<string, string> => {
+	if (!notes || typeof notes !== "object") return {};
+	return Object.fromEntries(
+		Object.entries(notes).flatMap(([id, value]): [string, string][] => {
+			if (typeof value !== "string") return [];
+			const trimmed = value.trim();
+			return trimmed && trimmed.length <= 500 ? [[id, trimmed]] : [];
+		}),
+	);
 };
 
 export const normalizeChecklistPersistedState = (
@@ -32,10 +46,14 @@ export const normalizeChecklistPersistedState = (
 ): {
 	checklistTasks: Record<string, ChecklistTask>;
 	checklistCompletions: Record<string, number>;
+	checklistPermanentNotes: Record<string, string>;
 	checklistPreferences: ChecklistPreferences;
 } => ({
 	checklistTasks: normalizeChecklistTasks(state.checklistTasks),
 	checklistCompletions: state.checklistCompletions ?? {},
+	checklistPermanentNotes: normalizeChecklistPermanentNotes(
+		state.checklistPermanentNotes,
+	),
 	checklistPreferences: {
 		...defaultChecklistPreferences,
 		...state.checklistPreferences,

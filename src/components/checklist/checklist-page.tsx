@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { ChecklistDeleteDialog } from "@/components/checklist/checklist-delete-dialog";
 import { ChecklistList } from "@/components/checklist/checklist-list";
+import { ChecklistPermanentNotesDialog } from "@/components/checklist/checklist-permanent-notes-dialog";
 import { ChecklistSettingsDialog } from "@/components/checklist/checklist-settings-dialog";
 import { ChecklistTaskDialog } from "@/components/checklist/checklist-task-dialog";
 import { PageTitle } from "@/components/shared/page-title";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import type { ChecklistTask } from "@/lib/checklist-task";
 import { type ChecklistTab, getChecklistView } from "@/lib/checklist-view";
@@ -45,9 +47,11 @@ export const ChecklistPage = () => {
 	const [settingsOpen, setSettingsOpen] = useState(false);
 	const [editingTask, setEditingTask] = useState<ChecklistTask>();
 	const [taskToDelete, setTaskToDelete] = useState<ChecklistTask>();
+	const [notesDefinition, setNotesDefinition] = useState<ChecklistDefinition>();
 	const tasks = useAppStore((state) => state.checklistTasks);
 	const completions = useAppStore((state) => state.checklistCompletions);
 	const preferences = useAppStore((state) => state.checklistPreferences);
+	const permanentNotes = useAppStore((state) => state.checklistPermanentNotes);
 	const isHydrated = useAppStore((state) => state.isHydrated);
 	const complete = useAppStore((state) => state.completeChecklist);
 	const undo = useAppStore((state) => state.undoChecklist);
@@ -60,8 +64,15 @@ export const ChecklistPage = () => {
 		() =>
 			now === null
 				? []
-				: getChecklistView({ tasks, completions, preferences, tab, now }),
-		[completions, now, preferences, tab, tasks],
+				: getChecklistView({
+						tasks,
+						completions,
+						preferences,
+						permanentNotes,
+						tab,
+						now,
+					}),
+		[completions, now, permanentNotes, preferences, tab, tasks],
 	);
 
 	useEffect(() => {
@@ -145,6 +156,7 @@ export const ChecklistPage = () => {
 						}}
 						onDelete={setTaskToDelete}
 						onEdit={openEditTask}
+						onEditPermanentNote={setNotesDefinition}
 						onUndo={(key) => {
 							undo(key);
 							ga.event(ANALYTICS_EVENTS.CHECKLIST_UNDO);
@@ -187,6 +199,10 @@ export const ChecklistPage = () => {
 			<ChecklistSettingsDialog
 				open={settingsOpen}
 				onOpenChange={setSettingsOpen}
+			/>
+			<ChecklistPermanentNotesDialog
+				definition={notesDefinition}
+				onOpenChange={(open) => !open && setNotesDefinition(undefined)}
 			/>
 			<ChecklistDeleteDialog
 				task={taskToDelete}

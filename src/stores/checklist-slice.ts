@@ -31,6 +31,7 @@ const scheduleFields = [
 export type ChecklistSlice = {
 	checklistTasks: Record<string, ChecklistTask>;
 	checklistCompletions: Record<string, number>;
+	checklistPermanentNotes: Record<string, string>;
 	checklistPreferences: ChecklistPreferences;
 	recordChecklistTask: (
 		task: Omit<ChecklistTask, "id" | "scheduleVersion" | "source" | "kind"> & {
@@ -48,6 +49,7 @@ export type ChecklistSlice = {
 	completeChecklist: (key: string) => void;
 	undoChecklist: (key: string) => void;
 	setChecklistPreferences: (preferences: Partial<ChecklistPreferences>) => void;
+	setChecklistPermanentNote: (id: string, note: string) => void;
 	resetChecklist: () => void;
 };
 
@@ -59,6 +61,7 @@ export const createChecklistSlice: StateCreator<
 > = (set) => ({
 	checklistTasks: {},
 	checklistCompletions: {},
+	checklistPermanentNotes: {},
 	checklistPreferences: defaultChecklistPreferences,
 	recordChecklistTask: (task) => {
 		const id = task.id ?? nanoid();
@@ -145,10 +148,21 @@ export const createChecklistSlice: StateCreator<
 			},
 			backupUpdatedAt: Date.now(),
 		})),
+	setChecklistPermanentNote: (id, note) =>
+		set((state) => {
+			const trimmed = note.trim().slice(0, 500);
+			const current = state.checklistPermanentNotes[id] ?? "";
+			if (trimmed === current) return state;
+			const checklistPermanentNotes = { ...state.checklistPermanentNotes };
+			if (trimmed) checklistPermanentNotes[id] = trimmed;
+			else delete checklistPermanentNotes[id];
+			return { checklistPermanentNotes, backupUpdatedAt: Date.now() };
+		}),
 	resetChecklist: () =>
 		set({
 			checklistTasks: {},
 			checklistCompletions: {},
+			checklistPermanentNotes: {},
 			checklistPreferences: defaultChecklistPreferences,
 			backupUpdatedAt: Date.now(),
 		}),

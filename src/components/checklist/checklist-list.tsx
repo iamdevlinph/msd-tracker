@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
 import { formatCountdown, isChecklistTask } from "@/lib/checklist";
 import type { ChecklistTask } from "@/lib/checklist-task";
 import type { ChecklistViewItem } from "@/lib/checklist-view";
@@ -39,6 +40,7 @@ type ChecklistListProps = {
 	onFullUndo: (key: string) => void;
 	onEdit: (task: ChecklistTask) => void;
 	onDelete: (task: ChecklistTask) => void;
+	onEditPermanentNote: (definition: ChecklistDefinition) => void;
 };
 
 const getCompletedCountdown = (
@@ -94,6 +96,7 @@ export const ChecklistList = ({
 	onFullUndo,
 	onEdit,
 	onDelete,
+	onEditPermanentNote,
 }: ChecklistListProps) => (
 	<ul aria-label="Checklist items" className="grid gap-2">
 		{items.map((item) => {
@@ -254,31 +257,41 @@ export const ChecklistList = ({
 								>
 									{definition.title}
 								</span>
-								{customTask && definition.notes && (
+								{item.notes && (
 									<p className="mt-0.5 line-clamp-2 break-words whitespace-pre-line text-xs font-normal text-muted-foreground">
-										{definition.notes}
+										{item.notes}
 									</p>
 								)}
 							</div>
 						</div>
-						{customTask && (
+						{(customTask || definition.kind === "permanent") && (
 							<div className="flex shrink-0 items-center gap-1 opacity-60 transition-opacity sm:opacity-0 sm:group-hover:opacity-75 sm:group-focus-within:opacity-100">
 								<Button
-									aria-label={`Edit ${definition.title}`}
+									aria-label={
+										definition.kind === "permanent"
+											? `Edit notes for ${definition.title}`
+											: `Edit ${definition.title}`
+									}
 									size="icon-xs"
 									variant="ghost"
-									onClick={() => onEdit(definition)}
+									onClick={() =>
+										definition.kind === "permanent"
+											? onEditPermanentNote(definition)
+											: onEdit(definition as ChecklistTask)
+									}
 								>
 									<Pencil />
 								</Button>
-								<Button
-									aria-label={`Delete ${definition.title}`}
-									size="icon-xs"
-									variant="ghost"
-									onClick={() => onDelete(definition)}
-								>
-									<Trash2 />
-								</Button>
+								{customTask && (
+									<Button
+										aria-label={`Delete ${definition.title}`}
+										size="icon-xs"
+										variant="ghost"
+										onClick={() => onDelete(definition)}
+									>
+										<Trash2 className="text-destructive" />
+									</Button>
+								)}
 							</div>
 						)}
 					</div>

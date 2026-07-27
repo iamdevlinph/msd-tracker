@@ -21,6 +21,7 @@ type Backup = Pick<
 	| "loadouts"
 	| "checklistTasks"
 	| "checklistCompletions"
+	| "checklistPermanentNotes"
 	| "checklistPreferences"
 >;
 
@@ -38,6 +39,7 @@ export function select(state: StoreState): Backup {
 		loadouts: state.loadouts,
 		checklistTasks: state.checklistTasks,
 		checklistCompletions: state.checklistCompletions,
+		checklistPermanentNotes: state.checklistPermanentNotes,
 		checklistPreferences: state.checklistPreferences,
 	};
 }
