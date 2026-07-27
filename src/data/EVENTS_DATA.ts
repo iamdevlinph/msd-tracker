@@ -50,7 +50,7 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		kind: "event",
 		startAt: "2026-07-07T00:00:00.000Z",
 		endAt: "2026-07-28T23:59:00.000Z",
-		recurrence: "none",
+		recurrence: "daily",
 	},
 	{
 		id: "unforgettable-first-summer-dive-event-stage",
