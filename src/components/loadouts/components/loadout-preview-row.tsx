@@ -24,6 +24,8 @@ type LoadoutPreviewRowProps = {
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
 	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
 	compactMonsterlings: boolean;
+	onEditCharacter?: (id: number) => void;
+	onEditMonsterling?: (id: string) => void;
 };
 
 export const LoadoutPreviewRow = ({
@@ -32,10 +34,72 @@ export const LoadoutPreviewRow = ({
 	monsterlingsOwned,
 	monsterlingLinkChainLevels,
 	compactMonsterlings,
+	onEditCharacter,
+	onEditMonsterling,
 }: LoadoutPreviewRowProps) => {
 	const character =
 		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
 	const validCharacter = character && characterOwned;
+	const characterPanel = validCharacter ? (
+		<div className="grid h-[120px] grid-cols-[84px_1fr] items-center gap-2 rounded-lg border bg-card px-1">
+			<CharacterCard
+				portraitSize={84}
+				iconSize={18}
+				portraitImage={character.portraitImage}
+				name={character.name}
+				element_id={character.element_id}
+				class_id={character.class_id}
+				tier_id={character.tier_id}
+				awakening={characterOwned.awakening}
+				variant={character.variant}
+				className="cursor-default"
+				portraitClassName="size-full object-contain object-bottom"
+				showElement={false}
+				showClass={false}
+				showAwakening={false}
+			/>
+			<div className="grid content-center gap-2">
+				<div className="flex items-center justify-center gap-1.5">
+					<img
+						src={ELEMENTS_DATA[character.element_id].image}
+						alt={`${ELEMENTS_DATA[character.element_id].element} icon`}
+						className="size-5"
+					/>
+					<span
+						className="grid size-5 place-items-center rounded-full bg-primary/20 text-[10px] font-bold text-primary"
+						title={`Awakening ${characterOwned.awakening}`}
+					>
+						A{characterOwned.awakening}
+					</span>
+				</div>
+				<div
+					className="grid gap-1"
+					style={{
+						gridTemplateColumns:
+							"var(--loadout-export-skill-columns, repeat(4, minmax(0, 1fr)))",
+					}}
+				>
+					{SKILLS.map(([label, icon, key]) => (
+						<div
+							key={key}
+							className="grid place-items-center gap-0.5"
+							title={`${label} level ${characterOwned.skills[key] + getAwakeningBonus(characterOwned.awakening)}`}
+						>
+							<img
+								src={IMAGE_MAPPING[icon].image}
+								alt={`${label} skill icon`}
+								className="size-4"
+							/>
+							<span className="whitespace-nowrap text-xs font-bold text-amber-400">
+								{characterOwned.skills[key] +
+									getAwakeningBonus(characterOwned.awakening)}
+							</span>
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+	) : null;
 
 	return (
 		<section
@@ -47,64 +111,18 @@ export const LoadoutPreviewRow = ({
 			)}
 		>
 			{validCharacter ? (
-				<div className="grid h-[120px] grid-cols-[84px_1fr] items-center gap-2 rounded-lg border bg-card px-1">
-					<CharacterCard
-						portraitSize={84}
-						iconSize={18}
-						portraitImage={character.portraitImage}
-						name={character.name}
-						element_id={character.element_id}
-						class_id={character.class_id}
-						tier_id={character.tier_id}
-						awakening={characterOwned.awakening}
-						variant={character.variant}
-						className="cursor-default"
-						portraitClassName="size-full object-contain object-bottom"
-						showElement={false}
-						showClass={false}
-						showAwakening={false}
-					/>
-					<div className="grid content-center gap-2">
-						<div className="flex items-center justify-center gap-1.5">
-							<img
-								src={ELEMENTS_DATA[character.element_id].image}
-								alt={`${ELEMENTS_DATA[character.element_id].element} icon`}
-								className="size-5"
-							/>
-							<span
-								className="grid size-5 place-items-center rounded-full bg-primary/20 text-[10px] font-bold text-primary"
-								title={`Awakening ${characterOwned.awakening}`}
-							>
-								A{characterOwned.awakening}
-							</span>
-						</div>
-						<div
-							className="grid gap-1"
-							style={{
-								gridTemplateColumns:
-									"var(--loadout-export-skill-columns, repeat(4, minmax(0, 1fr)))",
-							}}
-						>
-							{SKILLS.map(([label, icon, key]) => (
-								<div
-									key={key}
-									className="grid place-items-center gap-0.5"
-									title={`${label} level ${characterOwned.skills[key] + getAwakeningBonus(characterOwned.awakening)}`}
-								>
-									<img
-										src={IMAGE_MAPPING[icon].image}
-										alt={`${label} skill icon`}
-										className="size-4"
-									/>
-									<span className="whitespace-nowrap text-xs font-bold text-amber-400">
-										{characterOwned.skills[key] +
-											getAwakeningBonus(characterOwned.awakening)}
-									</span>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
+				onEditCharacter ? (
+					<button
+						type="button"
+						aria-label={`Edit ${character.name} character`}
+						onClick={() => onEditCharacter(character.id)}
+						className="rounded-lg text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+					>
+						{characterPanel}
+					</button>
+				) : (
+					characterPanel
+				)
 			) : (
 				<PreviewPlaceholder label="Character unavailable" />
 			)}
@@ -116,6 +134,7 @@ export const LoadoutPreviewRow = ({
 					levels={monsterlingLinkChainLevels}
 					label={`Monsterling ${index + 1} unavailable`}
 					compactStats={compactMonsterlings}
+					onEdit={onEditMonsterling}
 				/>
 			))}
 			<div className="border-l-2 border-primary pl-3">
@@ -125,6 +144,7 @@ export const LoadoutPreviewRow = ({
 					levels={monsterlingLinkChainLevels}
 					label="Legendary unavailable"
 					compactStats={compactMonsterlings}
+					onEdit={onEditMonsterling}
 				/>
 			</div>
 		</section>
@@ -137,6 +157,7 @@ type PreviewMonsterlingSlotProps = {
 	levels: StoreState["monsterlingLinkChainLevels"];
 	label: string;
 	compactStats: boolean;
+	onEdit?: (id: string) => void;
 };
 
 const PreviewMonsterlingSlot = ({
@@ -145,9 +166,15 @@ const PreviewMonsterlingSlot = ({
 	levels,
 	label,
 	compactStats,
+	onEdit,
 }: PreviewMonsterlingSlotProps) => {
 	const monsterling = id ? owned[id] : null;
-	return monsterling && MONSTERLINGS_DATA[monsterling.monsterling_id] ? (
+	const info = monsterling && MONSTERLINGS_DATA[monsterling.monsterling_id];
+	if (!monsterling || !info || !id) {
+		return <PreviewPlaceholder label={label} />;
+	}
+
+	const card = (
 		<MonsterlingCard
 			{...monsterling}
 			linkChainLevel={getMonsterlingLinkChainLevel(
@@ -156,8 +183,18 @@ const PreviewMonsterlingSlot = ({
 			)}
 			compactStats={compactStats}
 		/>
+	);
+	return onEdit ? (
+		<button
+			type="button"
+			aria-label={`Edit ${info.name} monsterling`}
+			onClick={() => onEdit(id)}
+			className="grid w-full rounded-lg text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+		>
+			{card}
+		</button>
 	) : (
-		<PreviewPlaceholder label={label} />
+		card
 	);
 };
 

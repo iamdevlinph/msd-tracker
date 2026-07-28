@@ -5,6 +5,7 @@ import {
 	render,
 	screen,
 	waitFor,
+	within,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
@@ -587,6 +588,78 @@ describe("LoadoutsList", () => {
 		expect(event).toHaveBeenCalledWith("loadout_duplicate", {
 			source: "preview",
 		});
+	});
+
+	it("closes only item editors after saving from the preview", async () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {
+				regular: { monsterling_id: 1, tier_id: 5, traits: [] },
+			},
+			loadouts: {
+				team: {
+					...teamLoadout,
+					characters: [
+						{ characterId: 1, monsterlingIds: ["regular", null, null] },
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
+		});
+		render(<LoadoutsList />);
+		fireEvent.click(screen.getByRole("button", { name: "Preview Team" }));
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Edit Angel character" }),
+		);
+		const characterDialog = screen.getByRole("dialog", { name: "Angel" });
+		fireEvent.click(
+			within(characterDialog).getByRole("button", { name: "Update" }),
+		);
+		await waitFor(() =>
+			expect(screen.queryByRole("dialog", { name: "Angel" })).toBeNull(),
+		);
+		expect(screen.getByRole("dialog", { name: "Team" })).toBeTruthy();
+
+		fireEvent.click(
+			screen.getByRole("button", {
+				name: `Edit ${MONSTERLINGS_DATA[1].name} monsterling`,
+			}),
+		);
+		const monsterlingDialog = screen.getByRole("dialog", {
+			name: "Edit Monsterling",
+		});
+		fireEvent.click(
+			within(monsterlingDialog)
+				.getByRole("group", { name: "Tier" })
+				.querySelectorAll("button")[3],
+		);
+		const updateMonsterling = within(monsterlingDialog).getByRole("button", {
+			name: "Update",
+		});
+		fireEvent.pointerDown(updateMonsterling);
+		fireEvent.click(updateMonsterling);
+		await waitFor(() =>
+			expect(
+				screen.queryByRole("dialog", { name: "Edit Monsterling" }),
+			).toBeNull(),
+		);
+		const previewDialog = screen.getByRole("dialog", { name: "Team" });
+		expect(
+			within(
+				within(previewDialog).getByRole("button", {
+					name: `Edit ${MONSTERLINGS_DATA[1].name} monsterling`,
+				}),
+			).getByAltText("4 background"),
+		).toBeTruthy();
+
+		fireEvent.click(
+			within(previewDialog).getByRole("button", { name: "Close" }),
+		);
+		await waitFor(() =>
+			expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull(),
+		);
 	});
 
 	it("copies and downloads the compact preview directly from the card", async () => {

@@ -18,6 +18,8 @@ type LoadoutPreviewDialogProps = {
 	loadout: LoadoutOwned | null;
 	onOpenChange: (open: boolean) => void;
 	onEdit: () => void;
+	onEditCharacter?: (id: number) => void;
+	onEditMonsterling?: (id: string) => void;
 	onDuplicate: () => void;
 	onDelete: () => void;
 };
@@ -26,6 +28,8 @@ export const LoadoutPreviewDialog = ({
 	loadout,
 	onOpenChange,
 	onEdit,
+	onEditCharacter,
+	onEditMonsterling,
 	onDuplicate,
 	onDelete,
 }: LoadoutPreviewDialogProps) => {
@@ -97,6 +101,8 @@ export const LoadoutPreviewDialog = ({
 							ref={surfaceRef}
 							loadout={loadout}
 							compactMonsterlings={compactMonsterlings}
+							onEditCharacter={onEditCharacter}
+							onEditMonsterling={onEditMonsterling}
 						/>
 					)}
 				</div>

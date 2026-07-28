@@ -25,7 +25,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Keep skill levels aligned in generated loadout images with an export-only 2×2 grid and non-wrapping values.
 - [x] Persist loadouts locally and through Google Drive sync.
 - [x] Hide unfinished Artifact and Equipment slots outside development.
-- [x] Open owned character and assigned monsterling portraits from saved loadout cards in their editors without triggering loadout preview.
+- [x] Open owned character and assigned monsterling portraits in their editors from saved loadout cards without triggering preview, and from the loadout preview modal.
 
 ## Home Dashboard: Available
 

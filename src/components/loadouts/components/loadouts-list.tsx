@@ -142,12 +142,16 @@ export const LoadoutsList = () => {
 			/>
 			<LoadoutPreviewDialog
 				loadout={previewLoadout}
-				onOpenChange={(next) => !next && setLoadoutToPreview(null)}
+				onOpenChange={(next) =>
+					!next && editorTarget === null && setLoadoutToPreview(null)
+				}
 				onEdit={() => previewLoadout && edit(previewLoadout.id)}
 				onDuplicate={() =>
 					previewLoadout && duplicate(previewLoadout, "preview")
 				}
 				onDelete={() => previewLoadout && remove(previewLoadout.id)}
+				onEditCharacter={(id) => setEditorTarget({ type: "character", id })}
+				onEditMonsterling={(id) => setEditorTarget({ type: "monsterling", id })}
 			/>
 			<EditCharacterDetailsDialog
 				charIdToEdit={

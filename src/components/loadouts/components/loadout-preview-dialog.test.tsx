@@ -203,6 +203,34 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.queryByText("Download image")).toBeNull();
 	});
 
+	it("exposes edit callbacks only for owned preview records", () => {
+		const onEditCharacter = vi.fn();
+		const onEditMonsterling = vi.fn();
+		const callbacks = renderPreview();
+		cleanup();
+		render(
+			<LoadoutPreviewDialog
+				loadout={loadout}
+				{...callbacks}
+				onEditCharacter={onEditCharacter}
+				onEditMonsterling={onEditMonsterling}
+			/>,
+		);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Edit Angel character" }),
+		);
+		fireEvent.click(
+			screen.getAllByRole("button", { name: /Edit .* monsterling/ })[0],
+		);
+		expect(onEditCharacter).toHaveBeenCalledWith(1);
+		expect(onEditMonsterling).toHaveBeenCalledWith("regular");
+		expect(
+			screen.queryByRole("button", { name: "Edit Character unavailable" }),
+		).toBeNull();
+		expect(screen.getAllByText("Monsterling 2 unavailable")).toHaveLength(3);
+	});
+
 	it("hides stat labels but keeps stat icons and tier backgrounds in compact mode", () => {
 		const { onOpenChange } = renderPreview();
 		const checkbox = screen.getByRole("checkbox", {

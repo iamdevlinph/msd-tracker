@@ -12,6 +12,8 @@ type LoadoutPreviewSurfaceProps = {
 	loadout: LoadoutOwned;
 	compactMonsterlings: boolean;
 	className?: string;
+	onEditCharacter?: (id: number) => void;
+	onEditMonsterling?: (id: string) => void;
 };
 
 export const LoadoutPreviewSurface = ({
@@ -19,6 +21,8 @@ export const LoadoutPreviewSurface = ({
 	loadout,
 	compactMonsterlings,
 	className,
+	onEditCharacter,
+	onEditMonsterling,
 }: LoadoutPreviewSurfaceProps) => {
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
@@ -59,6 +63,8 @@ export const LoadoutPreviewSurface = ({
 					monsterlingsOwned={monsterlingsOwned}
 					monsterlingLinkChainLevels={monsterlingLinkChainLevels}
 					compactMonsterlings={compactMonsterlings}
+					onEditCharacter={onEditCharacter}
+					onEditMonsterling={onEditMonsterling}
 				/>
 			))}
 			<footer className="flex justify-end px-1 pb-1 pt-2 text-sm text-muted-foreground">
