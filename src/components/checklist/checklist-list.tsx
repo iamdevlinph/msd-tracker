@@ -17,7 +17,7 @@ import type { ChecklistTask } from "@/lib/checklist-task";
 import type { ChecklistViewItem } from "@/lib/checklist-view";
 import { cn } from "@/lib/utils";
 
-const SEASONAL_BADGE_COLOR = "#eab308";
+const SEASONAL_BADGE_COLOR = "#16a34a";
 
 const statusPillStyles = {
 	upcoming: "bg-sky-600 text-white",

@@ -489,8 +489,8 @@ describe("ChecklistPage", () => {
 		const seasonalBadge = within(
 			screen.getByText("Fixture Monster Race").closest("li") as HTMLElement,
 		).getByText("Seasonal");
-		expect(seasonalBadge.style.backgroundColor).toBe("rgb(234, 179, 8)");
-		expect(seasonalBadge.style.color).toBe("rgb(36, 41, 47)");
+		expect(seasonalBadge.style.backgroundColor).toBe("rgb(22, 163, 74)");
+		expect(seasonalBadge.style.color).toBe("rgb(255, 255, 255)");
 		expect(
 			within(
 				screen.getByText("Fixture Rift").closest("li") as HTMLElement,
