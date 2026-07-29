@@ -80,6 +80,22 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 			endAt: "2026-07-28T23:59:00.000Z",
 			recurrence: "none",
 		},
+		{
+			id: "fixture-daily-event",
+			title: "Fixture Daily Event",
+			kind: "event",
+			startAt: "2026-07-22T00:00:00.000Z",
+			endAt: "2026-08-28T23:59:00.000Z",
+			recurrence: "daily",
+		},
+		{
+			id: "fixture-weekly-event",
+			title: "Fixture Weekly Event",
+			kind: "event",
+			startAt: "2026-07-22T00:00:00.000Z",
+			endAt: "2026-08-28T23:59:00.000Z",
+			recurrence: "weekly",
+		},
 	] satisfies ChecklistEvent[],
 }));
 
@@ -473,7 +489,7 @@ describe("ChecklistPage", () => {
 		const seasonalBadge = within(
 			screen.getByText("Fixture Monster Race").closest("li") as HTMLElement,
 		).getByText("Seasonal");
-		expect(seasonalBadge.style.backgroundColor).toBe("rgb(245, 158, 11)");
+		expect(seasonalBadge.style.backgroundColor).toBe("rgb(234, 179, 8)");
 		expect(seasonalBadge.style.color).toBe("rgb(36, 41, 47)");
 		expect(
 			within(
@@ -485,6 +501,29 @@ describe("ChecklistPage", () => {
 				screen.getByText("Fixture Gulgak").closest("li") as HTMLElement,
 			).getByText("Discord", { selector: "span" }),
 		).toBeTruthy();
+		expect(seasonalBadge.className).not.toContain("amber");
+
+		const discordRow = screen.getByText("Fixture Gulgak").closest("li");
+		expect(discordRow?.className).toContain("from-[#5865F2]/15");
+		expect(discordRow?.className).not.toContain("from-teal-500/15");
+		expect(
+			within(discordRow as HTMLElement).getByText("Event").className,
+		).toContain("bg-fuchsia-700/80");
+		expect(
+			within(discordRow as HTMLElement).getByText("Daily").className,
+		).toContain("bg-teal-700/70");
+
+		const dailyEventRow = screen.getByText("Fixture Daily Event").closest("li");
+		expect(dailyEventRow?.className).toContain("from-teal-500/15");
+		const weeklyEventRow = screen
+			.getByText("Fixture Weekly Event")
+			.closest("li");
+		expect(weeklyEventRow?.className).toContain("from-violet-500/15");
+		expect(
+			within(weeklyEventRow as HTMLElement).getByText("Weekly").className,
+		).toContain("bg-violet-700/70");
+		const oneTimeEventRow = screen.getByText("Fixture Ice").closest("li");
+		expect(oneTimeEventRow?.className).toContain("from-fuchsia-500/15");
 
 		const futureRow = screen.getByText("Future task").closest("li");
 		expect(futureRow).toBeTruthy();
@@ -560,6 +599,37 @@ describe("ChecklistPage", () => {
 			),
 		).toBeTruthy();
 		expect(screen.getByRole("button", { name: "Delete task" })).toBeTruthy();
+	});
+
+	it("prioritizes ending-soon and overdue row treatments", () => {
+		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				endingSoonHours: 48,
+			},
+			checklistTasks: {
+				overdue: {
+					id: "overdue",
+					title: "Overdue task",
+					kind: "custom",
+					startAt: "2026-07-25T00:00:00.000Z",
+					endAt: "2026-07-26T00:00:00.000Z",
+					recurrence: "none",
+					scheduleVersion: 1,
+				},
+			},
+		});
+
+		render(<ChecklistPage />);
+
+		const endingSoonRow = screen.getByText("Fixture Gulgak").closest("li");
+		expect(endingSoonRow?.className).toContain("from-amber-500/15");
+		expect(endingSoonRow?.className).not.toContain("from-[#5865F2]/15");
+		expect(endingSoonRow?.className).toContain("hover:border-amber-500/40");
+
+		const overdueRow = screen.getByText("Overdue task").closest("li");
+		expect(overdueRow?.className).toContain("from-destructive/10");
+		expect(overdueRow?.className).toContain("hover:border-destructive/40");
 	});
 
 	it("adds, limits, displays, and clears permanent notes", async () => {

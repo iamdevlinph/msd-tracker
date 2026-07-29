@@ -17,7 +17,7 @@ import type { ChecklistTask } from "@/lib/checklist-task";
 import type { ChecklistViewItem } from "@/lib/checklist-view";
 import { cn } from "@/lib/utils";
 
-const SEASONAL_BADGE_COLOR = "#f59e0b";
+const SEASONAL_BADGE_COLOR = "#eab308";
 
 const statusPillStyles = {
 	upcoming: "bg-sky-600 text-white",
@@ -31,8 +31,14 @@ const statusPillStyles = {
 const typeBadgeStyles = {
 	Daily: "bg-teal-700/70 text-white",
 	Weekly: "bg-violet-700/70 text-white",
-	Event: "bg-amber-600/80 text-white",
+	Event: "bg-fuchsia-700/80 text-white",
 	Custom: "bg-primary/70 text-primary-foreground",
+} as const;
+
+const eventRowStyles = {
+	daily: "from-teal-500/15 hover:border-teal-500/40",
+	weekly: "from-violet-500/15 hover:border-violet-500/40",
+	none: "from-fuchsia-500/15 hover:border-fuchsia-500/40",
 } as const;
 
 type ChecklistListProps = {
@@ -220,6 +226,16 @@ export const ChecklistList = ({
 						"group relative flex min-h-14 w-full flex-col items-stretch justify-between overflow-hidden rounded-2xl border bg-card/85 p-2 shadow-sm backdrop-blur-sm transition-all hover:border-primary/30 hover:shadow-md sm:flex-row sm:items-center",
 						!customTask &&
 							"bg-gradient-to-r from-primary/10 via-card/90 to-card",
+						definition.kind === "event" &&
+							eventRowStyles[
+								definition.recurrence === "daily" ||
+								definition.recurrence === "weekly"
+									? definition.recurrence
+									: "none"
+							],
+						definition.kind === "event" &&
+							definition.participation === "discord" &&
+							"from-[#5865F2]/15 hover:border-[#5865F2]/40",
 						status === "ending-soon" &&
 							"from-amber-500/15 hover:border-amber-500/40",
 						status === "overdue" &&
