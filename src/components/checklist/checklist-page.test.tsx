@@ -25,6 +25,12 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 			kind: "permanent",
 			startAt: "2024-01-01T00:00:00.000Z",
 			recurrence: "weekly",
+		},
+		{
+			id: "fixture-monster-race",
+			title: "Fixture Monster Race",
+			kind: "permanent",
+			startAt: "2026-07-20T00:00:00.000Z",
 			seasonal: true,
 		},
 		{
@@ -403,10 +409,15 @@ describe("ChecklistPage", () => {
 		render(<ChecklistPage />);
 
 		const seasonalBadge = within(
-			screen.getByText("Fixture Rift").closest("li") as HTMLElement,
+			screen.getByText("Fixture Monster Race").closest("li") as HTMLElement,
 		).getByText("Seasonal");
 		expect(seasonalBadge.style.backgroundColor).toBe("rgb(245, 158, 11)");
 		expect(seasonalBadge.style.color).toBe("rgb(36, 41, 47)");
+		expect(
+			within(
+				screen.getByText("Fixture Rift").closest("li") as HTMLElement,
+			).queryByText("Seasonal"),
+		).toBeNull();
 		expect(
 			within(
 				screen.getByText("Fixture Gulgak").closest("li") as HTMLElement,

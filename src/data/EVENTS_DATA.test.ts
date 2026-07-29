@@ -71,19 +71,24 @@ describe("EVENTS_DATA", () => {
 	});
 
 	it("defines versioned permanent schedules", async () => {
-		const { PERMANENT_EVENTS } = await import("@/data/CHECKLIST_DATA");
+		const { CURRENT_SEASON_COMPLETION_VERSION, PERMANENT_EVENTS } =
+			await import("@/data/CHECKLIST_DATA");
 		const permanentById = Object.fromEntries(
 			PERMANENT_EVENTS.map((event) => [event.id, event]),
 		);
 		expect(permanentById["dimensional-rift"]).toMatchObject({
-			completionVersion: 2,
+			completionVersion: CURRENT_SEASON_COMPLETION_VERSION,
 			recurrence: "weekly",
 		});
 		expect(permanentById["monster-race"]).toMatchObject({
 			startAt: "2026-07-29T01:30:00.000Z",
-			completionVersion: 1,
+			completionVersion: CURRENT_SEASON_COMPLETION_VERSION,
 			seasonal: true,
 		});
+		expect(permanentById["dimensional-rift"]).not.toHaveProperty("seasonal");
 		expect(permanentById["monster-race"]).not.toHaveProperty("recurrence");
+		expect(PERMANENT_EVENTS.filter(({ seasonal }) => seasonal)).toEqual([
+			permanentById["monster-race"],
+		]);
 	});
 });
