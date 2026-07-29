@@ -58,6 +58,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Default new player-created Task and Event starts to the current UTC date at 00:00 while preserving saved times when editing.
 - [x] Add the 100-Day Anniversary Check-In Pass and Bonus Time daily event schedules using their published UTC periods.
 - [x] Add the First Summer Dive event set and Cool Summer Vacation login reward using their published UTC periods and explicit daily-reset behavior.
+- [x] Retire the July 28 event set and add the Mabel and Discord events using the completed maintenance time and published UTC periods.
 - [x] Show Event alongside Daily or Weekly badges when an event also has a recurring reset, and show expired rows by default with reduced opacity and struck-through names.
 - [x] Show player-created Task and Event notes beneath item names with a compact two-line limit.
 - [x] Add editable 500-character notes to permanent checklist items, persisted locally and through Google Drive.
