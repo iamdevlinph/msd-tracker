@@ -66,6 +66,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Add editable 500-character notes to permanent checklist items, persisted locally and through Google Drive.
 - [x] Track Request Board as a permanent daily activity resetting at 00:00 UTC.
 - [x] Keep single occurrence checks and grouped full-event checks, sort non-completed before completed and then by event > permanent > custom and weekly > daily > other, and show reset/End countdowns beside status.
+- [x] Show occurrence and full-event completion controls for daily events, while non-daily events use only one full-event completion control for their full duration.
 - [ ] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [ ] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [ ] Expose the Checklist navigation item after the feature is release-ready.

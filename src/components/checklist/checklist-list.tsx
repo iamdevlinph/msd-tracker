@@ -186,6 +186,32 @@ export const ChecklistList = ({
 					)}
 				</Button>
 			);
+			const fullCompletionButton = (
+				<Button
+					aria-label={fullLabel}
+					aria-pressed={fullyCompleted}
+					className={cn(
+						"size-8 border-0 bg-muted-foreground/35 p-1 text-foreground shadow-none hover:bg-muted-foreground/55",
+						definition.recurrence !== "daily" && "mr-2 rounded-full",
+						fullyCompleted &&
+							"bg-primary text-primary-foreground hover:bg-primary/90",
+					)}
+					disabled={!canComplete}
+					size="icon-sm"
+					variant="ghost"
+					onClick={() =>
+						fullyCompleted
+							? onFullUndo(fullCompletionKey)
+							: onFullComplete(fullCompletionKey)
+					}
+				>
+					{fullyCompleted ? (
+						<Undo2 className="size-5" />
+					) : (
+						<CheckCheck className="size-5" />
+					)}
+				</Button>
+			);
 
 			return (
 				<li
@@ -203,36 +229,17 @@ export const ChecklistList = ({
 					)}
 				>
 					<div className="flex w-full min-w-0 flex-1 items-center sm:w-auto">
-						{definition.kind === "event" ? (
+						{definition.kind === "event" &&
+						definition.recurrence === "daily" ? (
 							<ButtonGroup
 								aria-label={`${definition.title} completion controls`}
 								className="mr-2 shrink-0 [&>*:first-child]:rounded-l-full [&>*:last-child]:rounded-r-full"
 							>
 								{occurrenceButton}
-								<Button
-									aria-label={fullLabel}
-									aria-pressed={fullyCompleted}
-									className={cn(
-										"size-8 border-0 bg-muted-foreground/35 p-1 text-foreground shadow-none hover:bg-muted-foreground/55",
-										fullyCompleted &&
-											"bg-primary text-primary-foreground hover:bg-primary/90",
-									)}
-									disabled={!canComplete}
-									size="icon-sm"
-									variant="ghost"
-									onClick={() =>
-										fullyCompleted
-											? onFullUndo(fullCompletionKey)
-											: onFullComplete(fullCompletionKey)
-									}
-								>
-									{fullyCompleted ? (
-										<Undo2 className="size-5" />
-									) : (
-										<CheckCheck className="size-5" />
-									)}
-								</Button>
+								{fullCompletionButton}
 							</ButtonGroup>
+						) : definition.kind === "event" ? (
+							fullCompletionButton
 						) : (
 							occurrenceButton
 						)}

@@ -201,9 +201,21 @@ describe("ChecklistPage", () => {
 
 		const oneTimeEventRow = screen.getByText("Fixture Ice").closest("li");
 		expect(
-			within(oneTimeEventRow as HTMLElement).getByRole("group", {
+			within(oneTimeEventRow as HTMLElement).queryByRole("group", {
 				name: "Fixture Ice completion controls",
 			}),
+		).toBeNull();
+		expect(
+			within(oneTimeEventRow as HTMLElement).queryByRole("button", {
+				name: "Mark Fixture Ice complete",
+			}),
+		).toBeNull();
+		expect(
+			within(oneTimeEventRow as HTMLElement)
+				.getByRole("button", {
+					name: "Mark Fixture Ice fully complete",
+				})
+				.querySelector(".lucide-check-check"),
 		).toBeTruthy();
 
 		const eventsFilter = screen.getByRole("button", { name: "Events" });
@@ -270,6 +282,38 @@ describe("ChecklistPage", () => {
 		expect(row.getByTitle("Completed")).toBeTruthy();
 		expect(
 			useAppStore.getState().checklistCompletions["fixture-gulgak:full"],
+		).toBeUndefined();
+		expect(event).toHaveBeenLastCalledWith(
+			ANALYTICS_EVENTS.CHECKLIST_FULL_UNDO,
+		);
+	});
+
+	it("fully completes and undoes a non-daily event", () => {
+		render(<ChecklistPage />);
+
+		const row = within(
+			screen.getByText("Fixture Ice").closest("li") as HTMLElement,
+		);
+		fireEvent.click(
+			row.getByRole("button", {
+				name: "Mark Fixture Ice fully complete",
+			}),
+		);
+
+		expect(useAppStore.getState().checklistCompletions).toMatchObject({
+			"fixture-ice:full": expect.any(Number),
+		});
+		expect(event).toHaveBeenLastCalledWith(
+			ANALYTICS_EVENTS.CHECKLIST_FULL_COMPLETE,
+		);
+
+		fireEvent.click(
+			row.getByRole("button", {
+				name: "Mark Fixture Ice not fully complete",
+			}),
+		);
+		expect(
+			useAppStore.getState().checklistCompletions["fixture-ice:full"],
 		).toBeUndefined();
 		expect(event).toHaveBeenLastCalledWith(
 			ANALYTICS_EVENTS.CHECKLIST_FULL_UNDO,
@@ -343,6 +387,24 @@ describe("ChecklistPage", () => {
 			within(
 				screen.getByText("One-time player event").closest("li") as HTMLElement,
 			).getByTitle("Ends in 1h 0m"),
+		).toBeTruthy();
+		const playerEventRow = within(
+			screen.getByText("One-time player event").closest("li") as HTMLElement,
+		);
+		expect(
+			playerEventRow.queryByRole("group", {
+				name: "One-time player event completion controls",
+			}),
+		).toBeNull();
+		expect(
+			playerEventRow.queryByRole("button", {
+				name: "Mark One-time player event complete",
+			}),
+		).toBeNull();
+		expect(
+			playerEventRow.getByRole("button", {
+				name: "Mark One-time player event fully complete",
+			}),
 		).toBeTruthy();
 		expect(
 			within(
@@ -595,10 +657,15 @@ describe("ChecklistPage", () => {
 			[expiredRow, "Expired player event"],
 		] as const) {
 			expect(
-				within(row as HTMLElement)
-					.getByRole("button", { name: `Mark ${title} complete` })
-					.hasAttribute("disabled"),
-			).toBe(true);
+				within(row as HTMLElement).queryByRole("button", {
+					name: `Mark ${title} complete`,
+				}),
+			).toBeNull();
+			expect(
+				within(row as HTMLElement).queryByRole("group", {
+					name: `${title} completion controls`,
+				}),
+			).toBeNull();
 			expect(
 				within(row as HTMLElement)
 					.getByRole("button", { name: `Mark ${title} fully complete` })
