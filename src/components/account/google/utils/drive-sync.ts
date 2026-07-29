@@ -1,8 +1,8 @@
 import toast from "react-hot-toast";
 import { driveFetch } from "@/components/account/google/utils/drive-client";
+import { normalizeChecklistPersistedState } from "@/components/checklist/utils/checklist-persistence";
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
-import { normalizeChecklistPersistedState } from "@/lib/checklist-persistence";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 
 const FILE_NAME = "state.json";

@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
 import {
 	formatCountdown,
 	fullCompletionKey,
@@ -7,7 +6,8 @@ import {
 	getOccurrence,
 	occurrenceKey,
 	sortChecklistItems,
-} from "@/lib/checklist";
+} from "@/components/checklist/utils/checklist";
+import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
 import type { ChecklistTask } from "@/stores/checklist-slice";
 
 const daily: ChecklistDefinition = {

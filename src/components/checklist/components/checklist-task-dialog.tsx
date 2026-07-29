@@ -2,12 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import {
 	type TaskForm,
 	taskDefaults,
 	taskFormToChecklistTask,
 	taskSchema,
-} from "@/components/checklist/checklist-task-form";
+} from "@/components/checklist/utils/checklist-task-form";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -21,7 +22,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import type { ChecklistTask } from "@/lib/checklist-task";
 import { useAppStore } from "@/stores/app-store";
 
 type ChecklistTaskDialogProps = {

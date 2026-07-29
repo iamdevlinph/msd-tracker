@@ -8,7 +8,7 @@ import {
 	within,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ChecklistPage } from "@/components/checklist/checklist-page";
+import { ChecklistPage } from "@/components/checklist/components/checklist-page";
 import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
 import type { ChecklistEvent } from "@/data/EVENTS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";

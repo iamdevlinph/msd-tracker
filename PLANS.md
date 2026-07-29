@@ -51,7 +51,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 ## Chunk 1: Checklist and Event Tracking
 
-- [x] Keep checklist orchestration, task-form conversion, reset anchors, and persisted normalization maintainable without changing reset, sync, completion, or accessibility behavior (verified with focused tests, repository checks, and a production build).
+- [x] Keep checklist orchestration, focused row and page components, task-form conversion, reset anchors, and persisted normalization colocated under the checklist feature without changing reset, sync, completion, analytics, or accessibility behavior (verified with focused tests, repository checks, and a production build).
 - [x] Use single-check completion indicators, switch completed actions to undo, hide disabled category filters while keeping All available, and align toolbar controls with shared page button styling.
 
 - [x] Define typed limited events with non-displayed notice-title metadata, UTC source timestamps, recurring reset schedules, expiry behavior, and player-created UTC Start/End times verified across daily and weekly UTC boundaries.

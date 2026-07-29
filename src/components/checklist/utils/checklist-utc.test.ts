@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { ChecklistEvent } from "@/data/EVENTS_DATA";
 import {
 	formatCountdown,
 	getChecklistStatus,
 	getOccurrence,
 	occurrenceKey,
-} from "@/lib/checklist";
+} from "@/components/checklist/utils/checklist";
+import type { ChecklistEvent } from "@/data/EVENTS_DATA";
 
 const DAY = 86_400_000;
 const dailyEvent = {

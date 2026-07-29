@@ -1,7 +1,7 @@
 import {
 	type ChecklistTask,
 	normalizeChecklistTasks,
-} from "@/lib/checklist-task";
+} from "@/components/checklist/utils/checklist-task";
 
 export type ChecklistPreferences = {
 	categories: Record<"event" | "permanent" | "custom", boolean>;

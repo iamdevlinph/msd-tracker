@@ -1,11 +1,11 @@
 import { z } from "zod";
-import type { ChecklistMode, ChecklistRecurrence } from "@/data/CHECKLIST_DATA";
 import {
 	type ChecklistTask,
 	getChecklistStartAnchor,
 	parseUtcDateTime,
 	toUtcISOString,
-} from "@/lib/checklist-task";
+} from "@/components/checklist/utils/checklist-task";
+import type { ChecklistMode, ChecklistRecurrence } from "@/data/CHECKLIST_DATA";
 
 const dateTime = (value: string) => parseUtcDateTime(value);
 

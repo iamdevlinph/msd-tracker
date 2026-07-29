@@ -1,3 +1,4 @@
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -8,7 +9,6 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import type { ChecklistTask } from "@/lib/checklist-task";
 
 type ChecklistDeleteDialogProps = {
 	task?: ChecklistTask;

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChecklistPage } from "@/components/checklist/checklist-page";
+import { ChecklistPage } from "@/components/checklist/components/checklist-page";
 import { createSeoHead, PUBLIC_PAGE_TITLES } from "@/lib/seo";
 
 export const Route = createFileRoute("/checklist")({

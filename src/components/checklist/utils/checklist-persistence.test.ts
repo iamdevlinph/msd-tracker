@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
 	defaultChecklistPreferences,
 	normalizeChecklistPersistedState,
-} from "@/lib/checklist-persistence";
+} from "@/components/checklist/utils/checklist-persistence";
 
 describe("normalizeChecklistPersistedState", () => {
 	it("supplies safe checklist defaults for legacy state", () => {

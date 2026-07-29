@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
+import { normalizeChecklistPersistedState } from "@/components/checklist/utils/checklist-persistence";
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
-import { normalizeChecklistPersistedState } from "@/lib/checklist-persistence";
 import {
 	type CharactersOwnedSlice,
 	createCharactersOwnedSlice,

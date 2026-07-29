@@ -1,44 +1,23 @@
-import { Plus, RotateCcw, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
-import { ChecklistDeleteDialog } from "@/components/checklist/checklist-delete-dialog";
-import { ChecklistList } from "@/components/checklist/checklist-list";
-import { ChecklistPermanentNotesDialog } from "@/components/checklist/checklist-permanent-notes-dialog";
-import { ChecklistSettingsDialog } from "@/components/checklist/checklist-settings-dialog";
-import { ChecklistTaskDialog } from "@/components/checklist/checklist-task-dialog";
+import { ChecklistDeleteDialog } from "@/components/checklist/components/checklist-delete-dialog";
+import { ChecklistEmptyState } from "@/components/checklist/components/checklist-empty-state";
+import { ChecklistList } from "@/components/checklist/components/checklist-list";
+import { ChecklistPermanentNotesDialog } from "@/components/checklist/components/checklist-permanent-notes-dialog";
+import { ChecklistSettingsDialog } from "@/components/checklist/components/checklist-settings-dialog";
+import { ChecklistTaskDialog } from "@/components/checklist/components/checklist-task-dialog";
+import { ChecklistToolbar } from "@/components/checklist/components/checklist-toolbar";
+import { useChecklistNow } from "@/components/checklist/hooks/use-checklist-now";
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
+import {
+	type ChecklistTab,
+	getChecklistView,
+} from "@/components/checklist/utils/checklist-view";
 import { PageTitle } from "@/components/shared/page-title";
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
-import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import type { ChecklistTask } from "@/lib/checklist-task";
-import { type ChecklistTab, getChecklistView } from "@/lib/checklist-view";
-import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
-
-const checklistCategories = [
-	["all", "All"],
-	["event", "Events"],
-	["permanent", "Permanent"],
-	["custom", "Custom"],
-] as const;
-
-const useChecklistNow = () => {
-	const [now, setNow] = useState<number | null>(null);
-	useEffect(() => {
-		let timer: number;
-		const update = () => {
-			const currentTime = Date.now();
-			setNow(currentTime);
-			timer = window.setTimeout(update, 60_000 - (currentTime % 60_000));
-		};
-		update();
-		return () => window.clearTimeout(timer);
-	}, []);
-	return now;
-};
 
 export const ChecklistPage = () => {
 	const ga = useGoogleAnalytics();
@@ -57,9 +36,6 @@ export const ChecklistPage = () => {
 	const undo = useAppStore((state) => state.undoChecklist);
 	const remove = useAppStore((state) => state.deleteChecklistTask);
 	const now = useChecklistNow();
-	const visibleCategories = checklistCategories.filter(
-		([value]) => value === "all" || preferences.categories[value],
-	);
 	const visible = useMemo(
 		() =>
 			now === null
@@ -96,46 +72,13 @@ export const ChecklistPage = () => {
 				description="Stay on top of server resets, limited events, and your own recurring tasks."
 			/>
 			<div className="flex flex-col gap-5">
-				<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-					<div className="-mx-1 min-w-0 flex-1 overflow-x-auto px-1 pb-1">
-						<ButtonGroup className="flex flex-wrap">
-							{visibleCategories.map(([value, label]) => {
-								const isSelected = tab === value;
-								return (
-									<Button
-										aria-pressed={isSelected}
-										className={cn(isSelected && "border")}
-										key={value}
-										type="button"
-										variant={isSelected ? "default" : "outline"}
-										onClick={() => setTab(value)}
-									>
-										{label}
-									</Button>
-								);
-							})}
-						</ButtonGroup>
-					</div>
-					<div className="flex w-full shrink-0 gap-2 sm:w-auto">
-						<Button
-							aria-label="Checklist settings"
-							className="flex-1 sm:flex-none"
-							variant="outline"
-							onClick={() => setSettingsOpen(true)}
-						>
-							<Settings className="size-4" />
-							<span>Settings</span>
-						</Button>
-						<Button
-							aria-label="Add item"
-							className="flex-1 sm:flex-none"
-							onClick={openAddTask}
-						>
-							<Plus className="size-4" />
-							<span>Add item</span>
-						</Button>
-					</div>
-				</div>
+				<ChecklistToolbar
+					preferences={preferences}
+					tab={tab}
+					onAdd={openAddTask}
+					onSettings={() => setSettingsOpen(true)}
+					onTabChange={setTab}
+				/>
 				{!isHydrated || now === null ? (
 					<div className="grid gap-2">
 						{[0, 1, 2].map((key) => (
@@ -168,25 +111,7 @@ export const ChecklistPage = () => {
 					/>
 				)}
 				{isHydrated && now !== null && visible.length === 0 && (
-					<Card className="border-dashed">
-						<CardContent className="flex flex-col items-center gap-3 py-12 text-center">
-							<RotateCcw className="size-8 text-muted-foreground" />
-							<div>
-								<p className="font-medium">Nothing to show here</p>
-								<p className="mt-1 text-sm text-muted-foreground">
-									{tab === "event"
-										? "No dated events are available yet."
-										: "Adjust your settings or add a custom task."}
-								</p>
-							</div>
-							{tab !== "event" && (
-								<Button variant="outline" onClick={openAddTask}>
-									<Plus className="size-4" />
-									Add item
-								</Button>
-							)}
-						</CardContent>
-					</Card>
+					<ChecklistEmptyState tab={tab} onAdd={openAddTask} />
 				)}
 			</div>
 			{taskDialogOpen && (

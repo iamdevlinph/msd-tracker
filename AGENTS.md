@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This is a TanStack Start React/TypeScript app. Keep `src/routes` thin and logic in `src/components/<feature>`. Shared UI is in `src/components/ui`, helpers in `src/lib`, state in `src/stores` and `src/context`, game data in `src/data`, and assets in `public`. Colocate tests and do not edit generated `src/routeTree.gen.ts`. Follow nearby architecture, naming, and file organization; keep files focused, and do not reorganize features, routes, server boundaries, schemas, state patterns, or shared modules unless requested and approved.
+This is a TanStack Start React/TypeScript app. Keep `src/routes` thin and organize feature-owned code under `src/components/<feature>`: React components in `components`, hooks in `hooks`, and utilities or domain types in `utils`. Keep feature-owned code there even when stores, hydration, sync, or other features consume it. Use shared directories such as `src/lib` only for genuinely feature-agnostic code; cross-feature consumption alone does not make code shared. Shared UI is in `src/components/ui`, state in `src/stores` and `src/context`, game data in `src/data`, and assets in `public`. Colocate tests and do not edit generated `src/routeTree.gen.ts`. Follow nearby architecture, naming, and file organization; keep files focused, and do not reorganize features, routes, server boundaries, schemas, state patterns, or shared modules unless requested and approved.
 
 ## Build, Test, and Development Commands
 

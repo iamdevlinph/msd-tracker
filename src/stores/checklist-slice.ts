@@ -3,20 +3,20 @@ import type { StateCreator } from "zustand";
 import {
 	type ChecklistPreferences,
 	defaultChecklistPreferences,
-} from "@/lib/checklist-persistence";
-import type { ChecklistTask } from "@/lib/checklist-task";
+} from "@/components/checklist/utils/checklist-persistence";
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import type { StoreState } from "@/stores/app-store";
 
 export {
 	type ChecklistPreferences,
 	defaultChecklistPreferences,
-} from "@/lib/checklist-persistence";
-export type { ChecklistTask } from "@/lib/checklist-task";
+} from "@/components/checklist/utils/checklist-persistence";
+export type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 export {
 	getChecklistStartAnchor,
 	normalizeChecklistTasks,
 	toResetAnchorDate,
-} from "@/lib/checklist-task";
+} from "@/components/checklist/utils/checklist-task";
 
 const scheduleFields = [
 	"kind",

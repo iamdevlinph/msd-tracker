@@ -1,6 +1,9 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { formatCountdown, getOccurrence } from "@/lib/checklist";
+import {
+	formatCountdown,
+	getOccurrence,
+} from "@/components/checklist/utils/checklist";
 import { migrateAppStore, useAppStore } from "@/stores/app-store";
 import {
 	defaultChecklistPreferences,

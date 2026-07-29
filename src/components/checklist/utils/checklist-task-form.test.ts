@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import {
 	taskDefaults,
 	taskFormToChecklistTask,
 	taskSchema,
-} from "@/components/checklist/checklist-task-form";
-import type { ChecklistTask } from "@/lib/checklist-task";
+} from "@/components/checklist/utils/checklist-task-form";
 
 const formValues = {
 	type: "task" as const,

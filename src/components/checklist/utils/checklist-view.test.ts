@@ -1,9 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
+import {
+	fullCompletionKey,
+	occurrenceKey,
+} from "@/components/checklist/utils/checklist";
+import { defaultChecklistPreferences } from "@/components/checklist/utils/checklist-persistence";
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
+import { getChecklistView } from "@/components/checklist/utils/checklist-view";
 import type { ChecklistEvent } from "@/data/EVENTS_DATA";
-import { fullCompletionKey, occurrenceKey } from "@/lib/checklist";
-import { defaultChecklistPreferences } from "@/lib/checklist-persistence";
-import type { ChecklistTask } from "@/lib/checklist-task";
-import { getChecklistView } from "@/lib/checklist-view";
 
 const now = Date.parse("2026-07-27T00:30:00.000Z");
 

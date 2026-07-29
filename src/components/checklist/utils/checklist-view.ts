@@ -1,10 +1,4 @@
 import {
-	type ChecklistDefinition,
-	type ChecklistKind,
-	PERMANENT_EVENTS,
-} from "@/data/CHECKLIST_DATA";
-import { EVENTS_DATA } from "@/data/EVENTS_DATA";
-import {
 	type ChecklistOccurrence,
 	type ChecklistStatus,
 	fullCompletionKey,
@@ -14,9 +8,15 @@ import {
 	latestCompletion,
 	occurrenceKey,
 	sortChecklistItems,
-} from "@/lib/checklist";
-import type { ChecklistPreferences } from "@/lib/checklist-persistence";
-import type { ChecklistTask } from "@/lib/checklist-task";
+} from "@/components/checklist/utils/checklist";
+import type { ChecklistPreferences } from "@/components/checklist/utils/checklist-persistence";
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
+import {
+	type ChecklistDefinition,
+	type ChecklistKind,
+	PERMANENT_EVENTS,
+} from "@/data/CHECKLIST_DATA";
+import { EVENTS_DATA } from "@/data/EVENTS_DATA";
 
 export type ChecklistTab = ChecklistKind | "all";
 

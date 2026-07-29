@@ -1,8 +1,8 @@
+import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import type {
 	ChecklistDefinition,
 	ChecklistRecurrence,
 } from "@/data/CHECKLIST_DATA";
-import type { ChecklistTask } from "@/lib/checklist-task";
 
 export type ChecklistStatus =
 	| "upcoming"
