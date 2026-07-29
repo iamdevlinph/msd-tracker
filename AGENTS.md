@@ -9,9 +9,7 @@ This is a TanStack Start React/TypeScript app. Keep `src/routes` thin and logic 
 - `pnpm dev` starts Vite on port 3000.
 - `pnpm build` creates the production bundle and runs TypeScript checks.
 - `pnpm test` runs the Vitest suite once.
-- `pnpm lint` runs Biome lint rules.
-- `pnpm format:check` checks formatting without rewriting files.
-- `pnpm check` runs the combined Biome checks.
+- `pnpm run check` runs both Biome formatting and linting checks.
 
 Use the documented `pnpm` scripts and run the smallest meaningful targeted check first, then broader checks for route, schema, server, or shared-state changes. Report commands and results. Do not change dependencies, global tools, or the environment without approval. When dependency changes are approved, pin exact versions with `pnpm add -E` (`--save-exact`). Do not inspect, generate, migrate, or query databases unless the task requires it. Merges to `main` deploy automatically; do not deploy manually.
 

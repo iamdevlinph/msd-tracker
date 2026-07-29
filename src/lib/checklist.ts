@@ -21,6 +21,12 @@ export type ChecklistOccurrence = {
 	nextResetAt?: number;
 };
 
+const getCompletionVersion = (definition: ChecklistDefinition) =>
+	"scheduleVersion" in definition &&
+	typeof definition.scheduleVersion === "number"
+		? definition.scheduleVersion
+		: definition.completionVersion;
+
 const getInterval = (recurrence: ChecklistRecurrence, intervalDays = 1) => {
 	if (recurrence === "weekly") return WEEK;
 	if (recurrence === "interval_days") return intervalDays * DAY;
@@ -31,24 +37,24 @@ export function occurrenceKey(
 	definition: ChecklistDefinition,
 	startAt: number,
 ) {
-	const version =
-		"scheduleVersion" in definition ? `v${definition.scheduleVersion}:` : "";
-	return `${definition.id}:${version}${new Date(startAt).toISOString()}`;
+	const version = getCompletionVersion(definition);
+	const versionPrefix = version === undefined ? "" : `v${version}:`;
+	return `${definition.id}:${versionPrefix}${new Date(startAt).toISOString()}`;
 }
 
 export function fullCompletionKey(definition: ChecklistDefinition) {
-	const version =
-		"scheduleVersion" in definition ? `v${definition.scheduleVersion}:` : "";
-	return `${definition.id}:${version}full`;
+	const version = getCompletionVersion(definition);
+	const versionPrefix = version === undefined ? "" : `v${version}:`;
+	return `${definition.id}:${versionPrefix}full`;
 }
 
 export function latestCompletion(
 	definition: ChecklistDefinition,
 	completions: Record<string, number>,
 ) {
-	const version =
-		"scheduleVersion" in definition ? `v${definition.scheduleVersion}:` : "";
-	const prefix = `${definition.id}:${version}`;
+	const version = getCompletionVersion(definition);
+	const versionPrefix = version === undefined ? "" : `v${version}:`;
+	const prefix = `${definition.id}:${versionPrefix}`;
 	return Object.entries(completions)
 		.filter(([key]) => key.startsWith(prefix) && !key.endsWith(":full"))
 		.sort(([, a], [, b]) => b - a)[0];

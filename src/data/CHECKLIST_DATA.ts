@@ -14,6 +14,9 @@ export type ChecklistDefinition = {
 	intervalDays?: number;
 	mode?: ChecklistMode;
 	dueDurationMinutes?: number;
+	completionVersion?: number;
+	participation?: "discord";
+	seasonal?: boolean;
 };
 
 export const PERMANENT_EVENTS: ChecklistDefinition[] = [
@@ -23,6 +26,15 @@ export const PERMANENT_EVENTS: ChecklistDefinition[] = [
 		kind: "permanent",
 		startAt: "2024-01-01T00:00:00.000Z",
 		recurrence: "weekly",
+		completionVersion: 2,
+	},
+	{
+		id: "monster-race",
+		title: "Monster Race",
+		kind: "permanent",
+		startAt: "2026-07-29T01:30:00.000Z",
+		completionVersion: 1,
+		seasonal: true,
 	},
 	{
 		id: "legendary-conquest",

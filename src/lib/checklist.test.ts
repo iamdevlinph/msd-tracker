@@ -210,6 +210,25 @@ describe("checklist schedule utilities", () => {
 		expect(fullCompletionKey(playerEvent)).toBe("daily:v2:full");
 	});
 
+	it("prefers player schedule versions over official completion versions", () => {
+		const official = {
+			...daily,
+			completionVersion: 2,
+		};
+		expect(occurrenceKey(official, 0)).toBe(
+			"daily:v2:1970-01-01T00:00:00.000Z",
+		);
+		expect(fullCompletionKey(official)).toBe("daily:v2:full");
+
+		const player = {
+			...official,
+			kind: "custom" as const,
+			scheduleVersion: 3,
+		};
+		expect(occurrenceKey(player, 0)).toBe("daily:v3:1970-01-01T00:00:00.000Z");
+		expect(fullCompletionKey(player)).toBe("daily:v3:full");
+	});
+
 	it("sorts incomplete items first, then kind, recurrence, and title", () => {
 		const item = (
 			title: string,

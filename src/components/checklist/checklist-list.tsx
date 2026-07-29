@@ -1,3 +1,5 @@
+import { SiDiscord } from "@icons-pack/react-simple-icons";
+import { readableColor } from "common-utils-pkg";
 import {
 	CalendarDays,
 	Check,
@@ -14,6 +16,8 @@ import { formatCountdown, isChecklistTask } from "@/lib/checklist";
 import type { ChecklistTask } from "@/lib/checklist-task";
 import type { ChecklistViewItem } from "@/lib/checklist-view";
 import { cn } from "@/lib/utils";
+
+const SEASONAL_BADGE_COLOR = "#f59e0b";
 
 const statusPillStyles = {
 	upcoming: "bg-sky-600 text-white",
@@ -244,6 +248,27 @@ export const ChecklistList = ({
 									{typeBadge}
 								</span>
 							))}
+							{definition.participation === "discord" && (
+								<span className="inline-flex shrink-0 items-center gap-1 rounded bg-[#5865F2] px-2 py-1 text-[10px] font-semibold text-white sm:text-xs">
+									<SiDiscord
+										aria-hidden="true"
+										className="size-3"
+										color="white"
+									/>
+									Discord
+								</span>
+							)}
+							{definition.seasonal && (
+								<span
+									className="inline-flex shrink-0 items-center rounded px-2 py-1 text-[10px] font-semibold sm:text-xs"
+									style={{
+										backgroundColor: SEASONAL_BADGE_COLOR,
+										color: readableColor(SEASONAL_BADGE_COLOR),
+									}}
+								>
+									Seasonal
+								</span>
+							)}
 							<div className="min-w-0 flex-1">
 								<span
 									className={cn(

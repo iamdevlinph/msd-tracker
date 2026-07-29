@@ -100,12 +100,11 @@ If you prefer not to use Tailwind CSS:
 
 ## Linting & Formatting
 
-This project uses [Biome](https://biomejs.dev/) for linting and formatting. The following scripts are available:
+This project uses [Biome](https://biomejs.dev/) for linting and formatting:
 
 ```bash
-pnpm lint
-pnpm format
-pnpm check
+pnpm run check
+pnpm run fix
 ```
 
 ## Shadcn

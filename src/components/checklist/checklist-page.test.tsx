@@ -25,6 +25,7 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 			kind: "permanent",
 			startAt: "2024-01-01T00:00:00.000Z",
 			recurrence: "weekly",
+			seasonal: true,
 		},
 		{
 			id: "fixture-conquest-weekly",
@@ -63,6 +64,7 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 			startAt: "2026-07-15T00:00:00.000Z",
 			endAt: "2026-07-28T23:59:00.000Z",
 			recurrence: "daily",
+			participation: "discord",
 		},
 		{
 			id: "fixture-ice",
@@ -399,6 +401,17 @@ describe("ChecklistPage", () => {
 		});
 
 		render(<ChecklistPage />);
+
+		const seasonalBadge = within(
+			screen.getByText("Fixture Rift").closest("li") as HTMLElement,
+		).getByText("Seasonal");
+		expect(seasonalBadge.style.backgroundColor).toBe("rgb(245, 158, 11)");
+		expect(seasonalBadge.style.color).toBe("rgb(36, 41, 47)");
+		expect(
+			within(
+				screen.getByText("Fixture Gulgak").closest("li") as HTMLElement,
+			).getByText("Discord", { selector: "span" }),
+		).toBeTruthy();
 
 		const futureRow = screen.getByText("Future task").closest("li");
 		expect(futureRow).toBeTruthy();

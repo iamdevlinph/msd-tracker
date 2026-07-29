@@ -55,6 +55,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Use single-check completion indicators, switch completed actions to undo, hide disabled category filters while keeping All available, and align toolbar controls with shared page button styling.
 
 - [x] Define typed limited events with non-displayed notice-title metadata, UTC source timestamps, recurring reset schedules, expiry behavior, and player-created UTC Start/End times verified across daily and weekly UTC boundaries.
+- [x] Version completion keys independently from schedule changes, add the Monster Race permanent reset, and mark Discord participation on its two notice entries.
 - [x] Default new player-created Task and Event starts to the current UTC date at 00:00 while preserving saved times when editing.
 - [x] Add the 100-Day Anniversary Check-In Pass and Bonus Time daily event schedules using their published UTC periods.
 - [x] Add the First Summer Dive event set and Cool Summer Vacation login reward using their published UTC periods and explicit daily-reset behavior.
@@ -96,5 +97,5 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 ## Release Checklist
 
 - [ ] Update this roadmap and relevant tests in the implementation change.
-- [ ] Verify `pnpm test`, `pnpm check`, `pnpm format:check`, and `pnpm build`.
+- [ ] Verify `pnpm test`, `pnpm run check`, and `pnpm build`.
 - [ ] Include screenshots or recordings for visible UI work; merging to `main` deploys automatically.

@@ -30,6 +30,6 @@ Treat Google Drive backup as an explicit allowlist. Zustand persistence does not
 - Test create, edit, delete, and reset actions update `backupUpdatedAt`.
 - Test local and remote conflict metadata plus conflict-card rendering when changed.
 - Mock Google Drive, session storage, timers, and browser boundaries; never use live tokens or remote files in tests.
-- Run the smallest affected Vitest files first, then the repository's broader `pnpm test`, `pnpm check`, `pnpm format:check`, and `pnpm build` checks for shared-state changes.
+- Run the smallest affected Vitest files first, then the repository's broader `pnpm test`, `pnpm run check`, and `pnpm build` checks for shared-state changes.
 
 Keep database, dependency, deployment, secret-handling, and destructive-operation restrictions in `AGENTS.md` authoritative.
