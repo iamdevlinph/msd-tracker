@@ -54,14 +54,15 @@ const features: HomeFeature[] = [
 		to: "/loadouts",
 		icon: Blocks,
 	},
+	{
+		title: "Artifacts",
+		description: "Catalog owned artifacts and their fusion levels.",
+		to: "/artifacts",
+		icon: Gem,
+	},
 ];
 
 const upcomingFeatures: UpcomingFeature[] = [
-	{
-		title: "Artifacts",
-		description: "Catalog owned artifacts and their important details.",
-		icon: Gem,
-	},
 	{
 		title: "Equipment",
 		description: "Manage equipment across slots and categories.",
@@ -81,6 +82,7 @@ export const HomePage = () => {
 		(state) => state.monsterCodexCompleted,
 	);
 	const loadouts = useAppStore((state) => state.loadouts);
+	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
 	const isHydrated = useAppStore((state) => state.isHydrated);
 	const setCodexFilters = useCodexStore((state) => state.setCodexFilters);
 	const statistics: HomeStatistic[] = [
@@ -101,6 +103,12 @@ export const HomePage = () => {
 			value: monsterCodexCompleted.length,
 			to: "/monster-codex",
 			icon: BookOpenCheck,
+		},
+		{
+			label: "Artifacts owned",
+			value: Object.keys(artifactsOwned).length,
+			to: "/artifacts",
+			icon: Gem,
 		},
 		{
 			label: "Loadouts created",

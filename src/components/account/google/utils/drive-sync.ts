@@ -23,6 +23,7 @@ type Backup = Pick<
 	| "checklistCompletions"
 	| "checklistPermanentNotes"
 	| "checklistPreferences"
+	| "artifactsOwned"
 >;
 
 export function select(state: StoreState): Backup {
@@ -41,6 +42,7 @@ export function select(state: StoreState): Backup {
 		checklistCompletions: state.checklistCompletions,
 		checklistPermanentNotes: state.checklistPermanentNotes,
 		checklistPreferences: state.checklistPreferences,
+		artifactsOwned: state.artifactsOwned,
 	};
 }
 
@@ -105,6 +107,7 @@ export async function download(): Promise<Backup | null> {
 				backup.monsterlingLinkChainLevels,
 			),
 			monsterCodexFavorites: backup.monsterCodexFavorites ?? [],
+			artifactsOwned: backup.artifactsOwned ?? {},
 		};
 	} catch (e) {
 		toast.error(
@@ -184,6 +187,7 @@ export async function initSync() {
 							checklistTasks: Object.keys(local.checklistTasks).length,
 							checklistCompletions: Object.keys(local.checklistCompletions)
 								.length,
+							artifactsOwned: Object.keys(local.artifactsOwned).length,
 						},
 					},
 					remote: {
@@ -202,6 +206,7 @@ export async function initSync() {
 							checklistCompletions: Object.keys(
 								remote.checklistCompletions ?? {},
 							).length,
+							artifactsOwned: Object.keys(remote.artifactsOwned ?? {}).length,
 						},
 					},
 				},

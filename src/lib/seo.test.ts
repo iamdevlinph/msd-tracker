@@ -15,6 +15,7 @@ describe("SEO metadata", () => {
 			MONSTERLINGS: `Monsterlings - ${SITE_NAME}`,
 			MONSTER_CODEX: `Monster Codex - ${SITE_NAME}`,
 			LOADOUTS: `Loadouts - ${SITE_NAME}`,
+			ARTIFACTS: `Artifacts - ${SITE_NAME}`,
 		});
 	});
 

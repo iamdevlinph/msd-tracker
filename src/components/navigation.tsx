@@ -85,7 +85,6 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="boxicons:sword-filled" />,
 				},
 				link: "/artifacts",
-				hidden: hideItem,
 			},
 			{
 				id: "monsterlings",

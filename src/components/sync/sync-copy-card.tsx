@@ -36,6 +36,7 @@ export const SyncCopyCard = ({ title, copy, isNewer }: SyncCopyCardProps) => (
 					<TableHead scope="col">Monsterlings</TableHead>
 					<TableHead scope="col">Loadouts</TableHead>
 					<TableHead scope="col">Codex</TableHead>
+					<TableHead scope="col">Artifacts</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -44,6 +45,7 @@ export const SyncCopyCard = ({ title, copy, isNewer }: SyncCopyCardProps) => (
 					<TableCell>{copy.metadata.monsterlingsOwned}</TableCell>
 					<TableCell>{copy.metadata.loadouts}</TableCell>
 					<TableCell>{copy.metadata.codexCompleted}</TableCell>
+					<TableCell>{copy.metadata.artifactsOwned ?? 0}</TableCell>
 				</TableRow>
 			</TableBody>
 		</Table>

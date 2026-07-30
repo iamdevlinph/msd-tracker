@@ -31,6 +31,7 @@ describe("HomePage", () => {
 			monsterlingsOwned: { first: {} as never, second: {} as never },
 			monsterCodexCompleted: [1, 2, 3],
 			loadouts: { first: {} as never },
+			artifactsOwned: { first: {} as never, second: {} as never },
 			isHydrated: true,
 		});
 		useCodexStore.setState({ filters: { ...initialCodexFilters } });
@@ -43,7 +44,7 @@ describe("HomePage", () => {
 			screen.getByText("Mongil: Star Dive Tracker for Players"),
 		).toBeTruthy();
 		expect(screen.getByText(/Keep your roster/)).toBeTruthy();
-		expect(screen.getAllByText("2")).toHaveLength(2);
+		expect(screen.getAllByText("2")).toHaveLength(3);
 		expect(screen.getByText("3")).toBeTruthy();
 		expect(screen.getByText("1")).toBeTruthy();
 
@@ -53,6 +54,7 @@ describe("HomePage", () => {
 			["Monsterlings", "/monsterlings"],
 			["Monster Codex", "/monster-codex"],
 			["Loadouts", "/loadouts"],
+			["Artifacts", "/artifacts"],
 		]) {
 			expect(
 				screen
@@ -66,6 +68,7 @@ describe("HomePage", () => {
 			["Monsterlings owned", "/monsterlings"],
 			["Codex cleared", "/monster-codex"],
 			["Loadouts created", "/loadouts"],
+			["Artifacts owned", "/artifacts"],
 		]) {
 			expect(
 				screen
@@ -83,13 +86,12 @@ describe("HomePage", () => {
 
 		render(<HomePage />);
 
-		expect(screen.getAllByText("—")).toHaveLength(4);
+		expect(screen.getAllByText("—")).toHaveLength(5);
 	});
 
 	it("presents upcoming features without linking to unfinished pages", () => {
 		render(<HomePage />);
 
-		expect(screen.getByText("Artifacts")).toBeTruthy();
 		expect(screen.getByText("Equipment")).toBeTruthy();
 		expect(
 			screen.getByRole("link", { name: "Explore Checklist" }),

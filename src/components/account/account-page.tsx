@@ -67,6 +67,7 @@ export const AccountPage = () => {
 	const resetMonsterlingSlice = useAppStore((s) => s.resetMonsterlingSlice);
 	const resetLoadoutsSlice = useAppStore((s) => s.resetLoadoutsSlice);
 	const resetChecklist = useAppStore((s) => s.resetChecklist);
+	const resetArtifactsOwned = useAppStore((s) => s.resetArtifactsOwned);
 
 	const hideItem = import.meta.env.VITE_NODE_ENV !== "development";
 
@@ -155,6 +156,16 @@ export const AccountPage = () => {
 								</ClearDataButton>
 							</>
 						)}
+						<ClearDataButton
+							description="This permanently clears your owned artifacts and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
+							onConfirm={() => {
+								resetArtifactsOwned();
+								ga.event(ANALYTICS_EVENTS.ARTIFACTS_RESET);
+							}}
+							target="Artifacts Owned"
+						>
+							Clear Artifacts Owned
+						</ClearDataButton>
 						<ClearDataButton
 							description="This permanently clears your custom Checklist tasks, completions, and preferences. If Google Drive sync is active, the cleared data will be included in the next backup."
 							onConfirm={() => {

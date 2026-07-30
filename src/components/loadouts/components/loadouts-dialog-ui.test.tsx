@@ -452,7 +452,9 @@ describe("LoadoutsList", () => {
 			source: "card",
 		});
 
-		fireEvent.click(screen.getByRole("button", { name: "Close" }));
+		fireEvent.keyDown(screen.getByRole("dialog", { name: "Angel" }), {
+			key: "Escape",
+		});
 		fireEvent.click(
 			screen.getByRole("button", {
 				name: `Edit ${MONSTERLINGS_DATA[1].name} monsterling`,

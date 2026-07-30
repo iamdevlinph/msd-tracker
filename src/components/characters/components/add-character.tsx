@@ -81,9 +81,6 @@ export function AddCharacter() {
 			>
 				<DialogHeader>
 					<div className="flex gap-5 items-center">
-						<DialogTitle>
-							{hasSelectedChar ? charToAddInfo?.name : "Add Character"}
-						</DialogTitle>
 						{hasSelectedChar && charToAddInfo && (
 							<>
 								<Button
@@ -91,9 +88,11 @@ export function AddCharacter() {
 									size="icon"
 									className="rounded-full"
 									onClick={() => setCharToAdd(null)}
+									aria-label="Back to character list"
 								>
 									<ArrowLeft />
 								</Button>
+								<DialogTitle>{charToAddInfo.name}</DialogTitle>
 								<div
 									className="flex items-center gap-2 relative"
 									aria-hidden="true"
@@ -107,6 +106,7 @@ export function AddCharacter() {
 								</div>
 							</>
 						)}
+						{!hasSelectedChar && <DialogTitle>Add Character</DialogTitle>}
 					</div>
 					<DialogDescription>
 						Select a character to add to your collection.

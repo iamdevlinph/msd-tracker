@@ -39,6 +39,7 @@ export const EditCharacterDetailsDialog = (
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent
+				showCloseButton={false}
 				className={cn(
 					"overflow-y-auto max-h-screen",
 					"max-w-sm sm:min-w-min lg:min-w-218",
@@ -48,21 +49,22 @@ export const EditCharacterDetailsDialog = (
 				onCloseAutoFocus={() => onClose?.()}
 			>
 				<DialogHeader>
-					<div className="flex gap-5 items-center">
-						<DialogTitle>{charInfo.name}</DialogTitle>
-						<div
-							className="flex items-center gap-2 relative"
-							aria-hidden="true"
-						>
-							<TierPortrait
-								portraitImg={charInfo.portraitImage}
-								portraitSize={50}
-								tier={charInfo.tier_id}
-								name={charInfo.name}
-							/>
+					<div className="flex items-center justify-between">
+						<div className="flex gap-5 items-center">
+							<DialogTitle>{charInfo.name}</DialogTitle>
+							<div
+								className="flex items-center gap-2 relative"
+								aria-hidden="true"
+							>
+								<TierPortrait
+									portraitImg={charInfo.portraitImage}
+									portraitSize={50}
+									tier={charInfo.tier_id}
+									name={charInfo.name}
+								/>
+							</div>
 						</div>
 						<Button
-							className=""
 							variant={"destructive"}
 							size={"icon-sm"}
 							onClick={() => {

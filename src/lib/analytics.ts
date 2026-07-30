@@ -44,6 +44,10 @@ export const ANALYTICS_EVENTS = {
 	CHECKLIST_FULL_COMPLETE: "checklist_full_complete",
 	CHECKLIST_FULL_UNDO: "checklist_full_undo",
 	CHECKLIST_RESET: "checklist_reset",
+	ARTIFACT_CREATE: "artifact_create",
+	ARTIFACT_UPDATE: "artifact_update",
+	ARTIFACT_DELETE: "artifact_delete",
+	ARTIFACTS_RESET: "artifacts_reset",
 } as const;
 
 export type AnalyticsEventName =

@@ -74,11 +74,12 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 ## Chunk 2: Artifacts Inventory
 
-- [ ] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
-- [ ] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.
-- [ ] Build the Artifacts page with cards, search, filters, empty states, and accessible forms.
-- [ ] Add Drive backup selection, legacy defaults, conflict metadata/UI, and behavioral tests.
-- [ ] Expose the Artifacts navigation item after the page is release-ready.
+- [x] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
+- [x] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.
+- [x] Build the Artifacts page with cards, search, filters, empty states, and accessible forms.
+- [x] Keep artifact cards fixed-size with tier frames and fusion shields; use card-driven editing with a shared add/edit form and compact controls.
+- [x] Add Drive backup selection, legacy defaults, conflict metadata/UI, and behavioral tests.
+- [x] Expose the Artifacts navigation item after the page is release-ready.
 
 ## Chunk 3: Equipments Inventory
 

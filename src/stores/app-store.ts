@@ -3,6 +3,10 @@ import { persist, subscribeWithSelector } from "zustand/middleware";
 import { normalizeChecklistPersistedState } from "@/components/checklist/utils/checklist-persistence";
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import {
+	type ArtifactsOwnedSlice,
+	createArtifactsOwnedSlice,
+} from "@/stores/artifacts-owned-slice";
+import {
 	type CharactersOwnedSlice,
 	createCharactersOwnedSlice,
 } from "@/stores/characters-owned-slice";
@@ -42,6 +46,7 @@ export type StoreState = {
 				linkChainsUpgraded: number;
 				checklistTasks?: number;
 				checklistCompletions?: number;
+				artifactsOwned?: number;
 			};
 		};
 		remote: {
@@ -56,6 +61,7 @@ export type StoreState = {
 				linkChainsUpgraded: number;
 				checklistTasks?: number;
 				checklistCompletions?: number;
+				artifactsOwned?: number;
 			};
 		};
 	} | null;
@@ -67,7 +73,8 @@ export type StoreState = {
 	CharactersOwnedSlice &
 	MonsterlingsSlice &
 	LoadoutsSlice &
-	ChecklistSlice;
+	ChecklistSlice &
+	ArtifactsOwnedSlice;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
@@ -80,6 +87,7 @@ export const migrateAppStore = (persistedState: unknown) => {
 	const state = persistedState as Partial<StoreState>;
 	return {
 		...state,
+		artifactsOwned: state.artifactsOwned ?? {},
 		...normalizeChecklistPersistedState(state),
 		...consolidateMonsterlingLinkChainLevels(
 			state.monsterlingsOwned as Parameters<
@@ -109,6 +117,7 @@ export const useAppStore = create<StoreState>()(
 				...createMonsterlingsSlice(set, get, api),
 				...createLoadoutsSlice(set, get, api),
 				...createChecklistSlice(set, get, api),
+				...createArtifactsOwnedSlice(set, get, api),
 			}),
 			{
 				name: "msd-tracker",
