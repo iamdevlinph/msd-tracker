@@ -65,7 +65,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 ## Account
 
 - [x] Highlight the newer timestamp when choosing between local and Google Drive copies during a sync conflict.
-- [ ] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
+- [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
 
 ## Chunk 1: Checklist and Event Tracking
 
@@ -86,9 +86,9 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Track Request Board as a permanent daily activity resetting at 00:00 UTC.
 - [x] Keep single occurrence checks and grouped full-event checks, sort non-completed before completed and then by event > permanent > custom and weekly > daily > other, and show reset/End countdowns beside status.
 - [x] Show occurrence and full-event completion controls for daily events, while non-daily events use only one full-event completion control for their full duration.
-- [ ] Design the durable checklist data model and evaluate local and Google Drive persistence.
-- [ ] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
-- [ ] Expose the Checklist navigation item after the feature is release-ready.
+- [x] Design the durable checklist data model and evaluate local and Google Drive persistence.
+- [x] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
+- [x] Expose the Checklist navigation item after the feature is release-ready.
 
 ## Chunk 2: Artifacts Inventory
 
