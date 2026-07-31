@@ -31,6 +31,19 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Show tier portrait frames and tier-colored backgrounds behind assigned artifacts and Monsterlings in saved loadout cards.
 - [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 
+## Loadout Code Sharing: Deferred
+
+Implementation is intentionally deferred. Keep every item unchecked until the complete vertical slice is implemented and verified.
+
+- [ ] Define a portable, versioned `MSDTL1.<base64url-json>` envelope with `kind`, `version`, loadout snapshot, and preserved extension fields. Export catalog IDs and build values—character awakening and skills, Monsterling tier, traits, and Link Chain level, and artifact fusion level—without local inventory-instance IDs or user-supplied image URLs.
+- [ ] Add bounded decoding and validation that rejects malformed, oversized, wrong-kind, and unsupported-major-version codes before state mutation. Preserve unknown catalog IDs and opaque future slot or equipment extensions through local normalization, duplication, Drive sync, and re-export; migrate supported older versions while requiring an app update for newer major versions.
+- [ ] Extend loadout slots with optional portable targets alongside existing owned references. Keep legacy loadouts inventory-backed, imported targets snapshot-backed, and imports independent from owned collections. Saving, editing, deleting, resetting, and importing must update `backupUpdatedAt`; Drive backup selection, legacy download normalization, conflict summaries, and local migrations must remain backward compatible.
+- [ ] Add an Import Loadout Code dialog that validates pasted input, previews it without mutating state, allows renaming, then saves a new editable target loadout with a generated ID and collision-safe `Name (2)` naming before opening its preview.
+- [ ] Add Copy Loadout Code actions to saved cards and previews. Export regular loadouts from current owned data, preserve imported snapshots and extensions, and refuse export with a precise error when a non-null dangling local reference cannot be reconstructed.
+- [ ] Render known unowned targets with canonical portraits, encoded target stats, grayscale/reduced opacity, and accessible “Not owned” text. Determine ownership by catalog identity rather than exact stats, continue showing shared target stats, prefer exact owned copies and then a deterministic compatible copy for editor links, and render unknown IDs with safe generic visuals and fallback names until catalog data becomes available.
+- [ ] Keep imported targets editable without creating fake inventory: unresolved targets remain intact until explicitly cleared or replaced, replacing one with owned inventory converts only that slot to an owned reference, and duplication, image export, deletion, and code re-export preserve unresolved targets.
+- [ ] Add import/export attempt, success, and failure analytics without codes, names, catalog contents, clipboard values, or raw errors. Cover codec round trips, Unicode, invalid input, unknown IDs/extensions, migrations, Drive round trips, backup timestamps, preview-before-save, collision naming, ownership resolution, target editing, dangling exports, clipboard failures, image rendering, and accessibility; finish with focused suites, `pnpm test`, `pnpm run check`, `pnpm build`, `git diff --check`, and owned/partially-unowned/unknown-target screenshots.
+
 ## Home Dashboard: Available
 
 - [x] Welcome users and link the available tracker features.
