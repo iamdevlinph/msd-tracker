@@ -1,10 +1,17 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
+import {
+	LOADOUT_IMAGE_ACTIONS,
+	type LoadoutActionSource,
+	type LoadoutImageAction,
+} from "@/components/loadouts/loadout-constants";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
-export type LoadoutActionSource = "card" | "preview";
-export type LoadoutImageAction = "copy" | "download";
+export type {
+	LoadoutActionSource,
+	LoadoutImageAction,
+} from "@/components/loadouts/loadout-constants";
 
 const waitForAssets = async (node: HTMLElement) => {
 	await document.fonts?.ready;
@@ -83,7 +90,7 @@ export const useLoadoutImageActions = (source: LoadoutActionSource) => {
 			compact_monsterlings: compactMonsterlings,
 			source,
 		};
-		const copy = action === "copy";
+		const copy = action === LOADOUT_IMAGE_ACTIONS.COPY;
 		ga.event(
 			copy
 				? ANALYTICS_EVENTS.LOADOUT_COPY_ATTEMPT
@@ -137,11 +144,11 @@ export const useLoadoutImageActions = (source: LoadoutActionSource) => {
 			name: string,
 			node: HTMLElement | null,
 			compactMonsterlings: boolean,
-		) => run("copy", name, node, compactMonsterlings),
+		) => run(LOADOUT_IMAGE_ACTIONS.COPY, name, node, compactMonsterlings),
 		download: (
 			name: string,
 			node: HTMLElement | null,
 			compactMonsterlings: boolean,
-		) => run("download", name, node, compactMonsterlings),
+		) => run(LOADOUT_IMAGE_ACTIONS.DOWNLOAD, name, node, compactMonsterlings),
 	};
 };

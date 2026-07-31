@@ -3,13 +3,14 @@ import type { ChecklistPreferences } from "@/components/checklist/utils/checklis
 import type { ChecklistTab } from "@/components/checklist/utils/checklist-view";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { CHECKLIST_KINDS } from "@/data/CHECKLIST_DATA";
 import { cn } from "@/lib/utils";
 
 const checklistCategories = [
 	["all", "All"],
-	["event", "Events"],
-	["permanent", "Permanent"],
-	["custom", "Custom"],
+	[CHECKLIST_KINDS.EVENT, "Events"],
+	[CHECKLIST_KINDS.PERMANENT, "Permanent"],
+	[CHECKLIST_KINDS.CUSTOM, "Custom"],
 ] as const;
 
 type ChecklistToolbarProps = {

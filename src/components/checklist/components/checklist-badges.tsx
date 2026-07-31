@@ -1,7 +1,11 @@
 import { SiDiscord } from "@icons-pack/react-simple-icons";
 import { readableColor } from "common-utils-pkg";
 import { isChecklistTask } from "@/components/checklist/utils/checklist";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import {
+	CHECKLIST_KINDS,
+	CHECKLIST_RECURRENCES,
+	type ChecklistDefinition,
+} from "@/data/CHECKLIST_DATA";
 import { cn } from "@/lib/utils";
 
 const SEASONAL_BADGE_COLOR = "#16a34a";
@@ -17,10 +21,13 @@ type ChecklistBadgesProps = { definition: ChecklistDefinition };
 export const ChecklistBadges = ({ definition }: ChecklistBadgesProps) => {
 	const customTask = isChecklistTask(definition);
 	const badges: Array<keyof typeof typeBadgeStyles> = [];
-	if (definition.kind === "event") badges.push("Event");
-	if (definition.recurrence === "weekly") badges.push("Weekly");
-	else if (definition.recurrence === "daily") badges.push("Daily");
-	else if (customTask && definition.kind !== "event") badges.push("Custom");
+	if (definition.kind === CHECKLIST_KINDS.EVENT) badges.push("Event");
+	if (definition.recurrence === CHECKLIST_RECURRENCES.WEEKLY)
+		badges.push("Weekly");
+	else if (definition.recurrence === CHECKLIST_RECURRENCES.DAILY)
+		badges.push("Daily");
+	else if (customTask && definition.kind !== CHECKLIST_KINDS.EVENT)
+		badges.push("Custom");
 	return (
 		<>
 			{badges.map((badge) => (

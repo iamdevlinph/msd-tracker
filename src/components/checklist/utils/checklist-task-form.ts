@@ -5,7 +5,16 @@ import {
 	parseUtcDateTime,
 	toUtcISOString,
 } from "@/components/checklist/utils/checklist-task";
-import type { ChecklistMode, ChecklistRecurrence } from "@/data/CHECKLIST_DATA";
+import {
+	CHECKLIST_EVENT_RECURRENCE_VALUES,
+	CHECKLIST_KINDS,
+	CHECKLIST_MODE_VALUES,
+	CHECKLIST_MODES,
+	CHECKLIST_RECURRENCE_VALUES,
+	CHECKLIST_RECURRENCES,
+	type ChecklistMode,
+	type ChecklistRecurrence,
+} from "@/data/CHECKLIST_DATA";
 
 const dateTime = (value: string) => parseUtcDateTime(value);
 
@@ -19,11 +28,11 @@ export const taskSchema = z
 			.max(200, "Event notice must be 200 characters or less."),
 		startAt: z.string().min(1, "Start date and time are required."),
 		dueAt: z.string(),
-		recurrence: z.enum(["none", "daily", "weekly", "interval_days"]),
+		recurrence: z.enum(CHECKLIST_RECURRENCE_VALUES),
 		intervalDays: z
 			.string()
 			.regex(/^[1-9]\d*$/, "Interval must be a positive whole number."),
-		mode: z.enum(["fixed", "after_completion"]),
+		mode: z.enum(CHECKLIST_MODE_VALUES),
 		notes: z.string().trim().max(500, "Notes must be 500 characters or less."),
 	})
 	.superRefine(({ type, startAt, dueAt, recurrence, mode }, context) => {
@@ -34,7 +43,10 @@ export const taskSchema = z
 				path: ["startAt"],
 				message: "Enter a valid start date.",
 			});
-		if (type === "event" && (!dueAt || !Number.isFinite(dateTime(dueAt)))) {
+		if (
+			type === CHECKLIST_KINDS.EVENT &&
+			(!dueAt || !Number.isFinite(dateTime(dueAt)))
+		) {
 			context.addIssue({
 				code: "custom",
 				path: ["dueAt"],
@@ -42,8 +54,11 @@ export const taskSchema = z
 			});
 		}
 		if (
-			type === "event" &&
-			(!["none", "daily", "weekly"].includes(recurrence) || mode !== "fixed")
+			type === CHECKLIST_KINDS.EVENT &&
+			(!CHECKLIST_EVENT_RECURRENCE_VALUES.some(
+				(eventRecurrence) => eventRecurrence === recurrence,
+			) ||
+				mode !== CHECKLIST_MODES.FIXED)
 		) {
 			context.addIssue({
 				code: "custom",
@@ -78,7 +93,7 @@ export const taskDefaults = (task?: ChecklistTask): TaskForm => {
 		? toUtcInput(task.startAt)
 		: `${new Date(Date.now()).toISOString().slice(0, 10)}T00:00`;
 	const dueAt =
-		task?.kind === "event" && task.endAt
+		task?.kind === CHECKLIST_KINDS.EVENT && task.endAt
 			? toUtcInput(task.endAt)
 			: task?.dueDurationMinutes && startAt
 				? toUtcInput(
@@ -88,14 +103,14 @@ export const taskDefaults = (task?: ChecklistTask): TaskForm => {
 					)
 				: "";
 	return {
-		type: task?.kind === "event" ? "event" : "task",
+		type: task?.kind === CHECKLIST_KINDS.EVENT ? "event" : "task",
 		title: task?.title ?? "",
 		noticeTitle: task?.noticeTitle ?? "",
 		startAt,
 		dueAt,
-		recurrence: task?.recurrence ?? "none",
+		recurrence: task?.recurrence ?? CHECKLIST_RECURRENCES.NONE,
 		intervalDays: String(task?.intervalDays ?? 1),
-		mode: task?.mode ?? "fixed",
+		mode: task?.mode ?? CHECKLIST_MODES.FIXED,
 		notes: task?.notes ?? "",
 	};
 };
@@ -107,20 +122,25 @@ export const taskFormToChecklistTask = (values: TaskForm) => {
 		title: values.title.trim(),
 		description: undefined,
 		noticeTitle:
-			values.type === "event"
+			values.type === CHECKLIST_KINDS.EVENT
 				? values.noticeTitle.trim() || undefined
 				: undefined,
 		notes: values.notes.trim() || undefined,
-		kind: values.type === "event" ? ("event" as const) : ("custom" as const),
+		kind:
+			values.type === CHECKLIST_KINDS.EVENT
+				? CHECKLIST_KINDS.EVENT
+				: CHECKLIST_KINDS.CUSTOM,
 		startAt,
-		endAt: values.type === "event" ? endAt : undefined,
+		endAt: values.type === CHECKLIST_KINDS.EVENT ? endAt : undefined,
 		recurrence: values.recurrence as ChecklistRecurrence,
 		intervalDays:
-			values.type === "task" && values.recurrence === "interval_days"
+			values.type === "task" &&
+			values.recurrence === CHECKLIST_RECURRENCES.INTERVAL_DAYS
 				? Number(values.intervalDays)
 				: undefined,
 		mode:
-			values.type === "event" || values.recurrence === "none"
+			values.type === CHECKLIST_KINDS.EVENT ||
+			values.recurrence === CHECKLIST_RECURRENCES.NONE
 				? undefined
 				: (values.mode as ChecklistMode),
 		dueDurationMinutes:

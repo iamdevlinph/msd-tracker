@@ -9,6 +9,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { CHECKLIST_KINDS } from "@/data/CHECKLIST_DATA";
 
 type ChecklistDeleteDialogProps = {
 	task?: ChecklistTask;
@@ -28,8 +29,11 @@ export const ChecklistDeleteDialog = ({
 					{task ? `Delete “${task.title}”?` : "Delete item?"}
 				</AlertDialogTitle>
 				<AlertDialogDescription>
-					This removes the {task?.kind === "event" ? "event" : "task"} and all
-					of its completion records. This cannot be undone.
+					This removes the{" "}
+					{task?.kind === CHECKLIST_KINDS.EVENT
+						? CHECKLIST_KINDS.EVENT
+						: "task"}{" "}
+					and all of its completion records. This cannot be undone.
 				</AlertDialogDescription>
 			</AlertDialogHeader>
 			<AlertDialogFooter>
@@ -38,7 +42,10 @@ export const ChecklistDeleteDialog = ({
 					variant="destructive"
 					onClick={() => task && onDelete(task)}
 				>
-					Delete {task?.kind === "event" ? "event" : "task"}
+					Delete{" "}
+					{task?.kind === CHECKLIST_KINDS.EVENT
+						? CHECKLIST_KINDS.EVENT
+						: "task"}
 				</AlertDialogAction>
 			</AlertDialogFooter>
 		</AlertDialogContent>

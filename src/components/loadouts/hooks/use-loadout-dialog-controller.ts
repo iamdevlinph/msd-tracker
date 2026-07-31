@@ -12,6 +12,7 @@ import type { LoadoutArtifactOption } from "@/components/loadouts/components/loa
 import type { LoadoutCharacterOption } from "@/components/loadouts/components/loadout-character-picker";
 import type { LoadoutMonsterlingOption } from "@/components/loadouts/components/loadout-monsterling-picker";
 import { nextLoadoutName } from "@/components/loadouts/components/loadout-utils";
+import { LOADOUT_TARGET_TYPES } from "@/components/loadouts/loadout-constants";
 import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import {
 	emptyMonsterlingFilters,
@@ -30,14 +31,14 @@ import {
 } from "@/stores/loadouts-slice";
 
 export type PickerTarget =
-	| { type: "character"; characterIndex: number }
+	| { type: typeof LOADOUT_TARGET_TYPES.CHARACTER; characterIndex: number }
 	| {
-			type: "monsterling";
+			type: typeof LOADOUT_TARGET_TYPES.MONSTERLING;
 			characterIndex: number;
 			monsterlingIndex?: number;
 			legendary: boolean;
 	  }
-	| { type: "artifact"; characterIndex: number }
+	| { type: typeof LOADOUT_TARGET_TYPES.ARTIFACT; characterIndex: number }
 	| null;
 
 const blankLoadout = (name = "New Loadout"): Omit<LoadoutOwned, "id"> => ({
@@ -109,7 +110,7 @@ export function useLoadoutDialogController(
 			.filter((id): id is string => id !== null),
 	);
 	const currentCharacterRegularMonsterlingIds = new Set(
-		pickerTarget?.type === "monsterling"
+		pickerTarget?.type === LOADOUT_TARGET_TYPES.MONSTERLING
 			? draft.characters[pickerTarget.characterIndex].monsterlingIds.filter(
 					(id): id is string => id !== null,
 				)
@@ -151,7 +152,7 @@ export function useLoadoutDialogController(
 		.filter(({ info, tier_id }) => {
 			const legendary = info.region_id === REGION_ID_BY_REGION.LEGENDARY;
 			return (
-				pickerTarget?.type === "monsterling" &&
+				pickerTarget?.type === LOADOUT_TARGET_TYPES.MONSTERLING &&
 				legendary === pickerTarget.legendary &&
 				(!monsterlingFilters.search ||
 					info.name
@@ -207,7 +208,7 @@ export function useLoadoutDialogController(
 			...emptyCharacterFilters(),
 			search: id === null ? "" : (CHARACTERS_DATA[id]?.name ?? ""),
 		});
-		setPickerTarget({ type: "character", characterIndex });
+		setPickerTarget({ type: LOADOUT_TARGET_TYPES.CHARACTER, characterIndex });
 	};
 	const openMonsterlingPicker = (
 		characterIndex: number,
@@ -226,7 +227,7 @@ export function useLoadoutDialogController(
 			selectedTiers: [],
 		});
 		setPickerTarget({
-			type: "monsterling",
+			type: LOADOUT_TARGET_TYPES.MONSTERLING,
 			characterIndex,
 			monsterlingIndex,
 			legendary,
@@ -234,10 +235,10 @@ export function useLoadoutDialogController(
 	};
 	const openArtifactPicker = (characterIndex: number) => {
 		setArtifactFilters(emptyArtifactFilters());
-		setPickerTarget({ type: "artifact", characterIndex });
+		setPickerTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, characterIndex });
 	};
 	const selectCharacter = (id: number) => {
-		if (pickerTarget?.type !== "character") return;
+		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.CHARACTER) return;
 		setDraft((current) => ({
 			...current,
 			name:
@@ -256,7 +257,7 @@ export function useLoadoutDialogController(
 		resetPicker();
 	};
 	const selectMonsterling = (id: string) => {
-		if (pickerTarget?.type !== "monsterling") return;
+		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.MONSTERLING) return;
 		updateSlot(pickerTarget.characterIndex, (slot) => {
 			if (pickerTarget.legendary)
 				return { ...slot, legendaryMonsterlingId: id };
@@ -272,7 +273,7 @@ export function useLoadoutDialogController(
 		resetPicker();
 	};
 	const selectArtifact = (id: string) => {
-		if (pickerTarget?.type !== "artifact") return;
+		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.ARTIFACT) return;
 		if (
 			selectedArtifactIds.has(id) &&
 			draft.characters[pickerTarget.characterIndex].artifactInstanceId !== id

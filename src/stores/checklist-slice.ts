@@ -5,6 +5,7 @@ import {
 	defaultChecklistPreferences,
 } from "@/components/checklist/utils/checklist-persistence";
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
+import { CHECKLIST_KINDS } from "@/data/CHECKLIST_DATA";
 import type { StoreState } from "@/stores/app-store";
 
 export {
@@ -71,7 +72,7 @@ export const createChecklistSlice: StateCreator<
 				[id]: {
 					...task,
 					id,
-					kind: task.kind ?? "custom",
+					kind: task.kind ?? CHECKLIST_KINDS.CUSTOM,
 					source: "user",
 					scheduleVersion: 1,
 				},

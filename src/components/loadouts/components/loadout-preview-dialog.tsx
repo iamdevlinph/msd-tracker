@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { LoadoutActions } from "@/components/loadouts/components/loadout-actions";
 import { useLoadoutImageActions } from "@/components/loadouts/components/loadout-image-actions";
 import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-preview-surface";
+import { LOADOUT_ACTION_SOURCES } from "@/components/loadouts/loadout-constants";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Dialog,
@@ -37,7 +38,7 @@ export const LoadoutPreviewDialog = ({
 }: LoadoutPreviewDialogProps) => {
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
-	const imageActions = useLoadoutImageActions("preview");
+	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.PREVIEW);
 
 	return (
 		<Dialog

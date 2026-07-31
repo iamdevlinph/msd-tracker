@@ -19,6 +19,8 @@ Biome is authoritative: use tabs, double quotes, and organized imports. Follow n
 
 Use intent-revealing domain names. A reader should understand what a variable contains or what a helper guarantees at the call site without opening its implementation. Avoid vague transformation names such as `normalized`, `processed`, `result`, or `data` when a value- or behavior-specific name is available.
 
+Promote repeated closed-set domain strings used in production control flow to feature-owned readonly `as const` constants and derive their union types from those constants; keep incidental presentation, browser, protocol, route, environment, and test-contract strings inline.
+
 ## Agent Workflow
 
 Before code changes, inspect manifests, configuration, scripts, and nearby files for the actual stack and conventions. Keep changes minimal, localized, and limited to the request; do not introduce frameworks, abstractions, architecture changes, or project paradigms without approval. Work within existing architecture. If it prevents safe completion, explain the blocker, propose the smallest viable change, and wait for approval rather than bypassing it. Update schemas before generating migrations or derived types, and do not manually edit generated migrations or snapshots unless requested.

@@ -1,16 +1,22 @@
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
-import type {
-	ChecklistDefinition,
-	ChecklistRecurrence,
+import {
+	CHECKLIST_KINDS,
+	CHECKLIST_MODES,
+	CHECKLIST_RECURRENCES,
+	type ChecklistDefinition,
+	type ChecklistRecurrence,
 } from "@/data/CHECKLIST_DATA";
 
+export const CHECKLIST_STATUSES = {
+	UPCOMING: "upcoming",
+	ACTIVE: "active",
+	ENDING_SOON: "ending-soon",
+	COMPLETED: "completed",
+	EXPIRED: "expired",
+	OVERDUE: "overdue",
+} as const;
 export type ChecklistStatus =
-	| "upcoming"
-	| "active"
-	| "ending-soon"
-	| "completed"
-	| "expired"
-	| "overdue";
+	(typeof CHECKLIST_STATUSES)[keyof typeof CHECKLIST_STATUSES];
 
 const DAY = 86_400_000;
 const WEEK = 7 * DAY;
@@ -28,8 +34,9 @@ const getCompletionVersion = (definition: ChecklistDefinition) =>
 		: definition.completionVersion;
 
 const getInterval = (recurrence: ChecklistRecurrence, intervalDays = 1) => {
-	if (recurrence === "weekly") return WEEK;
-	if (recurrence === "interval_days") return intervalDays * DAY;
+	if (recurrence === CHECKLIST_RECURRENCES.WEEKLY) return WEEK;
+	if (recurrence === CHECKLIST_RECURRENCES.INTERVAL_DAYS)
+		return intervalDays * DAY;
 	return DAY;
 };
 
@@ -66,8 +73,8 @@ export function getOccurrence(
 	completedAt?: number,
 ) {
 	const start = Date.parse(definition.startAt);
-	const recurrence = definition.recurrence ?? "none";
-	if (recurrence === "none") {
+	const recurrence = definition.recurrence ?? CHECKLIST_RECURRENCES.NONE;
+	if (recurrence === CHECKLIST_RECURRENCES.NONE) {
 		return {
 			startAt: start,
 			endAt: definition.endAt
@@ -84,7 +91,7 @@ export function getOccurrence(
 	const recurrenceStart = definition.recurrenceStartAt
 		? Date.parse(definition.recurrenceStartAt)
 		: start;
-	if (definition.mode === "after_completion") {
+	if (definition.mode === CHECKLIST_MODES.AFTER_COMPLETION) {
 		occurrenceStart = completedAt ? completedAt + interval : start;
 	} else if (now >= start) {
 		const cycle = Math.floor((now - recurrenceStart) / interval);
@@ -95,7 +102,7 @@ export function getOccurrence(
 	return {
 		startAt: occurrenceStart,
 		endAt:
-			definition.kind === "event" && definition.endAt
+			definition.kind === CHECKLIST_KINDS.EVENT && definition.endAt
 				? Date.parse(definition.endAt)
 				: definition.dueDurationMinutes
 					? occurrenceStart + definition.dueDurationMinutes * 60_000
@@ -112,25 +119,27 @@ export function getChecklistStatus(
 	thresholdHours = 24,
 ): ChecklistStatus {
 	if (
-		definition.kind === "event" &&
+		definition.kind === CHECKLIST_KINDS.EVENT &&
 		occurrence.endAt !== undefined &&
 		now >= occurrence.endAt
 	) {
-		return "expired";
+		return CHECKLIST_STATUSES.EXPIRED;
 	}
-	if (completed) return "completed";
-	if (now < occurrence.startAt) return "upcoming";
+	if (completed) return CHECKLIST_STATUSES.COMPLETED;
+	if (now < occurrence.startAt) return CHECKLIST_STATUSES.UPCOMING;
 	if (occurrence.endAt !== undefined && now >= occurrence.endAt) {
-		return definition.kind === "custom" ? "overdue" : "expired";
+		return definition.kind === CHECKLIST_KINDS.CUSTOM
+			? CHECKLIST_STATUSES.OVERDUE
+			: CHECKLIST_STATUSES.EXPIRED;
 	}
 	if (
-		definition.kind === "event" &&
+		definition.kind === CHECKLIST_KINDS.EVENT &&
 		occurrence.endAt !== undefined &&
 		occurrence.endAt - now <= thresholdHours * 3_600_000
 	) {
-		return "ending-soon";
+		return CHECKLIST_STATUSES.ENDING_SOON;
 	}
-	return "active";
+	return CHECKLIST_STATUSES.ACTIVE;
 }
 
 export function formatCountdown(milliseconds: number) {
@@ -151,25 +160,26 @@ export function sortChecklistItems<
 	},
 >(items: T[]) {
 	const kindRank: Record<ChecklistDefinition["kind"], number> = {
-		event: 0,
-		permanent: 1,
-		custom: 2,
+		[CHECKLIST_KINDS.EVENT]: 0,
+		[CHECKLIST_KINDS.PERMANENT]: 1,
+		[CHECKLIST_KINDS.CUSTOM]: 2,
 	};
 	const recurrenceRank: Record<ChecklistRecurrence, number> = {
-		weekly: 0,
-		daily: 1,
-		none: 2,
-		interval_days: 2,
+		[CHECKLIST_RECURRENCES.WEEKLY]: 0,
+		[CHECKLIST_RECURRENCES.DAILY]: 1,
+		[CHECKLIST_RECURRENCES.NONE]: 2,
+		[CHECKLIST_RECURRENCES.INTERVAL_DAYS]: 2,
 	};
 	return [...items].sort((a, b) => {
 		const completionOrder =
-			Number(a.status === "completed") - Number(b.status === "completed");
+			Number(a.status === CHECKLIST_STATUSES.COMPLETED) -
+			Number(b.status === CHECKLIST_STATUSES.COMPLETED);
 		if (completionOrder) return completionOrder;
 		const kindOrder = kindRank[a.definition.kind] - kindRank[b.definition.kind];
 		if (kindOrder) return kindOrder;
 		const recurrenceOrder =
-			recurrenceRank[a.definition.recurrence ?? "none"] -
-			recurrenceRank[b.definition.recurrence ?? "none"];
+			recurrenceRank[a.definition.recurrence ?? CHECKLIST_RECURRENCES.NONE] -
+			recurrenceRank[b.definition.recurrence ?? CHECKLIST_RECURRENCES.NONE];
 		return (
 			recurrenceOrder || a.definition.title.localeCompare(b.definition.title)
 		);

@@ -3,19 +3,27 @@ import { ChecklistBadges } from "@/components/checklist/components/checklist-bad
 import { ChecklistCompletionControls } from "@/components/checklist/components/checklist-completion-controls";
 import { ChecklistStatusDisplay } from "@/components/checklist/components/checklist-status";
 import {
+	CHECKLIST_STATUSES,
 	formatCountdown,
 	isChecklistTask,
 } from "@/components/checklist/utils/checklist";
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import type { ChecklistViewItem } from "@/components/checklist/utils/checklist-view";
 import { Button } from "@/components/ui/button";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import {
+	CHECKLIST_KINDS,
+	CHECKLIST_MODES,
+	CHECKLIST_RECURRENCES,
+	type ChecklistDefinition,
+} from "@/data/CHECKLIST_DATA";
 import { cn } from "@/lib/utils";
 
 const eventRowStyles = {
-	daily: "from-teal-500/15 hover:border-teal-500/40",
-	weekly: "from-violet-500/15 hover:border-violet-500/40",
-	none: "from-fuchsia-500/15 hover:border-fuchsia-500/40",
+	[CHECKLIST_RECURRENCES.DAILY]: "from-teal-500/15 hover:border-teal-500/40",
+	[CHECKLIST_RECURRENCES.WEEKLY]:
+		"from-violet-500/15 hover:border-violet-500/40",
+	[CHECKLIST_RECURRENCES.NONE]:
+		"from-fuchsia-500/15 hover:border-fuchsia-500/40",
 } as const;
 
 type ChecklistItemRowProps = {
@@ -43,17 +51,20 @@ const getCompletedCountdown = (
 	let boundary: number | undefined;
 	let action: "due" | "ends" | "resets" = "resets";
 
-	if (definition.mode === "after_completion" && now < occurrence.startAt) {
+	if (
+		definition.mode === CHECKLIST_MODES.AFTER_COMPLETION &&
+		now < occurrence.startAt
+	) {
 		boundary = occurrence.startAt;
 	} else if (occurrence.nextResetAt) {
 		boundary = occurrence.nextResetAt;
 	} else if (occurrence.endAt) {
 		boundary = occurrence.endAt;
-		action = definition.kind === "event" ? "ends" : "due";
+		action = definition.kind === CHECKLIST_KINDS.EVENT ? "ends" : "due";
 	}
 
 	if (
-		definition.kind === "event" &&
+		definition.kind === CHECKLIST_KINDS.EVENT &&
 		occurrence.endAt &&
 		(!boundary || occurrence.endAt < boundary)
 	) {
@@ -88,18 +99,20 @@ export const ChecklistItemRow = ({
 	const { definition, occurrence, fullyCompleted, status } = item;
 	const customTask = isChecklistTask(definition);
 	const completedCountdown =
-		status === "completed" ? getCompletedCountdown(item, now) : undefined;
+		status === CHECKLIST_STATUSES.COMPLETED
+			? getCompletedCountdown(item, now)
+			: undefined;
 	const countdownLabel = fullyCompleted
 		? "Fully completed"
-		: status === "completed"
+		: status === CHECKLIST_STATUSES.COMPLETED
 			? "Completed"
-			: status === "expired"
+			: status === CHECKLIST_STATUSES.EXPIRED
 				? "Expired"
-				: status === "overdue"
+				: status === CHECKLIST_STATUSES.OVERDUE
 					? "Overdue"
-					: status === "upcoming"
+					: status === CHECKLIST_STATUSES.UPCOMING
 						? `Starts in ${formatCountdown(occurrence.startAt - now)}`
-						: definition.kind === "event" && occurrence.endAt
+						: definition.kind === CHECKLIST_KINDS.EVENT && occurrence.endAt
 							? `Ends in ${formatCountdown(occurrence.endAt - now)}`
 							: customTask && occurrence.endAt
 								? `Due in ${formatCountdown(occurrence.endAt - now)}`
@@ -108,9 +121,9 @@ export const ChecklistItemRow = ({
 									: "Available now";
 	const countdown = fullyCompleted
 		? "Fully completed"
-		: status === "completed"
+		: status === CHECKLIST_STATUSES.COMPLETED
 			? "Completed"
-			: status === "upcoming"
+			: status === CHECKLIST_STATUSES.UPCOMING
 				? `in ${formatCountdown(occurrence.startAt - now)}`
 				: countdownLabel.includes(" in ")
 					? countdownLabel.slice(countdownLabel.indexOf(" in ") + 4)
@@ -121,22 +134,22 @@ export const ChecklistItemRow = ({
 			className={cn(
 				"group relative flex min-h-14 w-full flex-col items-stretch justify-between overflow-hidden rounded-2xl border bg-card/85 p-2 shadow-sm backdrop-blur-sm transition-all hover:border-primary/30 hover:shadow-md sm:flex-row sm:items-center",
 				!customTask && "bg-gradient-to-r from-primary/10 via-card/90 to-card",
-				definition.kind === "event" &&
+				definition.kind === CHECKLIST_KINDS.EVENT &&
 					eventRowStyles[
-						definition.recurrence === "daily" ||
-						definition.recurrence === "weekly"
+						definition.recurrence === CHECKLIST_RECURRENCES.DAILY ||
+						definition.recurrence === CHECKLIST_RECURRENCES.WEEKLY
 							? definition.recurrence
-							: "none"
+							: CHECKLIST_RECURRENCES.NONE
 					],
-				definition.kind === "event" &&
+				definition.kind === CHECKLIST_KINDS.EVENT &&
 					definition.participation === "discord" &&
 					"from-[#5865F2]/15 hover:border-[#5865F2]/40",
-				status === "ending-soon" &&
+				status === CHECKLIST_STATUSES.ENDING_SOON &&
 					"from-amber-500/15 hover:border-amber-500/40",
-				status === "overdue" &&
+				status === CHECKLIST_STATUSES.OVERDUE &&
 					"from-destructive/10 hover:border-destructive/40",
-				status === "completed" && "opacity-70",
-				status === "expired" && "opacity-50",
+				status === CHECKLIST_STATUSES.COMPLETED && "opacity-70",
+				status === CHECKLIST_STATUSES.EXPIRED && "opacity-50",
 			)}
 		>
 			<div className="flex w-full min-w-0 flex-1 items-center sm:w-auto">
@@ -156,7 +169,8 @@ export const ChecklistItemRow = ({
 								customTask
 									? "text-sm sm:text-base"
 									: "text-xs sm:text-sm md:text-base",
-								(status === "completed" || status === "expired") &&
+								(status === CHECKLIST_STATUSES.COMPLETED ||
+									status === CHECKLIST_STATUSES.EXPIRED) &&
 									"line-through",
 							)}
 						>
@@ -169,18 +183,18 @@ export const ChecklistItemRow = ({
 						)}
 					</div>
 				</div>
-				{(customTask || definition.kind === "permanent") && (
+				{(customTask || definition.kind === CHECKLIST_KINDS.PERMANENT) && (
 					<div className="flex shrink-0 items-center gap-1 opacity-60 transition-opacity sm:opacity-0 sm:group-hover:opacity-75 sm:group-focus-within:opacity-100">
 						<Button
 							aria-label={
-								definition.kind === "permanent"
+								definition.kind === CHECKLIST_KINDS.PERMANENT
 									? `Edit notes for ${definition.title}`
 									: `Edit ${definition.title}`
 							}
 							size="icon-xs"
 							variant="ghost"
 							onClick={() =>
-								definition.kind === "permanent"
+								definition.kind === CHECKLIST_KINDS.PERMANENT
 									? onEditPermanentNote(definition)
 									: onEdit(definition as ChecklistTask)
 							}

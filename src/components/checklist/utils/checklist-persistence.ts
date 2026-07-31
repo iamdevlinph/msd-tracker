@@ -2,9 +2,10 @@ import {
 	type ChecklistTask,
 	normalizeChecklistTasks,
 } from "@/components/checklist/utils/checklist-task";
+import { CHECKLIST_KINDS, type ChecklistKind } from "@/data/CHECKLIST_DATA";
 
 export type ChecklistPreferences = {
-	categories: Record<"event" | "permanent" | "custom", boolean>;
+	categories: Record<ChecklistKind, boolean>;
 	showUpcoming: boolean;
 	showCompleted: boolean;
 	showExpired: boolean;
@@ -12,7 +13,11 @@ export type ChecklistPreferences = {
 };
 
 export const defaultChecklistPreferences: ChecklistPreferences = {
-	categories: { event: true, permanent: true, custom: true },
+	categories: {
+		[CHECKLIST_KINDS.EVENT]: true,
+		[CHECKLIST_KINDS.PERMANENT]: true,
+		[CHECKLIST_KINDS.CUSTOM]: true,
+	},
 	showUpcoming: true,
 	showCompleted: true,
 	showExpired: true,

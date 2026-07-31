@@ -1,4 +1,5 @@
 import {
+	CHECKLIST_STATUSES,
 	type ChecklistOccurrence,
 	type ChecklistStatus,
 	fullCompletionKey,
@@ -12,6 +13,8 @@ import {
 import type { ChecklistPreferences } from "@/components/checklist/utils/checklist-persistence";
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import {
+	CHECKLIST_KINDS,
+	CHECKLIST_MODES,
 	type ChecklistDefinition,
 	type ChecklistKind,
 	PERMANENT_EVENTS,
@@ -62,13 +65,13 @@ export const getChecklistView = ({
 				const eventFullKey = fullCompletionKey(definition);
 				const occurrenceCompleted = Boolean(completions[currentKey]);
 				const fullyCompleted =
-					definition.kind === "event" &&
+					definition.kind === CHECKLIST_KINDS.EVENT &&
 					Boolean(completions[eventFullKey]) &&
 					now >= occurrence.startAt &&
 					!(occurrence.endAt !== undefined && now >= occurrence.endAt);
 				const waitingForRollingReset =
-					definition.kind === "custom" &&
-					definition.mode === "after_completion" &&
+					definition.kind === CHECKLIST_KINDS.CUSTOM &&
+					definition.mode === CHECKLIST_MODES.AFTER_COMPLETION &&
 					Boolean(latest) &&
 					now < occurrence.startAt;
 				const completed =
@@ -78,7 +81,7 @@ export const getChecklistView = ({
 				return {
 					definition,
 					notes:
-						definition.kind === "permanent"
+						definition.kind === CHECKLIST_KINDS.PERMANENT
 							? permanentNotes[definition.id]
 							: isChecklistTask(definition)
 								? definition.notes
@@ -100,8 +103,10 @@ export const getChecklistView = ({
 			})
 			.filter(
 				({ status }) =>
-					(status !== "upcoming" || preferences.showUpcoming) &&
-					(status !== "completed" || preferences.showCompleted) &&
-					(status !== "expired" || preferences.showExpired),
+					(status !== CHECKLIST_STATUSES.UPCOMING ||
+						preferences.showUpcoming) &&
+					(status !== CHECKLIST_STATUSES.COMPLETED ||
+						preferences.showCompleted) &&
+					(status !== CHECKLIST_STATUSES.EXPIRED || preferences.showExpired),
 			),
 	);

@@ -21,6 +21,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+	CHECKLIST_KINDS,
+	CHECKLIST_MODES,
+	CHECKLIST_RECURRENCES,
+} from "@/data/CHECKLIST_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 
@@ -47,9 +52,10 @@ export const ChecklistTaskDialog = ({
 	const type = useWatch({ control: form.control, name: "type" });
 
 	useEffect(() => {
-		if (type !== "event") return;
-		if (recurrence === "interval_days") form.setValue("recurrence", "none");
-		form.setValue("mode", "fixed");
+		if (type !== CHECKLIST_KINDS.EVENT) return;
+		if (recurrence === CHECKLIST_RECURRENCES.INTERVAL_DAYS)
+			form.setValue("recurrence", CHECKLIST_RECURRENCES.NONE);
+		form.setValue("mode", CHECKLIST_MODES.FIXED);
 	}, [form, recurrence, type]);
 
 	const submit = (values: TaskForm) => {
@@ -71,7 +77,7 @@ export const ChecklistTaskDialog = ({
 				<DialogHeader>
 					<DialogTitle>
 						{task
-							? `Edit ${task.kind === "event" ? "event" : "task"}`
+							? `Edit ${task.kind === CHECKLIST_KINDS.EVENT ? CHECKLIST_KINDS.EVENT : "task"}`
 							: "Add item"}
 					</DialogTitle>
 					<DialogDescription>
@@ -92,12 +98,12 @@ export const ChecklistTaskDialog = ({
 							{...form.register("type")}
 						>
 							<option value="task">Task</option>
-							<option value="event">Event</option>
+							<option value={CHECKLIST_KINDS.EVENT}>Event</option>
 						</select>
 					</div>
 					<div className="grid gap-2">
 						<Label htmlFor="checklist-task-name">
-							{type === "event" ? "Event name" : "Task name"}
+							{type === CHECKLIST_KINDS.EVENT ? "Event name" : "Task name"}
 						</Label>
 						<Input
 							id="checklist-task-name"
@@ -119,7 +125,7 @@ export const ChecklistTaskDialog = ({
 							</p>
 						)}
 					</div>
-					{type === "event" && (
+					{type === CHECKLIST_KINDS.EVENT && (
 						<div className="grid gap-2">
 							<Label htmlFor="checklist-event-notice">
 								Event notice (optional)
@@ -167,7 +173,7 @@ export const ChecklistTaskDialog = ({
 						<div className="grid gap-2">
 							<Label htmlFor="checklist-task-due">
 								End{" "}
-								{type === "event"
+								{type === CHECKLIST_KINDS.EVENT
 									? "(Game Time - UTC)"
 									: "(optional, Game Time - UTC)"}
 							</Label>
@@ -201,15 +207,19 @@ export const ChecklistTaskDialog = ({
 								className="h-9 rounded-md border border-input bg-transparent px-3 text-sm"
 								{...form.register("recurrence")}
 							>
-								<option value="none">Does not repeat</option>
-								<option value="daily">Daily</option>
-								<option value="weekly">Weekly</option>
+								<option value={CHECKLIST_RECURRENCES.NONE}>
+									Does not repeat
+								</option>
+								<option value={CHECKLIST_RECURRENCES.DAILY}>Daily</option>
+								<option value={CHECKLIST_RECURRENCES.WEEKLY}>Weekly</option>
 								{type === "task" && (
-									<option value="interval_days">Every N days</option>
+									<option value={CHECKLIST_RECURRENCES.INTERVAL_DAYS}>
+										Every N days
+									</option>
 								)}
 							</select>
 						</div>
-						{recurrence === "interval_days" && (
+						{recurrence === CHECKLIST_RECURRENCES.INTERVAL_DAYS && (
 							<div className="grid gap-2">
 								<Label htmlFor="checklist-task-interval">Every</Label>
 								<div className="flex items-center gap-2">
@@ -239,7 +249,7 @@ export const ChecklistTaskDialog = ({
 							</div>
 						)}
 					</div>
-					{type === "task" && recurrence !== "none" && (
+					{type === "task" && recurrence !== CHECKLIST_RECURRENCES.NONE && (
 						<div className="grid gap-2">
 							<Label htmlFor="checklist-task-mode">Recurrence mode</Label>
 							<select
@@ -247,8 +257,10 @@ export const ChecklistTaskDialog = ({
 								className="h-9 rounded-md border border-input bg-transparent px-3 text-sm"
 								{...form.register("mode")}
 							>
-								<option value="fixed">Original date (fixed schedule)</option>
-								<option value="after_completion">
+								<option value={CHECKLIST_MODES.FIXED}>
+									Original date (fixed schedule)
+								</option>
+								<option value={CHECKLIST_MODES.AFTER_COMPLETION}>
 									After completion (rolling)
 								</option>
 							</select>

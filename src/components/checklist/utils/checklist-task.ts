@@ -1,7 +1,15 @@
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import {
+	CHECKLIST_EVENT_RECURRENCE_VALUES,
+	CHECKLIST_KINDS,
+	CHECKLIST_MODE_VALUES,
+	CHECKLIST_RECURRENCE_VALUES,
+	CHECKLIST_RECURRENCES,
+	type ChecklistDefinition,
+	type ChecklistKind,
+} from "@/data/CHECKLIST_DATA";
 
 export type ChecklistTask = ChecklistDefinition & {
-	kind: "custom" | "event";
+	kind: Extract<ChecklistKind, (typeof CHECKLIST_KINDS)["CUSTOM" | "EVENT"]>;
 	notes?: string;
 	scheduleVersion: number;
 	source?: "user";
@@ -47,7 +55,10 @@ export const getChecklistStartAnchor = (
 	// the legacy reset-calendar migration path for backwards compatibility.
 	if (calendarDate.includes("T")) return toUtcISOString(calendarDate);
 	const selected = new Date(`${calendarDate}T00:00:00.000Z`);
-	if (recurrence !== "weekly" || !Number.isFinite(selected.getTime())) {
+	if (
+		recurrence !== CHECKLIST_RECURRENCES.WEEKLY ||
+		!Number.isFinite(selected.getTime())
+	) {
 		return Number.isFinite(selected.getTime())
 			? selected.toISOString()
 			: calendarDate;
@@ -63,40 +74,43 @@ export const normalizeChecklistTasks = (tasks: unknown) => {
 		Object.entries(tasks).flatMap(([id, value]) => {
 			if (!value || typeof value !== "object") return [];
 			const task = value as Partial<ChecklistTask>;
-			const kind = task.kind === "event" ? "event" : "custom";
+			const kind =
+				task.kind === CHECKLIST_KINDS.EVENT
+					? CHECKLIST_KINDS.EVENT
+					: CHECKLIST_KINDS.CUSTOM;
 			if (
 				typeof task.title !== "string" ||
 				!task.title.trim() ||
 				typeof task.startAt !== "string" ||
 				!Number.isFinite(Date.parse(task.startAt)) ||
 				(task.recurrence !== undefined &&
-					(kind === "event"
-						? !["none", "daily", "weekly"].includes(task.recurrence)
-						: !["none", "daily", "weekly", "interval_days"].includes(
-								task.recurrence,
-							))) ||
+					(kind === CHECKLIST_KINDS.EVENT
+						? !CHECKLIST_EVENT_RECURRENCE_VALUES.some(
+								(recurrence) => recurrence === task.recurrence,
+							)
+						: !CHECKLIST_RECURRENCE_VALUES.includes(task.recurrence))) ||
 				(task.mode !== undefined &&
-					!["fixed", "after_completion"].includes(task.mode)) ||
-				(task.recurrence === "interval_days" &&
+					!CHECKLIST_MODE_VALUES.includes(task.mode)) ||
+				(task.recurrence === CHECKLIST_RECURRENCES.INTERVAL_DAYS &&
 					(!Number.isInteger(task.intervalDays) ||
 						(task.intervalDays ?? 0) < 1))
 			) {
 				return [];
 			}
 			const startAt =
-				kind === "event" || task.startAt.endsWith("Z")
+				kind === CHECKLIST_KINDS.EVENT || task.startAt.endsWith("Z")
 					? toUtcISOString(task.startAt)
 					: toResetAnchorDate(task.startAt);
 			const endAt =
 				typeof task.endAt === "string" &&
 				Number.isFinite(Date.parse(task.endAt))
-					? kind === "event" || task.endAt.endsWith("Z")
+					? kind === CHECKLIST_KINDS.EVENT || task.endAt.endsWith("Z")
 						? toUtcISOString(task.endAt)
 						: toResetAnchorDate(task.endAt)
 					: undefined;
-			if (kind === "event" && !endAt) return [];
+			if (kind === CHECKLIST_KINDS.EVENT && !endAt) return [];
 			if (
-				kind === "event" &&
+				kind === CHECKLIST_KINDS.EVENT &&
 				endAt &&
 				Date.parse(endAt) <= Date.parse(startAt)
 			) {
@@ -117,15 +131,19 @@ export const normalizeChecklistTasks = (tasks: unknown) => {
 						kind,
 						source: "user",
 						noticeTitle:
-							kind === "event" && typeof task.noticeTitle === "string"
+							kind === CHECKLIST_KINDS.EVENT &&
+							typeof task.noticeTitle === "string"
 								? task.noticeTitle.trim() || undefined
 								: undefined,
 						startAt,
 						endAt,
-						intervalDays: kind === "event" ? undefined : task.intervalDays,
-						mode: kind === "event" ? undefined : task.mode,
+						intervalDays:
+							kind === CHECKLIST_KINDS.EVENT ? undefined : task.intervalDays,
+						mode: kind === CHECKLIST_KINDS.EVENT ? undefined : task.mode,
 						dueDurationMinutes:
-							kind === "event" ? undefined : task.dueDurationMinutes,
+							kind === CHECKLIST_KINDS.EVENT
+								? undefined
+								: task.dueDurationMinutes,
 						scheduleVersion: scheduleVersion + Number(startAt !== task.startAt),
 					} as ChecklistTask,
 				],

@@ -1,14 +1,17 @@
 import { CalendarDays, Check, CheckCheck, RotateCcw } from "lucide-react";
-import type { ChecklistStatus } from "@/components/checklist/utils/checklist";
+import {
+	CHECKLIST_STATUSES,
+	type ChecklistStatus,
+} from "@/components/checklist/utils/checklist";
 import { cn } from "@/lib/utils";
 
 const statusPillStyles = {
-	upcoming: "bg-sky-600 text-white",
-	active: "bg-muted-foreground text-background",
-	"ending-soon": "bg-amber-500 text-amber-950",
-	completed: "bg-emerald-600 text-white",
-	expired: "bg-destructive text-destructive-foreground",
-	overdue: "bg-destructive text-destructive-foreground",
+	[CHECKLIST_STATUSES.UPCOMING]: "bg-sky-600 text-white",
+	[CHECKLIST_STATUSES.ACTIVE]: "bg-muted-foreground text-background",
+	[CHECKLIST_STATUSES.ENDING_SOON]: "bg-amber-500 text-amber-950",
+	[CHECKLIST_STATUSES.COMPLETED]: "bg-emerald-600 text-white",
+	[CHECKLIST_STATUSES.EXPIRED]: "bg-destructive text-destructive-foreground",
+	[CHECKLIST_STATUSES.OVERDUE]: "bg-destructive text-destructive-foreground",
 } as const;
 
 type ChecklistStatusProps = {
@@ -48,11 +51,12 @@ export const ChecklistStatusDisplay = ({
 		>
 			<span className="sr-only">{countdownLabel}</span>
 			<span aria-hidden="true" className="inline-flex items-center">
-				{status === "overdue" || status === "expired" ? (
+				{status === CHECKLIST_STATUSES.OVERDUE ||
+				status === CHECKLIST_STATUSES.EXPIRED ? (
 					<RotateCcw className="mr-1 size-4" />
 				) : fullyCompleted ? (
 					<CheckCheck className="mr-1 size-4" />
-				) : status === "completed" ? (
+				) : status === CHECKLIST_STATUSES.COMPLETED ? (
 					<Check className="mr-1 size-4" />
 				) : (
 					<CalendarDays className="mr-1 size-4" />

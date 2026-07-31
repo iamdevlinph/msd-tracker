@@ -99,7 +99,10 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 	] satisfies ChecklistEvent[],
 }));
 
-vi.mock("@/data/CHECKLIST_DATA", () => ({ PERMANENT_EVENTS: permanentEvents }));
+vi.mock("@/data/CHECKLIST_DATA", async (importOriginal) => ({
+	...(await importOriginal<typeof import("@/data/CHECKLIST_DATA")>()),
+	PERMANENT_EVENTS: permanentEvents,
+}));
 vi.mock("@/data/EVENTS_DATA", () => ({ EVENTS_DATA: eventsData }));
 
 vi.mock("tanstack-router-ga4", () => ({

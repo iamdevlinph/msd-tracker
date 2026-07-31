@@ -7,6 +7,7 @@ import {
 	Trash2Icon,
 } from "lucide-react";
 import type { LoadoutImageAction } from "@/components/loadouts/components/loadout-image-actions";
+import { LOADOUT_IMAGE_ACTIONS } from "@/components/loadouts/loadout-constants";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -100,11 +101,15 @@ export const LoadoutActions = ({
 				variant="outline"
 				onClick={onCopy}
 				disabled={busy}
-				aria-busy={activeImageAction === "copy"}
+				aria-busy={activeImageAction === LOADOUT_IMAGE_ACTIONS.COPY}
 				aria-label={labels.copy}
 				title={labels.copy}
 			>
-				{activeImageAction === "copy" ? <Spinner /> : <ShareIcon />}
+				{activeImageAction === LOADOUT_IMAGE_ACTIONS.COPY ? (
+					<Spinner />
+				) : (
+					<ShareIcon />
+				)}
 			</Button>
 			<Button
 				type="button"
@@ -112,11 +117,15 @@ export const LoadoutActions = ({
 				variant="outline"
 				onClick={onDownload}
 				disabled={busy}
-				aria-busy={activeImageAction === "download"}
+				aria-busy={activeImageAction === LOADOUT_IMAGE_ACTIONS.DOWNLOAD}
 				aria-label={labels.download}
 				title={labels.download}
 			>
-				{activeImageAction === "download" ? <Spinner /> : <DownloadIcon />}
+				{activeImageAction === LOADOUT_IMAGE_ACTIONS.DOWNLOAD ? (
+					<Spinner />
+				) : (
+					<DownloadIcon />
+				)}
 			</Button>
 			<AlertDialog>
 				<AlertDialogTrigger asChild>

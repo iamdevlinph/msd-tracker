@@ -14,6 +14,11 @@ import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-p
 import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-preview-surface";
 import { nextDuplicateLoadoutName } from "@/components/loadouts/components/loadout-utils";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
+import {
+	LOADOUT_ACTION_SOURCES,
+	LOADOUT_IMAGE_ACTIONS,
+	LOADOUT_TARGET_TYPES,
+} from "@/components/loadouts/loadout-constants";
 import { EditMonsterlingDialog } from "@/components/monsterlings/components/edit-monsterling-dialog";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
@@ -27,13 +32,13 @@ export const LoadoutsList = () => {
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 	const [loadoutToExport, setLoadoutToExport] = useState<string | null>(null);
 	const [editorTarget, setEditorTarget] = useState<
-		| { type: "character"; id: number }
-		| { type: "monsterling"; id: string }
-		| { type: "artifact"; id: string }
+		| { type: typeof LOADOUT_TARGET_TYPES.CHARACTER; id: number }
+		| { type: typeof LOADOUT_TARGET_TYPES.MONSTERLING; id: string }
+		| { type: typeof LOADOUT_TARGET_TYPES.ARTIFACT; id: string }
 		| null
 	>(null);
 	const exportSurfaceRef = useRef<HTMLDivElement>(null);
-	const imageActions = useLoadoutImageActions("card");
+	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.CARD);
 
 	const loadouts = useAppStore((state) => state.loadouts);
 	const setLoadout = useAppStore((state) => state.setLoadout);
@@ -115,17 +120,25 @@ export const LoadoutsList = () => {
 							onEdit={() => {
 								edit(loadout.id);
 							}}
-							onDuplicate={() => duplicate(loadout, "card")}
-							onCopy={() => void exportImage("copy", loadout)}
-							onDownload={() => void exportImage("download", loadout)}
+							onDuplicate={() =>
+								duplicate(loadout, LOADOUT_ACTION_SOURCES.CARD)
+							}
+							onCopy={() =>
+								void exportImage(LOADOUT_IMAGE_ACTIONS.COPY, loadout)
+							}
+							onDownload={() =>
+								void exportImage(LOADOUT_IMAGE_ACTIONS.DOWNLOAD, loadout)
+							}
 							onDelete={() => remove(loadout.id)}
 							onEditCharacter={(id) =>
-								setEditorTarget({ type: "character", id })
+								setEditorTarget({ type: LOADOUT_TARGET_TYPES.CHARACTER, id })
 							}
 							onEditMonsterling={(id) =>
-								setEditorTarget({ type: "monsterling", id })
+								setEditorTarget({ type: LOADOUT_TARGET_TYPES.MONSTERLING, id })
 							}
-							onEditArtifact={(id) => setEditorTarget({ type: "artifact", id })}
+							onEditArtifact={(id) =>
+								setEditorTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, id })
+							}
 							activeImageAction={
 								loadoutToExport === loadout.id
 									? imageActions.activeAction
@@ -150,32 +163,47 @@ export const LoadoutsList = () => {
 				}
 				onEdit={() => previewLoadout && edit(previewLoadout.id)}
 				onDuplicate={() =>
-					previewLoadout && duplicate(previewLoadout, "preview")
+					previewLoadout &&
+					duplicate(previewLoadout, LOADOUT_ACTION_SOURCES.PREVIEW)
 				}
 				onDelete={() => previewLoadout && remove(previewLoadout.id)}
-				onEditCharacter={(id) => setEditorTarget({ type: "character", id })}
-				onEditMonsterling={(id) => setEditorTarget({ type: "monsterling", id })}
-				onEditArtifact={(id) => setEditorTarget({ type: "artifact", id })}
+				onEditCharacter={(id) =>
+					setEditorTarget({ type: LOADOUT_TARGET_TYPES.CHARACTER, id })
+				}
+				onEditMonsterling={(id) =>
+					setEditorTarget({ type: LOADOUT_TARGET_TYPES.MONSTERLING, id })
+				}
+				onEditArtifact={(id) =>
+					setEditorTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, id })
+				}
 			/>
 			<EditCharacterDetailsDialog
 				charIdToEdit={
-					editorTarget?.type === "character" ? editorTarget.id : null
+					editorTarget?.type === LOADOUT_TARGET_TYPES.CHARACTER
+						? editorTarget.id
+						: null
 				}
-				open={editorTarget?.type === "character"}
+				open={editorTarget?.type === LOADOUT_TARGET_TYPES.CHARACTER}
 				setOpen={setEditorOpen}
 				onClose={() => setEditorTarget(null)}
 			/>
 			<EditMonsterlingDialog
 				monsterlingToEdit={
-					editorTarget?.type === "monsterling" ? editorTarget.id : null
+					editorTarget?.type === LOADOUT_TARGET_TYPES.MONSTERLING
+						? editorTarget.id
+						: null
 				}
-				open={editorTarget?.type === "monsterling"}
+				open={editorTarget?.type === LOADOUT_TARGET_TYPES.MONSTERLING}
 				setOpen={setEditorOpen}
 				onClose={() => setEditorTarget(null)}
 			/>
 			<EditArtifactDetailsDialog
-				instanceId={editorTarget?.type === "artifact" ? editorTarget.id : null}
-				open={editorTarget?.type === "artifact"}
+				instanceId={
+					editorTarget?.type === LOADOUT_TARGET_TYPES.ARTIFACT
+						? editorTarget.id
+						: null
+				}
+				open={editorTarget?.type === LOADOUT_TARGET_TYPES.ARTIFACT}
 				setOpen={setEditorOpen}
 				onClose={() => setEditorTarget(null)}
 			/>

@@ -5,6 +5,7 @@ import { LoadoutCharacterPicker } from "@/components/loadouts/components/loadout
 import { LoadoutEditor } from "@/components/loadouts/components/loadout-editor";
 import { LoadoutMonsterlingPicker } from "@/components/loadouts/components/loadout-monsterling-picker";
 import { useLoadoutDialogController } from "@/components/loadouts/hooks/use-loadout-dialog-controller";
+import { LOADOUT_TARGET_TYPES } from "@/components/loadouts/loadout-constants";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -37,19 +38,19 @@ export const LoadoutsDialog = ({
 		onClose,
 	);
 	const title =
-		controller.pickerTarget?.type === "character"
+		controller.pickerTarget?.type === LOADOUT_TARGET_TYPES.CHARACTER
 			? "Select Character"
-			: controller.pickerTarget?.type === "monsterling"
+			: controller.pickerTarget?.type === LOADOUT_TARGET_TYPES.MONSTERLING
 				? `Select ${controller.pickerTarget.legendary ? "Legendary " : ""}Monsterling`
-				: controller.pickerTarget?.type === "artifact"
+				: controller.pickerTarget?.type === LOADOUT_TARGET_TYPES.ARTIFACT
 					? "Select Artifact"
 					: loadoutToEdit
 						? "Edit Team Loadout"
 						: "Add Team Loadout";
 	const description = controller.pickerTarget
-		? controller.pickerTarget.type === "character"
+		? controller.pickerTarget.type === LOADOUT_TARGET_TYPES.CHARACTER
 			? "Search and filter your owned characters."
-			: controller.pickerTarget.type === "monsterling"
+			: controller.pickerTarget.type === LOADOUT_TARGET_TYPES.MONSTERLING
 				? "Search owned monsterlings by name or tier."
 				: "Search and filter your owned artifacts."
 		: "Select three owned characters and assign their monsterlings.";
@@ -85,7 +86,7 @@ export const LoadoutsDialog = ({
 					<DialogDescription>{description}</DialogDescription>
 				</DialogHeader>
 				<div className="min-h-0 overflow-y-auto p-4">
-					{controller.pickerTarget?.type === "character" ? (
+					{controller.pickerTarget?.type === LOADOUT_TARGET_TYPES.CHARACTER ? (
 						<LoadoutCharacterPicker
 							filters={controller.characterFilters}
 							onFiltersChange={controller.setCharacterFilters}
@@ -98,7 +99,8 @@ export const LoadoutsDialog = ({
 							}
 							onSelect={controller.selectCharacter}
 						/>
-					) : controller.pickerTarget?.type === "monsterling" ? (
+					) : controller.pickerTarget?.type ===
+						LOADOUT_TARGET_TYPES.MONSTERLING ? (
 						<LoadoutMonsterlingPicker
 							filters={controller.monsterlingFilters}
 							onFiltersChange={controller.setMonsterlingFilters}
@@ -121,7 +123,8 @@ export const LoadoutsDialog = ({
 							legendary={controller.pickerTarget.legendary}
 							onSelect={controller.selectMonsterling}
 						/>
-					) : controller.pickerTarget?.type === "artifact" ? (
+					) : controller.pickerTarget?.type ===
+						LOADOUT_TARGET_TYPES.ARTIFACT ? (
 						<LoadoutArtifactPicker
 							filters={controller.artifactFilters}
 							onFiltersChange={controller.setArtifactFilters}

@@ -1,7 +1,9 @@
 import { Check, CheckCheck, Undo2 } from "lucide-react";
+import { CHECKLIST_STATUSES } from "@/components/checklist/utils/checklist";
 import type { ChecklistViewItem } from "@/components/checklist/utils/checklist-view";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { CHECKLIST_KINDS, CHECKLIST_RECURRENCES } from "@/data/CHECKLIST_DATA";
 import { cn } from "@/lib/utils";
 
 type ChecklistCompletionControlsProps = {
@@ -27,9 +29,13 @@ export const ChecklistCompletionControls = ({
 		fullyCompleted,
 		status,
 	} = item;
-	const canComplete = status !== "upcoming" && status !== "expired";
+	const canComplete =
+		status !== CHECKLIST_STATUSES.UPCOMING &&
+		status !== CHECKLIST_STATUSES.EXPIRED;
 	const occurrenceIsCompleted =
-		definition.kind === "event" ? occurrenceCompleted : status === "completed";
+		definition.kind === CHECKLIST_KINDS.EVENT
+			? occurrenceCompleted
+			: status === CHECKLIST_STATUSES.COMPLETED;
 	const occurrenceButton = (
 		<Button
 			aria-label={
@@ -40,7 +46,7 @@ export const ChecklistCompletionControls = ({
 			aria-pressed={occurrenceIsCompleted}
 			className={cn(
 				"size-8 border-0 bg-muted-foreground/35 p-1 text-foreground shadow-none hover:bg-muted-foreground/55",
-				definition.kind !== "event" && "mr-2 rounded-full",
+				definition.kind !== CHECKLIST_KINDS.EVENT && "mr-2 rounded-full",
 				occurrenceIsCompleted &&
 					"bg-primary text-primary-foreground hover:bg-primary/90",
 			)}
@@ -70,7 +76,8 @@ export const ChecklistCompletionControls = ({
 			aria-pressed={fullyCompleted}
 			className={cn(
 				"size-8 border-0 bg-muted-foreground/35 p-1 text-foreground shadow-none hover:bg-muted-foreground/55",
-				definition.recurrence !== "daily" && "mr-2 rounded-full",
+				definition.recurrence !== CHECKLIST_RECURRENCES.DAILY &&
+					"mr-2 rounded-full",
 				fullyCompleted &&
 					"bg-primary text-primary-foreground hover:bg-primary/90",
 			)}
@@ -91,8 +98,9 @@ export const ChecklistCompletionControls = ({
 		</Button>
 	);
 
-	if (definition.kind !== "event") return occurrenceButton;
-	if (definition.recurrence !== "daily") return fullCompletionButton;
+	if (definition.kind !== CHECKLIST_KINDS.EVENT) return occurrenceButton;
+	if (definition.recurrence !== CHECKLIST_RECURRENCES.DAILY)
+		return fullCompletionButton;
 	return (
 		<ButtonGroup
 			aria-label={`${definition.title} completion controls`}
