@@ -1,6 +1,6 @@
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
+import { TierPortrait } from "@/components/shared/tier-portrait";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
-import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type ArtifactCardProps = {
@@ -8,6 +8,7 @@ type ArtifactCardProps = {
 	fusionLevel?: number;
 	className?: string;
 	imageClassName?: string;
+	portraitSize?: number;
 };
 
 export const ArtifactCard = ({
@@ -15,33 +16,27 @@ export const ArtifactCard = ({
 	fusionLevel,
 	className,
 	imageClassName,
+	portraitSize = 144,
 }: ArtifactCardProps) => (
 	<PortraitWithName
 		name={artifact.name}
-		className={cn("h-44 w-36 overflow-hidden rounded", className)}
-		nameClassName="bg-transparent text-shadow-sm/80"
+		className={cn("overflow-hidden rounded", className)}
+		nameClassName="z-20 text-shadow-sm/80"
+		style={{ height: portraitSize, width: portraitSize }}
 	>
-		<img
-			src={TIERS_DATA[artifact.tier_id].full}
-			alt={`Tier ${artifact.tier_id} background`}
-			className="absolute inset-0 size-full object-fill"
+		<TierPortrait
+			tier={artifact.tier_id}
+			portraitImg={artifact.image}
+			portraitSize={portraitSize}
+			name={artifact.name}
+			portraitClassName={cn("size-full object-contain p-3", imageClassName)}
 		/>
-		<div className="relative h-full w-full">
+		{fusionLevel != null && (
 			<img
-				src={artifact.image}
-				alt={artifact.name}
-				className={cn(
-					"absolute inset-0 h-full w-full object-contain p-3",
-					imageClassName,
-				)}
+				src={`/images/Character/Icon_shield_big${fusionLevel}.png`}
+				alt={`Fusion level ${fusionLevel}`}
+				className="absolute left-1 top-1 z-10 h-7 w-7 drop-shadow-lg"
 			/>
-			{fusionLevel != null && (
-				<img
-					src={`/images/Character/Icon_shield_big${fusionLevel}.png`}
-					alt={`Fusion level ${fusionLevel}`}
-					className="absolute left-1 top-1 z-10 h-7 w-7 drop-shadow-lg"
-				/>
-			)}
-		</div>
+		)}
 	</PortraitWithName>
 );

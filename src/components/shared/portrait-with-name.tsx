@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type PortraitWithNameProps = {
@@ -6,6 +6,7 @@ type PortraitWithNameProps = {
 	children: ReactNode;
 	className?: string;
 	nameClassName?: string;
+	style?: CSSProperties;
 };
 
 export const PortraitWithName = ({
@@ -13,12 +14,13 @@ export const PortraitWithName = ({
 	children,
 	className,
 	nameClassName,
+	style,
 }: PortraitWithNameProps) => (
-	<div className={cn("relative", className)}>
+	<div className={cn("relative", className)} style={style}>
 		{children}
 		<span
 			className={cn(
-				"absolute inset-x-1 bottom-1 z-10 truncate rounded bg-black/65 px-1 py-0.5 text-center text-[10px] text-white",
+				"absolute inset-x-1 bottom-1 z-10 truncate rounded bg-black/80 px-1 py-0.5 text-center text-[10px] text-white",
 				nameClassName,
 			)}
 		>

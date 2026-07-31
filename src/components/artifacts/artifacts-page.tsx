@@ -71,7 +71,7 @@ export const ArtifactsPage = () => {
 								<ArtifactCard
 									artifact={artifact}
 									fusionLevel={value.fusion_level}
-									className="size-[120px]"
+									portraitSize={120}
 									imageClassName="p-1"
 								/>
 							</button>

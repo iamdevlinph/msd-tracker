@@ -36,7 +36,8 @@ describe("ArtifactsPage", () => {
 		expect(screen.getByRole("button", { name: "Tier 4" })).toBeTruthy();
 		expect(screen.getByRole("button", { name: "Tier 5" })).toBeTruthy();
 		expect(screen.queryByRole("combobox", { name: /sort/i })).toBeNull();
-		const artifactPortrait = screen.getByAltText("Fall from Grace");
+		expect(screen.getByText("Fall from Grace").className).toContain("z-20");
+		const artifactPortrait = screen.getByAltText("Fall from Grace portrait");
 		expect(artifactPortrait.className).toContain("p-1");
 		expect(artifactPortrait.closest("button")?.className).toContain(
 			"w-[120px]",
