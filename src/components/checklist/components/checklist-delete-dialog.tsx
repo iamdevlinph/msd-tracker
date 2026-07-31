@@ -9,7 +9,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { CHECKLIST_KINDS } from "@/data/CHECKLIST_DATA";
+import { CHECKLIST_KINDS } from "@/data/checklist/CHECKLIST_DATA";
 
 type ChecklistDeleteDialogProps = {
 	task?: ChecklistTask;

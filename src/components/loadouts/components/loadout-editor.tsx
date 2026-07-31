@@ -1,8 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import type { StoreState } from "@/stores/app-store";
 import type {
 	LoadoutCharacterSlot,

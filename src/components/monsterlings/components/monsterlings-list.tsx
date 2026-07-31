@@ -5,7 +5,7 @@ import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/mon
 import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 type MonsterlingsListProps = { filters: MonsterlingFilters };

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EVENTS_DATA } from "@/data/EVENTS_DATA";
+import { EVENTS_DATA } from "@/data/events/EVENTS_DATA";
 
 const EXPIRED_EVENT_IDS = [
 	"100-day-anniversary-bonus-time",
@@ -75,7 +75,7 @@ describe("EVENTS_DATA", () => {
 
 	it("defines versioned permanent schedules", async () => {
 		const { CURRENT_SEASON_COMPLETION_VERSION, PERMANENT_EVENTS } =
-			await import("@/data/CHECKLIST_DATA");
+			await import("@/data/checklist/CHECKLIST_DATA");
 		const permanentById = Object.fromEntries(
 			PERMANENT_EVENTS.map((event) => [event.id, event]),
 		);

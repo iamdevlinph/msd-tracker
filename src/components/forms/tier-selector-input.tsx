@@ -14,7 +14,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import type { TierId } from "@/data/TIERS_DATA";
+import type { TierId } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type TierSelectorInputProps<T extends FieldValues> = {

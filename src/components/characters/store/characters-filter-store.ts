@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import type { CharacterClassId } from "@/data/CHARACTER_CLASS_DATA";
-import type { ElementId } from "@/data/ELEMENTS_DATA";
-import type { TierId } from "@/data/TIERS_DATA";
+import type { CharacterClassId } from "@/data/character-classes/CHARACTER_CLASS_DATA";
+import type { ElementId } from "@/data/elements/ELEMENTS_DATA";
+import type { TierId } from "@/data/tiers/TIERS_DATA";
 
 export type CharacterStoreState = {
 	characterFilters: CharacterFilters;

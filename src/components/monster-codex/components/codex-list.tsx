@@ -5,9 +5,9 @@ import {
 	useCodexStore,
 } from "@/components/monster-codex/store/codex-store";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
-import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
+import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const MonsterlingCardMemo = memo(CodexCard);

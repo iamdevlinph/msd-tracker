@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { TierId } from "@/data/TIERS_DATA";
+import type { TierId } from "@/data/tiers/TIERS_DATA";
 
 export type MonsterlingFilters = {
 	search: string;

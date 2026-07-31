@@ -5,7 +5,7 @@ import {
 	getOccurrence,
 	occurrenceKey,
 } from "@/components/checklist/utils/checklist";
-import type { ChecklistEvent } from "@/data/EVENTS_DATA";
+import type { ChecklistEvent } from "@/data/events/EVENTS_DATA";
 
 const DAY = 86_400_000;
 const dailyEvent = {

@@ -18,10 +18,10 @@ import {
 	emptyMonsterlingFilters,
 	type MonsterlingFilters,
 } from "@/components/monsterlings/store/monsterlings-filter-store";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import {

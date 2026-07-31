@@ -10,8 +10,8 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { showFutureLoadoutSlots } from "@/components/loadouts/components/loadout-utils";
 import { LoadoutsList } from "@/components/loadouts/components/loadouts-list";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { SITE_URL } from "@/lib/seo";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";

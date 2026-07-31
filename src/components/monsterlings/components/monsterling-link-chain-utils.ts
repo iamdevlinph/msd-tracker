@@ -1,4 +1,4 @@
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 
 export const LINK_CHAIN_LEVELS = [1, 2, 3, 4, 5] as const;
 export type LinkChainLevel = (typeof LINK_CHAIN_LEVELS)[number];

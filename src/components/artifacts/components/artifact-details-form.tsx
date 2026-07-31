@@ -8,7 +8,10 @@ import { TierSelectorInput } from "@/components/forms/tier-selector-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
-import { ARTIFACTS_DATA, type ArtifactId } from "@/data/ARTIFACTS_DATA";
+import {
+	ARTIFACTS_DATA,
+	type ArtifactId,
+} from "@/data/artifacts/ARTIFACTS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 

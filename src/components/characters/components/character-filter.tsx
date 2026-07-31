@@ -15,9 +15,9 @@ import { SearchInput } from "@/components/ui/search-input";
 import {
 	CHARACTER_CLASS_DATA,
 	type CharacterClassId,
-} from "@/data/CHARACTER_CLASS_DATA";
-import { ELEMENTS_DATA, type ElementId } from "@/data/ELEMENTS_DATA";
-import { TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
+} from "@/data/character-classes/CHARACTER_CLASS_DATA";
+import { ELEMENTS_DATA, type ElementId } from "@/data/elements/ELEMENTS_DATA";
+import { TIERS_DATA, type TierId } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type CharacterFilterProps = {

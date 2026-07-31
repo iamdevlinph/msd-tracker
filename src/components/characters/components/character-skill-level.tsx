@@ -4,7 +4,10 @@ import {
 	getAwakeningBonus,
 	isMaxSkill,
 } from "@/components/characters/utils/character-utils";
-import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
+import {
+	IMAGE_MAPPING,
+	IMAGE_MAPPING_ID,
+} from "@/data/image-mapping/IMAGE_MAPPING_DATA";
 import { cn } from "@/lib/utils";
 
 type CharacterSkillLevelProps = {

@@ -6,8 +6,8 @@ import {
 	type LinkChainLevel,
 	type MonsterlingLinkChainLevels,
 } from "@/components/monsterlings/components/monsterling-link-chain-utils";
-import type { CharId } from "@/data/CHARACTERS_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import type { CharId } from "@/data/characters/CHARACTERS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import type { StoreState } from "@/stores/app-store";
 
 export type MonsterlingsSlice = {

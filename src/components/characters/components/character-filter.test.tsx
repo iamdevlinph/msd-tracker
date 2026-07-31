@@ -13,8 +13,8 @@ import {
 	emptyCharacterFilters,
 	useCharacterFilter,
 } from "@/components/characters/store/characters-filter-store";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const owned = {

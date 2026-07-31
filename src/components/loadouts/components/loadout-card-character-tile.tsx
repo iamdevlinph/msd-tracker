@@ -1,7 +1,7 @@
 import type { CharacterOwned } from "@/components/characters/components/character-details-form";
-import type { Character } from "@/data/CHARACTERS_DATA";
-import type { ELEMENTS_DATA, ElementId } from "@/data/ELEMENTS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import type { Character } from "@/data/characters/CHARACTERS_DATA";
+import type { ELEMENTS_DATA, ElementId } from "@/data/elements/ELEMENTS_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 
 type LoadoutCardCharacterTileProps = {
 	character: Character | null;

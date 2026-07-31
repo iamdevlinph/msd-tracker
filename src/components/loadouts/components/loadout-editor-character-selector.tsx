@@ -1,6 +1,6 @@
 import { Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Character } from "@/data/CHARACTERS_DATA";
+import type { Character } from "@/data/characters/CHARACTERS_DATA";
 
 type LoadoutEditorCharacterSelectorProps = {
 	character: Character | null;

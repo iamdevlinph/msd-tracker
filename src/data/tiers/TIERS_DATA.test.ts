@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 
 describe("TIERS_DATA", () => {
 	it("defines the extracted color for every tier", () => {

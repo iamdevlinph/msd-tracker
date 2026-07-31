@@ -7,7 +7,7 @@ import {
 	occurrenceKey,
 	sortChecklistItems,
 } from "@/components/checklist/utils/checklist";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
 import type { ChecklistTask } from "@/stores/checklist-slice";
 
 const daily: ChecklistDefinition = {

@@ -16,7 +16,7 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { preventSearchInputDismissOnEscape } from "@/components/ui/search-input";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 

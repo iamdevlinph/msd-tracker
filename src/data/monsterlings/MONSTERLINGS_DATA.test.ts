@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 
 const EXPECTED_LINK_CHAINS = {
 	Amon: "Void's Seed",

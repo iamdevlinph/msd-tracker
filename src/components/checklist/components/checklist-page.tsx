@@ -15,7 +15,7 @@ import {
 } from "@/components/checklist/utils/checklist-view";
 import { PageTitle } from "@/components/shared/page-title";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 

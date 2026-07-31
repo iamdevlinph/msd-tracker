@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 

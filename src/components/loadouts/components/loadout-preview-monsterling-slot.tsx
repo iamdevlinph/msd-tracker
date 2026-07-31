@@ -1,6 +1,6 @@
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import type { StoreState } from "@/stores/app-store";
 import { LoadoutPreviewPlaceholder } from "./loadout-preview-placeholder-slot";
 

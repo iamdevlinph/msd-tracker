@@ -1,5 +1,5 @@
-import type { Artifact } from "@/data/ARTIFACTS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type ArtifactCardProps = {

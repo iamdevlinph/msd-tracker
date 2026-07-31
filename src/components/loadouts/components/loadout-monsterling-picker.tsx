@@ -3,7 +3,7 @@ import { MonsterlingFilter } from "@/components/monsterlings/components/monsterl
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexEntry } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
 
 export type LoadoutMonsterlingOption = MonsterlingOwned & {

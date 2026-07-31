@@ -32,7 +32,7 @@ const { monsterlingsData } = vi.hoisted(() => ({
 vi.mock("@/components/account/google/utils/drive-client", () => ({
 	driveFetch,
 }));
-vi.mock("@/data/MONSTERLINGS_DATA", () => ({
+vi.mock("@/data/monsterlings/MONSTERLINGS_DATA", () => ({
 	MONSTERLINGS_DATA: monsterlingsData,
 }));
 

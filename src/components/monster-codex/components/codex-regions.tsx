@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { useCodexStore } from "@/components/monster-codex/store/codex-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { REGIONS_DATA } from "@/data/REGIONS_DATA";
+import { REGIONS_DATA } from "@/data/regions/REGIONS_DATA";
 import { cn } from "@/lib/utils";
 
 export const CodexRegions = () => {

@@ -1,9 +1,9 @@
 import type { CharacterOwned } from "@/components/characters/components/character-details-form";
 import { TierPortrait } from "@/components/shared/tier-portrait";
-import { CHARACTER_CLASS_DATA } from "@/data/CHARACTER_CLASS_DATA";
-import type { Character } from "@/data/CHARACTERS_DATA";
-import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { CHARACTER_CLASS_DATA } from "@/data/character-classes/CHARACTER_CLASS_DATA";
+import type { Character } from "@/data/characters/CHARACTERS_DATA";
+import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type CharacterCardProps = Pick<

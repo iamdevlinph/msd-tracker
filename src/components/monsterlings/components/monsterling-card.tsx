@@ -3,9 +3,9 @@ import type { MonsterlingOwned } from "@/components/monsterlings/components/mons
 import { MonsterlingLinkChainBadge } from "@/components/monsterlings/components/monsterling-link-chain";
 import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { TierPortrait } from "@/components/shared/tier-portrait";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { STAT_DATA } from "@/data/STAT_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { STAT_DATA } from "@/data/stats/STAT_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 export type MonsterlingCardProps = MonsterlingOwned & {

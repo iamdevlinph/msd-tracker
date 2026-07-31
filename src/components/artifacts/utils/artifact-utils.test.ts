@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { filterArtifacts } from "@/components/artifacts/utils/artifact-utils";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 
 describe("artifact filters", () => {
 	it("filters case-insensitively with OR within and AND across groups", () => {

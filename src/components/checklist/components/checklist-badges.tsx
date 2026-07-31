@@ -5,7 +5,7 @@ import {
 	CHECKLIST_KINDS,
 	CHECKLIST_RECURRENCES,
 	type ChecklistDefinition,
-} from "@/data/CHECKLIST_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
 import { cn } from "@/lib/utils";
 
 const SEASONAL_BADGE_COLOR = "#16a34a";

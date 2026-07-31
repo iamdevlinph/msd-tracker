@@ -1,7 +1,7 @@
-import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
-import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
-import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
-import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
+import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
+import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
+import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
 
 export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	145: {

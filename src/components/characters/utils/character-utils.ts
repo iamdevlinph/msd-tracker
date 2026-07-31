@@ -1,5 +1,5 @@
 import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
-import type { Character } from "@/data/CHARACTERS_DATA";
+import type { Character } from "@/data/characters/CHARACTERS_DATA";
 
 export function getAwakeningBonus(awakeningBoost: number) {
 	if (awakeningBoost >= 5) return 4;

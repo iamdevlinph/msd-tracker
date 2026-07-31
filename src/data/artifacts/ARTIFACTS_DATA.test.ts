@@ -1,10 +1,10 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
-import { CHARACTER_CLASS_DATA } from "@/data/CHARACTER_CLASS_DATA";
-import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { CHARACTER_CLASS_DATA } from "@/data/character-classes/CHARACTER_CLASS_DATA";
+import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 
 describe("artifacts data", () => {
 	it("contains all local artifact images with stable unique ids", () => {

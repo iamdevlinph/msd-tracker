@@ -17,7 +17,10 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { preventSearchInputDismissOnEscape } from "@/components/ui/search-input";
-import { ARTIFACTS_DATA, type ArtifactId } from "@/data/ARTIFACTS_DATA";
+import {
+	ARTIFACTS_DATA,
+	type ArtifactId,
+} from "@/data/artifacts/ARTIFACTS_DATA";
 import { cn } from "@/lib/utils";
 
 export const AddArtifact = () => {

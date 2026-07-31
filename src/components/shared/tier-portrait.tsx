@@ -1,4 +1,8 @@
-import { TIER_ID_BY_TIER, TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
+import {
+	TIER_ID_BY_TIER,
+	TIERS_DATA,
+	type TierId,
+} from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 export type TierPortrait = {

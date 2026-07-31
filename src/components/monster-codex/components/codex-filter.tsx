@@ -18,7 +18,7 @@ import {
 import {
 	MONSTERLINGS_SOURCE_DATA,
 	type SourceId,
-} from "@/data/MONSTERLINGS_SOURCE_DATA";
+} from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 
 export const CodexFilter = () => {
 	const setCodexFilters = useCodexStore((s) => s.setCodexFilters);

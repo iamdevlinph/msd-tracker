@@ -4,9 +4,12 @@ import {
 	type CharacterSkill,
 } from "@/components/characters/utils/character-domain-values";
 import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
-import type { Character } from "@/data/CHARACTERS_DATA";
-import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
-import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
+import type { Character } from "@/data/characters/CHARACTERS_DATA";
+import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import {
+	IMAGE_MAPPING,
+	IMAGE_MAPPING_ID,
+} from "@/data/image-mapping/IMAGE_MAPPING_DATA";
 
 const SKILLS = [
 	["Special", IMAGE_MAPPING_ID.SKILL_SPECIAL, CHARACTER_SKILLS.SPECIAL],

@@ -31,7 +31,7 @@ const { monsterlingsData, monsterlingOptions } = vi.hoisted(() => ({
 	],
 }));
 
-vi.mock("@/data/MONSTERLINGS_DATA", () => ({
+vi.mock("@/data/monsterlings/MONSTERLINGS_DATA", () => ({
 	MONSTERLINGS_DATA: monsterlingsData,
 }));
 vi.mock("@/components/monsterlings/store/monsterlings-options-store", () => ({

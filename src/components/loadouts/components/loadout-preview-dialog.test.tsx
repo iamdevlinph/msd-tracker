@@ -2,7 +2,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
-import { STAT_ID_BY_STAT } from "@/data/STAT_DATA";
+import { STAT_ID_BY_STAT } from "@/data/stats/STAT_DATA";
 import { SITE_URL } from "@/lib/seo";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";

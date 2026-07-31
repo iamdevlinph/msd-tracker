@@ -8,7 +8,7 @@ import {
 } from "@/components/characters/store/characters-filter-store";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 type CharacterOwnedListProps = { filters: CharacterFilters };

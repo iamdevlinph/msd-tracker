@@ -2,7 +2,10 @@ import {
 	type ChecklistTask,
 	normalizeChecklistTasks,
 } from "@/components/checklist/utils/checklist-task";
-import { CHECKLIST_KINDS, type ChecklistKind } from "@/data/CHECKLIST_DATA";
+import {
+	CHECKLIST_KINDS,
+	type ChecklistKind,
+} from "@/data/checklist/CHECKLIST_DATA";
 
 export type ChecklistPreferences = {
 	categories: Record<ChecklistKind, boolean>;

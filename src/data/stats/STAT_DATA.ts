@@ -9,7 +9,7 @@ type StatData = Record<
 	}
 >;
 
-import { TIER_ID_BY_TIER, type TierId } from "@/data/TIERS_DATA";
+import { TIER_ID_BY_TIER, type TierId } from "@/data/tiers/TIERS_DATA";
 
 export const STAT_ID_BY_STAT = {
 	PHYS_DMG: 1,

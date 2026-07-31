@@ -9,7 +9,7 @@ import {
 } from "@/components/artifacts/utils/artifact-utils";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { PageTitle } from "@/components/shared/page-title";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 export const ArtifactsPage = () => {

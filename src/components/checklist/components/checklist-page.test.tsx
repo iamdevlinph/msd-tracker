@@ -9,8 +9,8 @@ import {
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ChecklistPage } from "@/components/checklist/components/checklist-page";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
-import type { ChecklistEvent } from "@/data/EVENTS_DATA";
+import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
+import type { ChecklistEvent } from "@/data/events/EVENTS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
@@ -99,11 +99,11 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 	] satisfies ChecklistEvent[],
 }));
 
-vi.mock("@/data/CHECKLIST_DATA", async (importOriginal) => ({
-	...(await importOriginal<typeof import("@/data/CHECKLIST_DATA")>()),
+vi.mock("@/data/checklist/CHECKLIST_DATA", async (importOriginal) => ({
+	...(await importOriginal<typeof import("@/data/checklist/CHECKLIST_DATA")>()),
 	PERMANENT_EVENTS: permanentEvents,
 }));
-vi.mock("@/data/EVENTS_DATA", () => ({ EVENTS_DATA: eventsData }));
+vi.mock("@/data/events/EVENTS_DATA", () => ({ EVENTS_DATA: eventsData }));
 
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),

@@ -6,7 +6,7 @@ import {
 	CHECKLIST_RECURRENCES,
 	type ChecklistDefinition,
 	type ChecklistKind,
-} from "@/data/CHECKLIST_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
 
 export type ChecklistTask = ChecklistDefinition & {
 	kind: Extract<ChecklistKind, (typeof CHECKLIST_KINDS)["CUSTOM" | "EVENT"]>;

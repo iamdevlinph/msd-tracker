@@ -1,4 +1,4 @@
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";

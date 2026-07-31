@@ -10,8 +10,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
 import { useMonsterlingFilter } from "@/components/monsterlings/store/monsterlings-filter-store";
-import { ELEMENT_ID_BY_ELEMENT } from "@/data/ELEMENTS_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 

@@ -1,6 +1,6 @@
 import { Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Artifact } from "@/data/ARTIFACTS_DATA";
+import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
 import type { ArtifactOwned } from "@/stores/artifacts-owned-slice";
 
 type LoadoutEditorArtifactSelectorProps = {

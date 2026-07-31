@@ -18,8 +18,8 @@ import {
 	type ChecklistDefinition,
 	type ChecklistKind,
 	PERMANENT_EVENTS,
-} from "@/data/CHECKLIST_DATA";
-import { EVENTS_DATA } from "@/data/EVENTS_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
+import { EVENTS_DATA } from "@/data/events/EVENTS_DATA";
 
 export type ChecklistTab = ChecklistKind | "all";
 

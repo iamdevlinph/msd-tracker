@@ -3,7 +3,7 @@ import { ComboboxFormInput } from "@/components/forms/combobox-form-input";
 import { useStatOptionStore } from "@/components/monsterlings/store/stat-options-store";
 import { ComboboxItem } from "@/components/ui/combobox";
 import type { SelectOption } from "@/constants";
-import { STAT_DATA } from "@/data/STAT_DATA";
+import { STAT_DATA } from "@/data/stats/STAT_DATA";
 
 type Props<T extends FieldValues> = {
 	name: Path<T>;

@@ -2,7 +2,7 @@ import { Plus, RotateCcw } from "lucide-react";
 import type { ChecklistTab } from "@/components/checklist/utils/checklist-view";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CHECKLIST_KINDS } from "@/data/CHECKLIST_DATA";
+import { CHECKLIST_KINDS } from "@/data/checklist/CHECKLIST_DATA";
 
 type ChecklistEmptyStateProps = { tab: ChecklistTab; onAdd: () => void };
 

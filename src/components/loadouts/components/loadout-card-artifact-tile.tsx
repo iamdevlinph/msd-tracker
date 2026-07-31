@@ -1,4 +1,4 @@
-import type { Artifact } from "@/data/ARTIFACTS_DATA";
+import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
 import type { ArtifactOwned } from "@/stores/artifacts-owned-slice";
 
 type LoadoutCardArtifactTileProps = {

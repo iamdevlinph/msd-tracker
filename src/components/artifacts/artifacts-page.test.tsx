@@ -9,7 +9,7 @@ import {
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ArtifactsPage } from "@/components/artifacts/artifacts-page";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 describe("ArtifactsPage", () => {

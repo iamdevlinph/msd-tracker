@@ -7,7 +7,7 @@ import {
 	ButtonGroupSeparator,
 } from "@/components/ui/button-group";
 import { SearchInput } from "@/components/ui/search-input";
-import { TIERS_DATA, type TierId } from "@/data/TIERS_DATA";
+import { TIERS_DATA, type TierId } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type MonsterlingFilterProps = {

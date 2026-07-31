@@ -1,6 +1,6 @@
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import { TierPortrait } from "@/components/shared/tier-portrait";
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexEntry } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
 
 type LoadoutCardMonsterlingTileProps = {

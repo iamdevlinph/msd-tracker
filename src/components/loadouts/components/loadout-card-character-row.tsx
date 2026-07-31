@@ -1,7 +1,7 @@
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
-import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
-import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";

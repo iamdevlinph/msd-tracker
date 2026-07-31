@@ -7,8 +7,8 @@ import {
 	emptyMonsterlingFilters,
 	useMonsterlingFilter,
 } from "@/components/monsterlings/store/monsterlings-filter-store";
-import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const first = MONSTERLINGS_DATA[67];

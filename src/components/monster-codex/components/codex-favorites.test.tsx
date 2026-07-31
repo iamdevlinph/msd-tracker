@@ -9,8 +9,8 @@ import {
 	initialCodexFilters,
 	useCodexStore,
 } from "@/components/monster-codex/store/codex-store";
-import type { MonsterCodexData } from "@/data/MONSTERLINGS_DATA";
-import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
+import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
+import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 const { event } = vi.hoisted(() => ({ event: vi.fn() }));
@@ -40,7 +40,7 @@ const { monsterlingData } = vi.hoisted(() => ({
 	} satisfies MonsterCodexData,
 }));
 
-vi.mock("@/data/MONSTERLINGS_DATA", () => ({
+vi.mock("@/data/monsterlings/MONSTERLINGS_DATA", () => ({
 	MONSTERLINGS_DATA: monsterlingData,
 }));
 

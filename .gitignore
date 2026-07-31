@@ -13,5 +13,6 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+TEMPLATE_AGENTS.md.codex-kit.bak-*
 .vercel
 .pnpm-store

@@ -1,9 +1,12 @@
 import {
 	type CharacterClassId,
 	CLASS_ID_BY_CLASS,
-} from "@/data/CHARACTER_CLASS_DATA";
-import { ELEMENT_ID_BY_ELEMENT, type ElementId } from "@/data/ELEMENTS_DATA";
-import { TIER_ID_BY_TIER, type TierId } from "@/data/TIERS_DATA";
+} from "@/data/character-classes/CHARACTER_CLASS_DATA";
+import {
+	ELEMENT_ID_BY_ELEMENT,
+	type ElementId,
+} from "@/data/elements/ELEMENTS_DATA";
+import { TIER_ID_BY_TIER, type TierId } from "@/data/tiers/TIERS_DATA";
 
 export type CharId = number;
 

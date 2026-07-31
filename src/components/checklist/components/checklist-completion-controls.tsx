@@ -3,7 +3,10 @@ import { CHECKLIST_STATUSES } from "@/components/checklist/utils/checklist";
 import type { ChecklistViewItem } from "@/components/checklist/utils/checklist-view";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { CHECKLIST_KINDS, CHECKLIST_RECURRENCES } from "@/data/CHECKLIST_DATA";
+import {
+	CHECKLIST_KINDS,
+	CHECKLIST_RECURRENCES,
+} from "@/data/checklist/CHECKLIST_DATA";
 import { cn } from "@/lib/utils";
 
 type ChecklistCompletionControlsProps = {

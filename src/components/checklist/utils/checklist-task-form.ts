@@ -14,7 +14,7 @@ import {
 	CHECKLIST_RECURRENCES,
 	type ChecklistMode,
 	type ChecklistRecurrence,
-} from "@/data/CHECKLIST_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
 
 const dateTime = (value: string) => parseUtcDateTime(value);
 

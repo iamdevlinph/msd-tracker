@@ -2,8 +2,11 @@ import { create } from "zustand";
 import {
 	SOURCE_ID_BY_SOURCE,
 	type SourceId,
-} from "@/data/MONSTERLINGS_SOURCE_DATA";
-import { REGION_ID_BY_REGION, type RegionId } from "@/data/REGIONS_DATA";
+} from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
+import {
+	REGION_ID_BY_REGION,
+	type RegionId,
+} from "@/data/regions/REGIONS_DATA";
 
 export const CODEX_VIEWS = [
 	"all",

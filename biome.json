@@ -51,8 +51,8 @@
 	"overrides": [
 		{
 			"includes": [
-				"src/data/CHARACTERS_DATA.ts",
-				"src/data/MONSTERLING_DATA_*.ts"
+				"src/data/characters/CHARACTERS_DATA.ts",
+				"src/data/monsterlings/MONSTERLING_DATA_*.ts"
 			],
 			"linter": {
 				"rules": {

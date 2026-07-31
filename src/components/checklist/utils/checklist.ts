@@ -5,7 +5,7 @@ import {
 	CHECKLIST_RECURRENCES,
 	type ChecklistDefinition,
 	type ChecklistRecurrence,
-} from "@/data/CHECKLIST_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
 
 export const CHECKLIST_STATUSES = {
 	UPCOMING: "upcoming",

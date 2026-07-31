@@ -1,7 +1,7 @@
 import { ArtifactCard } from "@/components/artifacts/components/artifact-card";
 import { ArtifactFilter } from "@/components/artifacts/components/artifact-filter";
 import type { ArtifactFilters } from "@/components/artifacts/utils/artifact-utils";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { cn } from "@/lib/utils";
 
 export type LoadoutArtifactOption = {

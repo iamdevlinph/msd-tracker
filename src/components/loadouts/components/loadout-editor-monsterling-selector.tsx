@@ -1,6 +1,6 @@
 import { Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { MonsterCodexEntry } from "@/data/MONSTERLINGS_DATA";
+import type { MonsterCodexEntry } from "@/data/monsterlings/MONSTERLINGS_DATA";
 
 type LoadoutEditorMonsterlingSelectorProps = {
 	info: MonsterCodexEntry | null;

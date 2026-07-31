@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { SelectOption } from "@/constants";
-import { STAT_DATA } from "@/data/STAT_DATA";
+import { STAT_DATA } from "@/data/stats/STAT_DATA";
 
 const STAT_OPTIONS_VERSION = "1.1.0";
 export const STAT_OPTIONS_CACHE = "stat-options-cache";

@@ -8,7 +8,10 @@ import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
-import { CHARACTERS_DATA, type Character } from "@/data/CHARACTERS_DATA";
+import {
+	CHARACTERS_DATA,
+	type Character,
+} from "@/data/characters/CHARACTERS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 

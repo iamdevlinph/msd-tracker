@@ -2,7 +2,7 @@ import {
 	CHECKLIST_KINDS,
 	CHECKLIST_RECURRENCES,
 	type ChecklistDefinition,
-} from "@/data/CHECKLIST_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
 
 type UtcISOString = `${string}Z`;
 

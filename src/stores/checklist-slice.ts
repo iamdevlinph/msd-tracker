@@ -5,7 +5,7 @@ import {
 	defaultChecklistPreferences,
 } from "@/components/checklist/utils/checklist-persistence";
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
-import { CHECKLIST_KINDS } from "@/data/CHECKLIST_DATA";
+import { CHECKLIST_KINDS } from "@/data/checklist/CHECKLIST_DATA";
 import type { StoreState } from "@/stores/app-store";
 
 export {

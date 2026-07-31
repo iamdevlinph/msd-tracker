@@ -1,7 +1,7 @@
-import type { Artifact } from "@/data/ARTIFACTS_DATA";
-import type { CharacterClassId } from "@/data/CHARACTER_CLASS_DATA";
-import type { ElementId } from "@/data/ELEMENTS_DATA";
-import type { TierId } from "@/data/TIERS_DATA";
+import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
+import type { CharacterClassId } from "@/data/character-classes/CHARACTER_CLASS_DATA";
+import type { ElementId } from "@/data/elements/ELEMENTS_DATA";
+import type { TierId } from "@/data/tiers/TIERS_DATA";
 
 export const FUSION_LEVELS = [1, 2, 3, 4, 5] as const;
 

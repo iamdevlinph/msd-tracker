@@ -1,5 +1,5 @@
 import { TierPortrait } from "@/components/shared/tier-portrait";
-import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import type { StoreState } from "@/stores/app-store";
 import { LoadoutPreviewPlaceholder } from "./loadout-preview-placeholder-slot";
 

@@ -6,7 +6,7 @@ import {
 import { defaultChecklistPreferences } from "@/components/checklist/utils/checklist-persistence";
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import { getChecklistView } from "@/components/checklist/utils/checklist-view";
-import type { ChecklistEvent } from "@/data/EVENTS_DATA";
+import type { ChecklistEvent } from "@/data/events/EVENTS_DATA";
 
 const now = Date.parse("2026-07-27T00:30:00.000Z");
 
@@ -29,7 +29,7 @@ const { fixtureEvent, fullEvent } = vi.hoisted(() => ({
 	} satisfies ChecklistEvent,
 }));
 
-vi.mock("@/data/EVENTS_DATA", () => ({
+vi.mock("@/data/events/EVENTS_DATA", () => ({
 	EVENTS_DATA: [fixtureEvent, fullEvent],
 }));
 

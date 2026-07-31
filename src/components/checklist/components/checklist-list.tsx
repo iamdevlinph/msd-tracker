@@ -1,7 +1,7 @@
 import { ChecklistItemRow } from "@/components/checklist/components/checklist-item-row";
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import type { ChecklistViewItem } from "@/components/checklist/utils/checklist-view";
-import type { ChecklistDefinition } from "@/data/CHECKLIST_DATA";
+import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
 
 type ChecklistListProps = {
 	items: ChecklistViewItem[];

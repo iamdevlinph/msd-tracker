@@ -15,7 +15,7 @@ import {
 	CHECKLIST_MODES,
 	CHECKLIST_RECURRENCES,
 	type ChecklistDefinition,
-} from "@/data/CHECKLIST_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
 import { cn } from "@/lib/utils";
 
 const eventRowStyles = {

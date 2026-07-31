@@ -25,7 +25,7 @@ import {
 	CHECKLIST_KINDS,
 	CHECKLIST_MODES,
 	CHECKLIST_RECURRENCES,
-} from "@/data/CHECKLIST_DATA";
+} from "@/data/checklist/CHECKLIST_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 

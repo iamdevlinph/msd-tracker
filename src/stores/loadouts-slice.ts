@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
-import type { CharId } from "@/data/CHARACTERS_DATA";
+import type { CharId } from "@/data/characters/CHARACTERS_DATA";
 import type { StoreState } from "@/stores/app-store";
 
 export type LoadoutCharacterSlot = {
