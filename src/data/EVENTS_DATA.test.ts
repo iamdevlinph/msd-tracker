@@ -51,6 +51,9 @@ describe("EVENTS_DATA", () => {
 			},
 		);
 		expect(eventsById["inquisitor-mabel-7-day-gifts"].recurrence).toBe("daily");
+		expect(eventsById["inquisitor-mabel-7-day-gifts"].recurrenceStartAt).toBe(
+			"2026-07-29T00:00:00.000Z",
+		);
 		expect(eventsById["anomaly-blue-shadow"].recurrence).toBe("daily");
 	});
 

@@ -80,10 +80,16 @@ export function getOccurrence(
 
 	const interval = getInterval(recurrence, definition.intervalDays);
 	let occurrenceStart = start;
+	let nextResetAt: number | undefined;
+	const recurrenceStart = definition.recurrenceStartAt
+		? Date.parse(definition.recurrenceStartAt)
+		: start;
 	if (definition.mode === "after_completion") {
 		occurrenceStart = completedAt ? completedAt + interval : start;
 	} else if (now > start) {
-		occurrenceStart = start + Math.floor((now - start) / interval) * interval;
+		const cycle = Math.floor((now - recurrenceStart) / interval);
+		occurrenceStart = Math.max(start, recurrenceStart + cycle * interval);
+		nextResetAt = recurrenceStart + (cycle + 1) * interval;
 	}
 
 	return {
@@ -94,7 +100,7 @@ export function getOccurrence(
 				: definition.dueDurationMinutes
 					? occurrenceStart + definition.dueDurationMinutes * 60_000
 					: undefined,
-		nextResetAt: occurrenceStart + interval,
+		nextResetAt: nextResetAt ?? occurrenceStart + interval,
 	};
 }
 

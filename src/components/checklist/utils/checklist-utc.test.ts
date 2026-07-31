@@ -48,6 +48,17 @@ describe("checklist UTC scheduling", () => {
 		);
 	});
 
+	it("preserves launch time while anchoring later resets", () => {
+		const event = {
+			...dailyEvent,
+			startAt: "2026-07-29T01:30:00.000Z",
+			recurrenceStartAt: "2026-07-29T00:00:00.000Z",
+		};
+		const occurrence = getOccurrence(event, Date.parse(event.startAt));
+		expect(occurrence.startAt).toBe(Date.parse(event.startAt));
+		expect(occurrence.nextResetAt).toBe(Date.parse("2026-07-30T00:00:00.000Z"));
+	});
+
 	it("refreshes weekly completion keys on Monday at 00:00 UTC", () => {
 		const weekly = weeklyEvent;
 		const before = getOccurrence(

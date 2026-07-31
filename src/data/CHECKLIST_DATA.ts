@@ -12,6 +12,8 @@ export type ChecklistDefinition = {
 	noticeTitle?: string;
 	kind: ChecklistKind;
 	startAt: string;
+	/** Optional UTC anchor for recurring resets after the initial launch. */
+	recurrenceStartAt?: string;
 	endAt?: string;
 	recurrence?: ChecklistRecurrence;
 	intervalDays?: number;

@@ -100,6 +100,7 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		startAt: "2026-07-29T01:30:00.000Z",
 		endAt: "2026-08-18T23:59:00.000Z",
 		recurrence: "daily",
+		recurrenceStartAt: "2026-07-29T00:00:00.000Z",
 	},
 	{
 		id: "special-missions-with-mabel",
