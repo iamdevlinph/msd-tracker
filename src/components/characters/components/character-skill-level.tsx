@@ -49,8 +49,9 @@ export const CharacterSkillLevel = (props: CharacterSkillLevelProps) => {
 				<small
 					key={skill}
 					className={cn(
-						isMaxSkill(charOwned.skills[skill]) && "text-green-300",
-						boostSkills && "text-amber-400",
+						isMaxSkill(charOwned.skills[skill])
+							? "text-green-300"
+							: boostSkills && "text-amber-400",
 					)}
 				>
 					{charOwned.skills[skill] + boost}

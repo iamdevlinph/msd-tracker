@@ -48,4 +48,28 @@ describe("character skill order", () => {
 			),
 		).toBe(true);
 	});
+
+	it("prioritizes max-level green over awakening amber", () => {
+		render(
+			<CharacterSkillLevel
+				charOwned={{
+					...character,
+					awakening: 5,
+					skills: { basic: 12, switch: 11, special: 12, ultimate: 11 },
+				}}
+			/>,
+		);
+
+		const levels = Array.from(document.querySelectorAll("small"));
+		expect(levels[0]?.classList.contains("text-green-300")).toBe(true);
+		expect(levels[0]?.classList.contains("text-amber-400")).toBe(false);
+		expect(levels[1]?.classList.contains("text-amber-400")).toBe(true);
+		expect(levels[1]?.classList.contains("text-green-300")).toBe(false);
+		expect(levels.map((level) => level.textContent)).toEqual([
+			"16",
+			"15",
+			"16",
+			"15",
+		]);
+	});
 });

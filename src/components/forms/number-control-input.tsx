@@ -87,7 +87,10 @@ export const NumberControlInput = <T extends FieldValues>({
 									<Button
 										variant="default"
 										type="button"
-										className="w-5 bg-chart-3 pointer-events-none"
+										className={cn(
+											"w-5 pointer-events-none",
+											value === max ? "bg-green-600 text-white" : "bg-chart-3",
+										)}
 									>
 										{value + getAwakeningBonus(awakeningBoost)}
 									</Button>

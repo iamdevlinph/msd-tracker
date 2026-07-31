@@ -3,7 +3,10 @@ import {
 	CHARACTER_SKILLS,
 	type CharacterSkill,
 } from "@/components/characters/utils/character-domain-values";
-import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
+import {
+	getAwakeningBonus,
+	isMaxSkill,
+} from "@/components/characters/utils/character-utils";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
 import {
@@ -84,7 +87,9 @@ export const LoadoutPreviewCharacter = ({
 								alt={`${label} skill icon`}
 								className="size-4"
 							/>
-							<span className="whitespace-nowrap text-xs font-bold text-amber-400">
+							<span
+								className={`whitespace-nowrap text-xs font-bold ${isMaxSkill(owned.skills[key]) ? "text-green-300" : "text-amber-400"}`}
+							>
 								{owned.skills[key] + getAwakeningBonus(owned.awakening)}
 							</span>
 						</div>
