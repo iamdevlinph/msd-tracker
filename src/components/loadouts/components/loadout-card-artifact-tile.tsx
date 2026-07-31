@@ -1,3 +1,4 @@
+import { TierPortrait } from "@/components/shared/tier-portrait";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
 import type { ArtifactOwned } from "@/stores/artifacts-owned-slice";
 
@@ -24,10 +25,12 @@ export const LoadoutCardArtifactTile = ({
 				}}
 				className="pointer-events-auto relative grid size-full grid-rows-[1fr_auto] overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 			>
-				<img
-					src={artifact.image}
-					alt={artifact.name}
-					className="size-full min-h-0 object-contain p-1"
+				<TierPortrait
+					tier={artifact.tier_id}
+					portraitImg={artifact.image}
+					portraitSize={112}
+					name={artifact.name}
+					portraitClassName="size-full object-contain p-1"
 				/>
 			</button>
 		) : (

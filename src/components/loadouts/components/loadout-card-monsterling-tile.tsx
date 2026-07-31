@@ -43,7 +43,6 @@ export const LoadoutCardMonsterlingTile = ({
 					portraitImg={info.image}
 					portraitSize={112}
 					name={info.name}
-					hideTierBg
 				/>
 			</button>
 		) : (

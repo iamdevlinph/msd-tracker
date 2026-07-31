@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 const EXPECTED_LINK_CHAINS = {
 	Amon: "Void's Seed",
@@ -89,6 +90,16 @@ describe("MONSTERLINGS_DATA", () => {
 			expect(linkChain.trigger.every(Boolean)).toBe(true);
 			expect(linkChain.effect).not.toBe("");
 			expect(linkChain.bonusEffects?.every(Boolean) ?? true).toBe(true);
+		}
+	});
+
+	it("defines a valid tier for every Link Chain", () => {
+		const validTierIds = Object.values(TIER_ID_BY_TIER);
+
+		for (const { linkChain } of Object.values(MONSTERLINGS_DATA)) {
+			if (!linkChain) continue;
+
+			expect(validTierIds).toContain(linkChain.tier_id);
 		}
 	});
 });

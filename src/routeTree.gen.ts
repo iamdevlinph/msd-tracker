@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MonsterlingsRouteImport } from './routes/monsterlings'
 import { Route as MonsterCodexRouteImport } from './routes/monster-codex'
 import { Route as LoadoutsRouteImport } from './routes/loadouts'
+import { Route as LinkChainsRouteImport } from './routes/link-chains'
 import { Route as EquipmentsRouteImport } from './routes/equipments'
 import { Route as ChecklistRouteImport } from './routes/checklist'
 import { Route as CharactersRouteImport } from './routes/characters'
@@ -35,6 +36,11 @@ const MonsterCodexRoute = MonsterCodexRouteImport.update({
 const LoadoutsRoute = LoadoutsRouteImport.update({
   id: '/loadouts',
   path: '/loadouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinkChainsRoute = LinkChainsRouteImport.update({
+  id: '/link-chains',
+  path: '/link-chains',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EquipmentsRoute = EquipmentsRouteImport.update({
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
+  '/link-chains': typeof LinkChainsRoute
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
+  '/link-chains': typeof LinkChainsRoute
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
+  '/link-chains': typeof LinkChainsRoute
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/characters'
     | '/checklist'
     | '/equipments'
+    | '/link-chains'
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/characters'
     | '/checklist'
     | '/equipments'
+    | '/link-chains'
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/characters'
     | '/checklist'
     | '/equipments'
+    | '/link-chains'
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   CharactersRoute: typeof CharactersRoute
   ChecklistRoute: typeof ChecklistRoute
   EquipmentsRoute: typeof EquipmentsRoute
+  LinkChainsRoute: typeof LinkChainsRoute
   LoadoutsRoute: typeof LoadoutsRoute
   MonsterCodexRoute: typeof MonsterCodexRoute
   MonsterlingsRoute: typeof MonsterlingsRoute
@@ -207,6 +220,13 @@ declare module '@tanstack/react-router' {
       path: '/loadouts'
       fullPath: '/loadouts'
       preLoaderRoute: typeof LoadoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/link-chains': {
+      id: '/link-chains'
+      path: '/link-chains'
+      fullPath: '/link-chains'
+      preLoaderRoute: typeof LinkChainsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/equipments': {
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   CharactersRoute: CharactersRoute,
   ChecklistRoute: ChecklistRoute,
   EquipmentsRoute: EquipmentsRoute,
+  LinkChainsRoute: LinkChainsRoute,
   LoadoutsRoute: LoadoutsRoute,
   MonsterCodexRoute: MonsterCodexRoute,
   MonsterlingsRoute: MonsterlingsRoute,

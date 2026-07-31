@@ -5,6 +5,7 @@ export const PUBLIC_PAGE_TITLES = {
 	CHECKLIST: `Checklist - ${SITE_NAME}`,
 	CHARACTERS: `Characters - ${SITE_NAME}`,
 	MONSTERLINGS: `Monsterlings - ${SITE_NAME}`,
+	LINK_CHAINS: `Link Chains - ${SITE_NAME}`,
 	MONSTER_CODEX: `Monster Codex - ${SITE_NAME}`,
 	LOADOUTS: `Loadouts - ${SITE_NAME}`,
 	ARTIFACTS: `Artifacts - ${SITE_NAME}`,

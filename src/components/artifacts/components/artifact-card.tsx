@@ -1,3 +1,4 @@
+import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
 import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
@@ -15,18 +16,17 @@ export const ArtifactCard = ({
 	className,
 	imageClassName,
 }: ArtifactCardProps) => (
-	<div
-		className={cn(
-			"relative grid h-44 w-36 grid-rows-[1fr_3rem] overflow-hidden rounded",
-			className,
-		)}
+	<PortraitWithName
+		name={artifact.name}
+		className={cn("h-44 w-36 overflow-hidden rounded", className)}
+		nameClassName="bg-transparent text-shadow-sm/80"
 	>
 		<img
 			src={TIERS_DATA[artifact.tier_id].full}
 			alt={`Tier ${artifact.tier_id} background`}
 			className="absolute inset-0 size-full object-fill"
 		/>
-		<div className="relative min-h-0 w-full">
+		<div className="relative h-full w-full">
 			<img
 				src={artifact.image}
 				alt={artifact.name}
@@ -43,8 +43,5 @@ export const ArtifactCard = ({
 				/>
 			)}
 		</div>
-		<div className="relative flex items-center justify-center bg-black/80 px-2 text-center text-xs">
-			<span className="line-clamp-2">{artifact.name}</span>
-		</div>
-	</div>
+	</PortraitWithName>
 );

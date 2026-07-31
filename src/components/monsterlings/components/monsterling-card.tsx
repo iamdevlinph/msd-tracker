@@ -2,6 +2,7 @@ import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/mon
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import { MonsterlingLinkChainBadge } from "@/components/monsterlings/components/monsterling-link-chain";
 import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
+import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { STAT_DATA } from "@/data/stats/STAT_DATA";
@@ -11,6 +12,7 @@ import { cn } from "@/lib/utils";
 export type MonsterlingCardProps = MonsterlingOwned & {
 	className?: string;
 	compactStats?: boolean;
+	showLinkChainBadge?: boolean;
 	linkChainLevel: LinkChainLevel;
 };
 
@@ -21,6 +23,7 @@ export const MonsterlingCard = ({
 	traits,
 	className = "",
 	compactStats = false,
+	showLinkChainBadge = true,
 }: MonsterlingCardProps) => {
 	const { name, image, linkChain } = MONSTERLINGS_DATA[monsterling_id];
 	const width = compactStats ? 162 : MONSTERLING_CARD_WIDTH;
@@ -42,20 +45,19 @@ export const MonsterlingCard = ({
 					: "120px minmax(0, 1fr)",
 			}}
 		>
-			<div className="relative w-max" style={{ gridArea: "portrait" }}>
-				{linkChain?.name && (
-					<MonsterlingLinkChainBadge level={linkChainLevel} />
-				)}
-				<small className="absolute bottom-2 z-10 w-full text-center text-[10px] text-shadow-sm/80 stroke-black">
-					{name}
-				</small>
-				<TierPortrait
-					tier={tier_id}
-					portraitImg={image}
-					portraitSize={120}
-					name={name}
-					hideTierBg={!compactStats}
-				/>
+			<div className="w-max" style={{ gridArea: "portrait" }}>
+				<PortraitWithName name={name}>
+					{showLinkChainBadge && linkChain?.name && (
+						<MonsterlingLinkChainBadge level={linkChainLevel} />
+					)}
+					<TierPortrait
+						tier={tier_id}
+						portraitImg={image}
+						portraitSize={120}
+						name={name}
+						hideTierBg={!compactStats}
+					/>
+				</PortraitWithName>
 			</div>
 
 			<div

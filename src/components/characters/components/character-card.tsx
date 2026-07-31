@@ -1,9 +1,9 @@
 import type { CharacterOwned } from "@/components/characters/components/character-details-form";
+import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { CHARACTER_CLASS_DATA } from "@/data/character-classes/CHARACTER_CLASS_DATA";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
-import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 import { cn } from "@/lib/utils";
 
 type CharacterCardProps = Pick<
@@ -37,7 +37,6 @@ export default function CharacterCard({
 }: CharacterCardProps) {
 	const elemInfo = ELEMENTS_DATA[element_id];
 	const characterClassInfo = CHARACTER_CLASS_DATA[class_id];
-	const tierBaseImg = TIERS_DATA[tier_id].base;
 
 	// const awakeningImg =
 	// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1781063623/msd/Misc/awakening-icon.png";
@@ -52,7 +51,7 @@ export default function CharacterCard({
 				className,
 			)}
 		>
-			<div className="relative">
+			<PortraitWithName name={name}>
 				{variant && (
 					<div
 						className={cn(
@@ -128,18 +127,7 @@ export default function CharacterCard({
 					name={name}
 					portraitClassName={portraitClassName}
 				/>
-			</div>
-			<small
-				className="py-1 w-full text-center"
-				style={{
-					backgroundImage: `url(${tierBaseImg})`,
-					backgroundSize: "cover",
-					backgroundPosition: "center",
-					backgroundRepeat: "no-repeat",
-				}}
-			>
-				{name}
-			</small>
+			</PortraitWithName>
 		</div>
 	);
 }

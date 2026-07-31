@@ -96,15 +96,12 @@ describe("Monsterling Link Chain persistence", () => {
 		vi.spyOn(Date, "now").mockReturnValue(123);
 		const store = useAppStore.getState();
 
-		store.setMonsterlingOwned(ownedMonsterling, undefined, 4);
-		store.setMonsterlingOwned(
-			{ ...ownedMonsterling, tier_id: 4 },
-			undefined,
-			5,
-		);
+		store.setMonsterlingLinkChainLevel(67, 4);
+		store.setMonsterlingOwned(ownedMonsterling, undefined);
+		store.setMonsterlingOwned({ ...ownedMonsterling, tier_id: 4 }, undefined);
 
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
-			67: 5,
+			67: 4,
 		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 		for (const monsterling of Object.values(
@@ -119,23 +116,19 @@ describe("Monsterling Link Chain persistence", () => {
 		useAppStore.getState().deleteMonsterlingOwned(firstId);
 		useAppStore
 			.getState()
-			.setMonsterlingOwned(
-				{ ...ownedMonsterling, monsterling_id: 1 },
-				lastId,
-				1,
-			);
+			.setMonsterlingOwned({ ...ownedMonsterling, monsterling_id: 1 }, lastId);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
-			67: 5,
+			67: 4,
 		});
 		useAppStore.getState().deleteMonsterlingOwned(lastId);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
-			67: 5,
+			67: 4,
 		});
 
 		useAppStore.getState().resetMonsterlingSlice();
 		expect(useAppStore.getState().monsterlingsOwned).toEqual({});
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
-			67: 5,
+			67: 4,
 		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 	});
@@ -145,31 +138,27 @@ describe("Monsterling Link Chain persistence", () => {
 			monsterlingLinkChainLevels: { 1: 5, 67: 5 } as never,
 		});
 
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 3);
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 3);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
 			1: 5,
 			67: 3,
 		});
 
-		useAppStore
-			.getState()
-			.setMonsterlingOwned(
-				{ ...ownedMonsterling, monsterling_id: 1 },
-				undefined,
-				1,
-			);
+		useAppStore.getState().setMonsterlingLinkChainLevel(1, 1);
 
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
+			1: 5,
 			67: 3,
 		});
 
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 1);
-		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({});
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 1);
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({ 1: 5 });
 	});
 
 	it("retains a downgraded non-one level after deleting copies and resetting owned data", () => {
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 5);
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 3);
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 5);
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 3);
+		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined);
 
 		const ownedIds = Object.keys(useAppStore.getState().monsterlingsOwned);
 		for (const id of ownedIds) {
@@ -186,13 +175,20 @@ describe("Monsterling Link Chain persistence", () => {
 	});
 
 	it("keeps a first-time level-one species implicit and stores exact later levels", () => {
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 1);
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 1);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({});
 
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 3);
-		useAppStore.getState().setMonsterlingOwned(ownedMonsterling, undefined, 2);
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 3);
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 2);
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
 			67: 2,
 		});
+	});
+
+	it("ignores invalid levels and species without Link Chains", () => {
+		useAppStore.getState().setMonsterlingLinkChainLevel(67, 8 as never);
+		useAppStore.getState().setMonsterlingLinkChainLevel(1, 5);
+
+		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({});
 	});
 });

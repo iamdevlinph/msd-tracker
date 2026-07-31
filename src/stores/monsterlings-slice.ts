@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import {
-	getLinkChainLevelOrOne,
+	LINK_CHAIN_LEVELS,
 	type LinkChainLevel,
 	type MonsterlingLinkChainLevels,
 } from "@/components/monsterlings/components/monsterling-link-chain-utils";
@@ -17,8 +17,8 @@ export type MonsterlingsSlice = {
 	setMonsterlingOwned: (
 		monsterling: MonsterlingOwned,
 		id: string | undefined,
-		linkChainLevel: LinkChainLevel,
 	) => void;
+	setMonsterlingLinkChainLevel: (id: number, level: LinkChainLevel) => void;
 	deleteMonsterlingOwned: (id: string) => void;
 
 	resetMonsterlingSlice: () => void;
@@ -34,24 +34,30 @@ export const createMonsterlingsSlice: StateCreator<
 		monsterlingsOwned: {},
 		monsterlingLinkChainLevels: {},
 
-		setMonsterlingOwned: (monsterling, id, linkChainLevel) =>
+		setMonsterlingOwned: (monsterling, id) =>
 			set((state) => {
 				const monsterlingOwnedId = id ?? nanoid();
-				const info = MONSTERLINGS_DATA[monsterling.monsterling_id];
-				const nextLevel = getLinkChainLevelOrOne(linkChainLevel);
-				const levels = { ...state.monsterlingLinkChainLevels };
-				if (!info?.linkChain) {
-					delete levels[monsterling.monsterling_id];
-				} else if (nextLevel === 1) {
-					delete levels[monsterling.monsterling_id];
-				} else {
-					levels[monsterling.monsterling_id] = nextLevel;
-				}
 				return {
 					monsterlingsOwned: {
 						...state.monsterlingsOwned,
 						[monsterlingOwnedId]: monsterling,
 					},
+					backupUpdatedAt: Date.now(),
+				};
+			}),
+
+		setMonsterlingLinkChainLevel: (id, level) =>
+			set((state) => {
+				if (
+					!MONSTERLINGS_DATA[id]?.linkChain ||
+					!LINK_CHAIN_LEVELS.includes(level)
+				) {
+					return state;
+				}
+				const levels = { ...state.monsterlingLinkChainLevels };
+				if (level === 1) delete levels[id];
+				else levels[id] = level;
+				return {
 					monsterlingLinkChainLevels: levels,
 					backupUpdatedAt: Date.now(),
 				};

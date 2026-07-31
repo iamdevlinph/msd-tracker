@@ -1,16 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { z } from "zod";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MonsterlingComboboxInput } from "@/components/monsterlings/components/monsterling-combobox-input";
-import {
-	getLinkChainLevelOrOne,
-	getMonsterlingLinkChainLevel,
-	LINK_CHAIN_LEVELS,
-} from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { MonsterlingTraitsFields } from "@/components/monsterlings/components/monsterling-traits-fields";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
@@ -70,12 +64,8 @@ const monsterlingFormSchema = z.object({
 			});
 		}),
 });
-const monsterlingFormValuesSchema = monsterlingFormSchema.extend({
-	link_chain_level: z.number().int().min(1).max(5),
-});
-
 export type MonsterlingOwned = z.infer<typeof monsterlingFormSchema>;
-export type MonsterlingFormValues = z.infer<typeof monsterlingFormValuesSchema>;
+export type MonsterlingFormValues = MonsterlingOwned;
 
 const MONSTERLING_FORM_ID = "MONSTERLING_FORM_ID";
 
@@ -87,9 +77,6 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const ga = useGoogleAnalytics();
 
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
-	const monsterlingLinkChainLevels = useAppStore(
-		(s) => s.monsterlingLinkChainLevels,
-	);
 	const setMonsterlingOwned = useAppStore((s) => s.setMonsterlingOwned);
 
 	let monsterlingInfo = null;
@@ -101,15 +88,11 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	}
 
 	const form = useForm<MonsterlingFormValues>({
-		resolver: zodResolver(monsterlingFormValuesSchema),
+		resolver: zodResolver(monsterlingFormSchema),
 		defaultValues: {
 			monsterling_id:
 				monsterlingInfo?.monsterling_id ?? MONSTERLINGS_DATA[1].id,
 			tier_id: monsterlingInfo?.tier_id ?? TIER_ID_BY_TIER.PRIME_5,
-			link_chain_level: getMonsterlingLinkChainLevel(
-				monsterlingInfo?.monsterling_id ?? MONSTERLINGS_DATA[1].id,
-				monsterlingLinkChainLevels,
-			),
 			traits: monsterlingInfo?.traits ?? [
 				{
 					...STARTING_TRAIT,
@@ -125,12 +108,7 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	});
 
 	const onSubmit = (data: MonsterlingFormValues) => {
-		const { link_chain_level, ...monsterling } = data;
-		setMonsterlingOwned(
-			monsterling,
-			id,
-			getLinkChainLevelOrOne(link_chain_level),
-		);
+		setMonsterlingOwned(data, id);
 
 		const selectedMonsterling = MONSTERLINGS_DATA[data.monsterling_id];
 		ga.event(
@@ -152,28 +130,10 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 		name: "monsterling_id",
 	});
 
-	useEffect(() => {
-		form.setValue(
-			"link_chain_level",
-			getMonsterlingLinkChainLevel(
-				monsterlingValue,
-				monsterlingLinkChainLevels,
-			),
-		);
-	}, [form, monsterlingLinkChainLevels, monsterlingValue]);
-
 	const tierValue = useWatch({
 		control: form.control,
 		name: "tier_id",
 	});
-
-	const linkChainLevelValue = useWatch({
-		control: form.control,
-		name: "link_chain_level",
-	});
-
-	const selectedMonsterling = MONSTERLINGS_DATA[monsterlingValue];
-	const hasLinkChain = Boolean(selectedMonsterling?.linkChain?.name);
 
 	const traitsValue = useWatch({
 		control: form.control,
@@ -202,7 +162,8 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 							<MonsterlingCard
 								monsterling_id={monsterlingValue}
 								tier_id={tierValue}
-								linkChainLevel={getLinkChainLevelOrOne(linkChainLevelValue)}
+								linkChainLevel={1}
+								showLinkChainBadge={false}
 								traits={traitsValue}
 								className="w-full monsterling-card-form"
 							/>
@@ -228,18 +189,6 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 								buttonGroupClass="flex justify-center"
 							/>
 						</FieldGroup>
-
-						{hasLinkChain && (
-							<FieldGroup className="flex flex-col sm:flex-row gap-2 sm:gap-7 justify-between">
-								<TierSelectorInput<MonsterlingFormValues>
-									name="link_chain_level"
-									label="Link Chain Level"
-									control={form.control}
-									options={[...LINK_CHAIN_LEVELS]}
-									buttonGroupClass="flex justify-center"
-								/>
-							</FieldGroup>
-						)}
 
 						<SeparatorText>Traits</SeparatorText>
 

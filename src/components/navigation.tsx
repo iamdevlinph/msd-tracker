@@ -21,6 +21,7 @@ type Tab =
 	| "artifacts"
 	| "equipments"
 	| "monsterlings"
+	| "link-chains"
 	| "loadouts";
 
 type NavItem = {
@@ -87,6 +88,15 @@ const navSections: NavSection[] = [
 				link: "/artifacts",
 			},
 			{
+				id: "link-chains",
+				label: "Link Chains",
+				icon: {
+					type: "iconify",
+					icon: <IconifyIcon icon="mdi:link-variant" />,
+				},
+				link: "/link-chains",
+			},
+			{
 				id: "monsterlings",
 				label: "Monsterlings",
 				icon: {
@@ -95,6 +105,7 @@ const navSections: NavSection[] = [
 				},
 				link: "/monsterlings",
 			},
+
 			{
 				id: "equipments",
 				label: "Equipments",

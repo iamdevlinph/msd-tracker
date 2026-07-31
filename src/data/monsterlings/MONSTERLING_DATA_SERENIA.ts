@@ -2,12 +2,14 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 	69: {
 		id: 69,
 		name: "Gorrik",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Taskmaster's Leather Gloves",
 			trigger: ["Landing an attack"],
 			effect:
@@ -58,6 +60,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 73,
 		name: "Queen Slime",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Queen's Crown",
 			trigger: ["Using Evasion Counter"],
 			effect:
@@ -75,6 +78,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 74,
 		name: "Empress Slime",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Queen's Mascara",
 			trigger: ["Using Evasion Counter"],
 			effect:
@@ -138,6 +142,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 79,
 		name: "Spadupa",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Poisoned Claw",
 			trigger: ["Using Air Counter"],
 			effect: "Launches spider silk at the enemy, dealing Earth DMG.",
@@ -155,6 +160,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 80,
 		name: "Greenpadupa",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Precious Spider Cocoon",
 			trigger: ["Using Air Counter"],
 			effect: "Launches spider silk at the enemy, dealing Earth DMG.",
@@ -271,6 +277,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 90,
 		name: "Ice Fist Dude",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Frozen Gem",
 			trigger: ["Using a Special Skill"],
 			effect: "Launches ice fragments at the enemy, dealing Ice DMG.",
@@ -288,6 +295,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 91,
 		name: "Plains Minotaur",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Leather Halter",
 			trigger: ["Using a Switch Skill"],
 			effect: "Swings its axe and creates a whirlwind, dealing Wind DMG.",
@@ -305,6 +313,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 92,
 		name: "Spoonmugger",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Ravenous Spoon",
 			trigger: ["When all Stamina is consumed"],
 			effect: "Cheers nearby allies and restores their Stamina.",
@@ -323,6 +332,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 93,
 		name: "Stickmugger",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Gourmet Chopsticks",
 			trigger: ["When all Stamina is consumed"],
 			effect: "Cheers nearby allies and restores their Stamina.",
@@ -341,6 +351,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 94,
 		name: "Avardan",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Golem's Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:
@@ -363,6 +374,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 95,
 		name: "Avardan's Mana",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Shadowed Stone",
 			trigger: ["Attacking a Staggered target"],
 			effect: "Releases earth energy toward the enemy, dealing Earth DMG.",

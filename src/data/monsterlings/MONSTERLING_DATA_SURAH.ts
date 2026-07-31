@@ -2,6 +2,7 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 	96: {
@@ -97,6 +98,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 104,
 		name: "Odong",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Mysterious Branch",
 			trigger: ["Using a Special Skill"],
 			effect: "Summons roots beneath the enemy, dealing Earth DMG.",
@@ -114,6 +116,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 105,
 		name: "Maple Odong",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Autumn Branch",
 			trigger: ["Using a Special Skill"],
 			effect: "Creates a poisonous rooted area, dealing Earth DMG.",
@@ -219,6 +222,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 114,
 		name: "Shademask",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Dokkaebi Mask",
 			trigger: ["Landing an attack"],
 			effect: "Leaps at the enemy and attacks, dealing Fire DMG.",
@@ -236,6 +240,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 115,
 		name: "Ashen Mask",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Ancient Dokkaebi's White Mask",
 			trigger: ["Using a Special Skill"],
 			effect:
@@ -284,6 +289,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 118,
 		name: "Swamp Odong",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Fabric Talismans",
 			trigger: ["Using a Special Skill"],
 			effect: "Creates a poisonous area, dealing Earth DMG.",
@@ -301,6 +307,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 119,
 		name: "Duoxini",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Dokkaebi King's Mask",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:
@@ -323,6 +330,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 120,
 		name: "Fiend",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Ancient Dokkaebi's Bat",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:

@@ -145,6 +145,23 @@ describe("LoadoutsList", () => {
 		});
 		render(<LoadoutsList />);
 
+		const monsterlingEditor = screen.getByRole("button", {
+			name: `Edit ${MONSTERLINGS_DATA[1].name} monsterling`,
+		});
+		const monsterlingTierBackground = within(monsterlingEditor).getByAltText(
+			"5 background",
+		) as HTMLImageElement;
+		expect(monsterlingTierBackground.style.background).not.toBe("");
+
+		const artifactEditor = screen.getByRole("button", {
+			name: `Edit ${ARTIFACTS_DATA[1].name} artifact`,
+		});
+		expect(
+			within(artifactEditor).getByAltText(
+				`${ARTIFACTS_DATA[1].tier_id} background`,
+			),
+		).toBeTruthy();
+
 		fireEvent.click(
 			screen.getByRole("button", { name: "Edit Angel character" }),
 		);

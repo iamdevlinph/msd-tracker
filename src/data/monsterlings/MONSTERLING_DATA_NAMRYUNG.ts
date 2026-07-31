@@ -2,12 +2,14 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 	121: {
 		id: 121,
 		name: "Black Hauntstack",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Youkai's Giant Charm",
 			trigger: ["Landing an attack"],
 			effect:
@@ -113,6 +115,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 130,
 		name: "Borborg",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Thorny Shield",
 			trigger: ["Landing an attack"],
 			effect: "Spins into the enemy, dealing Physical DMG.",
@@ -129,6 +132,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 131,
 		name: "Goald",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Gold-Plated Spiky Shield",
 			trigger: ["Landing a Fire Attack"],
 			effect: "Attacks the enemy and applies a Fire resistance reduction.",
@@ -225,6 +229,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 139,
 		name: "Manwol",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Shining Hoof",
 			trigger: ["Landing a Wind Attack"],
 			effect:
@@ -243,6 +248,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 140,
 		name: "Nokjung",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Black Antler",
 			trigger: ["Landing a Wind Attack"],
 			effect:
@@ -261,6 +267,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 141,
 		name: "Onsae",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Flaming Fox Fur",
 			trigger: ["Landing a Fire Attack"],
 			effect: "Spins into the enemy, dealing Fire DMG.",
@@ -279,6 +286,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 142,
 		name: "Cinder",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Hot Furball",
 			trigger: ["Landing a Fire Attack"],
 			effect: "Breathes fire at the enemy, dealing Fire DMG.",
@@ -297,6 +305,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 143,
 		name: "Hahnul",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Giant Tiger's Claw",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:
@@ -319,6 +328,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 144,
 		name: "Gulgak",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Cursed Rosary",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:

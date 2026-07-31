@@ -13,6 +13,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 - [x] Search owned monsterlings by name and filter them across Tier 1 through Tier 5.
 - [x] Track one shared, editable Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups; saving a species corrects its exact level (with level one implicit), levels survive copy deletion and owned-data resets, with verified names, triggers, and effects.
+- [x] Manage every Link Chain-capable species on a dedicated searchable, level-filterable page, with portrait-driven level editing independent of Monsterling ownership.
 
 ## Loadouts: Available
 
@@ -27,6 +28,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Persist loadouts locally and through Google Drive sync.
 - [x] Hide unfinished Artifact and Equipment slots outside development.
 - [x] Open owned character and assigned monsterling portraits in their editors from saved loadout cards without triggering preview, and from the loadout preview modal.
+- [x] Show tier portrait frames and tier-colored backgrounds behind assigned artifacts and Monsterlings in saved loadout cards.
 - [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 
 ## Home Dashboard: Available

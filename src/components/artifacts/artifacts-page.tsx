@@ -57,10 +57,10 @@ export const ArtifactsPage = () => {
 						}
 					/>
 				) : (
-					<div className="grid grid-cols-[repeat(auto-fill,9rem)] gap-3">
+					<div className="grid grid-cols-[repeat(auto-fill,120px)] gap-3">
 						{cards.map(({ instanceId, value, artifact }) => (
 							<button
-								className="w-36 text-left"
+								className="w-[120px] text-left"
 								key={instanceId}
 								type="button"
 								onClick={() => {
@@ -71,6 +71,8 @@ export const ArtifactsPage = () => {
 								<ArtifactCard
 									artifact={artifact}
 									fusionLevel={value.fusion_level}
+									className="size-[120px]"
+									imageClassName="p-1"
 								/>
 							</button>
 						))}

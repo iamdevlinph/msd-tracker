@@ -45,6 +45,13 @@ const features: HomeFeature[] = [
 		icon: PawPrint,
 	},
 	{
+		title: "Link Chains",
+		description:
+			"Track shared Link Chain levels across every Monsterling species.",
+		to: "/link-chains",
+		icon: PawPrint,
+	},
+	{
 		title: "Monster Codex",
 		description: "Record cleared encounters and keep favorite targets close.",
 		to: "/monster-codex",

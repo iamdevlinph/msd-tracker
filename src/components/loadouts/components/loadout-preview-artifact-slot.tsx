@@ -1,3 +1,4 @@
+import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import type { StoreState } from "@/stores/app-store";
@@ -18,7 +19,10 @@ export const LoadoutPreviewArtifact = ({
 	if (!item || !artifact || !id)
 		return <LoadoutPreviewPlaceholder label="Artifact unavailable" />;
 	const card = (
-		<div className="relative size-[120px] overflow-hidden rounded-lg">
+		<PortraitWithName
+			name={artifact.name}
+			className="size-[120px] overflow-hidden rounded-lg"
+		>
 			<TierPortrait
 				tier={artifact.tier_id}
 				portraitImg={artifact.image}
@@ -31,10 +35,7 @@ export const LoadoutPreviewArtifact = ({
 				alt={`Fusion level ${item.fusion_level}`}
 				className="absolute left-1 top-1 z-10 size-7 drop-shadow-lg"
 			/>
-			<small className="absolute bottom-2 z-10 w-full text-center text-[10px] text-shadow-sm/80 stroke-black">
-				<span className="line-clamp-1">{artifact.name}</span>
-			</small>
-		</div>
+		</PortraitWithName>
 	);
 	return onEdit ? (
 		<button

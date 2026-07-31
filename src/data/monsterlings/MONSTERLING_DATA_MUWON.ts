@@ -2,6 +2,7 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	145: {
@@ -67,6 +68,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 150,
 		name: "Phantom Snow Tiger",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Cold Mane",
 			trigger: ["Using a Switch Skill"],
 			effect: "Breathes frost at the enemy, dealing Ice DMG.",
@@ -84,6 +86,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 151,
 		name: "Phantom Stone Tiger",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Mystic Stone Horn",
 			trigger: ["Using a Switch Skill"],
 			effect: "Drops onto the enemy with a powerful impact, dealing Earth DMG.",
@@ -178,6 +181,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 159,
 		name: "Toad-alee",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Ornate Shield",
 			trigger: ["Using Air Counter"],
 			effect:
@@ -195,6 +199,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 160,
 		name: "Irontoise",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Turtle's Stone Hammer",
 			trigger: ["Landing an attack"],
 			effect:
@@ -213,6 +218,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 161,
 		name: "Treetoise",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Tree Tortoiseshell",
 			trigger: ["Landing an attack"],
 			effect:
@@ -254,6 +260,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 164,
 		name: "Red Shadow",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Red Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:
@@ -275,6 +282,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 165,
 		name: "Blue Shadow",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Purple Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:

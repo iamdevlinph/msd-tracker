@@ -4,6 +4,7 @@ export const ANALYTICS_EVENTS = {
 	CHARACTER_DELETE: "character_delete",
 	MONSTERLING_CREATE: "monsterling_create",
 	MONSTERLING_UPDATE: "monsterling_update",
+	MONSTERLING_LINK_CHAIN_UPDATE: "monsterling_link_chain_update",
 	MONSTERLING_DELETE: "monsterling_delete",
 	LOADOUT_CREATE: "loadout_create",
 	LOADOUT_UPDATE: "loadout_update",

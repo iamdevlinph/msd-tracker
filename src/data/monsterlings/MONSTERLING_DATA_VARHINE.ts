@@ -2,12 +2,14 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 	40: {
 		id: 40,
 		name: "Rock Fist Dude",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Frangible Pebble",
 			trigger: ["Using a Switch Skill"],
 			effect: "Unleashes energy toward the enemy, dealing Earth DMG.",
@@ -25,6 +27,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 41,
 		name: "Golden Fist Dude",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Golden Heart",
 			trigger: ["Using a Switch Skill"],
 			effect: "Takes a defensive stance and grants nearby allies Super Armor.",
@@ -142,6 +145,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 51,
 		name: "Urgash",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Destroyer's Horn",
 			trigger: ["When Burst is triggered"],
 			effect:
@@ -181,6 +185,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 54,
 		name: "Behemo-Wolf",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Giant Wolf's Fang",
 			trigger: ["Landing an attack"],
 			effect:
@@ -198,6 +203,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 55,
 		name: "Scar",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Void's Crimson Bead",
 			trigger: ["Landing a critical hit"],
 			effect:
@@ -216,6 +222,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 56,
 		name: "Frostbite",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Giant Wolf's Helm",
 			trigger: ["Landing a critical hit"],
 			effect:
@@ -312,6 +319,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 64,
 		name: "Vectus",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Void's Balance",
 			trigger: ["Landing a critical hit"],
 			effect:
@@ -329,6 +337,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 65,
 		name: "Mountaintaur",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Bloodstained Bridle",
 			trigger: ["Using a Switch Skill"],
 			effect: "Breathes flames at the enemy, dealing Fire DMG.",
@@ -346,6 +355,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 66,
 		name: "Tealtaur",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Weathered Hoof",
 			trigger: ["Using a Switch Skill"],
 			effect:
@@ -364,6 +374,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 67,
 		name: "Amon",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Void's Seed",
 			trigger: ["Using a Special Skill"],
 			effect:
@@ -383,6 +394,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		id: 68,
 		name: "Amon's Shadow",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Token of Obedience",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
 			effect:

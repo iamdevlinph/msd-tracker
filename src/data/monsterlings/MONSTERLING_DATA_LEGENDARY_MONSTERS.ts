@@ -2,6 +2,7 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 // for legendary monsterlings start the id with 100_001
 export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
@@ -10,6 +11,7 @@ export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
 		display_id: 1,
 		name: "Reginula",
 		linkChain: {
+			tier_id: TIER_ID_BY_TIER.FODDER_1,
 			name: "Star Waves",
 			trigger: ["While equipped"],
 			effect:

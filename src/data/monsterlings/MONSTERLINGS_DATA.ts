@@ -9,6 +9,7 @@ import { MONSTERLING_DATA_SERENIA } from "@/data/monsterlings/MONSTERLING_DATA_S
 import { MONSTERLING_DATA_SURAH } from "@/data/monsterlings/MONSTERLING_DATA_SURAH";
 import { MONSTERLING_DATA_VARHINE } from "@/data/monsterlings/MONSTERLING_DATA_VARHINE";
 import type { RegionId } from "@/data/regions/REGIONS_DATA";
+import type { TierId } from "@/data/tiers/TIERS_DATA";
 
 export type MonsterCodexEntry = {
 	id: number;
@@ -21,6 +22,7 @@ export type MonsterCodexEntry = {
 	ability: string;
 	linkChain?: {
 		name: string;
+		tier_id: TierId;
 		trigger: string[];
 		effect: string;
 		bonusEffects?: string[];

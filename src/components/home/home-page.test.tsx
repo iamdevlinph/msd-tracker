@@ -52,6 +52,7 @@ describe("HomePage", () => {
 			["Characters", "/characters"],
 			["Checklist", "/checklist"],
 			["Monsterlings", "/monsterlings"],
+			["Link Chains", "/link-chains"],
 			["Monster Codex", "/monster-codex"],
 			["Loadouts", "/loadouts"],
 			["Artifacts", "/artifacts"],
