@@ -2,7 +2,10 @@ import { useState } from "react";
 import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
-import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
+import {
+	CHARACTER_SORTS,
+	type CharacterFilters,
+} from "@/components/characters/store/characters-filter-store";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
@@ -26,11 +29,11 @@ export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 			const nameOrder = a.info.name.localeCompare(b.info.name);
 
 			switch (filters.sort) {
-				case "name-desc":
+				case CHARACTER_SORTS.NAME_DESC:
 					return -nameOrder;
-				case "awakening-asc":
+				case CHARACTER_SORTS.AWAKENING_ASC:
 					return a.awakening - b.awakening || nameOrder;
-				case "awakening-desc":
+				case CHARACTER_SORTS.AWAKENING_DESC:
 					return b.awakening - a.awakening || nameOrder;
 				default:
 					return nameOrder;

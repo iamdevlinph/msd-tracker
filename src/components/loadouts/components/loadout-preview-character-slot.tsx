@@ -1,18 +1,25 @@
 import CharacterCard from "@/components/characters/components/character-card";
+import {
+	CHARACTER_SKILLS,
+	type CharacterSkill,
+} from "@/components/characters/utils/character-domain-values";
 import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
 import type { Character } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
 
 const SKILLS = [
-	["Special", IMAGE_MAPPING_ID.SKILL_SPECIAL, "special"],
-	["Switch", IMAGE_MAPPING_ID.SKILL_SWITCH, "switch"],
-	["Basic", IMAGE_MAPPING_ID.SKILL_BASIC, "basic"],
-	["Ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, "ultimate"],
+	["Special", IMAGE_MAPPING_ID.SKILL_SPECIAL, CHARACTER_SKILLS.SPECIAL],
+	["Switch", IMAGE_MAPPING_ID.SKILL_SWITCH, CHARACTER_SKILLS.SWITCH],
+	["Basic", IMAGE_MAPPING_ID.SKILL_BASIC, CHARACTER_SKILLS.BASIC],
+	["Ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, CHARACTER_SKILLS.ULTIMATE],
 ] as const;
 
 type PreviewCharacter = Character;
-type CharacterOwned = { awakening: number; skills: Record<string, number> };
+type CharacterOwned = {
+	awakening: number;
+	skills: Record<CharacterSkill, number>;
+};
 type LoadoutPreviewCharacterProps = {
 	character: PreviewCharacter;
 	owned: CharacterOwned;

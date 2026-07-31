@@ -1,4 +1,5 @@
 import type { CharacterOwned } from "@/components/characters/components/character-details-form";
+import { CHARACTER_SKILLS } from "@/components/characters/utils/character-domain-values";
 import {
 	getAwakeningBonus,
 	isMaxSkill,
@@ -11,10 +12,10 @@ type CharacterSkillLevelProps = {
 };
 
 const SKILLS = [
-	["special", IMAGE_MAPPING_ID.SKILL_SPECIAL, 20],
-	["switch", IMAGE_MAPPING_ID.SKILL_SWITCH, 20],
-	["basic", IMAGE_MAPPING_ID.SKILL_BASIC, 17],
-	["ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, 20],
+	[CHARACTER_SKILLS.SPECIAL, IMAGE_MAPPING_ID.SKILL_SPECIAL, 20],
+	[CHARACTER_SKILLS.SWITCH, IMAGE_MAPPING_ID.SKILL_SWITCH, 20],
+	[CHARACTER_SKILLS.BASIC, IMAGE_MAPPING_ID.SKILL_BASIC, 17],
+	[CHARACTER_SKILLS.ULTIMATE, IMAGE_MAPPING_ID.SKILL_ULTIMATE, 20],
 ] as const;
 
 export const CharacterSkillLevel = (props: CharacterSkillLevelProps) => {

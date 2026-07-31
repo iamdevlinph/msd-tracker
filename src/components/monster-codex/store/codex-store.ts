@@ -11,6 +11,12 @@ export const CODEX_VIEWS = [
 	"completed",
 	"incomplete",
 ] as const;
+export const CODEX_VIEW = {
+	ALL: CODEX_VIEWS[0],
+	FAVORITE: CODEX_VIEWS[1],
+	COMPLETED: CODEX_VIEWS[2],
+	INCOMPLETE: CODEX_VIEWS[3],
+} as const;
 export type CodexView = (typeof CODEX_VIEWS)[number];
 
 export type CodexFilters = {
@@ -23,7 +29,7 @@ export type CodexFilters = {
 export const initialCodexFilters: CodexFilters = {
 	source: SOURCE_ID_BY_SOURCE.ALL,
 	region: REGION_ID_BY_REGION.ALL,
-	view: "all",
+	view: CODEX_VIEW.ALL,
 	search: "",
 };
 

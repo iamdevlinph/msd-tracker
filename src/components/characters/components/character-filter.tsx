@@ -4,6 +4,7 @@ import type {
 	CharacterFilters,
 	CharacterSort,
 } from "@/components/characters/store/characters-filter-store";
+import { CHARACTER_SORTS } from "@/components/characters/store/characters-filter-store";
 import { SortSelect } from "@/components/shared/sort-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,10 +28,10 @@ type CharacterFilterProps = {
 };
 
 const sortOptions: { label: string; value: CharacterSort }[] = [
-	{ label: "Name: A–Z", value: "name-asc" },
-	{ label: "Name: Z–A", value: "name-desc" },
-	{ label: "Awakening: Low–High", value: "awakening-asc" },
-	{ label: "Awakening: High–Low", value: "awakening-desc" },
+	{ label: "Name: A–Z", value: CHARACTER_SORTS.NAME_ASC },
+	{ label: "Name: Z–A", value: CHARACTER_SORTS.NAME_DESC },
+	{ label: "Awakening: Low–High", value: CHARACTER_SORTS.AWAKENING_ASC },
+	{ label: "Awakening: High–Low", value: CHARACTER_SORTS.AWAKENING_DESC },
 ];
 
 export const CharacterFilter = ({
@@ -201,7 +202,7 @@ export const CharacterFilter = ({
 							selectedCharacterClass: [],
 							selectedElements: [],
 							selectedTiers: [],
-							sort: "name-asc",
+							sort: CHARACTER_SORTS.NAME_ASC,
 						})
 					}
 					aria-label="Clear character filters"

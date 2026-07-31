@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { z } from "zod";
+import { CHARACTER_SKILLS } from "@/components/characters/utils/character-domain-values";
 import { NumberControlInput } from "@/components/forms/number-control-input";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
@@ -22,10 +23,10 @@ const characterOwnedDetailsSchema = z.object({
 	id: z.number(),
 	awakening: z.number().min(0).max(6),
 	skills: z.object({
-		basic: z.number().min(1).max(12),
-		switch: z.number().min(1).max(12),
-		special: z.number().min(1).max(12),
-		ultimate: z.number().min(1).max(12),
+		[CHARACTER_SKILLS.BASIC]: z.number().min(1).max(12),
+		[CHARACTER_SKILLS.SWITCH]: z.number().min(1).max(12),
+		[CHARACTER_SKILLS.SPECIAL]: z.number().min(1).max(12),
+		[CHARACTER_SKILLS.ULTIMATE]: z.number().min(1).max(12),
 	}),
 });
 
@@ -49,28 +50,25 @@ export const CharacterOwnedDetailsForm = ({
 			id: id,
 			awakening: editCharacterData?.awakening ?? 0,
 			skills: {
-				basic: editCharacterData?.skills.basic ?? 1,
-				switch: editCharacterData?.skills.switch ?? 1,
-				special: editCharacterData?.skills.special ?? 1,
-				ultimate: editCharacterData?.skills.ultimate ?? 1,
+				[CHARACTER_SKILLS.BASIC]: editCharacterData?.skills.basic ?? 1,
+				[CHARACTER_SKILLS.SWITCH]: editCharacterData?.skills.switch ?? 1,
+				[CHARACTER_SKILLS.SPECIAL]: editCharacterData?.skills.special ?? 1,
+				[CHARACTER_SKILLS.ULTIMATE]: editCharacterData?.skills.ultimate ?? 1,
 			},
 		},
 		mode: "onChange",
 	});
 
 	const onSubmit = (data: CharacterOwned) => {
-		const {
-			awakening,
-			skills: { basic, switch: switch_level, special, ultimate },
-		} = data;
+		const { awakening, skills } = data;
 		const object = {
 			id,
 			awakening: Number(awakening),
 			skills: {
-				basic: Number(basic),
-				switch: Number(switch_level),
-				special: Number(special),
-				ultimate: Number(ultimate),
+				[CHARACTER_SKILLS.BASIC]: Number(skills[CHARACTER_SKILLS.BASIC]),
+				[CHARACTER_SKILLS.SWITCH]: Number(skills[CHARACTER_SKILLS.SWITCH]),
+				[CHARACTER_SKILLS.SPECIAL]: Number(skills[CHARACTER_SKILLS.SPECIAL]),
+				[CHARACTER_SKILLS.ULTIMATE]: Number(skills[CHARACTER_SKILLS.ULTIMATE]),
 			},
 		};
 		setCharacterOwned(object);

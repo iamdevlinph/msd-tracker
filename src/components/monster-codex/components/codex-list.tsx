@@ -1,6 +1,9 @@
 import { memo, useMemo } from "react";
 import { CodexCard } from "@/components/monster-codex/components/codex-card";
-import { useCodexStore } from "@/components/monster-codex/store/codex-store";
+import {
+	CODEX_VIEW,
+	useCodexStore,
+} from "@/components/monster-codex/store/codex-store";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/MONSTERLINGS_SOURCE_DATA";
@@ -38,13 +41,13 @@ export const CodexList = () => {
 				return false;
 			}
 
-			if (filters.view === "favorite") {
+			if (filters.view === CODEX_VIEW.FAVORITE) {
 				return favoriteSet.has(monsterling.id);
 			}
 
 			const isCompleted = completedSet.has(monsterling.id);
-			if (filters.view === "completed") return isCompleted;
-			if (filters.view === "incomplete") return !isCompleted;
+			if (filters.view === CODEX_VIEW.COMPLETED) return isCompleted;
+			if (filters.view === CODEX_VIEW.INCOMPLETE) return !isCompleted;
 
 			return true;
 		});
@@ -55,12 +58,12 @@ export const CodexList = () => {
 			{monsterlings.length === 0 && (
 				<CollectionEmptyState
 					title={
-						filters.view === "favorite"
+						filters.view === CODEX_VIEW.FAVORITE
 							? "No favorite monsterlings yet"
 							: "No monsterling found"
 					}
 					description={
-						filters.view === "favorite"
+						filters.view === CODEX_VIEW.FAVORITE
 							? "Select All, then use the heart on a card to add favorites."
 							: undefined
 					}

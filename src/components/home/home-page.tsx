@@ -17,7 +17,10 @@ import {
 	HomeProgress,
 	type HomeStatistic,
 } from "@/components/home/home-progress";
-import { useCodexStore } from "@/components/monster-codex/store/codex-store";
+import {
+	CODEX_VIEW,
+	useCodexStore,
+} from "@/components/monster-codex/store/codex-store";
 import { useAppStore } from "@/stores/app-store";
 
 const features: HomeFeature[] = [
@@ -126,7 +129,7 @@ export const HomePage = () => {
 				isHydrated={isHydrated}
 				onNavigate={(to) => {
 					if (to === "/monster-codex") {
-						setCodexFilters({ view: "completed" });
+						setCodexFilters({ view: CODEX_VIEW.COMPLETED });
 					}
 				}}
 			/>
