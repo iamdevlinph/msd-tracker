@@ -2,6 +2,7 @@ import { Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ type LoadoutEditorProps = {
 	draft: Omit<LoadoutOwned, "id">;
 	activeTab: string;
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
+	artifactsOwned: StoreState["artifactsOwned"];
 	onNameChange: (name: string) => void;
 	onActiveTabChange: (tab: string) => void;
 	onOpenCharacterPicker: (characterIndex: number) => void;
@@ -27,6 +29,7 @@ type LoadoutEditorProps = {
 		legendary: boolean,
 		monsterlingIndex?: number,
 	) => void;
+	onOpenArtifactPicker: (characterIndex: number) => void;
 	onUpdateSlot: (
 		index: number,
 		updater: (slot: LoadoutCharacterSlot) => LoadoutCharacterSlot,
@@ -37,10 +40,12 @@ export const LoadoutEditor = ({
 	draft,
 	activeTab,
 	monsterlingsOwned,
+	artifactsOwned,
 	onNameChange,
 	onActiveTabChange,
 	onOpenCharacterPicker,
 	onOpenMonsterlingPicker,
+	onOpenArtifactPicker,
 	onUpdateSlot,
 }: LoadoutEditorProps) => (
 	<div className="grid gap-4">
@@ -115,6 +120,63 @@ export const LoadoutEditor = ({
 							)}
 						</div>
 						<div className="grid grid-cols-4 gap-2">
+							<div className="col-span-4 grid grid-cols-4 gap-2">
+								{(() => {
+									const artifactId = slot.artifactInstanceId;
+									const owned = artifactId ? artifactsOwned[artifactId] : null;
+									const artifact = owned
+										? ARTIFACTS_DATA[owned.artifact_id]
+										: null;
+									return (
+										<div className="relative aspect-square min-w-0">
+											<button
+												type="button"
+												onClick={() => onOpenArtifactPicker(index)}
+												className="grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
+											>
+												{artifact && owned ? (
+													<div className="relative grid size-full grid-rows-[1fr_auto] place-items-center overflow-hidden rounded-sm">
+														<img
+															src={artifact.image}
+															alt={artifact.name}
+															className="size-full min-h-0 object-contain p-1"
+														/>
+														<img
+															src={`/images/Character/Icon_shield_big${owned.fusion_level}.png`}
+															alt={`Fusion level ${owned.fusion_level}`}
+															className="absolute left-0.5 top-0.5 size-5"
+														/>
+														<span className="w-full truncate bg-black/80 px-1 py-0.5 text-[9px] text-white">
+															{artifact.name}
+														</span>
+													</div>
+												) : artifactId ? (
+													"Artifact unavailable"
+												) : (
+													"Select artifact"
+												)}
+											</button>
+											{artifactId && (
+												<Button
+													type="button"
+													size="icon-sm"
+													variant="destructive"
+													className="absolute -right-1 -top-1 size-6"
+													aria-label="Clear artifact"
+													onClick={() =>
+														onUpdateSlot(index, (current) => ({
+															...current,
+															artifactInstanceId: null,
+														}))
+													}
+												>
+													<Trash2Icon />
+												</Button>
+											)}
+										</div>
+									);
+								})()}
+							</div>
 							{[...SLOT_INDEXES, "legendary" as const].map((monsterIndex) => {
 								const legendary = monsterIndex === "legendary";
 								const id = legendary

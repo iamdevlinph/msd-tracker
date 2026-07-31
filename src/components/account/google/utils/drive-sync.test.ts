@@ -103,7 +103,17 @@ describe("Drive Monsterling backups", () => {
 			charactersOwned: {},
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: { 67: 4 },
-			loadouts: {},
+			loadouts: {
+				team: {
+					id: "team",
+					name: "Team",
+					characters: [
+						{ characterId: 1, monsterlingIds: [null, null, null] },
+						{ characterId: 2, monsterlingIds: [null, null, null] },
+						{ characterId: 3, monsterlingIds: [null, null, null] },
+					],
+				},
+			},
 		};
 		driveFetch
 			.mockResolvedValueOnce({
@@ -117,6 +127,11 @@ describe("Drive Monsterling backups", () => {
 		const downloaded = await download();
 		expect(downloaded?.monsterlingsOwned).toEqual({});
 		expect(downloaded?.monsterlingLinkChainLevels).toEqual({ 67: 4 });
+		expect(
+			downloaded?.loadouts.team.characters.map(
+				({ artifactInstanceId }) => artifactInstanceId,
+			),
+		).toEqual([null, null, null]);
 	});
 
 	it("migrates existing levels when downloading a legacy backup", async () => {

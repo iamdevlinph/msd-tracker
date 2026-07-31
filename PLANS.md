@@ -91,12 +91,12 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 ## Chunk 4: Loadout Inventory Integration
 
-- [ ] Confirm artifact and equipment reuse/uniqueness rules before changing the loadout schema.
-- [ ] Add one artifact and four equipment references to each character slot, with legacy defaults.
-- [ ] Add owned-item card pickers, filtering, assignment, replacement, and clearing to the loadout dialog.
-- [ ] Render assigned items in loadout cards and share-image previews; keep missing records safe.
-- [ ] Cover persistence migration, Drive compatibility, validation, responsive layout, and user flows with tests.
-- [ ] Show Artifact and Equipment slots in production after their complete vertical slices ship.
+- [x] Assign one unique owned-artifact copy per character slot, with legacy local and Drive defaults.
+- [x] Add artifact filtering, assignment, replacement, clearing, cards, previews, exports, safe missing-record handling, and editor links.
+- [x] Show completed Artifact slots in production.
+- [ ] Add four equipment references to each character slot, with legacy defaults.
+- [ ] Add equipment pickers, assignment, replacement, clearing, cards, previews, exports, validation, and tests.
+- [ ] Show Equipment slots in production after the complete vertical slice ships.
 
 ## Release Checklist
 

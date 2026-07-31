@@ -7,6 +7,7 @@ export type LoadoutCharacterSlot = {
 	characterId: CharId | null;
 	monsterlingIds: [string | null, string | null, string | null];
 	legendaryMonsterlingId?: string | null;
+	artifactInstanceId: string | null;
 };
 
 export type LoadoutOwned = {
@@ -31,7 +32,28 @@ export const emptyLoadoutCharacterSlot = (): LoadoutCharacterSlot => ({
 	characterId: null,
 	monsterlingIds: [null, null, null],
 	legendaryMonsterlingId: null,
+	artifactInstanceId: null,
 });
+
+export const normalizeLoadouts = (
+	loadouts: unknown,
+): Record<string, LoadoutOwned> => {
+	if (!loadouts || typeof loadouts !== "object") return {};
+	return Object.fromEntries(
+		Object.entries(loadouts as Record<string, Partial<LoadoutOwned>>).flatMap(
+			([id, loadout]) => {
+				if (!loadout || !Array.isArray(loadout.characters)) return [];
+				const characters = loadout.characters.map((slot) => ({
+					characterId: slot.characterId ?? null,
+					monsterlingIds: [...(slot.monsterlingIds ?? [null, null, null])],
+					legendaryMonsterlingId: slot.legendaryMonsterlingId ?? null,
+					artifactInstanceId: slot.artifactInstanceId ?? null,
+				})) as LoadoutOwned["characters"];
+				return [[id, { id, name: loadout.name ?? "Loadout", characters }]];
+			},
+		),
+	);
+};
 
 export const createLoadoutsSlice: StateCreator<
 	StoreState,

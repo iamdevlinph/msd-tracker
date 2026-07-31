@@ -45,16 +45,19 @@ const loadout: LoadoutOwned = {
 		{
 			characterId: 1,
 			monsterlingIds: ["regular", "deleted", null],
+			artifactInstanceId: "artifact",
 			legendaryMonsterlingId: "legendary",
 		},
 		{
 			characterId: 200_005,
 			monsterlingIds: [null, null, null],
+			artifactInstanceId: null,
 			legendaryMonsterlingId: "legendary",
 		},
 		{
 			characterId: 3,
 			monsterlingIds: [null, null, null],
+			artifactInstanceId: null,
 		},
 	],
 };
@@ -111,6 +114,9 @@ describe("LoadoutPreviewDialog", () => {
 					traits: [],
 				},
 			},
+			artifactsOwned: {
+				artifact: { artifact_id: 1, fusion_level: 2 },
+			},
 			monsterlingLinkChainLevels: { 67: 5 },
 		});
 	});
@@ -124,7 +130,7 @@ describe("LoadoutPreviewDialog", () => {
 		renderPreview();
 
 		const surface = screen.getByTestId("loadout-share-surface");
-		expect(surface.className).toContain("w-[984px]");
+		expect(surface.className).toContain("w-[1116px]");
 		const title = surface.querySelector("h2") as HTMLHeadingElement;
 		expect(title.className).toContain("min-w-0");
 		expect(title.className).toContain("flex-1");
@@ -146,6 +152,24 @@ describe("LoadoutPreviewDialog", () => {
 		).toBe("checked");
 		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
 		expect(screen.getByAltText("Link Chain Level 5")).toBeTruthy();
+		expect(screen.getByText("Fall from Grace")).toBeTruthy();
+		const artifactImage = screen.getByAltText("Fall from Grace portrait");
+		expect(artifactImage.className).not.toContain("scale-");
+		expect(artifactImage.parentElement?.className).toContain("size-[120px]");
+		expect(
+			screen
+				.getAllByAltText("4 background")
+				.some((background) => background.getAttribute("width") === "120"),
+		).toBe(true);
+		expect(
+			artifactImage.compareDocumentPosition(
+				screen.getByAltText("Stat ATK img"),
+			),
+		).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+		expect(screen.getByAltText("Fusion level 2")).toBeTruthy();
+		expect(screen.getAllByText("Artifact unavailable")[0].className).toContain(
+			"text-center",
+		);
 		expect(screen.queryByText("ATK")).toBeNull();
 		expect(
 			screen
@@ -220,9 +244,11 @@ describe("LoadoutPreviewDialog", () => {
 		fireEvent.click(
 			screen.getByRole("button", { name: "Edit Angel character" }),
 		);
-		fireEvent.click(
-			screen.getAllByRole("button", { name: /Edit .* monsterling/ })[0],
-		);
+		const monsterlingButton = screen.getAllByRole("button", {
+			name: /Edit .* monsterling/,
+		})[0];
+		expect(monsterlingButton.className).toContain("w-fit");
+		fireEvent.click(monsterlingButton);
 		expect(onEditCharacter).toHaveBeenCalledWith(1);
 		expect(onEditMonsterling).toHaveBeenCalledWith("regular");
 		expect(
@@ -238,7 +264,7 @@ describe("LoadoutPreviewDialog", () => {
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").className).toContain(
-			"w-[984px]",
+			"w-[1116px]",
 		);
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
 		expect(screen.getByAltText("Stat ATK img").className).toContain("size-5");
@@ -292,7 +318,7 @@ describe("LoadoutPreviewDialog", () => {
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
 		const capturedSurface = toBlob.mock.calls[0][0] as HTMLElement;
-		expect(capturedSurface.className).toContain("w-[984px]");
+		expect(capturedSurface.className).toContain("w-[1116px]");
 		expect(exportBackgroundDuringCapture).toBe("#18181b");
 		expect(exportSkillColumnsDuringCapture).toBe("repeat(2, minmax(0, 1fr))");
 		expect(

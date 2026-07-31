@@ -8,7 +8,7 @@ export const Route = createFileRoute("/loadouts")({
 		createSeoHead({
 			title: PUBLIC_PAGE_TITLES.LOADOUTS,
 			description:
-				"Build and organize Mongil: Star Dive team loadouts from your owned characters and Monsterlings.",
+				"Build Mongil: Star Dive team loadouts from owned characters, Monsterlings, and artifacts.",
 			path: "/loadouts",
 		}),
 });

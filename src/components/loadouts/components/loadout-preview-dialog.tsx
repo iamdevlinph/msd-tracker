@@ -20,6 +20,7 @@ type LoadoutPreviewDialogProps = {
 	onEdit: () => void;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
+	onEditArtifact?: (id: string) => void;
 	onDuplicate: () => void;
 	onDelete: () => void;
 };
@@ -30,6 +31,7 @@ export const LoadoutPreviewDialog = ({
 	onEdit,
 	onEditCharacter,
 	onEditMonsterling,
+	onEditArtifact,
 	onDuplicate,
 	onDelete,
 }: LoadoutPreviewDialogProps) => {
@@ -56,7 +58,7 @@ export const LoadoutPreviewDialog = ({
 				<DialogHeader className="border-b p-4 pr-14">
 					<DialogTitle>{loadout?.name ?? "Loadout preview"}</DialogTitle>
 					<DialogDescription>
-						Share-ready character and monsterling overview.
+						Share-ready character, Monsterling, and artifact overview.
 					</DialogDescription>
 				</DialogHeader>
 				<div className="flex flex-wrap items-center justify-between gap-3 border-b p-3">
@@ -103,6 +105,7 @@ export const LoadoutPreviewDialog = ({
 							compactMonsterlings={compactMonsterlings}
 							onEditCharacter={onEditCharacter}
 							onEditMonsterling={onEditMonsterling}
+							onEditArtifact={onEditArtifact}
 						/>
 					)}
 				</div>

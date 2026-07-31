@@ -66,9 +66,21 @@ const teamLoadout: LoadoutOwned = {
 	id: "team",
 	name: "Team",
 	characters: [
-		{ characterId: 1, monsterlingIds: [null, null, null] },
-		{ characterId: 2, monsterlingIds: [null, null, null] },
-		{ characterId: 3, monsterlingIds: [null, null, null] },
+		{
+			characterId: 1,
+			monsterlingIds: [null, null, null],
+			artifactInstanceId: null,
+		},
+		{
+			characterId: 2,
+			monsterlingIds: [null, null, null],
+			artifactInstanceId: null,
+		},
+		{
+			characterId: 3,
+			monsterlingIds: [null, null, null],
+			artifactInstanceId: null,
+		},
 	],
 };
 
@@ -87,9 +99,21 @@ const setMonsterlingSwapFixture = () =>
 			team: {
 				...teamLoadout,
 				characters: [
-					{ characterId: 1, monsterlingIds: ["first", "second", null] },
-					{ characterId: 2, monsterlingIds: ["other", null, null] },
-					{ characterId: 3, monsterlingIds: [null, null, null] },
+					{
+						characterId: 1,
+						monsterlingIds: ["first", "second", null],
+						artifactInstanceId: null,
+					},
+					{
+						characterId: 2,
+						monsterlingIds: ["other", null, null],
+						artifactInstanceId: null,
+					},
+					{
+						characterId: 3,
+						monsterlingIds: [null, null, null],
+						artifactInstanceId: null,
+					},
 				],
 			},
 		},
@@ -208,9 +232,21 @@ describe("LoadoutsDialog character picker", () => {
 					id: "team",
 					name: "Team",
 					characters: [
-						{ characterId: 1, monsterlingIds: [null, null, null] },
-						{ characterId: 2, monsterlingIds: [null, null, null] },
-						{ characterId: 3, monsterlingIds: [null, null, null] },
+						{
+							characterId: 1,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: null,
+						},
+						{
+							characterId: 2,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: null,
+						},
+						{
+							characterId: 3,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: null,
+						},
 					],
 				},
 			},
@@ -264,9 +300,18 @@ describe("LoadoutsDialog character picker", () => {
 						{
 							characterId: 1,
 							monsterlingIds: ["regular", null, null],
+							artifactInstanceId: null,
 						},
-						{ characterId: 2, monsterlingIds: [null, null, null] },
-						{ characterId: 3, monsterlingIds: [null, null, null] },
+						{
+							characterId: 2,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: null,
+						},
+						{
+							characterId: 3,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: null,
+						},
 					],
 				},
 			},
@@ -384,6 +429,65 @@ describe("LoadoutsDialog character picker", () => {
 			selectedTiers: [1],
 		});
 	});
+
+	it("assigns independent artifact copies and disables a copy used by another slot", () => {
+		useAppStore.setState({
+			loadouts: { team: teamLoadout },
+			artifactsOwned: {
+				"copy-a": { artifact_id: 1, fusion_level: 2 },
+				"copy-b": { artifact_id: 1, fusion_level: 4 },
+			},
+		});
+		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
+
+		const artifactSelector = screen.getByRole("button", {
+			name: "Select artifact",
+		});
+		expect(artifactSelector.parentElement?.parentElement?.className).toContain(
+			"col-span-4",
+		);
+		expect(
+			artifactSelector.compareDocumentPosition(
+				screen.getByRole("button", { name: "Monsterling 1" }),
+			),
+		).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+		fireEvent.click(artifactSelector);
+		fireEvent.click(
+			screen.getAllByRole("button", { name: "Select Fall from Grace" })[0],
+		);
+		expect(screen.getByAltText("Fall from Grace").className).toContain(
+			"object-contain",
+		);
+		expect(screen.getByAltText("Fusion level 2")).toBeTruthy();
+		expect(screen.getByText("Fall from Grace").className).toContain("truncate");
+		fireEvent.mouseDown(screen.getAllByRole("tab")[1], {
+			button: 0,
+			ctrlKey: false,
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Select artifact" }));
+
+		const copies = screen.getAllByRole("button", {
+			name: "Select Fall from Grace",
+		});
+		expect((copies[0] as HTMLButtonElement).disabled).toBe(true);
+		expect((copies[1] as HTMLButtonElement).disabled).toBe(false);
+		fireEvent.click(copies[1]);
+		fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+		expect(
+			useAppStore
+				.getState()
+				.loadouts.team.characters.map(
+					({ artifactInstanceId }) => artifactInstanceId,
+				),
+		).toEqual(["copy-a", "copy-b", null]);
+		expect(event).toHaveBeenCalledWith("loadout_update", {
+			character_count: 3,
+			monsterling_count: 0,
+			legendary_monsterling_count: 0,
+			artifact_count: 2,
+		});
+	});
 });
 
 describe("LoadoutsList", () => {
@@ -419,7 +523,7 @@ describe("LoadoutsList", () => {
 		).toBeTruthy();
 		expect(
 			screen.getByText(
-				"Create a loadout to organize your team and monsterlings.",
+				"Create a loadout to organize your team, Monsterlings, and artifacts.",
 			),
 		).toBeTruthy();
 	});
@@ -434,7 +538,11 @@ describe("LoadoutsList", () => {
 				team: {
 					...teamLoadout,
 					characters: [
-						{ characterId: 1, monsterlingIds: ["regular", null, null] },
+						{
+							characterId: 1,
+							monsterlingIds: ["regular", null, null],
+							artifactInstanceId: null,
+						},
 						teamLoadout.characters[1],
 						teamLoadout.characters[2],
 					],
@@ -602,7 +710,11 @@ describe("LoadoutsList", () => {
 				team: {
 					...teamLoadout,
 					characters: [
-						{ characterId: 1, monsterlingIds: ["regular", null, null] },
+						{
+							characterId: 1,
+							monsterlingIds: ["regular", null, null],
+							artifactInstanceId: null,
+						},
 						teamLoadout.characters[1],
 						teamLoadout.characters[2],
 					],
@@ -688,7 +800,7 @@ describe("LoadoutsList", () => {
 			expect(success).toHaveBeenCalledWith("Loadout image copied"),
 		);
 		expect(write).toHaveBeenCalledOnce();
-		expect(toBlob.mock.calls[0][0].className).toContain("w-[984px]");
+		expect(toBlob.mock.calls[0][0].className).toContain("w-[1116px]");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {

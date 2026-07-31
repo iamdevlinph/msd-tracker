@@ -40,6 +40,32 @@ afterEach(() => {
 });
 
 describe("Monsterling Link Chain persistence", () => {
+	it("normalizes legacy loadout artifact assignments", () => {
+		const migrated = migrateAppStore({
+			loadouts: {
+				team: {
+					id: "team",
+					name: "Team",
+					characters: [
+						{ characterId: 1, monsterlingIds: [null, null, null] },
+						{
+							characterId: 2,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: "artifact-copy",
+						},
+						{ characterId: 3, monsterlingIds: [null, null, null] },
+					],
+				},
+			},
+		});
+
+		expect(
+			migrated.loadouts.team.characters.map(
+				({ artifactInstanceId }) => artifactInstanceId,
+			),
+		).toEqual([null, "artifact-copy", null]);
+	});
+
 	it("migrates the highest existing level and strips legacy instance fields", () => {
 		const migrated = migrateAppStore({
 			monsterlingsOwned: {

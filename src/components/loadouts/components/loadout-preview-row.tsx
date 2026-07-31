@@ -2,6 +2,8 @@ import CharacterCard from "@/components/characters/components/character-card";
 import { getAwakeningBonus } from "@/components/characters/utils/character-utils";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
+import { TierPortrait } from "@/components/shared/tier-portrait";
+import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { IMAGE_MAPPING, IMAGE_MAPPING_ID } from "@/data/IMAGE_MAPPING_DATA";
@@ -22,20 +24,24 @@ type LoadoutPreviewRowProps = {
 	slot: LoadoutCharacterSlot;
 	characterOwned?: StoreState["charactersOwned"][number];
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
+	artifactsOwned: StoreState["artifactsOwned"];
 	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
 	compactMonsterlings: boolean;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
+	onEditArtifact?: (id: string) => void;
 };
 
 export const LoadoutPreviewRow = ({
 	slot,
 	characterOwned,
 	monsterlingsOwned,
+	artifactsOwned,
 	monsterlingLinkChainLevels,
 	compactMonsterlings,
 	onEditCharacter,
 	onEditMonsterling,
+	onEditArtifact,
 }: LoadoutPreviewRowProps) => {
 	const character =
 		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
@@ -106,8 +112,8 @@ export const LoadoutPreviewRow = ({
 			className={cn(
 				"grid items-center gap-3 border-b border-border/70 pb-4 last:border-0 last:pb-0",
 				compactMonsterlings
-					? "grid-cols-[184px_repeat(3,176px)_188px]"
-					: "grid-cols-[184px_repeat(3,330px)_342px]",
+					? "grid-cols-[184px_120px_repeat(3,176px)_188px]"
+					: "grid-cols-[184px_120px_repeat(3,330px)_342px]",
 			)}
 		>
 			{validCharacter ? (
@@ -126,6 +132,11 @@ export const LoadoutPreviewRow = ({
 			) : (
 				<PreviewPlaceholder label="Character unavailable" />
 			)}
+			<PreviewArtifactSlot
+				id={slot.artifactInstanceId}
+				owned={artifactsOwned}
+				onEdit={onEditArtifact}
+			/>
 			{SLOT_INDEXES.map((index) => (
 				<PreviewMonsterlingSlot
 					key={index}
@@ -148,6 +159,52 @@ export const LoadoutPreviewRow = ({
 				/>
 			</div>
 		</section>
+	);
+};
+
+const PreviewArtifactSlot = ({
+	id,
+	owned,
+	onEdit,
+}: {
+	id: string | null;
+	owned: StoreState["artifactsOwned"];
+	onEdit?: (id: string) => void;
+}) => {
+	const item = id ? owned[id] : null;
+	const artifact = item ? ARTIFACTS_DATA[item.artifact_id] : null;
+	if (!item || !artifact || !id)
+		return <PreviewPlaceholder label="Artifact unavailable" />;
+	const card = (
+		<div className="relative size-[120px] overflow-hidden rounded-lg">
+			<TierPortrait
+				tier={artifact.tier_id}
+				portraitImg={artifact.image}
+				portraitSize={120}
+				name={artifact.name}
+				portraitClassName="size-[120px] object-contain"
+			/>
+			<img
+				src={`/images/Character/Icon_shield_big${item.fusion_level}.png`}
+				alt={`Fusion level ${item.fusion_level}`}
+				className="absolute left-1 top-1 z-10 size-7 drop-shadow-lg"
+			/>
+			<small className="absolute bottom-2 z-10 w-full text-center text-[10px] text-shadow-sm/80 stroke-black">
+				<span className="line-clamp-1">{artifact.name}</span>
+			</small>
+		</div>
+	);
+	return onEdit ? (
+		<button
+			type="button"
+			aria-label={`Edit ${artifact.name} artifact`}
+			onClick={() => onEdit(id)}
+			className="w-fit rounded-lg text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+		>
+			{card}
+		</button>
+	) : (
+		card
 	);
 };
 
@@ -189,7 +246,7 @@ const PreviewMonsterlingSlot = ({
 			type="button"
 			aria-label={`Edit ${info.name} monsterling`}
 			onClick={() => onEdit(id)}
-			className="grid w-full rounded-lg text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+			className="grid w-fit rounded-lg text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 		>
 			{card}
 		</button>
@@ -201,7 +258,7 @@ const PreviewMonsterlingSlot = ({
 type PreviewPlaceholderProps = { label: string };
 
 const PreviewPlaceholder = ({ label }: PreviewPlaceholderProps) => (
-	<div className="grid h-[120px] w-full place-items-center rounded-lg border border-dashed bg-muted/20 text-sm text-muted-foreground">
+	<div className="grid h-[120px] w-full place-items-center rounded-lg border border-dashed bg-muted/20 text-center text-sm text-muted-foreground">
 		{label}
 	</div>
 );

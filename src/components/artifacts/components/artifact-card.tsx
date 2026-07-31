@@ -6,24 +6,34 @@ type ArtifactCardProps = {
 	artifact: Artifact;
 	fusionLevel?: number;
 	className?: string;
+	imageClassName?: string;
 };
 
 export const ArtifactCard = ({
 	artifact,
 	fusionLevel,
 	className,
+	imageClassName,
 }: ArtifactCardProps) => (
-	<div className={cn("relative w-36 h-44 rounded overflow-hidden", className)}>
+	<div
+		className={cn(
+			"relative grid h-44 w-36 grid-rows-[1fr_3rem] overflow-hidden rounded",
+			className,
+		)}
+	>
 		<img
 			src={TIERS_DATA[artifact.tier_id].full}
 			alt={`Tier ${artifact.tier_id} background`}
-			className="absolute inset-0 h-full w-full object-fill"
+			className="absolute inset-0 size-full object-fill"
 		/>
-		<div className="relative h-32 w-full">
+		<div className="relative min-h-0 w-full">
 			<img
 				src={artifact.image}
 				alt={artifact.name}
-				className="absolute inset-0 h-full w-full object-contain p-3"
+				className={cn(
+					"absolute inset-0 h-full w-full object-contain p-3",
+					imageClassName,
+				)}
 			/>
 			{fusionLevel != null && (
 				<img
@@ -33,7 +43,7 @@ export const ArtifactCard = ({
 				/>
 			)}
 		</div>
-		<div className="relative flex h-12 items-center justify-center bg-black/80 px-2 text-center text-xs">
+		<div className="relative flex items-center justify-center bg-black/80 px-2 text-center text-xs">
 			<span className="line-clamp-2">{artifact.name}</span>
 		</div>
 	</div>

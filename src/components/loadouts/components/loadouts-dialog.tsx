@@ -2,8 +2,17 @@ import { ArrowLeftIcon } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
+import {
+	type ArtifactFilters,
+	emptyArtifactFilters,
+	filterArtifacts,
+} from "@/components/artifacts/utils/artifact-utils";
 import { emptyCharacterFilters } from "@/components/characters/store/characters-filter-store";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
+import {
+	type LoadoutArtifactOption,
+	LoadoutArtifactPicker,
+} from "@/components/loadouts/components/loadout-artifact-picker";
 import {
 	type LoadoutCharacterOption,
 	LoadoutCharacterPicker,
@@ -29,6 +38,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { preventSearchInputDismissOnEscape } from "@/components/ui/search-input";
+import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/REGIONS_DATA";
@@ -58,6 +68,7 @@ type PickerTarget =
 			monsterlingIndex?: number;
 			legendary: boolean;
 	  }
+	| { type: "artifact"; characterIndex: number }
 	| null;
 
 type LoadoutsDialogProps = {
@@ -77,6 +88,7 @@ export const LoadoutsDialog = ({
 	const loadouts = useAppStore((state) => state.loadouts);
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
 	const monsterlingLinkChainLevels = useAppStore(
 		(state) => state.monsterlingLinkChainLevels,
 	);
@@ -88,6 +100,8 @@ export const LoadoutsDialog = ({
 	const [characterFilters, setCharacterFilters] = useState(
 		emptyCharacterFilters,
 	);
+	const [artifactFilters, setArtifactFilters] =
+		useState<ArtifactFilters>(emptyArtifactFilters);
 	const [activeTab, setActiveTab] = useState("0");
 	const nameManuallyEdited = useRef(false);
 
@@ -102,6 +116,7 @@ export const LoadoutsDialog = ({
 							characterId: slot.characterId,
 							monsterlingIds: [...slot.monsterlingIds],
 							legendaryMonsterlingId: slot.legendaryMonsterlingId ?? null,
+							artifactInstanceId: slot.artifactInstanceId ?? null,
 						})) as LoadoutOwned["characters"],
 					}
 				: blankLoadout(
@@ -126,6 +141,11 @@ export const LoadoutsDialog = ({
 					(id): id is string => id !== null,
 				)
 			: [],
+	);
+	const selectedArtifactIds = new Set(
+		draft.characters
+			.map((slot) => slot.artifactInstanceId)
+			.filter((id): id is string => id != null),
 	);
 	const characterPickerOptions: LoadoutCharacterOption[] = Object.values(
 		charactersOwned,
@@ -169,6 +189,29 @@ export const LoadoutsDialog = ({
 			);
 		})
 		.sort((a, b) => a.info.name.localeCompare(b.info.name));
+	const artifactPickerOptions: LoadoutArtifactOption[] = Object.entries(
+		artifactsOwned,
+	)
+		.flatMap(([id, owned]) => {
+			const info = ARTIFACTS_DATA[owned.artifact_id];
+			return info && filterArtifacts([info], artifactFilters).length
+				? [
+						{
+							id,
+							artifactId: owned.artifact_id,
+							fusionLevel: owned.fusion_level,
+						},
+					]
+				: [];
+		})
+		.sort(
+			(a, b) =>
+				ARTIFACTS_DATA[a.artifactId].name.localeCompare(
+					ARTIFACTS_DATA[b.artifactId].name,
+				) ||
+				a.fusionLevel - b.fusionLevel ||
+				a.id.localeCompare(b.id),
+		);
 
 	const updateSlot = (
 		index: number,
@@ -216,6 +259,11 @@ export const LoadoutsDialog = ({
 		setPickerTarget(null);
 		setMonsterlingFilters(emptyMonsterlingFilters());
 		setCharacterFilters(emptyCharacterFilters());
+		setArtifactFilters(emptyArtifactFilters());
+	};
+	const openArtifactPicker = (characterIndex: number) => {
+		setArtifactFilters(emptyArtifactFilters());
+		setPickerTarget({ type: "artifact", characterIndex });
 	};
 	const selectCharacter = (id: number) => {
 		if (pickerTarget?.type !== "character") return;
@@ -256,6 +304,19 @@ export const LoadoutsDialog = ({
 		});
 		resetPicker();
 	};
+	const selectArtifact = (id: string) => {
+		if (pickerTarget?.type !== "artifact") return;
+		if (
+			selectedArtifactIds.has(id) &&
+			draft.characters[pickerTarget.characterIndex].artifactInstanceId !== id
+		)
+			return;
+		updateSlot(pickerTarget.characterIndex, (slot) => ({
+			...slot,
+			artifactInstanceId: id,
+		}));
+		resetPicker();
+	};
 	const close = () => {
 		setOpen(false);
 		resetPicker();
@@ -263,7 +324,15 @@ export const LoadoutsDialog = ({
 	};
 	const canSave =
 		!!draft.name.trim() &&
-		draft.characters.every((slot) => slot.characterId !== null);
+		draft.characters.every((slot) => slot.characterId !== null) &&
+		new Set(
+			draft.characters
+				.map(({ artifactInstanceId }) => artifactInstanceId)
+				.filter((id): id is string => id !== null),
+		).size ===
+			draft.characters.filter(
+				({ artifactInstanceId }) => artifactInstanceId !== null,
+			).length;
 	const submit = () => {
 		if (!canSave) return;
 		setLoadout(
@@ -272,6 +341,7 @@ export const LoadoutsDialog = ({
 				characters: draft.characters.map((slot) => ({
 					...slot,
 					legendaryMonsterlingId: slot.legendaryMonsterlingId ?? null,
+					artifactInstanceId: slot.artifactInstanceId ?? null,
 				})) as LoadoutOwned["characters"],
 			},
 			loadoutToEdit ?? undefined,
@@ -292,6 +362,9 @@ export const LoadoutsDialog = ({
 				legendary_monsterling_count: draft.characters.filter(
 					({ legendaryMonsterlingId }) => legendaryMonsterlingId != null,
 				).length,
+				artifact_count: draft.characters.filter(
+					({ artifactInstanceId }) => artifactInstanceId != null,
+				).length,
 			},
 		);
 		close();
@@ -302,15 +375,19 @@ export const LoadoutsDialog = ({
 			? "Select Character"
 			: pickerTarget?.type === "monsterling"
 				? `Select ${pickerTarget.legendary ? "Legendary " : ""}Monsterling`
-				: loadoutToEdit
-					? "Edit Team Loadout"
-					: "Add Team Loadout";
+				: pickerTarget?.type === "artifact"
+					? "Select Artifact"
+					: loadoutToEdit
+						? "Edit Team Loadout"
+						: "Add Team Loadout";
 	const pickerDescription =
 		pickerTarget?.type === "character"
 			? "Search and filter your owned characters."
 			: pickerTarget?.type === "monsterling"
 				? "Search owned monsterlings by name or tier."
-				: "Select three owned characters and assign their monsterlings.";
+				: pickerTarget?.type === "artifact"
+					? "Search and filter your owned artifacts."
+					: "Select three owned characters and assign their monsterlings.";
 
 	return (
 		<Dialog
@@ -373,11 +450,24 @@ export const LoadoutsDialog = ({
 							legendary={pickerTarget.legendary}
 							onSelect={selectMonsterling}
 						/>
+					) : pickerTarget?.type === "artifact" ? (
+						<LoadoutArtifactPicker
+							filters={artifactFilters}
+							onFiltersChange={setArtifactFilters}
+							options={artifactPickerOptions}
+							selectedIds={selectedArtifactIds}
+							currentId={
+								draft.characters[pickerTarget.characterIndex]
+									.artifactInstanceId ?? null
+							}
+							onSelect={selectArtifact}
+						/>
 					) : (
 						<LoadoutEditor
 							draft={draft}
 							activeTab={activeTab}
 							monsterlingsOwned={monsterlingsOwned}
+							artifactsOwned={artifactsOwned}
 							onNameChange={(name) => {
 								nameManuallyEdited.current = true;
 								setDraft((current) => ({ ...current, name }));
@@ -385,6 +475,7 @@ export const LoadoutsDialog = ({
 							onActiveTabChange={setActiveTab}
 							onOpenCharacterPicker={openCharacterPicker}
 							onOpenMonsterlingPicker={openMonsterlingPicker}
+							onOpenArtifactPicker={openArtifactPicker}
 							onUpdateSlot={updateSlot}
 						/>
 					)}

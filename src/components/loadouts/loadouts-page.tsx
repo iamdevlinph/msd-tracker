@@ -7,7 +7,7 @@ export const LoadoutsPage = () => {
 		<div>
 			<PageTitle
 				title="Loadouts"
-				description="Build teams from owned characters and assign their Monsterlings."
+				description="Build teams from owned characters and assign their Monsterlings and artifacts."
 			/>
 
 			<div className="flex gap-5 flex-col">

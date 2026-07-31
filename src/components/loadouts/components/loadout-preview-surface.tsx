@@ -14,6 +14,7 @@ type LoadoutPreviewSurfaceProps = {
 	className?: string;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
+	onEditArtifact?: (id: string) => void;
 };
 
 export const LoadoutPreviewSurface = ({
@@ -23,9 +24,11 @@ export const LoadoutPreviewSurface = ({
 	className,
 	onEditCharacter,
 	onEditMonsterling,
+	onEditArtifact,
 }: LoadoutPreviewSurfaceProps) => {
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
 	const monsterlingLinkChainLevels = useAppStore(
 		(state) => state.monsterlingLinkChainLevels,
 	);
@@ -36,7 +39,7 @@ export const LoadoutPreviewSurface = ({
 			data-testid="loadout-share-surface"
 			className={cn(
 				"grid gap-4 bg-background p-3 text-foreground",
-				compactMonsterlings ? "w-[984px]" : "w-[1600px]",
+				compactMonsterlings ? "w-[1116px]" : "w-[1730px]",
 				className,
 			)}
 		>
@@ -61,10 +64,12 @@ export const LoadoutPreviewSurface = ({
 							: charactersOwned[loadout.characters[index].characterId]
 					}
 					monsterlingsOwned={monsterlingsOwned}
+					artifactsOwned={artifactsOwned}
 					monsterlingLinkChainLevels={monsterlingLinkChainLevels}
 					compactMonsterlings={compactMonsterlings}
 					onEditCharacter={onEditCharacter}
 					onEditMonsterling={onEditMonsterling}
+					onEditArtifact={onEditArtifact}
 				/>
 			))}
 			<footer className="flex justify-end px-1 pb-1 pt-2 text-sm text-muted-foreground">

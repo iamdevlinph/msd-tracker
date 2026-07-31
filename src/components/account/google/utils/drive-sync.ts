@@ -4,6 +4,7 @@ import { normalizeChecklistPersistedState } from "@/components/checklist/utils/c
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useAppStore } from "@/stores/app-store";
+import { normalizeLoadouts } from "@/stores/loadouts-slice";
 
 const FILE_NAME = "state.json";
 
@@ -101,6 +102,7 @@ export async function download(): Promise<Backup | null> {
 
 		return {
 			...backup,
+			loadouts: normalizeLoadouts(backup.loadouts),
 			...normalizeChecklistPersistedState(backup),
 			...consolidateMonsterlingLinkChainLevels(
 				backup.monsterlingsOwned ?? {},

@@ -17,6 +17,7 @@ type LoadoutCardProps = {
 	onDelete: () => void;
 	onEditCharacter: (id: number) => void;
 	onEditMonsterling: (id: string) => void;
+	onEditArtifact: (id: string) => void;
 	activeImageAction?: LoadoutImageAction | null;
 	disabled?: boolean;
 };
@@ -31,11 +32,13 @@ export const LoadoutCard = ({
 	onDelete,
 	onEditCharacter,
 	onEditMonsterling,
+	onEditArtifact,
 	activeImageAction,
 	disabled,
 }: LoadoutCardProps) => {
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
 
 	return (
 		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary/40 hover:shadow-md focus-within:border-primary/40 focus-within:shadow-md">
@@ -72,8 +75,10 @@ export const LoadoutCard = ({
 						slot={loadout.characters[index]}
 						charactersOwned={charactersOwned}
 						monsterlingsOwned={monsterlingsOwned}
+						artifactsOwned={artifactsOwned}
 						onEditCharacter={onEditCharacter}
 						onEditMonsterling={onEditMonsterling}
+						onEditArtifact={onEditArtifact}
 					/>
 				))}
 			</CardContent>

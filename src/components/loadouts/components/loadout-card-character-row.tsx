@@ -1,4 +1,5 @@
 import { TierPortrait } from "@/components/shared/tier-portrait";
+import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
@@ -20,8 +21,10 @@ type LoadoutCardCharacterRowProps = {
 	slot: LoadoutCharacterSlot;
 	charactersOwned: StoreState["charactersOwned"];
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
+	artifactsOwned: StoreState["artifactsOwned"];
 	onEditCharacter: (id: number) => void;
 	onEditMonsterling: (id: string) => void;
+	onEditArtifact: (id: string) => void;
 };
 
 export const LoadoutCardCharacterRow = ({
@@ -30,8 +33,10 @@ export const LoadoutCardCharacterRow = ({
 	slot,
 	charactersOwned,
 	monsterlingsOwned,
+	artifactsOwned,
 	onEditCharacter,
 	onEditMonsterling,
+	onEditArtifact,
 }: LoadoutCardCharacterRowProps) => {
 	const character =
 		slot.characterId !== null ? CHARACTERS_DATA[slot.characterId] : null;
@@ -147,24 +152,49 @@ export const LoadoutCardCharacterRow = ({
 					);
 				},
 			)}
-			{SHOW_FUTURE_SLOTS && (
-				<>
-					<div className="grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground">
-						Artifact
+			{(() => {
+				const owned = slot.artifactInstanceId
+					? artifactsOwned[slot.artifactInstanceId]
+					: null;
+				const artifact = owned ? ARTIFACTS_DATA[owned.artifact_id] : null;
+				return (
+					<div className="grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center">
+						{owned && artifact && slot.artifactInstanceId ? (
+							<button
+								type="button"
+								aria-label={`Edit ${artifact.name} artifact`}
+								onClick={(event) => {
+									event.stopPropagation();
+									onEditArtifact(slot.artifactInstanceId as string);
+								}}
+								className="pointer-events-auto relative grid size-full grid-rows-[1fr_auto] overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+							>
+								<img
+									src={artifact.image}
+									alt={artifact.name}
+									className="size-full min-h-0 object-contain p-1"
+								/>
+							</button>
+						) : (
+							<span className="text-[10px] text-muted-foreground">
+								{slot.artifactInstanceId ? "Artifact unavailable" : "Artifact"}
+							</span>
+						)}
 					</div>
-					{EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => (
-						<div
-							key={`${loadoutId}-${index}-equipment-${equipmentIndex}`}
-							className={cn(
-								"grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground",
-								equipmentIndex === 1 && "border-l-2 border-l-primary pl-2",
-							)}
-						>
-							Equipment {equipmentIndex}
-						</div>
-					))}
-				</>
-			)}
+				);
+			})()}
+			{SHOW_FUTURE_SLOTS &&
+				EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => (
+					<div
+						key={`${loadoutId}-${index}-equipment-${equipmentIndex}`}
+						className={cn(
+							"grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground",
+							equipmentIndex === 1 && "border-l-2 border-l-primary pl-2",
+						)}
+					>
+						Equipment {equipmentIndex}
+					</div>
+				))}
 		</div>
 	);
 };

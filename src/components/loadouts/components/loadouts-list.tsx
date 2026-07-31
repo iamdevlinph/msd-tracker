@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import toast from "react-hot-toast";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
+import { EditArtifactDetailsDialog } from "@/components/artifacts/components/edit-artifact-details-dialog";
 import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
 import { LoadoutCard } from "@/components/loadouts/components/loadout-card";
 import {
@@ -28,6 +29,7 @@ export const LoadoutsList = () => {
 	const [editorTarget, setEditorTarget] = useState<
 		| { type: "character"; id: number }
 		| { type: "monsterling"; id: string }
+		| { type: "artifact"; id: string }
 		| null
 	>(null);
 	const exportSurfaceRef = useRef<HTMLDivElement>(null);
@@ -96,7 +98,7 @@ export const LoadoutsList = () => {
 			{loadoutEntries.length === 0 && (
 				<CollectionEmptyState
 					title="No loadouts yet"
-					description="Create a loadout to organize your team and monsterlings."
+					description="Create a loadout to organize your team, Monsterlings, and artifacts."
 				/>
 			)}
 
@@ -123,6 +125,7 @@ export const LoadoutsList = () => {
 							onEditMonsterling={(id) =>
 								setEditorTarget({ type: "monsterling", id })
 							}
+							onEditArtifact={(id) => setEditorTarget({ type: "artifact", id })}
 							activeImageAction={
 								loadoutToExport === loadout.id
 									? imageActions.activeAction
@@ -152,6 +155,7 @@ export const LoadoutsList = () => {
 				onDelete={() => previewLoadout && remove(previewLoadout.id)}
 				onEditCharacter={(id) => setEditorTarget({ type: "character", id })}
 				onEditMonsterling={(id) => setEditorTarget({ type: "monsterling", id })}
+				onEditArtifact={(id) => setEditorTarget({ type: "artifact", id })}
 			/>
 			<EditCharacterDetailsDialog
 				charIdToEdit={
@@ -166,6 +170,12 @@ export const LoadoutsList = () => {
 					editorTarget?.type === "monsterling" ? editorTarget.id : null
 				}
 				open={editorTarget?.type === "monsterling"}
+				setOpen={setEditorOpen}
+				onClose={() => setEditorTarget(null)}
+			/>
+			<EditArtifactDetailsDialog
+				instanceId={editorTarget?.type === "artifact" ? editorTarget.id : null}
+				open={editorTarget?.type === "artifact"}
 				setOpen={setEditorOpen}
 				onClose={() => setEditorTarget(null)}
 			/>

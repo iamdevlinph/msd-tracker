@@ -21,6 +21,7 @@ import {
 import {
 	createLoadoutsSlice,
 	type LoadoutsSlice,
+	normalizeLoadouts,
 } from "@/stores/loadouts-slice";
 import {
 	createMonsterlingsSlice,
@@ -87,6 +88,7 @@ export const migrateAppStore = (persistedState: unknown) => {
 	const state = persistedState as Partial<StoreState>;
 	return {
 		...state,
+		loadouts: normalizeLoadouts(state.loadouts),
 		artifactsOwned: state.artifactsOwned ?? {},
 		...normalizeChecklistPersistedState(state),
 		...consolidateMonsterlingLinkChainLevels(
