@@ -292,4 +292,12 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 		CLASS_ID_BY_CLASS.ASSASSIN,
 		ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 	),
+	35: artifact(
+		35,
+		"Reward Virtue, Eliminate Evil",
+		"Maybell",
+		TIER_ID_BY_TIER.PRIME_5,
+		CLASS_ID_BY_CLASS.DESTROYER,
+		ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+	),
 };
