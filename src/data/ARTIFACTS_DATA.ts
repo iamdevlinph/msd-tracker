@@ -300,4 +300,20 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 		CLASS_ID_BY_CLASS.DESTROYER,
 		ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 	),
+	36: artifact(
+		36,
+		"A Summer Soaked in Love",
+		"FrancisSummer",
+		TIER_ID_BY_TIER.PRIME_5,
+		CLASS_ID_BY_CLASS.SUPPORT,
+		ELEMENT_ID_BY_ELEMENT.EARTH,
+	),
+	37: artifact(
+		37,
+		"The Flame that Dreams of Justice",
+		"VernaSummer",
+		TIER_ID_BY_TIER.PRIME_5,
+		CLASS_ID_BY_CLASS.FIGHTER,
+		ELEMENT_ID_BY_ELEMENT.FIRE,
+	),
 };

@@ -9,9 +9,9 @@ import { TIERS_DATA } from "@/data/TIERS_DATA";
 describe("artifacts data", () => {
 	it("contains all local artifact images with stable unique ids", () => {
 		const artifacts = Object.values(ARTIFACTS_DATA);
-		expect(artifacts).toHaveLength(34);
-		expect(new Set(artifacts.map((a) => a.id)).size).toBe(34);
-		expect(new Set(artifacts.map((a) => a.image)).size).toBe(34);
+		expect(artifacts).toHaveLength(37);
+		expect(new Set(artifacts.map((a) => a.id)).size).toBe(37);
+		expect(new Set(artifacts.map((a) => a.image)).size).toBe(37);
 		for (const artifact of artifacts) {
 			expect(TIERS_DATA[artifact.tier_id]).toBeDefined();
 			expect(CHARACTER_CLASS_DATA[artifact.class_id]).toBeDefined();
