@@ -1,9 +1,17 @@
+import {
+	MONSTERLING_CARD_WIDTH,
+	MONSTERLING_COMPACT_CARD_WIDTH,
+} from "@/components/monsterlings/components/monsterling-constants";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
-import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
 import { LoadoutPreviewArtifact } from "./loadout-preview-artifact-slot";
 import { LoadoutPreviewCharacter } from "./loadout-preview-character-slot";
+import {
+	LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH,
+	LOADOUT_PREVIEW_LEGENDARY_SLOT_OVERHEAD,
+	LOADOUT_PREVIEW_PORTRAIT_SIZE,
+} from "./loadout-preview-constants";
 import { LoadoutPreviewMonsterling } from "./loadout-preview-monsterling-slot";
 import { LoadoutPreviewPlaceholder } from "./loadout-preview-placeholder-slot";
 import { MONSTERLING_SLOT_INDEXES } from "./loadout-slot-constants";
@@ -33,14 +41,15 @@ export const LoadoutPreviewRow = ({
 }: LoadoutPreviewRowProps) => {
 	const character =
 		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
+	const monsterlingCardWidth = compactMonsterlings
+		? MONSTERLING_COMPACT_CARD_WIDTH
+		: MONSTERLING_CARD_WIDTH;
 	return (
 		<section
-			className={cn(
-				"grid items-center gap-3 border-b border-border/70 pb-4 last:border-0 last:pb-0",
-				compactMonsterlings
-					? "grid-cols-[184px_120px_repeat(3,176px)_188px]"
-					: "grid-cols-[184px_120px_repeat(3,330px)_342px]",
-			)}
+			className="grid items-center gap-3 border-b border-border/70 pb-4 last:border-0 last:pb-0"
+			style={{
+				gridTemplateColumns: `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px ${LOADOUT_PREVIEW_PORTRAIT_SIZE}px repeat(3, ${monsterlingCardWidth}px) ${monsterlingCardWidth + LOADOUT_PREVIEW_LEGENDARY_SLOT_OVERHEAD}px`,
+			}}
 		>
 			{character && characterOwned ? (
 				<LoadoutPreviewCharacter

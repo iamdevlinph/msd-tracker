@@ -2,6 +2,7 @@ import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import type { StoreState } from "@/stores/app-store";
+import { LOADOUT_PREVIEW_PORTRAIT_SIZE } from "./loadout-preview-constants";
 import { LoadoutPreviewPlaceholder } from "./loadout-preview-placeholder-slot";
 
 type LoadoutPreviewArtifactProps = {
@@ -26,7 +27,7 @@ export const LoadoutPreviewArtifact = ({
 			<TierPortrait
 				tier={artifact.tier_id}
 				portraitImg={artifact.image}
-				portraitSize={120}
+				portraitSize={LOADOUT_PREVIEW_PORTRAIT_SIZE}
 				name={artifact.name}
 				portraitClassName="size-[120px] object-contain"
 			/>

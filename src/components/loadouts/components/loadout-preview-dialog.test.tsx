@@ -99,7 +99,7 @@ describe("LoadoutPreviewDialog", () => {
 		renderPreview();
 
 		const surface = screen.getByTestId("loadout-share-surface");
-		expect(surface.className).toContain("w-[1116px]");
+		expect(surface.style.width).toBe("1050px");
 		const title = surface.querySelector("h2") as HTMLHeadingElement;
 		expect(title.className).toContain("min-w-0");
 		expect(title.className).toContain("flex-1");
@@ -164,12 +164,9 @@ describe("LoadoutPreviewDialog", () => {
 		);
 		expect(
 			skillCells.every((skill) =>
-				skill.className.includes("place-items-center"),
+				skill.className.includes("grid-cols-[1fr_auto]"),
 			),
 		).toBe(true);
-		expect(skillCells[0].parentElement?.style.gridTemplateColumns).toBe(
-			"var(--loadout-export-skill-columns, repeat(4, minmax(0, 1fr)))",
-		);
 		expect(
 			skillCells.every((skill) =>
 				skill.querySelector("span")?.className.includes("whitespace-nowrap"),
@@ -240,8 +237,8 @@ describe("LoadoutPreviewDialog", () => {
 			name: "Compact monsterlings",
 		});
 
-		expect(screen.getByTestId("loadout-share-surface").className).toContain(
-			"w-[1116px]",
+		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
+			"1050px",
 		);
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
 		expect(screen.getByAltText("Stat ATK img").className).toContain("size-5");
@@ -268,8 +265,8 @@ describe("LoadoutPreviewDialog", () => {
 
 		fireEvent.click(checkbox);
 
-		expect(screen.getByTestId("loadout-share-surface").className).toContain(
-			"w-[1730px]",
+		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
+			"1722px",
 		);
 		expect(screen.getByRole("dialog").className).toContain(
 			"2xl:max-w-[1640px]",

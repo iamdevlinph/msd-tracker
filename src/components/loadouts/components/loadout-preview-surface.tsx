@@ -4,6 +4,10 @@ import { SITE_URL } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+import {
+	LOADOUT_PREVIEW_COMPACT_WIDTH,
+	LOADOUT_PREVIEW_DETAILED_WIDTH,
+} from "./loadout-preview-constants";
 
 const SLOTS = [0, 1, 2] as const;
 
@@ -37,11 +41,12 @@ export const LoadoutPreviewSurface = ({
 		<div
 			ref={ref}
 			data-testid="loadout-share-surface"
-			className={cn(
-				"grid gap-4 bg-background p-3 text-foreground",
-				compactMonsterlings ? "w-[1116px]" : "w-[1730px]",
-				className,
-			)}
+			className={cn("grid gap-4 bg-background p-3 text-foreground", className)}
+			style={{
+				width: compactMonsterlings
+					? LOADOUT_PREVIEW_COMPACT_WIDTH
+					: LOADOUT_PREVIEW_DETAILED_WIDTH,
+			}}
 		>
 			<header className="flex items-baseline justify-between gap-4 border-b border-primary/60 px-1 pb-3">
 				<h2

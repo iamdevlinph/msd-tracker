@@ -430,7 +430,7 @@ describe("LoadoutsList", () => {
 			expect(success).toHaveBeenCalledWith("Loadout image copied"),
 		);
 		expect(write).toHaveBeenCalledOnce();
-		expect(toBlob.mock.calls[0][0].className).toContain("w-[1116px]");
+		expect(toBlob.mock.calls[0][0].style.width).toBe("1050px");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {

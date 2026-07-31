@@ -1,4 +1,7 @@
-import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
+import {
+	MONSTERLING_CARD_WIDTH,
+	MONSTERLING_COMPACT_CARD_WIDTH,
+} from "@/components/monsterlings/components/monsterling-constants";
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import { MonsterlingLinkChainBadge } from "@/components/monsterlings/components/monsterling-link-chain";
 import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
@@ -26,7 +29,9 @@ export const MonsterlingCard = ({
 	showLinkChainBadge = true,
 }: MonsterlingCardProps) => {
 	const { name, image, linkChain } = MONSTERLINGS_DATA[monsterling_id];
-	const width = compactStats ? 162 : MONSTERLING_CARD_WIDTH;
+	const width = compactStats
+		? MONSTERLING_COMPACT_CARD_WIDTH
+		: MONSTERLING_CARD_WIDTH;
 
 	return (
 		<div

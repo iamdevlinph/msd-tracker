@@ -34,7 +34,6 @@ const imageBlob = async (node: HTMLElement | null) => {
 	const { toBlob } = await import("html-to-image");
 	const exportProperties = [
 		["--loadout-export-variant-background", "#18181b"],
-		["--loadout-export-skill-columns", "repeat(2, minmax(0, 1fr))"],
 	] as const;
 	const previousProperties = exportProperties.map(([property]) => ({
 		property,

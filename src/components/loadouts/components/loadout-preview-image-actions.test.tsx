@@ -126,13 +126,9 @@ describe("LoadoutPreviewDialog image export", () => {
 	});
 	it("captures and tracks the compact layout", async () => {
 		let exportBackgroundDuringCapture = "";
-		let exportSkillColumnsDuringCapture = "";
 		toBlob.mockImplementation((node: HTMLElement) => {
 			exportBackgroundDuringCapture = node.style.getPropertyValue(
 				"--loadout-export-variant-background",
-			);
-			exportSkillColumnsDuringCapture = node.style.getPropertyValue(
-				"--loadout-export-skill-columns",
 			);
 			return Promise.resolve(new Blob(["png"], { type: "image/png" }));
 		});
@@ -146,16 +142,12 @@ describe("LoadoutPreviewDialog image export", () => {
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
 		const capturedSurface = toBlob.mock.calls[0][0] as HTMLElement;
-		expect(capturedSurface.className).toContain("w-[1116px]");
+		expect(capturedSurface.style.width).toBe("1050px");
 		expect(exportBackgroundDuringCapture).toBe("#18181b");
-		expect(exportSkillColumnsDuringCapture).toBe("repeat(2, minmax(0, 1fr))");
 		expect(
 			capturedSurface.style.getPropertyValue(
 				"--loadout-export-variant-background",
 			),
-		).toBe("");
-		expect(
-			capturedSurface.style.getPropertyValue("--loadout-export-skill-columns"),
 		).toBe("");
 		expect(event.mock.calls).toEqual([
 			[
@@ -231,9 +223,6 @@ describe("LoadoutPreviewDialog image export", () => {
 			expect(
 				node.style.getPropertyValue("--loadout-export-variant-background"),
 			).toBe("#18181b");
-			expect(
-				node.style.getPropertyValue("--loadout-export-skill-columns"),
-			).toBe("repeat(2, minmax(0, 1fr))");
 			return Promise.reject(new Error("conversion failed"));
 		});
 		setClipboard(vi.fn());
@@ -250,9 +239,6 @@ describe("LoadoutPreviewDialog image export", () => {
 			capturedSurface?.style.getPropertyValue(
 				"--loadout-export-variant-background",
 			),
-		).toBe("");
-		expect(
-			capturedSurface?.style.getPropertyValue("--loadout-export-skill-columns"),
 		).toBe("");
 	});
 });
