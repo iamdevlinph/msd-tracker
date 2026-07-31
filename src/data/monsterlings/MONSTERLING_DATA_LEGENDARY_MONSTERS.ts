@@ -11,7 +11,7 @@ export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
 		display_id: 1,
 		name: "Reginula",
 		linkChain: {
-			tier_id: TIER_ID_BY_TIER.FODDER_1,
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Star Waves",
 			trigger: ["While equipped"],
 			effect:
