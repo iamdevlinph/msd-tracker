@@ -57,7 +57,7 @@ export const ArtifactsPage = () => {
 						}
 					/>
 				) : (
-					<div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+					<div className="grid grid-cols-[repeat(auto-fill,9rem)] gap-3">
 						{cards.map(({ instanceId, value, artifact }) => (
 							<button
 								className="w-36 text-left"
