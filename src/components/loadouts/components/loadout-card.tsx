@@ -4,8 +4,7 @@ import type { LoadoutImageAction } from "@/components/loadouts/components/loadou
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
-
-const CHARACTER_SLOT_INDEXES = [0, 1, 2] as const;
+import { CHARACTER_SLOT_INDEXES } from "./loadout-slot-constants";
 
 type LoadoutCardProps = {
 	loadout: LoadoutOwned;

@@ -1,19 +1,18 @@
-import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { TIERS_DATA } from "@/data/TIERS_DATA";
 import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
+import { LoadoutCardArtifactTile } from "./loadout-card-artifact-tile";
+import { LoadoutCardCharacterTile } from "./loadout-card-character-tile";
+import { LoadoutCardMonsterlingTile } from "./loadout-card-monsterling-tile";
+import {
+	EQUIPMENT_SLOT_INDEXES,
+	MONSTERLING_SLOT_INDEXES,
+} from "./loadout-slot-constants";
 import { showFutureLoadoutSlots } from "./loadout-utils";
-
-const MONSTERLING_SLOT_INDEXES = [0, 1, 2] as const;
-const EQUIPMENT_SLOT_INDEXES = [1, 2, 3, 4] as const;
-const UNKNOWN_CHARACTER_PORTRAIT =
-	"/images/Character_Portrait/portrait_Unknown_00.png";
-const SHOW_FUTURE_SLOTS = showFutureLoadoutSlots(import.meta.env.VITE_NODE_ENV);
 
 type LoadoutCardCharacterRowProps = {
 	loadoutId: string;
@@ -26,6 +25,8 @@ type LoadoutCardCharacterRowProps = {
 	onEditMonsterling: (id: string) => void;
 	onEditArtifact: (id: string) => void;
 };
+
+const SHOW_FUTURE_SLOTS = showFutureLoadoutSlots(import.meta.env.VITE_NODE_ENV);
 
 export const LoadoutCardCharacterRow = ({
 	loadoutId,
@@ -43,146 +44,50 @@ export const LoadoutCardCharacterRow = ({
 	const characterOwned =
 		slot.characterId !== null ? charactersOwned[slot.characterId] : null;
 	const element = character ? ELEMENTS_DATA[character.element_id] : null;
-
+	const artifactId = slot.artifactInstanceId;
+	const artifactOwned = artifactId ? artifactsOwned[artifactId] : null;
+	const artifact = artifactOwned
+		? ARTIFACTS_DATA[artifactOwned.artifact_id]
+		: null;
 	return (
 		<div className="grid grid-cols-5 gap-1 rounded-md border bg-muted/20 p-2">
-			<div className="grid aspect-square min-w-0 place-items-center">
-				<div
-					className="relative grid size-full max-h-28 max-w-28 place-items-center bg-cover bg-center"
-					style={{
-						backgroundImage: character
-							? `url(${TIERS_DATA[character.tier_id].full})`
-							: undefined,
-					}}
-				>
-					{character && characterOwned ? (
-						<button
-							type="button"
-							aria-label={`Edit ${character.name} character`}
-							onClick={(event) => {
-								event.stopPropagation();
-								onEditCharacter(character.id);
-							}}
-							className="pointer-events-auto relative size-full max-h-28 max-w-28 rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-						>
-							<img
-								src={character.portraitImage}
-								alt={`${character.name} portrait`}
-								className="size-full max-h-28 max-w-28 object-contain"
-							/>
-						</button>
-					) : (
-						<img
-							src={character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT}
-							alt={
-								character
-									? `${character.name} portrait`
-									: "Unknown character portrait"
-							}
-							className="size-full max-h-28 max-w-28 object-contain"
-						/>
-					)}
-					<div className="absolute left-0.5 top-0.5 rounded-full bg-background/85 p-0.5 shadow-sm">
-						{element && (
-							<img
-								src={element.image}
-								alt={`${element.element} icon`}
-								title={element.element}
-								className="size-4"
-							/>
-						)}
-					</div>
-					{(characterOwned?.awakening ?? 0) > 0 && (
-						<span className="absolute bottom-0.5 right-0.5 rounded bg-background/90 px-1.5 py-0.5 text-xs font-bold shadow-sm">
-							A{characterOwned?.awakening}
-						</span>
-					)}
-				</div>
-			</div>
+			<LoadoutCardCharacterTile
+				character={character}
+				owned={characterOwned}
+				element={element}
+				onEdit={onEditCharacter}
+			/>
 			{[...MONSTERLING_SLOT_INDEXES, "legendary" as const].map(
 				(monsterIndex) => {
-					const monsterlingId =
+					const id =
 						monsterIndex === "legendary"
 							? (slot.legendaryMonsterlingId ?? null)
 							: slot.monsterlingIds[monsterIndex];
-					const monsterling = monsterlingId
-						? monsterlingsOwned[monsterlingId]
-						: null;
-					const info = monsterling
-						? MONSTERLINGS_DATA[monsterling.monsterling_id]
-						: null;
-
+					const owned = id ? monsterlingsOwned[id] : null;
+					const info = owned ? MONSTERLINGS_DATA[owned.monsterling_id] : null;
 					return (
-						<div
+						<LoadoutCardMonsterlingTile
 							key={`${loadoutId}-character-${index + 1}-monsterling-${monsterIndex}`}
-							className={cn(
-								"grid aspect-square min-w-0 rounded-md border bg-background/60 text-center",
-								monsterIndex === "legendary" && "border-l-2 border-l-primary",
-								monsterling && info
-									? "content-center gap-1"
-									: "place-items-center border-dashed",
-							)}
-						>
-							{monsterling && info && monsterlingId ? (
-								<button
-									type="button"
-									aria-label={`Edit ${info.name} monsterling`}
-									onClick={(event) => {
-										event.stopPropagation();
-										onEditMonsterling(monsterlingId);
-									}}
-									className="pointer-events-auto relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-								>
-									<TierPortrait
-										tier={monsterling.tier_id}
-										portraitImg={info.image}
-										portraitSize={112}
-										name={info.name}
-										hideTierBg
-									/>
-								</button>
-							) : (
-								<span className="text-[10px] text-muted-foreground">
-									{monsterIndex === "legendary"
-										? "Legendary"
-										: `Monsterling ${monsterIndex + 1}`}
-								</span>
-							)}
-						</div>
+							id={id}
+							info={info}
+							owned={owned}
+							legendary={monsterIndex === "legendary"}
+							label={
+								monsterIndex === "legendary"
+									? "Legendary"
+									: `Monsterling ${monsterIndex + 1}`
+							}
+							onEdit={onEditMonsterling}
+						/>
 					);
 				},
 			)}
-			{(() => {
-				const owned = slot.artifactInstanceId
-					? artifactsOwned[slot.artifactInstanceId]
-					: null;
-				const artifact = owned ? ARTIFACTS_DATA[owned.artifact_id] : null;
-				return (
-					<div className="grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center">
-						{owned && artifact && slot.artifactInstanceId ? (
-							<button
-								type="button"
-								aria-label={`Edit ${artifact.name} artifact`}
-								onClick={(event) => {
-									event.stopPropagation();
-									onEditArtifact(slot.artifactInstanceId as string);
-								}}
-								className="pointer-events-auto relative grid size-full grid-rows-[1fr_auto] overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-							>
-								<img
-									src={artifact.image}
-									alt={artifact.name}
-									className="size-full min-h-0 object-contain p-1"
-								/>
-							</button>
-						) : (
-							<span className="text-[10px] text-muted-foreground">
-								{slot.artifactInstanceId ? "Artifact unavailable" : "Artifact"}
-							</span>
-						)}
-					</div>
-				);
-			})()}
+			<LoadoutCardArtifactTile
+				id={artifactId}
+				artifact={artifact}
+				owned={artifactOwned}
+				onEdit={onEditArtifact}
+			/>
 			{SHOW_FUTURE_SLOTS &&
 				EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => (
 					<div

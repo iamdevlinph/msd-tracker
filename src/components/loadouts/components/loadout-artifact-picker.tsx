@@ -10,7 +10,7 @@ export type LoadoutArtifactOption = {
 	fusionLevel: number;
 };
 
-type Props = {
+type LoadoutArtifactPickerProps = {
 	filters: ArtifactFilters;
 	onFiltersChange: (filters: ArtifactFilters) => void;
 	options: LoadoutArtifactOption[];
@@ -26,7 +26,7 @@ export const LoadoutArtifactPicker = ({
 	selectedIds,
 	currentId,
 	onSelect,
-}: Props) => (
+}: LoadoutArtifactPickerProps) => (
 	<>
 		<div className="mb-4">
 			<ArtifactFilter filters={filters} onChange={onFiltersChange} autoFocus />

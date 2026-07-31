@@ -26,6 +26,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Persist loadouts locally and through Google Drive sync.
 - [x] Hide unfinished Artifact and Equipment slots outside development.
 - [x] Open owned character and assigned monsterling portraits in their editors from saved loadout cards without triggering preview, and from the loadout preview modal.
+- [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 
 ## Home Dashboard: Available
 
@@ -43,6 +44,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 ## Shared UI: Available
 
 - [x] Provide clear buttons and Escape-to-clear behavior for standalone search inputs.
+- [ ] Standardize character, Monsterling, codex, and picker collections on fixed-width, left-to-right product grids with consistent gaps and left-aligned incomplete rows across breakpoints.
 
 ## Account
 

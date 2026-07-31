@@ -1,18 +1,18 @@
-import { Trash2Icon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ARTIFACTS_DATA } from "@/data/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/CHARACTERS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/MONSTERLINGS_DATA";
-import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type {
 	LoadoutCharacterSlot,
 	LoadoutOwned,
 } from "@/stores/loadouts-slice";
+import { LoadoutEditorArtifactSelector } from "./loadout-editor-artifact-selector";
+import { LoadoutEditorCharacterSelector } from "./loadout-editor-character-selector";
+import { LoadoutEditorMonsterlingSelector } from "./loadout-editor-monsterling-selector";
+import { CHARACTER_SLOT_INDEXES as SLOT_INDEXES } from "./loadout-slot-constants";
 
-const SLOT_INDEXES = [0, 1, 2] as const;
 const UNKNOWN_CHARACTER_PORTRAIT =
 	"/images/Character_Portrait/portrait_Unknown_00.png";
 
@@ -85,97 +85,43 @@ export const LoadoutEditor = ({
 				const slot = draft.characters[index];
 				const character =
 					slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
+				const artifactId = slot.artifactInstanceId;
+				const artifactOwned = artifactId ? artifactsOwned[artifactId] : null;
+				const artifact = artifactOwned
+					? ARTIFACTS_DATA[artifactOwned.artifact_id]
+					: null;
 				return (
 					<TabsContent
 						key={index}
 						value={String(index)}
 						className="grid gap-4 rounded-md border p-3"
 					>
-						<div className="flex gap-2">
-							<Button
-								type="button"
-								variant="outline"
-								className="min-w-0 flex-1 justify-start"
-								onClick={() => onOpenCharacterPicker(index)}
-							>
-								<span className="truncate">
-									{character?.name ?? "Select character"}
-								</span>
-							</Button>
-							{slot.characterId !== null && (
-								<Button
-									type="button"
-									size="icon"
-									variant="destructive"
-									aria-label={`Clear character ${index + 1}`}
-									onClick={() =>
-										onUpdateSlot(index, (current) => ({
-											...current,
-											characterId: null,
-										}))
-									}
-								>
-									<Trash2Icon />
-								</Button>
-							)}
-						</div>
+						<LoadoutEditorCharacterSelector
+							character={character}
+							characterId={slot.characterId}
+							characterIndex={index}
+							onOpen={() => onOpenCharacterPicker(index)}
+							onClear={() =>
+								onUpdateSlot(index, (current) => ({
+									...current,
+									characterId: null,
+								}))
+							}
+						/>
 						<div className="grid grid-cols-4 gap-2">
 							<div className="col-span-4 grid grid-cols-4 gap-2">
-								{(() => {
-									const artifactId = slot.artifactInstanceId;
-									const owned = artifactId ? artifactsOwned[artifactId] : null;
-									const artifact = owned
-										? ARTIFACTS_DATA[owned.artifact_id]
-										: null;
-									return (
-										<div className="relative aspect-square min-w-0">
-											<button
-												type="button"
-												onClick={() => onOpenArtifactPicker(index)}
-												className="grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
-											>
-												{artifact && owned ? (
-													<div className="relative grid size-full grid-rows-[1fr_auto] place-items-center overflow-hidden rounded-sm">
-														<img
-															src={artifact.image}
-															alt={artifact.name}
-															className="size-full min-h-0 object-contain p-1"
-														/>
-														<img
-															src={`/images/Character/Icon_shield_big${owned.fusion_level}.png`}
-															alt={`Fusion level ${owned.fusion_level}`}
-															className="absolute left-0.5 top-0.5 size-5"
-														/>
-														<span className="w-full truncate bg-black/80 px-1 py-0.5 text-[9px] text-white">
-															{artifact.name}
-														</span>
-													</div>
-												) : artifactId ? (
-													"Artifact unavailable"
-												) : (
-													"Select artifact"
-												)}
-											</button>
-											{artifactId && (
-												<Button
-													type="button"
-													size="icon-sm"
-													variant="destructive"
-													className="absolute -right-1 -top-1 size-6"
-													aria-label="Clear artifact"
-													onClick={() =>
-														onUpdateSlot(index, (current) => ({
-															...current,
-															artifactInstanceId: null,
-														}))
-													}
-												>
-													<Trash2Icon />
-												</Button>
-											)}
-										</div>
-									);
-								})()}
+								<LoadoutEditorArtifactSelector
+									artifact={artifact}
+									owned={artifactOwned}
+									artifactId={artifactId}
+									onOpen={() => onOpenArtifactPicker(index)}
+									onClear={() =>
+										onUpdateSlot(index, (current) => ({
+											...current,
+											artifactInstanceId: null,
+										}))
+									}
+								/>
 							</div>
 							{[...SLOT_INDEXES, "legendary" as const].map((monsterIndex) => {
 								const legendary = monsterIndex === "legendary";
@@ -187,64 +133,32 @@ export const LoadoutEditor = ({
 									? MONSTERLINGS_DATA[owned.monsterling_id]
 									: null;
 								return (
-									<div
+									<LoadoutEditorMonsterlingSelector
 										key={String(monsterIndex)}
-										className={cn(
-											"relative aspect-square min-w-0",
-											legendary && "border-l-2 border-l-primary pl-2",
-										)}
-									>
-										<button
-											type="button"
-											onClick={() =>
-												onOpenMonsterlingPicker(
-													index,
-													legendary,
-													legendary ? undefined : monsterIndex,
-												)
-											}
-											className="grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
-										>
-											{info ? (
-												<>
-													<img
-														src={info.image}
-														alt=""
-														className="min-h-0 max-h-[70%] object-contain"
-													/>
-													<span className="w-full truncate">{info.name}</span>
-												</>
-											) : legendary ? (
-												"Legendary"
-											) : (
-												`Monsterling ${monsterIndex + 1}`
-											)}
-										</button>
-										{id && (
-											<Button
-												type="button"
-												size="icon-sm"
-												variant="destructive"
-												className="absolute -right-1 -top-1 size-6"
-												aria-label="Clear monsterling"
-												onClick={() =>
-													onUpdateSlot(index, (current) =>
-														legendary
-															? { ...current, legendaryMonsterlingId: null }
-															: {
-																	...current,
-																	monsterlingIds: current.monsterlingIds.map(
-																		(value, itemIndex) =>
-																			itemIndex === monsterIndex ? null : value,
-																	) as LoadoutCharacterSlot["monsterlingIds"],
-																},
-													)
-												}
-											>
-												<Trash2Icon />
-											</Button>
-										)}
-									</div>
+										info={info}
+										id={id}
+										monsterIndex={monsterIndex}
+										onOpen={() =>
+											onOpenMonsterlingPicker(
+												index,
+												legendary,
+												legendary ? undefined : monsterIndex,
+											)
+										}
+										onClear={() =>
+											onUpdateSlot(index, (current) =>
+												legendary
+													? { ...current, legendaryMonsterlingId: null }
+													: {
+															...current,
+															monsterlingIds: current.monsterlingIds.map(
+																(value, itemIndex) =>
+																	itemIndex === monsterIndex ? null : value,
+															) as LoadoutCharacterSlot["monsterlingIds"],
+														},
+											)
+										}
+									/>
 								);
 							})}
 						</div>

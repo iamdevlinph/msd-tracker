@@ -86,7 +86,7 @@ export function getOccurrence(
 		: start;
 	if (definition.mode === "after_completion") {
 		occurrenceStart = completedAt ? completedAt + interval : start;
-	} else if (now > start) {
+	} else if (now >= start) {
 		const cycle = Math.floor((now - recurrenceStart) / interval);
 		occurrenceStart = Math.max(start, recurrenceStart + cycle * interval);
 		nextResetAt = recurrenceStart + (cycle + 1) * interval;
