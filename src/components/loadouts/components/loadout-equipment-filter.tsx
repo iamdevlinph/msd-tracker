@@ -19,6 +19,7 @@ const PART_TYPE_IMAGES: Record<EquipmentPartType, string> = {
 	gloves: "/images/Equipment/EQUIP_SET_102_G.webp",
 	footwear: "/images/Equipment/EQUIP_SET_102_S.webp",
 };
+const IS_PART_TYPE_FILTER_VISIBLE = false;
 
 type LoadoutEquipmentFilterProps = {
 	filters: EquipmentFilters;
@@ -52,30 +53,34 @@ export const LoadoutEquipmentFilter = ({
 				placeholder="Search equipment"
 			/>
 			<ButtonGroup className="flex flex-wrap">
-				{EQUIPMENT_PART_TYPES.map((partType) => (
-					<Button
-						key={partType}
-						type="button"
-						aria-label={toSentenceCase(partType)}
-						title={toSentenceCase(partType)}
-						aria-pressed={filters.selectedPartTypes.includes(partType)}
-						variant={
-							filters.selectedPartTypes.includes(partType)
-								? "default"
-								: "outline"
-						}
-						onClick={() =>
-							toggle<EquipmentPartType>("selectedPartTypes", partType)
-						}
-					>
-						<img
-							src={PART_TYPE_IMAGES[partType]}
-							alt=""
-							className="size-6 object-contain"
-						/>
-					</Button>
-				))}
-				<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
+				{IS_PART_TYPE_FILTER_VISIBLE && (
+					<>
+						{EQUIPMENT_PART_TYPES.map((partType) => (
+							<Button
+								key={partType}
+								type="button"
+								aria-label={toSentenceCase(partType)}
+								title={toSentenceCase(partType)}
+								aria-pressed={filters.selectedPartTypes.includes(partType)}
+								variant={
+									filters.selectedPartTypes.includes(partType)
+										? "default"
+										: "outline"
+								}
+								onClick={() =>
+									toggle<EquipmentPartType>("selectedPartTypes", partType)
+								}
+							>
+								<img
+									src={PART_TYPE_IMAGES[partType]}
+									alt=""
+									className="size-6 object-contain"
+								/>
+							</Button>
+						))}
+						<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
+					</>
+				)}
 				{([5, 4] as TierId[]).map((tier) => (
 					<Button
 						key={tier}

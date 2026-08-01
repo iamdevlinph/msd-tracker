@@ -33,7 +33,10 @@ type LoadoutEditorProps = {
 		monsterlingIndex?: number,
 	) => void;
 	onOpenArtifactPicker: (characterIndex: number) => void;
-	onOpenEquipmentPicker: (characterIndex: number) => void;
+	onOpenEquipmentPicker: (
+		characterIndex: number,
+		partType: (typeof EQUIPMENT_PART_TYPES)[number],
+	) => void;
 	onUpdateSlot: (
 		index: number,
 		updater: (slot: LoadoutCharacterSlot) => LoadoutCharacterSlot,
@@ -141,7 +144,7 @@ export const LoadoutEditor = ({
 											equipment={
 												equipmentId ? EQUIPMENT_DATA[equipmentId] : null
 											}
-											onOpen={() => onOpenEquipmentPicker(index)}
+											onOpen={() => onOpenEquipmentPicker(index, partType)}
 											onClear={() =>
 												onUpdateSlot(index, (current) => {
 													const equipment_ids = [

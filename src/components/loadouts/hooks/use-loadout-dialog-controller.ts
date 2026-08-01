@@ -29,6 +29,7 @@ import {
 	EQUIPMENT_DATA,
 	EQUIPMENT_PART_TYPES,
 	type EquipmentId,
+	type EquipmentPartType,
 } from "@/data/equipment/EQUIPMENT_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
@@ -49,7 +50,11 @@ export type PickerTarget =
 			legendary: boolean;
 	  }
 	| { type: typeof LOADOUT_TARGET_TYPES.ARTIFACT; characterIndex: number }
-	| { type: typeof LOADOUT_TARGET_TYPES.EQUIPMENT; characterIndex: number }
+	| {
+			type: typeof LOADOUT_TARGET_TYPES.EQUIPMENT;
+			characterIndex: number;
+			partType: EquipmentPartType;
+	  }
 	| null;
 
 const blankLoadout = (name = "New Loadout"): Omit<LoadoutOwned, "id"> => ({
@@ -206,7 +211,11 @@ export function useLoadoutDialogController(
 				a.id.localeCompare(b.id),
 		);
 	const equipmentPickerOptions = filterEquipment(
-		Object.values(EQUIPMENT_DATA),
+		Object.values(EQUIPMENT_DATA).filter(
+			({ part_type }) =>
+				pickerTarget?.type !== LOADOUT_TARGET_TYPES.EQUIPMENT ||
+				part_type === pickerTarget.partType,
+		),
 		equipmentFilters,
 	)
 		.sort(
@@ -340,13 +349,21 @@ export function useLoadoutDialogController(
 		setArtifactFilters(emptyArtifactFilters());
 		setPickerTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, characterIndex });
 	};
-	const openEquipmentPicker = (characterIndex: number) => {
+	const openEquipmentPicker = (
+		characterIndex: number,
+		partType: EquipmentPartType,
+	) => {
 		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_OPEN, {
 			picker_type: "equipment",
 			character_slot: characterIndex,
+			equipment_slot: partType,
 		});
 		setEquipmentFilters(emptyEquipmentFilters());
-		setPickerTarget({ type: LOADOUT_TARGET_TYPES.EQUIPMENT, characterIndex });
+		setPickerTarget({
+			type: LOADOUT_TARGET_TYPES.EQUIPMENT,
+			characterIndex,
+			partType,
+		});
 	};
 	const selectCharacter = (id: number) => {
 		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.CHARACTER) return;
