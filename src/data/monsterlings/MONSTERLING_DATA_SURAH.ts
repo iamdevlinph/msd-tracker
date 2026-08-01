@@ -98,6 +98,8 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 104,
 		name: "Odong",
 		linkChain: {
+			unlock_level: 22,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Mysterious Branch",
 			trigger: ["Using a Special Skill"],
@@ -116,6 +118,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 105,
 		name: "Maple Odong",
 		linkChain: {
+			unlock_level: 24,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Autumn Branch",
 			trigger: ["Using a Special Skill"],
@@ -222,6 +225,8 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 114,
 		name: "Shademask",
 		linkChain: {
+			unlock_level: 21,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Dokkaebi Mask",
 			trigger: ["Landing an attack"],
@@ -240,6 +245,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 115,
 		name: "Ashen Mask",
 		linkChain: {
+			unlock_level: 22,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Ancient Dokkaebi's White Mask",
 			trigger: ["Using a Special Skill"],
@@ -289,6 +295,8 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 118,
 		name: "Swamp Odong",
 		linkChain: {
+			unlock_level: 21,
+			sort_order: 2,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Fabric Talismans",
 			trigger: ["Using a Special Skill"],
@@ -307,6 +315,8 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 119,
 		name: "Duoxini",
 		linkChain: {
+			unlock_level: 23,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Dokkaebi King's Mask",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
@@ -330,6 +340,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		id: 120,
 		name: "Fiend",
 		linkChain: {
+			unlock_level: 25,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Ancient Dokkaebi's Bat",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],

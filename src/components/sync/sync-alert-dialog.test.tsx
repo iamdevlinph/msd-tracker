@@ -6,6 +6,7 @@ import {
 	screen,
 	waitFor,
 } from "@testing-library/react";
+import { readableBytes } from "common-utils-pkg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { useAppStore } from "@/stores/app-store";
@@ -80,7 +81,7 @@ describe("SyncConflictDialog tables", () => {
 	it.each([
 		["local", 2_000, 1_000],
 		["remote", 1_000, 2_000],
-	])("highlights the newer %s copy date", (_copyName, localAt, remoteAt) => {
+	])("does not highlight the newer %s copy date", (_copyName, localAt, remoteAt) => {
 		useAppStore.setState({
 			syncConflict: {
 				local: { ...copy, updatedAt: localAt },
@@ -89,14 +90,51 @@ describe("SyncConflictDialog tables", () => {
 		});
 		render(<SyncConflictDialog />);
 
-		const newerAt = Math.max(localAt, remoteAt);
-		const olderAt = Math.min(localAt, remoteAt);
 		expect(
-			screen.getByText(new Date(newerAt).toLocaleString()).className,
-		).toContain("text-green-600 dark:text-green-400");
-		expect(
-			screen.getByText(new Date(olderAt).toLocaleString()).className,
+			screen.getByText(new Date(localAt).toLocaleString()).className,
 		).not.toContain("text-green");
+		expect(
+			screen.getByText(new Date(remoteAt).toLocaleString()).className,
+		).not.toContain("text-green");
+	});
+
+	it.each([
+		["local", 2_000, 1_000],
+		["remote", 1_000, 2_000],
+	])("highlights the larger %s copy size", (copyName, localSize, remoteSize) => {
+		useAppStore.setState({
+			syncConflict: {
+				local: { ...copy, size: localSize },
+				remote: { ...copy, size: remoteSize },
+			},
+		});
+		render(<SyncConflictDialog />);
+
+		const formatSize = (size: number) =>
+			readableBytes(size, { decimals: 2, minUnit: "kB" });
+		const largerSize = formatSize(
+			copyName === "local" ? localSize : remoteSize,
+		);
+		const smallerSize = formatSize(
+			copyName === "local" ? remoteSize : localSize,
+		);
+		expect(screen.getByText(largerSize).className).toContain("text-green");
+		expect(
+			screen
+				.getAllByText(smallerSize)
+				.every((element) => !element.className.includes("text-green")),
+		).toBe(true);
+	});
+
+	it("does not highlight equal copy sizes", () => {
+		render(<SyncConflictDialog />);
+
+		const equalSize = readableBytes(1, { decimals: 2, minUnit: "kB" });
+		expect(
+			screen
+				.getAllByText(equalSize)
+				.every((element) => !element.className.includes("text-green")),
+		).toBe(true);
 	});
 
 	it("tracks keeping the local copy through success", async () => {

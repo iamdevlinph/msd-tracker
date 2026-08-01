@@ -48,7 +48,7 @@ export function SyncConflictDialog() {
 						<SyncCopyCard
 							title="Local copy"
 							copy={local}
-							isNewer={local.updatedAt > remote.updatedAt}
+							isLarger={local.size > remote.size}
 						/>
 
 						<AlertDialogAction
@@ -80,7 +80,7 @@ export function SyncConflictDialog() {
 						<SyncCopyCard
 							title="Remote copy (Google Drive)"
 							copy={remote}
-							isNewer={remote.updatedAt > local.updatedAt}
+							isLarger={remote.size > local.size}
 						/>
 
 						<AlertDialogAction

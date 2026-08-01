@@ -16,11 +16,10 @@ export const LinkChainsPage = () => {
 	const setFilters = useLinkChainsFilter((state) => state.setFilters);
 	const levels = useAppStore((state) => state.monsterlingLinkChainLevels);
 	const [selected, setSelected] = useState<number | null>(null);
-	const entries = useMemo(
+	const entriesByUnlockLevel = useMemo(
 		() =>
 			Object.values(MONSTERLINGS_DATA)
 				.filter((entry) => entry.linkChain)
-				.sort((a, b) => a.name.localeCompare(b.name))
 				.filter(
 					(entry) =>
 						(!filters.search ||
@@ -31,9 +30,31 @@ export const LinkChainsPage = () => {
 							filters.selectedLevels.includes(
 								getMonsterlingLinkChainLevel(entry.id, levels),
 							)),
-				),
+				)
+				.reduce((groups, entry) => {
+					const unlockLevel = entry.linkChain?.unlock_level;
+					if (unlockLevel == null) return groups;
+					const group = groups.get(unlockLevel) ?? [];
+					group.push(entry);
+					groups.set(unlockLevel, group);
+					return groups;
+				}, new Map<number, (typeof MONSTERLINGS_DATA)[number][]>()),
 		[filters, levels],
 	);
+	const groups = [...entriesByUnlockLevel.entries()]
+		.sort(([a], [b]) => a - b)
+		.map(
+			([unlockLevel, entries]) =>
+				[
+					unlockLevel,
+					entries.sort(
+						(a, b) =>
+							(a.linkChain?.sort_order ?? Number.MAX_SAFE_INTEGER) -
+								(b.linkChain?.sort_order ?? Number.MAX_SAFE_INTEGER) ||
+							a.name.localeCompare(b.name),
+					),
+				] as const,
+		);
 	const selectedMonsterling =
 		selected == null ? null : MONSTERLINGS_DATA[selected];
 	return (
@@ -44,7 +65,7 @@ export const LinkChainsPage = () => {
 			/>
 			<div className="flex flex-col gap-5">
 				<LinkChainsFilter filters={filters} onChange={setFilters} />
-				{entries.length === 0 ? (
+				{groups.length === 0 ? (
 					<CollectionEmptyState
 						title="No Link Chains found"
 						description={
@@ -54,32 +75,50 @@ export const LinkChainsPage = () => {
 						}
 					/>
 				) : (
-					<div className="grid grid-cols-[repeat(auto-fill,120px)] justify-center gap-4 md:justify-start">
-						{entries.map((entry) => {
-							const level = getMonsterlingLinkChainLevel(entry.id, levels);
-							const linkChain = entry.linkChain;
-							if (!linkChain) return null;
-							return (
-								<button
-									key={entry.id}
-									type="button"
-									aria-label={`Edit ${entry.name} Link Chain Level`}
-									className="relative grid aspect-square place-items-center overflow-hidden rounded-lg border bg-card text-left hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-									onClick={() => setSelected(entry.id)}
+					<div className="space-y-6">
+						{groups.map(([unlockLevel, entries]) => (
+							<section
+								key={unlockLevel}
+								aria-labelledby={`link-chain-level-${unlockLevel}`}
+							>
+								<h2
+									id={`link-chain-level-${unlockLevel}`}
+									className="mb-3 text-lg font-semibold"
 								>
-									<PortraitWithName name={entry.name}>
-										<TierPortrait
-											tier={linkChain.tier_id}
-											portraitImg={entry.image}
-											portraitSize={120}
-											name={entry.name}
-											portraitClassName="size-[120px] object-contain"
-										/>
-										<MonsterlingLinkChainBadge level={level} />
-									</PortraitWithName>
-								</button>
-							);
-						})}
+									Level {unlockLevel}
+								</h2>
+								<div className="grid grid-cols-[repeat(auto-fill,120px)] justify-center gap-4 md:justify-start">
+									{entries.map((entry) => {
+										const level = getMonsterlingLinkChainLevel(
+											entry.id,
+											levels,
+										);
+										const linkChain = entry.linkChain;
+										if (!linkChain) return null;
+										return (
+											<button
+												key={entry.id}
+												type="button"
+												aria-label={`Edit ${entry.name} Link Chain Level`}
+												className="relative grid aspect-square place-items-center overflow-hidden rounded-lg border bg-card text-left hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+												onClick={() => setSelected(entry.id)}
+											>
+												<PortraitWithName name={entry.name}>
+													<TierPortrait
+														tier={linkChain.tier_id}
+														portraitImg={entry.image}
+														portraitSize={120}
+														name={entry.name}
+														portraitClassName="size-[120px] object-contain"
+													/>
+													<MonsterlingLinkChainBadge level={level} />
+												</PortraitWithName>
+											</button>
+										);
+									})}
+								</div>
+							</section>
+						))}
 					</div>
 				)}
 			</div>

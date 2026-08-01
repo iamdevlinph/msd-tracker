@@ -11,12 +11,12 @@ const { monsterlingsData } = vi.hoisted(() => ({
 		67: {
 			id: 67,
 			name: "Fixture Linker",
-			linkChain: { name: "Fixture Link Chain" },
+			linkChain: { unlock_level: 1, name: "Fixture Link Chain" },
 		},
 		68: {
 			id: 68,
 			name: "Fixture Second Linker",
-			linkChain: { name: "Fixture Second Link Chain" },
+			linkChain: { unlock_level: 1, name: "Fixture Second Link Chain" },
 		},
 	},
 }));

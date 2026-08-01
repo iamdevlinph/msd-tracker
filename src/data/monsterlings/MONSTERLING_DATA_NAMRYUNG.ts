@@ -9,6 +9,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 121,
 		name: "Black Hauntstack",
 		linkChain: {
+			unlock_level: 25,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Youkai's Giant Charm",
 			trigger: ["Landing an attack"],
@@ -115,6 +116,8 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 130,
 		name: "Borborg",
 		linkChain: {
+			unlock_level: 24,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Thorny Shield",
 			trigger: ["Landing an attack"],
@@ -132,6 +135,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 131,
 		name: "Goald",
 		linkChain: {
+			unlock_level: 26,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Gold-Plated Spiky Shield",
 			trigger: ["Landing a Fire Attack"],
@@ -229,6 +233,8 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 139,
 		name: "Manwol",
 		linkChain: {
+			unlock_level: 26,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Shining Hoof",
 			trigger: ["Landing a Wind Attack"],
@@ -248,6 +254,8 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 140,
 		name: "Nokjung",
 		linkChain: {
+			unlock_level: 27,
+			sort_order: 2,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Black Antler",
 			trigger: ["Landing a Wind Attack"],
@@ -267,6 +275,8 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 141,
 		name: "Onsae",
 		linkChain: {
+			unlock_level: 24,
+			sort_order: 2,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Flaming Fox Fur",
 			trigger: ["Landing a Fire Attack"],
@@ -286,6 +296,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 142,
 		name: "Cinder",
 		linkChain: {
+			unlock_level: 27,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Hot Furball",
 			trigger: ["Landing a Fire Attack"],
@@ -305,6 +316,8 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 143,
 		name: "Hahnul",
 		linkChain: {
+			unlock_level: 27,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Giant Tiger's Claw",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
@@ -328,6 +341,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		id: 144,
 		name: "Gulgak",
 		linkChain: {
+			unlock_level: 28,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Cursed Rosary",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],

@@ -26,13 +26,29 @@ const { event, monsterlingsData } = vi.hoisted(() => ({
 			id: 67,
 			name: "Alpha Linker",
 			image: "/alpha.png",
-			linkChain: { name: "Alpha Chain", tier_id: 3 },
+			linkChain: {
+				unlock_level: 2,
+				sort_order: 2,
+				name: "Alpha Chain",
+				tier_id: 3,
+			},
 		},
 		68: {
 			id: 68,
 			name: "Beta Linker",
 			image: "/beta.png",
-			linkChain: { name: "Beta Chain", tier_id: 2 },
+			linkChain: { unlock_level: 1, name: "Beta Chain", tier_id: 2 },
+		},
+		69: {
+			id: 69,
+			name: "Zeta Linker",
+			image: "/zeta.png",
+			linkChain: {
+				unlock_level: 2,
+				sort_order: 1,
+				name: "Zeta Chain",
+				tier_id: 4,
+			},
 		},
 	},
 }));
@@ -56,7 +72,7 @@ describe("LinkChainsPage", () => {
 	});
 
 	it("lists every capable species regardless of ownership", () => {
-		useAppStore.setState({ monsterlingLinkChainLevels: { 68: 4 } });
+		useAppStore.setState({ monsterlingLinkChainLevels: { 68: 4, 69: 2 } });
 		render(<LinkChainsPage />);
 
 		expect(screen.getByAltText("Alpha Linker portrait")).toBeTruthy();
@@ -71,6 +87,24 @@ describe("LinkChainsPage", () => {
 				.background,
 		).not.toBe("");
 		expect(screen.getByAltText("3 background")).toBeTruthy();
+		expect(screen.getByRole("heading", { name: "Level 1" })).toBeTruthy();
+		expect(screen.getByRole("heading", { name: "Level 2" })).toBeTruthy();
+		expect(
+			screen
+				.getAllByRole("heading", { level: 2 })
+				.map((heading) => heading.textContent),
+		).toEqual(["Level 1", "Level 2"]);
+		const levelTwoSection = screen
+			.getByRole("heading", { name: "Level 2" })
+			.closest("section");
+		expect(
+			within(levelTwoSection as HTMLElement)
+				.getAllByRole("button")
+				.map((button) => button.getAttribute("aria-label")),
+		).toEqual([
+			"Edit Zeta Linker Link Chain Level",
+			"Edit Alpha Linker Link Chain Level",
+		]);
 	});
 
 	it("searches names and filters with Link Chain level icons", () => {
@@ -96,6 +130,8 @@ describe("LinkChainsPage", () => {
 		);
 		expect(screen.getByAltText("Alpha Linker portrait")).toBeTruthy();
 		expect(screen.queryByAltText("Beta Linker portrait")).toBeNull();
+		expect(screen.getByRole("heading", { name: "Level 2" })).toBeTruthy();
+		expect(screen.queryByRole("heading", { name: "Level 1" })).toBeNull();
 	});
 
 	it("edits exact levels with the previous selector UI", () => {

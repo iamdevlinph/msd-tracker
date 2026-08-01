@@ -68,6 +68,8 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 150,
 		name: "Phantom Snow Tiger",
 		linkChain: {
+			unlock_level: 28,
+			sort_order: 2,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Cold Mane",
 			trigger: ["Using a Switch Skill"],
@@ -86,6 +88,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 151,
 		name: "Phantom Stone Tiger",
 		linkChain: {
+			unlock_level: 29,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Mystic Stone Horn",
 			trigger: ["Using a Switch Skill"],
@@ -181,6 +184,8 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 159,
 		name: "Toad-alee",
 		linkChain: {
+			unlock_level: 28,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Ornate Shield",
 			trigger: ["Using Air Counter"],
@@ -199,6 +204,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 160,
 		name: "Irontoise",
 		linkChain: {
+			unlock_level: 29,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Turtle's Stone Hammer",
 			trigger: ["Landing an attack"],
@@ -218,6 +224,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 161,
 		name: "Treetoise",
 		linkChain: {
+			unlock_level: 30,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Tree Tortoiseshell",
 			trigger: ["Landing an attack"],
@@ -260,6 +267,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 164,
 		name: "Red Shadow",
 		linkChain: {
+			unlock_level: 30,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Red Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
@@ -282,6 +290,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		id: 165,
 		name: "Blue Shadow",
 		linkChain: {
+			unlock_level: 31,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Purple Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],

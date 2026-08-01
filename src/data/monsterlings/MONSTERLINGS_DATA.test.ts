@@ -105,6 +105,24 @@ describe("MONSTERLINGS_DATA", () => {
 		}
 	});
 
+	it("defines a positive integer unlock level for every Link Chain", () => {
+		for (const { linkChain } of Object.values(MONSTERLINGS_DATA)) {
+			if (!linkChain) continue;
+
+			expect(Number.isInteger(linkChain.unlock_level)).toBe(true);
+			expect(linkChain.unlock_level).toBeGreaterThan(0);
+		}
+	});
+
+	it("defines positive integer Link Chain sort orders when present", () => {
+		for (const { linkChain } of Object.values(MONSTERLINGS_DATA)) {
+			if (linkChain?.sort_order === undefined) continue;
+
+			expect(Number.isInteger(linkChain.sort_order)).toBe(true);
+			expect(linkChain.sort_order).toBeGreaterThan(0);
+		}
+	});
+
 	it("uses existing WebP images for every coordinated shard", () => {
 		for (const monsterling of Object.values(MONSTERLINGS_DATA)) {
 			expect(monsterling.image).toMatch(/^\/images\/.+\.webp$/);

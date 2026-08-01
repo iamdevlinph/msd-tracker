@@ -31,6 +31,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 3,
 		name: "Cappy Mama",
 		linkChain: {
+			unlock_level: 1,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Mother's Leaf",
 			trigger: ["Using a Special Skill"],
@@ -50,6 +51,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 4,
 		name: "Leafy Mama",
 		linkChain: {
+			unlock_level: 3,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Queenshroom's Halo",
 			trigger: ["When HP is 50% or lower"],
@@ -185,6 +187,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 15,
 		name: "Forkmugger",
 		linkChain: {
+			unlock_level: 6,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Gluttonous Fork",
 			trigger: ["Using Evasion Counter"],
@@ -203,6 +206,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 16,
 		name: "King Slime",
 		linkChain: {
+			unlock_level: 3,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Gooey Crown",
 			trigger: ["Using a Special Skill"],
@@ -222,6 +226,8 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 17,
 		name: "Scarlet Queen",
 		linkChain: {
+			unlock_level: 5,
+			sort_order: 2,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Queen's Crimson Tears",
 			trigger: ["Using a Special Skill"],
@@ -241,6 +247,8 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 18,
 		name: "Taglock",
 		linkChain: {
+			unlock_level: 5,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Broken Fang",
 			trigger: ["Using a Switch Skill"],
@@ -260,6 +268,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 19,
 		name: "Big Bro Goblin",
 		linkChain: {
+			unlock_level: 8,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Commanding Flute",
 			trigger: ["Using a Switch Skill"],
@@ -279,6 +288,8 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 20,
 		name: "Lupe",
 		linkChain: {
+			unlock_level: 7,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Warrior's Mark",
 			trigger: ["Landing an Ice Attack"],
@@ -298,6 +309,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 21,
 		name: "Moon Shadow Lupe",
 		linkChain: {
+			unlock_level: 9,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Moonlight-Touched Claw",
 			trigger: ["Using a Special Skill"],
@@ -316,6 +328,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 22,
 		name: "Ring Slime",
 		linkChain: {
+			unlock_level: 2,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Wet Leaf",
 			trigger: ["Landing an attack"],
@@ -333,6 +346,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 23,
 		name: "Uncle Cappy",
 		linkChain: {
+			unlock_level: 2,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Mushroom Basket",
 			trigger: ["Using Dodge"],
@@ -350,6 +364,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 24,
 		name: "Green Cappy Bro",
 		linkChain: {
+			unlock_level: 7,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Mushroom Man's Pouch",
 			trigger: ["Using a Special Skill"],
@@ -466,6 +481,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 34,
 		name: "White Wolf Fulminator",
 		linkChain: {
+			unlock_level: 6,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Shaman's Staff",
 			trigger: ["Using Evasion Counter"],
@@ -485,6 +501,8 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 35,
 		name: "Moley Mole",
 		linkChain: {
+			unlock_level: 4,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Mole's Shovel",
 			trigger: ["Rendering the enemy Airborne"],
@@ -502,6 +520,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 36,
 		name: "Gold Digger Moley Mole",
 		linkChain: {
+			unlock_level: 8,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Mole's Treasure",
 			trigger: ["Rendering the enemy Airborne"],
@@ -520,6 +539,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 37,
 		name: "Green Cappy Papa",
 		linkChain: {
+			unlock_level: 4,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Green Swaddle",
 			trigger: ["When Hit"],
@@ -537,6 +557,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 38,
 		name: "Custos",
 		linkChain: {
+			unlock_level: 9,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Warden's Core",
 			trigger: ["Using a Special Skill"],
@@ -557,6 +578,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		id: 39,
 		name: "El Dorado Guardian",
 		linkChain: {
+			unlock_level: 11,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Mutated Spirit Core",
 			trigger: ["Attacking a Staggered target"],

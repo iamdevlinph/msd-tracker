@@ -14,6 +14,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Search owned monsterlings by name and filter them across Tier 1 through Tier 5.
 - [x] Track one shared, editable Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups; saving a species corrects its exact level (with level one implicit), levels survive copy deletion and owned-data resets, with verified names, triggers, and effects.
 - [x] Manage every Link Chain-capable species on a dedicated searchable, level-filterable page, with portrait-driven level editing independent of Monsterling ownership.
+- [x] Group Link Chain rows by immutable unlock level in ascending order after search and upgrade-level filters, using optional in-game sort order before alphabetical fallback within each row.
 
 ## Loadouts: Available
 
@@ -64,7 +65,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Account
 
-- [x] Highlight the newer timestamp when choosing between local and Google Drive copies during a sync conflict.
+- [x] Highlight the larger serialized size (while retaining both dates and sizes) when choosing between local and Google Drive copies during a sync conflict.
 - [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
 
 ## Chunk 1: Checklist and Event Tracking

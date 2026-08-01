@@ -21,6 +21,8 @@ export type MonsterCodexEntry = {
 	element_id: ElementId;
 	ability: string;
 	linkChain?: {
+		unlock_level: number;
+		sort_order?: number;
 		name: string;
 		tier_id: TierId;
 		trigger: string[];

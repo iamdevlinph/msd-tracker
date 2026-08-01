@@ -21,7 +21,7 @@ const { monsterlingsData, monsterlingOptions } = vi.hoisted(() => ({
 			id: 67,
 			name: "Fixture Linker",
 			image: "/fixture-linker.png",
-			linkChain: { name: "Fixture Link Chain" },
+			linkChain: { unlock_level: 1, name: "Fixture Link Chain" },
 		},
 	},
 	monsterlingOptions: [

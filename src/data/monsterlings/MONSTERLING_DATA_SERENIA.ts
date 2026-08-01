@@ -9,6 +9,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 69,
 		name: "Gorrik",
 		linkChain: {
+			unlock_level: 15,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Taskmaster's Leather Gloves",
 			trigger: ["Landing an attack"],
@@ -60,6 +61,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 73,
 		name: "Queen Slime",
 		linkChain: {
+			unlock_level: 19,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Queen's Crown",
 			trigger: ["Using Evasion Counter"],
@@ -78,6 +80,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 74,
 		name: "Empress Slime",
 		linkChain: {
+			unlock_level: 21,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Queen's Mascara",
 			trigger: ["Using Evasion Counter"],
@@ -142,6 +145,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 79,
 		name: "Spadupa",
 		linkChain: {
+			unlock_level: 15,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Poisoned Claw",
 			trigger: ["Using Air Counter"],
@@ -160,6 +164,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 80,
 		name: "Greenpadupa",
 		linkChain: {
+			unlock_level: 17,
 			tier_id: TIER_ID_BY_TIER.SELECT_3,
 			name: "Precious Spider Cocoon",
 			trigger: ["Using Air Counter"],
@@ -277,6 +282,8 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 90,
 		name: "Ice Fist Dude",
 		linkChain: {
+			unlock_level: 16,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Frozen Gem",
 			trigger: ["Using a Special Skill"],
@@ -295,6 +302,8 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 91,
 		name: "Plains Minotaur",
 		linkChain: {
+			unlock_level: 17,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Leather Halter",
 			trigger: ["Using a Switch Skill"],
@@ -313,6 +322,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 92,
 		name: "Spoonmugger",
 		linkChain: {
+			unlock_level: 18,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Ravenous Spoon",
 			trigger: ["When all Stamina is consumed"],
@@ -332,6 +342,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 93,
 		name: "Stickmugger",
 		linkChain: {
+			unlock_level: 19,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Gourmet Chopsticks",
 			trigger: ["When all Stamina is consumed"],
@@ -351,6 +362,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 94,
 		name: "Avardan",
 		linkChain: {
+			unlock_level: 20,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Golem's Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
@@ -374,6 +386,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		id: 95,
 		name: "Avardan's Mana",
 		linkChain: {
+			unlock_level: 23,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Shadowed Stone",
 			trigger: ["Attacking a Staggered target"],

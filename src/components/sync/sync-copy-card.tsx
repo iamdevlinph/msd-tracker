@@ -14,21 +14,23 @@ type SyncCopy = NonNullable<StoreState["syncConflict"]>["local"];
 type SyncCopyCardProps = {
 	title: string;
 	copy: SyncCopy;
-	isNewer: boolean;
+	isLarger: boolean;
 };
 
-export const SyncCopyCard = ({ title, copy, isNewer }: SyncCopyCardProps) => (
+export const SyncCopyCard = ({ title, copy, isLarger }: SyncCopyCardProps) => (
 	<div className="min-w-0 max-w-full rounded border p-3">
 		<div className="font-medium">{title}</div>
 		<div>
-			Last updated:{" "}
+			Last updated: <span>{new Date(copy.updatedAt).toLocaleString()}</span>
+		</div>
+		<div>
+			Size:{" "}
 			<span
-				className={isNewer ? "text-green-600 dark:text-green-400" : undefined}
+				className={isLarger ? "text-green-600 dark:text-green-400" : undefined}
 			>
-				{new Date(copy.updatedAt).toLocaleString()}
+				{readableBytes(copy.size, { decimals: 2, minUnit: "kB" })}
 			</span>
 		</div>
-		<div>Size: {readableBytes(copy.size, { decimals: 2, minUnit: "kB" })}</div>
 		<Table className="min-w-[30rem]">
 			<TableHeader>
 				<TableRow>
