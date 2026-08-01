@@ -5,6 +5,7 @@ import { z } from "zod";
 import { TierSelectorInput } from "@/components/forms/tier-selector-input";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MonsterlingComboboxInput } from "@/components/monsterlings/components/monsterling-combobox-input";
+import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { MonsterlingTraitsFields } from "@/components/monsterlings/components/monsterling-traits-fields";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { Button } from "@/components/ui/button";
@@ -77,6 +78,9 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 	const ga = useGoogleAnalytics();
 
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
+	const monsterlingLinkChainLevels = useAppStore(
+		(s) => s.monsterlingLinkChainLevels,
+	);
 	const setMonsterlingOwned = useAppStore((s) => s.setMonsterlingOwned);
 
 	let monsterlingInfo = null;
@@ -162,8 +166,10 @@ export const MonsterlingForm = (props: MonsterlingFormProps) => {
 							<MonsterlingCard
 								monsterling_id={monsterlingValue}
 								tier_id={tierValue}
-								linkChainLevel={1}
-								showLinkChainBadge={false}
+								linkChainLevel={getMonsterlingLinkChainLevel(
+									monsterlingValue,
+									monsterlingLinkChainLevels,
+								)}
 								traits={traitsValue}
 								className="w-full monsterling-card-form"
 							/>

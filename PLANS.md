@@ -15,6 +15,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Track one shared, editable Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups; saving a species corrects its exact level (with level one implicit), levels survive copy deletion and owned-data resets, with verified names, triggers, and effects.
 - [x] Manage every Link Chain-capable species on a dedicated searchable, level-filterable page, with portrait-driven level editing independent of Monsterling ownership.
 - [x] Group Link Chain rows by immutable unlock level in ascending order after search and upgrade-level filters, using optional in-game sort order before alphabetical fallback within each row.
+- [x] Show the shared Link Chain badge in the Monsterling form preview for eligible species without mutating shared levels.
 
 ## Loadouts: Available
 
@@ -30,6 +31,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Hide unfinished Artifact and Equipment slots outside development.
 - [x] Open owned character and assigned monsterling portraits in their editors from saved loadout cards without triggering preview, and from the loadout preview modal.
 - [x] Show tier portrait frames and tier-colored backgrounds behind assigned artifacts and Monsterlings in saved loadout cards.
+- [x] Keep saved loadout character tiles focused on portraits while preserving detail in previews, pickers, and editors.
 - [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 - [x] Track loadout editing, picker, slot, preview, entity-editor, image-copy, and image-download actions in GA4 without names, IDs, search text, or raw errors.
 
@@ -88,6 +90,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Add editable 500-character notes to permanent checklist items, persisted locally and through Google Drive.
 - [x] Track Request Board as a permanent daily activity resetting at 00:00 UTC.
 - [x] Keep single occurrence checks and grouped full-event checks, sort non-completed before completed and then by event > permanent > custom and weekly > daily > other, and show reset/End countdowns beside status.
+- [x] Sort same-group checklist events by upcoming start time, then active or ending-soon end time, before alphabetical fallback.
 - [x] Show occurrence and full-event completion controls for daily events, while non-daily events use only one full-event completion control for their full duration.
 - [x] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [x] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.

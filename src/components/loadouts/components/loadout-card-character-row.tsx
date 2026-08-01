@@ -1,6 +1,5 @@
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
-import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
@@ -43,7 +42,6 @@ export const LoadoutCardCharacterRow = ({
 		slot.characterId !== null ? CHARACTERS_DATA[slot.characterId] : null;
 	const characterOwned =
 		slot.characterId !== null ? charactersOwned[slot.characterId] : null;
-	const element = character ? ELEMENTS_DATA[character.element_id] : null;
 	const artifactId = slot.artifactInstanceId;
 	const artifactOwned = artifactId ? artifactsOwned[artifactId] : null;
 	const artifact = artifactOwned
@@ -54,7 +52,6 @@ export const LoadoutCardCharacterRow = ({
 			<LoadoutCardCharacterTile
 				character={character}
 				owned={characterOwned}
-				element={element}
 				onEdit={onEditCharacter}
 			/>
 			{[...MONSTERLING_SLOT_INDEXES, "legendary" as const].map(

@@ -11,6 +11,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { showFutureLoadoutSlots } from "@/components/loadouts/components/loadout-utils";
 import { LoadoutsList } from "@/components/loadouts/components/loadouts-list";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { SITE_URL } from "@/lib/seo";
 import { useAppStore } from "@/stores/app-store";
@@ -144,6 +146,12 @@ describe("LoadoutsList", () => {
 			},
 		});
 		render(<LoadoutsList />);
+		expect(
+			screen.queryByAltText(
+				`${ELEMENTS_DATA[CHARACTERS_DATA[1].element_id].element} icon`,
+			),
+		).toBeNull();
+		expect(screen.queryByText("A5")).toBeNull();
 
 		const monsterlingEditor = screen.getByRole("button", {
 			name: `Edit ${MONSTERLINGS_DATA[1].name} monsterling`,

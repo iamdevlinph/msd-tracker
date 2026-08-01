@@ -266,4 +266,44 @@ describe("checklist schedule utilities", () => {
 			"Completed permanent",
 		]);
 	});
+
+	it("orders event timing within the same kind and recurrence group", () => {
+		const event = (
+			title: string,
+			status: "upcoming" | "active" | "expired",
+			startAt: number,
+			endAt?: number,
+		) => ({
+			status,
+			definition: {
+				...daily,
+				title,
+				kind: "event" as const,
+				recurrence: "none" as const,
+			},
+			occurrence: { startAt, endAt },
+		});
+
+		const sorted = sortChecklistItems([
+			event("Expired Zebra", "expired", 0, 10),
+			event("Expired Alpha", "expired", 0, 20),
+			event("Active without end", "active", 3),
+			event("Active late", "active", 1, 300),
+			event("Upcoming late", "upcoming", 200),
+			event("Active early", "active", 2, 100),
+			event("Upcoming Zebra", "upcoming", 50),
+			event("Upcoming Alpha", "upcoming", 50),
+		]);
+
+		expect(sorted.map(({ definition }) => definition.title)).toEqual([
+			"Upcoming Alpha",
+			"Upcoming Zebra",
+			"Upcoming late",
+			"Active early",
+			"Active late",
+			"Active without end",
+			"Expired Alpha",
+			"Expired Zebra",
+		]);
+	});
 });

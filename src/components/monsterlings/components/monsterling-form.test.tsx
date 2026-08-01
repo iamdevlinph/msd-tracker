@@ -53,7 +53,7 @@ describe("MonsterlingForm", () => {
 		});
 	});
 
-	it("does not show Link Chain controls or badges", () => {
+	it("shows the live shared Link Chain badge only for eligible species", async () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
 				current: { monsterling_id: 67, tier_id: 5, traits: [] },
@@ -64,7 +64,24 @@ describe("MonsterlingForm", () => {
 		render(<MonsterlingForm id="current" onClose={vi.fn()} />);
 
 		expect(screen.queryByText("Link Chain Level")).toBeNull();
-		expect(screen.queryByAltText("Link Chain Level 4")).toBeNull();
+		expect(screen.getByAltText("Link Chain Level 4")).toBeTruthy();
+		useAppStore.setState({ monsterlingLinkChainLevels: {} });
+		await waitFor(() =>
+			expect(screen.getByAltText("Link Chain Level 1")).toBeTruthy(),
+		);
+		useAppStore.setState({ monsterlingLinkChainLevels: { 67: 5 } });
+		await waitFor(() =>
+			expect(screen.getByAltText("Link Chain Level 5")).toBeTruthy(),
+		);
+
+		useAppStore.setState({
+			monsterlingsOwned: {
+				current: { monsterling_id: 1, tier_id: 5, traits: [] },
+			},
+		});
+		cleanup();
+		render(<MonsterlingForm id="current" onClose={vi.fn()} />);
+		expect(screen.queryByAltText(/Link Chain Level/)).toBeNull();
 	});
 
 	it("does not change a shared Link Chain level when editing an owned copy", async () => {

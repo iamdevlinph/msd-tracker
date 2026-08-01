@@ -170,6 +170,14 @@ export function sortChecklistItems<
 		[CHECKLIST_RECURRENCES.NONE]: 2,
 		[CHECKLIST_RECURRENCES.INTERVAL_DAYS]: 2,
 	};
+	const eventTimingRank = (item: T) =>
+		item.status === CHECKLIST_STATUSES.UPCOMING
+			? 0
+			: (item.status === CHECKLIST_STATUSES.ACTIVE ||
+						item.status === CHECKLIST_STATUSES.ENDING_SOON) &&
+					item.occurrence.endAt !== undefined
+				? 1
+				: 2;
 	return [...items].sort((a, b) => {
 		const completionOrder =
 			Number(a.status === CHECKLIST_STATUSES.COMPLETED) -
@@ -180,9 +188,30 @@ export function sortChecklistItems<
 		const recurrenceOrder =
 			recurrenceRank[a.definition.recurrence ?? CHECKLIST_RECURRENCES.NONE] -
 			recurrenceRank[b.definition.recurrence ?? CHECKLIST_RECURRENCES.NONE];
-		return (
-			recurrenceOrder || a.definition.title.localeCompare(b.definition.title)
-		);
+		if (recurrenceOrder) return recurrenceOrder;
+		if (
+			a.definition.kind === CHECKLIST_KINDS.EVENT &&
+			b.definition.kind === CHECKLIST_KINDS.EVENT
+		) {
+			const statusOrder = eventTimingRank(a) - eventTimingRank(b);
+			if (statusOrder) return statusOrder;
+			if (a.status === CHECKLIST_STATUSES.UPCOMING) {
+				const startOrder = a.occurrence.startAt - b.occurrence.startAt;
+				if (startOrder) return startOrder;
+			}
+			if (
+				(a.status === CHECKLIST_STATUSES.ACTIVE ||
+					a.status === CHECKLIST_STATUSES.ENDING_SOON) &&
+				(b.status === CHECKLIST_STATUSES.ACTIVE ||
+					b.status === CHECKLIST_STATUSES.ENDING_SOON) &&
+				a.occurrence.endAt !== undefined &&
+				b.occurrence.endAt !== undefined
+			) {
+				const endOrder = a.occurrence.endAt - b.occurrence.endAt;
+				if (endOrder) return endOrder;
+			}
+		}
+		return a.definition.title.localeCompare(b.definition.title);
 	});
 }
 
