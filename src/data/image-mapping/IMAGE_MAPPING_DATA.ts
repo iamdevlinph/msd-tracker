@@ -12,22 +12,22 @@ type MiscData = Record<MiscId, { id: MiscId; image: string }>;
 export const IMAGE_MAPPING: MiscData = {
 	[IMAGE_MAPPING_ID.AWAKENING]: {
 		id: IMAGE_MAPPING_ID.AWAKENING,
-		image: "/images/Misc/awakening-icon.png",
+		image: "/images/Misc/awakening-icon.webp",
 	},
 	[IMAGE_MAPPING_ID.SKILL_BASIC]: {
 		id: IMAGE_MAPPING_ID.SKILL_BASIC,
-		image: "/images/Misc/skill-basic.png",
+		image: "/images/Misc/skill-basic.webp",
 	},
 	[IMAGE_MAPPING_ID.SKILL_SWITCH]: {
 		id: IMAGE_MAPPING_ID.SKILL_SWITCH,
-		image: "/images/Misc/skill-switch.png",
+		image: "/images/Misc/skill-switch.webp",
 	},
 	[IMAGE_MAPPING_ID.SKILL_SPECIAL]: {
 		id: IMAGE_MAPPING_ID.SKILL_SPECIAL,
-		image: "/images/Misc/skill-special.png",
+		image: "/images/Misc/skill-special.webp",
 	},
 	[IMAGE_MAPPING_ID.SKILL_ULTIMATE]: {
 		id: IMAGE_MAPPING_ID.SKILL_ULTIMATE,
-		image: "/images/Misc/skill-ultimate.png",
+		image: "/images/Misc/skill-ultimate.webp",
 	},
 };

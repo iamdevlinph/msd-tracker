@@ -10,7 +10,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Baby Spirit",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChildGhost.png",
-		image: "/images/Monsterling_Icons/MonsterlingChildGhost.png",
+		image: "/images/Monsterling_Icons/MonsterlingChildGhost.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -22,7 +22,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Chipmunk Spirit",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingChildGhostSquirrel.png",
-		image: "/images/Monsterling_Icons/MonsterlingChildGhostSquirrel.png",
+		image: "/images/Monsterling_Icons/MonsterlingChildGhostSquirrel.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -34,7 +34,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Wind Spirit",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWind.png",
-		image: "/images/Monsterling_Icons/MonsterlingGhostWind.png",
+		image: "/images/Monsterling_Icons/MonsterlingGhostWind.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -45,7 +45,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Grudge Spirit",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWindMiddle.png",
-		image: "/images/Monsterling_Icons/MonsterlingGhostWindMiddle.png",
+		image: "/images/Monsterling_Icons/MonsterlingGhostWindMiddle.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -57,7 +57,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Grudge Revenant",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingGhostWindMiddleRed.png",
-		image: "/images/Monsterling_Icons/MonsterlingGhostWindMiddleRed.png",
+		image: "/images/Monsterling_Icons/MonsterlingGhostWindMiddleRed.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -76,7 +76,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeast.png",
-		image: "/images/Monsterling_Icons/MonsterlingSnowyBeast.png",
+		image: "/images/Monsterling_Icons/MonsterlingSnowyBeast.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
@@ -94,7 +94,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
-		image: "/images/Monsterling_Icons/MonsterlingSnowyBeastBlack.png",
+		image: "/images/Monsterling_Icons/MonsterlingSnowyBeastBlack.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -105,7 +105,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Lizarcher",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardBow.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanLizardBow.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizardBow.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -116,7 +116,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Sun Lizarcher",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardBowRed.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanLizardBowRed.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizardBowRed.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -127,7 +127,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Lizcout",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizard.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanLizard.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizard.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -138,7 +138,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Master Lizcout",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanLizardHat.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanLizardHat.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanLizardHat.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -149,7 +149,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Kroko",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanCrocodile.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanCrocodile.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanCrocodile.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -160,7 +160,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Krokomander",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanCrocodileDora.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanCrocodileDora.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanCrocodileDora.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -171,7 +171,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Bunnie Swordsman",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingKnightRabbit_Evil.png",
-		image: "/images/Monsterling_Icons/MonsterlingKnightRabbit_Evil.png",
+		image: "/images/Monsterling_Icons/MonsterlingKnightRabbit_Evil.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -189,7 +189,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingMeoguriShield.png",
-		image: "/images/Monsterling_Icons/MonsterlingMeoguriShield.png",
+		image: "/images/Monsterling_Icons/MonsterlingMeoguriShield.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -207,7 +207,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtle.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanTurtle.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanTurtle.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -227,7 +227,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
-		image: "/images/Monsterling_Icons/MonsterlingHermanTurtleBrown.png",
+		image: "/images/Monsterling_Icons/MonsterlingHermanTurtleBrown.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -239,7 +239,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Sunek",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNagiMiddle.png",
-		image: "/images/Monsterling_Icons/MonsterlingNagiMiddle.png",
+		image: "/images/Monsterling_Icons/MonsterlingNagiMiddle.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
@@ -250,7 +250,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Suhwa",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingNagiMiddlePink.png",
-		image: "/images/Monsterling_Icons/MonsterlingNagiMiddlePink.png",
+		image: "/images/Monsterling_Icons/MonsterlingNagiMiddlePink.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
@@ -272,7 +272,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMaster.png",
-		image: "/images/Monsterling_Icons/MonsterlingWetlandMaster.png",
+		image: "/images/Monsterling_Icons/MonsterlingWetlandMaster.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
@@ -294,7 +294,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		},
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780895144/msd/Monsterling_Icons/MonsterlingWetlandMasterBlue.png",
-		image: "/images/Monsterling_Icons/MonsterlingWetlandMasterBlue.png",
+		image: "/images/Monsterling_Icons/MonsterlingWetlandMasterBlue.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],

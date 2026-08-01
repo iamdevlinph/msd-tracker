@@ -18,6 +18,7 @@ describe("artifacts data", () => {
 			if (artifact.element_effect_id) {
 				expect(ELEMENTS_DATA[artifact.element_effect_id]).toBeDefined();
 			}
+			expect(artifact.image).toMatch(/^\/images\/.+\.webp$/);
 			expect(existsSync(resolve("public", artifact.image.slice(1)))).toBe(true);
 		}
 	});

@@ -12,6 +12,7 @@ describe("ELEMENTS_DATA", () => {
 			new Set(Object.values(ELEMENT_ID_BY_ELEMENT)),
 		);
 		for (const [key, element] of Object.entries(ELEMENTS_DATA)) {
+			expect(element.image).toMatch(/^\/images\/.+\.webp$/);
 			expect(element.id).toBe(Number(key));
 			expect(existsSync(resolve("public", element.image.slice(1)))).toBe(true);
 		}

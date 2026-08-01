@@ -46,7 +46,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_atk.png",
+		image: "/images/Icon_Stat/icon_stat_atk.webp",
 	},
 	[STAT_ID_BY_STAT.DEF]: {
 		id: STAT_ID_BY_STAT.DEF,
@@ -59,7 +59,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_def.png",
+		image: "/images/Icon_Stat/icon_stat_def.webp",
 	},
 	[STAT_ID_BY_STAT.HP]: {
 		id: STAT_ID_BY_STAT.HP,
@@ -72,7 +72,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_hp.png",
+		image: "/images/Icon_Stat/icon_stat_hp.webp",
 	},
 	[STAT_ID_BY_STAT.CRIT_RATE]: {
 		id: STAT_ID_BY_STAT.CRIT_RATE,
@@ -85,7 +85,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_critical_rate.png",
+		image: "/images/Icon_Stat/icon_stat_critical_rate.webp",
 	},
 	[STAT_ID_BY_STAT.CRIT_DMG]: {
 		id: STAT_ID_BY_STAT.CRIT_DMG,
@@ -98,7 +98,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_critical_damage.png",
+		image: "/images/Icon_Stat/icon_stat_critical_damage.webp",
 	},
 
 	[STAT_ID_BY_STAT.SUPPORT_DMG_BOOST]: {
@@ -112,7 +112,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/Icon_Stat_support_dmg_rate.png",
+		image: "/images/Icon_Stat/Icon_Stat_support_dmg_rate.webp",
 	},
 	[STAT_ID_BY_STAT.SUPPRESSION_DMG_BOOST]: {
 		id: STAT_ID_BY_STAT.SUPPRESSION_DMG_BOOST,
@@ -125,7 +125,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_force.png",
+		image: "/images/Icon_Stat/icon_stat_force.webp",
 	},
 	[STAT_ID_BY_STAT.BRAWL_DMG_BOOST]: {
 		id: STAT_ID_BY_STAT.BRAWL_DMG_BOOST,
@@ -138,7 +138,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_tussle_atk_rate.png",
+		image: "/images/Icon_Stat/icon_stat_tussle_atk_rate.webp",
 	},
 	[STAT_ID_BY_STAT.NEUTRALIZATION_DMG_BOOST]: {
 		id: STAT_ID_BY_STAT.NEUTRALIZATION_DMG_BOOST,
@@ -151,7 +151,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_stagger_rate.png",
+		image: "/images/Icon_Stat/icon_stat_stagger_rate.webp",
 	},
 
 	[STAT_ID_BY_STAT.NORMAL_ENEMIES_DMG_BOOST]: {
@@ -165,7 +165,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_normal_mob_atk_rate.png",
+		image: "/images/Icon_Stat/icon_stat_normal_mob_atk_rate.webp",
 	},
 	[STAT_ID_BY_STAT.BOSS_ENEMIES_DMG_BOOST]: {
 		id: STAT_ID_BY_STAT.BOSS_ENEMIES_DMG_BOOST,
@@ -178,7 +178,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_boss_mob_atk_rate.png",
+		image: "/images/Icon_Stat/icon_stat_boss_mob_atk_rate.webp",
 	},
 	[STAT_ID_BY_STAT.SPECIAL_SKILL_CD]: {
 		id: STAT_ID_BY_STAT.SPECIAL_SKILL_CD,
@@ -191,7 +191,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_active_cooltime_reduce_rate.png",
+		image: "/images/Icon_Stat/icon_stat_active_cooltime_reduce_rate.webp",
 	},
 	[STAT_ID_BY_STAT.ELEM_WEAK_DMG_BOOST]: {
 		id: STAT_ID_BY_STAT.ELEM_WEAK_DMG_BOOST,
@@ -204,7 +204,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_weakness_atk.png",
+		image: "/images/Icon_Stat/icon_stat_weakness_atk.webp",
 	},
 	[STAT_ID_BY_STAT.PHYS_DMG]: {
 		id: STAT_ID_BY_STAT.PHYS_DMG,
@@ -217,7 +217,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_atk_physical.png",
+		image: "/images/Icon_Stat/icon_stat_atk_physical.webp",
 	},
 	[STAT_ID_BY_STAT.FIRE_DMG]: {
 		id: STAT_ID_BY_STAT.FIRE_DMG,
@@ -230,7 +230,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_fire_atk.png",
+		image: "/images/Icon_Stat/icon_stat_fire_atk.webp",
 	},
 	[STAT_ID_BY_STAT.ICE_DMG]: {
 		id: STAT_ID_BY_STAT.ICE_DMG,
@@ -243,7 +243,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_ice_atk.png",
+		image: "/images/Icon_Stat/icon_stat_ice_atk.webp",
 	},
 	[STAT_ID_BY_STAT.WIND_DMG]: {
 		id: STAT_ID_BY_STAT.WIND_DMG,
@@ -256,7 +256,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_wind_atk.png",
+		image: "/images/Icon_Stat/icon_stat_wind_atk.webp",
 	},
 	[STAT_ID_BY_STAT.LIGHTNING_DMG]: {
 		id: STAT_ID_BY_STAT.LIGHTNING_DMG,
@@ -269,7 +269,7 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_lightning_atk.png",
+		image: "/images/Icon_Stat/icon_stat_lightning_atk.webp",
 	},
 	[STAT_ID_BY_STAT.EARTH_DMG]: {
 		id: STAT_ID_BY_STAT.EARTH_DMG,
@@ -282,6 +282,6 @@ export const STAT_DATA: StatData = {
 			[TIER_ID_BY_TIER.CHOICE_4]: 11,
 			[TIER_ID_BY_TIER.PRIME_5]: 22,
 		},
-		image: "/images/Icon_Stat/icon_stat_earth_atk.png",
+		image: "/images/Icon_Stat/icon_stat_earth_atk.webp",
 	},
 };

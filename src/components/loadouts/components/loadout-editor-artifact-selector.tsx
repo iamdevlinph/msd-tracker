@@ -1,6 +1,7 @@
 import { Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
+import { getFusionLevelImage } from "@/image-constants";
 import type { ArtifactOwned } from "@/stores/artifacts-owned-slice";
 
 type LoadoutEditorArtifactSelectorProps = {
@@ -32,7 +33,7 @@ export const LoadoutEditorArtifactSelector = ({
 						className="size-full min-h-0 object-contain p-1"
 					/>
 					<img
-						src={`/images/Character/Icon_shield_big${owned.fusion_level}.png`}
+						src={getFusionLevelImage(owned.fusion_level)}
 						alt={`Fusion level ${owned.fusion_level}`}
 						className="absolute left-0.5 top-0.5 size-5"
 					/>

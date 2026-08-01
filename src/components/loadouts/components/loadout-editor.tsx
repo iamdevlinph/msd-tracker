@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { UNKNOWN_CHARACTER_PORTRAIT_IMAGE } from "@/image-constants";
 import type { StoreState } from "@/stores/app-store";
 import type {
 	LoadoutCharacterSlot,
@@ -12,9 +13,6 @@ import { LoadoutEditorArtifactSelector } from "./loadout-editor-artifact-selecto
 import { LoadoutEditorCharacterSelector } from "./loadout-editor-character-selector";
 import { LoadoutEditorMonsterlingSelector } from "./loadout-editor-monsterling-selector";
 import { CHARACTER_SLOT_INDEXES as SLOT_INDEXES } from "./loadout-slot-constants";
-
-const UNKNOWN_CHARACTER_PORTRAIT =
-	"/images/Character_Portrait/portrait_Unknown_00.png";
 
 type LoadoutEditorProps = {
 	draft: Omit<LoadoutOwned, "id">;
@@ -70,7 +68,9 @@ export const LoadoutEditor = ({
 							className="h-16 min-w-0 px-1 py-2 after:hidden data-[state=active]:bg-primary/20 dark:data-[state=active]:bg-primary/25"
 						>
 							<img
-								src={character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT}
+								src={
+									character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT_IMAGE
+								}
 								alt=""
 								className="size-10 shrink-0 rounded-sm object-cover"
 							/>

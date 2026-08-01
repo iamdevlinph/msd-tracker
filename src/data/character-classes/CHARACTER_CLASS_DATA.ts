@@ -24,27 +24,27 @@ export const CHARACTER_CLASS_DATA: ClassesData = {
 		character_class: "Fighter",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-fighter.png",
-		image: "/images/Class/icons/class-fighter.png",
+		image: "/images/Class/icons/class-fighter.webp",
 	},
 	[CLASS_ID_BY_CLASS.ASSASSIN]: {
 		id: CLASS_ID_BY_CLASS.ASSASSIN,
 		character_class: "Assassin",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-assassin.png",
-		image: "/images/Class/icons/class-assassin.png",
+		image: "/images/Class/icons/class-assassin.webp",
 	},
 	[CLASS_ID_BY_CLASS.DESTROYER]: {
 		id: CLASS_ID_BY_CLASS.DESTROYER,
 		character_class: "Destroyer",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-destroyer.png",
-		image: "/images/Class/icons/class-destroyer.png",
+		image: "/images/Class/icons/class-destroyer.webp",
 	},
 	[CLASS_ID_BY_CLASS.SUPPORT]: {
 		id: CLASS_ID_BY_CLASS.SUPPORT,
 		character_class: "Support",
 		// image:
 		// "https://res.cloudinary.com/dfrhytey3/image/upload/v1780962739/msd/Class/icons/class-support.png",
-		image: "/images/Class/icons/class-support.png",
+		image: "/images/Class/icons/class-support.webp",
 	},
 };

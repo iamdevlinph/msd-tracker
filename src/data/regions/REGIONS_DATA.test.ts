@@ -8,7 +8,9 @@ describe("REGIONS_DATA", () => {
 		const ids = Object.values(REGIONS_DATA).map(({ id }) => id);
 		expect(new Set(ids).size).toBe(ids.length);
 		expect(new Set(ids)).toEqual(new Set(Object.values(REGION_ID_BY_REGION)));
-		for (const region of Object.values(REGIONS_DATA))
+		for (const region of Object.values(REGIONS_DATA)) {
+			expect(region.image).toMatch(/^\/images\/.+\.webp$/);
 			expect(existsSync(resolve("public", region.image.slice(1)))).toBe(true);
+		}
 	});
 });

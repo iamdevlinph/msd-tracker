@@ -81,7 +81,7 @@ describe("LinkChainsPage", () => {
 			name: "Link Chain Level 4",
 		});
 		expect(levelFour.querySelector("img")?.getAttribute("src")).toBe(
-			"/images/MonsterLinkChain/link-4.png",
+			"/images/MonsterLinkChain/link-4.webp",
 		);
 		fireEvent.click(levelFour);
 		expect(screen.queryByAltText("Alpha Linker portrait")).toBeNull();

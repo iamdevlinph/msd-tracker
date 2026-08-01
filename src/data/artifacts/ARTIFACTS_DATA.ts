@@ -28,7 +28,7 @@ const artifact = (
 ): Artifact => ({
 	id,
 	name,
-	image: `/images/Icon_Artifact/Artifact${file}.png`,
+	image: `/images/Icon_Artifact/Artifact${file}.webp`,
 	tier_id,
 	class_id,
 	...(element_effect_id ? { element_effect_id } : {}),

@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
 import {
@@ -31,6 +33,10 @@ describe("monsterling data shards", () => {
 		for (const [shard, regionId] of SHARDS) {
 			expect(Object.keys(shard).length).toBeGreaterThan(0);
 			for (const monsterling of Object.values(shard)) {
+				expect(monsterling.image).toMatch(/^\/images\/.+\.webp$/);
+				expect(existsSync(resolve("public", monsterling.image.slice(1)))).toBe(
+					true,
+				);
 				expect(ids.has(monsterling.id)).toBe(false);
 				ids.add(monsterling.id);
 				expect(monsterling.region_id).toBe(regionId);

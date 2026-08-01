@@ -17,7 +17,7 @@ export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
 			effect:
 				"Accompanies the character into battle and actively participates in combat.",
 		},
-		image: "/images/Monsterling_Icons/MIcon_MonsterlingReginula.png",
+		image: "/images/Monsterling_Icons/MIcon_MonsterlingReginula.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE, // TODO: need to find out
 		region_id: REGION_ID_BY_REGION.LEGENDARY,
 		source_id: [SOURCE_ID_BY_SOURCE.LEGENDARY_CONQUEST], // TODO: keep or idk

@@ -13,7 +13,9 @@ describe("IMAGE_MAPPING_DATA", () => {
 		expect(new Set(entries.map(({ id }) => id))).toEqual(
 			new Set(Object.values(IMAGE_MAPPING_ID)),
 		);
-		for (const entry of entries)
+		for (const entry of entries) {
+			expect(entry.image).toMatch(/^\/images\/.+\.webp$/);
 			expect(existsSync(resolve("public", entry.image.slice(1)))).toBe(true);
+		}
 	});
 });

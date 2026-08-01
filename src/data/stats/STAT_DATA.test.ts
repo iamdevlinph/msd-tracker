@@ -11,6 +11,7 @@ describe("STAT_DATA", () => {
 			new Set(Object.values(STAT_ID_BY_STAT)),
 		);
 		for (const stat of Object.values(STAT_DATA)) {
+			expect(stat.image).toMatch(/^\/images\/.+\.webp$/);
 			expect(stat.label.length).toBeGreaterThan(0);
 			expect(existsSync(resolve("public", stat.image.slice(1)))).toBe(true);
 			expect(Object.keys(stat.values).map(Number).sort()).toEqual(

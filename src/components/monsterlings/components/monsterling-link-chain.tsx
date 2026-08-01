@@ -1,4 +1,5 @@
 import { getLinkChainLevelOrOne } from "@/components/monsterlings/components/monsterling-link-chain-utils";
+import { getMonsterLinkChainImage } from "@/image-constants";
 import { cn } from "@/lib/utils";
 
 export function MonsterlingLinkChainBadge({
@@ -11,7 +12,7 @@ export function MonsterlingLinkChainBadge({
 	const linkChainLevelToDisplay = getLinkChainLevelOrOne(level);
 	return (
 		<img
-			src={`/images/MonsterLinkChain/link-${linkChainLevelToDisplay}.png`}
+			src={getMonsterLinkChainImage(linkChainLevelToDisplay)}
 			width={25}
 			alt={`Link Chain Level ${linkChainLevelToDisplay}`}
 			title={`Link Chain Level ${linkChainLevelToDisplay}`}

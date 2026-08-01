@@ -28,6 +28,12 @@ pnpm install
 pnpm dev
 ```
 
+## Scripts
+
+### Image assets
+
+Paste source game PNGs into `assets/images-source/`, then run `pnpm images:convert` to incrementally generate WebP files in `public/images/` and update the SHA-256 manifest. Run `pnpm images:check` before committing or building to verify hashes, dimensions, outputs, and production references; unchanged images are skipped automatically.
+
 ## Make it your own
 
 You are welcome to fork this project, change it to fit your needs, and self-host

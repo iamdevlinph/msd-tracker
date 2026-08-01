@@ -2,6 +2,7 @@ import type { CharacterOwned } from "@/components/characters/components/characte
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 import type { ELEMENTS_DATA, ElementId } from "@/data/elements/ELEMENTS_DATA";
 import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
+import { UNKNOWN_CHARACTER_PORTRAIT_IMAGE } from "@/image-constants";
 
 type LoadoutCardCharacterTileProps = {
 	character: Character | null;
@@ -9,7 +10,6 @@ type LoadoutCardCharacterTileProps = {
 	element: (typeof ELEMENTS_DATA)[ElementId] | null;
 	onEdit?: (id: number) => void;
 };
-const UNKNOWN = "/images/Character_Portrait/portrait_Unknown_00.png";
 export const LoadoutCardCharacterTile = ({
 	character,
 	owned,
@@ -43,7 +43,7 @@ export const LoadoutCardCharacterTile = ({
 				</button>
 			) : (
 				<img
-					src={character?.portraitImage ?? UNKNOWN}
+					src={character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT_IMAGE}
 					alt={
 						character
 							? `${character.name} portrait`

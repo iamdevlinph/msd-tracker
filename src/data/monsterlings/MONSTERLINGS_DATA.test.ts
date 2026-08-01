@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
@@ -100,6 +102,15 @@ describe("MONSTERLINGS_DATA", () => {
 			if (!linkChain) continue;
 
 			expect(validTierIds).toContain(linkChain.tier_id);
+		}
+	});
+
+	it("uses existing WebP images for every coordinated shard", () => {
+		for (const monsterling of Object.values(MONSTERLINGS_DATA)) {
+			expect(monsterling.image).toMatch(/^\/images\/.+\.webp$/);
+			expect(existsSync(resolve("public", monsterling.image.slice(1)))).toBe(
+				true,
+			);
 		}
 	});
 });

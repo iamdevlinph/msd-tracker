@@ -7,8 +7,10 @@
     "@/*": "./src/*"
   },
   "scripts": {
-    "dev": "vite dev --port 3000",
-    "build": "rm -rf dist && vite build && tsc --noEmit",
+    "dev": "pnpm images:check && vite dev --port 3000",
+    "build": "pnpm images:check && rm -rf dist && vite build && tsc --noEmit",
+    "images:convert": "node scripts/convert-images.mjs",
+    "images:check": "node scripts/convert-images.mjs --check",
     "preview": "vite preview",
     "test": "vitest run",
     "check": "biome check",
@@ -78,6 +80,7 @@
     "jsdom": "28.1.0",
     "lint-staged": "16.4.0",
     "react-scan": "0.5.7",
+    "sharp": "0.34.5",
     "typescript": "7.0.1-rc",
     "vite": "8.0.0",
     "vitest": "3.0.5",

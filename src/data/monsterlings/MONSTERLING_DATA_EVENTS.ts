@@ -9,7 +9,7 @@ export const MONSTERLING_DATA_EVENTS: MonsterCodexData = {
 		id: 200_001,
 		display_id: 1,
 		name: "Cappy: Summer Dive!",
-		image: "/images/Monsterling_Icons/MonsterlingChopySummer.png",
+		image: "/images/Monsterling_Icons/MonsterlingChopySummer.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.EVENTS,
 		source_id: [SOURCE_ID_BY_SOURCE.EVENTS], // TODO: keep or idk
@@ -19,7 +19,7 @@ export const MONSTERLING_DATA_EVENTS: MonsterCodexData = {
 		id: 200_002,
 		display_id: 2,
 		name: "Slimelet: Summer Dive!",
-		image: "/images/Monsterling_Icons/MonsterlingSlimeSummer.png",
+		image: "/images/Monsterling_Icons/MonsterlingSlimeSummer.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.EVENTS,
 		source_id: [SOURCE_ID_BY_SOURCE.EVENTS], // TODO: keep or idk
@@ -29,7 +29,7 @@ export const MONSTERLING_DATA_EVENTS: MonsterCodexData = {
 		id: 200_003,
 		display_id: 3,
 		name: "Shellymander: Summer Dive!",
-		image: "/images/Monsterling_Icons/MonsterlingSoranyongSummer.png",
+		image: "/images/Monsterling_Icons/MonsterlingSoranyongSummer.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.EVENTS,
 		source_id: [SOURCE_ID_BY_SOURCE.EVENTS], // TODO: keep or idk

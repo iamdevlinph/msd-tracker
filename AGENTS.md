@@ -54,3 +54,7 @@ Use short imperative commits. Reference issues with `Close #<number>` or `(#<num
 Copy `.env.sample` locally; never commit secrets. Preserve user changes and unrelated dirty state; never revert them without an explicit request. Never run destructive Git commands such as `git reset --hard` or `git checkout --` without explicit approval. Use `apply_patch` for manual edits, and prefer `rg` and `rg --files` for searches.
 
 Completion reports must concisely state changed files and behavior, verification commands and results or suggested manual checks, relevant `PLANS.md` status, and whether the change is template-level; for template-level changes, identify the packaged template section and exact addition or replacement.
+
+## Image Assets
+
+Paste game PNGs into `assets/images-source/` and run `pnpm images:convert`; generated WebP files belong in `public/images/` and are referenced with `.webp` paths. Run `pnpm images:check` before committing or building. Do not edit the manifest or generated WebPs manually; PNG loadout exports are intentionally preserved.

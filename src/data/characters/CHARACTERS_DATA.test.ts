@@ -21,6 +21,8 @@ describe("CHARACTERS_DATA", () => {
 			expect(CHARACTER_CLASS_DATA[character.class_id]).toBeDefined();
 			expect(ELEMENTS_DATA[character.element_id]).toBeDefined();
 			expect(TIERS_DATA[character.tier_id]).toBeDefined();
+			expect(character.portraitImage).toMatch(/^\/images\/.+\.webp$/);
+			expect(character.fullImage).toMatch(/^\/images\/.+\.webp$/);
 			expect(
 				existsSync(resolve("public", character.portraitImage.slice(1))),
 			).toBe(true);

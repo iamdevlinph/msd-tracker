@@ -26,6 +26,7 @@ export type MonsterCodexEntry = {
 		trigger: string[];
 		effect: string;
 		bonusEffects?: string[];
+		unlock_level: number;
 	};
 };
 

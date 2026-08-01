@@ -77,7 +77,7 @@ describe("MonsterlingsList", () => {
 		const badges = screen.getAllByAltText("Link Chain Level 5");
 		expect(badges).toHaveLength(2);
 		expect((badges[0] as HTMLImageElement).getAttribute("src")).toBe(
-			"/images/MonsterLinkChain/link-5.png",
+			"/images/MonsterLinkChain/link-5.webp",
 		);
 		expect(screen.queryByAltText("Link Chain Level 1")).toBeNull();
 

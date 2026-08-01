@@ -4,6 +4,7 @@ import { TierPortrait } from "@/components/shared/tier-portrait";
 import { CHARACTER_CLASS_DATA } from "@/data/character-classes/CHARACTER_CLASS_DATA";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import { AWAKENING_ICON_IMAGE } from "@/image-constants";
 import { cn } from "@/lib/utils";
 
 type CharacterCardProps = Pick<
@@ -40,7 +41,7 @@ export default function CharacterCard({
 
 	// const awakeningImg =
 	// 	"https://res.cloudinary.com/dfrhytey3/image/upload/v1781063623/msd/Misc/awakening-icon.png";
-	const awakeningImg = "/images/Misc/awakening-icon.png";
+	const awakeningImg = AWAKENING_ICON_IMAGE;
 
 	return (
 		<div

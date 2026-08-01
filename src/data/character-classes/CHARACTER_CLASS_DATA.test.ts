@@ -13,7 +13,9 @@ describe("CHARACTER_CLASS_DATA", () => {
 		expect(new Set(classes.map(({ id }) => id))).toEqual(
 			new Set(Object.values(CLASS_ID_BY_CLASS)),
 		);
-		for (const entry of classes)
+		for (const entry of classes) {
+			expect(entry.image).toMatch(/^\/images\/.+\.webp$/);
 			expect(existsSync(resolve("public", entry.image.slice(1)))).toBe(true);
+		}
 	});
 });

@@ -6,6 +6,7 @@ import {
 	ButtonGroupSeparator,
 } from "@/components/ui/button-group";
 import { SearchInput } from "@/components/ui/search-input";
+import { getMonsterLinkChainImage } from "@/image-constants";
 import type { LinkChainsFilters } from "../store/link-chains-filter-store";
 import { LINK_CHAIN_LEVELS } from "./monsterling-link-chain-utils";
 
@@ -44,7 +45,7 @@ export const LinkChainsFilter = ({
 						}
 					>
 						<img
-							src={`/images/MonsterLinkChain/link-${level}.png`}
+							src={getMonsterLinkChainImage(level)}
 							alt=""
 							className="size-5"
 						/>
