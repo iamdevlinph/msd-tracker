@@ -22,6 +22,7 @@ export const ANALYTICS_EVENTS = {
 	LOADOUT_MONSTERLING_SWAP: "loadout_monsterling_swap",
 	LOADOUT_PREVIEW_CLOSE: "loadout_preview_close",
 	LOADOUT_PREVIEW_COMPACT_TOGGLE: "loadout_preview_compact_toggle",
+	LOADOUT_PREVIEW_EQUIPMENT_TOGGLE: "loadout_preview_equipment_toggle",
 	LOADOUT_ENTITY_EDITOR_OPEN: "loadout_entity_editor_open",
 	CODEX_MARK_COMPLETE: "codex_mark_complete",
 	CODEX_MARK_INCOMPLETE: "codex_mark_incomplete",

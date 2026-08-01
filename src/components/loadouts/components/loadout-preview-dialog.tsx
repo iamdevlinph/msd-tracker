@@ -40,6 +40,7 @@ export const LoadoutPreviewDialog = ({
 }: LoadoutPreviewDialogProps) => {
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
+	const [hideEquipment, setHideEquipment] = useState(true);
 	const ga = useGoogleAnalytics();
 	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.PREVIEW);
 
@@ -50,6 +51,7 @@ export const LoadoutPreviewDialog = ({
 				if (!open) {
 					ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_CLOSE);
 					setCompactMonsterlings(true);
+					setHideEquipment(true);
 				}
 				onOpenChange(open);
 			}}
@@ -59,7 +61,9 @@ export const LoadoutPreviewDialog = ({
 					"grid max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-none grid-rows-[auto_auto_minmax(0,1fr)] gap-0 overflow-hidden p-0",
 					compactMonsterlings
 						? "sm:max-w-max"
-						: "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1640px]",
+						: hideEquipment
+							? "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1772px]"
+							: "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1640px]",
 				)}
 			>
 				<DialogHeader className="border-b p-4 pr-14">
@@ -70,21 +74,38 @@ export const LoadoutPreviewDialog = ({
 					</DialogDescription>
 				</DialogHeader>
 				<div className="flex flex-wrap items-center justify-between gap-3 border-b p-3">
-					<Label htmlFor="compact-monsterlings" className="cursor-pointer">
-						<Checkbox
-							id="compact-monsterlings"
-							aria-label="Compact monsterlings"
-							checked={compactMonsterlings}
-							onCheckedChange={(checked) => {
-								const isCompact = checked === true;
-								ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_COMPACT_TOGGLE, {
-									compact_monsterlings: isCompact,
-								});
-								setCompactMonsterlings(isCompact);
-							}}
-						/>
-						Compact monsterlings
-					</Label>
+					<div className="flex flex-wrap items-center gap-3">
+						<Label htmlFor="hide-equipment" className="cursor-pointer">
+							<Checkbox
+								id="hide-equipment"
+								aria-label="Hide equipment"
+								checked={hideEquipment}
+								onCheckedChange={(checked) => {
+									const shouldHideEquipment = checked === true;
+									ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_EQUIPMENT_TOGGLE, {
+										hide_equipment: shouldHideEquipment,
+									});
+									setHideEquipment(shouldHideEquipment);
+								}}
+							/>
+							Hide equipment
+						</Label>
+						<Label htmlFor="compact-monsterlings" className="cursor-pointer">
+							<Checkbox
+								id="compact-monsterlings"
+								aria-label="Compact monsterlings"
+								checked={compactMonsterlings}
+								onCheckedChange={(checked) => {
+									const isCompact = checked === true;
+									ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_COMPACT_TOGGLE, {
+										compact_monsterlings: isCompact,
+									});
+									setCompactMonsterlings(isCompact);
+								}}
+							/>
+							Compact monsterlings
+						</Label>
+					</div>
 					{loadout && (
 						<LoadoutActions
 							loadoutName={loadout.name}
@@ -95,6 +116,7 @@ export const LoadoutPreviewDialog = ({
 									loadout.name,
 									surfaceRef.current,
 									compactMonsterlings,
+									hideEquipment,
 								)
 							}
 							onDownload={() =>
@@ -102,6 +124,7 @@ export const LoadoutPreviewDialog = ({
 									loadout.name,
 									surfaceRef.current,
 									compactMonsterlings,
+									hideEquipment,
 								)
 							}
 							onDelete={onDelete}
@@ -115,6 +138,7 @@ export const LoadoutPreviewDialog = ({
 							ref={surfaceRef}
 							loadout={loadout}
 							compactMonsterlings={compactMonsterlings}
+							hideEquipment={hideEquipment}
 							onEditCharacter={onEditCharacter}
 							onEditMonsterling={onEditMonsterling}
 							onEditArtifact={onEditArtifact}

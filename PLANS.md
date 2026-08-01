@@ -32,6 +32,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Open owned character and assigned monsterling portraits in their editors from saved loadout cards without triggering preview, and from the loadout preview modal.
 - [x] Show tier portrait frames and tier-colored backgrounds behind assigned artifacts and Monsterlings in saved loadout cards.
 - [x] Keep saved loadout character tiles focused on portraits while preserving detail in previews, pickers, and editors.
+- [x] Default-hide equipment in loadout previews and exports with a one-row character/artifact/Monsterling layout toggle.
 - [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 - [x] Track loadout editing, picker, slot, preview, entity-editor, image-copy, and image-download actions in GA4 without names, IDs, search text, or raw errors.
 

@@ -84,9 +84,11 @@ export const useLoadoutImageActions = (source: LoadoutActionSource) => {
 		name: string,
 		node: HTMLElement | null,
 		compactMonsterlings: boolean,
+		hideEquipment: boolean,
 	) => {
 		const params = {
 			compact_monsterlings: compactMonsterlings,
+			hide_equipment: hideEquipment,
 			source,
 		};
 		const copy = action === LOADOUT_IMAGE_ACTIONS.COPY;
@@ -143,11 +145,27 @@ export const useLoadoutImageActions = (source: LoadoutActionSource) => {
 			name: string,
 			node: HTMLElement | null,
 			compactMonsterlings: boolean,
-		) => run(LOADOUT_IMAGE_ACTIONS.COPY, name, node, compactMonsterlings),
+			hideEquipment: boolean,
+		) =>
+			run(
+				LOADOUT_IMAGE_ACTIONS.COPY,
+				name,
+				node,
+				compactMonsterlings,
+				hideEquipment,
+			),
 		download: (
 			name: string,
 			node: HTMLElement | null,
 			compactMonsterlings: boolean,
-		) => run(LOADOUT_IMAGE_ACTIONS.DOWNLOAD, name, node, compactMonsterlings),
+			hideEquipment: boolean,
+		) =>
+			run(
+				LOADOUT_IMAGE_ACTIONS.DOWNLOAD,
+				name,
+				node,
+				compactMonsterlings,
+				hideEquipment,
+			),
 	};
 };

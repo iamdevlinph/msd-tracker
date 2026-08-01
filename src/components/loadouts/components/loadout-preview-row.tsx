@@ -8,7 +8,10 @@ import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
 import { LoadoutPreviewArtifact } from "./loadout-preview-artifact-slot";
 import { LoadoutPreviewCharacter } from "./loadout-preview-character-slot";
-import { LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH } from "./loadout-preview-constants";
+import {
+	LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH,
+	LOADOUT_PREVIEW_PORTRAIT_SIZE,
+} from "./loadout-preview-constants";
 import { LoadoutPreviewEquipment } from "./loadout-preview-equipment-slot";
 import { LoadoutPreviewMonsterling } from "./loadout-preview-monsterling-slot";
 import { LoadoutPreviewPlaceholder } from "./loadout-preview-placeholder-slot";
@@ -21,6 +24,7 @@ type LoadoutPreviewRowProps = {
 	artifactsOwned: StoreState["artifactsOwned"];
 	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
 	compactMonsterlings: boolean;
+	hideEquipment: boolean;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
 	onEditArtifact?: (id: string) => void;
@@ -33,6 +37,7 @@ export const LoadoutPreviewRow = ({
 	artifactsOwned,
 	monsterlingLinkChainLevels,
 	compactMonsterlings,
+	hideEquipment,
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
@@ -42,7 +47,34 @@ export const LoadoutPreviewRow = ({
 	const monsterlingCardWidth = compactMonsterlings
 		? MONSTERLING_COMPACT_CARD_WIDTH
 		: MONSTERLING_CARD_WIDTH;
-	const gridTemplateColumns = `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px repeat(4, ${monsterlingCardWidth}px)`;
+	const gridTemplateColumns = hideEquipment
+		? `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px ${LOADOUT_PREVIEW_PORTRAIT_SIZE}px repeat(4, ${monsterlingCardWidth}px)`
+		: `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px repeat(4, ${monsterlingCardWidth}px)`;
+	const monsterlingSlots = (
+		<div className="contents">
+			{MONSTERLING_SLOT_INDEXES.map((index) => (
+				<LoadoutPreviewMonsterling
+					key={index}
+					id={slot.monsterlingIds[index]}
+					owned={monsterlingsOwned}
+					levels={monsterlingLinkChainLevels}
+					label={`Monsterling ${index + 1} unavailable`}
+					compactStats={compactMonsterlings}
+					onEdit={onEditMonsterling}
+				/>
+			))}
+			<div>
+				<LoadoutPreviewMonsterling
+					id={slot.legendaryMonsterlingId ?? null}
+					owned={monsterlingsOwned}
+					levels={monsterlingLinkChainLevels}
+					label="Legendary unavailable"
+					compactStats={compactMonsterlings}
+					onEdit={onEditMonsterling}
+				/>
+			</div>
+		</div>
+	);
 	return (
 		<section className="grid gap-3 border-b border-border/70 pb-4 last:border-0 last:pb-0">
 			<div className="grid items-center gap-3" style={{ gridTemplateColumns }}>
@@ -55,44 +87,40 @@ export const LoadoutPreviewRow = ({
 				) : (
 					<LoadoutPreviewPlaceholder label="Character unavailable" />
 				)}
-				{MONSTERLING_SLOT_INDEXES.map((index) => (
-					<LoadoutPreviewMonsterling
-						key={index}
-						id={slot.monsterlingIds[index]}
-						owned={monsterlingsOwned}
-						levels={monsterlingLinkChainLevels}
-						label={`Monsterling ${index + 1} unavailable`}
-						compactStats={compactMonsterlings}
-						onEdit={onEditMonsterling}
-					/>
-				))}
-				<div>
-					<LoadoutPreviewMonsterling
-						id={slot.legendaryMonsterlingId ?? null}
-						owned={monsterlingsOwned}
-						levels={monsterlingLinkChainLevels}
-						label="Legendary unavailable"
-						compactStats={compactMonsterlings}
-						onEdit={onEditMonsterling}
-					/>
-				</div>
-			</div>
-			<div className="grid items-center gap-3" style={{ gridTemplateColumns }}>
-				<div className="flex justify-end">
-					<LoadoutPreviewArtifact
-						id={slot.artifactInstanceId}
-						owned={artifactsOwned}
-						onEdit={onEditArtifact}
-					/>
-				</div>
-				{(slot.equipment_ids ?? [null, null, null, null]).map(
-					(equipmentId, index) => (
-						<div key={EQUIPMENT_PART_TYPES[index]}>
-							<LoadoutPreviewEquipment id={equipmentId} />
-						</div>
-					),
+				{hideEquipment ? (
+					<>
+						<LoadoutPreviewArtifact
+							id={slot.artifactInstanceId}
+							owned={artifactsOwned}
+							onEdit={onEditArtifact}
+						/>
+						{monsterlingSlots}
+					</>
+				) : (
+					monsterlingSlots
 				)}
 			</div>
+			{!hideEquipment && (
+				<div
+					className="grid items-center gap-3"
+					style={{ gridTemplateColumns }}
+				>
+					<div className="flex justify-end">
+						<LoadoutPreviewArtifact
+							id={slot.artifactInstanceId}
+							owned={artifactsOwned}
+							onEdit={onEditArtifact}
+						/>
+					</div>
+					{(slot.equipment_ids ?? [null, null, null, null]).map(
+						(equipmentId, index) => (
+							<div key={EQUIPMENT_PART_TYPES[index]}>
+								<LoadoutPreviewEquipment id={equipmentId} />
+							</div>
+						),
+					)}
+				</div>
+			)}
 		</section>
 	);
 };

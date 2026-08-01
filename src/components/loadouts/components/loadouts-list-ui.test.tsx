@@ -487,11 +487,12 @@ describe("LoadoutsList", () => {
 			expect(success).toHaveBeenCalledWith("Loadout image copied"),
 		);
 		expect(write).toHaveBeenCalledOnce();
-		expect(toBlob.mock.calls[0][0].style.width).toBe("736px");
+		expect(toBlob.mock.calls[0][0].style.width).toBe("868px");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {
 			compact_monsterlings: true,
+			hide_equipment: true,
 			source: "card",
 		});
 
@@ -507,6 +508,7 @@ describe("LoadoutsList", () => {
 		expect(revokeObjectURL).toHaveBeenCalledWith("blob:image");
 		expect(event).toHaveBeenCalledWith("loadout_download_success", {
 			compact_monsterlings: true,
+			hide_equipment: true,
 			source: "card",
 		});
 	});

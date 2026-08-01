@@ -121,7 +121,7 @@ describe("LoadoutPreviewDialog", () => {
 		renderPreview();
 
 		const surface = screen.getByTestId("loadout-share-surface");
-		expect(surface.style.width).toBe("736px");
+		expect(surface.style.width).toBe("868px");
 		const title = surface.querySelector("h2") as HTMLHeadingElement;
 		expect(title.className).toContain("min-w-0");
 		expect(title.className).toContain("flex-1");
@@ -144,7 +144,10 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.queryByAltText("Stat ATK img")).toBeNull();
 		expect(screen.getByAltText("Link Chain Level 5")).toBeTruthy();
 		expect(screen.getByText("Fall from Grace")).toBeTruthy();
-		expect(screen.getByAltText("Test Equipment portrait")).toBeTruthy();
+		expect(screen.queryByAltText("Test Equipment portrait")).toBeNull();
+		expect(
+			screen.getByRole("checkbox", { name: "Hide equipment" }),
+		).toBeTruthy();
 		expect(surface.querySelector(".border-l-2.border-primary")).toBeNull();
 		const artifactImage = screen.getByAltText("Fall from Grace portrait");
 		expect(artifactImage.className).not.toContain("scale-");
@@ -253,7 +256,7 @@ describe("LoadoutPreviewDialog", () => {
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"736px",
+			"868px",
 		);
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
 		expect(screen.queryByAltText("Stat ATK img")).toBeNull();
@@ -273,10 +276,10 @@ describe("LoadoutPreviewDialog", () => {
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"1576px",
+			"1708px",
 		);
 		expect(screen.getByRole("dialog").className).toContain(
-			"2xl:max-w-[1640px]",
+			"2xl:max-w-[1772px]",
 		);
 		expect(screen.getByText("ATK")).toBeTruthy();
 		fireEvent.click(screen.getByRole("button", { name: "Close" }));

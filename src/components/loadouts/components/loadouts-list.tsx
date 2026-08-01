@@ -100,7 +100,12 @@ export const LoadoutsList = () => {
 	) => {
 		flushSync(() => setLoadoutToExport(loadout.id));
 		try {
-			await imageActions[action](loadout.name, exportSurfaceRef.current, true);
+			await imageActions[action](
+				loadout.name,
+				exportSurfaceRef.current,
+				true,
+				true,
+			);
 		} finally {
 			setLoadoutToExport(null);
 		}
@@ -253,6 +258,7 @@ export const LoadoutsList = () => {
 						ref={exportSurfaceRef}
 						loadout={exportLoadout}
 						compactMonsterlings
+						hideEquipment
 					/>
 				</div>
 			)}

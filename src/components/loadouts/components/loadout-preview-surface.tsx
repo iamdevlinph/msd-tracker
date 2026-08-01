@@ -5,7 +5,9 @@ import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 import {
+	LOADOUT_PREVIEW_COMPACT_HIDDEN_EQUIPMENT_WIDTH,
 	LOADOUT_PREVIEW_COMPACT_WIDTH,
+	LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH,
 	LOADOUT_PREVIEW_DETAILED_WIDTH,
 } from "./loadout-preview-constants";
 
@@ -15,6 +17,7 @@ type LoadoutPreviewSurfaceProps = {
 	ref?: Ref<HTMLDivElement>;
 	loadout: LoadoutOwned;
 	compactMonsterlings: boolean;
+	hideEquipment: boolean;
 	className?: string;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
@@ -25,6 +28,7 @@ export const LoadoutPreviewSurface = ({
 	ref,
 	loadout,
 	compactMonsterlings,
+	hideEquipment,
 	className,
 	onEditCharacter,
 	onEditMonsterling,
@@ -44,8 +48,12 @@ export const LoadoutPreviewSurface = ({
 			className={cn("grid gap-4 bg-background p-3 text-foreground", className)}
 			style={{
 				width: compactMonsterlings
-					? LOADOUT_PREVIEW_COMPACT_WIDTH
-					: LOADOUT_PREVIEW_DETAILED_WIDTH,
+					? hideEquipment
+						? LOADOUT_PREVIEW_COMPACT_HIDDEN_EQUIPMENT_WIDTH
+						: LOADOUT_PREVIEW_COMPACT_WIDTH
+					: hideEquipment
+						? LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH
+						: LOADOUT_PREVIEW_DETAILED_WIDTH,
 			}}
 		>
 			<header className="flex items-baseline justify-between gap-4 border-b border-primary/60 px-1 pb-3">
@@ -72,6 +80,7 @@ export const LoadoutPreviewSurface = ({
 					artifactsOwned={artifactsOwned}
 					monsterlingLinkChainLevels={monsterlingLinkChainLevels}
 					compactMonsterlings={compactMonsterlings}
+					hideEquipment={hideEquipment}
 					onEditCharacter={onEditCharacter}
 					onEditMonsterling={onEditMonsterling}
 					onEditArtifact={onEditArtifact}

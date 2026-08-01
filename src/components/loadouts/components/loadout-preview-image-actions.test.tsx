@@ -142,7 +142,7 @@ describe("LoadoutPreviewDialog image export", () => {
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
 		const capturedSurface = toBlob.mock.calls[0][0] as HTMLElement;
-		expect(capturedSurface.style.width).toBe("736px");
+		expect(capturedSurface.style.width).toBe("868px");
 		expect(exportBackgroundDuringCapture).toBe("#18181b");
 		expect(
 			capturedSurface.style.getPropertyValue(
@@ -152,11 +152,11 @@ describe("LoadoutPreviewDialog image export", () => {
 		expect(event.mock.calls).toEqual([
 			[
 				"loadout_copy_attempt",
-				{ compact_monsterlings: true, source: "preview" },
+				{ compact_monsterlings: true, hide_equipment: true, source: "preview" },
 			],
 			[
 				"loadout_copy_success",
-				{ compact_monsterlings: true, source: "preview" },
+				{ compact_monsterlings: true, hide_equipment: true, source: "preview" },
 			],
 		]);
 	});
@@ -184,7 +184,9 @@ describe("LoadoutPreviewDialog image export", () => {
 		expect(
 			event.mock.calls.every(
 				([, params]) =>
-					params.compact_monsterlings && params.source === "preview",
+					params.compact_monsterlings &&
+					params.hide_equipment &&
+					params.source === "preview",
 			),
 		).toBe(true);
 	});
@@ -207,11 +209,11 @@ describe("LoadoutPreviewDialog image export", () => {
 		expect(event.mock.calls).toEqual([
 			[
 				"loadout_copy_attempt",
-				{ compact_monsterlings: true, source: "preview" },
+				{ compact_monsterlings: true, hide_equipment: true, source: "preview" },
 			],
 			[
 				"loadout_copy_failure",
-				{ compact_monsterlings: true, source: "preview" },
+				{ compact_monsterlings: true, hide_equipment: true, source: "preview" },
 			],
 		]);
 	});
