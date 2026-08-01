@@ -19,6 +19,8 @@ Biome is authoritative: use tabs, double quotes, and organized imports. Follow n
 
 Use intent-revealing domain names. A reader should understand what a variable contains or what a helper guarantees at the call site without opening its implementation. Avoid vague transformation names such as `normalized`, `processed`, `result`, or `data` when a value- or behavior-specific name is available.
 
+Keep naming conventions consistent within each code-owned object, schema, type, and module. Do not mix identifier casing styles in the same representation unless required by an external contract or framework. Preserve externally defined names at the boundary, then map them once to the project's internal convention.
+
 Promote repeated closed-set domain strings used in production control flow to feature-owned readonly `as const` constants and derive their union types from those constants; keep incidental presentation, browser, protocol, route, environment, and test-contract strings inline.
 
 ## Agent Workflow
