@@ -7,7 +7,6 @@ type LoadoutCardMonsterlingTileProps = {
 	id: string | null;
 	info: MonsterCodexEntry | null;
 	owned: MonsterlingOwned | null;
-	legendary: boolean;
 	label: string;
 	onEdit?: (id: string) => void;
 };
@@ -15,14 +14,12 @@ export const LoadoutCardMonsterlingTile = ({
 	id,
 	info,
 	owned,
-	legendary,
 	label,
 	onEdit,
 }: LoadoutCardMonsterlingTileProps) => (
 	<div
 		className={cn(
 			"grid aspect-square min-w-0 rounded-md border bg-background/60 text-center",
-			legendary && "border-l-2 border-l-primary",
 			owned && info
 				? "content-center gap-1"
 				: "place-items-center border-dashed",

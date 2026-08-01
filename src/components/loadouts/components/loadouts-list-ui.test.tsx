@@ -30,6 +30,20 @@ vi.mock("tanstack-router-ga4", () => ({
 }));
 vi.mock("html-to-image", () => ({ toBlob }));
 vi.mock("react-hot-toast", () => ({ default: { success, error } }));
+vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
+	EQUIPMENT_PART_TYPES: ["headgear", "chestpiece", "gloves", "footwear"],
+	EQUIPMENT_DATA: {
+		1: {
+			id: 1,
+			name: "Test Equipment",
+			image: "/equipment.webp",
+			tier_id: 5,
+			part_type: "headgear",
+			set_name: "Test Set",
+			set_effects: [{ pieces: 2, effect: "Test effect" }],
+		},
+	},
+}));
 
 class ClipboardItemMock {
 	constructor(public data: Record<string, Promise<Blob>>) {}
@@ -228,10 +242,23 @@ describe("LoadoutsList", () => {
 		useAppStore.setState({
 			charactersOwned,
 			monsterlingsOwned: {},
-			loadouts: { team: teamLoadout },
+			loadouts: {
+				team: {
+					...teamLoadout,
+					characters: [
+						{
+							...teamLoadout.characters[0],
+							equipment_ids: [1, null, null, null],
+						},
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
 		});
 
 		render(<LoadoutsList />);
+		expect(document.querySelector(".border-l-2.border-l-primary")).toBeNull();
 
 		const futureSlotCount = showFutureLoadoutSlots(
 			import.meta.env.VITE_NODE_ENV,
@@ -239,7 +266,8 @@ describe("LoadoutsList", () => {
 			? 3
 			: 0;
 		expect(screen.queryAllByText("Artifact")).toHaveLength(futureSlotCount);
-		expect(screen.queryAllByText("Equipment 1")).toHaveLength(futureSlotCount);
+		expect(screen.queryAllByText("headgear")).toHaveLength(2);
+		expect(screen.getByAltText("Test Equipment portrait")).toBeTruthy();
 		expect(screen.getAllByText("Monsterling 1")).toHaveLength(3);
 		for (const label of [
 			"Preview Team",
@@ -450,7 +478,7 @@ describe("LoadoutsList", () => {
 			expect(success).toHaveBeenCalledWith("Loadout image copied"),
 		);
 		expect(write).toHaveBeenCalledOnce();
-		expect(toBlob.mock.calls[0][0].style.width).toBe("1050px");
+		expect(toBlob.mock.calls[0][0].style.width).toBe("736px");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {

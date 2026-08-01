@@ -65,7 +65,8 @@ export const LoadoutPreviewDialog = ({
 				<DialogHeader className="border-b p-4 pr-14">
 					<DialogTitle>{loadout?.name ?? "Loadout preview"}</DialogTitle>
 					<DialogDescription>
-						Share-ready character, Monsterling, and artifact overview.
+						Share-ready character, Monsterling, artifact, and equipment
+						overview.
 					</DialogDescription>
 				</DialogHeader>
 				<div className="flex flex-wrap items-center justify-between gap-3 border-b p-3">

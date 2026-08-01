@@ -2,6 +2,7 @@ export const LOADOUT_TARGET_TYPES = {
 	CHARACTER: "character",
 	MONSTERLING: "monsterling",
 	ARTIFACT: "artifact",
+	EQUIPMENT: "equipment",
 } as const;
 export type LoadoutTargetType =
 	(typeof LOADOUT_TARGET_TYPES)[keyof typeof LOADOUT_TARGET_TYPES];

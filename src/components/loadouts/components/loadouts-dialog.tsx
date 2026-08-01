@@ -3,6 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { LoadoutArtifactPicker } from "@/components/loadouts/components/loadout-artifact-picker";
 import { LoadoutCharacterPicker } from "@/components/loadouts/components/loadout-character-picker";
 import { LoadoutEditor } from "@/components/loadouts/components/loadout-editor";
+import { LoadoutEquipmentPicker } from "@/components/loadouts/components/loadout-equipment-picker";
 import { LoadoutMonsterlingPicker } from "@/components/loadouts/components/loadout-monsterling-picker";
 import { useLoadoutDialogController } from "@/components/loadouts/hooks/use-loadout-dialog-controller";
 import { LOADOUT_TARGET_TYPES } from "@/components/loadouts/loadout-constants";
@@ -44,16 +45,20 @@ export const LoadoutsDialog = ({
 				? `Select ${controller.pickerTarget.legendary ? "Legendary " : ""}Monsterling`
 				: controller.pickerTarget?.type === LOADOUT_TARGET_TYPES.ARTIFACT
 					? "Select Artifact"
-					: loadoutToEdit
-						? "Edit Team Loadout"
-						: "Add Team Loadout";
+					: controller.pickerTarget?.type === LOADOUT_TARGET_TYPES.EQUIPMENT
+						? "Select Equipment"
+						: loadoutToEdit
+							? "Edit Team Loadout"
+							: "Add Team Loadout";
 	const description = controller.pickerTarget
 		? controller.pickerTarget.type === LOADOUT_TARGET_TYPES.CHARACTER
 			? "Search and filter your owned characters."
 			: controller.pickerTarget.type === LOADOUT_TARGET_TYPES.MONSTERLING
 				? "Search owned monsterlings by name or tier."
-				: "Search and filter your owned artifacts."
-		: "Select three owned characters and assign their monsterlings.";
+				: controller.pickerTarget.type === LOADOUT_TARGET_TYPES.ARTIFACT
+					? "Search and filter your owned artifacts."
+					: "Search equipment by part or set name and filter by part type or tier."
+		: "Select three owned characters and assign their Monsterlings, artifacts, and equipment.";
 	return (
 		<Dialog
 			open={open}
@@ -137,6 +142,15 @@ export const LoadoutsDialog = ({
 							}
 							onSelect={controller.selectArtifact}
 						/>
+					) : controller.pickerTarget?.type ===
+						LOADOUT_TARGET_TYPES.EQUIPMENT ? (
+						<LoadoutEquipmentPicker
+							filters={controller.equipmentFilters}
+							onFiltersChange={controller.setEquipmentFilters}
+							options={controller.equipmentPickerOptions}
+							selectedIds={controller.selectedEquipmentIds}
+							onSelect={controller.selectEquipment}
+						/>
 					) : (
 						<LoadoutEditor
 							draft={controller.draft}
@@ -148,6 +162,7 @@ export const LoadoutsDialog = ({
 							onOpenCharacterPicker={controller.openCharacterPicker}
 							onOpenMonsterlingPicker={controller.openMonsterlingPicker}
 							onOpenArtifactPicker={controller.openArtifactPicker}
+							onOpenEquipmentPicker={controller.openEquipmentPicker}
 							onUpdateSlot={controller.updateSlot}
 						/>
 					)}

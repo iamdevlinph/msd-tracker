@@ -12,6 +12,20 @@ const { event } = vi.hoisted(() => ({ event: vi.fn() }));
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),
 }));
+vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
+	EQUIPMENT_PART_TYPES: ["headgear", "chestpiece", "gloves", "footwear"],
+	EQUIPMENT_DATA: {
+		1: {
+			id: 1,
+			name: "Test Equipment",
+			image: "/equipment.webp",
+			tier_id: 5,
+			part_type: "headgear",
+			set_name: "Test Set",
+			set_effects: [{ pieces: 2, effect: "Test effect" }],
+		},
+	},
+}));
 
 const loadout: LoadoutOwned = {
 	id: "team-1",
@@ -22,6 +36,7 @@ const loadout: LoadoutOwned = {
 			monsterlingIds: ["regular", "deleted", null],
 			artifactInstanceId: "artifact",
 			legendaryMonsterlingId: "legendary",
+			equipment_ids: [1, null, null, null],
 		},
 		{
 			characterId: 200_005,
@@ -106,7 +121,7 @@ describe("LoadoutPreviewDialog", () => {
 		renderPreview();
 
 		const surface = screen.getByTestId("loadout-share-surface");
-		expect(surface.style.width).toBe("1050px");
+		expect(surface.style.width).toBe("736px");
 		const title = surface.querySelector("h2") as HTMLHeadingElement;
 		expect(title.className).toContain("min-w-0");
 		expect(title.className).toContain("flex-1");
@@ -126,9 +141,11 @@ describe("LoadoutPreviewDialog", () => {
 				}) as HTMLButtonElement
 			).dataset.state,
 		).toBe("checked");
-		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
+		expect(screen.queryByAltText("Stat ATK img")).toBeNull();
 		expect(screen.getByAltText("Link Chain Level 5")).toBeTruthy();
 		expect(screen.getByText("Fall from Grace")).toBeTruthy();
+		expect(screen.getByAltText("Test Equipment portrait")).toBeTruthy();
+		expect(surface.querySelector(".border-l-2.border-primary")).toBeNull();
 		const artifactImage = screen.getByAltText("Fall from Grace portrait");
 		expect(artifactImage.className).not.toContain("scale-");
 		expect(artifactImage.parentElement?.className).toContain("size-[120px]");
@@ -137,21 +154,12 @@ describe("LoadoutPreviewDialog", () => {
 				.getAllByAltText("4 background")
 				.some((background) => background.getAttribute("width") === "120"),
 		).toBe(true);
-		expect(
-			artifactImage.compareDocumentPosition(
-				screen.getByAltText("Stat ATK img"),
-			),
-		).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 		expect(screen.getByAltText("Fusion level 2")).toBeTruthy();
 		expect(screen.getAllByText("Artifact unavailable")[0].className).toContain(
 			"text-center",
 		);
 		expect(screen.queryByText("ATK")).toBeNull();
-		expect(
-			screen
-				.getAllByAltText(/Tier [2-5] trait img/)
-				.every((image) => image.className.includes("h-[30px]")),
-		).toBe(true);
+		expect(screen.queryAllByAltText(/Tier [2-5] trait img/)).toHaveLength(0);
 		expect(screen.getByAltText("Angel portrait")).toBeTruthy();
 		expect(screen.getByAltText("Francis portrait").className).toContain(
 			"object-bottom",
@@ -238,33 +246,22 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.getAllByText("Monsterling 2 unavailable")).toHaveLength(3);
 	});
 
-	it("hides stat labels but keeps stat icons and tier backgrounds in compact mode", () => {
+	it("hides the stat pane and keeps tier backgrounds in compact mode", () => {
 		const { onOpenChange } = renderPreview();
 		const checkbox = screen.getByRole("checkbox", {
 			name: "Compact monsterlings",
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"1050px",
+			"736px",
 		);
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
-		expect(screen.getByAltText("Stat ATK img").className).toContain("size-5");
+		expect(screen.queryByAltText("Stat ATK img")).toBeNull();
 		expect(screen.queryByText("ATK")).toBeNull();
 		expect(screen.queryByText("DEF")).toBeNull();
 		expect(screen.queryByText("HP")).toBeNull();
 		expect(screen.queryByText("Crit Rate")).toBeNull();
-		const tierStrips = [2, 3, 4, 5].map((tier) =>
-			screen.getByAltText(`Tier ${tier} trait img`),
-		);
-		for (const tierStrip of tierStrips) {
-			expect(tierStrip.className).toContain("h-[30px]");
-			expect(tierStrip.className).toContain("w-[200px]");
-			expect(tierStrip.className).toContain("max-w-none");
-		}
-		const tierStrip = tierStrips[3];
-		expect(tierStrip.parentElement?.parentElement?.className).toContain(
-			"overflow-hidden",
-		);
+		expect(screen.queryAllByAltText(/Tier [2-5] trait img/)).toHaveLength(0);
 		expect(
 			(screen.getAllByAltText("5 background")[0] as HTMLImageElement).style
 				.background,
@@ -276,7 +273,7 @@ describe("LoadoutPreviewDialog", () => {
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"1722px",
+			"1576px",
 		);
 		expect(screen.getByRole("dialog").className).toContain(
 			"2xl:max-w-[1640px]",

@@ -44,10 +44,8 @@ export const MonsterlingCard = ({
 				width,
 				minWidth: width,
 				maxWidth: width,
-				gridTemplateAreas: "'portrait stats'",
-				gridTemplateColumns: compactStats
-					? "120px 48px"
-					: "120px minmax(0, 1fr)",
+				gridTemplateAreas: compactStats ? "'portrait'" : "'portrait stats'",
+				gridTemplateColumns: compactStats ? "120px" : "120px minmax(0, 1fr)",
 			}}
 		>
 			<div className="w-max" style={{ gridArea: "portrait" }}>
@@ -65,49 +63,51 @@ export const MonsterlingCard = ({
 				</PortraitWithName>
 			</div>
 
-			<div
-				className={cn(
-					"flex min-w-0 flex-col",
-					compactStats && "overflow-hidden",
-				)}
-				style={{ gridArea: "stats" }}
-				id="traits"
-			>
-				{traits.map(({ stat_id, tier_id }, idx) => {
-					if (!stat_id) return null;
+			{!compactStats && (
+				<div
+					className={cn(
+						"flex min-w-0 flex-col",
+						compactStats && "overflow-hidden",
+					)}
+					style={{ gridArea: "stats" }}
+					id="traits"
+				>
+					{traits.map(({ stat_id, tier_id }, idx) => {
+						if (!stat_id) return null;
 
-					const key = `${stat_id}-${idx}`;
-					const statInfo = STAT_DATA[stat_id];
-					const tierInfo = TIERS_DATA[tier_id];
-					return (
-						<div key={key} className="relative h-[30px] w-[200px] shrink-0">
-							<div className="absolute inset-0 grid items-center">
-								<div className="flex gap-x-1 px-2" title={statInfo.stat}>
-									<img
-										alt={`Stat ${statInfo.stat} img`}
-										src={statInfo.image}
-										className="size-5 max-w-none shrink-0"
-										height={20}
-										width={20}
-									/>
-									{!compactStats && (
-										<small className="truncate text-shadow-sm/80">
-											{statInfo.label}
-										</small>
-									)}
+						const key = `${stat_id}-${idx}`;
+						const statInfo = STAT_DATA[stat_id];
+						const tierInfo = TIERS_DATA[tier_id];
+						return (
+							<div key={key} className="relative h-[30px] w-[200px] shrink-0">
+								<div className="absolute inset-0 grid items-center">
+									<div className="flex gap-x-1 px-2" title={statInfo.stat}>
+										<img
+											alt={`Stat ${statInfo.stat} img`}
+											src={statInfo.image}
+											className="size-5 max-w-none shrink-0"
+											height={20}
+											width={20}
+										/>
+										{!compactStats && (
+											<small className="truncate text-shadow-sm/80">
+												{statInfo.label}
+											</small>
+										)}
+									</div>
 								</div>
+								<img
+									alt={`Tier ${tierInfo.id} trait img`}
+									src={tierInfo.trait_image}
+									className="h-[30px] w-[200px] max-w-none"
+									height={30}
+									width={200}
+								/>
 							</div>
-							<img
-								alt={`Tier ${tierInfo.id} trait img`}
-								src={tierInfo.trait_image}
-								className="h-[30px] w-[200px] max-w-none"
-								height={30}
-								width={200}
-							/>
-						</div>
-					);
-				})}
-			</div>
+						);
+					})}
+				</div>
+			)}
 		</div>
 	);
 };

@@ -8,6 +8,11 @@ import {
 } from "@/components/artifacts/utils/artifact-utils";
 import { emptyCharacterFilters } from "@/components/characters/store/characters-filter-store";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
+import {
+	type EquipmentFilters,
+	emptyEquipmentFilters,
+	filterEquipment,
+} from "@/components/equipments/utils/equipment-utils";
 import type { LoadoutArtifactOption } from "@/components/loadouts/components/loadout-artifact-picker";
 import type { LoadoutCharacterOption } from "@/components/loadouts/components/loadout-character-picker";
 import type { LoadoutMonsterlingOption } from "@/components/loadouts/components/loadout-monsterling-picker";
@@ -20,6 +25,11 @@ import {
 } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import {
+	EQUIPMENT_DATA,
+	EQUIPMENT_PART_TYPES,
+	type EquipmentId,
+} from "@/data/equipment/EQUIPMENT_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
@@ -39,6 +49,7 @@ export type PickerTarget =
 			legendary: boolean;
 	  }
 	| { type: typeof LOADOUT_TARGET_TYPES.ARTIFACT; characterIndex: number }
+	| { type: typeof LOADOUT_TARGET_TYPES.EQUIPMENT; characterIndex: number }
 	| null;
 
 const blankLoadout = (name = "New Loadout"): Omit<LoadoutOwned, "id"> => ({
@@ -78,6 +89,9 @@ export function useLoadoutDialogController(
 	);
 	const [artifactFilters, setArtifactFilters] =
 		useState<ArtifactFilters>(emptyArtifactFilters);
+	const [equipmentFilters, setEquipmentFilters] = useState<EquipmentFilters>(
+		emptyEquipmentFilters,
+	);
 	const [activeTab, setActiveTab] = useState("0");
 	const nameManuallyEdited = useRef(false);
 	const hasTrackedClose = useRef(false);
@@ -94,6 +108,9 @@ export function useLoadoutDialogController(
 							monsterlingIds: [...slot.monsterlingIds],
 							legendaryMonsterlingId: slot.legendaryMonsterlingId ?? null,
 							artifactInstanceId: slot.artifactInstanceId ?? null,
+							equipment_ids: [
+								...(slot.equipment_ids ?? [null, null, null, null]),
+							],
 						})) as LoadoutOwned["characters"],
 					}
 				: blankLoadout(
@@ -188,6 +205,23 @@ export function useLoadoutDialogController(
 				a.fusionLevel - b.fusionLevel ||
 				a.id.localeCompare(b.id),
 		);
+	const equipmentPickerOptions = filterEquipment(
+		Object.values(EQUIPMENT_DATA),
+		equipmentFilters,
+	)
+		.sort(
+			(a, b) =>
+				b.tier_id - a.tier_id ||
+				a.set_name.localeCompare(b.set_name) ||
+				EQUIPMENT_PART_TYPES.indexOf(a.part_type) -
+					EQUIPMENT_PART_TYPES.indexOf(b.part_type),
+		)
+		.map(({ id }) => id);
+	const selectedEquipmentIds = new Set(
+		draft.characters
+			.flatMap((slot) => slot.equipment_ids ?? [])
+			.filter((id): id is EquipmentId => id != null),
+	);
 	const updateSlot = (
 		index: number,
 		updater: (slot: LoadoutCharacterSlot) => LoadoutCharacterSlot,
@@ -228,6 +262,17 @@ export function useLoadoutDialogController(
 						character_slot: index,
 						is_legendary: true,
 					});
+				(previousSlot.equipment_ids ?? []).forEach((id, equipmentSlot) => {
+					if (
+						id != null &&
+						(nextSlot.equipment_ids?.[equipmentSlot] ?? null) === null
+					)
+						ga.event(ANALYTICS_EVENTS.LOADOUT_SLOT_CLEAR, {
+							slot_type: "equipment",
+							character_slot: index,
+							equipment_slot: EQUIPMENT_PART_TYPES[equipmentSlot],
+						});
+				});
 			}
 			return {
 				...current,
@@ -243,6 +288,7 @@ export function useLoadoutDialogController(
 		setMonsterlingFilters(emptyMonsterlingFilters());
 		setCharacterFilters(emptyCharacterFilters());
 		setArtifactFilters(emptyArtifactFilters());
+		setEquipmentFilters(emptyEquipmentFilters());
 	};
 	const resetPicker = () => resetPickerState(true);
 	const openCharacterPicker = (characterIndex: number) => {
@@ -293,6 +339,14 @@ export function useLoadoutDialogController(
 		});
 		setArtifactFilters(emptyArtifactFilters());
 		setPickerTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, characterIndex });
+	};
+	const openEquipmentPicker = (characterIndex: number) => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_OPEN, {
+			picker_type: "equipment",
+			character_slot: characterIndex,
+		});
+		setEquipmentFilters(emptyEquipmentFilters());
+		setPickerTarget({ type: LOADOUT_TARGET_TYPES.EQUIPMENT, characterIndex });
 	};
 	const selectCharacter = (id: number) => {
 		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.CHARACTER) return;
@@ -374,6 +428,29 @@ export function useLoadoutDialogController(
 		);
 		resetPickerState(false);
 	};
+	const selectEquipment = (id: EquipmentId) => {
+		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.EQUIPMENT) return;
+		const equipment = EQUIPMENT_DATA[id];
+		if (!equipment) return;
+		const equipmentSlot = EQUIPMENT_PART_TYPES.indexOf(equipment.part_type);
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_SELECT, {
+			picker_type: "equipment",
+			character_slot: pickerTarget.characterIndex,
+			equipment_slot: equipment.part_type,
+		});
+		updateSlot(
+			pickerTarget.characterIndex,
+			(slot) => {
+				const equipment_ids = [
+					...(slot.equipment_ids ?? [null, null, null, null]),
+				] as NonNullable<LoadoutCharacterSlot["equipment_ids"]>;
+				equipment_ids[equipmentSlot] = id;
+				return { ...slot, equipment_ids };
+			},
+			false,
+		);
+		resetPickerState(false);
+	};
 	const closeEditor = (trackClose: boolean) => {
 		if (trackClose && !hasTrackedClose.current) {
 			ga.event(ANALYTICS_EVENTS.LOADOUT_EDITOR_CLOSE);
@@ -402,6 +479,7 @@ export function useLoadoutDialogController(
 					...s,
 					legendaryMonsterlingId: s.legendaryMonsterlingId ?? null,
 					artifactInstanceId: s.artifactInstanceId ?? null,
+					equipment_ids: [...(s.equipment_ids ?? [null, null, null, null])],
 				})) as LoadoutOwned["characters"],
 			},
 			loadoutToEdit ?? undefined,
@@ -423,6 +501,12 @@ export function useLoadoutDialogController(
 				artifact_count: draft.characters.filter(
 					(s) => s.artifactInstanceId != null,
 				).length,
+				equipment_count: draft.characters.reduce(
+					(total, slot) =>
+						total +
+						(slot.equipment_ids ?? []).filter((id) => id != null).length,
+					0,
+				),
 			},
 		);
 		closeEditor(false);
@@ -433,6 +517,7 @@ export function useLoadoutDialogController(
 		monsterlingFilters,
 		characterFilters,
 		artifactFilters,
+		equipmentFilters,
 		activeTab,
 		setActiveTab: (tab: string) => {
 			ga.event(ANALYTICS_EVENTS.LOADOUT_TAB_CHANGE, { tab_index: Number(tab) });
@@ -441,22 +526,27 @@ export function useLoadoutDialogController(
 		setMonsterlingFilters,
 		setCharacterFilters,
 		setArtifactFilters,
+		setEquipmentFilters,
 		selectedCharacterIds,
 		selectedRegularMonsterlingIds,
 		currentCharacterRegularMonsterlingIds,
 		selectedArtifactIds,
+		selectedEquipmentIds,
 		characterPickerOptions,
 		monsterlingPickerOptions,
 		artifactPickerOptions,
+		equipmentPickerOptions,
 		monsterlingsOwned,
 		artifactsOwned,
 		updateSlot,
 		openCharacterPicker,
 		openMonsterlingPicker,
 		openArtifactPicker,
+		openEquipmentPicker,
 		selectCharacter,
 		selectMonsterling,
 		selectArtifact,
+		selectEquipment,
 		resetPicker,
 		close,
 		canSave,

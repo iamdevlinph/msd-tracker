@@ -1,7 +1,11 @@
+import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import {
+	EQUIPMENT_DATA,
+	EQUIPMENT_PART_TYPES,
+} from "@/data/equipment/EQUIPMENT_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
-import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
 import { LoadoutCardArtifactTile } from "./loadout-card-artifact-tile";
@@ -11,7 +15,6 @@ import {
 	EQUIPMENT_SLOT_INDEXES,
 	MONSTERLING_SLOT_INDEXES,
 } from "./loadout-slot-constants";
-import { showFutureLoadoutSlots } from "./loadout-utils";
 
 type LoadoutCardCharacterRowProps = {
 	loadoutId: string;
@@ -24,9 +27,6 @@ type LoadoutCardCharacterRowProps = {
 	onEditMonsterling: (id: string) => void;
 	onEditArtifact: (id: string) => void;
 };
-
-const SHOW_FUTURE_SLOTS = showFutureLoadoutSlots(import.meta.env.VITE_NODE_ENV);
-
 export const LoadoutCardCharacterRow = ({
 	loadoutId,
 	index,
@@ -68,7 +68,6 @@ export const LoadoutCardCharacterRow = ({
 							id={id}
 							info={info}
 							owned={owned}
-							legendary={monsterIndex === "legendary"}
 							label={
 								monsterIndex === "legendary"
 									? "Legendary"
@@ -85,18 +84,30 @@ export const LoadoutCardCharacterRow = ({
 				owned={artifactOwned}
 				onEdit={onEditArtifact}
 			/>
-			{SHOW_FUTURE_SLOTS &&
-				EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => (
+			{EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => {
+				const equipmentId = slot.equipment_ids?.[equipmentIndex - 1] ?? null;
+				const equipment = equipmentId ? EQUIPMENT_DATA[equipmentId] : null;
+				return (
 					<div
 						key={`${loadoutId}-${index}-equipment-${equipmentIndex}`}
-						className={cn(
-							"grid aspect-square place-items-center rounded-md border border-dashed bg-background/60 text-[10px] text-muted-foreground",
-							equipmentIndex === 1 && "border-l-2 border-l-primary pl-2",
-						)}
+						className="relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center text-[10px] text-muted-foreground"
 					>
-						Equipment {equipmentIndex}
+						{equipment ? (
+							<TierPortrait
+								tier={equipment.tier_id}
+								portraitImg={equipment.image}
+								portraitSize={112}
+								name={equipment.name}
+								portraitClassName="size-full object-contain p-1"
+							/>
+						) : (
+							<span className="capitalize">
+								{EQUIPMENT_PART_TYPES[equipmentIndex - 1]}
+							</span>
+						)}
 					</div>
-				))}
+				);
+			})}
 		</div>
 	);
 };

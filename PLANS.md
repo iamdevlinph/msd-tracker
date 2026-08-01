@@ -118,9 +118,9 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Assign one unique owned-artifact copy per character slot, with legacy local and Drive defaults.
 - [x] Add artifact filtering, assignment, replacement, clearing, cards, previews, exports, safe missing-record handling, and editor links.
 - [x] Show completed Artifact slots in production.
-- [ ] Add four equipment references to each character slot, with legacy defaults.
-- [ ] Add equipment pickers, assignment, replacement, clearing, cards, previews, exports, validation, and tests.
-- [ ] Show Equipment slots in production after the complete vertical slice ships.
+- [x] Add four equipment references to each character slot, with legacy local and Drive defaults.
+- [x] Add catalog equipment filtering, assignment by part type, replacement, clearing, cards, previews, exports, validation, analytics, and behavioral tests.
+- [x] Show completed Equipment slots in production while keeping owned Equipment inventory deferred.
 
 ## Release Checklist
 

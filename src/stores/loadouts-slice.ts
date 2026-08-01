@@ -1,13 +1,28 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import type { CharId } from "@/data/characters/CHARACTERS_DATA";
+import type { EquipmentId } from "@/data/equipment/EQUIPMENT_DATA";
 import type { StoreState } from "@/stores/app-store";
+
+export type EquipmentIds = [
+	EquipmentId | null,
+	EquipmentId | null,
+	EquipmentId | null,
+	EquipmentId | null,
+];
+
+const normalizeEquipmentIds = (ids: unknown): EquipmentIds =>
+	Array.from({ length: 4 }, (_, index) => {
+		const id = Array.isArray(ids) ? ids[index] : null;
+		return typeof id === "number" ? id : null;
+	}) as EquipmentIds;
 
 export type LoadoutCharacterSlot = {
 	characterId: CharId | null;
 	monsterlingIds: [string | null, string | null, string | null];
 	legendaryMonsterlingId?: string | null;
 	artifactInstanceId: string | null;
+	equipment_ids?: EquipmentIds;
 };
 
 export type LoadoutOwned = {
@@ -33,6 +48,7 @@ export const emptyLoadoutCharacterSlot = (): LoadoutCharacterSlot => ({
 	monsterlingIds: [null, null, null],
 	legendaryMonsterlingId: null,
 	artifactInstanceId: null,
+	equipment_ids: [null, null, null, null],
 });
 
 export const normalizeLoadouts = (
@@ -48,6 +64,7 @@ export const normalizeLoadouts = (
 					monsterlingIds: [...(slot.monsterlingIds ?? [null, null, null])],
 					legendaryMonsterlingId: slot.legendaryMonsterlingId ?? null,
 					artifactInstanceId: slot.artifactInstanceId ?? null,
+					equipment_ids: normalizeEquipmentIds(slot.equipment_ids),
 				})) as LoadoutOwned["characters"];
 				return [[id, { id, name: loadout.name ?? "Loadout", characters }]];
 			},

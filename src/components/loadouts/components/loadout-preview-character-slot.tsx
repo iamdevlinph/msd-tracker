@@ -39,23 +39,7 @@ export const LoadoutPreviewCharacter = ({
 	onEdit,
 }: LoadoutPreviewCharacterProps) => {
 	const panel = (
-		<div className="grid h-[120px] grid-cols-[120px_1fr] items-center gap-2 rounded-lg border bg-card px-1">
-			<CharacterCard
-				portraitSize={LOADOUT_PREVIEW_PORTRAIT_SIZE}
-				iconSize={18}
-				portraitImage={character.portraitImage}
-				name={character.name}
-				element_id={character.element_id}
-				class_id={character.class_id}
-				tier_id={character.tier_id}
-				awakening={owned.awakening}
-				variant={character.variant}
-				className="cursor-default"
-				portraitClassName="size-full object-contain object-bottom"
-				showElement={false}
-				showClass={false}
-				showAwakening={false}
-			/>
+		<div className="grid h-[120px] grid-cols-[1fr_120px] items-center gap-2 rounded-lg border bg-card px-1">
 			<div className="grid content-center gap-2">
 				<div className="grid grid-cols-2 items-center gap-1.5">
 					<img
@@ -91,6 +75,22 @@ export const LoadoutPreviewCharacter = ({
 					))}
 				</div>
 			</div>
+			<CharacterCard
+				portraitSize={LOADOUT_PREVIEW_PORTRAIT_SIZE}
+				iconSize={18}
+				portraitImage={character.portraitImage}
+				name={character.name}
+				element_id={character.element_id}
+				class_id={character.class_id}
+				tier_id={character.tier_id}
+				awakening={owned.awakening}
+				variant={character.variant}
+				className="cursor-default"
+				portraitClassName="size-full object-contain object-bottom"
+				showElement={false}
+				showClass={false}
+				showAwakening={false}
+			/>
 		</div>
 	);
 	return onEdit ? (

@@ -108,7 +108,11 @@ describe("Drive Monsterling backups", () => {
 					id: "team",
 					name: "Team",
 					characters: [
-						{ characterId: 1, monsterlingIds: [null, null, null] },
+						{
+							characterId: 1,
+							monsterlingIds: [null, null, null],
+							equipment_ids: [1, 2, null, null],
+						},
 						{ characterId: 2, monsterlingIds: [null, null, null] },
 						{ characterId: 3, monsterlingIds: [null, null, null] },
 					],
@@ -132,6 +136,15 @@ describe("Drive Monsterling backups", () => {
 				({ artifactInstanceId }) => artifactInstanceId,
 			),
 		).toEqual([null, null, null]);
+		expect(
+			downloaded?.loadouts.team.characters.map(
+				({ equipment_ids }) => equipment_ids,
+			),
+		).toEqual([
+			[1, 2, null, null],
+			[null, null, null, null],
+			[null, null, null, null],
+		]);
 	});
 
 	it("migrates existing levels when downloading a legacy backup", async () => {

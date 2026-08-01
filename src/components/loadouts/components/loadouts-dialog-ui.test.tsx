@@ -21,6 +21,30 @@ vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),
 }));
 
+vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
+	EQUIPMENT_PART_TYPES: ["headgear", "chestpiece", "gloves", "footwear"],
+	EQUIPMENT_DATA: {
+		1: {
+			id: 1,
+			name: "Prime Test Helm",
+			image: "/equipment-helm.webp",
+			tier_id: 5,
+			part_type: "headgear",
+			set_name: "Prime Test Set",
+			set_effects: [{ pieces: 2, effect: "Test effect" }],
+		},
+		2: {
+			id: 2,
+			name: "Choice Test Gloves",
+			image: "/equipment-gloves.webp",
+			tier_id: 4,
+			part_type: "gloves",
+			set_name: "Choice Test Set",
+			set_effects: [{ pieces: 2, effect: "Other effect" }],
+		},
+	},
+}));
+
 const charactersOwned = {
 	1: {
 		id: 1,
@@ -468,6 +492,7 @@ describe("LoadoutsDialog character picker", () => {
 			},
 		});
 		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
+		expect(document.querySelector(".border-l-2.border-l-primary")).toBeNull();
 
 		const artifactSelector = screen.getByRole("button", {
 			name: "Select artifact",
@@ -484,7 +509,7 @@ describe("LoadoutsDialog character picker", () => {
 		fireEvent.click(
 			screen.getAllByRole("button", { name: "Select Fall from Grace" })[0],
 		);
-		expect(screen.getByAltText("Fall from Grace").className).toContain(
+		expect(screen.getByAltText("Fall from Grace portrait").className).toContain(
 			"object-contain",
 		);
 		expect(screen.getByAltText("Fusion level 2")).toBeTruthy();
@@ -515,6 +540,67 @@ describe("LoadoutsDialog character picker", () => {
 			monsterling_count: 0,
 			legendary_monsterling_count: 0,
 			artifact_count: 2,
+			equipment_count: 0,
+		});
+	});
+
+	it("filters catalog equipment and assigns reusable items by part type", () => {
+		useAppStore.setState({ loadouts: { team: teamLoadout } });
+		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Select headgear" }));
+		expect(
+			screen
+				.getAllByRole("button", { name: /^Select / })[0]
+				.getAttribute("aria-label"),
+		).toBe("Select Prime Test Helm");
+
+		const search = screen.getByRole("textbox", { name: "Search equipment" });
+		fireEvent.change(search, { target: { value: "choice test set" } });
+		expect(
+			screen.queryByRole("button", { name: "Select Prime Test Helm" }),
+		).toBeNull();
+		expect(
+			screen.getByRole("button", { name: "Select Choice Test Gloves" }),
+		).toBeTruthy();
+		fireEvent.change(search, { target: { value: "" } });
+		fireEvent.click(screen.getByRole("button", { name: "Tier 5" }));
+		expect(
+			screen.getByRole("button", { name: "Select Prime Test Helm" }),
+		).toBeTruthy();
+		expect(
+			screen.queryByRole("button", { name: "Select Choice Test Gloves" }),
+		).toBeNull();
+		expect(screen.queryByText("Test effect")).toBeNull();
+		fireEvent.click(
+			screen.getByRole("button", { name: "Select Prime Test Helm" }),
+		);
+
+		fireEvent.mouseDown(screen.getAllByRole("tab")[1], {
+			button: 0,
+			ctrlKey: false,
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Select headgear" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Select Prime Test Helm" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+		expect(
+			useAppStore
+				.getState()
+				.loadouts.team.characters.map(({ equipment_ids }) => equipment_ids),
+		).toEqual([
+			[1, null, null, null],
+			[1, null, null, null],
+			[null, null, null, null],
+		]);
+		expect(event).toHaveBeenCalledWith("loadout_update", {
+			character_count: 3,
+			monsterling_count: 0,
+			legendary_monsterling_count: 0,
+			artifact_count: 0,
+			equipment_count: 2,
 		});
 	});
 });

@@ -1,9 +1,13 @@
 import { Trash2Icon } from "lucide-react";
+import { PortraitWithName } from "@/components/shared/portrait-with-name";
+import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import type { MonsterCodexEntry } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import type { TierId } from "@/data/tiers/TIERS_DATA";
 
 type LoadoutEditorMonsterlingSelectorProps = {
 	info: MonsterCodexEntry | null;
+	tier: TierId | null;
 	id: string | null;
 	monsterIndex: number | "legendary";
 	onOpen: () => void;
@@ -12,6 +16,7 @@ type LoadoutEditorMonsterlingSelectorProps = {
 
 export const LoadoutEditorMonsterlingSelector = ({
 	info,
+	tier,
 	id,
 	monsterIndex,
 	onOpen,
@@ -19,23 +24,32 @@ export const LoadoutEditorMonsterlingSelector = ({
 }: LoadoutEditorMonsterlingSelectorProps) => {
 	const legendary = monsterIndex === "legendary";
 	return (
-		<div
-			className={`relative aspect-square min-w-0 ${legendary ? "border-l-2 border-l-primary pl-2" : ""}`}
-		>
+		<div className="relative aspect-square min-w-0">
 			<button
 				type="button"
+				aria-label={
+					info
+						? info.name
+						: legendary
+							? "Legendary"
+							: `Monsterling ${Number(monsterIndex) + 1}`
+				}
 				onClick={onOpen}
 				className="grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
 			>
-				{info ? (
-					<>
-						<img
-							src={info.image}
-							alt=""
-							className="min-h-0 max-h-[70%] object-contain"
+				{info && tier ? (
+					<PortraitWithName
+						name={info.name}
+						className="size-28 overflow-hidden rounded-sm"
+					>
+						<TierPortrait
+							tier={tier}
+							portraitImg={info.image}
+							portraitSize={112}
+							name={info.name}
+							portraitClassName="size-full object-contain"
 						/>
-						<span className="w-full truncate">{info.name}</span>
-					</>
+					</PortraitWithName>
 				) : legendary ? (
 					"Legendary"
 				) : (

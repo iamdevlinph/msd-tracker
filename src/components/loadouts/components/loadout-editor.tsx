@@ -2,6 +2,10 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
+import {
+	EQUIPMENT_DATA,
+	EQUIPMENT_PART_TYPES,
+} from "@/data/equipment/EQUIPMENT_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { UNKNOWN_CHARACTER_PORTRAIT_IMAGE } from "@/image-constants";
 import type { StoreState } from "@/stores/app-store";
@@ -11,6 +15,7 @@ import type {
 } from "@/stores/loadouts-slice";
 import { LoadoutEditorArtifactSelector } from "./loadout-editor-artifact-selector";
 import { LoadoutEditorCharacterSelector } from "./loadout-editor-character-selector";
+import { LoadoutEditorEquipmentSelector } from "./loadout-editor-equipment-selector";
 import { LoadoutEditorMonsterlingSelector } from "./loadout-editor-monsterling-selector";
 import { CHARACTER_SLOT_INDEXES as SLOT_INDEXES } from "./loadout-slot-constants";
 
@@ -28,6 +33,7 @@ type LoadoutEditorProps = {
 		monsterlingIndex?: number,
 	) => void;
 	onOpenArtifactPicker: (characterIndex: number) => void;
+	onOpenEquipmentPicker: (characterIndex: number) => void;
 	onUpdateSlot: (
 		index: number,
 		updater: (slot: LoadoutCharacterSlot) => LoadoutCharacterSlot,
@@ -44,6 +50,7 @@ export const LoadoutEditor = ({
 	onOpenCharacterPicker,
 	onOpenMonsterlingPicker,
 	onOpenArtifactPicker,
+	onOpenEquipmentPicker,
 	onUpdateSlot,
 }: LoadoutEditorProps) => (
 	<div className="grid gap-4">
@@ -90,6 +97,7 @@ export const LoadoutEditor = ({
 				const artifact = artifactOwned
 					? ARTIFACTS_DATA[artifactOwned.artifact_id]
 					: null;
+				const equipmentIds = slot.equipment_ids ?? [null, null, null, null];
 				return (
 					<TabsContent
 						key={index}
@@ -123,6 +131,37 @@ export const LoadoutEditor = ({
 									}
 								/>
 							</div>
+							<div className="col-span-4 grid grid-cols-4 gap-2">
+								{EQUIPMENT_PART_TYPES.map((partType, equipmentIndex) => {
+									const equipmentId = equipmentIds[equipmentIndex];
+									return (
+										<LoadoutEditorEquipmentSelector
+											key={partType}
+											partType={partType}
+											equipment={
+												equipmentId ? EQUIPMENT_DATA[equipmentId] : null
+											}
+											onOpen={() => onOpenEquipmentPicker(index)}
+											onClear={() =>
+												onUpdateSlot(index, (current) => {
+													const equipment_ids = [
+														...(current.equipment_ids ?? [
+															null,
+															null,
+															null,
+															null,
+														]),
+													] as NonNullable<
+														LoadoutCharacterSlot["equipment_ids"]
+													>;
+													equipment_ids[equipmentIndex] = null;
+													return { ...current, equipment_ids };
+												})
+											}
+										/>
+									);
+								})}
+							</div>
 							{[...SLOT_INDEXES, "legendary" as const].map((monsterIndex) => {
 								const legendary = monsterIndex === "legendary";
 								const id = legendary
@@ -136,6 +175,7 @@ export const LoadoutEditor = ({
 									<LoadoutEditorMonsterlingSelector
 										key={String(monsterIndex)}
 										info={info}
+										tier={owned?.tier_id ?? null}
 										id={id}
 										monsterIndex={monsterIndex}
 										onOpen={() =>
