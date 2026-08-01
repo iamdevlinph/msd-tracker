@@ -81,7 +81,7 @@ describe("SyncConflictDialog tables", () => {
 	it.each([
 		["local", 2_000, 1_000],
 		["remote", 1_000, 2_000],
-	])("does not highlight the newer %s copy date", (_copyName, localAt, remoteAt) => {
+	])("highlights the newer %s copy date", (copyName, localAt, remoteAt) => {
 		useAppStore.setState({
 			syncConflict: {
 				local: { ...copy, updatedAt: localAt },
@@ -90,12 +90,25 @@ describe("SyncConflictDialog tables", () => {
 		});
 		render(<SyncConflictDialog />);
 
+		const newerAt = copyName === "local" ? localAt : remoteAt;
+		const olderAt = copyName === "local" ? remoteAt : localAt;
 		expect(
-			screen.getByText(new Date(localAt).toLocaleString()).className,
-		).not.toContain("text-green");
+			screen.getByText(new Date(newerAt).toLocaleString()).className,
+		).toContain("text-green");
 		expect(
-			screen.getByText(new Date(remoteAt).toLocaleString()).className,
+			screen.getByText(new Date(olderAt).toLocaleString()).className,
 		).not.toContain("text-green");
+	});
+
+	it("does not highlight equal copy dates", () => {
+		render(<SyncConflictDialog />);
+
+		const equalDate = new Date(copy.updatedAt).toLocaleString();
+		expect(
+			screen
+				.getAllByText(equalDate)
+				.every((element) => !element.className.includes("text-green")),
+		).toBe(true);
 	});
 
 	it.each([
@@ -133,6 +146,32 @@ describe("SyncConflictDialog tables", () => {
 		expect(
 			screen
 				.getAllByText(equalSize)
+				.every((element) => !element.className.includes("text-green")),
+		).toBe(true);
+	});
+
+	it("highlights a newer local date and larger remote size independently", () => {
+		useAppStore.setState({
+			syncConflict: {
+				local: { ...copy, updatedAt: 2_000, size: 1_000 },
+				remote: { ...copy, updatedAt: 1_000, size: 2_000 },
+			},
+		});
+		render(<SyncConflictDialog />);
+
+		expect(
+			screen.getByText(new Date(2_000).toLocaleString()).className,
+		).toContain("text-green");
+		expect(
+			screen.getByText(new Date(1_000).toLocaleString()).className,
+		).not.toContain("text-green");
+		expect(
+			screen.getByText(readableBytes(2_000, { decimals: 2, minUnit: "kB" }))
+				.className,
+		).toContain("text-green");
+		expect(
+			screen
+				.getAllByText(readableBytes(1_000, { decimals: 2, minUnit: "kB" }))
 				.every((element) => !element.className.includes("text-green")),
 		).toBe(true);
 	});

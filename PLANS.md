@@ -69,7 +69,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Account
 
-- [x] Highlight the larger serialized size (while retaining both dates and sizes) when choosing between local and Google Drive copies during a sync conflict.
+- [x] Highlight the newer backup date and larger serialized size independently when choosing between local and Google Drive copies during a sync conflict.
 - [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
 
 ## Chunk 1: Checklist and Event Tracking
