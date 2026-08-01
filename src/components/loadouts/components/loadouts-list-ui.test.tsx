@@ -259,6 +259,15 @@ describe("LoadoutsList", () => {
 
 		render(<LoadoutsList />);
 		expect(document.querySelector(".border-l-2.border-l-primary")).toBeNull();
+		expect(
+			within(
+				screen.getByRole("button", {
+					name: `Edit ${CHARACTERS_DATA[1].name} character`,
+				}),
+			)
+				.getByText(CHARACTERS_DATA[1].name)
+				.classList.contains("hidden"),
+		).toBe(true);
 
 		const futureSlotCount = showFutureLoadoutSlots(
 			import.meta.env.VITE_NODE_ENV,

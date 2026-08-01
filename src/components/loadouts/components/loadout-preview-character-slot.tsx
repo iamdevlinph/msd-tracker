@@ -39,7 +39,7 @@ export const LoadoutPreviewCharacter = ({
 	onEdit,
 }: LoadoutPreviewCharacterProps) => {
 	const panel = (
-		<div className="grid h-[120px] grid-cols-[1fr_120px] items-center gap-2 rounded-lg border bg-card px-1">
+		<div className="grid h-[120px] grid-cols-[1fr_120px] items-center gap-2 rounded-lg border bg-card px-1 pr-0">
 			<div className="grid content-center gap-2">
 				<div className="grid grid-cols-2 items-center gap-1.5">
 					<img
