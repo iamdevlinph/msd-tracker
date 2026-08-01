@@ -53,9 +53,9 @@ describe("character search", () => {
 
 	it("filters the owned-character screen", () => {
 		render(<CharactersPage />);
-		const search = screen.getByPlaceholderText(
-			"Search characters",
-		) as HTMLInputElement;
+		const search = screen.getByRole("textbox", {
+			name: "Search characters",
+		}) as HTMLInputElement;
 
 		fireEvent.change(search, {
 			target: { value: "Benjamin" },
@@ -129,9 +129,9 @@ describe("character search", () => {
 		render(<AddCharacter />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Add Character" }));
-		const search = screen.getByPlaceholderText(
-			"Search characters",
-		) as HTMLInputElement;
+		const search = screen.getByRole("textbox", {
+			name: "Search characters",
+		}) as HTMLInputElement;
 		fireEvent.change(search, {
 			target: { value: "Mina" },
 		});

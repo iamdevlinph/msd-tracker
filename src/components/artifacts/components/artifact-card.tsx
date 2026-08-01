@@ -1,7 +1,6 @@
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
-import { getFusionLevelImage } from "@/image-constants";
 import { cn } from "@/lib/utils";
 
 type ArtifactCardProps = {
@@ -34,7 +33,7 @@ export const ArtifactCard = ({
 		/>
 		{fusionLevel != null && (
 			<img
-				src={getFusionLevelImage(fusionLevel)}
+				src={`/images/Character/Icon_shield_big${fusionLevel}.webp`}
 				alt={`Fusion level ${fusionLevel}`}
 				className="absolute left-1 top-1 z-10 h-7 w-7 drop-shadow-lg"
 			/>

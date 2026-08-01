@@ -124,9 +124,9 @@ describe("LoadoutsDialog character picker", () => {
 		expect((create as HTMLButtonElement).disabled).toBe(true);
 
 		fireEvent.click(screen.getByRole("button", { name: "Select character" }));
-		const emptySearch = screen.getByPlaceholderText(
-			"Search characters",
-		) as HTMLInputElement;
+		const emptySearch = screen.getByRole("textbox", {
+			name: "Search characters",
+		}) as HTMLInputElement;
 		expect(emptySearch.value).toBe("");
 		expect(document.activeElement).toBe(emptySearch);
 		expect(screen.getByRole("button", { name: "Select Angel" })).toBeTruthy();
@@ -143,9 +143,12 @@ describe("LoadoutsDialog character picker", () => {
 			useCharacterFilter.getState().characterFilters.selectedElements,
 		).toEqual([ELEMENT_ID_BY_ELEMENT.LIGHTNING]);
 
-		fireEvent.change(screen.getByPlaceholderText("Search characters"), {
-			target: { value: "Mina" },
-		});
+		fireEvent.change(
+			screen.getByRole("textbox", { name: "Search characters" }),
+			{
+				target: { value: "Mina" },
+			},
+		);
 		expect(screen.queryByRole("button", { name: "Select Angel" })).toBeNull();
 		fireEvent.click(screen.getByRole("button", { name: "Select Mina" }));
 
@@ -231,9 +234,9 @@ describe("LoadoutsDialog character picker", () => {
 		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Angel" }));
-		const search = screen.getByPlaceholderText(
-			"Search characters",
-		) as HTMLInputElement;
+		const search = screen.getByRole("textbox", {
+			name: "Search characters",
+		}) as HTMLInputElement;
 
 		expect(search.value).toBe("Angel");
 		expect(document.activeElement).toBe(search);
@@ -340,6 +343,10 @@ describe("LoadoutsDialog character picker", () => {
 		expect(
 			screen.queryByRole("button", { name: "Clear character 1" }),
 		).toBeNull();
+		expect(event).toHaveBeenCalledWith("loadout_slot_clear", {
+			slot_type: "character",
+			character_slot: 0,
+		});
 	});
 
 	it("swaps regular monsterlings within a character", () => {
@@ -368,6 +375,11 @@ describe("LoadoutsDialog character picker", () => {
 		expect(
 			useAppStore.getState().loadouts.team.characters[0].monsterlingIds,
 		).toEqual(["second", "first", null]);
+		expect(event).toHaveBeenCalledWith("loadout_monsterling_swap", {
+			character_slot: 0,
+			from_slot: 1,
+			to_slot: 0,
+		});
 	});
 
 	it("moves an equipped regular monsterling into an empty slot", () => {
@@ -386,6 +398,11 @@ describe("LoadoutsDialog character picker", () => {
 		expect(
 			useAppStore.getState().loadouts.team.characters[0].monsterlingIds,
 		).toEqual([null, "second", "first"]);
+		expect(event).toHaveBeenCalledWith("loadout_monsterling_move", {
+			character_slot: 0,
+			from_slot: 0,
+			to_slot: 2,
+		});
 	});
 
 	it("filters monsterlings by multiple tiers without changing page filters", () => {

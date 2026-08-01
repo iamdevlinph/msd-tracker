@@ -118,7 +118,7 @@ describe("monster codex favorites", () => {
 		});
 		render(<CodexFilter />);
 		const search = screen.getByPlaceholderText(
-			"Monsterling name",
+			/Monsterling name$/,
 		) as HTMLInputElement;
 		expect(screen.getByRole("textbox", { name: "Search" })).toBe(search);
 

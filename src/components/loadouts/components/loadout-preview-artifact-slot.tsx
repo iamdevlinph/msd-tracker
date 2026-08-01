@@ -1,7 +1,6 @@
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
-import { getFusionLevelImage } from "@/image-constants";
 import type { StoreState } from "@/stores/app-store";
 import { LOADOUT_PREVIEW_PORTRAIT_SIZE } from "./loadout-preview-constants";
 import { LoadoutPreviewPlaceholder } from "./loadout-preview-placeholder-slot";
@@ -33,7 +32,7 @@ export const LoadoutPreviewArtifact = ({
 				portraitClassName="size-[120px] object-contain"
 			/>
 			<img
-				src={getFusionLevelImage(item.fusion_level)}
+				src={`/images/Character/Icon_shield_big${item.fusion_level}.webp`}
 				alt={`Fusion level ${item.fusion_level}`}
 				className="absolute left-1 top-1 z-10 size-7 drop-shadow-lg"
 			/>

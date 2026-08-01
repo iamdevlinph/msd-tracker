@@ -1,4 +1,5 @@
 import { SearchIcon, XIcon } from "lucide-react";
+import { forwardRef, useEffect, useState } from "react";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,19 +25,57 @@ export const preventSearchInputDismissOnEscape = (event: KeyboardEvent) => {
 	}
 };
 
-export const SearchInput = ({
-	className,
-	onValueChange,
-	value,
-	...props
-}: SearchInputProps) => (
-	<div className="relative">
+export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
+	({ className, onValueChange, value, placeholder, ...props }, ref) => {
+		const [shortcut, setShortcut] = useState("Ctrl + K");
+		useEffect(() => {
+			setShortcut(
+				/Mac|iPhone|iPad|iPod/.test(navigator.platform)
+					? "⌘ + K"
+					: "Ctrl + K",
+			);
+		}, []);
+		useEffect(() => {
+			const handleShortcut = (event: KeyboardEvent) => {
+				if (
+					!(event.ctrlKey || event.metaKey) ||
+					event.altKey ||
+					event.shiftKey ||
+					event.key.toLowerCase() !== "k"
+				)
+					return;
+				const enabledInputs = [
+					...document.querySelectorAll<HTMLInputElement>(
+						"input[data-search-input]",
+					),
+				].filter(
+					(input) =>
+						!input.disabled && !input.closest('[aria-hidden="true"]'),
+				);
+				const visibleInputs = enabledInputs.filter(
+					(input) => input.getClientRects().length > 0,
+				);
+				const inputs = visibleInputs.length ? visibleInputs : enabledInputs;
+				const dialogInputs = inputs.filter((input) =>
+					input.closest('[role="dialog"]'),
+				);
+				const target = (dialogInputs.length ? dialogInputs : inputs).at(-1);
+				if (!target) return;
+				event.preventDefault();
+				target.focus();
+				target.select();
+			};
+			document.addEventListener("keydown", handleShortcut);
+			return () => document.removeEventListener("keydown", handleShortcut);
+		}, []);
+		return <div className="relative">
 		<SearchIcon
 			aria-hidden
 			className="pointer-events-none absolute left-3 top-2.5 size-4 text-muted-foreground"
 		/>
 		<Input
 			{...props}
+			ref={ref}
 			data-search-input=""
 			type="text"
 			value={value}
@@ -47,8 +86,9 @@ export const SearchInput = ({
 				event.stopPropagation();
 				onValueChange("");
 			}}
-			className={cn("pl-9 pr-9", className)}
-		/>
+				className={cn("pl-9 pr-9", className)}
+				placeholder={placeholder ? `${shortcut} - ${placeholder}` : shortcut}
+			/>
 		{value && (
 			<Button
 				type="button"
@@ -61,5 +101,7 @@ export const SearchInput = ({
 				<XIcon className="size-4" />
 			</Button>
 		)}
-	</div>
+		</div>;
+	},
 );
+SearchInput.displayName = "SearchInput";

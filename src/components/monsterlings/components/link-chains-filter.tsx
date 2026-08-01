@@ -6,7 +6,6 @@ import {
 	ButtonGroupSeparator,
 } from "@/components/ui/button-group";
 import { SearchInput } from "@/components/ui/search-input";
-import { getMonsterLinkChainImage } from "@/image-constants";
 import type { LinkChainsFilters } from "../store/link-chains-filter-store";
 import { LINK_CHAIN_LEVELS } from "./monsterling-link-chain-utils";
 
@@ -20,7 +19,7 @@ export const LinkChainsFilter = ({
 	<div className="grid gap-3">
 		<SearchInput
 			aria-label="Search Monsterling names"
-			placeholder="Search Monsterling names"
+			placeholder="Search monsterling names"
 			value={filters.search}
 			onValueChange={(search) => onChange({ ...filters, search })}
 		/>
@@ -45,7 +44,7 @@ export const LinkChainsFilter = ({
 						}
 					>
 						<img
-							src={getMonsterLinkChainImage(level)}
+							src={`/images/MonsterLinkChain/link-${level}.webp`}
 							alt=""
 							className="size-5"
 						/>

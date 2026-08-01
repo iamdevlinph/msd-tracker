@@ -80,8 +80,10 @@ export function useLoadoutDialogController(
 		useState<ArtifactFilters>(emptyArtifactFilters);
 	const [activeTab, setActiveTab] = useState("0");
 	const nameManuallyEdited = useRef(false);
+	const hasTrackedClose = useRef(false);
 	useEffect(() => {
 		if (!open) return;
+		hasTrackedClose.current = false;
 		const existing = loadoutToEdit ? loadouts[loadoutToEdit] : null;
 		setDraft(
 			existing
@@ -189,20 +191,65 @@ export function useLoadoutDialogController(
 	const updateSlot = (
 		index: number,
 		updater: (slot: LoadoutCharacterSlot) => LoadoutCharacterSlot,
+		shouldTrackClear = true,
 	) =>
-		setDraft((current) => ({
-			...current,
-			characters: current.characters.map((slot, i) =>
-				i === index ? updater(slot) : slot,
-			) as LoadoutOwned["characters"],
-		}));
-	const resetPicker = () => {
+		setDraft((current) => {
+			const previousSlot = current.characters[index];
+			const nextSlot = updater(previousSlot);
+			if (shouldTrackClear) {
+				if (previousSlot.characterId !== null && nextSlot.characterId === null)
+					ga.event(ANALYTICS_EVENTS.LOADOUT_SLOT_CLEAR, {
+						slot_type: "character",
+						character_slot: index,
+					});
+				if (
+					previousSlot.artifactInstanceId !== null &&
+					nextSlot.artifactInstanceId === null
+				)
+					ga.event(ANALYTICS_EVENTS.LOADOUT_SLOT_CLEAR, {
+						slot_type: "artifact",
+						character_slot: index,
+					});
+				previousSlot.monsterlingIds.forEach((id, monsterlingSlot) => {
+					if (id !== null && nextSlot.monsterlingIds[monsterlingSlot] === null)
+						ga.event(ANALYTICS_EVENTS.LOADOUT_SLOT_CLEAR, {
+							slot_type: "monsterling",
+							character_slot: index,
+							monsterling_slot: monsterlingSlot,
+							is_legendary: false,
+						});
+				});
+				if (
+					previousSlot.legendaryMonsterlingId != null &&
+					nextSlot.legendaryMonsterlingId == null
+				)
+					ga.event(ANALYTICS_EVENTS.LOADOUT_SLOT_CLEAR, {
+						slot_type: "monsterling",
+						character_slot: index,
+						is_legendary: true,
+					});
+			}
+			return {
+				...current,
+				characters: current.characters.map((slot, i) =>
+					i === index ? nextSlot : slot,
+				) as LoadoutOwned["characters"],
+			};
+		});
+	const resetPickerState = (trackBack: boolean) => {
+		if (trackBack && pickerTarget)
+			ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_BACK);
 		setPickerTarget(null);
 		setMonsterlingFilters(emptyMonsterlingFilters());
 		setCharacterFilters(emptyCharacterFilters());
 		setArtifactFilters(emptyArtifactFilters());
 	};
+	const resetPicker = () => resetPickerState(true);
 	const openCharacterPicker = (characterIndex: number) => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_OPEN, {
+			picker_type: "character",
+			character_slot: characterIndex,
+		});
 		const id = draft.characters[characterIndex].characterId;
 		setCharacterFilters({
 			...emptyCharacterFilters(),
@@ -215,6 +262,12 @@ export function useLoadoutDialogController(
 		legendary: boolean,
 		monsterlingIndex?: number,
 	) => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_OPEN, {
+			picker_type: "monsterling",
+			character_slot: characterIndex,
+			monsterling_slot: monsterlingIndex,
+			is_legendary: legendary,
+		});
 		const slot = draft.characters[characterIndex];
 		const id = legendary
 			? slot.legendaryMonsterlingId
@@ -234,11 +287,19 @@ export function useLoadoutDialogController(
 		});
 	};
 	const openArtifactPicker = (characterIndex: number) => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_OPEN, {
+			picker_type: "artifact",
+			character_slot: characterIndex,
+		});
 		setArtifactFilters(emptyArtifactFilters());
 		setPickerTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, characterIndex });
 	};
 	const selectCharacter = (id: number) => {
 		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.CHARACTER) return;
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_SELECT, {
+			picker_type: "character",
+			character_slot: pickerTarget.characterIndex,
+		});
 		setDraft((current) => ({
 			...current,
 			name:
@@ -254,23 +315,46 @@ export function useLoadoutDialogController(
 				i === pickerTarget.characterIndex ? { ...slot, characterId: id } : slot,
 			) as LoadoutOwned["characters"],
 		}));
-		resetPicker();
+		resetPickerState(false);
 	};
 	const selectMonsterling = (id: string) => {
 		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.MONSTERLING) return;
-		updateSlot(pickerTarget.characterIndex, (slot) => {
-			if (pickerTarget.legendary)
-				return { ...slot, legendaryMonsterlingId: id };
-			const ids = [
-				...slot.monsterlingIds,
-			] as LoadoutCharacterSlot["monsterlingIds"];
-			const target = pickerTarget.monsterlingIndex ?? 0;
-			const source = ids.indexOf(id);
-			if (source !== -1) ids[source] = ids[target];
-			ids[target] = id;
-			return { ...slot, monsterlingIds: ids };
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_SELECT, {
+			picker_type: "monsterling",
+			character_slot: pickerTarget.characterIndex,
+			monsterling_slot: pickerTarget.monsterlingIndex,
+			is_legendary: pickerTarget.legendary,
 		});
-		resetPicker();
+		updateSlot(
+			pickerTarget.characterIndex,
+			(slot) => {
+				if (pickerTarget.legendary)
+					return { ...slot, legendaryMonsterlingId: id };
+				const ids = [
+					...slot.monsterlingIds,
+				] as LoadoutCharacterSlot["monsterlingIds"];
+				const target = pickerTarget.monsterlingIndex ?? 0;
+				const source = ids.indexOf(id);
+				if (source !== -1) {
+					if (source !== target)
+						ga.event(
+							ids[target] === null
+								? ANALYTICS_EVENTS.LOADOUT_MONSTERLING_MOVE
+								: ANALYTICS_EVENTS.LOADOUT_MONSTERLING_SWAP,
+							{
+								character_slot: pickerTarget.characterIndex,
+								from_slot: source,
+								to_slot: target,
+							},
+						);
+					ids[source] = ids[target];
+				}
+				ids[target] = id;
+				return { ...slot, monsterlingIds: ids };
+			},
+			false,
+		);
+		resetPickerState(false);
 	};
 	const selectArtifact = (id: string) => {
 		if (pickerTarget?.type !== LOADOUT_TARGET_TYPES.ARTIFACT) return;
@@ -279,17 +363,27 @@ export function useLoadoutDialogController(
 			draft.characters[pickerTarget.characterIndex].artifactInstanceId !== id
 		)
 			return;
-		updateSlot(pickerTarget.characterIndex, (slot) => ({
-			...slot,
-			artifactInstanceId: id,
-		}));
-		resetPicker();
+		ga.event(ANALYTICS_EVENTS.LOADOUT_PICKER_SELECT, {
+			picker_type: "artifact",
+			character_slot: pickerTarget.characterIndex,
+		});
+		updateSlot(
+			pickerTarget.characterIndex,
+			(slot) => ({ ...slot, artifactInstanceId: id }),
+			false,
+		);
+		resetPickerState(false);
 	};
-	const close = () => {
+	const closeEditor = (trackClose: boolean) => {
+		if (trackClose && !hasTrackedClose.current) {
+			ga.event(ANALYTICS_EVENTS.LOADOUT_EDITOR_CLOSE);
+			hasTrackedClose.current = true;
+		}
 		setOpen(false);
-		resetPicker();
+		resetPickerState(false);
 		onClose?.();
 	};
+	const close = () => closeEditor(true);
 	const canSave =
 		!!draft.name.trim() &&
 		draft.characters.every((s) => s.characterId !== null) &&
@@ -331,7 +425,7 @@ export function useLoadoutDialogController(
 				).length,
 			},
 		);
-		close();
+		closeEditor(false);
 	};
 	return {
 		draft,
@@ -340,7 +434,10 @@ export function useLoadoutDialogController(
 		characterFilters,
 		artifactFilters,
 		activeTab,
-		setActiveTab,
+		setActiveTab: (tab: string) => {
+			ga.event(ANALYTICS_EVENTS.LOADOUT_TAB_CHANGE, { tab_index: Number(tab) });
+			setActiveTab(tab);
+		},
 		setMonsterlingFilters,
 		setCharacterFilters,
 		setArtifactFilters,

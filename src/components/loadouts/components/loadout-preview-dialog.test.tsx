@@ -7,6 +7,12 @@ import { SITE_URL } from "@/lib/seo";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
+const { event } = vi.hoisted(() => ({ event: vi.fn() }));
+
+vi.mock("tanstack-router-ga4", () => ({
+	useGoogleAnalytics: () => ({ event }),
+}));
+
 const loadout: LoadoutOwned = {
 	id: "team-1",
 	name: "Boss / Team",
@@ -44,6 +50,7 @@ const renderPreview = () => {
 
 describe("LoadoutPreviewDialog", () => {
 	beforeEach(() => {
+		event.mockClear();
 		Object.defineProperty(document, "fonts", {
 			configurable: true,
 			value: { ready: Promise.resolve() },
@@ -264,6 +271,9 @@ describe("LoadoutPreviewDialog", () => {
 		).not.toBe("");
 
 		fireEvent.click(checkbox);
+		expect(event).toHaveBeenCalledWith("loadout_preview_compact_toggle", {
+			compact_monsterlings: false,
+		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
 			"1722px",
@@ -275,6 +285,7 @@ describe("LoadoutPreviewDialog", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Close" }));
 
 		expect(onOpenChange).toHaveBeenCalledWith(false);
+		expect(event).toHaveBeenCalledWith("loadout_preview_close");
 		expect((checkbox as HTMLButtonElement).dataset.state).toBe("checked");
 	});
 

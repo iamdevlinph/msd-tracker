@@ -25,18 +25,20 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
+type LoadoutEditorTarget =
+	| { type: typeof LOADOUT_TARGET_TYPES.CHARACTER; id: number }
+	| { type: typeof LOADOUT_TARGET_TYPES.MONSTERLING; id: string }
+	| { type: typeof LOADOUT_TARGET_TYPES.ARTIFACT; id: string };
+
 export const LoadoutsList = () => {
 	const ga = useGoogleAnalytics();
 	const [open, setOpen] = useState(false);
 	const [loadoutToEdit, setLoadoutToEdit] = useState<string | null>(null);
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 	const [loadoutToExport, setLoadoutToExport] = useState<string | null>(null);
-	const [editorTarget, setEditorTarget] = useState<
-		| { type: typeof LOADOUT_TARGET_TYPES.CHARACTER; id: number }
-		| { type: typeof LOADOUT_TARGET_TYPES.MONSTERLING; id: string }
-		| { type: typeof LOADOUT_TARGET_TYPES.ARTIFACT; id: string }
-		| null
-	>(null);
+	const [editorTarget, setEditorTarget] = useState<LoadoutEditorTarget | null>(
+		null,
+	);
 	const exportSurfaceRef = useRef<HTMLDivElement>(null);
 	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.CARD);
 
@@ -53,7 +55,8 @@ export const LoadoutsList = () => {
 		? (loadouts[loadoutToExport] ?? null)
 		: null;
 
-	const edit = (id: string) => {
+	const edit = (id: string, source: LoadoutActionSource) => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_EDITOR_OPEN, { mode: "edit", source });
 		setLoadoutToPreview(null);
 		setLoadoutToEdit(id);
 		setOpen(true);
@@ -75,10 +78,20 @@ export const LoadoutsList = () => {
 		ga.event(ANALYTICS_EVENTS.LOADOUT_DUPLICATE, { source });
 	};
 
-	const remove = (id: string) => {
+	const remove = (id: string, source: LoadoutActionSource) => {
 		deleteLoadout(id);
 		setLoadoutToPreview(null);
-		ga.event(ANALYTICS_EVENTS.LOADOUT_DELETE);
+		ga.event(ANALYTICS_EVENTS.LOADOUT_DELETE, { source });
+	};
+	const openEntityEditor = (
+		target: LoadoutEditorTarget,
+		source: LoadoutActionSource,
+	) => {
+		ga.event(ANALYTICS_EVENTS.LOADOUT_ENTITY_EDITOR_OPEN, {
+			target_type: target.type,
+			source,
+		});
+		setEditorTarget(target);
 	};
 
 	const exportImage = async (
@@ -118,7 +131,7 @@ export const LoadoutsList = () => {
 								setLoadoutToPreview(loadout.id);
 							}}
 							onEdit={() => {
-								edit(loadout.id);
+								edit(loadout.id, LOADOUT_ACTION_SOURCES.CARD);
 							}}
 							onDuplicate={() =>
 								duplicate(loadout, LOADOUT_ACTION_SOURCES.CARD)
@@ -129,15 +142,24 @@ export const LoadoutsList = () => {
 							onDownload={() =>
 								void exportImage(LOADOUT_IMAGE_ACTIONS.DOWNLOAD, loadout)
 							}
-							onDelete={() => remove(loadout.id)}
+							onDelete={() => remove(loadout.id, LOADOUT_ACTION_SOURCES.CARD)}
 							onEditCharacter={(id) =>
-								setEditorTarget({ type: LOADOUT_TARGET_TYPES.CHARACTER, id })
+								openEntityEditor(
+									{ type: LOADOUT_TARGET_TYPES.CHARACTER, id },
+									LOADOUT_ACTION_SOURCES.CARD,
+								)
 							}
 							onEditMonsterling={(id) =>
-								setEditorTarget({ type: LOADOUT_TARGET_TYPES.MONSTERLING, id })
+								openEntityEditor(
+									{ type: LOADOUT_TARGET_TYPES.MONSTERLING, id },
+									LOADOUT_ACTION_SOURCES.CARD,
+								)
 							}
 							onEditArtifact={(id) =>
-								setEditorTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, id })
+								openEntityEditor(
+									{ type: LOADOUT_TARGET_TYPES.ARTIFACT, id },
+									LOADOUT_ACTION_SOURCES.CARD,
+								)
 							}
 							activeImageAction={
 								loadoutToExport === loadout.id
@@ -161,20 +183,35 @@ export const LoadoutsList = () => {
 				onOpenChange={(next) =>
 					!next && editorTarget === null && setLoadoutToPreview(null)
 				}
-				onEdit={() => previewLoadout && edit(previewLoadout.id)}
+				onEdit={() =>
+					previewLoadout &&
+					edit(previewLoadout.id, LOADOUT_ACTION_SOURCES.PREVIEW)
+				}
 				onDuplicate={() =>
 					previewLoadout &&
 					duplicate(previewLoadout, LOADOUT_ACTION_SOURCES.PREVIEW)
 				}
-				onDelete={() => previewLoadout && remove(previewLoadout.id)}
+				onDelete={() =>
+					previewLoadout &&
+					remove(previewLoadout.id, LOADOUT_ACTION_SOURCES.PREVIEW)
+				}
 				onEditCharacter={(id) =>
-					setEditorTarget({ type: LOADOUT_TARGET_TYPES.CHARACTER, id })
+					openEntityEditor(
+						{ type: LOADOUT_TARGET_TYPES.CHARACTER, id },
+						LOADOUT_ACTION_SOURCES.PREVIEW,
+					)
 				}
 				onEditMonsterling={(id) =>
-					setEditorTarget({ type: LOADOUT_TARGET_TYPES.MONSTERLING, id })
+					openEntityEditor(
+						{ type: LOADOUT_TARGET_TYPES.MONSTERLING, id },
+						LOADOUT_ACTION_SOURCES.PREVIEW,
+					)
 				}
 				onEditArtifact={(id) =>
-					setEditorTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, id })
+					openEntityEditor(
+						{ type: LOADOUT_TARGET_TYPES.ARTIFACT, id },
+						LOADOUT_ACTION_SOURCES.PREVIEW,
+					)
 				}
 			/>
 			<EditCharacterDetailsDialog

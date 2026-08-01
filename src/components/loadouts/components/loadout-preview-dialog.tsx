@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { LoadoutActions } from "@/components/loadouts/components/loadout-actions";
 import { useLoadoutImageActions } from "@/components/loadouts/components/loadout-image-actions";
 import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-preview-surface";
@@ -12,6 +13,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
@@ -38,13 +40,17 @@ export const LoadoutPreviewDialog = ({
 }: LoadoutPreviewDialogProps) => {
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
+	const ga = useGoogleAnalytics();
 	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.PREVIEW);
 
 	return (
 		<Dialog
 			open={!!loadout}
 			onOpenChange={(open) => {
-				if (!open) setCompactMonsterlings(true);
+				if (!open) {
+					ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_CLOSE);
+					setCompactMonsterlings(true);
+				}
 				onOpenChange(open);
 			}}
 		>
@@ -68,9 +74,13 @@ export const LoadoutPreviewDialog = ({
 							id="compact-monsterlings"
 							aria-label="Compact monsterlings"
 							checked={compactMonsterlings}
-							onCheckedChange={(checked) =>
-								setCompactMonsterlings(checked === true)
-							}
+							onCheckedChange={(checked) => {
+								const isCompact = checked === true;
+								ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_COMPACT_TOGGLE, {
+									compact_monsterlings: isCompact,
+								});
+								setCompactMonsterlings(isCompact);
+							}}
 						/>
 						Compact monsterlings
 					</Label>

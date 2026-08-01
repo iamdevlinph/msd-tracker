@@ -19,7 +19,10 @@ const ControlledSearch = ({ onBubble = vi.fn() }) => {
 };
 
 describe("SearchInput", () => {
-	afterEach(cleanup);
+	afterEach(() => {
+		cleanup();
+		vi.restoreAllMocks();
+	});
 
 	it("forwards input props and clears from the conditional button", () => {
 		render(<ControlledSearch />);
@@ -61,5 +64,53 @@ describe("SearchInput", () => {
 		);
 
 		expect(ref.current).toBe(screen.getByRole("textbox", { name: "Search" }));
+	});
+
+	it("shows the platform shortcut before the search description", () => {
+		vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
+		render(
+			<SearchInput
+				aria-label="Search"
+				placeholder="Search monsterling names"
+				value=""
+				onValueChange={vi.fn()}
+			/>,
+		);
+
+		expect(
+			(screen.getByRole("textbox", { name: "Search" }) as HTMLInputElement)
+				.placeholder,
+		).toBe("⌘ + K - Search monsterling names");
+	});
+
+	it("focuses and selects the last dialog search with Ctrl+K or Cmd+K", () => {
+		render(
+			<>
+				<SearchInput
+					aria-label="Page search"
+					value="page"
+					onValueChange={vi.fn()}
+				/>
+				<div role="dialog">
+					<SearchInput
+						aria-label="Dialog search"
+						value="dialog"
+						onValueChange={vi.fn()}
+					/>
+				</div>
+			</>,
+		);
+		const dialogSearch = screen.getByRole("textbox", {
+			name: "Dialog search",
+		}) as HTMLInputElement;
+
+		fireEvent.keyDown(document, { key: "k", ctrlKey: true });
+		expect(document.activeElement).toBe(dialogSearch);
+		expect(dialogSearch.selectionStart).toBe(0);
+		expect(dialogSearch.selectionEnd).toBe(dialogSearch.value.length);
+
+		screen.getByRole("textbox", { name: "Page search" }).focus();
+		fireEvent.keyDown(document, { key: "K", metaKey: true });
+		expect(document.activeElement).toBe(dialogSearch);
 	});
 });

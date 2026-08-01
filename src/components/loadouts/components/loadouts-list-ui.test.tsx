@@ -170,6 +170,10 @@ describe("LoadoutsList", () => {
 		expect(event).not.toHaveBeenCalledWith("loadout_preview", {
 			source: "card",
 		});
+		expect(event).toHaveBeenCalledWith("loadout_entity_editor_open", {
+			target_type: "character",
+			source: "card",
+		});
 
 		fireEvent.keyDown(screen.getByRole("dialog", { name: "Angel" }), {
 			key: "Escape",
@@ -182,6 +186,10 @@ describe("LoadoutsList", () => {
 		expect(
 			screen.getByRole("dialog", { name: "Edit Monsterling" }),
 		).toBeTruthy();
+		expect(event).toHaveBeenCalledWith("loadout_entity_editor_open", {
+			target_type: "monsterling",
+			source: "card",
+		});
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 
 		fireEvent.keyDown(
@@ -200,6 +208,10 @@ describe("LoadoutsList", () => {
 		).toBeTruthy();
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).not.toHaveBeenCalledWith("loadout_preview", {
+			source: "card",
+		});
+		expect(event).toHaveBeenCalledWith("loadout_entity_editor_open", {
+			target_type: "artifact",
 			source: "card",
 		});
 	});
