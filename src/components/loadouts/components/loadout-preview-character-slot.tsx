@@ -87,6 +87,7 @@ export const LoadoutPreviewCharacter = ({
 				variant={character.variant}
 				className="cursor-default"
 				portraitClassName="size-full object-contain object-bottom"
+				hideTierBg
 				showElement={false}
 				showClass={false}
 				showAwakening={false}

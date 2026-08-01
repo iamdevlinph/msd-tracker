@@ -11,7 +11,7 @@ type CharacterCardProps = Pick<
 	Character,
 	"class_id" | "tier_id" | "portraitImage" | "name" | "element_id" | "variant"
 > &
-	Partial<Pick<TierPortrait, "portraitSize">> & {
+	Partial<Pick<TierPortrait, "portraitSize" | "hideTierBg">> & {
 		iconSize?: number;
 		className?: string;
 		portraitClassName?: string;
@@ -27,6 +27,7 @@ export default function CharacterCard({
 	name,
 	element_id,
 	portraitSize = 100,
+	hideTierBg = false,
 	iconSize = 25,
 	awakening = undefined,
 	variant = undefined,
@@ -127,6 +128,7 @@ export default function CharacterCard({
 					tier={tier_id}
 					name={name}
 					portraitClassName={portraitClassName}
+					hideTierBg={hideTierBg}
 				/>
 			</PortraitWithName>
 		</div>

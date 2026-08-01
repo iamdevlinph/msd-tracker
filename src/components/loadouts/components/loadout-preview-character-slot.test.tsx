@@ -40,5 +40,9 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 		expect(levels[0]?.classList.contains("text-amber-400")).toBe(false);
 		expect(levels[1]?.classList.contains("text-amber-400")).toBe(true);
 		expect(levels[1]?.classList.contains("text-green-300")).toBe(false);
+		expect(
+			(container.querySelector('img[alt="4 background"]') as HTMLImageElement)
+				.style.background,
+		).toBe("");
 	});
 });
