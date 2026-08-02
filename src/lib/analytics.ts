@@ -68,6 +68,7 @@ export const ANALYTICS_EVENTS = {
 	COLLECTION_DOWNLOAD_ATTEMPT: "collection_download_attempt",
 	COLLECTION_DOWNLOAD_SUCCESS: "collection_download_success",
 	COLLECTION_DOWNLOAD_FAILURE: "collection_download_failure",
+	GITHUB_REPOSITORY_OPEN: "github_repository_open",
 } as const;
 
 export type AnalyticsEventName =

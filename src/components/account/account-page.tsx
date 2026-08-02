@@ -1,3 +1,4 @@
+import { SiGithub } from "@icons-pack/react-simple-icons";
 import type React from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { GoogleSection } from "@/components/account/google/google-section";
@@ -180,6 +181,33 @@ export const AccountPage = () => {
 				</Card>
 
 				<GoogleSection />
+
+				<Card>
+					<CardHeader>
+						<CardTitle className="flex items-center gap-2">
+							<SiGithub />
+							Project
+						</CardTitle>
+						<CardDescription>
+							MSD Tracker is an open-source fan project. Explore the source
+							code, report issues, or contribute on GitHub.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Button variant="outline" asChild>
+							<a
+								href="https://github.com/iamdevlinph/msd-tracker"
+								target="_blank"
+								rel="noreferrer"
+								onClick={() =>
+									ga.event(ANALYTICS_EVENTS.GITHUB_REPOSITORY_OPEN)
+								}
+							>
+								View on GitHub
+							</a>
+						</Button>
+					</CardContent>
+				</Card>
 			</div>
 		</>
 	);

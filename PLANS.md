@@ -76,6 +76,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 - [x] Highlight the newer backup date and larger serialized size independently when choosing between local and Google Drive copies during a sync conflict.
 - [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
+- [x] Link to the public GitHub repository from the Account page.
 
 ## Chunk 1: Checklist and Event Tracking
 

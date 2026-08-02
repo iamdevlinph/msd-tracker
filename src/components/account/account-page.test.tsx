@@ -132,4 +132,20 @@ describe("AccountPage clear confirmations", () => {
 		expect(localStorage.getItem("stat-options-cache")).toBe("stats");
 		expect(event).not.toHaveBeenCalled();
 	});
+
+	it("links to the public repository and tracks the click", () => {
+		render(<AccountPage />);
+
+		const githubLink = screen.getByRole("link", { name: "View on GitHub" });
+		expect(githubLink.getAttribute("href")).toBe(
+			"https://github.com/iamdevlinph/msd-tracker",
+		);
+		expect(githubLink.getAttribute("target")).toBe("_blank");
+		expect(githubLink.getAttribute("rel")).toBe("noreferrer");
+		expect(githubLink.textContent).toBe("View on GitHub");
+
+		fireEvent.click(githubLink);
+		expect(event).toHaveBeenCalledOnce();
+		expect(event).toHaveBeenCalledWith(ANALYTICS_EVENTS.GITHUB_REPOSITORY_OPEN);
+	});
 });
