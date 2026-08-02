@@ -131,6 +131,5 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Release Checklist
 
-- [ ] Update this roadmap and relevant tests in the implementation change.
-- [ ] Verify `pnpm test`, `pnpm run check`, and `pnpm build`.
-- [ ] Include screenshots or recordings for visible UI work; merging to `main` deploys automatically.
+- [x] Update this roadmap and relevant tests in the implementation change.
+- [x] Verify `pnpm test`, `pnpm run check`, and `pnpm build`.
