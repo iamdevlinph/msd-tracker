@@ -6,6 +6,7 @@ import { ArtifactFilter } from "@/components/artifacts/components/artifact-filte
 import {
 	emptyArtifactFilters,
 	filterArtifacts,
+	sortArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,10 +33,9 @@ export const AddArtifact = () => {
 		setSelected(null);
 		setFilters(emptyArtifactFilters());
 	};
-	const artifacts = filterArtifacts(
-		Object.values(ARTIFACTS_DATA),
-		filters,
-	).sort((a, b) => a.name.localeCompare(b.name));
+	const artifacts = sortArtifacts(
+		filterArtifacts(Object.values(ARTIFACTS_DATA), filters),
+	);
 	const artifact = selected == null ? null : ARTIFACTS_DATA[selected];
 	return (
 		<Dialog

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import {
 	type ArtifactFilters,
+	compareOwnedArtifacts,
 	emptyArtifactFilters,
 	filterArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
@@ -202,13 +203,19 @@ export function useLoadoutDialogController(
 					]
 				: [];
 		})
-		.sort(
-			(a, b) =>
-				ARTIFACTS_DATA[a.artifactId].name.localeCompare(
-					ARTIFACTS_DATA[b.artifactId].name,
-				) ||
-				a.fusionLevel - b.fusionLevel ||
-				a.id.localeCompare(b.id),
+		.sort((a, b) =>
+			compareOwnedArtifacts(
+				{
+					artifact: ARTIFACTS_DATA[a.artifactId],
+					fusionLevel: a.fusionLevel,
+					id: a.id,
+				},
+				{
+					artifact: ARTIFACTS_DATA[b.artifactId],
+					fusionLevel: b.fusionLevel,
+					id: b.id,
+				},
+			),
 		);
 	const equipmentPickerOptions = filterEquipment(
 		Object.values(EQUIPMENT_DATA).filter(
@@ -346,7 +353,15 @@ export function useLoadoutDialogController(
 			picker_type: "artifact",
 			character_slot: characterIndex,
 		});
-		setArtifactFilters(emptyArtifactFilters());
+		const characterId = draft.characters[characterIndex]?.characterId;
+		const characterClass =
+			characterId == null ? undefined : CHARACTERS_DATA[characterId]?.class_id;
+		setArtifactFilters({
+			...emptyArtifactFilters(),
+			...(characterClass == null
+				? {}
+				: { selectedCharacterClass: [characterClass] }),
+		});
 		setPickerTarget({ type: LOADOUT_TARGET_TYPES.ARTIFACT, characterIndex });
 	};
 	const openEquipmentPicker = (

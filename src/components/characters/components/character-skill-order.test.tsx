@@ -72,4 +72,15 @@ describe("character skill order", () => {
 			"15",
 		]);
 	});
+
+	it("keeps exported skill levels in four columns", () => {
+		render(<CharacterSkillLevel charOwned={character} exportLayout />);
+		const skills = screen.getAllByAltText(/skill icon$/);
+		const grid = skills[0]?.parentElement;
+		expect(grid?.className).toContain("w-[130px]");
+		expect(grid?.getAttribute("style")).toContain(
+			"grid-template-columns: repeat(4, minmax(0, 1fr))",
+		);
+		expect(screen.getAllByText(/^[1-4]$/)).toHaveLength(4);
+	});
 });

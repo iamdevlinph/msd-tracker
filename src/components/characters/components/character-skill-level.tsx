@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 type CharacterSkillLevelProps = {
 	charOwned: CharacterOwned;
+	exportLayout?: boolean;
 };
 
 const SKILLS = [
@@ -22,18 +23,22 @@ const SKILLS = [
 ] as const;
 
 export const CharacterSkillLevel = (props: CharacterSkillLevelProps) => {
-	const { charOwned } = props;
+	const { charOwned, exportLayout = false } = props;
 	const boost = getAwakeningBonus(charOwned.awakening);
 	const boostSkills = boost > 0;
 
 	return (
 		<div
-			className="bg-card rounded-b-lg py-1 place-items-center"
+			className={cn(
+				"bg-card rounded-b-lg py-1 place-items-center",
+				exportLayout && "w-[130px]",
+			)}
 			style={{
 				display: "grid",
-				// idk. might handle responsiveness
-				gridTemplateColumns: "1fr 1fr 1fr 1fr",
-				gridTemplateRows: "1fr",
+				gridTemplateColumns: exportLayout
+					? "repeat(4, minmax(0, 1fr))"
+					: "1fr 1fr 1fr 1fr",
+				gridTemplateRows: "auto auto",
 			}}
 		>
 			{SKILLS.map(([skill, icon, size]) => (

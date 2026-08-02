@@ -6,6 +6,7 @@ import {
 	type LoadoutActionSource,
 	type LoadoutImageAction,
 } from "@/components/loadouts/loadout-constants";
+import { renderElementToPngBlob } from "@/components/shared/image-export";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 export type {
@@ -13,54 +14,12 @@ export type {
 	LoadoutImageAction,
 } from "@/components/loadouts/loadout-constants";
 
-const waitForAssets = async (node: HTMLElement) => {
-	await document.fonts?.ready;
-	await Promise.all(
-		Array.from(node.querySelectorAll("img")).map(async (image) => {
-			if (!image.complete) {
-				await new Promise<void>((resolve) => {
-					image.addEventListener("load", () => resolve(), { once: true });
-					image.addEventListener("error", () => resolve(), { once: true });
-				});
-			}
-			await image.decode?.().catch(() => undefined);
-		}),
-	);
-};
-
 const imageBlob = async (node: HTMLElement | null) => {
 	if (!node) throw new Error("Preview is not ready.");
-	await waitForAssets(node);
-	const { toBlob } = await import("html-to-image");
-	const exportProperties = [
-		["--loadout-export-variant-background", "#18181b"],
-	] as const;
-	const previousProperties = exportProperties.map(([property]) => ({
-		property,
-		value: node.style.getPropertyValue(property),
-		priority: node.style.getPropertyPriority(property),
-	}));
-	let blob: Blob | null;
-	for (const [property, value] of exportProperties) {
-		node.style.setProperty(property, value);
-	}
-	try {
-		blob = await toBlob(node, {
-			pixelRatio: 2,
-			cacheBust: true,
-			backgroundColor: getComputedStyle(node).backgroundColor,
-		});
-	} finally {
-		for (const { property, value, priority } of previousProperties) {
-			if (value) {
-				node.style.setProperty(property, value, priority);
-			} else {
-				node.style.removeProperty(property);
-			}
-		}
-	}
-	if (!blob) throw new Error("Could not render the preview.");
-	return blob;
+	return renderElementToPngBlob(node, {
+		backgroundColor: getComputedStyle(node).backgroundColor,
+		exportProperties: [["--loadout-export-variant-background", "#18181b"]],
+	});
 };
 
 const safeFilename = (name: string) =>

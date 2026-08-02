@@ -35,6 +35,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Default-hide equipment in loadout previews and exports with a one-row character/artifact/Monsterling layout toggle.
 - [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 - [x] Track loadout editing, picker, slot, preview, entity-editor, image-copy, and image-download actions in GA4 without names, IDs, search text, or raw errors.
+- [x] Preselect the current character class when opening the loadout artifact picker while keeping all artifact filters editable.
 
 ## Loadout Code Sharing: Deferred
 
@@ -66,6 +67,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 - [x] Provide clear buttons and Escape-to-clear behavior for standalone search inputs.
 - [x] Focus the active collection or picker search with Ctrl+K or Cmd+K and show the platform shortcut in its placeholder.
+- [x] Copy or download fixed-layout images of the filtered Characters, Monsterlings, and Artifacts collections with filter context and site branding.
 - [ ] Standardize character, Monsterling, codex, and picker collections on fixed-width, left-to-right product grids with consistent gaps and left-aligned incomplete rows across breakpoints.
 
 ## Account
@@ -105,6 +107,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Keep artifact cards fixed-size with tier frames and fusion shields; use card-driven editing with a shared add/edit form and compact controls.
 - [x] Add Drive backup selection, legacy defaults, conflict metadata/UI, and behavioral tests.
 - [x] Expose the Artifacts navigation item after the page is release-ready.
+- [x] Sort artifact catalogs, owned copies, and loadout picker results with Tier 5 artifacts first.
 
 ## Chunk 3: Equipments Inventory
 

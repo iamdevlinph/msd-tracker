@@ -4,10 +4,12 @@ import { ArtifactCard } from "@/components/artifacts/components/artifact-card";
 import { ArtifactFilter } from "@/components/artifacts/components/artifact-filter";
 import { EditArtifactDetailsDialog } from "@/components/artifacts/components/edit-artifact-details-dialog";
 import {
+	compareOwnedArtifacts,
 	emptyArtifactFilters,
 	filterArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { PageTitle } from "@/components/shared/page-title";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { useAppStore } from "@/stores/app-store";
@@ -29,10 +31,19 @@ export const ArtifactsPage = () => {
 			artifact: ARTIFACTS_DATA[value.artifact_id],
 		}))
 		.filter((x) => x.artifact && filteredIds.has(x.artifact.id))
-		.sort(
-			(a, b) =>
-				a.artifact.name.localeCompare(b.artifact.name) ||
-				a.value.fusion_level - b.value.fusion_level,
+		.sort((a, b) =>
+			compareOwnedArtifacts(
+				{
+					artifact: a.artifact,
+					fusionLevel: a.value.fusion_level,
+					id: a.instanceId,
+				},
+				{
+					artifact: b.artifact,
+					fusionLevel: b.value.fusion_level,
+					id: b.instanceId,
+				},
+			),
 		);
 	return (
 		<div>
@@ -40,8 +51,27 @@ export const ArtifactsPage = () => {
 				title="Artifacts"
 				description="Track owned artifacts and fusion levels."
 			/>
-			<div className="flex gap-5 flex-col">
+			<div className="mb-5 flex flex-wrap gap-2">
 				<AddArtifact />
+				<CollectionExportMenu
+					collection="artifacts"
+					title="Artifacts"
+					count={cards.length}
+					itemWidth={120}
+					maxColumns={13}
+				>
+					{cards.map(({ instanceId, value, artifact }) => (
+						<ArtifactCard
+							key={instanceId}
+							artifact={artifact}
+							fusionLevel={value.fusion_level}
+							portraitSize={120}
+							imageClassName="p-1"
+						/>
+					))}
+				</CollectionExportMenu>
+			</div>
+			<div className="flex gap-5 flex-col">
 				<ArtifactFilter filters={filters} onChange={setFilters} />
 				{cards.length === 0 ? (
 					<CollectionEmptyState

@@ -36,3 +36,18 @@ export const filterArtifacts = (
 					filters.selectedElements.includes(a.element_effect_id))),
 	);
 };
+
+/** Stable catalog ordering shared by artifact lists and pickers. */
+export const compareArtifacts = (a: Artifact, b: Artifact) =>
+	b.tier_id - a.tier_id || a.name.localeCompare(b.name) || a.id - b.id;
+
+export const sortArtifacts = (artifacts: Artifact[]) =>
+	[...artifacts].sort(compareArtifacts);
+
+export const compareOwnedArtifacts = (
+	a: { artifact: Artifact; fusionLevel: number; id: string },
+	b: { artifact: Artifact; fusionLevel: number; id: string },
+) =>
+	compareArtifacts(a.artifact, b.artifact) ||
+	a.fusionLevel - b.fusionLevel ||
+	a.id.localeCompare(b.id);

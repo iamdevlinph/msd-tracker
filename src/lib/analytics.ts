@@ -62,6 +62,12 @@ export const ANALYTICS_EVENTS = {
 	ARTIFACT_UPDATE: "artifact_update",
 	ARTIFACT_DELETE: "artifact_delete",
 	ARTIFACTS_RESET: "artifacts_reset",
+	COLLECTION_COPY_ATTEMPT: "collection_copy_attempt",
+	COLLECTION_COPY_SUCCESS: "collection_copy_success",
+	COLLECTION_COPY_FAILURE: "collection_copy_failure",
+	COLLECTION_DOWNLOAD_ATTEMPT: "collection_download_attempt",
+	COLLECTION_DOWNLOAD_SUCCESS: "collection_download_success",
+	COLLECTION_DOWNLOAD_FAILURE: "collection_download_failure",
 } as const;
 
 export type AnalyticsEventName =

@@ -506,6 +506,14 @@ describe("LoadoutsDialog character picker", () => {
 			),
 		).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 		fireEvent.click(artifactSelector);
+		expect(
+			screen
+				.getByRole("button", { name: "Assassin icon" })
+				.getAttribute("aria-pressed"),
+		).toBe("true");
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear artifact filters" }),
+		);
 		fireEvent.click(
 			screen.getAllByRole("button", { name: "Select Fall from Grace" })[0],
 		);
@@ -519,6 +527,9 @@ describe("LoadoutsDialog character picker", () => {
 			ctrlKey: false,
 		});
 		fireEvent.click(screen.getByRole("button", { name: "Select artifact" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear artifact filters" }),
+		);
 
 		const copies = screen.getAllByRole("button", {
 			name: "Select Fall from Grace",
