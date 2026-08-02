@@ -55,19 +55,6 @@ const navSections: NavSection[] = [
 				link: "/checklist",
 			},
 			{
-				id: "characters",
-				label: "Characters",
-				icon: { type: "lucide", icon: UserRoundCheck },
-
-				link: "/characters",
-			},
-			{
-				id: "monster-codex",
-				label: "Monster Codex",
-				icon: { type: "lucide", icon: BookOpenCheck },
-				link: "/monster-codex",
-			},
-			{
 				id: "loadouts",
 				label: "Loadouts",
 				icon: { type: "lucide", icon: Blocks },
@@ -79,6 +66,12 @@ const navSections: NavSection[] = [
 		title: "Inventory",
 		items: [
 			{
+				id: "characters",
+				label: "Characters",
+				icon: { type: "lucide", icon: UserRoundCheck },
+				link: "/characters",
+			},
+			{
 				id: "artifacts",
 				label: "Artifacts",
 				icon: {
@@ -86,15 +79,6 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="boxicons:sword-filled" />,
 				},
 				link: "/artifacts",
-			},
-			{
-				id: "link-chains",
-				label: "Link Chains",
-				icon: {
-					type: "iconify",
-					icon: <IconifyIcon icon="mdi:link-variant" />,
-				},
-				link: "/link-chains",
 			},
 			{
 				id: "monsterlings",
@@ -114,7 +98,27 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="game-icons:shoulder-armor" />,
 				},
 				link: "/equipments",
-				hidden: hideItem,
+				hidden: true,
+			},
+		],
+	},
+	{
+		title: "Monsterlings",
+		items: [
+			{
+				id: "monster-codex",
+				label: "Monster Codex",
+				icon: { type: "lucide", icon: BookOpenCheck },
+				link: "/monster-codex",
+			},
+			{
+				id: "link-chains",
+				label: "Link Chains",
+				icon: {
+					type: "iconify",
+					icon: <IconifyIcon icon="mdi:link-variant" />,
+				},
+				link: "/link-chains",
 			},
 		],
 	},

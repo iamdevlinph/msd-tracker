@@ -8,6 +8,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Sort owned characters by name or awakening level in either direction.
 - [x] Show owned/total roster progress and disable additions when every character is owned.
 - [x] Highlight max-level skills in green so awakening styling never obscures a stored level 12.
+- [x] Place Characters first in the Inventory navigation section.
 
 ## Monsterlings: Available
 
@@ -16,6 +17,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Manage every Link Chain-capable species on a dedicated searchable, level-filterable page, with portrait-driven level editing independent of Monsterling ownership.
 - [x] Group Link Chain rows by immutable unlock level in ascending order after search and upgrade-level filters, using optional in-game sort order before alphabetical fallback within each row.
 - [x] Show the shared Link Chain badge in the Monsterling form preview for eligible species without mutating shared levels.
+- [x] Group Monster Codex and Link Chains under a Monsterlings navigation section after Inventory.
 
 ## Loadouts: Available
 
