@@ -1,7 +1,6 @@
-import { Trash2Icon } from "lucide-react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { ArtifactOwnedDetailsForm } from "@/components/artifacts/components/artifact-details-form";
-import { Button } from "@/components/ui/button";
+import { ConfirmDeleteButton } from "@/components/shared/confirm-delete-button";
 import {
 	Dialog,
 	DialogContent,
@@ -55,11 +54,9 @@ export const EditArtifactDetailsDialog = ({
 				<DialogHeader>
 					<div className="flex items-center justify-between gap-3">
 						<DialogTitle>{artifact.name}</DialogTitle>
-						<Button
-							variant="destructive"
-							size="icon-sm"
-							aria-label={`Delete ${artifact.name}`}
-							onClick={() => {
+						<ConfirmDeleteButton
+							name={artifact.name}
+							onConfirm={() => {
 								deleteArtifactOwned(instanceId);
 								ga.event(ANALYTICS_EVENTS.ARTIFACT_DELETE, {
 									artifact_id: artifact.id,
@@ -67,9 +64,7 @@ export const EditArtifactDetailsDialog = ({
 								});
 								close();
 							}}
-						>
-							<Trash2Icon />
-						</Button>
+						/>
 					</div>
 				</DialogHeader>
 				<ArtifactOwnedDetailsForm

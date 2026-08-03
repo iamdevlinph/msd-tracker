@@ -42,6 +42,7 @@ describe("Drive Monsterling backups", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: {},
+			monsterlingLinkChainPinnedIds: [],
 			checklistTasks: {},
 			checklistCompletions: {},
 			checklistPermanentNotes: {},
@@ -67,6 +68,7 @@ describe("Drive Monsterling backups", () => {
 				} as never,
 			},
 			monsterlingLinkChainLevels: { 67: 4, 68: 2 },
+			monsterlingLinkChainPinnedIds: [68, 67, 68, 1],
 		});
 
 		const selected = select(useAppStore.getState());
@@ -78,6 +80,7 @@ describe("Drive Monsterling backups", () => {
 			"link_chain_level",
 		);
 		expect(selected.monsterlingLinkChainLevels).not.toHaveProperty("1");
+		expect(selected.monsterlingLinkChainPinnedIds).toEqual([68, 67]);
 		expect(selected).not.toHaveProperty("syncInProgress");
 		expect(selected.checklistTasks).toEqual({});
 		expect(selected.checklistCompletions).toEqual({});
@@ -89,11 +92,15 @@ describe("Drive Monsterling backups", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: { 67: 4 },
+			monsterlingLinkChainPinnedIds: [67],
 		});
 
 		expect(select(useAppStore.getState()).monsterlingLinkChainLevels).toEqual({
 			67: 4,
 		});
+		expect(
+			select(useAppStore.getState()).monsterlingLinkChainPinnedIds,
+		).toEqual([67]);
 	});
 
 	it("downloads retained levels without owned copies", async () => {
@@ -103,6 +110,7 @@ describe("Drive Monsterling backups", () => {
 			charactersOwned: {},
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: { 67: 4 },
+			monsterlingLinkChainPinnedIds: [67, 1],
 			loadouts: {
 				team: {
 					id: "team",
@@ -131,6 +139,7 @@ describe("Drive Monsterling backups", () => {
 		const downloaded = await download();
 		expect(downloaded?.monsterlingsOwned).toEqual({});
 		expect(downloaded?.monsterlingLinkChainLevels).toEqual({ 67: 4 });
+		expect(downloaded?.monsterlingLinkChainPinnedIds).toEqual([67]);
 		expect(
 			downloaded?.loadouts.team.characters.map(
 				({ artifactInstanceId }) => artifactInstanceId,

@@ -142,7 +142,7 @@ describe("LoadoutPreviewDialog image export", () => {
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
 		const capturedSurface = toBlob.mock.calls[0][0] as HTMLElement;
-		expect(capturedSurface.style.width).toBe("868px");
+		expect(capturedSurface.style.width).toBe("1120px");
 		expect(exportBackgroundDuringCapture).toBe("#18181b");
 		expect(
 			capturedSurface.style.getPropertyValue(

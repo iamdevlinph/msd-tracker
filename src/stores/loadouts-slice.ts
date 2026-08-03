@@ -23,16 +23,61 @@ export type LoadoutCharacterSlot = {
 	legendaryMonsterlingId?: string | null;
 	artifactInstanceId: string | null;
 	equipment_ids?: EquipmentIds;
+	stat_values?: LoadoutCharacterStats;
+	pinned_stat_ids?: LoadoutStatKey[];
 };
+
+export const LOADOUT_STAT_KEYS = [
+	"atk",
+	"hp",
+	"crit_rate",
+	"crit_dmg",
+	"special_skill_cd",
+	"elem_weak_dmg_boost",
+	"boss_enemy_dmg_boost",
+] as const;
+export type LoadoutStatKey = (typeof LOADOUT_STAT_KEYS)[number];
+export type LoadoutCharacterStats = Partial<Record<LoadoutStatKey, number>>;
 
 export type LoadoutOwned = {
 	id: string;
 	name: string;
+	notes?: string;
 	characters: [
 		LoadoutCharacterSlot,
 		LoadoutCharacterSlot,
 		LoadoutCharacterSlot,
 	];
+};
+
+const normalizeStats = (value: unknown): LoadoutCharacterStats => {
+	if (!value || typeof value !== "object") return {};
+	const source = value as Record<string, unknown>;
+	const stats: LoadoutCharacterStats = {};
+	for (const key of LOADOUT_STAT_KEYS) {
+		const candidate = source[key];
+		if (
+			typeof candidate === "number" &&
+			Number.isFinite(candidate) &&
+			candidate >= 0
+		)
+			stats[key] = candidate;
+	}
+	return stats;
+};
+
+const normalizePinnedStats = (value: unknown): LoadoutStatKey[] => {
+	if (!Array.isArray(value)) return [];
+	const seen = new Set<LoadoutStatKey>();
+	for (const candidate of value) {
+		if (
+			typeof candidate === "string" &&
+			(LOADOUT_STAT_KEYS as readonly string[]).includes(candidate)
+		)
+			seen.add(candidate as LoadoutStatKey);
+		if (seen.size === 5) break;
+	}
+	return [...seen];
 };
 
 export type LoadoutsSlice = {
@@ -49,6 +94,8 @@ export const emptyLoadoutCharacterSlot = (): LoadoutCharacterSlot => ({
 	legendaryMonsterlingId: null,
 	artifactInstanceId: null,
 	equipment_ids: [null, null, null, null],
+	stat_values: {},
+	pinned_stat_ids: [],
 });
 
 export const normalizeLoadouts = (
@@ -59,14 +106,36 @@ export const normalizeLoadouts = (
 		Object.entries(loadouts as Record<string, Partial<LoadoutOwned>>).flatMap(
 			([id, loadout]) => {
 				if (!loadout || !Array.isArray(loadout.characters)) return [];
-				const characters = loadout.characters.map((slot) => ({
+				const characters = loadout.characters.slice(0, 3).map((slot) => ({
 					characterId: slot.characterId ?? null,
 					monsterlingIds: [...(slot.monsterlingIds ?? [null, null, null])],
 					legendaryMonsterlingId: slot.legendaryMonsterlingId ?? null,
 					artifactInstanceId: slot.artifactInstanceId ?? null,
 					equipment_ids: normalizeEquipmentIds(slot.equipment_ids),
+					stat_values: normalizeStats(
+						(slot as Partial<LoadoutCharacterSlot>).stat_values ??
+							(slot as Record<string, unknown>).stats,
+					),
+					pinned_stat_ids: normalizePinnedStats(
+						(slot as Partial<LoadoutCharacterSlot>).pinned_stat_ids ??
+							(slot as Record<string, unknown>).pinnedStats,
+					),
 				})) as LoadoutOwned["characters"];
-				return [[id, { id, name: loadout.name ?? "Loadout", characters }]];
+				while (characters.length < 3)
+					characters.push(emptyLoadoutCharacterSlot());
+				const notes =
+					typeof loadout.notes === "string" ? loadout.notes.slice(0, 2000) : "";
+				return [
+					[
+						id,
+						{
+							id,
+							name: typeof loadout.name === "string" ? loadout.name : "Loadout",
+							notes,
+							characters,
+						},
+					],
+				];
 			},
 		),
 	);

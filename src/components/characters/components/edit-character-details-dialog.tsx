@@ -1,8 +1,7 @@
-import { Trash2Icon } from "lucide-react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
+import { ConfirmDeleteButton } from "@/components/shared/confirm-delete-button";
 import { TierPortrait } from "@/components/shared/tier-portrait";
-import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -67,10 +66,9 @@ export const EditCharacterDetailsDialog = (
 								/>
 							</div>
 						</div>
-						<Button
-							variant={"destructive"}
-							size={"icon-sm"}
-							onClick={() => {
+						<ConfirmDeleteButton
+							name={charInfo.name}
+							onConfirm={() => {
 								deleteCharacterOwned(charIdToEdit);
 								ga.event(ANALYTICS_EVENTS.CHARACTER_DELETE, {
 									character_id: charInfo.id,
@@ -78,9 +76,7 @@ export const EditCharacterDetailsDialog = (
 								});
 								setOpen(false);
 							}}
-						>
-							<Trash2Icon />
-						</Button>
+						/>
 					</div>
 					<DialogDescription>
 						Update this character or remove it from your collection.

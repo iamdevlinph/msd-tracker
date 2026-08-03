@@ -128,6 +128,7 @@ describe("ArtifactsPage", () => {
 				name: "Delete Fall from Grace",
 			}),
 		);
+		fireEvent.click(screen.getByRole("button", { name: "Delete" }));
 
 		await waitFor(() => {
 			expect(useAppStore.getState().artifactsOwned.first).toEqual({

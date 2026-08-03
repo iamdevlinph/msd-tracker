@@ -10,6 +10,7 @@ import {
 	type LoadoutImageAction,
 	useLoadoutImageActions,
 } from "@/components/loadouts/components/loadout-image-actions";
+import { LoadoutNotesDialog } from "@/components/loadouts/components/loadout-notes-dialog";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
 import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-preview-surface";
 import { nextDuplicateLoadoutName } from "@/components/loadouts/components/loadout-utils";
@@ -36,6 +37,7 @@ export const LoadoutsList = () => {
 	const [loadoutToEdit, setLoadoutToEdit] = useState<string | null>(null);
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 	const [loadoutToExport, setLoadoutToExport] = useState<string | null>(null);
+	const [loadoutForNotes, setLoadoutForNotes] = useState<string | null>(null);
 	const [editorTarget, setEditorTarget] = useState<LoadoutEditorTarget | null>(
 		null,
 	);
@@ -54,6 +56,9 @@ export const LoadoutsList = () => {
 	const exportLoadout = loadoutToExport
 		? (loadouts[loadoutToExport] ?? null)
 		: null;
+	const notesLoadout = loadoutForNotes
+		? (loadouts[loadoutForNotes] ?? null)
+		: null;
 
 	const edit = (id: string, source: LoadoutActionSource) => {
 		ga.event(ANALYTICS_EVENTS.LOADOUT_EDITOR_OPEN, { mode: "edit", source });
@@ -69,9 +74,14 @@ export const LoadoutsList = () => {
 		);
 		setLoadout({
 			name,
+			notes: loadout.notes ?? "",
 			characters: loadout.characters.map((slot) => ({
 				...slot,
 				monsterlingIds: [...slot.monsterlingIds],
+				stat_values: slot.stat_values ? { ...slot.stat_values } : undefined,
+				pinned_stat_ids: slot.pinned_stat_ids
+					? [...slot.pinned_stat_ids]
+					: undefined,
 			})) as LoadoutOwned["characters"],
 		});
 		toast.success(`Duplicated as “${name}”`);
@@ -147,6 +157,7 @@ export const LoadoutsList = () => {
 							onDownload={() =>
 								void exportImage(LOADOUT_IMAGE_ACTIONS.DOWNLOAD, loadout)
 							}
+							onNotes={() => setLoadoutForNotes(loadout.id)}
 							onDelete={() => remove(loadout.id, LOADOUT_ACTION_SOURCES.CARD)}
 							onEditCharacter={(id) =>
 								openEntityEditor(
@@ -200,6 +211,7 @@ export const LoadoutsList = () => {
 					previewLoadout &&
 					remove(previewLoadout.id, LOADOUT_ACTION_SOURCES.PREVIEW)
 				}
+				onNotes={() => previewLoadout && setLoadoutForNotes(previewLoadout.id)}
 				onEditCharacter={(id) =>
 					openEntityEditor(
 						{ type: LOADOUT_TARGET_TYPES.CHARACTER, id },
@@ -218,6 +230,23 @@ export const LoadoutsList = () => {
 						LOADOUT_ACTION_SOURCES.PREVIEW,
 					)
 				}
+			/>
+			<LoadoutNotesDialog
+				loadout={notesLoadout}
+				onOpenChange={(next) => !next && setLoadoutForNotes(null)}
+				onSave={(notes) => {
+					if (!notesLoadout) return;
+					setLoadout(
+						{
+							name: notesLoadout.name,
+							notes,
+							characters: notesLoadout.characters,
+						},
+						notesLoadout.id,
+					);
+					ga.event(ANALYTICS_EVENTS.LOADOUT_NOTES_SAVE);
+					setLoadoutForNotes(null);
+				}}
 			/>
 			<EditCharacterDetailsDialog
 				charIdToEdit={

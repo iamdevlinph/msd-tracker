@@ -13,7 +13,10 @@ import {
 	IMAGE_MAPPING,
 	IMAGE_MAPPING_ID,
 } from "@/data/image-mapping/IMAGE_MAPPING_DATA";
+import { STAT_DATA } from "@/data/stats/STAT_DATA";
+import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
 import { LOADOUT_PREVIEW_PORTRAIT_SIZE } from "./loadout-preview-constants";
+import { LOADOUT_STAT_DATA } from "./loadout-stat-utils";
 
 const SKILLS = [
 	["Special", IMAGE_MAPPING_ID.SKILL_SPECIAL, CHARACTER_SKILLS.SPECIAL],
@@ -21,6 +24,7 @@ const SKILLS = [
 	["Basic", IMAGE_MAPPING_ID.SKILL_BASIC, CHARACTER_SKILLS.BASIC],
 	["Ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, CHARACTER_SKILLS.ULTIMATE],
 ] as const;
+const STAT_ROWS = ["stat-1", "stat-2", "stat-3", "stat-4", "stat-5"];
 
 type PreviewCharacter = Character;
 type CharacterOwned = {
@@ -31,15 +35,19 @@ type LoadoutPreviewCharacterProps = {
 	character: PreviewCharacter;
 	owned: CharacterOwned;
 	onEdit?: (id: number) => void;
+	statValues?: LoadoutCharacterSlot["stat_values"];
+	pinnedStatIds?: LoadoutCharacterSlot["pinned_stat_ids"];
 };
 
 export const LoadoutPreviewCharacter = ({
 	character,
 	owned,
 	onEdit,
+	statValues = {},
+	pinnedStatIds = [],
 }: LoadoutPreviewCharacterProps) => {
 	const panel = (
-		<div className="grid h-[120px] grid-cols-[1fr_120px] items-center gap-2 rounded-lg border bg-card px-1 pr-0">
+		<div className="grid h-[120px] grid-cols-[44px_82px_120px] items-center gap-2 rounded-lg border bg-card px-1 pr-0">
 			<div className="grid content-center gap-2">
 				<div className="grid grid-cols-2 items-center gap-1.5">
 					<img
@@ -74,6 +82,33 @@ export const LoadoutPreviewCharacter = ({
 						</div>
 					))}
 				</div>
+			</div>
+			<div className="grid content-center gap-1">
+				{STAT_ROWS.map((rowKey, index) => {
+					const key = pinnedStatIds[index];
+					if (!key) return <span key={rowKey} className="h-4" />;
+					const stat = STAT_DATA[LOADOUT_STAT_DATA[key]];
+					const value = statValues[key];
+					return (
+						<span
+							key={key}
+							className="grid grid-cols-[16px_1fr] items-center gap-1 text-xs font-bold"
+							title={stat.stat}
+						>
+							<img
+								src={stat.image}
+								alt={`${stat.stat} icon`}
+								className="size-4"
+							/>
+							<span className="truncate">
+								{value ?? "—"}
+								{value !== undefined && key !== "atk" && key !== "hp"
+									? "%"
+									: ""}
+							</span>
+						</span>
+					);
+				})}
 			</div>
 			<CharacterCard
 				portraitSize={LOADOUT_PREVIEW_PORTRAIT_SIZE}

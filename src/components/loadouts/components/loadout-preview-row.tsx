@@ -23,7 +23,7 @@ type LoadoutPreviewRowProps = {
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
 	artifactsOwned: StoreState["artifactsOwned"];
 	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
-	compactMonsterlings: boolean;
+	monsterlingStatsDisplay: "icons" | "full";
 	hideEquipment: boolean;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
@@ -36,7 +36,7 @@ export const LoadoutPreviewRow = ({
 	monsterlingsOwned,
 	artifactsOwned,
 	monsterlingLinkChainLevels,
-	compactMonsterlings,
+	monsterlingStatsDisplay,
 	hideEquipment,
 	onEditCharacter,
 	onEditMonsterling,
@@ -44,9 +44,10 @@ export const LoadoutPreviewRow = ({
 }: LoadoutPreviewRowProps) => {
 	const character =
 		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
-	const monsterlingCardWidth = compactMonsterlings
-		? MONSTERLING_COMPACT_CARD_WIDTH
-		: MONSTERLING_CARD_WIDTH;
+	const monsterlingCardWidth =
+		monsterlingStatsDisplay === "icons"
+			? MONSTERLING_COMPACT_CARD_WIDTH
+			: MONSTERLING_CARD_WIDTH;
 	const gridTemplateColumns = hideEquipment
 		? `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px ${LOADOUT_PREVIEW_PORTRAIT_SIZE}px repeat(4, ${monsterlingCardWidth}px)`
 		: `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px repeat(4, ${monsterlingCardWidth}px)`;
@@ -59,7 +60,7 @@ export const LoadoutPreviewRow = ({
 					owned={monsterlingsOwned}
 					levels={monsterlingLinkChainLevels}
 					label={`Monsterling ${index + 1} unavailable`}
-					compactStats={compactMonsterlings}
+					statsDisplay={monsterlingStatsDisplay}
 					onEdit={onEditMonsterling}
 				/>
 			))}
@@ -69,7 +70,7 @@ export const LoadoutPreviewRow = ({
 					owned={monsterlingsOwned}
 					levels={monsterlingLinkChainLevels}
 					label="Legendary unavailable"
-					compactStats={compactMonsterlings}
+					statsDisplay={monsterlingStatsDisplay}
 					onEdit={onEditMonsterling}
 				/>
 			</div>
@@ -82,6 +83,8 @@ export const LoadoutPreviewRow = ({
 					<LoadoutPreviewCharacter
 						character={character}
 						owned={characterOwned}
+						statValues={slot.stat_values ?? {}}
+						pinnedStatIds={slot.pinned_stat_ids ?? []}
 						onEdit={onEditCharacter}
 					/>
 				) : (

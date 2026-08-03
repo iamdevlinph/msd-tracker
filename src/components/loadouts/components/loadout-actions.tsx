@@ -1,8 +1,9 @@
 import {
 	CopyPlusIcon,
-	DownloadIcon,
 	EditIcon,
 	EyeIcon,
+	FileTextIcon,
+	MoreHorizontalIcon,
 	ShareIcon,
 	Trash2Icon,
 } from "lucide-react";
@@ -20,6 +21,12 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
@@ -28,8 +35,9 @@ type LoadoutActionsProps = {
 	onEdit: () => void;
 	onDuplicate: () => void;
 	onCopy: () => void;
-	onDownload: () => void;
+	onDownload?: () => void;
 	onDelete: () => void;
+	onNotes?: () => void;
 	onPreview?: () => void;
 	activeImageAction?: LoadoutImageAction | null;
 	disabled?: boolean;
@@ -41,8 +49,8 @@ export const LoadoutActions = ({
 	onEdit,
 	onDuplicate,
 	onCopy,
-	onDownload,
 	onDelete,
+	onNotes,
 	onPreview,
 	activeImageAction = null,
 	disabled = false,
@@ -54,12 +62,25 @@ export const LoadoutActions = ({
 		edit: `Edit ${loadoutName}`,
 		duplicate: `Duplicate ${loadoutName}`,
 		copy: `Copy ${loadoutName} image`,
-		download: `Download ${loadoutName} image`,
 		delete: `Delete ${loadoutName}`,
 	};
 
 	return (
-		<div className={cn("flex flex-wrap justify-end gap-1", className)}>
+		<div
+			className={cn(
+				"relative z-20 flex flex-wrap justify-end gap-1",
+				className,
+			)}
+		>
+			{onPreview && (
+				<button
+					type="button"
+					className="min-w-4 flex-1 cursor-pointer self-stretch rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+					onClick={onPreview}
+					disabled={busy}
+					aria-label={`Preview ${loadoutName} from action row`}
+				/>
+			)}
 			{onPreview && (
 				<Button
 					type="button"
@@ -111,22 +132,29 @@ export const LoadoutActions = ({
 					<ShareIcon />
 				)}
 			</Button>
-			<Button
-				type="button"
-				size="icon-sm"
-				variant="outline"
-				onClick={onDownload}
-				disabled={busy}
-				aria-busy={activeImageAction === LOADOUT_IMAGE_ACTIONS.DOWNLOAD}
-				aria-label={labels.download}
-				title={labels.download}
-			>
-				{activeImageAction === LOADOUT_IMAGE_ACTIONS.DOWNLOAD ? (
-					<Spinner />
-				) : (
-					<DownloadIcon />
-				)}
-			</Button>
+			{onNotes && (
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							type="button"
+							size="icon-sm"
+							variant="outline"
+							disabled={busy}
+							aria-label={`More actions for ${loadoutName}`}
+							title={`More actions for ${loadoutName}`}
+							onClick={(event) => event.stopPropagation()}
+						>
+							<MoreHorizontalIcon />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuItem onClick={onNotes}>
+							<FileTextIcon />
+							Notes
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			)}
 			<AlertDialog>
 				<AlertDialogTrigger asChild>
 					<Button

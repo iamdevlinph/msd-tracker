@@ -172,6 +172,7 @@ describe("ChecklistPage", () => {
 			"button",
 			{ name: "Mark Fixture Conquest complete" },
 		);
+		expect(screen.queryByTestId("checklist-completed-divider")).toBeNull();
 		expect(
 			within(conquestRow as HTMLElement).queryByRole("button", {
 				name: "Mark Fixture Conquest fully complete",
@@ -179,6 +180,9 @@ describe("ChecklistPage", () => {
 		).toBeNull();
 		expect(completeButton.querySelector(".lucide-check")).toBeTruthy();
 		fireEvent.click(completeButton);
+		expect(screen.getByTestId("checklist-completed-divider").textContent).toBe(
+			"Completed",
+		);
 		expect(conquestRow?.parentElement?.lastElementChild).toBe(conquestRow);
 		const undoButton = within(conquestRow as HTMLElement).getByRole("button", {
 			name: "Mark Fixture Conquest incomplete",
@@ -197,6 +201,7 @@ describe("ChecklistPage", () => {
 		).toBeTruthy();
 		expect(event).toHaveBeenLastCalledWith(ANALYTICS_EVENTS.CHECKLIST_COMPLETE);
 		fireEvent.click(undoButton);
+		expect(screen.queryByTestId("checklist-completed-divider")).toBeNull();
 		expect(event).toHaveBeenLastCalledWith(ANALYTICS_EVENTS.CHECKLIST_UNDO);
 
 		const anomalyRow = screen.getByText("Fixture Gulgak").closest("li");

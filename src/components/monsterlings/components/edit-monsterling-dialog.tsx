@@ -1,8 +1,7 @@
-import { Trash2Icon } from "lucide-react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { DialogBackdrop } from "@/components/dialog-backdrop";
 import { MonsterlingForm } from "@/components/monsterlings/components/monsterling-form";
-import { Button } from "@/components/ui/button";
+import { ConfirmDeleteButton } from "@/components/shared/confirm-delete-button";
 import {
 	Dialog,
 	DialogContent,
@@ -50,11 +49,9 @@ export const EditMonsterlingDialog = (props: EditMonsterlingDialogProps) => {
 					<DialogHeader>
 						<div className="flex items-center justify-between">
 							<DialogTitle>Edit Monsterling</DialogTitle>
-							<Button
-								className=""
-								variant={"destructive"}
-								size={"icon-sm"}
-								onClick={() => {
+							<ConfirmDeleteButton
+								name={monsterling?.name ?? "Monsterling"}
+								onConfirm={() => {
 									deleteMonsterlingOwned(monsterlingToEdit);
 									ga.event(ANALYTICS_EVENTS.MONSTERLING_DELETE, {
 										monsterling_id: monsterling?.id,
@@ -63,9 +60,7 @@ export const EditMonsterlingDialog = (props: EditMonsterlingDialogProps) => {
 									});
 									setOpen(false);
 								}}
-							>
-								<Trash2Icon />
-							</Button>
+							/>
 						</div>
 						<DialogDescription>
 							Update this monsterling or remove it from your collection.

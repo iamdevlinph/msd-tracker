@@ -283,7 +283,7 @@ describe("LoadoutsList", () => {
 			"Edit Team",
 			"Duplicate Team",
 			"Copy Team image",
-			"Download Team image",
+			"More actions for Team",
 			"Delete Team",
 		]) {
 			const action = screen.getByRole("button", { name: label });
@@ -293,10 +293,12 @@ describe("LoadoutsList", () => {
 			name: "Preview Team",
 		}).parentElement;
 		expect(actionRow?.className).toContain("justify-end");
-		expect(actionRow?.className).toContain("pointer-events-none");
-		expect(actionRow?.className).toContain(
-			"**:data-[slot=button]:pointer-events-auto",
+		expect(actionRow?.className).toContain("pointer-events-auto");
+		fireEvent.click(
+			screen.getByRole("button", { name: "Preview Team from action row" }),
 		);
+		expect(screen.getByRole("dialog", { name: "Team" })).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Close" }));
 		expect(
 			screen.getByRole("button", { name: "Delete Team" }).className,
 		).not.toContain("ml-auto");
@@ -330,6 +332,32 @@ describe("LoadoutsList", () => {
 		expect(event).not.toHaveBeenCalledWith("loadout_preview", {
 			source: "card",
 		});
+	});
+
+	it("opens notes from More without previewing the card", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {},
+			loadouts: { team: teamLoadout },
+		});
+		render(<LoadoutsList />);
+
+		fireEvent.pointerDown(
+			screen.getByRole("button", { name: "More actions for Team" }),
+			{ button: 0, ctrlKey: false },
+		);
+		fireEvent.click(screen.getByRole("menuitem", { name: "Notes" }));
+
+		expect(
+			screen.getByRole("dialog", { name: "Notes for “Team”" }),
+		).toBeTruthy();
+		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
+		fireEvent.change(screen.getByRole("textbox", { name: "Loadout notes" }), {
+			target: { value: "Damage test" },
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Save notes" }));
+		expect(useAppStore.getState().loadouts.team.notes).toBe("Damage test");
+		expect(event).toHaveBeenCalledWith("loadout_notes_save");
 	});
 
 	it("duplicates a loadout into the first available name", () => {
@@ -463,16 +491,10 @@ describe("LoadoutsList", () => {
 		);
 	});
 
-	it("copies and downloads the compact preview directly from the card", async () => {
+	it("copies the compact preview directly from the card", async () => {
 		const blob = new Blob(["png"], { type: "image/png" });
 		const write = vi.fn().mockResolvedValue(undefined);
-		const createObjectURL = vi.fn(() => "blob:image");
-		const revokeObjectURL = vi.fn();
-		const click = vi
-			.spyOn(HTMLAnchorElement.prototype, "click")
-			.mockImplementation(() => undefined);
 		setClipboard(write);
-		vi.stubGlobal("URL", { createObjectURL, revokeObjectURL });
 		toBlob.mockResolvedValue(blob);
 		useAppStore.setState({
 			charactersOwned,
@@ -487,7 +509,7 @@ describe("LoadoutsList", () => {
 			expect(success).toHaveBeenCalledWith("Loadout image copied"),
 		);
 		expect(write).toHaveBeenCalledOnce();
-		expect(toBlob.mock.calls[0][0].style.width).toBe("868px");
+		expect(toBlob.mock.calls[0][0].style.width).toBe("952px");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {
@@ -496,20 +518,8 @@ describe("LoadoutsList", () => {
 			source: "card",
 		});
 
-		fireEvent.click(
-			screen.getByRole("button", { name: "Download Team image" }),
-		);
-
-		await waitFor(() =>
-			expect(success).toHaveBeenCalledWith("Loadout image downloaded"),
-		);
-		expect(createObjectURL).toHaveBeenCalledWith(blob);
-		expect(click).toHaveBeenCalledOnce();
-		expect(revokeObjectURL).toHaveBeenCalledWith("blob:image");
-		expect(event).toHaveBeenCalledWith("loadout_download_success", {
-			compact_monsterlings: true,
-			hide_equipment: true,
-			source: "card",
-		});
+		expect(
+			screen.queryByRole("button", { name: "Download Team image" }),
+		).toBeNull();
 	});
 });

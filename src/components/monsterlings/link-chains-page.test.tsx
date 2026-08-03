@@ -68,6 +68,7 @@ describe("LinkChainsPage", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: {},
+			monsterlingLinkChainPinnedIds: [],
 		});
 	});
 
@@ -93,18 +94,36 @@ describe("LinkChainsPage", () => {
 			screen
 				.getAllByRole("heading", { level: 2 })
 				.map((heading) => heading.textContent),
-		).toEqual(["Level 1", "Level 2"]);
+		).toEqual([
+			"Pinned Link Chains",
+			"No pinned Link Chains yet",
+			"Level 1",
+			"Level 2",
+		]);
 		const levelTwoSection = screen
 			.getByRole("heading", { name: "Level 2" })
 			.closest("section");
 		expect(
 			within(levelTwoSection as HTMLElement)
 				.getAllByRole("button")
+				.filter((button) =>
+					button.getAttribute("aria-label")?.startsWith("Edit"),
+				)
 				.map((button) => button.getAttribute("aria-label")),
 		).toEqual([
 			"Edit Zeta Linker Link Chain Level",
 			"Edit Alpha Linker Link Chain Level",
 		]);
+	});
+
+	it("pins a filtered duplicate without removing the level card", () => {
+		render(<LinkChainsPage />);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Pin Beta Linker Link Chain" }),
+		);
+		expect(useAppStore.getState().monsterlingLinkChainPinnedIds).toEqual([68]);
+		expect(screen.getAllByAltText("Beta Linker portrait")).toHaveLength(2);
+		expect(event).toHaveBeenCalledWith("monsterling_link_chain_pin");
 	});
 
 	it("searches names and filters with Link Chain level icons", () => {

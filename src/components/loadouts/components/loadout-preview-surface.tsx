@@ -16,7 +16,8 @@ const SLOTS = [0, 1, 2] as const;
 type LoadoutPreviewSurfaceProps = {
 	ref?: Ref<HTMLDivElement>;
 	loadout: LoadoutOwned;
-	compactMonsterlings: boolean;
+	monsterlingStatsDisplay?: "icons" | "full";
+	compactMonsterlings?: boolean;
 	hideEquipment: boolean;
 	className?: string;
 	onEditCharacter?: (id: number) => void;
@@ -27,6 +28,7 @@ type LoadoutPreviewSurfaceProps = {
 export const LoadoutPreviewSurface = ({
 	ref,
 	loadout,
+	monsterlingStatsDisplay,
 	compactMonsterlings,
 	hideEquipment,
 	className,
@@ -34,6 +36,9 @@ export const LoadoutPreviewSurface = ({
 	onEditMonsterling,
 	onEditArtifact,
 }: LoadoutPreviewSurfaceProps) => {
+	const statsDisplay =
+		monsterlingStatsDisplay ??
+		(compactMonsterlings === false ? "full" : "icons");
 	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
 	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
@@ -47,13 +52,14 @@ export const LoadoutPreviewSurface = ({
 			data-testid="loadout-share-surface"
 			className={cn("grid gap-4 bg-background p-3 text-foreground", className)}
 			style={{
-				width: compactMonsterlings
-					? hideEquipment
-						? LOADOUT_PREVIEW_COMPACT_HIDDEN_EQUIPMENT_WIDTH
-						: LOADOUT_PREVIEW_COMPACT_WIDTH
-					: hideEquipment
-						? LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH
-						: LOADOUT_PREVIEW_DETAILED_WIDTH,
+				width:
+					statsDisplay === "icons"
+						? hideEquipment
+							? LOADOUT_PREVIEW_COMPACT_HIDDEN_EQUIPMENT_WIDTH
+							: LOADOUT_PREVIEW_COMPACT_WIDTH
+						: hideEquipment
+							? LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH
+							: LOADOUT_PREVIEW_DETAILED_WIDTH,
 			}}
 		>
 			<header className="flex items-baseline justify-between gap-4 border-b border-primary/60 px-1 pb-3">
@@ -79,7 +85,7 @@ export const LoadoutPreviewSurface = ({
 					monsterlingsOwned={monsterlingsOwned}
 					artifactsOwned={artifactsOwned}
 					monsterlingLinkChainLevels={monsterlingLinkChainLevels}
-					compactMonsterlings={compactMonsterlings}
+					monsterlingStatsDisplay={statsDisplay}
 					hideEquipment={hideEquipment}
 					onEditCharacter={onEditCharacter}
 					onEditMonsterling={onEditMonsterling}

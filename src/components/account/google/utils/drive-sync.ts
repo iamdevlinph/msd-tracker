@@ -5,6 +5,7 @@ import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 import { normalizeLoadouts } from "@/stores/loadouts-slice";
+import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-slice";
 
 const FILE_NAME = "state.json";
 
@@ -19,6 +20,7 @@ type Backup = Pick<
 	| "charactersOwned"
 	| "monsterlingsOwned"
 	| "monsterlingLinkChainLevels"
+	| "monsterlingLinkChainPinnedIds"
 	| "loadouts"
 	| "checklistTasks"
 	| "checklistCompletions"
@@ -38,6 +40,9 @@ export function select(state: StoreState): Backup {
 		monsterCodexFavorites: state.monsterCodexFavorites,
 		charactersOwned: state.charactersOwned,
 		...consolidatedMonsterlingState,
+		monsterlingLinkChainPinnedIds: normalizeMonsterlingLinkChainPinnedIds(
+			state.monsterlingLinkChainPinnedIds,
+		),
 		loadouts: state.loadouts,
 		checklistTasks: state.checklistTasks,
 		checklistCompletions: state.checklistCompletions,
@@ -94,10 +99,17 @@ export async function download(): Promise<Backup | null> {
 
 		const backup = (await res.json()) as Omit<
 			Backup,
-			"monsterCodexFavorites" | "monsterlingLinkChainLevels"
+			| "monsterCodexFavorites"
+			| "monsterlingLinkChainLevels"
+			| "monsterlingLinkChainPinnedIds"
 		> &
 			Partial<
-				Pick<Backup, "monsterCodexFavorites" | "monsterlingLinkChainLevels">
+				Pick<
+					Backup,
+					| "monsterCodexFavorites"
+					| "monsterlingLinkChainLevels"
+					| "monsterlingLinkChainPinnedIds"
+				>
 			>;
 
 		return {
@@ -109,6 +121,9 @@ export async function download(): Promise<Backup | null> {
 				backup.monsterlingLinkChainLevels,
 			),
 			monsterCodexFavorites: backup.monsterCodexFavorites ?? [],
+			monsterlingLinkChainPinnedIds: normalizeMonsterlingLinkChainPinnedIds(
+				backup.monsterlingLinkChainPinnedIds,
+			),
 			artifactsOwned: backup.artifactsOwned ?? {},
 		};
 	} catch (e) {
@@ -186,6 +201,7 @@ export async function initSync() {
 							codexFavorites: local.monsterCodexFavorites.length,
 							linkChainsUpgraded: Object.keys(local.monsterlingLinkChainLevels)
 								.length,
+							linkChainsPinned: local.monsterlingLinkChainPinnedIds.length,
 							checklistTasks: Object.keys(local.checklistTasks).length,
 							checklistCompletions: Object.keys(local.checklistCompletions)
 								.length,
@@ -204,6 +220,8 @@ export async function initSync() {
 							linkChainsUpgraded: Object.keys(
 								remote.monsterlingLinkChainLevels ?? {},
 							).length,
+							linkChainsPinned: (remote.monsterlingLinkChainPinnedIds ?? [])
+								.length,
 							checklistTasks: Object.keys(remote.checklistTasks ?? {}).length,
 							checklistCompletions: Object.keys(
 								remote.checklistCompletions ?? {},

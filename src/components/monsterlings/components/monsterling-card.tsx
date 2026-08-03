@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 export type MonsterlingCardProps = MonsterlingOwned & {
 	className?: string;
 	compactStats?: boolean;
+	statsDisplay?: "icons" | "full";
 	showLinkChainBadge?: boolean;
 	linkChainLevel: LinkChainLevel;
 };
@@ -26,17 +27,20 @@ export const MonsterlingCard = ({
 	traits,
 	className = "",
 	compactStats = false,
+	statsDisplay,
 	showLinkChainBadge = true,
 }: MonsterlingCardProps) => {
 	const { name, image, linkChain } = MONSTERLINGS_DATA[monsterling_id];
-	const width = compactStats
-		? MONSTERLING_COMPACT_CARD_WIDTH
-		: MONSTERLING_CARD_WIDTH;
+	const display = statsDisplay ?? (compactStats ? "icons" : "full");
+	const width =
+		display === "icons"
+			? MONSTERLING_COMPACT_CARD_WIDTH
+			: MONSTERLING_CARD_WIDTH;
 
 	return (
 		<div
 			className={cn(
-				"grid overflow-hidden bg-card gap-y-0 gap-x-2 rounded-lg",
+				"relative grid overflow-hidden bg-card gap-y-0 gap-x-2 rounded-lg",
 				"monsterling-card",
 				className,
 			)}
@@ -44,8 +48,9 @@ export const MonsterlingCard = ({
 				width,
 				minWidth: width,
 				maxWidth: width,
-				gridTemplateAreas: compactStats ? "'portrait'" : "'portrait stats'",
-				gridTemplateColumns: compactStats ? "120px" : "120px minmax(0, 1fr)",
+				gridTemplateAreas: "'portrait stats'",
+				gridTemplateColumns:
+					display === "icons" ? "120px 48px" : "120px minmax(0, 1fr)",
 			}}
 		>
 			<div className="w-max" style={{ gridArea: "portrait" }}>
@@ -58,56 +63,51 @@ export const MonsterlingCard = ({
 						portraitImg={image}
 						portraitSize={120}
 						name={name}
-						hideTierBg={!compactStats}
+						hideTierBg={display === "full"}
 					/>
 				</PortraitWithName>
 			</div>
 
-			{!compactStats && (
-				<div
-					className={cn(
-						"flex min-w-0 flex-col",
-						compactStats && "overflow-hidden",
-					)}
-					style={{ gridArea: "stats" }}
-					id="traits"
-				>
-					{traits.map(({ stat_id, tier_id }, idx) => {
-						if (!stat_id) return null;
+			<div
+				className="flex min-w-0 flex-col overflow-hidden"
+				style={{ gridArea: "stats" }}
+				id="traits"
+			>
+				{traits.map(({ stat_id, tier_id }, idx) => {
+					if (!stat_id) return null;
 
-						const key = `${stat_id}-${idx}`;
-						const statInfo = STAT_DATA[stat_id];
-						const tierInfo = TIERS_DATA[tier_id];
-						return (
-							<div key={key} className="relative h-[30px] w-[200px] shrink-0">
-								<div className="absolute inset-0 grid items-center">
-									<div className="flex gap-x-1 px-2" title={statInfo.stat}>
-										<img
-											alt={`Stat ${statInfo.stat} img`}
-											src={statInfo.image}
-											className="size-5 max-w-none shrink-0"
-											height={20}
-											width={20}
-										/>
-										{!compactStats && (
-											<small className="truncate text-shadow-sm/80">
-												{statInfo.label}
-											</small>
-										)}
-									</div>
+					const key = `${stat_id}-${idx}`;
+					const statInfo = STAT_DATA[stat_id];
+					const tierInfo = TIERS_DATA[tier_id];
+					return (
+						<div key={key} className="relative h-[30px] w-[200px] shrink-0">
+							<div className="absolute inset-0 grid items-center">
+								<div className="flex gap-x-1 px-2" title={statInfo.stat}>
+									<img
+										alt={`Stat ${statInfo.stat} img`}
+										src={statInfo.image}
+										className="size-5 max-w-none shrink-0"
+										height={20}
+										width={20}
+									/>
+									{display === "full" && (
+										<small className="truncate text-shadow-sm/80">
+											{statInfo.label}
+										</small>
+									)}
 								</div>
-								<img
-									alt={`Tier ${tierInfo.id} trait img`}
-									src={tierInfo.trait_image}
-									className="h-[30px] w-[200px] max-w-none"
-									height={30}
-									width={200}
-								/>
 							</div>
-						);
-					})}
-				</div>
-			)}
+							<img
+								alt={`Tier ${tierInfo.id} trait img`}
+								src={tierInfo.trait_image}
+								className="h-[30px] w-[200px] max-w-none"
+								height={30}
+								width={200}
+							/>
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 };

@@ -26,6 +26,7 @@ type LoadoutPreviewDialogProps = {
 	onEditArtifact?: (id: string) => void;
 	onDuplicate: () => void;
 	onDelete: () => void;
+	onNotes?: () => void;
 };
 
 export const LoadoutPreviewDialog = ({
@@ -37,6 +38,7 @@ export const LoadoutPreviewDialog = ({
 	onEditArtifact,
 	onDuplicate,
 	onDelete,
+	onNotes,
 }: LoadoutPreviewDialogProps) => {
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
@@ -119,15 +121,8 @@ export const LoadoutPreviewDialog = ({
 									hideEquipment,
 								)
 							}
-							onDownload={() =>
-								void imageActions.download(
-									loadout.name,
-									surfaceRef.current,
-									compactMonsterlings,
-									hideEquipment,
-								)
-							}
 							onDelete={onDelete}
+							onNotes={onNotes}
 							activeImageAction={imageActions.activeAction}
 						/>
 					)}
@@ -137,7 +132,7 @@ export const LoadoutPreviewDialog = ({
 						<LoadoutPreviewSurface
 							ref={surfaceRef}
 							loadout={loadout}
-							compactMonsterlings={compactMonsterlings}
+							monsterlingStatsDisplay={compactMonsterlings ? "icons" : "full"}
 							hideEquipment={hideEquipment}
 							onEditCharacter={onEditCharacter}
 							onEditMonsterling={onEditMonsterling}

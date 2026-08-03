@@ -16,14 +16,18 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Track one shared, editable Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups; saving a species corrects its exact level (with level one implicit), levels survive copy deletion and owned-data resets, with verified names, triggers, and effects.
 - [x] Manage every Link Chain-capable species on a dedicated searchable, level-filterable page, with portrait-driven level editing independent of Monsterling ownership.
 - [x] Group Link Chain rows by immutable unlock level in ascending order after search and upgrade-level filters, using optional in-game sort order before alphabetical fallback within each row.
+- [x] Pin Link Chain Monsterlings into a dedicated section before Level 1, with a clear empty state and Drive-backed persistence.
 - [x] Show the shared Link Chain badge in the Monsterling form preview for eligible species without mutating shared levels.
 - [x] Group Monster Codex and Link Chains under a Monsterlings navigation section after Inventory.
 
 ## Loadouts: Available
 
 - [x] Expose Loadouts in production navigation.
-- [x] Create, edit, duplicate, delete, copy, and download team loadouts; preview them from any non-button card area.
+- [x] Create, edit, duplicate, delete, and copy team loadouts; preview them from any non-button card area and keep the currently unused image-download action hidden.
 - [x] Offer detailed and compact monsterling stat-label share previews.
+- [x] Toggle Monsterlings between cropped stat-icon cards and full stat strips while keeping portraits aligned with visible equipment.
+- [x] Save loadout-specific notes from card and preview More menus, with the loadout name shown in the notes dialog.
+- [x] Record seven character build stats, pin up to five per character, and show pinned values beside element, awakening, and skill levels in previews.
 - [x] Require three unique owned characters selected through searchable, filterable character cards.
 - [x] Assign three regular and one legendary owned monsterling per character through searchable, multi-tier-filterable cards, with regular-slot swapping and moving within a character.
 - [x] Auto-name new loadouts from their first character and brand generated images with the site URL.
@@ -100,6 +104,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Show occurrence and full-event completion controls for daily events, while non-daily events use only one full-event completion control for their full duration.
 - [x] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [x] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
+- [x] Separate incomplete and completed checklist items with a labeled divider that follows the Show completed preference.
 - [x] Expose the Checklist navigation item after the feature is release-ready.
 
 ## Chunk 2: Artifacts Inventory

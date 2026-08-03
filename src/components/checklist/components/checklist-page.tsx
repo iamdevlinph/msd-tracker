@@ -88,6 +88,7 @@ export const ChecklistPage = () => {
 				) : (
 					<ChecklistList
 						items={visible}
+						showCompleted={preferences.showCompleted}
 						now={now}
 						onComplete={(key) => {
 							complete(key);

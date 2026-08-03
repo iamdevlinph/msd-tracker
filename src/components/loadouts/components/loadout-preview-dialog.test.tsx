@@ -121,7 +121,7 @@ describe("LoadoutPreviewDialog", () => {
 		renderPreview();
 
 		const surface = screen.getByTestId("loadout-share-surface");
-		expect(surface.style.width).toBe("868px");
+		expect(surface.style.width).toBe("1120px");
 		const title = surface.querySelector("h2") as HTMLHeadingElement;
 		expect(title.className).toContain("min-w-0");
 		expect(title.className).toContain("flex-1");
@@ -141,7 +141,7 @@ describe("LoadoutPreviewDialog", () => {
 				}) as HTMLButtonElement
 			).dataset.state,
 		).toBe("checked");
-		expect(screen.queryByAltText("Stat ATK img")).toBeNull();
+		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
 		expect(screen.getByAltText("Link Chain Level 5")).toBeTruthy();
 		expect(screen.getByText("Fall from Grace")).toBeTruthy();
 		expect(screen.queryByAltText("Test Equipment portrait")).toBeNull();
@@ -162,7 +162,9 @@ describe("LoadoutPreviewDialog", () => {
 			"text-center",
 		);
 		expect(screen.queryByText("ATK")).toBeNull();
-		expect(screen.queryAllByAltText(/Tier [2-5] trait img/)).toHaveLength(0);
+		expect(
+			screen.queryAllByAltText(/Tier [2-5] trait img/).length,
+		).toBeGreaterThan(0);
 		expect(screen.getByAltText("Angel portrait")).toBeTruthy();
 		expect(screen.getByAltText("Francis portrait").className).toContain(
 			"object-bottom",
@@ -198,7 +200,6 @@ describe("LoadoutPreviewDialog", () => {
 			"Edit Boss / Team",
 			"Duplicate Boss / Team",
 			"Copy Boss / Team image",
-			"Download Boss / Team image",
 			"Delete Boss / Team",
 		]) {
 			const action = screen.getByRole("button", { name: label });
@@ -249,26 +250,24 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.getAllByText("Monsterling 2 unavailable")).toHaveLength(3);
 	});
 
-	it("hides the stat pane and keeps tier backgrounds in compact mode", () => {
+	it("toggles between cropped icons and full Monsterling stat strips", () => {
 		const { onOpenChange } = renderPreview();
 		const checkbox = screen.getByRole("checkbox", {
 			name: "Compact monsterlings",
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"868px",
+			"1120px",
 		);
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
-		expect(screen.queryByAltText("Stat ATK img")).toBeNull();
+		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
 		expect(screen.queryByText("ATK")).toBeNull();
 		expect(screen.queryByText("DEF")).toBeNull();
 		expect(screen.queryByText("HP")).toBeNull();
 		expect(screen.queryByText("Crit Rate")).toBeNull();
-		expect(screen.queryAllByAltText(/Tier [2-5] trait img/)).toHaveLength(0);
 		expect(
-			(screen.getAllByAltText("5 background")[0] as HTMLImageElement).style
-				.background,
-		).not.toBe("");
+			screen.queryAllByAltText(/Tier [2-5] trait img/).length,
+		).toBeGreaterThan(0);
 
 		fireEvent.click(checkbox);
 		expect(event).toHaveBeenCalledWith("loadout_preview_compact_toggle", {
@@ -276,10 +275,20 @@ describe("LoadoutPreviewDialog", () => {
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"1708px",
+			"1792px",
 		);
 		expect(screen.getByRole("dialog").className).toContain(
 			"2xl:max-w-[1772px]",
+		);
+		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
+		expect(
+			screen.queryAllByAltText(/Tier [2-5] trait img/).length,
+		).toBeGreaterThan(0);
+		const monsterlingCard = screen
+			.getAllByAltText("Stat ATK img")[0]
+			.closest(".monsterling-card") as HTMLElement;
+		expect(monsterlingCard.style.gridTemplateColumns).toBe(
+			"120px minmax(0, 1fr)",
 		);
 		expect(screen.getByText("ATK")).toBeTruthy();
 		fireEvent.click(screen.getByRole("button", { name: "Close" }));

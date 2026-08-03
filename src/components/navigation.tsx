@@ -121,7 +121,7 @@ const navSections: NavSection[] = [
 		],
 	},
 	{
-		title: "Settings",
+		title: "Others",
 		items: [
 			{
 				id: "account",

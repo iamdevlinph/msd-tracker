@@ -9,7 +9,7 @@ type LoadoutPreviewMonsterlingProps = {
 	owned: StoreState["monsterlingsOwned"];
 	levels: StoreState["monsterlingLinkChainLevels"];
 	label: string;
-	compactStats: boolean;
+	statsDisplay: "icons" | "full";
 	onEdit?: (id: string) => void;
 };
 export const LoadoutPreviewMonsterling = ({
@@ -17,7 +17,7 @@ export const LoadoutPreviewMonsterling = ({
 	owned,
 	levels,
 	label,
-	compactStats,
+	statsDisplay,
 	onEdit,
 }: LoadoutPreviewMonsterlingProps) => {
 	const monsterling = id ? owned[id] : null;
@@ -31,7 +31,7 @@ export const LoadoutPreviewMonsterling = ({
 				monsterling.monsterling_id,
 				levels,
 			)}
-			compactStats={compactStats}
+			statsDisplay={statsDisplay}
 		/>
 	);
 	return onEdit ? (

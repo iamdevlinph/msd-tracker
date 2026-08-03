@@ -39,5 +39,42 @@ describe("normalizeLoadouts", () => {
 			30,
 			40,
 		]);
+		expect(normalized.legacy.notes).toBe("");
+		expect(normalized.legacy.characters[0].stat_values).toEqual({});
+		expect(normalized.legacy.characters[0].pinned_stat_ids).toEqual([]);
+	});
+
+	it("normalizes numeric stats and caps ordered pins", () => {
+		const normalized = normalizeLoadouts({
+			team: {
+				notes: "x".repeat(2100),
+				characters: [
+					{
+						stat_values: { atk: 1200, crit_rate: 22.5, hp: -1, unknown: 4 },
+						pinned_stat_ids: [
+							"atk",
+							"crit_rate",
+							"atk",
+							"hp",
+							"crit_dmg",
+							"special_skill_cd",
+							"elem_weak_dmg_boost",
+						],
+					},
+				],
+			},
+		});
+		expect(normalized.team.notes).toHaveLength(2000);
+		expect(normalized.team.characters[0].stat_values).toEqual({
+			atk: 1200,
+			crit_rate: 22.5,
+		});
+		expect(normalized.team.characters[0].pinned_stat_ids).toEqual([
+			"atk",
+			"crit_rate",
+			"hp",
+			"crit_dmg",
+			"special_skill_cd",
+		]);
 	});
 });

@@ -13,6 +13,7 @@ import type {
 	LoadoutCharacterSlot,
 	LoadoutOwned,
 } from "@/stores/loadouts-slice";
+import { LoadoutCharacterStatsFields } from "./loadout-character-stats-fields";
 import { LoadoutEditorArtifactSelector } from "./loadout-editor-artifact-selector";
 import { LoadoutEditorCharacterSelector } from "./loadout-editor-character-selector";
 import { LoadoutEditorEquipmentSelector } from "./loadout-editor-equipment-selector";
@@ -116,6 +117,8 @@ export const LoadoutEditor = ({
 								onUpdateSlot(index, (current) => ({
 									...current,
 									characterId: null,
+									stat_values: {},
+									pinned_stat_ids: [],
 								}))
 							}
 						/>
@@ -132,6 +135,10 @@ export const LoadoutEditor = ({
 											artifactInstanceId: null,
 										}))
 									}
+								/>
+								<LoadoutCharacterStatsFields
+									slot={slot}
+									onChange={(next) => onUpdateSlot(index, () => next)}
 								/>
 							</div>
 							<div className="col-span-4 grid grid-cols-4 gap-2">

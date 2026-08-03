@@ -13,12 +13,14 @@ import type { StoreState } from "@/stores/app-store";
 export type MonsterlingsSlice = {
 	monsterlingsOwned: Record<string, MonsterlingOwned & { usedBy?: CharId[] }>;
 	monsterlingLinkChainLevels: MonsterlingLinkChainLevels;
+	monsterlingLinkChainPinnedIds: number[];
 
 	setMonsterlingOwned: (
 		monsterling: MonsterlingOwned,
 		id: string | undefined,
 	) => void;
 	setMonsterlingLinkChainLevel: (id: number, level: LinkChainLevel) => void;
+	setMonsterlingLinkChainPinned: (id: number, isPinned: boolean) => void;
 	deleteMonsterlingOwned: (id: string) => void;
 
 	resetMonsterlingSlice: () => void;
@@ -33,6 +35,7 @@ export const createMonsterlingsSlice: StateCreator<
 	return {
 		monsterlingsOwned: {},
 		monsterlingLinkChainLevels: {},
+		monsterlingLinkChainPinnedIds: [],
 
 		setMonsterlingOwned: (monsterling, id) =>
 			set((state) => {
@@ -63,6 +66,19 @@ export const createMonsterlingsSlice: StateCreator<
 				};
 			}),
 
+		setMonsterlingLinkChainPinned: (id, isPinned) =>
+			set((state) => {
+				if (!MONSTERLINGS_DATA[id]?.linkChain) return state;
+				const pins = state.monsterlingLinkChainPinnedIds.filter(
+					(pinnedId) => pinnedId !== id,
+				);
+				if (isPinned) pins.push(id);
+				return {
+					monsterlingLinkChainPinnedIds: pins,
+					backupUpdatedAt: Date.now(),
+				};
+			}),
+
 		deleteMonsterlingOwned: (id) =>
 			set((state) => {
 				const { [id]: _toDelete, ...rest } = state.monsterlingsOwned;
@@ -79,3 +95,11 @@ export const createMonsterlingsSlice: StateCreator<
 			}),
 	};
 };
+
+export const normalizeMonsterlingLinkChainPinnedIds = (value: unknown) =>
+	Array.isArray(value)
+		? [...new Set(value)].filter(
+				(id): id is number =>
+					typeof id === "number" && Boolean(MONSTERLINGS_DATA[id]?.linkChain),
+			)
+		: [];

@@ -4,7 +4,7 @@ import {
 } from "@/components/monsterlings/components/monsterling-constants";
 
 export const LOADOUT_PREVIEW_PORTRAIT_SIZE = 120;
-export const LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH = 184;
+export const LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH = 268;
 export const LOADOUT_PREVIEW_GAP = 12;
 export const LOADOUT_PREVIEW_SURFACE_PADDING = 24;
 

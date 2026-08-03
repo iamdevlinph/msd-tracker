@@ -69,7 +69,7 @@ describe("SyncConflictDialog tables", () => {
 			expect(table.className).toContain("min-w-[30rem]");
 			expect(table.parentElement?.className).toContain("overflow-x-auto");
 			expect(table.querySelectorAll(":scope > thead > tr > th")).toHaveLength(
-				5,
+				6,
 			);
 			expect(table.querySelectorAll(":scope > thead > th")).toHaveLength(0);
 			for (const header of table.querySelectorAll("th")) {

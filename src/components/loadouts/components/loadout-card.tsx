@@ -14,6 +14,7 @@ type LoadoutCardProps = {
 	onCopy: () => void;
 	onDownload: () => void;
 	onDelete: () => void;
+	onNotes?: () => void;
 	onEditCharacter: (id: number) => void;
 	onEditMonsterling: (id: string) => void;
 	onEditArtifact: (id: string) => void;
@@ -29,6 +30,7 @@ export const LoadoutCard = ({
 	onCopy,
 	onDownload,
 	onDelete,
+	onNotes,
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
@@ -53,7 +55,7 @@ export const LoadoutCard = ({
 					{loadout.name}
 				</CardTitle>
 				<LoadoutActions
-					className="pointer-events-none w-full justify-end **:data-[slot=button]:pointer-events-auto"
+					className="pointer-events-auto w-full justify-end"
 					loadoutName={loadout.name}
 					onPreview={() => onPreview("icon")}
 					onEdit={onEdit}
@@ -61,6 +63,7 @@ export const LoadoutCard = ({
 					onCopy={onCopy}
 					onDownload={onDownload}
 					onDelete={onDelete}
+					onNotes={onNotes}
 					activeImageAction={activeImageAction}
 					disabled={disabled}
 				/>

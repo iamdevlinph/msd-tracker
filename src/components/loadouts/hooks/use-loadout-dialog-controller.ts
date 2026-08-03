@@ -60,6 +60,7 @@ export type PickerTarget =
 
 const blankLoadout = (name = "New Loadout"): Omit<LoadoutOwned, "id"> => ({
 	name,
+	notes: "",
 	characters: [
 		emptyLoadoutCharacterSlot(),
 		emptyLoadoutCharacterSlot(),
@@ -109,6 +110,7 @@ export function useLoadoutDialogController(
 			existing
 				? {
 						name: existing.name,
+						notes: existing.notes,
 						characters: existing.characters.map((slot) => ({
 							characterId: slot.characterId,
 							monsterlingIds: [...slot.monsterlingIds],
@@ -117,6 +119,8 @@ export function useLoadoutDialogController(
 							equipment_ids: [
 								...(slot.equipment_ids ?? [null, null, null, null]),
 							],
+							stat_values: { ...(slot.stat_values ?? {}) },
+							pinned_stat_ids: [...(slot.pinned_stat_ids ?? [])],
 						})) as LoadoutOwned["characters"],
 					}
 				: blankLoadout(
@@ -398,7 +402,16 @@ export function useLoadoutDialogController(
 						)
 					: current.name,
 			characters: current.characters.map((slot, i) =>
-				i === pickerTarget.characterIndex ? { ...slot, characterId: id } : slot,
+				i === pickerTarget.characterIndex
+					? slot.characterId === id
+						? slot
+						: {
+								...slot,
+								characterId: id,
+								stat_values: {},
+								pinned_stat_ids: [],
+							}
+					: slot,
 			) as LoadoutOwned["characters"],
 		}));
 		resetPickerState(false);
@@ -507,6 +520,7 @@ export function useLoadoutDialogController(
 		setLoadout(
 			{
 				name: draft.name.trim(),
+				notes: (draft.notes ?? "").slice(0, 2000),
 				characters: draft.characters.map((s) => ({
 					...s,
 					legendaryMonsterlingId: s.legendaryMonsterlingId ?? null,

@@ -26,6 +26,7 @@ import {
 import {
 	createMonsterlingsSlice,
 	type MonsterlingsSlice,
+	normalizeMonsterlingLinkChainPinnedIds,
 } from "@/stores/monsterlings-slice";
 
 export type StoreState = {
@@ -45,6 +46,7 @@ export type StoreState = {
 				codexCompleted: number;
 				codexFavorites: number;
 				linkChainsUpgraded: number;
+				linkChainsPinned?: number;
 				checklistTasks?: number;
 				checklistCompletions?: number;
 				artifactsOwned?: number;
@@ -60,6 +62,7 @@ export type StoreState = {
 				codexCompleted: number;
 				codexFavorites: number;
 				linkChainsUpgraded: number;
+				linkChainsPinned?: number;
 				checklistTasks?: number;
 				checklistCompletions?: number;
 				artifactsOwned?: number;
@@ -97,6 +100,9 @@ export const migrateAppStore = (persistedState: unknown) => {
 			>[0],
 			state.monsterlingLinkChainLevels,
 		),
+		monsterlingLinkChainPinnedIds: normalizeMonsterlingLinkChainPinnedIds(
+			state.monsterlingLinkChainPinnedIds,
+		),
 	};
 };
 
@@ -123,7 +129,7 @@ export const useAppStore = create<StoreState>()(
 			}),
 			{
 				name: "msd-tracker",
-				version: 3,
+				version: 4,
 				migrate: migrateAppStore,
 				onRehydrateStorage: (_state) => {
 					// NOTE: In the `google-section.tsx` I get hydration error
