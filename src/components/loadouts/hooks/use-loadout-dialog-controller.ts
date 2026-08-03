@@ -405,12 +405,7 @@ export function useLoadoutDialogController(
 				i === pickerTarget.characterIndex
 					? slot.characterId === id
 						? slot
-						: {
-								...slot,
-								characterId: id,
-								stat_values: {},
-								pinned_stat_ids: [],
-							}
+						: { ...slot, characterId: id }
 					: slot,
 			) as LoadoutOwned["characters"],
 		}));

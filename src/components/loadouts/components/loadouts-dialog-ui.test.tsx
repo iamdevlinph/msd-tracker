@@ -287,6 +287,49 @@ describe("LoadoutsDialog character picker", () => {
 		);
 	});
 
+	it("preserves stat values and pins when replacing a character", () => {
+		useAppStore.setState({
+			charactersOwned: {
+				...charactersOwned,
+				4: {
+					id: 4,
+					awakening: 0,
+					skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
+				},
+			},
+			loadouts: {
+				team: {
+					...teamLoadout,
+					characters: [
+						{
+							...teamLoadout.characters[0],
+							stat_values: { atk: 12345, crit_rate: 25.5 },
+							pinned_stat_ids: ["atk", "crit_rate"],
+						},
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
+		});
+		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Angel" }));
+		fireEvent.change(
+			screen.getByRole("textbox", { name: "Search characters" }),
+			{
+				target: { value: "" },
+			},
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Select Narae" }));
+		fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+		const replacedSlot = useAppStore.getState().loadouts.team.characters[0];
+		expect(replacedSlot.characterId).toBe(4);
+		expect(replacedSlot.stat_values).toEqual({ atk: 12345, crit_rate: 25.5 });
+		expect(replacedSlot.pinned_stat_ids).toEqual(["atk", "crit_rate"]);
+	});
+
 	it("prefills and selects an assigned monsterling name", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
