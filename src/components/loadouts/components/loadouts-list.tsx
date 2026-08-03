@@ -42,6 +42,7 @@ export const LoadoutsList = () => {
 		null,
 	);
 	const exportSurfaceRef = useRef<HTMLDivElement>(null);
+	const previewAfterEditRef = useRef<string | null>(null);
 	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.CARD);
 
 	const loadouts = useAppStore((state) => state.loadouts);
@@ -62,6 +63,8 @@ export const LoadoutsList = () => {
 
 	const edit = (id: string, source: LoadoutActionSource) => {
 		ga.event(ANALYTICS_EVENTS.LOADOUT_EDITOR_OPEN, { mode: "edit", source });
+		previewAfterEditRef.current =
+			source === LOADOUT_ACTION_SOURCES.PREVIEW ? id : null;
 		setLoadoutToPreview(null);
 		setLoadoutToEdit(id);
 		setOpen(true);
@@ -192,7 +195,12 @@ export const LoadoutsList = () => {
 				open={open}
 				setOpen={setOpen}
 				loadoutToEdit={loadoutToEdit}
-				onClose={() => setLoadoutToEdit(null)}
+				onClose={() => {
+					const previewId = previewAfterEditRef.current;
+					previewAfterEditRef.current = null;
+					setLoadoutToEdit(null);
+					if (previewId) setLoadoutToPreview(previewId);
+				}}
 			/>
 			<LoadoutPreviewDialog
 				loadout={previewLoadout}

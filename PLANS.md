@@ -26,7 +26,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Create, edit, duplicate, delete, and copy team loadouts; preview them from any non-button card area and keep the currently unused image-download action hidden.
 - [x] Offer detailed and compact monsterling stat-label share previews.
 - [x] Toggle Monsterlings between cropped stat-icon cards and full stat strips while keeping portraits aligned with visible equipment.
-- [x] Save loadout-specific notes from card and preview More menus, with the loadout name shown in the notes dialog.
+- [x] Save loadout-specific notes from direct card and preview actions, with the loadout name shown in the notes dialog; keep the More dropdown deferred until it has additional actions.
 - [x] Record seven character build stats, pin up to five per character, and show pinned values beside element, awakening, and skill levels in previews.
 - [x] Require three unique owned characters selected through searchable, filterable character cards.
 - [x] Assign three regular and one legendary owned monsterling per character through searchable, multi-tier-filterable cards, with regular-slot swapping and moving within a character.
@@ -36,6 +36,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Persist loadouts locally and through Google Drive sync.
 - [x] Hide unfinished Artifact and Equipment slots outside development.
 - [x] Open owned character and assigned monsterling portraits in their editors from saved loadout cards without triggering preview, and from the loadout preview modal.
+- [x] Return to the originating loadout preview after canceling or saving an edit opened from that preview.
 - [x] Show tier portrait frames and tier-colored backgrounds behind assigned artifacts and Monsterlings in saved loadout cards.
 - [x] Keep saved loadout character tiles focused on portraits while preserving detail in previews, pickers, and editors.
 - [x] Default-hide equipment in loadout previews and exports with a one-row character/artifact/Monsterling layout toggle.

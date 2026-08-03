@@ -283,7 +283,7 @@ describe("LoadoutsList", () => {
 			"Edit Team",
 			"Duplicate Team",
 			"Copy Team image",
-			"More actions for Team",
+			"Notes for Team",
 			"Delete Team",
 		]) {
 			const action = screen.getByRole("button", { name: label });
@@ -334,7 +334,7 @@ describe("LoadoutsList", () => {
 		});
 	});
 
-	it("opens notes from More without previewing the card", () => {
+	it("opens notes directly without previewing the card", () => {
 		useAppStore.setState({
 			charactersOwned,
 			monsterlingsOwned: {},
@@ -342,11 +342,7 @@ describe("LoadoutsList", () => {
 		});
 		render(<LoadoutsList />);
 
-		fireEvent.pointerDown(
-			screen.getByRole("button", { name: "More actions for Team" }),
-			{ button: 0, ctrlKey: false },
-		);
-		fireEvent.click(screen.getByRole("menuitem", { name: "Notes" }));
+		fireEvent.click(screen.getByRole("button", { name: "Notes for Team" }));
 
 		expect(
 			screen.getByRole("dialog", { name: "Notes for “Team”" }),
@@ -358,6 +354,9 @@ describe("LoadoutsList", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Save notes" }));
 		expect(useAppStore.getState().loadouts.team.notes).toBe("Damage test");
 		expect(event).toHaveBeenCalledWith("loadout_notes_save");
+		expect(
+			screen.queryByRole("button", { name: "More actions for Team" }),
+		).toBeNull();
 	});
 
 	it("duplicates a loadout into the first available name", () => {
@@ -413,6 +412,58 @@ describe("LoadoutsList", () => {
 		expect(event).toHaveBeenCalledWith("loadout_duplicate", {
 			source: "preview",
 		});
+	});
+
+	it("returns to preview after canceling an edit opened from preview", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {},
+			loadouts: { team: teamLoadout },
+		});
+		render(<LoadoutsList />);
+		fireEvent.click(screen.getByRole("button", { name: "Preview Team" }));
+		fireEvent.click(screen.getByRole("button", { name: "Edit Team" }));
+
+		expect(
+			screen.getByRole("dialog", { name: "Edit Team Loadout" }),
+		).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+		expect(screen.getByRole("dialog", { name: "Team" })).toBeTruthy();
+		expect(
+			event.mock.calls.filter(([eventName]) => eventName === "loadout_preview"),
+		).toHaveLength(1);
+		expect(event).toHaveBeenCalledWith("loadout_preview", { source: "icon" });
+	});
+
+	it("returns to the updated preview after saving a preview-origin edit", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {},
+			loadouts: { team: teamLoadout },
+		});
+		render(<LoadoutsList />);
+		fireEvent.click(screen.getByRole("button", { name: "Preview Team" }));
+		fireEvent.click(screen.getByRole("button", { name: "Edit Team" }));
+		fireEvent.change(screen.getByRole("textbox", { name: "Name" }), {
+			target: { value: "Updated Team" },
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+		expect(screen.getByRole("dialog", { name: "Updated Team" })).toBeTruthy();
+	});
+
+	it("returns to the list after canceling an edit opened from a card", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {},
+			loadouts: { team: teamLoadout },
+		});
+		render(<LoadoutsList />);
+		fireEvent.click(screen.getByRole("button", { name: "Edit Team" }));
+		fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 	});
 
 	it("closes only item editors after saving from the preview", async () => {
@@ -509,7 +560,7 @@ describe("LoadoutsList", () => {
 			expect(success).toHaveBeenCalledWith("Loadout image copied"),
 		);
 		expect(write).toHaveBeenCalledOnce();
-		expect(toBlob.mock.calls[0][0].style.width).toBe("952px");
+		expect(toBlob.mock.calls[0][0].style.width).toBe("1120px");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {

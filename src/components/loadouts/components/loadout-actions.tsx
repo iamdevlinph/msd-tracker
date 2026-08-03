@@ -3,7 +3,6 @@ import {
 	EditIcon,
 	EyeIcon,
 	FileTextIcon,
-	MoreHorizontalIcon,
 	ShareIcon,
 	Trash2Icon,
 } from "lucide-react";
@@ -21,12 +20,6 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
@@ -133,28 +126,20 @@ export const LoadoutActions = ({
 				)}
 			</Button>
 			{onNotes && (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							type="button"
-							size="icon-sm"
-							variant="outline"
-							disabled={busy}
-							aria-label={`More actions for ${loadoutName}`}
-							title={`More actions for ${loadoutName}`}
-							onClick={(event) => event.stopPropagation()}
-						>
-							<MoreHorizontalIcon />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem onClick={onNotes}>
-							<FileTextIcon />
-							Notes
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<Button
+					type="button"
+					size="icon-sm"
+					variant="outline"
+					disabled={busy}
+					onClick={onNotes}
+					aria-label={`Notes for ${loadoutName}`}
+					title={`Notes for ${loadoutName}`}
+				>
+					<FileTextIcon />
+				</Button>
 			)}
+			{/* More dropdown is temporarily disabled. Restore it when additional
+			    secondary loadout actions are ready. */}
 			<AlertDialog>
 				<AlertDialogTrigger asChild>
 					<Button
