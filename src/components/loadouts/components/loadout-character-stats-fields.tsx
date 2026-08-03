@@ -2,7 +2,10 @@ import { PinIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { STAT_DATA, STAT_ID_BY_STAT } from "@/data/stats/STAT_DATA";
-import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
+import type {
+	LoadoutCharacterSlot,
+	LoadoutStatKey,
+} from "@/stores/loadouts-slice";
 
 const STATS = [
 	["atk", STAT_ID_BY_STAT.ATK],
@@ -14,6 +17,12 @@ const STATS = [
 	["boss_enemy_dmg_boost", STAT_ID_BY_STAT.BOSS_ENEMIES_DMG_BOOST],
 ] as const;
 
+const EDITOR_STAT_LABELS: Partial<Record<LoadoutStatKey, string>> = {
+	special_skill_cd: "Special Skill CD",
+	elem_weak_dmg_boost: "Elemental Boost",
+	boss_enemy_dmg_boost: "DMG Boost Boss",
+};
+
 type LoadoutCharacterStatsFieldsProps = {
 	slot: LoadoutCharacterSlot;
 	onChange: (slot: LoadoutCharacterSlot) => void;
@@ -23,26 +32,27 @@ export const LoadoutCharacterStatsFields = ({
 	slot,
 	onChange,
 }: LoadoutCharacterStatsFieldsProps) => (
-	<div className="col-span-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+	<div className="col-span-3 grid grid-cols-2 gap-2 sm:grid-cols-12">
 		{STATS.map(([key, statId], index) => {
 			const pinnedStats = slot.pinned_stat_ids ?? [];
 			const pinOrder = pinnedStats.indexOf(key) + 1;
 			const isPinDisabled = !pinOrder && pinnedStats.length >= 5;
+			const label = EDITOR_STAT_LABELS[key] ?? STAT_DATA[statId].stat;
 			return (
 				<label
 					key={key}
 					htmlFor={`loadout-stat-${key}`}
-					className={`min-w-0 grid gap-1 text-xs font-medium ${index >= 4 ? "col-span-2" : ""}`}
+					className={`min-w-0 grid gap-1 text-xs font-medium ${index >= 4 ? "col-span-2 sm:col-span-4" : "sm:col-span-3"}`}
 				>
 					<span className="flex items-center justify-between gap-1">
-						{STAT_DATA[statId].stat}
+						{label}
 						<Button
 							type="button"
 							size="icon-sm"
 							variant="ghost"
 							className="relative overflow-visible"
 							disabled={isPinDisabled}
-							aria-label={`${pinOrder ? "Unpin" : "Pin"} ${STAT_DATA[statId].stat}`}
+							aria-label={`${pinOrder ? "Unpin" : "Pin"} ${label}`}
 							onClick={() => {
 								const pinned_stat_ids = pinOrder
 									? pinnedStats.filter((item) => item !== key)
