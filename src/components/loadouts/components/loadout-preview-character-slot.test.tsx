@@ -46,7 +46,7 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 		).toBe("");
 	});
 
-	it("formats pinned stat values with grouping and percentage suffixes", () => {
+	it("formats pinned stat values and renders unsorted pins in canonical order", () => {
 		render(
 			<LoadoutPreviewCharacter
 				character={character}
@@ -55,7 +55,7 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 					skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
 				}}
 				statValues={{ atk: 12345, hp: 98765.5, crit_rate: 25.5 }}
-				pinnedStatIds={["atk", "hp", "crit_rate", "crit_dmg"]}
+				pinnedStatIds={["crit_dmg", "atk", "crit_rate", "hp"]}
 			/>,
 		);
 
@@ -63,6 +63,21 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 		expect(screen.getByText("98,765.5")).toBeTruthy();
 		expect(screen.getByText("25.5%")).toBeTruthy();
 		expect(screen.getByText("—")).toBeTruthy();
+		expect(
+			Array.from(document.querySelectorAll('img[alt$=" icon"]')).map((image) =>
+				image.getAttribute("alt"),
+			),
+		).toEqual([
+			"Fire icon",
+			"Special skill icon",
+			"Switch skill icon",
+			"Basic skill icon",
+			"Ultimate skill icon",
+			"ATK icon",
+			"HP icon",
+			"Crit Rate icon",
+			"Crit DMG icon",
+		]);
 		const statsColumn =
 			screen.getByAltText("ATK icon").parentElement?.parentElement;
 		expect(statsColumn?.classList.contains("border-l")).toBe(true);

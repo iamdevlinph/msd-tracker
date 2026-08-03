@@ -42,7 +42,7 @@ describe("LoadoutCharacterStatsFields", () => {
 		expect(fields[6]?.classList.contains("sm:col-span-4")).toBe(true);
 	});
 
-	it("fills pinned icons, overlays their order, and limits pins to five", () => {
+	it("fills pinned icons, canonicalizes interaction order, and limits pins to five", () => {
 		const onChange = vi.fn();
 		const { rerender } = render(
 			<LoadoutCharacterStatsFields slot={createSlot()} onChange={onChange} />,
@@ -59,7 +59,13 @@ describe("LoadoutCharacterStatsFields", () => {
 		expect(pinnedAtk.querySelector("svg")?.getAttribute("fill")).toBe(
 			"currentColor",
 		);
-		expect(pinnedAtk.querySelector("sup")?.textContent).toBe("1");
+		expect(pinnedAtk.querySelector("sup")).toBeNull();
+
+		fireEvent.click(screen.getByRole("button", { name: "Pin Crit Rate" }));
+		expect(onChange.mock.calls.at(-1)?.[0].pinned_stat_ids).toEqual([
+			"atk",
+			"crit_rate",
+		]);
 
 		rerender(
 			<LoadoutCharacterStatsFields

@@ -68,16 +68,14 @@ const normalizeStats = (value: unknown): LoadoutCharacterStats => {
 
 const normalizePinnedStats = (value: unknown): LoadoutStatKey[] => {
 	if (!Array.isArray(value)) return [];
-	const seen = new Set<LoadoutStatKey>();
-	for (const candidate of value) {
-		if (
-			typeof candidate === "string" &&
-			(LOADOUT_STAT_KEYS as readonly string[]).includes(candidate)
-		)
-			seen.add(candidate as LoadoutStatKey);
-		if (seen.size === 5) break;
-	}
-	return [...seen];
+	const selected = new Set(
+		value.filter(
+			(candidate): candidate is LoadoutStatKey =>
+				typeof candidate === "string" &&
+				(LOADOUT_STAT_KEYS as readonly string[]).includes(candidate),
+		),
+	);
+	return LOADOUT_STAT_KEYS.filter((key) => selected.has(key)).slice(0, 5);
 };
 
 export type LoadoutsSlice = {

@@ -44,7 +44,7 @@ describe("normalizeLoadouts", () => {
 		expect(normalized.legacy.characters[0].pinned_stat_ids).toEqual([]);
 	});
 
-	it("normalizes numeric stats and caps ordered pins", () => {
+	it("normalizes numeric stats and canonicalizes, deduplicates, validates, and caps pins", () => {
 		const normalized = normalizeLoadouts({
 			team: {
 				notes: "x".repeat(2100),
@@ -71,8 +71,8 @@ describe("normalizeLoadouts", () => {
 		});
 		expect(normalized.team.characters[0].pinned_stat_ids).toEqual([
 			"atk",
-			"crit_rate",
 			"hp",
+			"crit_rate",
 			"crit_dmg",
 			"special_skill_cd",
 		]);

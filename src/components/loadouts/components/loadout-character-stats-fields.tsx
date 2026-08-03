@@ -2,9 +2,10 @@ import { PinIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { STAT_DATA, STAT_ID_BY_STAT } from "@/data/stats/STAT_DATA";
-import type {
-	LoadoutCharacterSlot,
-	LoadoutStatKey,
+import {
+	LOADOUT_STAT_KEYS,
+	type LoadoutCharacterSlot,
+	type LoadoutStatKey,
 } from "@/stores/loadouts-slice";
 
 const STATS = [
@@ -35,8 +36,11 @@ export const LoadoutCharacterStatsFields = ({
 	<div className="col-span-3 grid grid-cols-2 gap-2 sm:grid-cols-12">
 		{STATS.map(([key, statId], index) => {
 			const pinnedStats = slot.pinned_stat_ids ?? [];
-			const pinOrder = pinnedStats.indexOf(key) + 1;
-			const isPinDisabled = !pinOrder && pinnedStats.length >= 5;
+			const selectedPinnedStats = LOADOUT_STAT_KEYS.filter((item) =>
+				pinnedStats.includes(item),
+			).slice(0, 5);
+			const isPinned = selectedPinnedStats.includes(key);
+			const isPinDisabled = !isPinned && selectedPinnedStats.length >= 5;
 			const label = EDITOR_STAT_LABELS[key] ?? STAT_DATA[statId].stat;
 			return (
 				<label
@@ -52,20 +56,18 @@ export const LoadoutCharacterStatsFields = ({
 							variant="ghost"
 							className="relative overflow-visible"
 							disabled={isPinDisabled}
-							aria-label={`${pinOrder ? "Unpin" : "Pin"} ${label}`}
+							aria-label={`${isPinned ? "Unpin" : "Pin"} ${label}`}
 							onClick={() => {
-								const pinned_stat_ids = pinOrder
-									? pinnedStats.filter((item) => item !== key)
-									: [...pinnedStats, key];
+								const selected = new Set(selectedPinnedStats);
+								if (isPinned) selected.delete(key);
+								else selected.add(key);
+								const pinned_stat_ids = LOADOUT_STAT_KEYS.filter((item) =>
+									selected.has(item),
+								).slice(0, 5);
 								onChange({ ...slot, pinned_stat_ids });
 							}}
 						>
-							<PinIcon fill={pinOrder ? "currentColor" : "none"} />
-							{pinOrder > 0 && (
-								<sup className="absolute right-0 top-0 grid size-3 place-items-center rounded-full bg-primary text-[8px] leading-none text-primary-foreground">
-									{pinOrder}
-								</sup>
-							)}
+							<PinIcon fill={isPinned ? "currentColor" : "none"} />
 						</Button>
 					</span>
 					<Input

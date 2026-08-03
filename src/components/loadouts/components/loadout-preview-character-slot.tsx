@@ -14,7 +14,10 @@ import {
 	IMAGE_MAPPING_ID,
 } from "@/data/image-mapping/IMAGE_MAPPING_DATA";
 import { STAT_DATA } from "@/data/stats/STAT_DATA";
-import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
+import {
+	LOADOUT_STAT_KEYS,
+	type LoadoutCharacterSlot,
+} from "@/stores/loadouts-slice";
 import { LOADOUT_PREVIEW_PORTRAIT_SIZE } from "./loadout-preview-constants";
 import { LOADOUT_STAT_DATA } from "./loadout-stat-utils";
 
@@ -49,6 +52,9 @@ export const LoadoutPreviewCharacter = ({
 	statValues = {},
 	pinnedStatIds = [],
 }: LoadoutPreviewCharacterProps) => {
+	const orderedPinnedStatIds = LOADOUT_STAT_KEYS.filter((key) =>
+		pinnedStatIds.includes(key),
+	).slice(0, STAT_ROWS.length);
 	const panel = (
 		<div className="grid h-[120px] grid-cols-[44px_82px_120px] items-center gap-2 rounded-lg border bg-card px-1 pr-0">
 			<div className="grid content-center gap-2">
@@ -88,7 +94,7 @@ export const LoadoutPreviewCharacter = ({
 			</div>
 			<div className="grid h-[104px] content-center gap-1 border-l border-primary/60 pl-2">
 				{STAT_ROWS.map((rowKey, index) => {
-					const key = pinnedStatIds[index];
+					const key = orderedPinnedStatIds[index];
 					if (!key) return <span key={rowKey} className="h-4" />;
 					const stat = STAT_DATA[LOADOUT_STAT_DATA[key]];
 					const value = statValues[key];
