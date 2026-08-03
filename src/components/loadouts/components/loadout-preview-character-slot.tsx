@@ -86,7 +86,7 @@ export const LoadoutPreviewCharacter = ({
 					))}
 				</div>
 			</div>
-			<div className="grid content-center gap-1">
+			<div className="grid h-[104px] content-center gap-1 border-l border-primary/60 pl-2">
 				{STAT_ROWS.map((rowKey, index) => {
 					const key = pinnedStatIds[index];
 					if (!key) return <span key={rowKey} className="h-4" />;

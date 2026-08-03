@@ -63,5 +63,10 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 		expect(screen.getByText("98,765.5")).toBeTruthy();
 		expect(screen.getByText("25.5%")).toBeTruthy();
 		expect(screen.getByText("—")).toBeTruthy();
+		const statsColumn =
+			screen.getByAltText("ATK icon").parentElement?.parentElement;
+		expect(statsColumn?.classList.contains("border-l")).toBe(true);
+		expect(statsColumn?.classList.contains("border-primary/60")).toBe(true);
+		expect(statsColumn?.classList.contains("pl-2")).toBe(true);
 	});
 });
