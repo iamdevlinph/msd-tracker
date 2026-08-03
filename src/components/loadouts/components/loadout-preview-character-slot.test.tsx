@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { LoadoutPreviewCharacter } from "@/components/loadouts/components/loadout-preview-character-slot";
 
@@ -44,5 +44,24 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 			(container.querySelector('img[alt="4 background"]') as HTMLImageElement)
 				.style.background,
 		).toBe("");
+	});
+
+	it("formats pinned stat values with grouping and percentage suffixes", () => {
+		render(
+			<LoadoutPreviewCharacter
+				character={character}
+				owned={{
+					awakening: 0,
+					skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
+				}}
+				statValues={{ atk: 12345, hp: 98765.5, crit_rate: 25.5 }}
+				pinnedStatIds={["atk", "hp", "crit_rate", "crit_dmg"]}
+			/>,
+		);
+
+		expect(screen.getByText("12,345")).toBeTruthy();
+		expect(screen.getByText("98,765.5")).toBeTruthy();
+		expect(screen.getByText("25.5%")).toBeTruthy();
+		expect(screen.getByText("—")).toBeTruthy();
 	});
 });

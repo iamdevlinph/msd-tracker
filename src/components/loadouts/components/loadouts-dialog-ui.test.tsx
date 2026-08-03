@@ -332,6 +332,10 @@ describe("LoadoutsDialog character picker", () => {
 		expect(document.activeElement).toBe(search);
 		expect(search.selectionStart).toBe(0);
 		expect(search.selectionEnd).toBe(monsterlingName.length);
+		expect(
+			(screen.getByText(monsterlingName).closest("button") as HTMLButtonElement)
+				.disabled,
+		).toBe(true);
 	});
 
 	it("clears an assigned character that is no longer available", () => {

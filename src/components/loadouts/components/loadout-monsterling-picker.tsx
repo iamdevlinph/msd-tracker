@@ -44,10 +44,10 @@ export const LoadoutMonsterlingPicker = ({
 		<div className="grid gap-2 overflow-x-auto [scrollbar-width:none] md:grid-cols-2 xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
 			{options.map((monsterling) => {
 				const disabled =
-					!legendary &&
-					selectedRegularIds.has(monsterling.id) &&
-					currentId !== monsterling.id &&
-					!currentCharacterRegularIds.has(monsterling.id);
+					currentId === monsterling.id ||
+					(!legendary &&
+						selectedRegularIds.has(monsterling.id) &&
+						!currentCharacterRegularIds.has(monsterling.id));
 				return (
 					<button
 						key={monsterling.id}

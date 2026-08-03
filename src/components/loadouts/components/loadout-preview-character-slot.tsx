@@ -25,6 +25,9 @@ const SKILLS = [
 	["Ultimate", IMAGE_MAPPING_ID.SKILL_ULTIMATE, CHARACTER_SKILLS.ULTIMATE],
 ] as const;
 const STAT_ROWS = ["stat-1", "stat-2", "stat-3", "stat-4", "stat-5"];
+const STAT_NUMBER_FORMATTER = new Intl.NumberFormat("en-US", {
+	maximumFractionDigits: 20,
+});
 
 type PreviewCharacter = Character;
 type CharacterOwned = {
@@ -101,7 +104,9 @@ export const LoadoutPreviewCharacter = ({
 								className="size-4"
 							/>
 							<span className="truncate">
-								{value ?? "—"}
+								{value === undefined
+									? "—"
+									: STAT_NUMBER_FORMATTER.format(value)}
 								{value !== undefined && key !== "atk" && key !== "hp"
 									? "%"
 									: ""}
