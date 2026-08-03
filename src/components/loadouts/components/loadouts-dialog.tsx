@@ -67,8 +67,9 @@ export const LoadoutsDialog = ({
 			<DialogContent
 				onEscapeKeyDown={preventSearchInputDismissOnEscape}
 				className={cn(
-					"grid h-[calc(100dvh-2rem)] max-h-[calc(100dvh-2rem)] max-w-[calc(100%-2rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 sm:max-w-2xl",
-					controller.pickerTarget && "md:max-w-[46rem] xl:max-w-[68.5rem]",
+					"grid max-h-[calc(100dvh-2rem)] max-w-[calc(100%-2rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 sm:max-w-2xl",
+					controller.pickerTarget &&
+						"h-[min(888px,calc(100dvh-2rem))] md:max-w-[46rem] xl:max-w-[68.5rem]",
 				)}
 				onCloseAutoFocus={controller.close}
 			>

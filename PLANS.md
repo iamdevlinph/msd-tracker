@@ -43,6 +43,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 - [x] Track loadout editing, picker, slot, preview, entity-editor, image-copy, and image-download actions in GA4 without names, IDs, search text, or raw errors.
 - [x] Preselect the current character class when opening the loadout artifact picker while keeping all artifact filters editable.
+- [x] Match selection picker height to the 888px loadout editor height while keeping shorter viewports bounded and scrollable.
 
 ## Loadout Code Sharing: Deferred
 
