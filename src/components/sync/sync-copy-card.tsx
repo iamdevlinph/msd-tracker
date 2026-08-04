@@ -48,6 +48,7 @@ export const SyncCopyCard = ({
 					<TableHead scope="col">Characters</TableHead>
 					<TableHead scope="col">Monsterlings</TableHead>
 					<TableHead scope="col">Loadouts</TableHead>
+					<TableHead scope="col">Snapshots</TableHead>
 					<TableHead scope="col">Codex</TableHead>
 					<TableHead scope="col">Artifacts</TableHead>
 					<TableHead scope="col">Pinned Links</TableHead>
@@ -58,6 +59,7 @@ export const SyncCopyCard = ({
 					<TableCell>{copy.metadata.charactersOwned}</TableCell>
 					<TableCell>{copy.metadata.monsterlingsOwned}</TableCell>
 					<TableCell>{copy.metadata.loadouts}</TableCell>
+					<TableCell>{copy.metadata.snapshots ?? 0}</TableCell>
 					<TableCell>{copy.metadata.codexCompleted}</TableCell>
 					<TableCell>{copy.metadata.artifactsOwned ?? 0}</TableCell>
 					<TableCell>{copy.metadata.linkChainsPinned ?? 0}</TableCell>

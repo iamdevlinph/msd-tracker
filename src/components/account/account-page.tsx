@@ -67,6 +67,7 @@ export const AccountPage = () => {
 	const resetCharacterSlice = useAppStore((s) => s.resetCharacterSlice);
 	const resetMonsterlingSlice = useAppStore((s) => s.resetMonsterlingSlice);
 	const resetLoadoutsSlice = useAppStore((s) => s.resetLoadoutsSlice);
+	const resetLoadoutSnapshots = useAppStore((s) => s.resetLoadoutSnapshots);
 	const resetChecklist = useAppStore((s) => s.resetChecklist);
 	const resetArtifactsOwned = useAppStore((s) => s.resetArtifactsOwned);
 
@@ -157,6 +158,16 @@ export const AccountPage = () => {
 								</ClearDataButton>
 							</>
 						)}
+						<ClearDataButton
+							description="This permanently clears your loadout snapshots and cannot be undone."
+							onConfirm={() => {
+								resetLoadoutSnapshots();
+								ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOTS_RESET);
+							}}
+							target="Loadout Snapshots"
+						>
+							Clear Loadout Snapshots
+						</ClearDataButton>
 						<ClearDataButton
 							description="This permanently clears your owned artifacts and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
 							onConfirm={() => {

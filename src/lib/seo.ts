@@ -8,6 +8,7 @@ export const PUBLIC_PAGE_TITLES = {
 	LINK_CHAINS: `Link Chains - ${SITE_NAME}`,
 	MONSTER_CODEX: `Monster Codex - ${SITE_NAME}`,
 	LOADOUTS: `Loadouts - ${SITE_NAME}`,
+	LOADOUT_SNAPSHOTS: `Loadout Snapshots - ${SITE_NAME}`,
 	ARTIFACTS: `Artifacts - ${SITE_NAME}`,
 };
 

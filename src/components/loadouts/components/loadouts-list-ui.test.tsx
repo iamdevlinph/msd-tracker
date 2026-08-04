@@ -283,7 +283,7 @@ describe("LoadoutsList", () => {
 			"Edit Team",
 			"Duplicate Team",
 			"Copy Team image",
-			"Notes for Team",
+			"More actions for Team",
 			"Delete Team",
 		]) {
 			const action = screen.getByRole("button", { name: label });
@@ -342,7 +342,11 @@ describe("LoadoutsList", () => {
 		});
 		render(<LoadoutsList />);
 
-		fireEvent.click(screen.getByRole("button", { name: "Notes for Team" }));
+		fireEvent.pointerDown(
+			screen.getByRole("button", { name: "More actions for Team" }),
+			{ button: 0, ctrlKey: false },
+		);
+		fireEvent.click(screen.getByRole("menuitem", { name: "Notes" }));
 
 		expect(
 			screen.getByRole("dialog", { name: "Notes for “Team”" }),
@@ -355,8 +359,8 @@ describe("LoadoutsList", () => {
 		expect(useAppStore.getState().loadouts.team.notes).toBe("Damage test");
 		expect(event).toHaveBeenCalledWith("loadout_notes_save");
 		expect(
-			screen.queryByRole("button", { name: "More actions for Team" }),
-		).toBeNull();
+			screen.getByRole("button", { name: "More actions for Team" }),
+		).toBeTruthy();
 	});
 
 	it("duplicates a loadout into the first available name", () => {

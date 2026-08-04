@@ -4,6 +4,7 @@ import { normalizeChecklistPersistedState } from "@/components/checklist/utils/c
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useAppStore } from "@/stores/app-store";
+import { normalizeLoadoutSnapshots } from "@/stores/loadout-snapshots-slice";
 import { normalizeLoadouts } from "@/stores/loadouts-slice";
 import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-slice";
 
@@ -22,6 +23,7 @@ type Backup = Pick<
 	| "monsterlingLinkChainLevels"
 	| "monsterlingLinkChainPinnedIds"
 	| "loadouts"
+	| "loadoutSnapshots"
 	| "checklistTasks"
 	| "checklistCompletions"
 	| "checklistPermanentNotes"
@@ -44,6 +46,7 @@ export function select(state: StoreState): Backup {
 			state.monsterlingLinkChainPinnedIds,
 		),
 		loadouts: state.loadouts,
+		loadoutSnapshots: state.loadoutSnapshots,
 		checklistTasks: state.checklistTasks,
 		checklistCompletions: state.checklistCompletions,
 		checklistPermanentNotes: state.checklistPermanentNotes,
@@ -115,6 +118,7 @@ export async function download(): Promise<Backup | null> {
 		return {
 			...backup,
 			loadouts: normalizeLoadouts(backup.loadouts),
+			loadoutSnapshots: normalizeLoadoutSnapshots(backup.loadoutSnapshots),
 			...normalizeChecklistPersistedState(backup),
 			...consolidateMonsterlingLinkChainLevels(
 				backup.monsterlingsOwned ?? {},
@@ -197,6 +201,7 @@ export async function initSync() {
 							charactersOwned: Object.keys(local.charactersOwned).length,
 							monsterlingsOwned: Object.keys(local.monsterlingsOwned).length,
 							loadouts: Object.keys(local.loadouts).length,
+							snapshots: Object.keys(local.loadoutSnapshots).length,
 							codexCompleted: local.monsterCodexCompleted.length,
 							codexFavorites: local.monsterCodexFavorites.length,
 							linkChainsUpgraded: Object.keys(local.monsterlingLinkChainLevels)
@@ -215,6 +220,7 @@ export async function initSync() {
 							charactersOwned: Object.keys(remote.charactersOwned).length,
 							monsterlingsOwned: Object.keys(remote.monsterlingsOwned).length,
 							loadouts: Object.keys(remote.loadouts ?? {}).length,
+							snapshots: Object.keys(remote.loadoutSnapshots ?? {}).length,
 							codexCompleted: remote.monsterCodexCompleted.length,
 							codexFavorites: remote.monsterCodexFavorites.length,
 							linkChainsUpgraded: Object.keys(

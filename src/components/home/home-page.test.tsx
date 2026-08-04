@@ -31,6 +31,7 @@ describe("HomePage", () => {
 			monsterlingsOwned: { first: {} as never, second: {} as never },
 			monsterCodexCompleted: [1, 2, 3],
 			loadouts: { first: {} as never },
+			loadoutSnapshots: { first: {} as never },
 			artifactsOwned: { first: {} as never, second: {} as never },
 			isHydrated: true,
 		});
@@ -46,7 +47,7 @@ describe("HomePage", () => {
 		expect(screen.getByText(/Keep your roster/)).toBeTruthy();
 		expect(screen.getAllByText("2")).toHaveLength(3);
 		expect(screen.getByText("3")).toBeTruthy();
-		expect(screen.getByText("1")).toBeTruthy();
+		expect(screen.getAllByText("1")).toHaveLength(2);
 
 		for (const [name, href] of [
 			["Characters", "/characters"],
@@ -55,6 +56,7 @@ describe("HomePage", () => {
 			["Link Chains", "/link-chains"],
 			["Monster Codex", "/monster-codex"],
 			["Loadouts", "/loadouts"],
+			["Loadout Snapshots", "/loadout-snapshots"],
 			["Artifacts", "/artifacts"],
 		]) {
 			expect(
@@ -69,6 +71,7 @@ describe("HomePage", () => {
 			["Monsterlings owned", "/monsterlings"],
 			["Codex cleared", "/monster-codex"],
 			["Loadouts created", "/loadouts"],
+			["Loadout snapshots", "/loadout-snapshots"],
 			["Artifacts owned", "/artifacts"],
 		]) {
 			expect(
@@ -87,7 +90,7 @@ describe("HomePage", () => {
 
 		render(<HomePage />);
 
-		expect(screen.getAllByText("—")).toHaveLength(5);
+		expect(screen.getAllByText("—")).toHaveLength(6);
 	});
 
 	it("presents upcoming features without linking to unfinished pages", () => {

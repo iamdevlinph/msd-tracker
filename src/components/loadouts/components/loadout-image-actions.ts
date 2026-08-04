@@ -32,7 +32,10 @@ const safeFilename = (name: string) =>
 			.toLowerCase() || "loadout"
 	}.png`;
 
-export const useLoadoutImageActions = (source: LoadoutActionSource) => {
+export const useLoadoutImageActions = (
+	source: LoadoutActionSource,
+	target: "loadout" | "snapshot" = "loadout",
+) => {
 	const ga = useGoogleAnalytics();
 	const [activeAction, setActiveAction] = useState<LoadoutImageAction | null>(
 		null,
@@ -52,9 +55,11 @@ export const useLoadoutImageActions = (source: LoadoutActionSource) => {
 		};
 		const copy = action === LOADOUT_IMAGE_ACTIONS.COPY;
 		ga.event(
-			copy
-				? ANALYTICS_EVENTS.LOADOUT_COPY_ATTEMPT
-				: ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_ATTEMPT,
+			target === "snapshot"
+				? ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_COPY_ATTEMPT
+				: copy
+					? ANALYTICS_EVENTS.LOADOUT_COPY_ATTEMPT
+					: ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_ATTEMPT,
 			params,
 		);
 		setActiveAction(action);
@@ -78,16 +83,20 @@ export const useLoadoutImageActions = (source: LoadoutActionSource) => {
 			}
 			toast.success(copy ? "Loadout image copied" : "Loadout image downloaded");
 			ga.event(
-				copy
-					? ANALYTICS_EVENTS.LOADOUT_COPY_SUCCESS
-					: ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_SUCCESS,
+				target === "snapshot"
+					? ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_COPY_SUCCESS
+					: copy
+						? ANALYTICS_EVENTS.LOADOUT_COPY_SUCCESS
+						: ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_SUCCESS,
 				params,
 			);
 		} catch (error) {
 			ga.event(
-				copy
-					? ANALYTICS_EVENTS.LOADOUT_COPY_FAILURE
-					: ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_FAILURE,
+				target === "snapshot"
+					? ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_COPY_FAILURE
+					: copy
+						? ANALYTICS_EVENTS.LOADOUT_COPY_FAILURE
+						: ANALYTICS_EVENTS.LOADOUT_DOWNLOAD_FAILURE,
 				params,
 			);
 			toast.error(

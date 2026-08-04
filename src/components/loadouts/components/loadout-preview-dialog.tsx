@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { LoadoutActions } from "@/components/loadouts/components/loadout-actions";
 import { useLoadoutImageActions } from "@/components/loadouts/components/loadout-image-actions";
@@ -16,17 +16,23 @@ import { Label } from "@/components/ui/label";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+import type { LoadoutRenderData } from "./loadout-render-data";
 
 type LoadoutPreviewDialogProps = {
 	loadout: LoadoutOwned | null;
 	onOpenChange: (open: boolean) => void;
-	onEdit: () => void;
+	onEdit?: () => void;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
 	onEditArtifact?: (id: string) => void;
-	onDuplicate: () => void;
-	onDelete: () => void;
+	onDuplicate?: () => void;
+	onDelete?: () => void;
 	onNotes?: () => void;
+	onCreateSnapshot?: () => void;
+	renderData?: LoadoutRenderData;
+	metadata?: ReactNode;
+	typeLabel?: string;
+	target?: "loadout" | "snapshot";
 };
 
 export const LoadoutPreviewDialog = ({
@@ -39,19 +45,28 @@ export const LoadoutPreviewDialog = ({
 	onDuplicate,
 	onDelete,
 	onNotes,
+	onCreateSnapshot,
+	renderData,
+	metadata,
+	typeLabel = "Team Loadout",
+	target = "loadout",
 }: LoadoutPreviewDialogProps) => {
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
 	const [hideEquipment, setHideEquipment] = useState(true);
 	const ga = useGoogleAnalytics();
-	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.PREVIEW);
+	const imageActions = useLoadoutImageActions(
+		LOADOUT_ACTION_SOURCES.PREVIEW,
+		target,
+	);
 
 	return (
 		<Dialog
 			open={!!loadout}
 			onOpenChange={(open) => {
 				if (!open) {
-					ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_CLOSE);
+					if (target === "loadout")
+						ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_CLOSE);
 					setCompactMonsterlings(true);
 					setHideEquipment(true);
 				}
@@ -69,7 +84,10 @@ export const LoadoutPreviewDialog = ({
 				)}
 			>
 				<DialogHeader className="border-b p-4 pr-14">
-					<DialogTitle>{loadout?.name ?? "Loadout preview"}</DialogTitle>
+					<div>
+						<DialogTitle>{loadout?.name ?? "Loadout preview"}</DialogTitle>
+						{metadata}
+					</div>
 					<DialogDescription>
 						Share-ready character, Monsterling, artifact, and equipment
 						overview.
@@ -123,7 +141,9 @@ export const LoadoutPreviewDialog = ({
 							}
 							onDelete={onDelete}
 							onNotes={onNotes}
+							onCreateSnapshot={onCreateSnapshot}
 							activeImageAction={imageActions.activeAction}
+							itemType={target === "snapshot" ? "loadout snapshot" : undefined}
 						/>
 					)}
 				</div>
@@ -137,6 +157,9 @@ export const LoadoutPreviewDialog = ({
 							onEditCharacter={onEditCharacter}
 							onEditMonsterling={onEditMonsterling}
 							onEditArtifact={onEditArtifact}
+							renderData={renderData}
+							metadata={metadata}
+							typeLabel={typeLabel}
 						/>
 					)}
 				</div>

@@ -25,23 +25,34 @@ export const LoadoutCardMonsterlingTile = ({
 				: "place-items-center border-dashed",
 		)}
 	>
-		{owned && info && id && onEdit ? (
-			<button
-				type="button"
-				aria-label={`Edit ${info.name} monsterling`}
-				onClick={(event) => {
-					event.stopPropagation();
-					onEdit(id);
-				}}
-				className="pointer-events-auto relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-			>
-				<TierPortrait
-					tier={owned.tier_id}
-					portraitImg={info.image}
-					portraitSize={112}
-					name={info.name}
-				/>
-			</button>
+		{owned && info && id ? (
+			onEdit ? (
+				<button
+					type="button"
+					aria-label={`Edit ${info.name} monsterling`}
+					onClick={(event) => {
+						event.stopPropagation();
+						onEdit(id);
+					}}
+					className="pointer-events-auto relative mx-auto grid size-full cursor-pointer place-items-center overflow-hidden rounded-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+				>
+					<TierPortrait
+						tier={owned.tier_id}
+						portraitImg={info.image}
+						portraitSize={112}
+						name={info.name}
+					/>
+				</button>
+			) : (
+				<div className="relative mx-auto grid size-full place-items-center overflow-hidden rounded-sm">
+					<TierPortrait
+						tier={owned.tier_id}
+						portraitImg={info.image}
+						portraitSize={112}
+						name={info.name}
+					/>
+				</div>
+			)
 		) : (
 			<span className="text-[10px] text-muted-foreground">{label}</span>
 		)}

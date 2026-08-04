@@ -1,0 +1,245 @@
+import { XIcon } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
+import { LoadoutSnapshotMetadata } from "@/components/loadout-snapshots/components/loadout-snapshot-metadata";
+import {
+	LOADOUT_SNAPSHOT_SORTS,
+	LOADOUT_SNAPSHOT_TAG_LABELS,
+	type LoadoutSnapshotSort,
+	type LoadoutSnapshotTag,
+} from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
+import { LoadoutCard } from "@/components/loadouts/components/loadout-card";
+import { useLoadoutImageActions } from "@/components/loadouts/components/loadout-image-actions";
+import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
+import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-preview-surface";
+import type { LoadoutRenderData } from "@/components/loadouts/components/loadout-render-data";
+import { LOADOUT_ACTION_SOURCES } from "@/components/loadouts/loadout-constants";
+import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { SortSelect } from "@/components/shared/sort-select";
+import { Button } from "@/components/ui/button";
+import { SearchInput } from "@/components/ui/search-input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { useAppStore } from "@/stores/app-store";
+import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
+
+const ALL_TAGS = "all";
+const SORT_OPTIONS: { label: string; value: LoadoutSnapshotSort }[] = [
+	{ label: "Name: A–Z", value: LOADOUT_SNAPSHOT_SORTS.NAME_ASC },
+	{ label: "Name: Z–A", value: LOADOUT_SNAPSHOT_SORTS.NAME_DESC },
+	{ label: "Created: Oldest", value: LOADOUT_SNAPSHOT_SORTS.CREATED_ASC },
+	{ label: "Created: Newest", value: LOADOUT_SNAPSHOT_SORTS.CREATED_DESC },
+];
+
+const snapshotLoadout = (snapshot: LoadoutSnapshot) => ({
+	...snapshot.loadout,
+	id: snapshot.id,
+	name: snapshot.name,
+	notes: "",
+});
+
+const snapshotRenderData = (snapshot: LoadoutSnapshot): LoadoutRenderData => ({
+	charactersOwned: snapshot.characters_owned,
+	monsterlingsOwned: snapshot.monsterlings_owned,
+	monsterlingLinkChainLevels: snapshot.monsterling_link_chain_levels,
+	artifactsOwned: snapshot.artifacts_owned,
+});
+
+export const LoadoutSnapshotsList = () => {
+	const ga = useGoogleAnalytics();
+	const snapshots = useAppStore((state) => state.loadoutSnapshots);
+	const deleteLoadoutSnapshot = useAppStore(
+		(state) => state.deleteLoadoutSnapshot,
+	);
+	const [search, setSearch] = useState("");
+	const [tag, setTag] = useState<LoadoutSnapshotTag | typeof ALL_TAGS>(
+		ALL_TAGS,
+	);
+	const [sort, setSort] = useState<LoadoutSnapshotSort>(
+		LOADOUT_SNAPSHOT_SORTS.CREATED_DESC,
+	);
+	const [previewId, setPreviewId] = useState<string | null>(null);
+	const [exportId, setExportId] = useState<string | null>(null);
+	const exportRef = useRef<HTMLDivElement>(null);
+	const imageActions = useLoadoutImageActions(
+		LOADOUT_ACTION_SOURCES.CARD,
+		"snapshot",
+	);
+	const entries = useMemo(() => {
+		const query = search.trim().toLocaleLowerCase();
+		return Object.values(snapshots)
+			.filter(
+				(snapshot) =>
+					(!query || snapshot.name.toLocaleLowerCase().includes(query)) &&
+					(tag === ALL_TAGS || snapshot.tag === tag),
+			)
+			.sort((a, b) => {
+				if (sort === LOADOUT_SNAPSHOT_SORTS.NAME_ASC)
+					return a.name.localeCompare(b.name) || b.created_at - a.created_at;
+				if (sort === LOADOUT_SNAPSHOT_SORTS.NAME_DESC)
+					return b.name.localeCompare(a.name) || b.created_at - a.created_at;
+				return sort === LOADOUT_SNAPSHOT_SORTS.CREATED_ASC
+					? a.created_at - b.created_at || a.name.localeCompare(b.name)
+					: b.created_at - a.created_at || a.name.localeCompare(b.name);
+			});
+	}, [search, snapshots, sort, tag]);
+	const preview = previewId ? (snapshots[previewId] ?? null) : null;
+	const exported = exportId ? (snapshots[exportId] ?? null) : null;
+	const remove = (id: string) => {
+		deleteLoadoutSnapshot(id);
+		setPreviewId(null);
+		ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_DELETE);
+	};
+	const copy = async (snapshot: LoadoutSnapshot) => {
+		flushSync(() => setExportId(snapshot.id));
+		try {
+			await imageActions.copy(snapshot.name, exportRef.current, true, true);
+		} finally {
+			setExportId(null);
+		}
+	};
+
+	return (
+		<div className="grid gap-5">
+			<div className="grid gap-3">
+				<SearchInput
+					aria-label="Search loadout snapshots"
+					placeholder="Search loadout snapshots"
+					value={search}
+					onValueChange={setSearch}
+				/>
+				<div className="flex flex-wrap gap-2">
+					<Select
+						value={tag}
+						onValueChange={(value) =>
+							setTag(value as LoadoutSnapshotTag | typeof ALL_TAGS)
+						}
+					>
+						<SelectTrigger aria-label="Filter loadout snapshots by tag">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value={ALL_TAGS}>All tags</SelectItem>
+							{Object.entries(LOADOUT_SNAPSHOT_TAG_LABELS).map(
+								([value, label]) => (
+									<SelectItem key={value} value={value}>
+										{label}
+									</SelectItem>
+								),
+							)}
+						</SelectContent>
+					</Select>
+					<SortSelect
+						ariaLabel="Sort loadout snapshots"
+						options={SORT_OPTIONS}
+						value={sort}
+						onValueChange={setSort}
+					/>
+					<Button
+						type="button"
+						variant="secondary"
+						size="icon"
+						aria-label="Clear loadout snapshot filters"
+						onClick={() => {
+							setSearch("");
+							setTag(ALL_TAGS);
+							setSort(LOADOUT_SNAPSHOT_SORTS.CREATED_DESC);
+						}}
+					>
+						<XIcon />
+					</Button>
+				</div>
+			</div>
+
+			{entries.length === 0 ? (
+				<CollectionEmptyState
+					title={
+						Object.keys(snapshots).length
+							? "No snapshots match these filters"
+							: "No loadout snapshots yet"
+					}
+					description={
+						Object.keys(snapshots).length
+							? "Adjust or clear the filters to see your snapshots."
+							: "Create a snapshot from a saved loadout to record its current state."
+					}
+				/>
+			) : (
+				<div className="overflow-x-auto pb-2">
+					<div className="grid min-w-[18rem] grid-cols-[repeat(auto-fill,minmax(18rem,1fr))] gap-3">
+						{entries.map((snapshot) => (
+							<LoadoutCard
+								key={snapshot.id}
+								loadout={snapshotLoadout(snapshot)}
+								renderData={snapshotRenderData(snapshot)}
+								metadata={
+									<LoadoutSnapshotMetadata
+										createdAt={snapshot.created_at}
+										tag={snapshot.tag}
+									/>
+								}
+								onPreview={() => {
+									ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_PREVIEW);
+									setPreviewId(snapshot.id);
+								}}
+								onCopy={() => void copy(snapshot)}
+								onDelete={() => remove(snapshot.id)}
+								activeImageAction={
+									exportId === snapshot.id ? imageActions.activeAction : null
+								}
+								disabled={imageActions.activeAction !== null}
+								itemType="loadout snapshot"
+							/>
+						))}
+					</div>
+				</div>
+			)}
+
+			<LoadoutPreviewDialog
+				loadout={preview ? snapshotLoadout(preview) : null}
+				onOpenChange={(open) => !open && setPreviewId(null)}
+				onDelete={() => preview && remove(preview.id)}
+				renderData={preview ? snapshotRenderData(preview) : undefined}
+				metadata={
+					preview ? (
+						<LoadoutSnapshotMetadata
+							createdAt={preview.created_at}
+							tag={preview.tag}
+						/>
+					) : null
+				}
+				typeLabel="Loadout Snapshot"
+				target="snapshot"
+			/>
+
+			{exported && (
+				<div
+					aria-hidden="true"
+					className="pointer-events-none fixed top-0 left-[-10000px]"
+				>
+					<LoadoutPreviewSurface
+						ref={exportRef}
+						loadout={snapshotLoadout(exported)}
+						renderData={snapshotRenderData(exported)}
+						metadata={
+							<LoadoutSnapshotMetadata
+								createdAt={exported.created_at}
+								tag={exported.tag}
+							/>
+						}
+						compactMonsterlings
+						hideEquipment
+						typeLabel="Loadout Snapshot"
+					/>
+				</div>
+			)}
+		</div>
+	);
+};

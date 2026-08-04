@@ -4,22 +4,27 @@ import type { LoadoutImageAction } from "@/components/loadouts/components/loadou
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+import type { LoadoutRenderData } from "./loadout-render-data";
 import { CHARACTER_SLOT_INDEXES } from "./loadout-slot-constants";
 
 type LoadoutCardProps = {
 	loadout: LoadoutOwned;
 	onPreview: (source: "card" | "icon") => void;
-	onEdit: () => void;
-	onDuplicate: () => void;
-	onCopy: () => void;
-	onDownload: () => void;
+	onEdit?: () => void;
+	onDuplicate?: () => void;
+	onCopy?: () => void;
+	onDownload?: () => void;
 	onDelete: () => void;
 	onNotes?: () => void;
-	onEditCharacter: (id: number) => void;
-	onEditMonsterling: (id: string) => void;
-	onEditArtifact: (id: string) => void;
+	onCreateSnapshot?: () => void;
+	onEditCharacter?: (id: number) => void;
+	onEditMonsterling?: (id: string) => void;
+	onEditArtifact?: (id: string) => void;
 	activeImageAction?: LoadoutImageAction | null;
 	disabled?: boolean;
+	renderData?: LoadoutRenderData;
+	metadata?: ReactNode;
+	itemType?: "team loadout" | "loadout snapshot";
 };
 
 export const LoadoutCard = ({
@@ -31,15 +36,23 @@ export const LoadoutCard = ({
 	onDownload,
 	onDelete,
 	onNotes,
+	onCreateSnapshot,
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
 	activeImageAction,
 	disabled,
+	renderData,
+	metadata,
+	itemType,
 }: LoadoutCardProps) => {
-	const charactersOwned = useAppStore((state) => state.charactersOwned);
-	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
-	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
+	const liveCharactersOwned = useAppStore((state) => state.charactersOwned);
+	const liveMonsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const liveArtifactsOwned = useAppStore((state) => state.artifactsOwned);
+	const charactersOwned = renderData?.charactersOwned ?? liveCharactersOwned;
+	const monsterlingsOwned =
+		renderData?.monsterlingsOwned ?? liveMonsterlingsOwned;
+	const artifactsOwned = renderData?.artifactsOwned ?? liveArtifactsOwned;
 
 	return (
 		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary/40 hover:shadow-md focus-within:border-primary/40 focus-within:shadow-md">
@@ -51,9 +64,12 @@ export const LoadoutCard = ({
 				className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 			/>
 			<CardHeader className="pointer-events-none relative z-10 gap-2 px-3">
-				<CardTitle className="text-base leading-tight">
-					{loadout.name}
-				</CardTitle>
+				<div>
+					<CardTitle className="text-base leading-tight">
+						{loadout.name}
+					</CardTitle>
+					{metadata}
+				</div>
 				<LoadoutActions
 					className="pointer-events-auto w-full justify-end"
 					loadoutName={loadout.name}
@@ -64,8 +80,10 @@ export const LoadoutCard = ({
 					onDownload={onDownload}
 					onDelete={onDelete}
 					onNotes={onNotes}
+					onCreateSnapshot={onCreateSnapshot}
 					activeImageAction={activeImageAction}
 					disabled={disabled}
+					itemType={itemType}
 				/>
 			</CardHeader>
 			<CardContent className="pointer-events-none relative z-10 grid gap-2 px-3">
@@ -87,3 +105,5 @@ export const LoadoutCard = ({
 		</Card>
 	);
 };
+
+import type { ReactNode } from "react";

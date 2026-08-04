@@ -1,6 +1,8 @@
 import {
+	CameraIcon,
 	CopyPlusIcon,
 	EditIcon,
+	EllipsisIcon,
 	EyeIcon,
 	FileTextIcon,
 	ShareIcon,
@@ -20,21 +22,29 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
 type LoadoutActionsProps = {
 	loadoutName: string;
-	onEdit: () => void;
-	onDuplicate: () => void;
-	onCopy: () => void;
+	onEdit?: () => void;
+	onDuplicate?: () => void;
+	onCopy?: () => void;
 	onDownload?: () => void;
-	onDelete: () => void;
+	onDelete?: () => void;
 	onNotes?: () => void;
+	onCreateSnapshot?: () => void;
 	onPreview?: () => void;
 	activeImageAction?: LoadoutImageAction | null;
 	disabled?: boolean;
 	className?: string;
+	itemType?: "team loadout" | "loadout snapshot";
 };
 
 export const LoadoutActions = ({
@@ -44,10 +54,12 @@ export const LoadoutActions = ({
 	onCopy,
 	onDelete,
 	onNotes,
+	onCreateSnapshot,
 	onPreview,
 	activeImageAction = null,
 	disabled = false,
 	className,
+	itemType = "team loadout",
 }: LoadoutActionsProps) => {
 	const busy = disabled || activeImageAction !== null;
 	const labels = {
@@ -87,88 +99,111 @@ export const LoadoutActions = ({
 					<EyeIcon />
 				</Button>
 			)}
-			<Button
-				type="button"
-				size="icon-sm"
-				variant="outline"
-				onClick={onEdit}
-				disabled={busy}
-				aria-label={labels.edit}
-				title={labels.edit}
-			>
-				<EditIcon />
-			</Button>
-			<Button
-				type="button"
-				size="icon-sm"
-				variant="outline"
-				onClick={onDuplicate}
-				disabled={busy}
-				aria-label={labels.duplicate}
-				title={labels.duplicate}
-			>
-				<CopyPlusIcon />
-			</Button>
-			<Button
-				type="button"
-				size="icon-sm"
-				variant="outline"
-				onClick={onCopy}
-				disabled={busy}
-				aria-busy={activeImageAction === LOADOUT_IMAGE_ACTIONS.COPY}
-				aria-label={labels.copy}
-				title={labels.copy}
-			>
-				{activeImageAction === LOADOUT_IMAGE_ACTIONS.COPY ? (
-					<Spinner />
-				) : (
-					<ShareIcon />
-				)}
-			</Button>
-			{onNotes && (
+			{onEdit && (
 				<Button
 					type="button"
 					size="icon-sm"
 					variant="outline"
+					onClick={onEdit}
 					disabled={busy}
-					onClick={onNotes}
-					aria-label={`Notes for ${loadoutName}`}
-					title={`Notes for ${loadoutName}`}
+					aria-label={labels.edit}
+					title={labels.edit}
 				>
-					<FileTextIcon />
+					<EditIcon />
 				</Button>
 			)}
-			{/* More dropdown is temporarily disabled. Restore it when additional
-			    secondary loadout actions are ready. */}
-			<AlertDialog>
-				<AlertDialogTrigger asChild>
-					<Button
-						type="button"
-						size="icon-sm"
-						variant="destructive"
-						className="pointer-events-auto"
-						disabled={busy}
-						aria-label={labels.delete}
-						title={labels.delete}
-					>
-						<Trash2Icon />
-					</Button>
-				</AlertDialogTrigger>
-				<AlertDialogContent size="sm">
-					<AlertDialogHeader>
-						<AlertDialogTitle>Delete team loadout?</AlertDialogTitle>
-						<AlertDialogDescription>
-							This will permanently delete “{loadoutName}”.
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction variant="destructive" onClick={onDelete}>
-							Delete
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
+			{onDuplicate && (
+				<Button
+					type="button"
+					size="icon-sm"
+					variant="outline"
+					onClick={onDuplicate}
+					disabled={busy}
+					aria-label={labels.duplicate}
+					title={labels.duplicate}
+				>
+					<CopyPlusIcon />
+				</Button>
+			)}
+			{onCopy && (
+				<Button
+					type="button"
+					size="icon-sm"
+					variant="outline"
+					onClick={onCopy}
+					disabled={busy}
+					aria-busy={activeImageAction === LOADOUT_IMAGE_ACTIONS.COPY}
+					aria-label={labels.copy}
+					title={labels.copy}
+				>
+					{activeImageAction === LOADOUT_IMAGE_ACTIONS.COPY ? (
+						<Spinner />
+					) : (
+						<ShareIcon />
+					)}
+				</Button>
+			)}
+			{(onNotes || onCreateSnapshot) && (
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							type="button"
+							size="icon-sm"
+							variant="outline"
+							disabled={busy}
+							aria-label={`More actions for ${loadoutName}`}
+							title={`More actions for ${loadoutName}`}
+						>
+							<EllipsisIcon />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						{onCreateSnapshot && (
+							<DropdownMenuItem onSelect={onCreateSnapshot}>
+								<CameraIcon />
+								Create snapshot
+							</DropdownMenuItem>
+						)}
+						{onNotes && (
+							<DropdownMenuItem onSelect={onNotes}>
+								<FileTextIcon />
+								Notes
+							</DropdownMenuItem>
+						)}
+					</DropdownMenuContent>
+				</DropdownMenu>
+			)}
+			{onDelete && (
+				<AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button
+							type="button"
+							size="icon-sm"
+							variant="destructive"
+							className="pointer-events-auto"
+							disabled={busy}
+							aria-label={labels.delete}
+							title={labels.delete}
+						>
+							<Trash2Icon />
+						</Button>
+					</AlertDialogTrigger>
+					<AlertDialogContent size="sm">
+						<AlertDialogHeader>
+							<AlertDialogTitle>Delete {itemType}?</AlertDialogTitle>
+							<AlertDialogDescription>
+								This will permanently delete “{loadoutName}”.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogAction variant="destructive" onClick={onDelete}>
+								Delete
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			)}
 		</div>
 	);
 };

@@ -1,4 +1,4 @@
-import type { Ref } from "react";
+import type { ReactNode, Ref } from "react";
 import { LoadoutPreviewRow } from "@/components/loadouts/components/loadout-preview-row";
 import { SITE_URL } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,7 @@ import {
 	LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH,
 	LOADOUT_PREVIEW_DETAILED_WIDTH,
 } from "./loadout-preview-constants";
+import type { LoadoutRenderData } from "./loadout-render-data";
 
 const SLOTS = [0, 1, 2] as const;
 
@@ -23,6 +24,9 @@ type LoadoutPreviewSurfaceProps = {
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
 	onEditArtifact?: (id: string) => void;
+	renderData?: LoadoutRenderData;
+	metadata?: ReactNode;
+	typeLabel?: string;
 };
 
 export const LoadoutPreviewSurface = ({
@@ -35,16 +39,25 @@ export const LoadoutPreviewSurface = ({
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
+	renderData,
+	metadata,
+	typeLabel = "Team Loadout",
 }: LoadoutPreviewSurfaceProps) => {
 	const statsDisplay =
 		monsterlingStatsDisplay ??
 		(compactMonsterlings === false ? "full" : "icons");
-	const charactersOwned = useAppStore((state) => state.charactersOwned);
-	const monsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
-	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
-	const monsterlingLinkChainLevels = useAppStore(
+	const liveCharactersOwned = useAppStore((state) => state.charactersOwned);
+	const liveMonsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
+	const liveArtifactsOwned = useAppStore((state) => state.artifactsOwned);
+	const liveMonsterlingLinkChainLevels = useAppStore(
 		(state) => state.monsterlingLinkChainLevels,
 	);
+	const charactersOwned = renderData?.charactersOwned ?? liveCharactersOwned;
+	const monsterlingsOwned =
+		renderData?.monsterlingsOwned ?? liveMonsterlingsOwned;
+	const artifactsOwned = renderData?.artifactsOwned ?? liveArtifactsOwned;
+	const monsterlingLinkChainLevels =
+		renderData?.monsterlingLinkChainLevels ?? liveMonsterlingLinkChainLevels;
 
 	return (
 		<div
@@ -63,14 +76,17 @@ export const LoadoutPreviewSurface = ({
 			}}
 		>
 			<header className="flex items-baseline justify-between gap-4 border-b border-primary/60 px-1 pb-3">
-				<h2
-					className="min-w-0 flex-1 truncate text-2xl font-bold"
-					title={loadout.name}
-				>
-					{loadout.name}
-				</h2>
+				<div className="min-w-0 flex-1">
+					<h2
+						className="min-w-0 flex-1 truncate text-2xl font-bold"
+						title={loadout.name}
+					>
+						{loadout.name}
+					</h2>
+					{metadata}
+				</div>
 				<span className="shrink-0 text-sm text-muted-foreground">
-					Team Loadout
+					{typeLabel}
 				</span>
 			</header>
 			{SLOTS.map((index) => (

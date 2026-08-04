@@ -23,9 +23,9 @@ type LoadoutCardCharacterRowProps = {
 	charactersOwned: StoreState["charactersOwned"];
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
 	artifactsOwned: StoreState["artifactsOwned"];
-	onEditCharacter: (id: number) => void;
-	onEditMonsterling: (id: string) => void;
-	onEditArtifact: (id: string) => void;
+	onEditCharacter?: (id: number) => void;
+	onEditMonsterling?: (id: string) => void;
+	onEditArtifact?: (id: string) => void;
 };
 export const LoadoutCardCharacterRow = ({
 	loadoutId,

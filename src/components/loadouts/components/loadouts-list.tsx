@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { EditArtifactDetailsDialog } from "@/components/artifacts/components/edit-artifact-details-dialog";
 import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
+import { CreateLoadoutSnapshotDialog } from "@/components/loadout-snapshots/components/create-loadout-snapshot-dialog";
 import { LoadoutCard } from "@/components/loadouts/components/loadout-card";
 import {
 	type LoadoutActionSource,
@@ -38,6 +39,9 @@ export const LoadoutsList = () => {
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 	const [loadoutToExport, setLoadoutToExport] = useState<string | null>(null);
 	const [loadoutForNotes, setLoadoutForNotes] = useState<string | null>(null);
+	const [loadoutToSnapshot, setLoadoutToSnapshot] = useState<string | null>(
+		null,
+	);
 	const [editorTarget, setEditorTarget] = useState<LoadoutEditorTarget | null>(
 		null,
 	);
@@ -48,6 +52,9 @@ export const LoadoutsList = () => {
 	const loadouts = useAppStore((state) => state.loadouts);
 	const setLoadout = useAppStore((state) => state.setLoadout);
 	const deleteLoadout = useAppStore((state) => state.deleteLoadout);
+	const createLoadoutSnapshot = useAppStore(
+		(state) => state.createLoadoutSnapshot,
+	);
 	const loadoutEntries = Object.values(loadouts).sort((a, b) =>
 		a.name.localeCompare(b.name),
 	);
@@ -59,6 +66,9 @@ export const LoadoutsList = () => {
 		: null;
 	const notesLoadout = loadoutForNotes
 		? (loadouts[loadoutForNotes] ?? null)
+		: null;
+	const snapshotLoadout = loadoutToSnapshot
+		? (loadouts[loadoutToSnapshot] ?? null)
 		: null;
 
 	const edit = (id: string, source: LoadoutActionSource) => {
@@ -161,6 +171,7 @@ export const LoadoutsList = () => {
 								void exportImage(LOADOUT_IMAGE_ACTIONS.DOWNLOAD, loadout)
 							}
 							onNotes={() => setLoadoutForNotes(loadout.id)}
+							onCreateSnapshot={() => setLoadoutToSnapshot(loadout.id)}
 							onDelete={() => remove(loadout.id, LOADOUT_ACTION_SOURCES.CARD)}
 							onEditCharacter={(id) =>
 								openEntityEditor(
@@ -220,6 +231,9 @@ export const LoadoutsList = () => {
 					remove(previewLoadout.id, LOADOUT_ACTION_SOURCES.PREVIEW)
 				}
 				onNotes={() => previewLoadout && setLoadoutForNotes(previewLoadout.id)}
+				onCreateSnapshot={() =>
+					previewLoadout && setLoadoutToSnapshot(previewLoadout.id)
+				}
 				onEditCharacter={(id) =>
 					openEntityEditor(
 						{ type: LOADOUT_TARGET_TYPES.CHARACTER, id },
@@ -254,6 +268,22 @@ export const LoadoutsList = () => {
 					);
 					ga.event(ANALYTICS_EVENTS.LOADOUT_NOTES_SAVE);
 					setLoadoutForNotes(null);
+				}}
+			/>
+			<CreateLoadoutSnapshotDialog
+				loadout={snapshotLoadout}
+				onOpenChange={(next) => !next && setLoadoutToSnapshot(null)}
+				onCreate={(name, tag) => {
+					if (!snapshotLoadout) return;
+					const id = createLoadoutSnapshot({
+						loadoutId: snapshotLoadout.id,
+						name,
+						tag,
+					});
+					if (!id) return;
+					ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_CREATE);
+					toast.success(`Created snapshot “${name}”`);
+					setLoadoutToSnapshot(null);
 				}}
 			/>
 			<EditCharacterDetailsDialog

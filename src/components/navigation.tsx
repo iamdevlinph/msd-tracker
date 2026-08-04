@@ -4,6 +4,7 @@ import {
 	Blocks,
 	BookOpenCheck,
 	CalendarCheck2,
+	Camera,
 	type LucideIcon,
 	Settings,
 	UserRoundCheck,
@@ -22,7 +23,8 @@ type Tab =
 	| "equipments"
 	| "monsterlings"
 	| "link-chains"
-	| "loadouts";
+	| "loadouts"
+	| "loadout-snapshots";
 
 type NavItem = {
 	id: Tab;
@@ -57,6 +59,12 @@ const navSections: NavSection[] = [
 				label: "Loadouts",
 				icon: { type: "lucide", icon: Blocks },
 				link: "/loadouts",
+			},
+			{
+				id: "loadout-snapshots",
+				label: "Loadout Snapshots",
+				icon: { type: "lucide", icon: Camera },
+				link: "/loadout-snapshots",
 			},
 		],
 	},

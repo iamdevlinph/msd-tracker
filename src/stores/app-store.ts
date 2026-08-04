@@ -19,6 +19,11 @@ import {
 	createMonsterCodexSlice,
 } from "@/stores/completed-monster-codex-slice";
 import {
+	createLoadoutSnapshotsSlice,
+	type LoadoutSnapshotsSlice,
+	normalizeLoadoutSnapshots,
+} from "@/stores/loadout-snapshots-slice";
+import {
 	createLoadoutsSlice,
 	type LoadoutsSlice,
 	normalizeLoadouts,
@@ -43,6 +48,7 @@ export type StoreState = {
 				charactersOwned: number;
 				monsterlingsOwned: number;
 				loadouts: number;
+				snapshots?: number;
 				codexCompleted: number;
 				codexFavorites: number;
 				linkChainsUpgraded: number;
@@ -59,6 +65,7 @@ export type StoreState = {
 				charactersOwned: number;
 				monsterlingsOwned: number;
 				loadouts: number;
+				snapshots?: number;
 				codexCompleted: number;
 				codexFavorites: number;
 				linkChainsUpgraded: number;
@@ -78,7 +85,8 @@ export type StoreState = {
 	MonsterlingsSlice &
 	LoadoutsSlice &
 	ChecklistSlice &
-	ArtifactsOwnedSlice;
+	ArtifactsOwnedSlice &
+	LoadoutSnapshotsSlice;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
@@ -92,6 +100,7 @@ export const migrateAppStore = (persistedState: unknown) => {
 	return {
 		...state,
 		loadouts: normalizeLoadouts(state.loadouts),
+		loadoutSnapshots: normalizeLoadoutSnapshots(state.loadoutSnapshots),
 		artifactsOwned: state.artifactsOwned ?? {},
 		...normalizeChecklistPersistedState(state),
 		...consolidateMonsterlingLinkChainLevels(
@@ -124,6 +133,7 @@ export const useAppStore = create<StoreState>()(
 				...createCharactersOwnedSlice(set, get, api),
 				...createMonsterlingsSlice(set, get, api),
 				...createLoadoutsSlice(set, get, api),
+				...createLoadoutSnapshotsSlice(set, get, api),
 				...createChecklistSlice(set, get, api),
 				...createArtifactsOwnedSlice(set, get, api),
 			}),

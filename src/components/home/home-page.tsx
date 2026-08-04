@@ -2,6 +2,7 @@ import {
 	Blocks,
 	BookOpenCheck,
 	CalendarCheck2,
+	Camera,
 	Gem,
 	PawPrint,
 	ShieldCheck,
@@ -65,6 +66,12 @@ const features: HomeFeature[] = [
 		icon: Blocks,
 	},
 	{
+		title: "Loadout Snapshots",
+		description: "Record and share the loadout state used for a clear.",
+		to: "/loadout-snapshots",
+		icon: Camera,
+	},
+	{
 		title: "Artifacts",
 		description: "Catalog owned artifacts and their fusion levels.",
 		to: "/artifacts",
@@ -92,6 +99,7 @@ export const HomePage = () => {
 		(state) => state.monsterCodexCompleted,
 	);
 	const loadouts = useAppStore((state) => state.loadouts);
+	const loadoutSnapshots = useAppStore((state) => state.loadoutSnapshots);
 	const artifactsOwned = useAppStore((state) => state.artifactsOwned);
 	const isHydrated = useAppStore((state) => state.isHydrated);
 	const setCodexFilters = useCodexStore((state) => state.setCodexFilters);
@@ -125,6 +133,12 @@ export const HomePage = () => {
 			value: Object.keys(loadouts).length,
 			to: "/loadouts",
 			icon: Blocks,
+		},
+		{
+			label: "Loadout snapshots",
+			value: Object.keys(loadoutSnapshots).length,
+			to: "/loadout-snapshots",
+			icon: Camera,
 		},
 	];
 

@@ -43,6 +43,7 @@ describe("Drive Monsterling backups", () => {
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: {},
 			monsterlingLinkChainPinnedIds: [],
+			loadoutSnapshots: {},
 			checklistTasks: {},
 			checklistCompletions: {},
 			checklistPermanentNotes: {},
@@ -69,6 +70,7 @@ describe("Drive Monsterling backups", () => {
 			},
 			monsterlingLinkChainLevels: { 67: 4, 68: 2 },
 			monsterlingLinkChainPinnedIds: [68, 67, 68, 1],
+			loadoutSnapshots: { saved: { id: "saved" } as never },
 		});
 
 		const selected = select(useAppStore.getState());
@@ -81,6 +83,9 @@ describe("Drive Monsterling backups", () => {
 		);
 		expect(selected.monsterlingLinkChainLevels).not.toHaveProperty("1");
 		expect(selected.monsterlingLinkChainPinnedIds).toEqual([68, 67]);
+		expect(selected.loadoutSnapshots).toEqual({
+			saved: { id: "saved" },
+		});
 		expect(selected).not.toHaveProperty("syncInProgress");
 		expect(selected.checklistTasks).toEqual({});
 		expect(selected.checklistCompletions).toEqual({});
@@ -140,6 +145,7 @@ describe("Drive Monsterling backups", () => {
 		expect(downloaded?.monsterlingsOwned).toEqual({});
 		expect(downloaded?.monsterlingLinkChainLevels).toEqual({ 67: 4 });
 		expect(downloaded?.monsterlingLinkChainPinnedIds).toEqual([67]);
+		expect(downloaded?.loadoutSnapshots).toEqual({});
 		expect(
 			downloaded?.loadouts.team.characters.map(
 				({ artifactInstanceId }) => artifactInstanceId,
