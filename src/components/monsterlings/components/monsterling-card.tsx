@@ -91,7 +91,7 @@ export const MonsterlingCard = ({
 										width={20}
 									/>
 									{display === "full" && (
-										<small className="truncate text-shadow-sm/80">
+										<small className="truncate text-shadow-sm/80 text-white font-bold">
 											{statInfo.label}
 										</small>
 									)}
