@@ -14,6 +14,7 @@ import {
 	IMAGE_MAPPING_ID,
 } from "@/data/image-mapping/IMAGE_MAPPING_DATA";
 import { STAT_DATA } from "@/data/stats/STAT_DATA";
+import { cn } from "@/lib/utils";
 import {
 	type LoadoutCharacterSlot,
 	normalizePinnedStats,
@@ -135,7 +136,7 @@ export const LoadoutPreviewCharacter = ({
 				tier_id={character.tier_id}
 				awakening={owned.awakening}
 				variant={character.variant}
-				className="cursor-default"
+				className={cn("cursor-default", !onEdit && "hover:border-border")}
 				portraitClassName="size-full object-contain object-bottom"
 				hideTierBg
 				showElement={false}

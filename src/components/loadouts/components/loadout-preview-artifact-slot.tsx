@@ -1,6 +1,7 @@
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import { LOADOUT_PREVIEW_PORTRAIT_SIZE } from "./loadout-preview-constants";
 import { LoadoutPreviewPlaceholder } from "./loadout-preview-placeholder-slot";
@@ -22,7 +23,10 @@ export const LoadoutPreviewArtifact = ({
 	const card = (
 		<PortraitWithName
 			name={artifact.name}
-			className="size-[120px] overflow-hidden rounded-lg"
+			className={cn(
+				"size-[120px] overflow-hidden rounded-lg border border-transparent transition-colors",
+				onEdit && "group-hover:border-primary",
+			)}
 		>
 			<TierPortrait
 				tier={artifact.tier_id}
@@ -43,7 +47,7 @@ export const LoadoutPreviewArtifact = ({
 			type="button"
 			aria-label={`Edit ${artifact.name} artifact`}
 			onClick={() => onEdit(id)}
-			className="w-fit rounded-lg text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+			className="group w-fit rounded-lg text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 		>
 			{card}
 		</button>

@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
 import { emptyLoadoutCharacterSlot } from "@/stores/loadouts-slice";
@@ -63,6 +64,33 @@ describe("LoadoutSnapshotsList", () => {
 		);
 		expect(screen.getByText("Alpha clear")).toBeTruthy();
 		expect(screen.queryByText("Beta clear")).toBeNull();
+	});
+
+	it("shows frozen character tiers without enabling character editing", () => {
+		const frozenSnapshot = snapshot("frozen", "Frozen team", "others", 3_000);
+		frozenSnapshot.loadout.characters[0] = {
+			...emptyLoadoutCharacterSlot(),
+			characterId: 1,
+		};
+		frozenSnapshot.characters_owned = {
+			1: {
+				id: 1,
+				awakening: 5,
+				skills: { basic: 1, switch: 2, special: 3, ultimate: 4 },
+			},
+		};
+		useAppStore.setState({ loadoutSnapshots: { frozen: frozenSnapshot } });
+
+		render(<LoadoutSnapshotsList />);
+
+		expect(
+			screen.getByAltText(`${CHARACTERS_DATA[1].tier_id} background`),
+		).toBeTruthy();
+		expect(
+			screen.queryByRole("button", {
+				name: `Edit ${CHARACTERS_DATA[1].name} character`,
+			}),
+		).toBeNull();
 	});
 
 	it("previews and deletes a snapshot with snapshot-only actions", () => {

@@ -166,6 +166,22 @@ describe("LoadoutPreviewDialog", () => {
 			screen.queryAllByAltText(/Tier [2-5] trait img/).length,
 		).toBeGreaterThan(0);
 		expect(screen.getByAltText("Angel portrait")).toBeTruthy();
+		const characterCard =
+			screen.getByAltText("Angel portrait").parentElement?.parentElement;
+		expect(characterCard?.className).toContain("hover:border-border");
+		expect(characterCard?.className).not.toContain("hover:border-primary");
+		const monsterlingCards = surface.querySelectorAll(".monsterling-card");
+		expect(monsterlingCards.length).toBeGreaterThan(0);
+		expect(
+			Array.from(monsterlingCards).every((card) =>
+				card.className.includes("hover:border-border"),
+			),
+		).toBe(true);
+		expect(
+			Array.from(monsterlingCards).every(
+				(card) => !card.className.includes("hover:border-primary"),
+			),
+		).toBe(true);
 		expect(screen.getByAltText("Francis portrait").className).toContain(
 			"object-bottom",
 		);
@@ -236,11 +252,14 @@ describe("LoadoutPreviewDialog", () => {
 		})[0];
 		expect(monsterlingButton.className).toContain("w-fit");
 		fireEvent.click(monsterlingButton);
-		fireEvent.click(
-			screen.getByRole("button", {
-				name: "Edit Fall from Grace artifact",
-			}),
-		);
+		const artifactButton = screen.getByRole("button", {
+			name: "Edit Fall from Grace artifact",
+		});
+		expect(artifactButton.className).toContain("group");
+		expect(
+			screen.getByAltText("Fall from Grace portrait").parentElement?.className,
+		).toContain("group-hover:border-primary");
+		fireEvent.click(artifactButton);
 		expect(onEditCharacter).toHaveBeenCalledWith(1);
 		expect(onEditMonsterling).toHaveBeenCalledWith("regular");
 		expect(onEditArtifact).toHaveBeenCalledWith("artifact");

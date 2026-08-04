@@ -32,6 +32,7 @@ export const LoadoutPreviewMonsterling = ({
 				levels,
 			)}
 			statsDisplay={statsDisplay}
+			className={!onEdit ? "hover:border-border" : undefined}
 		/>
 	);
 	return onEdit ? (
