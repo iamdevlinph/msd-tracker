@@ -15,7 +15,7 @@ describe("PortraitWithName", () => {
 		expect(screen.getByAltText("portrait")).toBeTruthy();
 		expect(screen.getByText("badge")).toBeTruthy();
 		expect(screen.getByText("Long Portrait Name").className).toBe(
-			"absolute inset-x-1 bottom-1 z-10 truncate rounded bg-black/65 px-1 py-0.5 text-center text-[10px] text-white",
+			"absolute inset-x-1 bottom-1 z-10 truncate rounded bg-black/80 px-1 py-0.5 text-center text-[10px] text-white",
 		);
 	});
 
@@ -28,6 +28,6 @@ describe("PortraitWithName", () => {
 
 		const name = screen.getByText("Artifact");
 		expect(name.className).toContain("bg-transparent");
-		expect(name.className).not.toContain("bg-black/65");
+		expect(name.className).not.toContain("bg-black/80");
 	});
 });

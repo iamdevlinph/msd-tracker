@@ -32,12 +32,21 @@ export const LOADOUT_STAT_KEYS = [
 	"hp",
 	"crit_rate",
 	"crit_dmg",
+	"boss_enemy_dmg_boost",
 	"special_skill_cd",
 	"elem_weak_dmg_boost",
-	"boss_enemy_dmg_boost",
+	"element_atk",
 ] as const;
 export type LoadoutStatKey = (typeof LOADOUT_STAT_KEYS)[number];
 export type LoadoutCharacterStats = Partial<Record<LoadoutStatKey, number>>;
+
+export const DEFAULT_PINNED_STAT_IDS = [
+	"atk",
+	"crit_rate",
+	"crit_dmg",
+	"special_skill_cd",
+	"element_atk",
+] as const satisfies readonly LoadoutStatKey[];
 
 export type LoadoutOwned = {
 	id: string;
@@ -66,8 +75,8 @@ const normalizeStats = (value: unknown): LoadoutCharacterStats => {
 	return stats;
 };
 
-const normalizePinnedStats = (value: unknown): LoadoutStatKey[] => {
-	if (!Array.isArray(value)) return [];
+export const normalizePinnedStats = (value: unknown): LoadoutStatKey[] => {
+	if (!Array.isArray(value)) return [...DEFAULT_PINNED_STAT_IDS];
 	const selected = new Set(
 		value.filter(
 			(candidate): candidate is LoadoutStatKey =>
@@ -75,7 +84,10 @@ const normalizePinnedStats = (value: unknown): LoadoutStatKey[] => {
 				(LOADOUT_STAT_KEYS as readonly string[]).includes(candidate),
 		),
 	);
-	return LOADOUT_STAT_KEYS.filter((key) => selected.has(key)).slice(0, 5);
+	const pinnedStatIds = LOADOUT_STAT_KEYS.filter((key) =>
+		selected.has(key),
+	).slice(0, 5);
+	return pinnedStatIds.length ? pinnedStatIds : [...DEFAULT_PINNED_STAT_IDS];
 };
 
 export type LoadoutsSlice = {
@@ -93,7 +105,7 @@ export const emptyLoadoutCharacterSlot = (): LoadoutCharacterSlot => ({
 	artifactInstanceId: null,
 	equipment_ids: [null, null, null, null],
 	stat_values: {},
-	pinned_stat_ids: [],
+	pinned_stat_ids: [...DEFAULT_PINNED_STAT_IDS],
 });
 
 export const normalizeLoadouts = (

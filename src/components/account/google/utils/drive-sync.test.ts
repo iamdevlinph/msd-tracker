@@ -154,6 +154,13 @@ describe("Drive Monsterling backups", () => {
 			[null, null, null, null],
 			[null, null, null, null],
 		]);
+		expect(downloaded?.loadouts.team.characters[0].pinned_stat_ids).toEqual([
+			"atk",
+			"crit_rate",
+			"crit_dmg",
+			"special_skill_cd",
+			"element_atk",
+		]);
 	});
 
 	it("migrates existing levels when downloading a legacy backup", async () => {

@@ -29,23 +29,27 @@ describe("LoadoutCharacterStatsFields", () => {
 			"Crit Rate",
 			"Crit DMG",
 			"Special Skill CD",
-			"Elemental Boost",
+			"Elemental Weakness",
 			"DMG Boost Boss",
+			"Element ATK",
 		])
 			expect(screen.getByText(label)).toBeTruthy();
 
 		const fields = container.querySelectorAll("label");
-		expect(fields).toHaveLength(7);
+		expect(fields).toHaveLength(8);
 		expect(fields[0]?.classList.contains("sm:col-span-3")).toBe(true);
 		expect(fields[3]?.classList.contains("sm:col-span-3")).toBe(true);
-		expect(fields[4]?.classList.contains("sm:col-span-4")).toBe(true);
-		expect(fields[6]?.classList.contains("sm:col-span-4")).toBe(true);
+		expect(fields[4]?.classList.contains("sm:col-span-3")).toBe(true);
+		expect(fields[7]?.classList.contains("sm:col-span-3")).toBe(true);
 	});
 
 	it("fills pinned icons, canonicalizes interaction order, and limits pins to five", () => {
 		const onChange = vi.fn();
 		const { rerender } = render(
-			<LoadoutCharacterStatsFields slot={createSlot()} onChange={onChange} />,
+			<LoadoutCharacterStatsFields
+				slot={createSlot({ pinned_stat_ids: ["hp"] })}
+				onChange={onChange}
+			/>,
 		);
 
 		fireEvent.click(screen.getByRole("button", { name: "Pin ATK" }));
@@ -64,6 +68,7 @@ describe("LoadoutCharacterStatsFields", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Pin Crit Rate" }));
 		expect(onChange.mock.calls.at(-1)?.[0].pinned_stat_ids).toEqual([
 			"atk",
+			"hp",
 			"crit_rate",
 		]);
 
@@ -85,7 +90,7 @@ describe("LoadoutCharacterStatsFields", () => {
 		expect(
 			(
 				screen.getByRole("button", {
-					name: "Pin Elemental Boost",
+					name: "Pin Elemental Weakness",
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);

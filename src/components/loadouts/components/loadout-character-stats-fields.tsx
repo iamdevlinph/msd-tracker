@@ -6,6 +6,7 @@ import {
 	LOADOUT_STAT_KEYS,
 	type LoadoutCharacterSlot,
 	type LoadoutStatKey,
+	normalizePinnedStats,
 } from "@/stores/loadouts-slice";
 
 const STATS = [
@@ -16,12 +17,14 @@ const STATS = [
 	["boss_enemy_dmg_boost", STAT_ID_BY_STAT.BOSS_ENEMIES_DMG_BOOST],
 	["special_skill_cd", STAT_ID_BY_STAT.SPECIAL_SKILL_CD],
 	["elem_weak_dmg_boost", STAT_ID_BY_STAT.ELEM_WEAK_DMG_BOOST],
+	["element_atk", null],
 ] as const;
 
 const EDITOR_STAT_LABELS: Partial<Record<LoadoutStatKey, string>> = {
 	special_skill_cd: "Special Skill CD",
-	elem_weak_dmg_boost: "Elemental Boost",
+	elem_weak_dmg_boost: "Elemental Weakness",
 	boss_enemy_dmg_boost: "DMG Boost Boss",
+	element_atk: "Element ATK",
 };
 
 type LoadoutCharacterStatsFieldsProps = {
@@ -34,19 +37,17 @@ export const LoadoutCharacterStatsFields = ({
 	onChange,
 }: LoadoutCharacterStatsFieldsProps) => (
 	<div className="col-span-3 grid grid-cols-2 gap-2 sm:grid-cols-12">
-		{STATS.map(([key, statId], index) => {
-			const pinnedStats = slot.pinned_stat_ids ?? [];
-			const selectedPinnedStats = LOADOUT_STAT_KEYS.filter((item) =>
-				pinnedStats.includes(item),
-			).slice(0, 5);
+		{STATS.map(([key, statId]) => {
+			const selectedPinnedStats = normalizePinnedStats(slot.pinned_stat_ids);
 			const isPinned = selectedPinnedStats.includes(key);
 			const isPinDisabled = !isPinned && selectedPinnedStats.length >= 5;
-			const label = EDITOR_STAT_LABELS[key] ?? STAT_DATA[statId].stat;
+			const label =
+				EDITOR_STAT_LABELS[key] ?? (statId ? STAT_DATA[statId].stat : key);
 			return (
 				<label
 					key={key}
 					htmlFor={`loadout-stat-${key}`}
-					className={`min-w-0 grid gap-1 text-xs font-medium ${index >= 4 ? "col-span-2 sm:col-span-4" : "sm:col-span-3"}`}
+					className="min-w-0 grid gap-1 text-xs font-medium sm:col-span-3"
 				>
 					<span className="flex items-center justify-between gap-1">
 						{label}

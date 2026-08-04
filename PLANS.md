@@ -27,7 +27,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Offer detailed and compact monsterling stat-label share previews.
 - [x] Toggle Monsterlings between cropped stat-icon cards and full stat strips while keeping portraits aligned with visible equipment.
 - [x] Save loadout-specific notes from direct card and preview actions, with the loadout name shown in the notes dialog; keep the More dropdown deferred until it has additional actions.
-- [x] Record seven character build stats, pin up to five per character in canonical editor order (ATK, HP, Crit Rate, Crit DMG, Special Skill CD, Elemental Boost, DMG Boost Boss), and show pinned values beside element, awakening, and skill levels in previews.
+- [x] Record eight character build stats, pin up to five per character in canonical editor order (ATK, HP, Crit Rate, Crit DMG, DMG Boost Boss, Special Skill CD, Elemental Weakness, Element ATK), defaulting pins to ATK, Crit Rate, Crit DMG, Special Skill CD, and Element ATK, and show pinned values beside element, awakening, and skill levels in previews.
 - [x] Require three unique owned characters selected through searchable, filterable character cards.
 - [x] Assign three regular and one legendary owned monsterling per character through searchable, multi-tier-filterable cards, with regular-slot swapping and moving within a character.
 - [x] Auto-name new loadouts from their first character and brand generated images with the site URL.

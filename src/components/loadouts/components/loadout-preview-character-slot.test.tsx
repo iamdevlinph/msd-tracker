@@ -55,14 +55,14 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 					skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
 				}}
 				statValues={{ atk: 12345, hp: 98765.5, crit_rate: 25.5 }}
-				pinnedStatIds={["crit_dmg", "atk", "crit_rate", "hp"]}
+				pinnedStatIds={["crit_dmg", "atk", "crit_rate", "hp", "element_atk"]}
 			/>,
 		);
 
 		expect(screen.getByText("12,345")).toBeTruthy();
 		expect(screen.getByText("98,765.5")).toBeTruthy();
 		expect(screen.getByText("25.5%")).toBeTruthy();
-		expect(screen.getByText("—")).toBeTruthy();
+		expect(screen.getAllByText("—")).toHaveLength(2);
 		expect(
 			Array.from(document.querySelectorAll('img[alt$=" icon"]')).map((image) =>
 				image.getAttribute("alt"),
@@ -77,7 +77,11 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 			"HP icon",
 			"Crit Rate icon",
 			"Crit DMG icon",
+			"Fire ATK icon",
 		]);
+		expect(screen.getByAltText("Fire ATK icon").getAttribute("src")).toContain(
+			"/images/Icon_Stat/icon_stat_fire_atk.webp",
+		);
 		const statsColumn =
 			screen.getByAltText("ATK icon").parentElement?.parentElement;
 		expect(statsColumn?.classList.contains("border-l")).toBe(true);

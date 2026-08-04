@@ -13,6 +13,7 @@ import type {
 	LoadoutCharacterSlot,
 	LoadoutOwned,
 } from "@/stores/loadouts-slice";
+import { DEFAULT_PINNED_STAT_IDS } from "@/stores/loadouts-slice";
 import { LoadoutCharacterStatsFields } from "./loadout-character-stats-fields";
 import { LoadoutEditorArtifactSelector } from "./loadout-editor-artifact-selector";
 import { LoadoutEditorCharacterSelector } from "./loadout-editor-character-selector";
@@ -118,7 +119,7 @@ export const LoadoutEditor = ({
 									...current,
 									characterId: null,
 									stat_values: {},
-									pinned_stat_ids: [],
+									pinned_stat_ids: [...DEFAULT_PINNED_STAT_IDS],
 								}))
 							}
 						/>

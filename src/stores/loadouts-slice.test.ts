@@ -41,7 +41,13 @@ describe("normalizeLoadouts", () => {
 		]);
 		expect(normalized.legacy.notes).toBe("");
 		expect(normalized.legacy.characters[0].stat_values).toEqual({});
-		expect(normalized.legacy.characters[0].pinned_stat_ids).toEqual([]);
+		expect(normalized.legacy.characters[0].pinned_stat_ids).toEqual([
+			"atk",
+			"crit_rate",
+			"crit_dmg",
+			"special_skill_cd",
+			"element_atk",
+		]);
 	});
 
 	it("normalizes numeric stats and canonicalizes, deduplicates, validates, and caps pins", () => {
@@ -50,7 +56,13 @@ describe("normalizeLoadouts", () => {
 				notes: "x".repeat(2100),
 				characters: [
 					{
-						stat_values: { atk: 1200, crit_rate: 22.5, hp: -1, unknown: 4 },
+						stat_values: {
+							atk: 1200,
+							crit_rate: 22.5,
+							element_atk: 33.3,
+							hp: -1,
+							unknown: 4,
+						},
 						pinned_stat_ids: [
 							"atk",
 							"crit_rate",
@@ -59,6 +71,7 @@ describe("normalizeLoadouts", () => {
 							"crit_dmg",
 							"special_skill_cd",
 							"elem_weak_dmg_boost",
+							"element_atk",
 						],
 					},
 				],
@@ -68,6 +81,7 @@ describe("normalizeLoadouts", () => {
 		expect(normalized.team.characters[0].stat_values).toEqual({
 			atk: 1200,
 			crit_rate: 22.5,
+			element_atk: 33.3,
 		});
 		expect(normalized.team.characters[0].pinned_stat_ids).toEqual([
 			"atk",

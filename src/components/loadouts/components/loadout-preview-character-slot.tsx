@@ -15,11 +15,11 @@ import {
 } from "@/data/image-mapping/IMAGE_MAPPING_DATA";
 import { STAT_DATA } from "@/data/stats/STAT_DATA";
 import {
-	LOADOUT_STAT_KEYS,
 	type LoadoutCharacterSlot,
+	normalizePinnedStats,
 } from "@/stores/loadouts-slice";
 import { LOADOUT_PREVIEW_PORTRAIT_SIZE } from "./loadout-preview-constants";
-import { LOADOUT_STAT_DATA } from "./loadout-stat-utils";
+import { ELEMENT_ATK_STAT_DATA, LOADOUT_STAT_DATA } from "./loadout-stat-utils";
 
 const SKILLS = [
 	["Special", IMAGE_MAPPING_ID.SKILL_SPECIAL, CHARACTER_SKILLS.SPECIAL],
@@ -52,9 +52,7 @@ export const LoadoutPreviewCharacter = ({
 	statValues = {},
 	pinnedStatIds = [],
 }: LoadoutPreviewCharacterProps) => {
-	const orderedPinnedStatIds = LOADOUT_STAT_KEYS.filter((key) =>
-		pinnedStatIds.includes(key),
-	).slice(0, STAT_ROWS.length);
+	const orderedPinnedStatIds = normalizePinnedStats(pinnedStatIds);
 	const panel = (
 		<div className="grid h-[120px] grid-cols-[44px_82px_120px] items-center gap-2 rounded-lg border bg-card px-1 pr-0">
 			<div className="grid content-center gap-2">
@@ -96,17 +94,23 @@ export const LoadoutPreviewCharacter = ({
 				{STAT_ROWS.map((rowKey, index) => {
 					const key = orderedPinnedStatIds[index];
 					if (!key) return <span key={rowKey} className="h-4" />;
-					const stat = STAT_DATA[LOADOUT_STAT_DATA[key]];
+					const element = ELEMENTS_DATA[character.element_id];
+					const stat =
+						key === "element_atk"
+							? STAT_DATA[ELEMENT_ATK_STAT_DATA[character.element_id]]
+							: STAT_DATA[LOADOUT_STAT_DATA[key]];
 					const value = statValues[key];
+					const statLabel =
+						key === "element_atk" ? `${element.element} ATK` : stat.stat;
 					return (
 						<span
 							key={key}
 							className="grid grid-cols-[16px_1fr] items-center gap-1 text-xs font-bold"
-							title={stat.stat}
+							title={statLabel}
 						>
 							<img
 								src={stat.image}
-								alt={`${stat.stat} icon`}
+								alt={`${statLabel} icon`}
 								className="size-4"
 							/>
 							<span className="truncate">
