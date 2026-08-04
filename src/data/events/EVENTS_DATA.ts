@@ -156,4 +156,13 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		endAt: "2026-08-19T01:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
+	{
+		id: "forum.netmarble.com/stardive_gl/view/6/521-10-day-check-in",
+		title: "10-Day Check-In Mission",
+		noticeTitle: "8/5 (Wed) Event Notice",
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-05T00:00:00.000Z",
+		endAt: "2026-08-18T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
 ];
