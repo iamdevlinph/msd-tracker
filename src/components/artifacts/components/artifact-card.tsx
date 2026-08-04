@@ -20,7 +20,10 @@ export const ArtifactCard = ({
 }: ArtifactCardProps) => (
 	<PortraitWithName
 		name={artifact.name}
-		className={cn("overflow-hidden rounded", className)}
+		className={cn(
+			"overflow-hidden rounded border hover:border-primary",
+			className,
+		)}
 		nameClassName="z-20 text-shadow-sm/80"
 		style={{ height: portraitSize, width: portraitSize }}
 	>

@@ -55,7 +55,7 @@ export const LoadoutCard = ({
 	const artifactsOwned = renderData?.artifactsOwned ?? liveArtifactsOwned;
 
 	return (
-		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary/40 hover:shadow-md focus-within:border-primary/40 focus-within:shadow-md">
+		<Card className="group relative min-w-0 cursor-pointer gap-3 rounded-lg py-3 transition-all hover:border-primary hover:shadow-md focus-within:border-primary focus-within:shadow-md">
 			<button
 				type="button"
 				onClick={() => onPreview("card")}

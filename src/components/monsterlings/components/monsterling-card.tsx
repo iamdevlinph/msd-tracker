@@ -40,7 +40,7 @@ export const MonsterlingCard = ({
 	return (
 		<div
 			className={cn(
-				"relative grid overflow-hidden bg-card gap-y-0 gap-x-2 rounded-lg",
+				"relative grid overflow-hidden border bg-card gap-y-0 gap-x-2 rounded-lg hover:border-primary",
 				"monsterling-card",
 				className,
 			)}

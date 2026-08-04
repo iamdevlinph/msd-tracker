@@ -47,7 +47,7 @@ export default function CharacterCard({
 	return (
 		<div
 			className={cn(
-				"max-w-max flex justify-center flex-col items-center rounded",
+				"max-w-max flex justify-center flex-col items-center rounded border hover:border-primary",
 				"bg-card",
 				"cursor-pointer",
 				className,
