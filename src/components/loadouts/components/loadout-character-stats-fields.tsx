@@ -13,9 +13,9 @@ const STATS = [
 	["hp", STAT_ID_BY_STAT.HP],
 	["crit_rate", STAT_ID_BY_STAT.CRIT_RATE],
 	["crit_dmg", STAT_ID_BY_STAT.CRIT_DMG],
+	["boss_enemy_dmg_boost", STAT_ID_BY_STAT.BOSS_ENEMIES_DMG_BOOST],
 	["special_skill_cd", STAT_ID_BY_STAT.SPECIAL_SKILL_CD],
 	["elem_weak_dmg_boost", STAT_ID_BY_STAT.ELEM_WEAK_DMG_BOOST],
-	["boss_enemy_dmg_boost", STAT_ID_BY_STAT.BOSS_ENEMIES_DMG_BOOST],
 ] as const;
 
 const EDITOR_STAT_LABELS: Partial<Record<LoadoutStatKey, string>> = {
