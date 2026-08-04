@@ -163,6 +163,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-08-05T00:00:00.000Z",
 		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 ];
