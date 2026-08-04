@@ -127,37 +127,16 @@ export const AccountPage = () => {
 							Clear Monsterlings Owned
 						</ClearDataButton>
 
-						{!hideItem && (
-							<>
-								<ClearDataButton
-									description="This permanently clears your loadouts and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
-									onConfirm={() => {
-										resetLoadoutsSlice();
-										ga.event(ANALYTICS_EVENTS.LOADOUTS_RESET);
-									}}
-									target="Loadouts"
-								>
-									Clear Loadouts
-								</ClearDataButton>
-								<SeparatorText>Options</SeparatorText>
-								<ClearDataButton
-									description="This only clears Monsterlings options cached in this browser. This cannot be undone."
-									onConfirm={() =>
-										localStorage.removeItem(MONSTERLING_OPTIONS_CACHE)
-									}
-									target="Monsterlings Options"
-								>
-									Clear Monsterlings Options
-								</ClearDataButton>
-								<ClearDataButton
-									description="This only clears stat options cached in this browser. This cannot be undone."
-									onConfirm={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
-									target="Stat Options"
-								>
-									Clear Stat Options
-								</ClearDataButton>
-							</>
-						)}
+						<ClearDataButton
+							description="This permanently clears your loadouts and cannot be undone. If Google Drive sync is active, the cleared data will be included in the next backup."
+							onConfirm={() => {
+								resetLoadoutsSlice();
+								ga.event(ANALYTICS_EVENTS.LOADOUTS_RESET);
+							}}
+							target="Loadouts"
+						>
+							Clear Loadouts
+						</ClearDataButton>
 						<ClearDataButton
 							description="This permanently clears your loadout snapshots and cannot be undone."
 							onConfirm={() => {
@@ -188,6 +167,28 @@ export const AccountPage = () => {
 						>
 							Clear Checklist
 						</ClearDataButton>
+
+						{!hideItem && (
+							<>
+								<SeparatorText>Dropdown Options</SeparatorText>
+								<ClearDataButton
+									description="This only clears Monsterlings options cached in this browser. This cannot be undone."
+									onConfirm={() =>
+										localStorage.removeItem(MONSTERLING_OPTIONS_CACHE)
+									}
+									target="Monsterlings Options"
+								>
+									Clear Monsterlings Options
+								</ClearDataButton>
+								<ClearDataButton
+									description="This only clears stat options cached in this browser. This cannot be undone."
+									onConfirm={() => localStorage.removeItem(STAT_OPTIONS_CACHE)}
+									target="Stat Options"
+								>
+									Clear Stat Options
+								</ClearDataButton>
+							</>
+						)}
 					</CardContent>
 				</Card>
 

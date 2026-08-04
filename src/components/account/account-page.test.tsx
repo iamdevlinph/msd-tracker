@@ -11,6 +11,9 @@ const { event, resets } = vi.hoisted(() => ({
 		resetCharacterSlice: vi.fn(),
 		resetMonsterlingSlice: vi.fn(),
 		resetLoadoutsSlice: vi.fn(),
+		resetLoadoutSnapshots: vi.fn(),
+		resetArtifactsOwned: vi.fn(),
+		resetChecklist: vi.fn(),
 	},
 }));
 
@@ -45,6 +48,9 @@ describe("AccountPage clear confirmations", () => {
 		["Clear Characters Owned", "Clear Characters Owned?"],
 		["Clear Monsterlings Owned", "Clear Monsterlings Owned?"],
 		["Clear Loadouts", "Clear Loadouts?"],
+		["Clear Loadout Snapshots", "Clear Loadout Snapshots?"],
+		["Clear Artifacts Owned", "Clear Artifacts Owned?"],
+		["Clear Checklist", "Clear Checklist?"],
 		["Clear Monsterlings Options", "Clear Monsterlings Options?"],
 		["Clear Stat Options", "Clear Stat Options?"],
 	])("shows an accessible confirmation for %s", (button, title) => {
@@ -95,6 +101,17 @@ describe("AccountPage clear confirmations", () => {
 			ANALYTICS_EVENTS.MONSTERLINGS_RESET,
 		],
 		["Clear Loadouts", "resetLoadoutsSlice", ANALYTICS_EVENTS.LOADOUTS_RESET],
+		[
+			"Clear Loadout Snapshots",
+			"resetLoadoutSnapshots",
+			ANALYTICS_EVENTS.LOADOUT_SNAPSHOTS_RESET,
+		],
+		[
+			"Clear Artifacts Owned",
+			"resetArtifactsOwned",
+			ANALYTICS_EVENTS.ARTIFACTS_RESET,
+		],
+		["Clear Checklist", "resetChecklist", ANALYTICS_EVENTS.CHECKLIST_RESET],
 	] as const)("confirms %s against only its reset and analytics event", (button, resetName, analyticsEvent) => {
 		render(<AccountPage />);
 		fireEvent.click(screen.getByRole("button", { name: button }));
@@ -106,6 +123,20 @@ describe("AccountPage clear confirmations", () => {
 		}
 		expect(event).toHaveBeenCalledOnce();
 		expect(event).toHaveBeenCalledWith(analyticsEvent);
+	});
+
+	it("keeps durable clear actions visible outside development", () => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
+		render(<AccountPage />);
+
+		screen.getByRole("button", { name: "Clear Loadouts" });
+		screen.getByRole("button", { name: "Clear Loadout Snapshots" });
+		expect(
+			screen.queryByRole("button", { name: "Clear Monsterlings Options" }),
+		).toBeNull();
+		expect(
+			screen.queryByRole("button", { name: "Clear Stat Options" }),
+		).toBeNull();
 	});
 
 	it("clears confirmed browser-only option caches without analytics", () => {
