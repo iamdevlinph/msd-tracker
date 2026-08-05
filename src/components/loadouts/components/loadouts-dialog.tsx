@@ -159,6 +159,7 @@ export const LoadoutsDialog = ({
 							monsterlingsOwned={controller.monsterlingsOwned}
 							artifactsOwned={controller.artifactsOwned}
 							onNameChange={controller.setName}
+							onNotesChange={controller.setNotes}
 							onActiveTabChange={controller.setActiveTab}
 							onOpenCharacterPicker={controller.openCharacterPicker}
 							onOpenMonsterlingPicker={controller.openMonsterlingPicker}

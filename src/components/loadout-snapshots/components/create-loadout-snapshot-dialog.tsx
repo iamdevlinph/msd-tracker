@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type FormEvent, useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { z } from "zod";
 import {
+	LOADOUT_SNAPSHOT_DIFFICULTIES,
+	LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS,
+	LOADOUT_SNAPSHOT_ELEMENT_OPTIONS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
 	Dialog,
 	DialogContent,
@@ -21,73 +28,232 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import type {
+	LoadoutSnapshot,
+	LoadoutSnapshotDetails,
+} from "@/stores/loadout-snapshots-slice";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
-type CreateLoadoutSnapshotDialogProps = {
-	loadout: LoadoutOwned | null;
-	onOpenChange: (open: boolean) => void;
-	onCreate: (name: string, tag: LoadoutSnapshotTag) => void;
+const formSchema = z
+	.object({
+		name: z.string().trim().min(1),
+		tag: z.enum(["conquest", "rift", "legendary_conquest", "others"]),
+		notes: z.string().max(2000),
+		difficulty: z.string(),
+		level: z.string(),
+		clear_time: z.string(),
+		element_id: z.string(),
+		score: z.string(),
+	})
+	.superRefine((value, context) => {
+		const level = Number(value.level);
+		const score = Number(value.score);
+		if (value.tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST) {
+			if (
+				!Object.values(LOADOUT_SNAPSHOT_DIFFICULTIES).includes(
+					value.difficulty as never,
+				)
+			)
+				context.addIssue({
+					code: "custom",
+					path: ["difficulty"],
+					message: "Select a difficulty",
+				});
+			if (!Number.isInteger(level) || level < 1 || level > 10)
+				context.addIssue({
+					code: "custom",
+					path: ["level"],
+					message: "Select a level",
+				});
+			if (!/^\d{2}:[0-5]\d\.\d{2}$/.test(value.clear_time))
+				context.addIssue({
+					code: "custom",
+					path: ["clear_time"],
+					message: "Use MM:SS.cc",
+				});
+		}
+		if (value.tag === LOADOUT_SNAPSHOT_TAGS.RIFT) {
+			if (!Number.isInteger(level) || level < 1 || level > 50)
+				context.addIssue({
+					code: "custom",
+					path: ["level"],
+					message: "Enter a level from 1 to 50",
+				});
+			if (value.score !== "" && (!Number.isInteger(score) || score < 0))
+				context.addIssue({
+					code: "custom",
+					path: ["score"],
+					message: "Enter a nonnegative whole number",
+				});
+		}
+		if (value.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST) {
+			if (
+				!LOADOUT_SNAPSHOT_ELEMENT_OPTIONS.some(
+					({ value: id }) => String(id) === value.element_id,
+				)
+			)
+				context.addIssue({
+					code: "custom",
+					path: ["element_id"],
+					message: "Select an element",
+				});
+			if (value.score === "" || !Number.isInteger(score) || score < 0)
+				context.addIssue({
+					code: "custom",
+					path: ["score"],
+					message: "Enter a nonnegative whole number",
+				});
+		}
+	});
+type FormValues = z.input<typeof formSchema>;
+
+const valuesFor = (
+	loadout: LoadoutOwned | null,
+	snapshot?: LoadoutSnapshot | null,
+): FormValues => {
+	const details = snapshot?.details;
+	return {
+		name:
+			snapshot?.name ??
+			(loadout ? `${new Date().toLocaleDateString()} ${loadout.name}` : ""),
+		tag: snapshot?.tag ?? LOADOUT_SNAPSHOT_TAGS.OTHERS,
+		notes: snapshot?.notes ?? "",
+		difficulty:
+			details && "difficulty" in details
+				? details.difficulty
+				: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+		level: details && "level" in details ? String(details.level) : "1",
+		clear_time:
+			details && "clear_time" in details ? details.clear_time : "00:00.00",
+		element_id:
+			details && "element_id" in details ? String(details.element_id) : "1",
+		score:
+			details && "score" in details && details.score !== undefined
+				? String(details.score)
+				: "",
+	};
 };
 
-export const CreateLoadoutSnapshotDialog = ({
-	loadout,
-	onOpenChange,
-	onCreate,
-}: CreateLoadoutSnapshotDialogProps) => {
-	const [name, setName] = useState("");
-	const [tag, setTag] = useState<LoadoutSnapshotTag>(
-		LOADOUT_SNAPSHOT_TAGS.OTHERS,
-	);
-	useEffect(() => {
-		if (!loadout) return;
-		setName(`${new Date().toLocaleDateString()} ${loadout.name} Snapshot`);
-		setTag(LOADOUT_SNAPSHOT_TAGS.OTHERS);
-	}, [loadout]);
+type SnapshotDialogProps = {
+	loadout: LoadoutOwned | null;
+	snapshot?: LoadoutSnapshot | null;
+	onOpenChange: (open: boolean) => void;
+	onSubmit: (value: {
+		name: string;
+		tag: LoadoutSnapshotTag;
+		notes: string;
+		details: LoadoutSnapshotDetails | null;
+	}) => void;
+};
 
+export const LoadoutSnapshotDialog = ({
+	loadout,
+	snapshot = null,
+	onOpenChange,
+	onSubmit,
+}: SnapshotDialogProps) => {
+	const form = useForm<FormValues>({
+		resolver: zodResolver(formSchema),
+		mode: "onChange",
+		defaultValues: valuesFor(loadout, snapshot),
+	});
+	const tag = useWatch({ control: form.control, name: "tag" });
+	const notes = useWatch({ control: form.control, name: "notes" });
+	const open = loadout !== null || snapshot !== null;
+	useEffect(() => {
+		if (open) form.reset(valuesFor(loadout, snapshot));
+	}, [form, loadout, open, snapshot]);
+	const watchedValues = form.watch();
+	const isValid = formSchema.safeParse(watchedValues).success;
+	const setClampedInteger = (
+		field: "level" | "score",
+		rawValue: string,
+		minimum: number,
+		maximum?: number,
+	) => {
+		if (rawValue === "") {
+			form.setValue(field, "", { shouldDirty: true, shouldValidate: true });
+			return;
+		}
+		const numericValue = Number(rawValue);
+		if (!Number.isFinite(numericValue)) return;
+		const wholeValue = Math.trunc(numericValue);
+		const clampedValue = Math.min(
+			maximum ?? Number.POSITIVE_INFINITY,
+			Math.max(minimum, wholeValue),
+		);
+		form.setValue(field, String(clampedValue), {
+			shouldDirty: true,
+			shouldValidate: true,
+		});
+	};
+	const submit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const parsed = formSchema.safeParse(form.getValues());
+		if (!parsed.success) return;
+		const value = parsed.data;
+		let details: LoadoutSnapshotDetails | null = null;
+		if (value.tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST)
+			details = {
+				difficulty:
+					value.difficulty as typeof LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+				level: Number(value.level),
+				clear_time: value.clear_time,
+			};
+		if (value.tag === LOADOUT_SNAPSHOT_TAGS.RIFT)
+			details = {
+				level: Number(value.level),
+				...(value.score === "" ? {} : { score: Number(value.score) }),
+			};
+		if (value.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST)
+			details = {
+				element_id: Number(value.element_id) as 1,
+				score: Number(value.score),
+			};
+		onSubmit({
+			name: value.name.trim(),
+			tag: value.tag,
+			notes: value.notes,
+			details,
+		});
+	};
 	return (
-		<Dialog open={loadout !== null} onOpenChange={onOpenChange}>
+		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="sm:max-w-md">
-				<form
-					className="grid gap-4"
-					onSubmit={(event) => {
-						event.preventDefault();
-						if (name.trim()) onCreate(name.trim(), tag);
-					}}
-				>
+				<form className="grid gap-4" onSubmit={submit}>
 					<DialogHeader>
 						<DialogTitle>
-							Name your “{loadout?.name ?? "loadout"}” snapshot
+							{snapshot
+								? "Edit loadout snapshot"
+								: `${loadout?.name ?? "Loadout"} Snapshot`}
 						</DialogTitle>
 						<DialogDescription>
-							Record this loadout and its current stats for future reference.
+							Save category metadata without changing the captured build.
 						</DialogDescription>
 					</DialogHeader>
 					<label
-						htmlFor="loadout-snapshot-name"
+						htmlFor="snapshot-name"
 						className="grid gap-2 text-sm font-medium"
 					>
 						Name
-						<Input
-							id="loadout-snapshot-name"
-							autoFocus
-							value={name}
-							onChange={(event) => setName(event.target.value)}
-							onFocus={(event) => event.currentTarget.select()}
-						/>
+						<Input id="snapshot-name" autoFocus {...form.register("name")} />
 					</label>
 					<label
-						htmlFor="loadout-snapshot-tag"
+						htmlFor="snapshot-tag"
 						className="grid gap-2 text-sm font-medium"
 					>
 						Tag
 						<Select
 							value={tag}
-							onValueChange={(value) => setTag(value as LoadoutSnapshotTag)}
+							onValueChange={(value) => {
+								form.setValue("tag", value as LoadoutSnapshotTag, {
+									shouldValidate: true,
+								});
+							}}
 						>
-							<SelectTrigger
-								id="loadout-snapshot-tag"
-								aria-label="Snapshot tag"
-							>
+							<SelectTrigger id="snapshot-tag" aria-label="Snapshot tag">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
@@ -101,6 +267,181 @@ export const CreateLoadoutSnapshotDialog = ({
 							</SelectContent>
 						</Select>
 					</label>
+					{tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST && (
+						<>
+							<label
+								htmlFor="snapshot-difficulty"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Difficulty
+								<Select
+									value={form.watch("difficulty")}
+									onValueChange={(value) =>
+										form.setValue("difficulty", value, { shouldValidate: true })
+									}
+								>
+									<SelectTrigger
+										id="snapshot-difficulty"
+										aria-label="Difficulty"
+									>
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										{LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS.map((option) => (
+											<SelectItem key={option.value} value={option.value}>
+												{option.label}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</label>
+							<label
+								htmlFor="snapshot-conquest-level"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Level
+								<Select
+									value={form.watch("level")}
+									onValueChange={(value) =>
+										form.setValue("level", value, { shouldValidate: true })
+									}
+								>
+									<SelectTrigger
+										id="snapshot-conquest-level"
+										aria-label="Level"
+									>
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										{Array.from({ length: 10 }, (_, index) =>
+											String(index + 1),
+										).map((level) => (
+											<SelectItem key={level} value={level}>
+												{level}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</label>
+							<label
+								htmlFor="snapshot-clear-time"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Clear time
+								<Input
+									id="snapshot-clear-time"
+									placeholder="MM:SS.cc"
+									{...form.register("clear_time")}
+								/>
+								{form.formState.errors.clear_time && (
+									<span className="text-xs text-destructive">
+										{form.formState.errors.clear_time.message}
+									</span>
+								)}
+							</label>
+						</>
+					)}
+					{tag === LOADOUT_SNAPSHOT_TAGS.RIFT && (
+						<>
+							<label
+								htmlFor="snapshot-rift-level"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Level
+								<Input
+									id="snapshot-rift-level"
+									type="number"
+									min={1}
+									max={50}
+									{...form.register("level")}
+									onChange={(event) =>
+										setClampedInteger("level", event.currentTarget.value, 1, 50)
+									}
+								/>
+							</label>
+							<label
+								htmlFor="snapshot-rift-score"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Score (optional)
+								<Input
+									id="snapshot-rift-score"
+									type="number"
+									min={0}
+									step={1}
+									{...form.register("score")}
+									onChange={(event) =>
+										setClampedInteger("score", event.currentTarget.value, 0)
+									}
+								/>
+							</label>
+						</>
+					)}
+					{tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST && (
+						<>
+							<fieldset className="grid gap-2">
+								<legend className="text-sm font-medium">Element</legend>
+								<ButtonGroup className="flex flex-wrap" aria-label="Element">
+									{LOADOUT_SNAPSHOT_ELEMENT_OPTIONS.map((option) => (
+										<Button
+											key={option.value}
+											type="button"
+											variant={
+												form.watch("element_id") === String(option.value)
+													? "default"
+													: "outline"
+											}
+											aria-pressed={
+												form.watch("element_id") === String(option.value)
+											}
+											onClick={() =>
+												form.setValue("element_id", String(option.value), {
+													shouldValidate: true,
+												})
+											}
+										>
+											<img
+												src={ELEMENTS_DATA[option.value].image}
+												width="25"
+												height="25"
+												alt={`${option.label} icon`}
+											/>
+										</Button>
+									))}
+								</ButtonGroup>
+							</fieldset>
+							<label
+								htmlFor="snapshot-legendary-score"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Score
+								<Input
+									id="snapshot-legendary-score"
+									type="number"
+									min={0}
+									step={1}
+									{...form.register("score")}
+									onChange={(event) =>
+										setClampedInteger("score", event.currentTarget.value, 0)
+									}
+								/>
+							</label>
+						</>
+					)}
+					<label
+						htmlFor="snapshot-notes"
+						className="grid gap-2 text-sm font-medium"
+					>
+						Notes
+						<Textarea
+							id="snapshot-notes"
+							maxLength={2000}
+							{...form.register("notes")}
+						/>
+						<span className="text-right text-xs text-muted-foreground">
+							{notes.length}/2000
+						</span>
+					</label>
 					<DialogFooter>
 						<Button
 							type="button"
@@ -109,8 +450,8 @@ export const CreateLoadoutSnapshotDialog = ({
 						>
 							Cancel
 						</Button>
-						<Button type="submit" disabled={!name.trim()}>
-							Create snapshot
+						<Button type="submit" disabled={!isValid}>
+							{snapshot ? "Save changes" : "Create snapshot"}
 						</Button>
 					</DialogFooter>
 				</form>
@@ -118,3 +459,26 @@ export const CreateLoadoutSnapshotDialog = ({
 		</Dialog>
 	);
 };
+
+type CreateLoadoutSnapshotDialogProps = Omit<
+	SnapshotDialogProps,
+	"snapshot" | "onSubmit"
+> & {
+	onCreate: (
+		name: string,
+		tag: LoadoutSnapshotTag,
+		notes: string,
+		details: LoadoutSnapshotDetails | null,
+	) => void;
+};
+export const CreateLoadoutSnapshotDialog = ({
+	onCreate,
+	...props
+}: CreateLoadoutSnapshotDialogProps) => (
+	<LoadoutSnapshotDialog
+		{...props}
+		onSubmit={({ name, tag, notes, details }) =>
+			onCreate(name, tag, notes, details)
+		}
+	/>
+);

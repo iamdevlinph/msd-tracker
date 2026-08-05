@@ -1,5 +1,6 @@
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
+import { cn } from "@/lib/utils";
 import type { ArtifactOwned } from "@/stores/artifacts-owned-slice";
 
 type LoadoutCardArtifactTileProps = {
@@ -14,7 +15,12 @@ export const LoadoutCardArtifactTile = ({
 	owned,
 	onEdit,
 }: LoadoutCardArtifactTileProps) => (
-	<div className="relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center">
+	<div
+		className={cn(
+			"relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center",
+			!(owned && artifact && id) && "border-dashed",
+		)}
+	>
 		{owned && artifact && id ? (
 			onEdit ? (
 				<button

@@ -275,15 +275,28 @@ describe("LoadoutsList", () => {
 			? 3
 			: 0;
 		expect(screen.queryAllByText("Artifact")).toHaveLength(futureSlotCount);
-		expect(screen.queryAllByText("headgear")).toHaveLength(2);
+		expect(screen.queryAllByText("Head")).toHaveLength(2);
+		expect(screen.queryAllByText("Chest")).toHaveLength(3);
+		expect(screen.queryAllByText("Gloves")).toHaveLength(3);
+		expect(screen.queryAllByText("Foot")).toHaveLength(3);
 		expect(screen.getByAltText("Test Equipment portrait")).toBeTruthy();
-		expect(screen.getAllByText("Monsterling 1")).toHaveLength(3);
+		expect(screen.getAllByText("Link Chain")).toHaveLength(3);
+		expect(screen.getAllByText("Mon 2")).toHaveLength(3);
+		expect(screen.getAllByText("Mon 3")).toHaveLength(3);
+		expect(screen.getAllByText("Legend")).toHaveLength(3);
+		expect(
+			screen.getAllByText("Link Chain")[0].parentElement?.className,
+		).toContain("border-dashed");
+		expect(screen.getAllByText("Head")[0].parentElement?.className).toContain(
+			"border-dashed",
+		);
 		for (const label of [
 			"Preview Team",
 			"Edit Team",
 			"Duplicate Team",
 			"Copy Team image",
-			"More actions for Team",
+			"Notes for Team",
+			"Create snapshot from Team",
 			"Delete Team",
 		]) {
 			const action = screen.getByRole("button", { name: label });
@@ -342,11 +355,7 @@ describe("LoadoutsList", () => {
 		});
 		render(<LoadoutsList />);
 
-		fireEvent.pointerDown(
-			screen.getByRole("button", { name: "More actions for Team" }),
-			{ button: 0, ctrlKey: false },
-		);
-		fireEvent.click(screen.getByRole("menuitem", { name: "Notes" }));
+		fireEvent.click(screen.getByRole("button", { name: "Notes for Team" }));
 
 		expect(
 			screen.getByRole("dialog", { name: "Notes for “Team”" }),
@@ -358,9 +367,7 @@ describe("LoadoutsList", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Save notes" }));
 		expect(useAppStore.getState().loadouts.team.notes).toBe("Damage test");
 		expect(event).toHaveBeenCalledWith("loadout_notes_save");
-		expect(
-			screen.getByRole("button", { name: "More actions for Team" }),
-		).toBeTruthy();
+		expect(screen.getByRole("button", { name: "Notes for Team" })).toBeTruthy();
 	});
 
 	it("duplicates a loadout into the first available name", () => {

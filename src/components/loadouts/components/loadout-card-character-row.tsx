@@ -1,11 +1,9 @@
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
-import {
-	EQUIPMENT_DATA,
-	EQUIPMENT_PART_TYPES,
-} from "@/data/equipment/EQUIPMENT_DATA";
+import { EQUIPMENT_DATA } from "@/data/equipment/EQUIPMENT_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
 import { LoadoutCardArtifactTile } from "./loadout-card-artifact-tile";
@@ -15,6 +13,8 @@ import {
 	EQUIPMENT_SLOT_INDEXES,
 	MONSTERLING_SLOT_INDEXES,
 } from "./loadout-slot-constants";
+
+const COMPACT_EQUIPMENT_LABELS = ["Head", "Chest", "Gloves", "Foot"] as const;
 
 type LoadoutCardCharacterRowProps = {
 	loadoutId: string;
@@ -70,8 +70,10 @@ export const LoadoutCardCharacterRow = ({
 							owned={owned}
 							label={
 								monsterIndex === "legendary"
-									? "Legendary"
-									: `Monsterling ${monsterIndex + 1}`
+									? "Legend"
+									: monsterIndex === 0
+										? "Link Chain"
+										: `Mon ${monsterIndex + 1}`
 							}
 							onEdit={onEditMonsterling}
 						/>
@@ -90,7 +92,10 @@ export const LoadoutCardCharacterRow = ({
 				return (
 					<div
 						key={`${loadoutId}-${index}-equipment-${equipmentIndex}`}
-						className="relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center text-[10px] text-muted-foreground"
+						className={cn(
+							"relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center text-[10px] text-muted-foreground",
+							!equipment && "border-dashed",
+						)}
 					>
 						{equipment ? (
 							<TierPortrait
@@ -102,7 +107,7 @@ export const LoadoutCardCharacterRow = ({
 							/>
 						) : (
 							<span className="capitalize">
-								{EQUIPMENT_PART_TYPES[equipmentIndex - 1]}
+								{COMPACT_EQUIPMENT_LABELS[equipmentIndex - 1]}
 							</span>
 						)}
 					</div>

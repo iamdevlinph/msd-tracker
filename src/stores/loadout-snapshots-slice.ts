@@ -1,13 +1,112 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import {
+	LOADOUT_SNAPSHOT_DIFFICULTIES,
+	LOADOUT_SNAPSHOT_ELEMENTS,
 	LOADOUT_SNAPSHOT_TAGS,
+	type LoadoutSnapshotDifficulty,
+	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import type { StoreState } from "@/stores/app-store";
 import { type LoadoutOwned, normalizeLoadouts } from "@/stores/loadouts-slice";
 
 const LOADOUT_SNAPSHOT_TAG_VALUES = Object.values(LOADOUT_SNAPSHOT_TAGS);
+const LOADOUT_SNAPSHOT_DIFFICULTY_VALUES = Object.values(
+	LOADOUT_SNAPSHOT_DIFFICULTIES,
+);
+const LOADOUT_SNAPSHOT_ELEMENT_VALUES = Object.values(
+	LOADOUT_SNAPSHOT_ELEMENTS,
+);
+const MAX_SNAPSHOT_NOTES_LENGTH = 2000;
+
+export type ConquestSnapshotDetails = {
+	difficulty: LoadoutSnapshotDifficulty;
+	level: number;
+	clear_time: string;
+};
+export type RiftSnapshotDetails = {
+	level: number;
+	score?: number;
+};
+export type LegendaryConquestSnapshotDetails = {
+	element_id: LoadoutSnapshotElement;
+	score: number;
+};
+export type LoadoutSnapshotDetails =
+	| ConquestSnapshotDetails
+	| RiftSnapshotDetails
+	| LegendaryConquestSnapshotDetails;
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+	!!value && typeof value === "object";
+
+export const normalizeLoadoutSnapshotNotes = (value: unknown): string =>
+	typeof value === "string" ? value.slice(0, MAX_SNAPSHOT_NOTES_LENGTH) : "";
+
+const isNonnegativeInteger = (value: unknown): value is number =>
+	typeof value === "number" && Number.isInteger(value) && value >= 0;
+
+export const isValidLoadoutSnapshotClearTime = (
+	value: unknown,
+): value is string =>
+	typeof value === "string" && /^\d{2}:[0-5]\d\.\d{2}$/.test(value);
+
+/** Normalize category-specific metadata; invalid metadata is deliberately discarded. */
+export const normalizeLoadoutSnapshotDetails = (
+	tag: LoadoutSnapshotTag,
+	value: unknown,
+): LoadoutSnapshotDetails | null => {
+	if (!isRecord(value)) return null;
+	if (tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST) {
+		const difficulty = value.difficulty;
+		const level = value.level;
+		if (
+			!LOADOUT_SNAPSHOT_DIFFICULTY_VALUES.includes(
+				difficulty as LoadoutSnapshotDifficulty,
+			) ||
+			typeof level !== "number" ||
+			!Number.isInteger(level) ||
+			level < 1 ||
+			level > 10 ||
+			!isValidLoadoutSnapshotClearTime(value.clear_time)
+		)
+			return null;
+		return {
+			difficulty: difficulty as LoadoutSnapshotDifficulty,
+			level,
+			clear_time: value.clear_time,
+		};
+	}
+	if (tag === LOADOUT_SNAPSHOT_TAGS.RIFT) {
+		const level = value.level;
+		if (
+			typeof level !== "number" ||
+			!Number.isInteger(level) ||
+			level < 1 ||
+			level > 50
+		)
+			return null;
+		const score = value.score;
+		if (score !== undefined && !isNonnegativeInteger(score)) return null;
+		return score === undefined ? { level } : { level, score };
+	}
+	if (tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST) {
+		const elementId = value.element_id;
+		if (
+			!LOADOUT_SNAPSHOT_ELEMENT_VALUES.includes(
+				elementId as LoadoutSnapshotElement,
+			) ||
+			!isNonnegativeInteger(value.score)
+		)
+			return null;
+		return {
+			element_id: elementId as LoadoutSnapshotElement,
+			score: value.score,
+		};
+	}
+	return null;
+};
 
 export type LoadoutSnapshot = {
 	id: string;
@@ -19,6 +118,9 @@ export type LoadoutSnapshot = {
 	monsterlings_owned: StoreState["monsterlingsOwned"];
 	monsterling_link_chain_levels: StoreState["monsterlingLinkChainLevels"];
 	artifacts_owned: StoreState["artifactsOwned"];
+	/** Legacy records may omit these fields; normalization always materializes them. */
+	notes?: string;
+	details?: LoadoutSnapshotDetails | null;
 };
 
 export type LoadoutSnapshotsSlice = {
@@ -27,7 +129,18 @@ export type LoadoutSnapshotsSlice = {
 		loadoutId: string;
 		name: string;
 		tag?: LoadoutSnapshotTag;
+		notes?: string;
+		details?: unknown;
 	}) => string | null;
+	updateLoadoutSnapshot: (
+		id: string,
+		input: {
+			name: string;
+			tag: LoadoutSnapshotTag;
+			notes?: string;
+			details?: unknown;
+		},
+	) => void;
 	deleteLoadoutSnapshot: (id: string) => void;
 	resetLoadoutSnapshots: () => void;
 };
@@ -65,6 +178,7 @@ export const normalizeLoadoutSnapshots = (
 				)
 					? (snapshot.tag as LoadoutSnapshotTag)
 					: LOADOUT_SNAPSHOT_TAGS.OTHERS;
+				const details = normalizeLoadoutSnapshotDetails(tag, snapshot.details);
 				return [
 					[
 						id,
@@ -84,6 +198,8 @@ export const normalizeLoadoutSnapshots = (
 								snapshot.monsterling_link_chain_levels ?? {},
 							),
 							artifacts_owned: structuredClone(snapshot.artifacts_owned ?? {}),
+							notes: normalizeLoadoutSnapshotNotes(snapshot.notes),
+							details,
 						},
 					],
 				];
@@ -103,11 +219,14 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 		loadoutId,
 		name,
 		tag = LOADOUT_SNAPSHOT_TAGS.OTHERS,
+		notes,
+		details,
 	}) => {
 		const state = get();
 		const loadout = state.loadouts[loadoutId];
 		const snapshotName = name.trim();
 		if (!loadout || !snapshotName) return null;
+		const snapshotDetails = normalizeLoadoutSnapshotDetails(tag, details);
 		const characterIds = new Set(
 			loadout.characters.flatMap(({ characterId }) =>
 				characterId === null ? [] : [String(characterId)],
@@ -152,6 +271,8 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 			artifacts_owned: structuredClone(
 				selectRecord(state.artifactsOwned, artifactIds),
 			),
+			notes: normalizeLoadoutSnapshotNotes(notes),
+			details: snapshotDetails,
 		};
 		set((current) => ({
 			loadoutSnapshots: { ...current.loadoutSnapshots, [id]: snapshot },
@@ -159,6 +280,30 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 		}));
 		return id;
 	},
+	updateLoadoutSnapshot: (id, input) =>
+		set((state) => {
+			const current = state.loadoutSnapshots[id];
+			if (!current) return state;
+			const name = input.name.trim();
+			if (!name) return state;
+			const tag = LOADOUT_SNAPSHOT_TAG_VALUES.includes(input.tag)
+				? input.tag
+				: LOADOUT_SNAPSHOT_TAGS.OTHERS;
+			const details = normalizeLoadoutSnapshotDetails(tag, input.details);
+			return {
+				loadoutSnapshots: {
+					...state.loadoutSnapshots,
+					[id]: {
+						...current,
+						name,
+						tag,
+						notes: normalizeLoadoutSnapshotNotes(input.notes),
+						details,
+					},
+				},
+				backupUpdatedAt: Date.now(),
+			};
+		}),
 	deleteLoadoutSnapshot: (id) =>
 		set((state) => {
 			const { [id]: _removed, ...loadoutSnapshots } = state.loadoutSnapshots;

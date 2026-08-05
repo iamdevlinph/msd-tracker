@@ -1,5 +1,11 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+	within,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
@@ -43,7 +49,11 @@ describe("LoadoutSnapshotsList", () => {
 		useAppStore.setState({
 			loadoutSnapshots: {
 				older: snapshot("older", "Alpha clear", "conquest", 1_000),
-				newer: snapshot("newer", "Beta clear", "rift", 2_000),
+				newer: {
+					...snapshot("newer", "Beta clear", "rift", 2_000),
+					details: { level: 50, score: 12_345_678 },
+					notes: "Bring fire resistance",
+				},
 			},
 		});
 	});
@@ -55,7 +65,16 @@ describe("LoadoutSnapshotsList", () => {
 		expect(
 			screen.getByText(`Created ${new Date(2_000).toLocaleString()}`),
 		).toBeTruthy();
-		expect(screen.getByText("Rift")).toBeTruthy();
+		const tag = screen.getByText("Rift");
+		expect(tag.parentElement?.textContent).toContain(
+			"Level 50 · Score 12,345,678",
+		);
+		expect(tag.parentElement?.nextElementSibling?.textContent).toBe(
+			`Created ${new Date(2_000).toLocaleString()}`,
+		);
+		expect(screen.getByText(/Note:/).closest("p")?.textContent).toBe(
+			"Note: Bring fire resistance",
+		);
 		fireEvent.change(
 			screen.getByRole("textbox", { name: "Search loadout snapshots" }),
 			{
@@ -66,7 +85,7 @@ describe("LoadoutSnapshotsList", () => {
 		expect(screen.queryByText("Beta clear")).toBeNull();
 	});
 
-	it("shows frozen character tiers without enabling character editing", () => {
+	it("keeps frozen build images out of compact snapshot rows", () => {
 		const frozenSnapshot = snapshot("frozen", "Frozen team", "others", 3_000);
 		frozenSnapshot.loadout.characters[0] = {
 			...emptyLoadoutCharacterSlot(),
@@ -84,8 +103,9 @@ describe("LoadoutSnapshotsList", () => {
 		render(<LoadoutSnapshotsList />);
 
 		expect(
-			screen.getByAltText(`${CHARACTERS_DATA[1].tier_id} background`),
-		).toBeTruthy();
+			screen.queryByAltText(`${CHARACTERS_DATA[1].tier_id} background`),
+		).toBeNull();
+		expect(screen.queryByRole("img")).toBeNull();
 		expect(
 			screen.queryByRole("button", {
 				name: `Edit ${CHARACTERS_DATA[1].name} character`,
@@ -93,13 +113,27 @@ describe("LoadoutSnapshotsList", () => {
 		).toBeNull();
 	});
 
-	it("previews and deletes a snapshot with snapshot-only actions", () => {
+	it("opens preview from the row and exposes direct snapshot actions", () => {
 		render(<LoadoutSnapshotsList />);
-		fireEvent.click(screen.getByRole("button", { name: "Preview Beta clear" }));
+		for (const name of [
+			"Preview Beta clear",
+			"Edit Beta clear",
+			"Copy Beta clear image",
+			"Delete Beta clear",
+		])
+			expect(screen.getByRole("button", { name })).toBeTruthy();
+		fireEvent.click(
+			screen.getByRole("button", { name: "Preview Beta clear snapshot row" }),
+		);
 		expect(screen.getByText("Loadout Snapshot")).toBeTruthy();
-		expect(
-			screen.queryByRole("button", { name: "Edit Beta clear" }),
-		).toBeNull();
+		const previewSurface = within(screen.getByTestId("loadout-share-surface"));
+		expect(previewSurface.queryByText(/Note:/)).toBeNull();
+		const showNotes = screen.getByRole("checkbox", { name: "Show notes" });
+		expect(showNotes.getAttribute("data-state")).toBe("unchecked");
+		fireEvent.click(showNotes);
+		expect(previewSurface.getByText(/Note:/).closest("p")?.textContent).toBe(
+			"Note: Bring fire resistance",
+		);
 		fireEvent.click(
 			screen.getAllByRole("button", { name: "Delete Beta clear" })[0],
 		);

@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import {
@@ -27,6 +28,7 @@ type LoadoutEditorProps = {
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
 	artifactsOwned: StoreState["artifactsOwned"];
 	onNameChange: (name: string) => void;
+	onNotesChange: (notes: string) => void;
 	onActiveTabChange: (tab: string) => void;
 	onOpenCharacterPicker: (characterIndex: number) => void;
 	onOpenMonsterlingPicker: (
@@ -51,6 +53,7 @@ export const LoadoutEditor = ({
 	monsterlingsOwned,
 	artifactsOwned,
 	onNameChange,
+	onNotesChange,
 	onActiveTabChange,
 	onOpenCharacterPicker,
 	onOpenMonsterlingPicker,
@@ -66,6 +69,19 @@ export const LoadoutEditor = ({
 				value={draft.name}
 				onChange={(event) => onNameChange(event.target.value)}
 			/>
+		</label>
+		<label htmlFor="loadout-notes" className="grid gap-2 text-sm font-medium">
+			Notes
+			<Textarea
+				id="loadout-notes"
+				value={draft.notes ?? ""}
+				maxLength={2000}
+				onChange={(event) => onNotesChange(event.target.value)}
+				aria-describedby="loadout-notes-count"
+			/>
+			<span id="loadout-notes-count" className="text-xs text-muted-foreground">
+				{(draft.notes ?? "").length}/2000
+			</span>
 		</label>
 		<Tabs value={activeTab} onValueChange={onActiveTabChange} className="gap-4">
 			<TabsList className="grid w-full grid-cols-3 divide-x divide-border group-data-[orientation=horizontal]/tabs:h-[4.375rem]">

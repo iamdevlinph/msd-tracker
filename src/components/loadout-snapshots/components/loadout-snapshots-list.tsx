@@ -2,6 +2,7 @@ import { XIcon } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
+import { LoadoutSnapshotDialog } from "@/components/loadout-snapshots/components/create-loadout-snapshot-dialog";
 import { LoadoutSnapshotMetadata } from "@/components/loadout-snapshots/components/loadout-snapshot-metadata";
 import {
 	LOADOUT_SNAPSHOT_SORTS,
@@ -9,7 +10,7 @@ import {
 	type LoadoutSnapshotSort,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
-import { LoadoutCard } from "@/components/loadouts/components/loadout-card";
+import { LoadoutActions } from "@/components/loadouts/components/loadout-actions";
 import { useLoadoutImageActions } from "@/components/loadouts/components/loadout-image-actions";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
 import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-preview-surface";
@@ -58,6 +59,9 @@ export const LoadoutSnapshotsList = () => {
 	const deleteLoadoutSnapshot = useAppStore(
 		(state) => state.deleteLoadoutSnapshot,
 	);
+	const updateLoadoutSnapshot = useAppStore(
+		(state) => state.updateLoadoutSnapshot,
+	);
 	const [search, setSearch] = useState("");
 	const [tag, setTag] = useState<LoadoutSnapshotTag | typeof ALL_TAGS>(
 		ALL_TAGS,
@@ -67,6 +71,7 @@ export const LoadoutSnapshotsList = () => {
 	);
 	const [previewId, setPreviewId] = useState<string | null>(null);
 	const [exportId, setExportId] = useState<string | null>(null);
+	const [editId, setEditId] = useState<string | null>(null);
 	const exportRef = useRef<HTMLDivElement>(null);
 	const imageActions = useLoadoutImageActions(
 		LOADOUT_ACTION_SOURCES.CARD,
@@ -92,6 +97,7 @@ export const LoadoutSnapshotsList = () => {
 	}, [search, snapshots, sort, tag]);
 	const preview = previewId ? (snapshots[previewId] ?? null) : null;
 	const exported = exportId ? (snapshots[exportId] ?? null) : null;
+	const editing = editId ? (snapshots[editId] ?? null) : null;
 	const remove = (id: string) => {
 		deleteLoadoutSnapshot(id);
 		setPreviewId(null);
@@ -172,23 +178,37 @@ export const LoadoutSnapshotsList = () => {
 					}
 				/>
 			) : (
-				<div className="overflow-x-auto pb-2">
-					<div className="grid min-w-[18rem] grid-cols-[repeat(auto-fill,minmax(18rem,1fr))] gap-3">
-						{entries.map((snapshot) => (
-							<LoadoutCard
-								key={snapshot.id}
-								loadout={snapshotLoadout(snapshot)}
-								renderData={snapshotRenderData(snapshot)}
-								metadata={
-									<LoadoutSnapshotMetadata
-										createdAt={snapshot.created_at}
-										tag={snapshot.tag}
-									/>
-								}
+				<div className="grid gap-2">
+					{entries.map((snapshot) => (
+						<div
+							key={snapshot.id}
+							className="relative flex cursor-pointer flex-col gap-3 rounded-lg border bg-card p-4 transition-colors hover:border-primary focus-within:border-primary sm:flex-row sm:items-center sm:justify-between"
+						>
+							<button
+								type="button"
+								className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								aria-label={`Preview ${snapshot.name} snapshot row`}
+								onClick={() => {
+									ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_PREVIEW);
+									setPreviewId(snapshot.id);
+								}}
+							/>
+							<div className="pointer-events-none relative z-10 min-w-0">
+								<h3 className="font-semibold">{snapshot.name}</h3>
+								<LoadoutSnapshotMetadata
+									createdAt={snapshot.created_at}
+									tag={snapshot.tag}
+									details={snapshot.details}
+									notes={snapshot.notes}
+								/>
+							</div>
+							<LoadoutActions
+								loadoutName={snapshot.name}
 								onPreview={() => {
 									ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_PREVIEW);
 									setPreviewId(snapshot.id);
 								}}
+								onEdit={() => setEditId(snapshot.id)}
 								onCopy={() => void copy(snapshot)}
 								onDelete={() => remove(snapshot.id)}
 								activeImageAction={
@@ -197,8 +217,8 @@ export const LoadoutSnapshotsList = () => {
 								disabled={imageActions.activeAction !== null}
 								itemType="loadout snapshot"
 							/>
-						))}
-					</div>
+						</div>
+					))}
 				</div>
 			)}
 
@@ -212,11 +232,35 @@ export const LoadoutSnapshotsList = () => {
 						<LoadoutSnapshotMetadata
 							createdAt={preview.created_at}
 							tag={preview.tag}
+							details={preview.details}
+							showNotes={false}
+						/>
+					) : null
+				}
+				metadataWithNotes={
+					preview?.notes ? (
+						<LoadoutSnapshotMetadata
+							createdAt={preview.created_at}
+							tag={preview.tag}
+							details={preview.details}
+							notes={preview.notes}
 						/>
 					) : null
 				}
 				typeLabel="Loadout Snapshot"
 				target="snapshot"
+				showMetadataInHeader={false}
+			/>
+			<LoadoutSnapshotDialog
+				loadout={null}
+				snapshot={editing}
+				onOpenChange={(open) => !open && setEditId(null)}
+				onSubmit={(value) => {
+					if (!editing) return;
+					updateLoadoutSnapshot(editing.id, value);
+					ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_UPDATE);
+					setEditId(null);
+				}}
 			/>
 
 			{exported && (
@@ -232,6 +276,8 @@ export const LoadoutSnapshotsList = () => {
 							<LoadoutSnapshotMetadata
 								createdAt={exported.created_at}
 								tag={exported.tag}
+								details={exported.details}
+								notes={exported.notes}
 							/>
 						}
 						compactMonsterlings

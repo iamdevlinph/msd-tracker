@@ -7,6 +7,56 @@ export const LOADOUT_SNAPSHOT_TAGS = {
 export type LoadoutSnapshotTag =
 	(typeof LOADOUT_SNAPSHOT_TAGS)[keyof typeof LOADOUT_SNAPSHOT_TAGS];
 
+export const LOADOUT_SNAPSHOT_DIFFICULTIES = {
+	NORMAL: "normal",
+	RAGING: "raging",
+	AWAKENED: "awakened",
+	VOID: "void",
+	ABYSS: "abyss",
+} as const;
+export type LoadoutSnapshotDifficulty =
+	(typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES];
+export const LOADOUT_SNAPSHOT_DIFFICULTY_LABELS: Record<
+	LoadoutSnapshotDifficulty,
+	string
+> = {
+	normal: "Normal",
+	raging: "Raging",
+	awakened: "Awakened",
+	void: "Void",
+	abyss: "Abyss",
+};
+export const LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS = Object.values(
+	LOADOUT_SNAPSHOT_DIFFICULTIES,
+).map((value) => ({
+	value,
+	label: LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[value],
+}));
+
+// Keep these IDs aligned with the canonical game element catalog.
+export const LOADOUT_SNAPSHOT_ELEMENTS = {
+	EARTH: 1,
+	FIRE: 2,
+	ICE: 3,
+	LIGHTNING: 4,
+	WIND: 5,
+} as const;
+export type LoadoutSnapshotElement =
+	(typeof LOADOUT_SNAPSHOT_ELEMENTS)[keyof typeof LOADOUT_SNAPSHOT_ELEMENTS];
+export const LOADOUT_SNAPSHOT_ELEMENT_LABELS: Record<
+	LoadoutSnapshotElement,
+	string
+> = {
+	1: "Earth",
+	2: "Fire",
+	3: "Ice",
+	4: "Lightning",
+	5: "Wind",
+};
+export const LOADOUT_SNAPSHOT_ELEMENT_OPTIONS = Object.values(
+	LOADOUT_SNAPSHOT_ELEMENTS,
+).map((value) => ({ value, label: LOADOUT_SNAPSHOT_ELEMENT_LABELS[value] }));
+
 export const LOADOUT_SNAPSHOT_TAG_LABELS: Record<LoadoutSnapshotTag, string> = {
 	[LOADOUT_SNAPSHOT_TAGS.CONQUEST]: "Conquest",
 	[LOADOUT_SNAPSHOT_TAGS.RIFT]: "Rift",

@@ -31,6 +31,8 @@ type LoadoutPreviewDialogProps = {
 	onCreateSnapshot?: () => void;
 	renderData?: LoadoutRenderData;
 	metadata?: ReactNode;
+	metadataWithNotes?: ReactNode;
+	showMetadataInHeader?: boolean;
 	typeLabel?: string;
 	target?: "loadout" | "snapshot";
 };
@@ -48,12 +50,15 @@ export const LoadoutPreviewDialog = ({
 	onCreateSnapshot,
 	renderData,
 	metadata,
+	metadataWithNotes,
+	showMetadataInHeader = true,
 	typeLabel = "Team Loadout",
 	target = "loadout",
 }: LoadoutPreviewDialogProps) => {
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
 	const [hideEquipment, setHideEquipment] = useState(true);
+	const [showNotes, setShowNotes] = useState(false);
 	const ga = useGoogleAnalytics();
 	const imageActions = useLoadoutImageActions(
 		LOADOUT_ACTION_SOURCES.PREVIEW,
@@ -69,6 +74,7 @@ export const LoadoutPreviewDialog = ({
 						ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_CLOSE);
 					setCompactMonsterlings(true);
 					setHideEquipment(true);
+					setShowNotes(false);
 				}
 				onOpenChange(open);
 			}}
@@ -86,7 +92,7 @@ export const LoadoutPreviewDialog = ({
 				<DialogHeader className="border-b p-4 pr-14">
 					<div>
 						<DialogTitle>{loadout?.name ?? "Loadout preview"}</DialogTitle>
-						{metadata}
+						{showMetadataInHeader && metadata}
 					</div>
 					<DialogDescription>
 						Share-ready character, Monsterling, artifact, and equipment
@@ -125,6 +131,17 @@ export const LoadoutPreviewDialog = ({
 							/>
 							Compact monsterlings
 						</Label>
+						{metadataWithNotes && (
+							<Label htmlFor="show-notes" className="cursor-pointer">
+								<Checkbox
+									id="show-notes"
+									aria-label="Show notes"
+									checked={showNotes}
+									onCheckedChange={(checked) => setShowNotes(checked === true)}
+								/>
+								Show notes
+							</Label>
+						)}
 					</div>
 					{loadout && (
 						<LoadoutActions
@@ -158,7 +175,7 @@ export const LoadoutPreviewDialog = ({
 							onEditMonsterling={onEditMonsterling}
 							onEditArtifact={onEditArtifact}
 							renderData={renderData}
-							metadata={metadata}
+							metadata={showNotes ? metadataWithNotes : metadata}
 							typeLabel={typeLabel}
 						/>
 					)}

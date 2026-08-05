@@ -2,7 +2,6 @@ import {
 	CameraIcon,
 	CopyPlusIcon,
 	EditIcon,
-	EllipsisIcon,
 	EyeIcon,
 	FileTextIcon,
 	ShareIcon,
@@ -22,12 +21,6 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
@@ -143,35 +136,31 @@ export const LoadoutActions = ({
 					)}
 				</Button>
 			)}
-			{(onNotes || onCreateSnapshot) && (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							type="button"
-							size="icon-sm"
-							variant="outline"
-							disabled={busy}
-							aria-label={`More actions for ${loadoutName}`}
-							title={`More actions for ${loadoutName}`}
-						>
-							<EllipsisIcon />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						{onCreateSnapshot && (
-							<DropdownMenuItem onSelect={onCreateSnapshot}>
-								<CameraIcon />
-								Create snapshot
-							</DropdownMenuItem>
-						)}
-						{onNotes && (
-							<DropdownMenuItem onSelect={onNotes}>
-								<FileTextIcon />
-								Notes
-							</DropdownMenuItem>
-						)}
-					</DropdownMenuContent>
-				</DropdownMenu>
+			{onNotes && (
+				<Button
+					type="button"
+					size="icon-sm"
+					variant="outline"
+					disabled={busy}
+					onClick={onNotes}
+					aria-label={`Notes for ${loadoutName}`}
+					title={`Notes for ${loadoutName}`}
+				>
+					<FileTextIcon />
+				</Button>
+			)}
+			{onCreateSnapshot && (
+				<Button
+					type="button"
+					size="icon-sm"
+					variant="outline"
+					disabled={busy}
+					onClick={onCreateSnapshot}
+					aria-label={`Create snapshot from ${loadoutName}`}
+					title={`Create snapshot from ${loadoutName}`}
+				>
+					<CameraIcon />
+				</Button>
 			)}
 			{onDelete && (
 				<AlertDialog>

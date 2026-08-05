@@ -273,12 +273,14 @@ export const LoadoutsList = () => {
 			<CreateLoadoutSnapshotDialog
 				loadout={snapshotLoadout}
 				onOpenChange={(next) => !next && setLoadoutToSnapshot(null)}
-				onCreate={(name, tag) => {
+				onCreate={(name, tag, notes, details) => {
 					if (!snapshotLoadout) return;
 					const id = createLoadoutSnapshot({
 						loadoutId: snapshotLoadout.id,
 						name,
 						tag,
+						notes,
+						details,
 					});
 					if (!id) return;
 					ga.event(ANALYTICS_EVENTS.LOADOUT_SNAPSHOT_CREATE);

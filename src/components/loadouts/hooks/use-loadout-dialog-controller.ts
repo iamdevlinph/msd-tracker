@@ -100,6 +100,8 @@ export function useLoadoutDialogController(
 		emptyEquipmentFilters,
 	);
 	const [activeTab, setActiveTab] = useState("0");
+	const setNotes = (notes: string) =>
+		setDraft((current) => ({ ...current, notes: notes.slice(0, 2000) }));
 	const nameManuallyEdited = useRef(false);
 	const hasTrackedClose = useRef(false);
 	useEffect(() => {
@@ -596,5 +598,6 @@ export function useLoadoutDialogController(
 			nameManuallyEdited.current = true;
 			setDraft((current) => ({ ...current, name }));
 		},
+		setNotes,
 	};
 }

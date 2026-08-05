@@ -59,7 +59,11 @@ export const LoadoutPreviewRow = ({
 					id={slot.monsterlingIds[index]}
 					owned={monsterlingsOwned}
 					levels={monsterlingLinkChainLevels}
-					label={`Monsterling ${index + 1} unavailable`}
+					label={
+						index === 0
+							? "Link Chain unavailable"
+							: `Monsterling ${index + 1} unavailable`
+					}
 					statsDisplay={monsterlingStatsDisplay}
 					onEdit={onEditMonsterling}
 				/>

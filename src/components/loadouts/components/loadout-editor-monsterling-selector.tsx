@@ -32,7 +32,9 @@ export const LoadoutEditorMonsterlingSelector = ({
 						? info.name
 						: legendary
 							? "Legendary"
-							: `Monsterling ${Number(monsterIndex) + 1}`
+							: monsterIndex === 0
+								? "Link Chain"
+								: `Monsterling ${Number(monsterIndex) + 1}`
 				}
 				onClick={onOpen}
 				className="grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
@@ -52,6 +54,8 @@ export const LoadoutEditorMonsterlingSelector = ({
 					</PortraitWithName>
 				) : legendary ? (
 					"Legendary"
+				) : monsterIndex === 0 ? (
+					"Link Chain"
 				) : (
 					`Monsterling ${Number(monsterIndex) + 1}`
 				)}

@@ -502,7 +502,7 @@ describe("LoadoutsDialog character picker", () => {
 		});
 		render(<LoadoutsDialog open setOpen={vi.fn()} />);
 
-		fireEvent.click(screen.getByRole("button", { name: "Monsterling 1" }));
+		fireEvent.click(screen.getByRole("button", { name: "Link Chain" }));
 		const search = screen.getByRole("textbox", {
 			name: "Search monsterlings",
 		});
@@ -549,7 +549,7 @@ describe("LoadoutsDialog character picker", () => {
 		);
 		expect(
 			artifactSelector.compareDocumentPosition(
-				screen.getByRole("button", { name: "Monsterling 1" }),
+				screen.getByRole("button", { name: "Link Chain" }),
 			),
 		).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 		fireEvent.click(artifactSelector);

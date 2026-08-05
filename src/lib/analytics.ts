@@ -38,6 +38,7 @@ export const ANALYTICS_EVENTS = {
 	MONSTERLINGS_RESET: "monsterlings_reset",
 	LOADOUTS_RESET: "loadouts_reset",
 	LOADOUT_SNAPSHOT_CREATE: "loadout_snapshot_create",
+	LOADOUT_SNAPSHOT_UPDATE: "loadout_snapshot_update",
 	LOADOUT_SNAPSHOT_PREVIEW: "loadout_snapshot_preview",
 	LOADOUT_SNAPSHOT_DELETE: "loadout_snapshot_delete",
 	LOADOUT_SNAPSHOTS_RESET: "loadout_snapshots_reset",

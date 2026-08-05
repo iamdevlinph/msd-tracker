@@ -46,6 +46,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Preselect the current character class when opening the loadout artifact picker while keeping all artifact filters editable.
 - [x] Match selection picker height to the 888px loadout editor height while keeping shorter viewports bounded and scrollable.
 - [x] Capture immutable, tagged loadout snapshots with frozen build data; list, search, filter, sort, preview, copy, delete, reset, and Drive-sync them with creation metadata, tier-framed character portraits, and read-only preview hover styling distinct from editable loadouts.
+- [x] Add loadout notes during creation/editing and category-aware snapshot metadata, editable compact snapshot rows, direct saved-loadout actions, immutable frozen builds, and Drive-compatible legacy normalization.
 
 ## Loadout Code Sharing: Deferred
 
