@@ -23,8 +23,8 @@ type CodexDetailsTab = "source" | "mutation";
 type CodexDetailsFrame = {
 	monsterlingId: number;
 	tab: CodexDetailsTab;
-	scrollLeft: number;
-	scrollTop: number;
+	scrollLeft: number | null;
+	scrollTop: number | null;
 };
 
 type CodexDetailsDialogProps = {
@@ -35,8 +35,8 @@ type CodexDetailsDialogProps = {
 const createFrame = (monsterlingId: number): CodexDetailsFrame => ({
 	monsterlingId,
 	tab: "mutation",
-	scrollLeft: 0,
-	scrollTop: 0,
+	scrollLeft: null,
+	scrollTop: null,
 });
 
 export const CodexDetailsDialog = ({
@@ -72,7 +72,13 @@ export const CodexDetailsDialog = ({
 	}, [monsterlingId]);
 
 	useEffect(() => {
-		if (!frame || frame.tab !== "mutation" || !mutationScrollRef.current) {
+		if (
+			!frame ||
+			frame.tab !== "mutation" ||
+			!mutationScrollRef.current ||
+			frame.scrollLeft === null ||
+			frame.scrollTop === null
+		) {
 			return;
 		}
 		mutationScrollRef.current.scrollLeft = frame.scrollLeft;
@@ -214,6 +220,7 @@ export const CodexDetailsDialog = ({
 										<MutationFamilyTree
 											family={family}
 											selectedMonsterlingId={frame.monsterlingId}
+											shouldAutoFrame={frame.scrollLeft === null}
 											onSelectMonsterling={handleOpenMonsterling}
 											scrollContainerRef={mutationScrollRef}
 										/>

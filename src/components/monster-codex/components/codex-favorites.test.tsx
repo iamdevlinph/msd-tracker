@@ -263,6 +263,8 @@ describe("monster codex favorites", () => {
 
 		fireEvent.click(screen.getByRole("button", { name: "Close" }));
 		expect(screen.getByRole("heading", { name: favorite.name })).toBeTruthy();
+		expect(diagram.scrollLeft).toBe(80);
+		expect(diagram.scrollTop).toBe(60);
 		expect(
 			screen
 				.getByRole("tab", { name: "Mutation Combination" })

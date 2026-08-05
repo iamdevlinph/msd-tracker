@@ -59,4 +59,19 @@ describe("MONSTERLING_MUTATIONS_DATA", () => {
 			ingredient_ids: [164, 151],
 		});
 	});
+
+	it("defines the verified shared-mask and Master Lizcout recipes", () => {
+		expect(MONSTERLING_MUTATIONS_DATA).toContainEqual({
+			result_id: 111,
+			ingredient_ids: [110, 114],
+		});
+		expect(MONSTERLING_MUTATIONS_DATA).toContainEqual({
+			result_id: 115,
+			ingredient_ids: [114, 111],
+		});
+		expect(MONSTERLING_MUTATIONS_DATA).toContainEqual({
+			result_id: 155,
+			ingredient_ids: [154, 96],
+		});
+	});
 });

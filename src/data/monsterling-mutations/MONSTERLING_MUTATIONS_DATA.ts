@@ -70,7 +70,7 @@ export const MONSTERLING_MUTATIONS_DATA = [
 	{ result_id: 149, ingredient_ids: [148, 147] },
 	{ result_id: 151, ingredient_ids: [150, 149] },
 	{ result_id: 153, ingredient_ids: [152, 160] },
-	{ result_id: 155, ingredient_ids: [154, 145] },
+	{ result_id: 155, ingredient_ids: [154, 96] },
 	{ result_id: 157, ingredient_ids: [156, 45] },
 	{ result_id: 161, ingredient_ids: [160, 157] },
 	{ result_id: 163, ingredient_ids: [162, 154] },

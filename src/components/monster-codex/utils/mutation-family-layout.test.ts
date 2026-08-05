@@ -96,4 +96,40 @@ describe("getMutationFamilyLayout", () => {
 			}
 		}
 	});
+
+	it("duplicates shared ingredients with deterministic occurrence keys", () => {
+		const family: MonsterlingMutationFamily = {
+			monsterlingIds: [110, 114, 111, 115],
+			recipes: [
+				{ result_id: 111, ingredient_ids: [110, 114] },
+				{ result_id: 115, ingredient_ids: [114, 111] },
+			],
+		};
+		const layout = getMutationFamilyLayout(family);
+		const shared = layout.occurrences.filter(
+			(occurrence) => occurrence.monsterlingId === 114,
+		);
+		expect(shared).toHaveLength(2);
+		expect(new Set(shared.map(({ key }) => key)).size).toBe(2);
+		for (const connection of layout.recipeConnections) {
+			const result = layout.occurrences.find(
+				(occurrence) => occurrence.key === connection.resultKey,
+			);
+			const ingredients = connection.ingredientKeys.map((key) =>
+				layout.occurrences.find((occurrence) => occurrence.key === key),
+			);
+			if (!result || ingredients.some((ingredient) => !ingredient)) {
+				throw new Error("missing occurrence");
+			}
+			expect(ingredients[0]?.y).toBe(ingredients[1]?.y);
+			expect(result.y).toBeLessThan(ingredients[0]?.y ?? 0);
+			expect(result.x + MUTATION_NODE_WIDTH / 2).toBe(
+				((ingredients[0]?.x ?? 0) +
+					MUTATION_NODE_WIDTH / 2 +
+					(ingredients[1]?.x ?? 0) +
+					MUTATION_NODE_WIDTH / 2) /
+					2,
+			);
+		}
+	});
 });

@@ -7,182 +7,163 @@ export const MUTATION_COLUMN_GAP = 32;
 export const MUTATION_ROW_GAP = 96;
 export const MUTATION_PADDING = 24;
 
+export type MutationOccurrence = {
+	key: string;
+	monsterlingId: number;
+	x: number;
+	y: number;
+};
+
+export type MutationRecipeConnection = {
+	resultKey: string;
+	ingredientKeys: readonly [string, string];
+};
+
 export type MutationFamilyLayout = {
+	/** First occurrence for each id, retained for backwards-compatible callers. */
 	positionById: Map<number, { x: number; y: number }>;
+	positionByOccurrenceKey: Map<string, { x: number; y: number }>;
+	occurrences: MutationOccurrence[];
+	recipeConnections: MutationRecipeConnection[];
 	width: number;
 	height: number;
 };
 
-/**
- * Lays out each recipe as a reserved subtree. A subtree's width includes all
- * of its descendants, so centering a parent cannot pull it over a neighboring
- * branch (which is especially important for the Avardan's Mana chain).
- */
+/** Lay out recipe occurrences. Shared ingredients are intentionally duplicated. */
 export const getMutationFamilyLayout = (
 	family: MonsterlingMutationFamily,
 ): MutationFamilyLayout => {
-	const parentById = new Map(family.monsterlingIds.map((id) => [id, id]));
-	const find = (id: number): number => {
-		const parent = parentById.get(id) ?? id;
-		if (parent === id) return id;
-		const root = find(parent);
-		parentById.set(id, root);
-		return root;
-	};
-	const union = (left: number, right: number) => {
-		const leftRoot = find(left);
-		const rightRoot = find(right);
-		if (leftRoot !== rightRoot) parentById.set(rightRoot, leftRoot);
-	};
-
-	for (const recipe of family.recipes) {
-		union(recipe.ingredient_ids[0], recipe.ingredient_ids[1]);
-	}
-
-	const componentById = new Map(
-		family.monsterlingIds.map((id) => [id, find(id)]),
-	);
-	const components = new Set(componentById.values());
-	const depthByComponent = new Map([...components].map((id) => [id, 0]));
-
-	// Longest-path levels preserve the reversed hierarchy while pair unions
-	// guarantee both direct ingredients occupy the same row.
-	for (let pass = 0; pass < components.size; pass += 1) {
-		let changed = false;
-		for (const recipe of family.recipes) {
-			const resultComponent = componentById.get(recipe.result_id);
-			const ingredientComponent = componentById.get(recipe.ingredient_ids[0]);
-			if (resultComponent === undefined || ingredientComponent === undefined) {
-				continue;
-			}
-			const nextDepth = (depthByComponent.get(ingredientComponent) ?? 0) + 1;
-			if (nextDepth > (depthByComponent.get(resultComponent) ?? 0)) {
-				depthByComponent.set(resultComponent, nextDepth);
-				changed = true;
-			}
-		}
-		if (!changed) break;
-	}
-
-	const positionById = new Map<number, { x: number; y: number }>();
-	const rows = new Map<number, number[]>();
-	for (const id of family.monsterlingIds) {
-		const component = componentById.get(id);
-		const depth = depthByComponent.get(component ?? id) ?? 0;
-		rows.set(depth, [...(rows.get(depth) ?? []), id]);
-	}
-	for (const ids of rows.values()) {
-		ids.sort(
-			(a, b) =>
-				(MONSTERLINGS_DATA[a]?.display_id ?? a) -
-				(MONSTERLINGS_DATA[b]?.display_id ?? b),
-		);
-	}
-	const maxDepth = Math.max(0, ...rows.keys());
-
-	type Subtree = {
-		width: number;
-		positions: Map<number, number>;
-	};
 	const recipeByResult = new Map(
 		family.recipes.map((recipe) => [recipe.result_id, recipe]),
 	);
-	const built = new Set<number>();
+	const ingredientIds = new Set(
+		family.recipes.flatMap((recipe) => recipe.ingredient_ids),
+	);
+	const sortIds = (left: number, right: number) =>
+		(MONSTERLINGS_DATA[left]?.display_id ?? left) -
+		(MONSTERLINGS_DATA[right]?.display_id ?? right);
+	const roots = [...family.monsterlingIds]
+		.filter((id) => !ingredientIds.has(id))
+		.sort(sortIds);
+	const rootIds =
+		roots.length > 0 ? roots : [...family.monsterlingIds].sort(sortIds);
+
+	type BuiltSubtree = {
+		width: number;
+		maxLevel: number;
+		nodes: Array<{
+			key: string;
+			monsterlingId: number;
+			x: number;
+			level: number;
+		}>;
+		connections: MutationRecipeConnection[];
+	};
 	const active = new Set<number>();
-	const buildSubtree = (id: number): Subtree => {
-		// Shared DAG nodes are rendered once. Reserving one card for subsequent
-		// references keeps their branch separated without duplicating a card.
-		if (built.has(id) || active.has(id)) {
-			return { width: MUTATION_NODE_WIDTH, positions: new Map() };
-		}
-		active.add(id);
+	const buildSubtree = (id: number, key: string): BuiltSubtree => {
 		const recipe = recipeByResult.get(id);
-		if (!recipe) {
-			active.delete(id);
-			built.add(id);
+		if (!recipe || active.has(id)) {
 			return {
 				width: MUTATION_NODE_WIDTH,
-				positions: new Map([[id, 0]]),
+				maxLevel: 0,
+				nodes: [{ key, monsterlingId: id, x: 0, level: 0 }],
+				connections: [],
 			};
 		}
-
-		const children = recipe.ingredient_ids.map(buildSubtree);
+		active.add(id);
+		const children = recipe.ingredient_ids.map((ingredientId, index) =>
+			buildSubtree(ingredientId, `${key}/${index}`),
+		);
+		active.delete(id);
 		const childOffsets = [0, children[0].width + MUTATION_COLUMN_GAP];
 		const width = children[0].width + MUTATION_COLUMN_GAP + children[1].width;
-		const positions = new Map<number, number>();
-		children.forEach((child, index) => {
-			for (const [childId, childX] of child.positions) {
-				positions.set(childId, childX + childOffsets[index]);
-			}
-		});
+		const nodes = children.flatMap((child, index) =>
+			child.nodes.map((node) => ({
+				...node,
+				x: node.x + childOffsets[index],
+				level: node.level + 1,
+			})),
+		);
 		const childCenters = children.map(
 			(child, index) =>
-				(child.positions.get(recipe.ingredient_ids[index]) ??
+				(child.nodes.find((node) => node.key === `${key}/${index}`)?.x ??
 					(child.width - MUTATION_NODE_WIDTH) / 2) +
 				childOffsets[index] +
 				MUTATION_NODE_WIDTH / 2,
 		);
-		positions.set(
-			id,
-			(childCenters[0] + childCenters[1]) / 2 - MUTATION_NODE_WIDTH / 2,
-		);
-		active.delete(id);
-		built.add(id);
-		return { width, positions };
+		const resultX =
+			(childCenters[0] + childCenters[1]) / 2 - MUTATION_NODE_WIDTH / 2;
+		nodes.push({ key, monsterlingId: id, x: resultX, level: 0 });
+		const connections = [
+			...children.flatMap((child) => child.connections),
+			{
+				resultKey: key,
+				ingredientKeys: [`${key}/0`, `${key}/1`] as const,
+			},
+		];
+		return {
+			width,
+			maxLevel: 1 + Math.max(children[0].maxLevel, children[1].maxLevel),
+			nodes,
+			connections,
+		};
 	};
 
-	const ingredientIds = new Set(
-		family.recipes.flatMap((recipe) => recipe.ingredient_ids),
-	);
-	const roots = family.monsterlingIds
-		.filter((id) => !ingredientIds.has(id))
-		.sort(
-			(a, b) =>
-				(MONSTERLINGS_DATA[a]?.display_id ?? a) -
-				(MONSTERLINGS_DATA[b]?.display_id ?? b),
-		);
-	let nextRootX = 0;
-	for (const root of roots.length > 0 ? roots : family.monsterlingIds) {
-		const subtree = buildSubtree(root);
-		for (const [id, x] of subtree.positions) {
-			const depth = depthByComponent.get(componentById.get(id) ?? id) ?? 0;
-			positionById.set(id, {
-				x: MUTATION_PADDING + nextRootX + x,
+	const occurrences: MutationOccurrence[] = [];
+	const recipeConnections: MutationRecipeConnection[] = [];
+	let nextRootX = MUTATION_PADDING;
+	let maxLevel = 0;
+	for (const rootId of rootIds) {
+		const subtree = buildSubtree(rootId, `root-${rootId}`);
+		maxLevel = Math.max(maxLevel, subtree.maxLevel);
+		for (const node of subtree.nodes) {
+			occurrences.push({
+				key: node.key,
+				monsterlingId: node.monsterlingId,
+				x: nextRootX + node.x,
 				y:
 					MUTATION_PADDING +
-					(maxDepth - depth) * (MUTATION_NODE_HEIGHT + MUTATION_ROW_GAP),
+					node.level * (MUTATION_NODE_HEIGHT + MUTATION_ROW_GAP),
 			});
 		}
+		recipeConnections.push(...subtree.connections);
 		nextRootX += subtree.width + MUTATION_COLUMN_GAP;
 	}
 
-	// Include malformed/disconnected family records without allowing a cycle to
-	// recurse forever. These are laid out as a final, non-overlapping row.
+	// Include malformed/disconnected records without recursing indefinitely.
 	for (const id of family.monsterlingIds) {
-		if (positionById.has(id)) continue;
-		const depth = depthByComponent.get(componentById.get(id) ?? id) ?? 0;
-		positionById.set(id, {
-			x: MUTATION_PADDING + nextRootX,
-			y:
-				MUTATION_PADDING +
-				(maxDepth - depth) * (MUTATION_NODE_HEIGHT + MUTATION_ROW_GAP),
+		if (occurrences.some((occurrence) => occurrence.monsterlingId === id))
+			continue;
+		occurrences.push({
+			key: `orphan-${id}`,
+			monsterlingId: id,
+			x: nextRootX,
+			y: MUTATION_PADDING,
 		});
 		nextRootX += MUTATION_NODE_WIDTH + MUTATION_COLUMN_GAP;
 	}
 
-	const minX = Math.min(...[...positionById.values()].map(({ x }) => x));
-	const horizontalShift = MUTATION_PADDING - minX;
-	for (const position of positionById.values()) position.x += horizontalShift;
-	const maxX = Math.max(
-		...[...positionById.values()].map(({ x }) => x + MUTATION_NODE_WIDTH),
+	const positionByOccurrenceKey = new Map(
+		occurrences.map(({ key, x, y }) => [key, { x, y }]),
 	);
-
+	const positionById = new Map<number, { x: number; y: number }>();
+	for (const occurrence of occurrences) {
+		if (!positionById.has(occurrence.monsterlingId)) {
+			positionById.set(occurrence.monsterlingId, {
+				x: occurrence.x,
+				y: occurrence.y,
+			});
+		}
+	}
 	return {
 		positionById,
-		width: maxX + MUTATION_PADDING,
+		positionByOccurrenceKey,
+		occurrences,
+		recipeConnections,
+		width: Math.max(MUTATION_NODE_WIDTH + MUTATION_PADDING * 2, nextRootX),
 		height:
 			MUTATION_PADDING * 2 +
-			(maxDepth + 1) * MUTATION_NODE_HEIGHT +
-			maxDepth * MUTATION_ROW_GAP,
+			(maxLevel + 1) * MUTATION_NODE_HEIGHT +
+			maxLevel * MUTATION_ROW_GAP,
 	};
 };
