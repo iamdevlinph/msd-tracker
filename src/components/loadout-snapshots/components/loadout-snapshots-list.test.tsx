@@ -126,6 +126,21 @@ describe("LoadoutSnapshotsList", () => {
 			screen.getByRole("button", { name: "Preview Beta clear snapshot row" }),
 		);
 		expect(screen.getByText("Loadout Snapshot")).toBeTruthy();
+		const previewDialog = within(
+			screen.getByRole("dialog", { name: "Beta clear" }),
+		);
+		expect(
+			previewDialog.getByRole("button", { name: "Edit Beta clear" }),
+		).toBeTruthy();
+		expect(
+			previewDialog.getByRole("button", { name: "Copy Beta clear image" }),
+		).toBeTruthy();
+		expect(
+			previewDialog.getByRole("button", { name: "Delete Beta clear" }),
+		).toBeTruthy();
+		expect(
+			previewDialog.queryByRole("button", { name: "Preview Beta clear" }),
+		).toBeNull();
 		const previewSurface = within(screen.getByTestId("loadout-share-surface"));
 		expect(previewSurface.queryByText(/Note:/)).toBeNull();
 		const showNotes = screen.getByRole("checkbox", { name: "Show notes" });
@@ -134,6 +149,13 @@ describe("LoadoutSnapshotsList", () => {
 		expect(previewSurface.getByText(/Note:/).closest("p")?.textContent).toBe(
 			"Note: Bring fire resistance",
 		);
+		fireEvent.click(
+			previewDialog.getByRole("button", { name: "Edit Beta clear" }),
+		);
+		expect(
+			screen.getByRole("heading", { name: "Edit loadout snapshot" }),
+		).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
 		fireEvent.click(
 			screen.getAllByRole("button", { name: "Delete Beta clear" })[0],
 		);

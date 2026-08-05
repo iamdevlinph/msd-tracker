@@ -225,6 +225,7 @@ export const LoadoutSnapshotsList = () => {
 			<LoadoutPreviewDialog
 				loadout={preview ? snapshotLoadout(preview) : null}
 				onOpenChange={(open) => !open && setPreviewId(null)}
+				onEdit={() => preview && setEditId(preview.id)}
 				onDelete={() => preview && remove(preview.id)}
 				renderData={preview ? snapshotRenderData(preview) : undefined}
 				metadata={
