@@ -37,11 +37,25 @@ const { monsterlingData } = vi.hoisted(() => ({
 			element_id: 2,
 			ability: "Fixture ability",
 		},
+		3: {
+			id: 3,
+			display_id: 3,
+			name: "Fixture Ingredient",
+			region_id: 1,
+			source_id: [1, 2],
+			image: "/images/fixture-ingredient.png",
+			element_id: 1,
+			ability: "Fixture ability",
+		},
 	} satisfies MonsterCodexData,
 }));
 
 vi.mock("@/data/monsterlings/MONSTERLINGS_DATA", () => ({
 	MONSTERLINGS_DATA: monsterlingData,
+}));
+
+vi.mock("@/data/monsterling-mutations/MONSTERLING_MUTATIONS_DATA", () => ({
+	MONSTERLING_MUTATIONS_DATA: [{ result_id: 2, ingredient_ids: [1, 3] }],
 }));
 
 vi.mock("tanstack-router-ga4", () => ({
@@ -97,7 +111,7 @@ describe("monster codex favorites", () => {
 			filters: {
 				...initialCodexFilters,
 				region: favorite.region_id,
-				source,
+				selectedSources: [source],
 				search: favorite.name,
 			},
 		});
@@ -164,6 +178,72 @@ describe("monster codex favorites", () => {
 		expect(event).toHaveBeenCalledWith("codex_mark_complete", {
 			monsterling_id: favorite.id,
 			monsterling_name: favorite.name,
+		});
+	});
+
+	it("selects multiple source filters with OR semantics", () => {
+		render(
+			<>
+				<CodexFilter />
+				<CodexList />
+			</>,
+		);
+
+		const sourceTrigger = screen.getByRole("button", { name: "Source" });
+		fireEvent.pointerDown(sourceTrigger, {
+			button: 0,
+			ctrlKey: false,
+		});
+		fireEvent.click(screen.getByRole("menuitemcheckbox", { name: "Capture" }));
+		fireEvent.click(screen.getByRole("menuitemcheckbox", { name: "Conquest" }));
+
+		expect(useCodexStore.getState().filters.selectedSources).toEqual([1, 2]);
+		expect(sourceTrigger.textContent).toBe("2 sources");
+		expect(screen.getByAltText(`${favorite.name} monsterling`)).toBeTruthy();
+		expect(screen.getByAltText(`${other.name} monsterling`)).toBeTruthy();
+
+		fireEvent.click(screen.getByRole("menuitemcheckbox", { name: "Capture" }));
+		expect(useCodexStore.getState().filters.selectedSources).toEqual([2]);
+		expect(screen.queryByAltText(`${favorite.name} monsterling`)).toBeNull();
+	});
+
+	it("opens details and unwinds mutation-node dialogs one level at a time", () => {
+		render(<CodexList />);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: `View ${favorite.name} details` }),
+		);
+		expect(screen.getByRole("heading", { name: favorite.name })).toBeTruthy();
+		expect(screen.getByText(favorite.ability)).toBeTruthy();
+		expect(screen.getByText("Capture")).toBeTruthy();
+
+		const mutationTab = screen.getByRole("tab", {
+			name: "Mutation Combination",
+		});
+		fireEvent.pointerDown(mutationTab, { button: 0, ctrlKey: false });
+		fireEvent.click(mutationTab);
+		fireEvent.click(screen.getByRole("button", { name: other.name }));
+		expect(screen.getByRole("heading", { name: other.name })).toBeTruthy();
+		expect(screen.queryByText("Locations coming soon.")).toBeNull();
+		expect(
+			screen.getByRole("tab", { name: "Source" }).getAttribute("aria-selected"),
+		).toBe("true");
+
+		fireEvent.click(screen.getByRole("button", { name: "Close" }));
+		expect(screen.getByRole("heading", { name: favorite.name })).toBeTruthy();
+		expect(
+			screen
+				.getByRole("tab", { name: "Mutation Combination" })
+				.getAttribute("aria-selected"),
+		).toBe("true");
+
+		fireEvent.click(screen.getByRole("button", { name: "Close" }));
+		expect(screen.queryByRole("dialog")).toBeNull();
+		expect(event).toHaveBeenCalledWith("codex_details_open", {
+			monsterling_id: favorite.id,
+		});
+		expect(event).toHaveBeenCalledWith("codex_mutation_tree_open", {
+			monsterling_id: other.id,
 		});
 	});
 

@@ -31,6 +31,8 @@ export const ANALYTICS_EVENTS = {
 	CODEX_MARK_INCOMPLETE: "codex_mark_incomplete",
 	CODEX_ADD_FAVORITE: "codex_add_favorite",
 	CODEX_REMOVE_FAVORITE: "codex_remove_favorite",
+	CODEX_DETAILS_OPEN: "codex_details_open",
+	CODEX_MUTATION_TREE_OPEN: "codex_mutation_tree_open",
 	CODEX_RESET: "codex_reset",
 	CHARACTERS_RESET: "characters_reset",
 	MONSTERLINGS_RESET: "monsterlings_reset",

@@ -72,6 +72,13 @@ const EXPECTED_LINK_CHAINS = {
 };
 
 describe("MONSTERLINGS_DATA", () => {
+	it("defines a published ability for every numbered Codex Monsterling", () => {
+		for (const monsterling of Object.values(MONSTERLINGS_DATA)) {
+			if (monsterling.id > 165) continue;
+			expect(monsterling.ability.trim()).not.toBe("");
+		}
+	});
+
 	it("defines the verified Link Chain roster", () => {
 		const linkChainsByMonsterling = Object.fromEntries(
 			Object.values(MONSTERLINGS_DATA)

@@ -15,7 +15,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"DMG +5% against normal enemies for 5s upon attacking Wind enemy 10 times",
+			"DMG +6.3% against normal enemies for 5s upon attacking Wind enemy 10 times",
 	},
 	146: {
 		id: 146,
@@ -27,7 +27,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"DMG +5% against normal enemies for 5s upon attacking Wind enemy 10 times",
+			"DMG +6.3% against normal enemies for 5s upon attacking Wind enemy 10 times",
 	},
 	147: {
 		id: 147,
@@ -38,7 +38,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "ATK +2.5% upon attacking Wind enemy 10 times",
+		ability: "ATK +3.1% upon attacking Wind enemy 10 times",
 	},
 	148: {
 		id: 148,
@@ -50,7 +50,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"All teammates' Support Skill DMG +5% for 5s upon using a Switch Skill",
+			"All teammates' Support Skill DMG +6.3% for 5s upon using a Switch Skill",
 	},
 	149: {
 		id: 149,
@@ -62,7 +62,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"All teammates' Support Skill DMG +5% for 5s upon using a Switch Skill",
+			"All teammates' Support Skill DMG +6.3% for 5s upon using a Switch Skill",
 	},
 	150: {
 		id: 150,
@@ -82,7 +82,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Suppression DMG +5.5% for 5s upon using a Switch Skill",
+		ability: "Suppression DMG +8% for 5s upon using a Switch Skill",
 	},
 	151: {
 		id: 151,
@@ -101,7 +101,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Suppression DMG +5.5% for 5s upon using a Switch Skill",
+		ability: "Suppression DMG +8% for 5s upon using a Switch Skill",
 	},
 	152: {
 		id: 152,
@@ -112,7 +112,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "DEF +3.75% for 5s upon attacking Fire enemy 10 times",
+		ability: "DEF +4.7% for 5s upon attacking Fire enemy 10 times",
 	},
 	153: {
 		id: 153,
@@ -123,7 +123,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "DEF +3.75% for 5s upon attacking Fire enemy 10 times",
+		ability: "DEF +4.7% for 5s upon attacking Fire enemy 10 times",
 	},
 	154: {
 		id: 154,
@@ -134,7 +134,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Earth ATK +5% for 10s upon being hit (Cooldown: 20s)",
+		ability: "Earth ATK +6.3% for 10s upon being hit (Cooldown: 20s)",
 	},
 	155: {
 		id: 155,
@@ -145,7 +145,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Earth ATK +5% for 10s upon being hit (Cooldown: 20s)",
+		ability: "Earth ATK +6.3% for 10s upon being hit (Cooldown: 20s)",
 	},
 	156: {
 		id: 156,
@@ -156,7 +156,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "DEF +3.75% for 5s upon attacking normal enemy 10 times",
+		ability: "DEF +4.7% for 5s upon attacking normal enemy 10 times",
 	},
 	157: {
 		id: 157,
@@ -167,7 +167,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "DEF +3.75% for 5s upon attacking normal enemy 10 times",
+		ability: "DEF +4.7% for 5s upon attacking normal enemy 10 times",
 	},
 	158: {
 		id: 158,
@@ -198,7 +198,8 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "All teammates' DEF +4.13% for 5s upon being hit by a boss enemy ",
+		ability:
+			"All teammates' DEF +6% for 5s upon being hit by a boss enemy (Cooldown: 20s)",
 	},
 	160: {
 		id: 160,
@@ -218,7 +219,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"All teammates' DEF +4.13% for 10s upon landing a critical hit on a boss enemy",
+			"All teammates' DEF +6% for 10s upon landing a critical hit on a boss enemy",
 	},
 	161: {
 		id: 161,
@@ -239,7 +240,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"All teammates' DEF +4.13% for 10s upon landing a critical hit on a boss enemy",
+			"All teammates' DEF +6% for 10s upon landing a critical hit on a boss enemy",
 	},
 	162: {
 		id: 162,
@@ -250,7 +251,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "DEF +3.75% for 5s upon attacking Wind enemy 10 times",
+		ability: "DEF +4.7% for 5s upon attacking Wind enemy 10 times",
 	},
 	163: {
 		id: 163,
@@ -261,7 +262,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "DEF +3.75% for 5s upon attacking Wind enemy 10 times",
+		ability: "DEF +4.7% for 5s upon attacking Wind enemy 10 times",
 	},
 	164: {
 		id: 164,
@@ -284,7 +285,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
-		ability: "Crit DMG +6% for 4s upon using a Ice Special Skill",
+		ability: "Crit DMG +11% for 4s upon using an Ice Special Skill",
 	},
 	165: {
 		id: 165,
@@ -307,6 +308,6 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Ice DMG +6% upon attacking with a Ice Special Skill",
+		ability: "Ice DMG +11% upon attacking with an Ice Special Skill",
 	},
 };

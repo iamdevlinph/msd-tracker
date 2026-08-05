@@ -1,8 +1,5 @@
 import { create } from "zustand";
-import {
-	SOURCE_ID_BY_SOURCE,
-	type SourceId,
-} from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
+import type { SourceId } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import {
 	REGION_ID_BY_REGION,
 	type RegionId,
@@ -23,14 +20,14 @@ export const CODEX_VIEW = {
 export type CodexView = (typeof CODEX_VIEWS)[number];
 
 export type CodexFilters = {
-	source: SourceId;
+	selectedSources: SourceId[];
 	region: RegionId;
 	view: CodexView;
 	search: string;
 };
 
 export const initialCodexFilters: CodexFilters = {
-	source: SOURCE_ID_BY_SOURCE.ALL,
+	selectedSources: [],
 	region: REGION_ID_BY_REGION.ALL,
 	view: CODEX_VIEW.ALL,
 	search: "",

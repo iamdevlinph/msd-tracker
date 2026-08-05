@@ -14,7 +14,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Special Skill Crit Rate +5% (Cooldown: 20s)",
+		ability: "Special Skill Crit Rate +6.25% (Cooldown: 20s)",
 	},
 	2: {
 		id: 2,
@@ -25,7 +25,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Special Skill Crit Rate + 5.25% (Cooldown: 20s)",
+		ability: "Special Skill Crit Rate +6.57% (Triggers once every 20s)",
 	},
 	3: {
 		id: 3,
@@ -45,7 +45,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
-			"Recovers 1.65% of Max HP upon landing a Special Skill (Cooldown: 15s)",
+			"Recovers 2.4% of Max HP upon landing a Special Skill (Cooldown: 15s)",
 	},
 	4: {
 		id: 4,
@@ -66,7 +66,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Recovers 1.74% of Max HP upon using a Special Skill (Cooldown: 15s)",
+			"Recovers 2.52% of Max HP upon using a Special Skill (Triggers once every 15s)",
 	},
 	5: {
 		id: 5,
@@ -77,7 +77,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit DMG +5% against Physical enemies",
+		ability: "Crit DMG +6.25% against Physical enemies",
 	},
 	6: {
 		id: 6,
@@ -88,7 +88,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit DMG +5.25% against Physical enemies",
+		ability: "Crit DMG +6.57% against Physical enemies",
 	},
 	7: {
 		id: 7,
@@ -100,7 +100,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"Crit DMG +5% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
+			"Crit DMG +6.25% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
 	},
 	8: {
 		id: 8,
@@ -112,7 +112,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Crit DMG +5.25% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
+			"Crit DMG +6.57% for 5s upon landing a Basic Attack 10 times (Cooldown: 20s)",
 	},
 	9: {
 		id: 9,
@@ -123,8 +123,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability:
-			"Physical DMG +5% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
+		ability: "Physical DMG +6.25% for 5s upon 10 Basic Attacks (Cooldown: 20s)",
 	},
 	10: {
 		id: 10,
@@ -136,7 +135,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"Suppression DMG +5% for 5s upon landing 10 Basic Attacks (Cooldown: 20s)",
+			"Suppression DMG +6.25% for 5s upon landing a Basic Attack 10 times (Cooldown: 20s)",
 	},
 	11: {
 		id: 11,
@@ -147,7 +146,8 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Brawl DMG +5% for 5s upon landing a critical hit (Cooldown: 20s)",
+		ability:
+			"Brawl DMG +6.25% for 5s upon landing a critical hit (Cooldown: 20s)",
 	},
 	12: {
 		id: 12,
@@ -159,7 +159,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Brawl DMG +5.25% for 5s upon landing a critical hit (Cooldown: 20s)",
+			"Brawl DMG +6.57% for 5s upon landing a critical hit (Cooldown: 20s)",
 	},
 	13: {
 		id: 13,
@@ -170,7 +170,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Critical Ice DMG +5%",
+		ability: "Critical Ice DMG +6.25%",
 	},
 	14: {
 		id: 14,
@@ -181,7 +181,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Critical Ice DMG +5.25%",
+		ability: "Critical Ice DMG +6.57%",
 	},
 	15: {
 		id: 15,
@@ -200,7 +200,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"Target's Physical RES -6% for 5s upon attacking with target's Elemental Weakness",
+			"Target's Physical RES -11% for 5s upon attacking with target's Elemental Weakness (Cooldown: 15s)",
 	},
 	16: {
 		id: 16,
@@ -220,7 +220,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
-			"All teammates' DEF +4.5% for 5s upon attacking Water enemy (Cooldown: 10s)",
+			"All teammates' DEF +8.25% for 5s upon attacking a Water enemy (Cooldown: 10s)",
 	},
 	17: {
 		id: 17,
@@ -241,7 +241,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "ATK +3.15% for 10s upon attacking Water enemy (Cooldown: 20s)",
+		ability: "ATK +5.78% for 10s upon attacking a Water enemy (Cooldown: 20s)",
 	},
 	18: {
 		id: 18,
@@ -262,7 +262,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"ATK +3% for 10s upon making 20 successful attacks (Cooldown: 20s)",
+			"ATK +5.5% for 10s upon making 20 successful attacks (Triggers once every 20s)",
 	},
 	19: {
 		id: 19,
@@ -282,7 +282,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Restores 1.89% HP for all teammates upon landing 10 Basic Attacks (Cooldown: 20s)",
+			"Restores 3.47% HP for all teammates upon landing a Basic Attack 10 times (Cooldown: 20s)",
 	},
 	20: {
 		id: 20,
@@ -303,7 +303,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
-			"Neutralization DMG +6% for 10s upon landing a critical hit (Cooldown: 20s)",
+			"Neutralization DMG +11% for 10s upon landing a critical hit (Cooldown: 20s)",
 	},
 	21: {
 		id: 21,
@@ -322,7 +322,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Target's Ice RES -6.3% for 10s upon landing a critical hit",
+		ability: "Target's Ice RES -11.55% for 10s upon landing a critical hit",
 	},
 	22: {
 		id: 22,
@@ -340,7 +340,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "ATK +2.75% against Physical enemies",
+		ability: "ATK +4% against Physical enemies",
 	},
 	23: {
 		id: 23,
@@ -358,7 +358,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Special Skill Fire DMG +5.5% (Cooldown: 15s)",
+		ability: "Special Skill Fire DMG +8% (Cooldown: 15s)",
 	},
 	24: {
 		id: 24,
@@ -376,7 +376,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Special Skill Fire DMG +5.78% (Cooldown: 15s)",
+		ability: "Special Skill Fire DMG +8.4% (Cooldown: 15s)",
 	},
 	25: {
 		id: 25,
@@ -387,7 +387,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit Rate +5% against knocked-down targets",
+		ability: "Crit Rate +6.25% against knocked-down targets",
 	},
 	26: {
 		id: 26,
@@ -398,7 +398,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit Rate +5.25% against knocked-down targets",
+		ability: "Crit Rate +6.57% against knocked-down targets",
 	},
 	27: {
 		id: 27,
@@ -409,7 +409,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Earth DMG +5% against knocked-down targets",
+		ability: "Earth DMG +6.25% against knocked-down targets",
 	},
 	28: {
 		id: 28,
@@ -420,7 +420,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Special Skill Crit DMG +5% (Cooldown: 20s)",
+		ability: "Special Skill Crit DMG +6.25% (Cooldown: 20s)",
 	},
 	29: {
 		id: 29,
@@ -431,7 +431,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Special Skill Crit DMG + 5.25% (Cooldown: 20s)",
+		ability: "Special Skill Crit DMG +6.57% (Cooldown: 20s)",
 	},
 	30: {
 		id: 30,
@@ -442,7 +442,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Special Skill Neutralization DMG +5% (Cooldown: 15s)",
+		ability: "Special Skill Neutralization DMG +6.57% (Cooldown: 15s)",
 	},
 	31: {
 		id: 31,
@@ -453,7 +453,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Special Skill Neutralization DMG +5.25% (Cooldown: 15s)",
+		ability: "Special Skill Neutralization DMG +6.57% (Cooldown: 15s)",
 	},
 	32: {
 		id: 32,
@@ -464,7 +464,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit Rate +5% against Lightning enemies",
+		ability: "Crit Rate +6.25% against Lightning enemies",
 	},
 	33: {
 		id: 33,
@@ -475,7 +475,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit Rate +5.25% against Lightning enemies",
+		ability: "Crit Rate +6.57% against Lightning enemies",
 	},
 	34: {
 		id: 34,
@@ -495,7 +495,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Critical Lightning DMG +5.5%",
+		ability: "Critical hits' Lightning DMG +8%",
 	},
 	35: {
 		id: 35,
@@ -514,7 +514,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Suppression DMG +5.5% against knocked-down targets",
+		ability: "Suppression DMG +8% against knocked-down targets",
 	},
 	36: {
 		id: 36,
@@ -533,7 +533,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Suppression DMG +5.78% against knocked-down targets",
+		ability: "Suppression DMG +8.4% against knocked-down targets",
 	},
 	37: {
 		id: 37,
@@ -551,7 +551,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Special Skill ATK +2.75% (Cooldown: 15s)",
+		ability: "Special Skills' ATK +4% (Triggers once every 15s)",
 	},
 	38: {
 		id: 38,
@@ -572,7 +572,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
-			"Target's DEF -4.5% for 5s upon landing a critical hit with an Earth Attack",
+			"Target's DEF -8.25% for 5s upon landing a critical hit with an Earth Attack",
 	},
 	39: {
 		id: 39,
@@ -592,6 +592,6 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.ELENDOR,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"All teammates ATK +3.15% for 10s upon attacking a boss enemy with its Elemental Weakness (Cooldown: 20s)",
+			"All teammates' ATK +5.78% for 10s upon attacking a boss enemy with their Elemental Weakness (Cooldown: 20s)",
 	},
 };

@@ -14,7 +14,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Switch Skill Crit DMG +5%",
+		ability: "Switch Skill Crit DMG +6.25%",
 	},
 	97: {
 		id: 97,
@@ -25,7 +25,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Switch Skill Crit DMG +5.25%",
+		ability: "Switch Skill Crit DMG +6.57%",
 	},
 	98: {
 		id: 98,
@@ -36,7 +36,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Switch Skill Crit Rate +5",
+		ability: "Switch Skill Crit Rate +6.25%",
 	},
 	99: {
 		id: 99,
@@ -47,7 +47,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Ice DMG +5.25% against Staggered boss enemies",
+		ability: "Ice DMG +6.57% against Staggered boss enemies",
 	},
 	100: {
 		id: 100,
@@ -58,7 +58,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Ultimate Skill Crit DMG 5%",
+		ability: "Ultimate Skill Crit DMG 6.25%",
 	},
 	101: {
 		id: 101,
@@ -69,7 +69,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Ultimate Skill Fire DMG +5%",
+		ability: "Ultimate Skill Fire DMG +6.25%",
 	},
 	102: {
 		id: 102,
@@ -81,7 +81,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"DMG +5% against normal enemies for 5s upon using an Ultimate Skill",
+			"DMG +6.25% against normal enemies for 5s upon using an Ultimate Skill",
 	},
 	103: {
 		id: 103,
@@ -92,7 +92,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Special Skill Crit Rate +5% (Cooldown: 20s)",
+		ability: "Special Skill Crit Rate +6.25% (Cooldown: 20s)",
 	},
 	104: {
 		id: 104,
@@ -112,7 +112,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Switch Skill ATK +3%",
+		ability: "Switch Skill ATK +5.5%",
 	},
 	105: {
 		id: 105,
@@ -131,7 +131,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Switch Skill ATK +3.15%",
+		ability: "Switch Skill ATK +5.78%",
 	},
 	106: {
 		id: 106,
@@ -142,7 +142,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Switch Skill Fire DMG +5%",
+		ability: "Switch Skill Fire DMG +6.25%",
 	},
 	107: {
 		id: 107,
@@ -153,7 +153,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Switch Skill Fire DMG +5%",
+		ability: "Switch Skill Fire DMG +6.57%",
 	},
 	108: {
 		id: 108,
@@ -164,7 +164,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Physical DMG +5% for 5s upon using Evasion Counter",
+		ability: "Physical DMG +6.25% for 5s upon using Evasion Counter",
 	},
 	109: {
 		id: 109,
@@ -175,7 +175,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Physical DMG +5.25% for 5s upon using Evasion Counter",
+		ability: "Physical DMG +6.57% for 5s upon using Evasion Counter",
 	},
 	110: {
 		id: 110,
@@ -186,7 +186,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Target's Physical RES -5% for 5s upon using Evasion Counter",
+		ability: "Target's Physical RES -6.25% for 5s upon using Evasion Counter",
 	},
 	111: {
 		id: 111,
@@ -197,7 +197,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Target's Physical RES -5.25% for 5s upon using Evasion Counter",
+		ability: "Target's Physical RES -6.57% for 5s upon using Evasion Counter",
 	},
 	112: {
 		id: 112,
@@ -208,7 +208,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Fire DMG +5% against boss enemies",
+		ability: "Fire DMG +6.25% against boss enemies",
 	},
 	113: {
 		id: 113,
@@ -219,7 +219,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Fire DMG +5.25% against boss enemies",
+		ability: "Fire DMG +6.57% against boss enemies",
 	},
 	114: {
 		id: 114,
@@ -239,7 +239,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"Target's ATK -2.75% for 10s upon attacking a boss enemy (Cooldown: 20s)",
+			"Target's ATK -4% for 10s upon attacking a boss enemy (Cooldown: 20s)",
 	},
 	115: {
 		id: 115,
@@ -264,8 +264,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability:
-			"Target's ATK -2.75% for 10s upon attacking a boss enemy (Cooldown: 20s)",
+		ability: "Target's ATK -4% for 10s upon attacking a boss enemy",
 	},
 	116: {
 		id: 116,
@@ -277,7 +276,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"All teammates' Support Skill DMG +5% for 5s upon being hit by a boss enemy",
+			"All teammates' Support Skill DMG +6.25% for 5s upon being hit by a boss enemy",
 	},
 	117: {
 		id: 117,
@@ -289,7 +288,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"All teammates' Support Skill DMG +5% for 5s upon being hit by a boss enemy",
+			"All teammates' Support Skill DMG +6.57% for 5s upon being hit by a boss enemy",
 	},
 	118: {
 		id: 118,
@@ -309,7 +308,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Target's Earth RES -5.5% for 10s upon using a Switch Skill",
+		ability: "Target's Earth RES -8% for 10s upon using a Switch Skill",
 	},
 	119: {
 		id: 119,
@@ -334,7 +333,7 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
-			"Target's Fire RES -6% for 10s upon attacking with a Fire Special Skill",
+			"Target's Fire RES -11% for 10s upon attacking with a Fire Special Skill",
 	},
 	120: {
 		id: 120,
@@ -358,6 +357,6 @@ export const MONSTERLING_DATA_SURAH: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SURAH,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Fire DMG +6.3% upon attacking with a Fire Special Skill",
+		ability: "Fire DMG +11.55% upon attacking with a Fire Special Skill",
 	},
 };

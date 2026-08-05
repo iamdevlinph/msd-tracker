@@ -12,7 +12,12 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app-store";
 
-export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
+type CodexCardProps = {
+	monsterling_id: number;
+	onOpen?: (monsterlingId: number) => void;
+};
+
+export const CodexCard = ({ monsterling_id, onOpen }: CodexCardProps) => {
 	const ga = useGoogleAnalytics();
 	const { name, image, id, display_id } = MONSTERLINGS_DATA[monsterling_id];
 
@@ -33,12 +38,23 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 		<div className="w-36 h-44">
 			<Card
 				className={cn(
-					"inline-block relative",
+					"group inline-block relative transition-colors hover:border-primary focus-within:border-primary",
 					completed ? "bg-secondary" : "bg-background",
 					"py-2",
 				)}
 			>
-				<div className="absolute -top-3 -right-3 z-2 flex gap-1">
+				<button
+					type="button"
+					className="absolute inset-0 z-10 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+					onClick={() => {
+						onOpen?.(id);
+						ga.event(ANALYTICS_EVENTS.CODEX_DETAILS_OPEN, {
+							monsterling_id: id,
+						});
+					}}
+					aria-label={`View ${name} details`}
+				/>
+				<div className="absolute -top-3 -right-3 z-20 flex gap-1">
 					<Button
 						variant="secondary"
 						size="icon-sm"
@@ -48,7 +64,8 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 							favorite &&
 								"bg-rose-100 text-rose-600 hover:bg-rose-200 dark:bg-rose-950 dark:text-rose-400 dark:hover:bg-rose-900",
 						)}
-						onClick={() => {
+						onClick={(event) => {
+							event.stopPropagation();
 							toggleMonsterCodexFavorite(id);
 							ga.event(
 								favorite
@@ -71,7 +88,8 @@ export const CodexCard = ({ monsterling_id }: { monsterling_id: number }) => {
 						variant={completed ? "default" : "secondary"}
 						size="icon-sm"
 						className="rounded-full cursor-pointer shadow-sm"
-						onClick={() => {
+						onClick={(event) => {
+							event.stopPropagation();
 							completed
 								? deleteMonsterCodexComplete(id)
 								: setMonsterCodexComplete(id);

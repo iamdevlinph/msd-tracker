@@ -23,7 +23,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Attacks' Earth DMG +6% upon attacking with Elemental Weakness",
+		ability: "Attacks' Earth DMG +11% upon attacking with Elemental Weakness.",
 	},
 	41: {
 		id: 41,
@@ -43,7 +43,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Attack Neutralization DMG +6.3% upon attacking with Elemental Weakness",
+			"Attack Neutralization DMG +11.55% upon attacking with Elemental Weakness",
 	},
 	42: {
 		id: 42,
@@ -54,7 +54,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Physical DMG +5% against normal enemies (Cooldown: 20s)",
+		ability: "Physical DMG +6.25% against normal enemies (Cooldown: 20s)",
 	},
 	43: {
 		id: 43,
@@ -65,7 +65,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Physical DMG +5.25% against normal enemies (Cooldown: 20s)",
+		ability: "Physical DMG +6.57% against normal enemies (Cooldown: 20s)",
 	},
 	44: {
 		id: 44,
@@ -76,7 +76,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit Rate +5% against normal enemies (Cooldown: 20s)",
+		ability: "Crit Rate +6.25% against normal enemies (Cooldown: 20s)",
 	},
 	45: {
 		id: 45,
@@ -87,7 +87,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit DMG +5% for 5s upon being hit 10 times",
+		ability: "Crit DMG +6.25% for 5s upon being hit 10 times",
 	},
 	46: {
 		id: 46,
@@ -98,7 +98,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit DMG +5.25% for 5s upon being hit 10 times",
+		ability: "Crit DMG +6.57% for 5s upon being hit 10 times",
 	},
 	47: {
 		id: 47,
@@ -109,7 +109,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Special Skill DMG +5% for 5s upon being hit 10 times",
+		ability: "Special Skill DMG +6.25% for 5s upon being hit 10 times",
 	},
 	48: {
 		id: 48,
@@ -120,7 +120,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Special Skill DMG +5.25% for 5s upon being hit 10 times",
+		ability: "Special Skill DMG +6.57% 5s upon being hit 10 times",
 	},
 	49: {
 		id: 49,
@@ -131,7 +131,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Ultimate Skill Neutralization DMG +5%",
+		ability: "Ultimate Skill's Neutralization DMG +6.25%",
 	},
 	50: {
 		id: 50,
@@ -142,7 +142,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Ultimate Skill Neutralization DMG + 5.25%",
+		ability: "Ultimate Skill's Neutralization DMG +6.57%",
 	},
 	51: {
 		id: 51,
@@ -162,7 +162,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Ultimate Skill Elemental Weakness DMG +5.5%",
+		ability: "Ultimate Skill Elemental Weakness DMG +8%",
 	},
 	52: {
 		id: 52,
@@ -173,7 +173,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Physical DMG +5% for 5s upon landing a critical hit",
+		ability: "Physical DMG +6.3% for 5s upon landing a critical hit",
 	},
 	53: {
 		id: 53,
@@ -184,7 +184,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Physical DMG +5.25% for 5s upon landing a critical hit",
+		ability: "Physical DMG +6.6% for 5s upon landing a critical hit",
 	},
 	54: {
 		id: 54,
@@ -203,7 +203,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Suppression DMG +5.5% for 10s upon landing a critical hit",
+		ability: "Suppression DMG +8% for 10s upon landing a critical hit",
 	},
 	55: {
 		id: 55,
@@ -223,8 +223,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability:
-			"DMG +5.5% against boss enemies for 5s upon landing a critical hit",
+		ability: "DMG +8% against boss enemies for 5s upon landing a critical hit",
 	},
 	56: {
 		id: 56,
@@ -243,7 +242,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Special Skill DMG +5.78% for 10s upon landing a critical hit",
+		ability: "Special Skill DMG +8.4% for 10s upon landing a critical hit",
 	},
 	57: {
 		id: 57,
@@ -254,7 +253,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Physical DMG +5% for 5s upon being hit 10 times",
+		ability: "Physical DMG +6.25% for 5s upon being hit 10 times",
 	},
 	58: {
 		id: 58,
@@ -265,7 +264,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Physical DMG +5.25% for 5s upon being hit 10 times",
+		ability: "Physical DMG +6.57% for 5s upon being hit 10 times",
 	},
 	59: {
 		id: 59,
@@ -276,7 +275,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Basic Attack DMG +5% for 5s upon being hit 10 times",
+		ability: "Basic Attack DMG +6.25% for 5s upon being hit 10 times",
 	},
 	60: {
 		id: 60,
@@ -287,7 +286,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit Rate +5% for 5s upon being hit (Cooldown: 20s)",
+		ability: "Crit Rate +6.25% for 5s upon being hit (Cooldown: 20s)",
 	},
 	61: {
 		id: 61,
@@ -299,7 +298,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "DEF +3.75% for 5s upon being hit (Cooldown: 20s)",
+		ability: "DEF +4.69% for 5s upon being hit (Cooldown: 20s)",
 	},
 	62: {
 		id: 62,
@@ -310,7 +309,8 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Elemental Weakness DMG +5% for 5s upon being hit (Cooldown: 20s)",
+		ability:
+			"Elemental Weakness DMG +6.25% for 5s upon being hit (Cooldown: 20s)",
 	},
 	63: {
 		id: 63,
@@ -322,7 +322,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Elemental Weakness DMG +5.25% for 5s upon being hit (Cooldown: 20s)",
+			"Elemental Weakness DMG +6.57% for 5s upon being hit (Cooldown: 20s)",
 	},
 	64: {
 		id: 64,
@@ -342,7 +342,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.DARK,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "ATK +2.75% for 10s upon being hit (Cooldown: 20s)",
+		ability: "ATK +4% for 10s upon being hit (Cooldown: 20s)",
 	},
 	65: {
 		id: 65,
@@ -361,7 +361,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Crit DMG +6% against Staggered boss enemies",
+		ability: "Crit DMG +11% against Staggered boss enemies",
 	},
 	66: {
 		id: 66,
@@ -381,7 +381,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Fire DMG +6.3% against Staggered boss enemies",
+		ability: "Fire DMG +11.55% against Staggered boss enemies",
 	},
 	67: {
 		id: 67,
@@ -402,7 +402,7 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
-			"All teammates' Crit Rate +6% for 10s upon attacking a boss enemy 10 times",
+			"All teammates' Crit Rate +11% for 10s upon attacking boss enemy 10 times",
 	},
 	68: {
 		id: 68,
@@ -423,6 +423,6 @@ export const MONSTERLING_DATA_VARHINE: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.VARHINE,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"All teammates' Crit Rate +6.3% for 10s upon using Evasion Counter",
+			"All teammates' Crit Rate +11.55% for 10s upon using Evasion Counter",
 	},
 };

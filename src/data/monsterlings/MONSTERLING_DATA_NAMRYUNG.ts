@@ -22,7 +22,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Ice DMG +5.5% against Staggered boss enemies",
+		ability: "Ice DMG +8% against Staggered boss enemies",
 	},
 	122: {
 		id: 122,
@@ -33,7 +33,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Wind DMG +5% for 5s upon using Evasion Counter",
+		ability: "Wind DMG +6.3% for 5s upon using Evasion Counter",
 	},
 	123: {
 		id: 123,
@@ -44,7 +44,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Wind DMG +5.3% for 5s upon using Evasion Counter",
+		ability: "Wind DMG +6.6% for 5s upon using Evasion Counter",
 	},
 	124: {
 		id: 124,
@@ -55,7 +55,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "DMG +5% against boss enemies for 5s upon using Evasion Counter",
+		ability: "DMG +6.3% against boss enemies for 5s upon using Evasion Counter",
 	},
 	125: {
 		id: 125,
@@ -66,7 +66,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "DMG +5.3% against boss enemies for 5s upon using Evasion Counter",
+		ability: "DMG +6.6% against boss enemies for 5s upon using Evasion Counter",
 	},
 	126: {
 		id: 126,
@@ -77,7 +77,8 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Physical DMG +5% for 5s upon being hit by a boss enemy",
+		ability:
+			"Physical DMG +6.3% for 5s upon being hit by a boss enemy (Cooldown: 20s)",
 	},
 	127: {
 		id: 127,
@@ -88,7 +89,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Air Counter Crit Rate +5%",
+		ability: "Air Counter Crit Rate +6.3%",
 	},
 	128: {
 		id: 128,
@@ -99,7 +100,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Air Counter Crit Rate +5.3%",
+		ability: "Air Counter Crit Rate +6.6%",
 	},
 	129: {
 		id: 129,
@@ -110,7 +111,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WATER,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Air Counter Crit DMG +5%",
+		ability: "Air Counter Crit DMG +6.3%",
 	},
 	130: {
 		id: 130,
@@ -129,7 +130,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "DEF +4.1% for 5s upon attacking a boss enemy 10 times",
+		ability: "DEF +6% for 5s upon attacking a boss enemy 10 times",
 	},
 	131: {
 		id: 131,
@@ -148,7 +149,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "DEF +4.3% for 5s upon attacking a boss enemy 10 times",
+		ability: "DEF +6.3% for 5s upon attacking a boss enemy 10 times",
 	},
 	132: {
 		id: 132,
@@ -159,7 +160,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Earth DMG +5% against normal enemies",
+		ability: "Earth DMG +6.3% against normal enemies (Cooldown: 20s)",
 	},
 	133: {
 		id: 133,
@@ -170,7 +171,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Earth DMG +5.3% against normal enemies",
+		ability: "Earth DMG +6.6% against normal enemies (Cooldown: 20s)",
 	},
 	134: {
 		id: 134,
@@ -181,7 +182,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit DMG +5% against normal enemies (Cooldown: 20s)",
+		ability: "Crit DMG +6.3% against normal enemies (Cooldown: 20s)",
 	},
 	135: {
 		id: 135,
@@ -192,7 +193,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit DMG +5.3% against normal enemies (Cooldown: 20s)",
+		ability: "Crit DMG +6.6% against normal enemies (Cooldown: 20s)",
 	},
 	136: {
 		id: 136,
@@ -203,7 +204,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Lightning DMG +5% upon attacking Lightning enemy 10 times",
+		ability: "Lightning DMG +6.3% upon attacking Lightning enemy 10 times",
 	},
 	137: {
 		id: 137,
@@ -215,7 +216,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
 		ability:
-			"Target's Lightning RES -5% for 5s upon attacking Lightning enemy 5 times (Cooldown: 20s)",
+			"Target's Lightning RES -6.3% for 5s upon attacking Lightning enemy 5 times (Cooldown: 20s)",
 	},
 	138: {
 		id: 138,
@@ -227,7 +228,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Target's Lightning RES -5.3% for 5s upon attacking Lightning enemy 5 times",
+			"Target's Lightning RES -6.6% for 5s upon attacking Lightning enemy 5 times",
 	},
 	139: {
 		id: 139,
@@ -248,7 +249,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Crit Rate +6% for 5s upon using Evasion Counter",
+		ability: "Crit Rate +11% for 5s upon using Evasion Counter",
 	},
 	140: {
 		id: 140,
@@ -269,7 +270,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit Rate +6.3% for 5s upon using Evasion Counter",
+		ability: "Crit Rate +11.6% for 5s upon using Evasion Counter",
 	},
 	141: {
 		id: 141,
@@ -290,7 +291,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
-			"Crit DMG +6% for 5s upon landing a critical hit with an Ultimate Skill",
+			"Crit DMG +11% for 5s upon landing a critical hit with an Ultimate Skill",
 	},
 	142: {
 		id: 142,
@@ -310,7 +311,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Crit DMG +6.3% for 5s upon landing a critical hit with Ultimate Skill",
+			"Crit DMG +11.6% for 5s upon landing a critical hit with Ultimate Skill",
 	},
 	143: {
 		id: 143,
@@ -335,7 +336,7 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
-			"All teammates' Switch Skill DMG +6% for 10s upon landing a critical hit on a boss enemy",
+			"All teammates' Switch Skill DMG +11% for 10s upon landing a critical hit on a boss enemy",
 	},
 	144: {
 		id: 144,
@@ -359,6 +360,6 @@ export const MONSTERLING_DATA_NAMRYUNG: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.NAMRYUNG,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Target's DEF -4.7% for 5s upon landing a critical hit on a boss enemy.",
+			"Target's DEF -8.7% for 5s upon landing a critical hit on a boss enemy.",
 	},
 };

@@ -22,7 +22,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Recovers 1.65% of Max HP upon landing 10 Basic Attacks",
+		ability: "Recovers 2.4% of Max HP upon landing 10 Basic Attacks",
 	},
 	70: {
 		id: 70,
@@ -33,7 +33,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Elemental Weakness DMG +5% against Ice enemies",
+		ability: "Elemental Weakness DMG +6.25% against Ice enemies",
 	},
 	71: {
 		id: 71,
@@ -44,7 +44,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit DMG +5.25% against Physical enemies",
+		ability: "Crit DMG +6.57% against Physical enemies",
 	},
 	72: {
 		id: 72,
@@ -55,7 +55,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Elemental Weakness DMG +5% against Fire enemies",
+		ability: "Elemental Weakness DMG +6.25% against Fire enemies",
 	},
 	73: {
 		id: 73,
@@ -74,7 +74,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Physical DMG +5.5% for 5s upon attacking Physical enemy",
+		ability: "Physical DMG +8% for 5s upon attacking Physical enemy",
 	},
 	74: {
 		id: 74,
@@ -94,7 +94,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "ATK +2.89% for 10s upon attacking Physical enemy (Cooldown: 20s)",
+		ability: "ATK +4.2% for 10s upon attacking Physical enemy (Cooldown: 20s)",
 	},
 	75: {
 		id: 75,
@@ -105,7 +105,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "DEF +3.75% for 5s upon defeating 10 enemies",
+		ability: "DEF +4.69% for 5s upon defeating 10 enemies",
 	},
 	76: {
 		id: 76,
@@ -116,7 +116,8 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "DMG +5% against normal enemies for 5s upon defeating 10 enemies",
+		ability:
+			"DMG +6.25% against normal enemies for 5s upon defeating 10 enemies",
 	},
 	77: {
 		id: 77,
@@ -128,7 +129,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"DMG +5.25% against normal enemies for 5s upon defeating 10 enemies",
+			"DMG +6.57% against normal enemies for 5s upon defeating 10 enemies",
 	},
 	78: {
 		id: 78,
@@ -139,7 +140,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit DMG +5% for 5s upon defeating 10 enemies",
+		ability: "Crit DMG +6.25% for 5s upon defeating 10 enemies",
 	},
 	79: {
 		id: 79,
@@ -158,7 +159,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST, SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Earth DMG +5.5% for 10s upon defeating 10 enemies",
+		ability: "Earth DMG +8% for 10s upon defeating 10 enemies",
 	},
 	80: {
 		id: 80,
@@ -177,7 +178,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "ATK +2.89% for 10s upon defeating 10 enemies",
+		ability: "ATK +4.2% for 10s upon defeating 10 enemies",
 	},
 	81: {
 		id: 81,
@@ -188,7 +189,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Target's DEF -3.75% for 5s upon using Air Counter.",
+		ability: "Target's DEF -4.69% for 5s upon using Air Counter.",
 	},
 	82: {
 		id: 82,
@@ -199,7 +200,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Air Counter Physical DMG +5%",
+		ability: "Air Counter Physical DMG +6.25%",
 	},
 	83: {
 		id: 83,
@@ -210,7 +211,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Air Counter Physical DMG +5.25%",
+		ability: "Air Counter Physical DMG +6.57%",
 	},
 	84: {
 		id: 84,
@@ -221,7 +222,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Earth DMG +5% against Airborne targets",
+		ability: "Earth DMG +6.25% against Airborne targets",
 	},
 	85: {
 		id: 85,
@@ -232,7 +233,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Earth DMG +5.25% against Airborne targets",
+		ability: "Earth DMG +6.57% against Airborne targets",
 	},
 	86: {
 		id: 86,
@@ -243,7 +244,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit DMG +5% against Airborne targets",
+		ability: "Crit DMG +6.25% against Airborne targets",
 	},
 	87: {
 		id: 87,
@@ -254,7 +255,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Ice DMG +5% against Airborne targets",
+		ability: "Ice DMG +6.25% against Airborne targets",
 	},
 	88: {
 		id: 88,
@@ -265,7 +266,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		ability: "Crit Rate +5% against Airborne targets",
+		ability: "Crit Rate +6.25% against Airborne targets",
 	},
 	89: {
 		id: 89,
@@ -276,7 +277,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
-		ability: "Crit Rate +5.25% against Airborne targets",
+		ability: "Crit Rate +6.57% against Airborne targets",
 	},
 	90: {
 		id: 90,
@@ -296,7 +297,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Elemental Weakness Attack Crit Rate +6%",
+		ability: "Elemental Weakness Attack Crit Rate +11%",
 	},
 	91: {
 		id: 91,
@@ -316,7 +317,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		element_id: ELEMENT_ID_BY_ELEMENT.WIND,
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.REQUEST],
-		ability: "Wind DMG +6% against Staggered boss enemies",
+		ability: "Wind DMG +11% against Staggered boss enemies",
 	},
 	92: {
 		id: 92,
@@ -336,7 +337,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.REQUEST],
 		ability:
-			"Target's Lightning RES -6% for 5s upon attacking with Elemental Weakness",
+			"Target's Lightning RES -11% for 5s upon attacking with Elemental Weakness",
 	},
 	93: {
 		id: 93,
@@ -356,7 +357,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Lightning DMG +6.3% for 10s upon attacking with Elemental Weakness",
+			"Lightning DMG +11.55% for 10s upon attacking with Elemental Weakness",
 	},
 	94: {
 		id: 94,
@@ -380,7 +381,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
 		ability:
-			"All teammates' Ultimate Skill DMG +6% for 10s upon being hit by a boss enemy",
+			"All teammates' Ultimate Skill DMG +11% for 10s upon being hit by a boss enemy",
 	},
 	95: {
 		id: 95,
@@ -400,6 +401,6 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.SERENIA,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability:
-			"Restores 1.89% HP for all teammates upon attacking a Staggered boss enemy",
+			"Restores 3.5% HP for all teammates upon attacking a Staggered boss enemy",
 	},
 };
