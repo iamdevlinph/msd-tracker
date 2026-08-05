@@ -46,15 +46,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 	{
-		id: "unforgettable-first-summer-dive-shop-story-missions",
-		title: "An Unforgettable First Summer Dive! — Shop/Story/Missions",
-		noticeTitle: SUMMER_DIVE_NOTICE_TITLE,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-07T00:00:00.000Z",
-		endAt: "2026-08-04T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
 		id: "monsterling-trait-change-support",
 		title: "Monsterling Trait Change Support",
 		noticeTitle: SUMMER_DIVE_NOTICE_TITLE,
