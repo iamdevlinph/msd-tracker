@@ -752,6 +752,12 @@ describe("ChecklistPage", () => {
 		}
 		expect(expiredName.className).toContain("line-through");
 		expect(expiredRow?.className).toContain("opacity-50");
+		expect(screen.getByTestId("checklist-completed-divider").textContent).toBe(
+			"Completed",
+		);
+		expect(expiredRow?.previousElementSibling).toBe(
+			screen.getByTestId("checklist-completed-divider"),
+		);
 	});
 
 	it("defaults new items to UTC midnight and shows inline validation", async () => {

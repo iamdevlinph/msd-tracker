@@ -108,6 +108,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [x] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [x] Separate incomplete and completed checklist items with a labeled divider that follows the Show completed preference.
+- [x] Group expired checklist items in the completed section while preserving their expired styling and visibility preference.
 - [x] Expose the Checklist navigation item after the feature is release-ready.
 
 ## Chunk 2: Artifacts Inventory

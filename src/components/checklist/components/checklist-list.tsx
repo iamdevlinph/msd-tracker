@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { ChecklistItemRow } from "@/components/checklist/components/checklist-item-row";
-import { CHECKLIST_STATUSES } from "@/components/checklist/utils/checklist";
+import { isChecklistCompletedSectionStatus } from "@/components/checklist/utils/checklist";
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import type { ChecklistViewItem } from "@/components/checklist/utils/checklist-view";
 import { SeparatorText } from "@/components/shared/separator-text";
@@ -24,8 +24,8 @@ export const ChecklistList = ({
 	showCompleted,
 	...props
 }: ChecklistListProps) => {
-	const completedIndex = items.findIndex(
-		(item) => item.status === CHECKLIST_STATUSES.COMPLETED,
+	const completedIndex = items.findIndex((item) =>
+		isChecklistCompletedSectionStatus(item.status),
 	);
 	const showDivider =
 		showCompleted && completedIndex > 0 && completedIndex < items.length;

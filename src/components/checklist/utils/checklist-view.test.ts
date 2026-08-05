@@ -157,4 +157,38 @@ describe("getChecklistView", () => {
 			Date.parse(playerEvent.endAt as string),
 		);
 	});
+
+	it("sorts expired events into the completed section", () => {
+		const expiredEvent: ChecklistTask = {
+			id: "expired-event",
+			title: "Expired event",
+			kind: "event",
+			source: "user",
+			startAt: "2026-07-25T00:00:00.000Z",
+			endAt: "2026-07-26T00:00:00.000Z",
+			recurrence: "none",
+			scheduleVersion: 1,
+		};
+		const items = getChecklistView({
+			tasks: { [expiredEvent.id]: expiredEvent },
+			completions: {},
+			preferences: defaultChecklistPreferences,
+			tab: "all",
+			now,
+		});
+		const expiredIndex = items.findIndex(
+			({ definition }) => definition.id === expiredEvent.id,
+		);
+
+		expect(expiredIndex).toBeGreaterThan(0);
+		expect(items[expiredIndex]).toMatchObject({
+			definition: { id: expiredEvent.id },
+			status: "expired",
+		});
+		expect(
+			items
+				.slice(expiredIndex)
+				.every(({ status }) => ["completed", "expired"].includes(status)),
+		).toBe(true);
+	});
 });

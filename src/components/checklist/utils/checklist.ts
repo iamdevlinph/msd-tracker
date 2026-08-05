@@ -18,6 +18,10 @@ export const CHECKLIST_STATUSES = {
 export type ChecklistStatus =
 	(typeof CHECKLIST_STATUSES)[keyof typeof CHECKLIST_STATUSES];
 
+export const isChecklistCompletedSectionStatus = (status: ChecklistStatus) =>
+	status === CHECKLIST_STATUSES.COMPLETED ||
+	status === CHECKLIST_STATUSES.EXPIRED;
+
 const DAY = 86_400_000;
 const WEEK = 7 * DAY;
 
@@ -180,8 +184,8 @@ export function sortChecklistItems<
 				: 2;
 	return [...items].sort((a, b) => {
 		const completionOrder =
-			Number(a.status === CHECKLIST_STATUSES.COMPLETED) -
-			Number(b.status === CHECKLIST_STATUSES.COMPLETED);
+			Number(isChecklistCompletedSectionStatus(a.status)) -
+			Number(isChecklistCompletedSectionStatus(b.status));
 		if (completionOrder) return completionOrder;
 		const kindOrder = kindRank[a.definition.kind] - kindRank[b.definition.kind];
 		if (kindOrder) return kindOrder;
