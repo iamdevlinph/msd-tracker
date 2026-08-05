@@ -47,6 +47,16 @@ const { monsterlingData } = vi.hoisted(() => ({
 			element_id: 1,
 			ability: "Fixture ability",
 		},
+		4: {
+			id: 4,
+			display_id: 4,
+			name: "Fixture Isolated",
+			region_id: 1,
+			source_id: [1],
+			image: "/images/fixture-isolated.png",
+			element_id: 1,
+			ability: "Fixture ability",
+		},
 	} satisfies MonsterCodexData,
 }));
 
@@ -64,6 +74,7 @@ vi.mock("tanstack-router-ga4", () => ({
 
 const favorite = monsterlingData[1];
 const other = monsterlingData[2];
+const isolated = monsterlingData[4];
 
 describe("monster codex favorites", () => {
 	beforeEach(() => {
@@ -215,18 +226,39 @@ describe("monster codex favorites", () => {
 		);
 		expect(screen.getByRole("heading", { name: favorite.name })).toBeTruthy();
 		expect(screen.getByText(favorite.ability)).toBeTruthy();
-		expect(screen.getByText("Capture")).toBeTruthy();
-
-		const mutationTab = screen.getByRole("tab", {
-			name: "Mutation Combination",
+		expect(
+			screen
+				.getByRole("tab", { name: "Mutation Combination" })
+				.getAttribute("aria-selected"),
+		).toBe("true");
+		const diagram = screen.getByRole("region", {
+			name: "Mutation family diagram",
 		});
-		fireEvent.pointerDown(mutationTab, { button: 0, ctrlKey: false });
-		fireEvent.click(mutationTab);
+		expect(screen.getByRole("dialog").className).toContain("overflow-x-hidden");
+		expect(diagram.className).toContain("w-full");
+		expect(diagram.className).toContain("overflow-auto");
+		diagram.scrollLeft = 40;
+		diagram.scrollTop = 30;
+		fireEvent.pointerDown(diagram, {
+			button: 0,
+			pointerId: 7,
+			clientX: 100,
+			clientY: 100,
+		});
+		fireEvent.pointerMove(diagram, {
+			pointerId: 7,
+			clientX: 60,
+			clientY: 70,
+		});
+		expect(diagram.scrollLeft).toBe(80);
+		expect(diagram.scrollTop).toBe(60);
+		fireEvent.pointerUp(diagram, { pointerId: 7 });
 		fireEvent.click(screen.getByRole("button", { name: other.name }));
 		expect(screen.getByRole("heading", { name: other.name })).toBeTruthy();
-		expect(screen.queryByText("Locations coming soon.")).toBeNull();
 		expect(
-			screen.getByRole("tab", { name: "Source" }).getAttribute("aria-selected"),
+			screen
+				.getByRole("tab", { name: "Mutation Combination" })
+				.getAttribute("aria-selected"),
 		).toBe("true");
 
 		fireEvent.click(screen.getByRole("button", { name: "Close" }));
@@ -245,6 +277,23 @@ describe("monster codex favorites", () => {
 		expect(event).toHaveBeenCalledWith("codex_mutation_tree_open", {
 			monsterling_id: other.id,
 		});
+	});
+
+	it("falls back to Source when a Monsterling has no mutation family", () => {
+		render(<CodexList />);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: `View ${isolated.name} details` }),
+		);
+
+		expect(screen.getByRole("heading", { name: isolated.name })).toBeTruthy();
+		expect(
+			screen.getByRole("tab", { name: "Source" }).getAttribute("aria-selected"),
+		).toBe("true");
+		expect(
+			screen.queryByRole("tab", { name: "Mutation Combination" }),
+		).toBeNull();
+		expect(screen.getByText("Capture")).toBeTruthy();
 	});
 
 	it("includes favorites in backups and clears them with codex data", () => {

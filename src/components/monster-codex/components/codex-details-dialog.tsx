@@ -34,7 +34,7 @@ type CodexDetailsDialogProps = {
 
 const createFrame = (monsterlingId: number): CodexDetailsFrame => ({
 	monsterlingId,
-	tab: "source",
+	tab: "mutation",
 	scrollLeft: 0,
 	scrollTop: 0,
 });
@@ -44,7 +44,7 @@ export const CodexDetailsDialog = ({
 	onClose,
 }: CodexDetailsDialogProps) => {
 	const ga = useGoogleAnalytics();
-	const mutationScrollRef = useRef<HTMLDivElement>(null);
+	const mutationScrollRef = useRef<HTMLElement>(null);
 	const [stack, setStack] = useState<CodexDetailsFrame[]>([]);
 	const frame = stack.at(-1);
 	const frameMonsterlingId = frame?.monsterlingId;
@@ -133,7 +133,7 @@ export const CodexDetailsDialog = ({
 				if (!isOpen) handleCloseOne();
 			}}
 		>
-			<DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-4xl">
+			<DialogContent className="max-h-[calc(100dvh-2rem)] min-w-0 overflow-x-hidden overflow-y-auto sm:max-w-4xl">
 				{monsterling && frame && family && (
 					<>
 						<DialogHeader className="pr-8">
@@ -161,6 +161,7 @@ export const CodexDetailsDialog = ({
 						</div>
 
 						<Tabs
+							className="min-w-0 w-full"
 							value={hasMutation ? frame.tab : "source"}
 							onValueChange={handleTabChange}
 						>
@@ -181,7 +182,7 @@ export const CodexDetailsDialog = ({
 									</TabsTrigger>
 								)}
 							</TabsList>
-							<TabsContent value="source" className="pt-3">
+							<TabsContent value="source" className="min-w-0 pt-3">
 								<div className="grid w-full gap-2">
 									{monsterling.source_id.map((sourceId) => (
 										<details
@@ -201,7 +202,10 @@ export const CodexDetailsDialog = ({
 								</div>
 							</TabsContent>
 							{hasMutation && (
-								<TabsContent value="mutation" className="pt-3">
+								<TabsContent
+									value="mutation"
+									className="min-w-0 max-w-full overflow-hidden pt-3"
+								>
 									{family.recipes.length === 0 ? (
 										<p className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
 											No known mutation combinations for this Monsterling.

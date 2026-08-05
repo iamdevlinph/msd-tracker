@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import { type PointerEvent, type RefObject, useRef, useState } from "react";
 import type { MonsterlingMutationFamily } from "@/components/monster-codex/utils/mutation-family";
 import {
 	getMutationFamilyLayout,
@@ -13,7 +13,15 @@ type MutationFamilyTreeProps = {
 	family: MonsterlingMutationFamily;
 	selectedMonsterlingId: number;
 	onSelectMonsterling: (monsterlingId: number) => void;
-	scrollContainerRef: RefObject<HTMLDivElement | null>;
+	scrollContainerRef: RefObject<HTMLElement | null>;
+};
+
+type MutationTreePan = {
+	pointerId: number;
+	startX: number;
+	startY: number;
+	scrollLeft: number;
+	scrollTop: number;
 };
 
 export const MutationFamilyTree = ({
@@ -23,12 +31,58 @@ export const MutationFamilyTree = ({
 	scrollContainerRef,
 }: MutationFamilyTreeProps) => {
 	const { positionById, width, height } = getMutationFamilyLayout(family);
+	const panRef = useRef<MutationTreePan | null>(null);
+	const [isDragging, setIsDragging] = useState(false);
+
+	const handlePointerDown = (event: PointerEvent<HTMLElement>) => {
+		if (
+			event.button !== 0 ||
+			(event.target as HTMLElement).closest("button") !== null
+		) {
+			return;
+		}
+		panRef.current = {
+			pointerId: event.pointerId,
+			startX: event.clientX,
+			startY: event.clientY,
+			scrollLeft: event.currentTarget.scrollLeft,
+			scrollTop: event.currentTarget.scrollTop,
+		};
+		event.currentTarget.setPointerCapture?.(event.pointerId);
+		setIsDragging(true);
+	};
+
+	const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+		const pan = panRef.current;
+		if (!pan || pan.pointerId !== event.pointerId) return;
+		event.preventDefault();
+		event.currentTarget.scrollLeft =
+			pan.scrollLeft - (event.clientX - pan.startX);
+		event.currentTarget.scrollTop =
+			pan.scrollTop - (event.clientY - pan.startY);
+	};
+
+	const handlePointerEnd = (event: PointerEvent<HTMLElement>) => {
+		if (panRef.current?.pointerId !== event.pointerId) return;
+		if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+			event.currentTarget.releasePointerCapture(event.pointerId);
+		}
+		panRef.current = null;
+		setIsDragging(false);
+	};
 
 	return (
 		<section
 			ref={scrollContainerRef}
-			className="max-h-[56vh] overflow-auto rounded-lg border bg-muted/20"
+			className={cn(
+				"max-h-[56vh] w-full min-w-0 max-w-full touch-none overflow-auto overscroll-contain rounded-lg border bg-muted/20 select-none",
+				isDragging ? "cursor-grabbing" : "cursor-grab",
+			)}
 			aria-label="Mutation family diagram"
+			onPointerDown={handlePointerDown}
+			onPointerMove={handlePointerMove}
+			onPointerUp={handlePointerEnd}
+			onPointerCancel={handlePointerEnd}
 		>
 			<div className="relative" style={{ width, height }}>
 				<svg
