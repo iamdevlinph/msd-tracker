@@ -56,6 +56,7 @@ describe("loadout snapshots store", () => {
 					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
 					level: 10,
 					clear_time: "09:59.99",
+					res_element_ids: [1, 2, 2, 8],
 				},
 			},
 			rift: {
@@ -70,7 +71,11 @@ describe("loadout snapshots store", () => {
 				tag: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
 				created_at: 1,
 				loadout,
-				details: { element_id: LOADOUT_SNAPSHOT_ELEMENTS.WIND, score: 0 },
+				details: {
+					element_id: LOADOUT_SNAPSHOT_ELEMENTS.WIND,
+					score: 0,
+					res_element_ids: [5],
+				},
 			},
 			invalid: {
 				name: "Invalid",
@@ -85,9 +90,14 @@ describe("loadout snapshots store", () => {
 			difficulty: "normal",
 			level: 10,
 			clear_time: "09:59.99",
+			res_element_ids: [1, 2],
 		});
 		expect(normalized.rift.details).toEqual({ level: 50, score: 12345678 });
-		expect(normalized.legendary.details).toEqual({ element_id: 5, score: 0 });
+		expect(normalized.legendary.details).toEqual({
+			element_id: 5,
+			score: 0,
+			res_element_ids: [5],
+		});
 		expect(normalized.invalid.details).toBeNull();
 	});
 

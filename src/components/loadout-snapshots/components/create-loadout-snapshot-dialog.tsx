@@ -8,6 +8,7 @@ import {
 	LOADOUT_SNAPSHOT_ELEMENT_OPTIONS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
 	LOADOUT_SNAPSHOT_TAGS,
+	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,7 @@ const formSchema = z
 		level: z.string(),
 		clear_time: z.string(),
 		element_id: z.string(),
+		res_element_ids: z.array(z.string()),
 		score: z.string(),
 	})
 	.superRefine((value, context) => {
@@ -129,6 +131,10 @@ const valuesFor = (
 			details && "clear_time" in details ? details.clear_time : "00:00.00",
 		element_id:
 			details && "element_id" in details ? String(details.element_id) : "1",
+		res_element_ids:
+			details && "res_element_ids" in details
+				? (details.res_element_ids ?? []).map(String)
+				: [],
 		score:
 			details && "score" in details && details.score !== undefined
 				? String(details.score)
@@ -161,12 +167,26 @@ export const LoadoutSnapshotDialog = ({
 	});
 	const tag = useWatch({ control: form.control, name: "tag" });
 	const notes = useWatch({ control: form.control, name: "notes" });
+	const resElementIds = useWatch({
+		control: form.control,
+		name: "res_element_ids",
+	});
 	const open = loadout !== null || snapshot !== null;
 	useEffect(() => {
 		if (open) form.reset(valuesFor(loadout, snapshot));
 	}, [form, loadout, open, snapshot]);
 	const watchedValues = form.watch();
 	const isValid = formSchema.safeParse(watchedValues).success;
+	const toggleResElement = (elementId: LoadoutSnapshotElement) => {
+		const value = String(elementId);
+		form.setValue(
+			"res_element_ids",
+			resElementIds.includes(value)
+				? resElementIds.filter((id) => id !== value)
+				: [...resElementIds, value],
+			{ shouldDirty: true, shouldValidate: true },
+		);
+	};
 	const setClampedInteger = (
 		field: "level" | "score",
 		rawValue: string,
@@ -201,6 +221,9 @@ export const LoadoutSnapshotDialog = ({
 					value.difficulty as typeof LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
 				level: Number(value.level),
 				clear_time: value.clear_time,
+				res_element_ids: value.res_element_ids.map(
+					(elementId) => Number(elementId) as LoadoutSnapshotElement,
+				),
 			};
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.RIFT)
 			details = {
@@ -211,6 +234,9 @@ export const LoadoutSnapshotDialog = ({
 			details = {
 				element_id: Number(value.element_id) as 1,
 				score: Number(value.score),
+				res_element_ids: value.res_element_ids.map(
+					(elementId) => Number(elementId) as LoadoutSnapshotElement,
+				),
 			};
 		onSubmit({
 			name: value.name.trim(),
@@ -295,6 +321,37 @@ export const LoadoutSnapshotDialog = ({
 									</SelectContent>
 								</Select>
 							</label>
+							<fieldset className="grid gap-2">
+								<legend className="text-sm font-medium">RES Element</legend>
+								<ButtonGroup
+									className="flex flex-wrap"
+									aria-label="RES Element"
+								>
+									{LOADOUT_SNAPSHOT_ELEMENT_OPTIONS.map((option) => {
+										const selected = resElementIds.includes(
+											String(option.value),
+										);
+										return (
+											<Button
+												key={option.value}
+												type="button"
+												className="border"
+												variant={selected ? "default" : "outline"}
+												aria-label={`${option.label} RES Element`}
+												aria-pressed={selected}
+												onClick={() => toggleResElement(option.value)}
+											>
+												<img
+													src={ELEMENTS_DATA[option.value].image}
+													width="25"
+													height="25"
+													alt={`${option.label} icon`}
+												/>
+											</Button>
+										);
+									})}
+								</ButtonGroup>
+							</fieldset>
 							<label
 								htmlFor="snapshot-conquest-level"
 								className="grid gap-2 text-sm font-medium"
@@ -386,6 +443,7 @@ export const LoadoutSnapshotDialog = ({
 										<Button
 											key={option.value}
 											type="button"
+											className="border"
 											variant={
 												form.watch("element_id") === String(option.value)
 													? "default"
@@ -408,6 +466,37 @@ export const LoadoutSnapshotDialog = ({
 											/>
 										</Button>
 									))}
+								</ButtonGroup>
+							</fieldset>
+							<fieldset className="grid gap-2">
+								<legend className="text-sm font-medium">RES Element</legend>
+								<ButtonGroup
+									className="flex flex-wrap"
+									aria-label="RES Element"
+								>
+									{LOADOUT_SNAPSHOT_ELEMENT_OPTIONS.map((option) => {
+										const selected = resElementIds.includes(
+											String(option.value),
+										);
+										return (
+											<Button
+												key={option.value}
+												type="button"
+												className="border"
+												variant={selected ? "default" : "outline"}
+												aria-label={`${option.label} RES Element`}
+												aria-pressed={selected}
+												onClick={() => toggleResElement(option.value)}
+											>
+												<img
+													src={ELEMENTS_DATA[option.value].image}
+													width="25"
+													height="25"
+													alt={`${option.label} icon`}
+												/>
+											</Button>
+										);
+									})}
 								</ButtonGroup>
 							</fieldset>
 							<label

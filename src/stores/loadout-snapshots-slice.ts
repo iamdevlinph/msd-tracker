@@ -24,6 +24,7 @@ export type ConquestSnapshotDetails = {
 	difficulty: LoadoutSnapshotDifficulty;
 	level: number;
 	clear_time: string;
+	res_element_ids?: LoadoutSnapshotElement[];
 };
 export type RiftSnapshotDetails = {
 	level: number;
@@ -32,6 +33,7 @@ export type RiftSnapshotDetails = {
 export type LegendaryConquestSnapshotDetails = {
 	element_id: LoadoutSnapshotElement;
 	score: number;
+	res_element_ids?: LoadoutSnapshotElement[];
 };
 export type LoadoutSnapshotDetails =
 	| ConquestSnapshotDetails
@@ -46,6 +48,18 @@ export const normalizeLoadoutSnapshotNotes = (value: unknown): string =>
 
 const isNonnegativeInteger = (value: unknown): value is number =>
 	typeof value === "number" && Number.isInteger(value) && value >= 0;
+
+const normalizeLoadoutSnapshotResElements = (
+	value: unknown,
+): LoadoutSnapshotElement[] =>
+	Array.isArray(value)
+		? [...new Set(value)].filter(
+				(elementId): elementId is LoadoutSnapshotElement =>
+					LOADOUT_SNAPSHOT_ELEMENT_VALUES.includes(
+						elementId as LoadoutSnapshotElement,
+					),
+			)
+		: [];
 
 export const isValidLoadoutSnapshotClearTime = (
 	value: unknown,
@@ -76,6 +90,9 @@ export const normalizeLoadoutSnapshotDetails = (
 			difficulty: difficulty as LoadoutSnapshotDifficulty,
 			level,
 			clear_time: value.clear_time,
+			res_element_ids: normalizeLoadoutSnapshotResElements(
+				value.res_element_ids,
+			),
 		};
 	}
 	if (tag === LOADOUT_SNAPSHOT_TAGS.RIFT) {
@@ -103,6 +120,9 @@ export const normalizeLoadoutSnapshotDetails = (
 		return {
 			element_id: elementId as LoadoutSnapshotElement,
 			score: value.score,
+			res_element_ids: normalizeLoadoutSnapshotResElements(
+				value.res_element_ids,
+			),
 		};
 	}
 	return null;

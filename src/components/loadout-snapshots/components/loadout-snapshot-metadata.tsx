@@ -2,6 +2,7 @@ import {
 	LOADOUT_SNAPSHOT_DIFFICULTY_LABELS,
 	LOADOUT_SNAPSHOT_ELEMENT_LABELS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
+	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
@@ -15,6 +16,26 @@ type LoadoutSnapshotMetadataProps = {
 	notes?: string;
 	showNotes?: boolean;
 };
+
+const ResElementMetadata = ({
+	elementIds,
+}: {
+	elementIds?: LoadoutSnapshotElement[];
+}) =>
+	elementIds?.length ? (
+		<span className="inline-flex flex-wrap items-center gap-1">
+			RES Element
+			{elementIds.map((elementId) => (
+				<img
+					key={elementId}
+					src={ELEMENTS_DATA[elementId].image}
+					width="16"
+					height="16"
+					alt={`${LOADOUT_SNAPSHOT_ELEMENT_LABELS[elementId]} RES Element icon`}
+				/>
+			))}
+		</span>
+	) : null;
 
 export const LoadoutSnapshotMetadata = ({
 	createdAt,
@@ -31,7 +52,17 @@ export const LoadoutSnapshotMetadata = ({
 			{details && (
 				<span className="inline-flex flex-wrap items-center gap-1">
 					{"difficulty" in details ? (
-						`Difficulty ${LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[details.difficulty]} · Level ${details.level} · Clear time ${details.clear_time}`
+						<>
+							Difficulty{" "}
+							{LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[details.difficulty]} · Level{" "}
+							{details.level} · Clear time {details.clear_time}
+							{details.res_element_ids?.length ? (
+								<>
+									{" "}
+									· <ResElementMetadata elementIds={details.res_element_ids} />
+								</>
+							) : null}
+						</>
 					) : "element_id" in details ? (
 						<>
 							Element{" "}
@@ -41,6 +72,12 @@ export const LoadoutSnapshotMetadata = ({
 								height="16"
 								alt={`${LOADOUT_SNAPSHOT_ELEMENT_LABELS[details.element_id]} icon`}
 							/>{" "}
+							{details.res_element_ids?.length ? (
+								<>
+									{" "}
+									· <ResElementMetadata elementIds={details.res_element_ids} />
+								</>
+							) : null}{" "}
 							· Score {details.score.toLocaleString("en-US")}
 						</>
 					) : (

@@ -91,4 +91,49 @@ describe("CreateLoadoutSnapshotDialog", () => {
 		fireEvent.change(score, { target: { value: "abc" } });
 		expect(score.value).toBe("");
 	});
+
+	it("selects multiple RES Elements without shifting selected buttons", () => {
+		const onSubmit = vi.fn();
+		render(
+			<LoadoutSnapshotDialog
+				loadout={null}
+				snapshot={{
+					id: "legendary",
+					name: "Legendary clear",
+					tag: "legendary_conquest",
+					created_at: 1,
+					loadout: {
+						id: "team",
+						name: "Team",
+						characters: [
+							emptyLoadoutCharacterSlot(),
+							emptyLoadoutCharacterSlot(),
+							emptyLoadoutCharacterSlot(),
+						],
+					},
+					characters_owned: {},
+					monsterlings_owned: {},
+					monsterling_link_chain_levels: {},
+					artifacts_owned: {},
+					details: { element_id: 1, score: 0, res_element_ids: [1] },
+				}}
+				onOpenChange={vi.fn()}
+				onSubmit={onSubmit}
+			/>,
+		);
+
+		const earth = screen.getByRole("button", { name: "Earth RES Element" });
+		const fire = screen.getByRole("button", { name: "Fire RES Element" });
+		expect(earth.getAttribute("aria-pressed")).toBe("true");
+		expect(earth.className).toContain("border");
+		fireEvent.click(fire);
+		expect(fire.getAttribute("aria-pressed")).toBe("true");
+		expect(fire.className).toContain("border");
+		fireEvent.click(screen.getByRole("button", { name: "Save changes" }));
+		expect(onSubmit).toHaveBeenCalledWith(
+			expect.objectContaining({
+				details: expect.objectContaining({ res_element_ids: [1, 2] }),
+			}),
+		);
+	});
 });
