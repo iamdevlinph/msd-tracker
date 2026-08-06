@@ -53,10 +53,23 @@ describe("loadout snapshots store", () => {
 				loadout,
 				notes: "n".repeat(2100),
 				details: {
+					boss_id: 38,
 					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
 					level: 10,
 					clear_time: "09:59.99",
 					res_element_ids: [1, 2, 2, 8],
+				},
+			},
+			unknown_boss: {
+				name: "Legacy Conquest",
+				tag: LOADOUT_SNAPSHOT_TAGS.CONQUEST,
+				created_at: 1,
+				loadout,
+				details: {
+					boss_id: 999,
+					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+					level: 1,
+					clear_time: "00:00.00",
 				},
 			},
 			rift: {
@@ -87,10 +100,17 @@ describe("loadout snapshots store", () => {
 		});
 		expect(normalized.conquest.notes).toHaveLength(2000);
 		expect(normalized.conquest.details).toEqual({
+			boss_id: 38,
 			difficulty: "normal",
 			level: 10,
 			clear_time: "09:59.99",
 			res_element_ids: [1, 2],
+		});
+		expect(normalized.unknown_boss.details).toEqual({
+			difficulty: "normal",
+			level: 1,
+			clear_time: "00:00.00",
+			res_element_ids: [],
 		});
 		expect(normalized.rift.details).toEqual({ level: 50, score: 12345678 });
 		expect(normalized.legendary.details).toEqual({

@@ -33,6 +33,12 @@ export const LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS = Object.values(
 	label: LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[value],
 }));
 
+export const LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS = [
+	38, 67, 94, 119, 143, 164,
+] as const;
+export type LoadoutSnapshotConquestBossId =
+	(typeof LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS)[number];
+
 // Keep these IDs aligned with the canonical game element catalog.
 export const LOADOUT_SNAPSHOT_ELEMENTS = {
 	EARTH: 1,

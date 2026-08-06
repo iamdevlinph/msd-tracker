@@ -48,7 +48,15 @@ describe("LoadoutSnapshotsList", () => {
 		event.mockClear();
 		useAppStore.setState({
 			loadoutSnapshots: {
-				older: snapshot("older", "Alpha clear", "conquest", 1_000),
+				older: {
+					...snapshot("older", "Alpha clear", "conquest", 1_000),
+					details: {
+						boss_id: 38,
+						difficulty: "normal",
+						level: 1,
+						clear_time: "00:12.34",
+					},
+				},
 				newer: {
 					...snapshot("newer", "Beta clear", "rift", 2_000),
 					details: { level: 50, score: 12_345_678 },
@@ -56,6 +64,23 @@ describe("LoadoutSnapshotsList", () => {
 				},
 			},
 		});
+	});
+
+	it("shows the Conquest boss icon after the tag in rows and previews", () => {
+		render(<LoadoutSnapshotsList />);
+		const tag = screen.getByText("Conquest");
+		expect(tag.nextElementSibling?.textContent).toBe("Custos");
+		expect(
+			tag.nextElementSibling?.querySelector("img")?.getAttribute("alt"),
+		).toBe("Custos icon");
+		expect(tag.parentElement?.textContent).toContain("Difficulty Normal");
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Preview Alpha clear snapshot row" }),
+		);
+		const preview = within(screen.getByRole("dialog", { name: "Alpha clear" }));
+		expect(preview.getByText("Custos")).toBeTruthy();
+		expect(preview.getByAltText("Custos icon")).toBeTruthy();
 	});
 
 	afterEach(cleanup);

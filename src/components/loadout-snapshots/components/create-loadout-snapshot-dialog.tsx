@@ -1,13 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type FormEvent, useEffect } from "react";
+import { type FormEvent, type KeyboardEvent, useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import {
+	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_DIFFICULTIES,
 	LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS,
 	LOADOUT_SNAPSHOT_ELEMENT_OPTIONS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
 	LOADOUT_SNAPSHOT_TAGS,
+	type LoadoutSnapshotConquestBossId,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -31,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import type {
 	LoadoutSnapshot,
 	LoadoutSnapshotDetails,
@@ -45,6 +48,7 @@ const formSchema = z
 		difficulty: z.string(),
 		level: z.string(),
 		clear_time: z.string(),
+		boss_id: z.string(),
 		element_id: z.string(),
 		res_element_ids: z.array(z.string()),
 		score: z.string(),
@@ -53,6 +57,16 @@ const formSchema = z
 		const level = Number(value.level);
 		const score = Number(value.score);
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST) {
+			if (
+				!LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.some(
+					(id) => String(id) === value.boss_id,
+				)
+			)
+				context.addIssue({
+					code: "custom",
+					path: ["boss_id"],
+					message: "Select a boss",
+				});
 			if (
 				!Object.values(LOADOUT_SNAPSHOT_DIFFICULTIES).includes(
 					value.difficulty as never,
@@ -111,15 +125,30 @@ const formSchema = z
 	});
 type FormValues = z.input<typeof formSchema>;
 
+const CONQUEST_BOSS_OPTIONS = LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.map((id) => ({
+	value: id,
+	name: MONSTERLINGS_DATA[id].name,
+	image: MONSTERLINGS_DATA[id].image,
+}));
+
+const formatLoadoutSnapshotClearTime = (raw: string): string => {
+	const digits = raw.replace(/\D/g, "").slice(0, 6).padEnd(6, "0");
+	return `${digits.slice(0, 2)}:${digits.slice(2, 4)}.${digits.slice(4)}`;
+};
+
+const CLEAR_TIME_SEGMENTS = [
+	[0, 2],
+	[3, 5],
+	[6, 8],
+] as const;
+
 const valuesFor = (
 	loadout: LoadoutOwned | null,
 	snapshot?: LoadoutSnapshot | null,
 ): FormValues => {
 	const details = snapshot?.details;
 	return {
-		name:
-			snapshot?.name ??
-			(loadout ? `${new Date().toLocaleDateString()} ${loadout.name}` : ""),
+		name: snapshot?.name ?? (loadout ? loadout.name : ""),
 		tag: snapshot?.tag ?? LOADOUT_SNAPSHOT_TAGS.OTHERS,
 		notes: snapshot?.notes ?? "",
 		difficulty:
@@ -129,6 +158,10 @@ const valuesFor = (
 		level: details && "level" in details ? String(details.level) : "1",
 		clear_time:
 			details && "clear_time" in details ? details.clear_time : "00:00.00",
+		boss_id:
+			details && "boss_id" in details && details.boss_id !== undefined
+				? String(details.boss_id)
+				: "",
 		element_id:
 			details && "element_id" in details ? String(details.element_id) : "1",
 		res_element_ids:
@@ -171,6 +204,11 @@ export const LoadoutSnapshotDialog = ({
 		control: form.control,
 		name: "res_element_ids",
 	});
+	const bossId = useWatch({ control: form.control, name: "boss_id" });
+	const clearTime = useWatch({ control: form.control, name: "clear_time" });
+	const selectedBoss = bossId ? MONSTERLINGS_DATA[Number(bossId)] : undefined;
+	const clearTimeSegment = useRef(0);
+	const clearTimeDigit = useRef(0);
 	const open = loadout !== null || snapshot !== null;
 	useEffect(() => {
 		if (open) form.reset(valuesFor(loadout, snapshot));
@@ -209,6 +247,57 @@ export const LoadoutSnapshotDialog = ({
 			shouldValidate: true,
 		});
 	};
+	const selectClearTimeSegment = (
+		input: HTMLInputElement,
+		segment: number,
+		shouldDefer = false,
+	) => {
+		clearTimeSegment.current = segment;
+		clearTimeDigit.current = 0;
+		const [start, end] = CLEAR_TIME_SEGMENTS[segment];
+		if (shouldDefer) {
+			requestAnimationFrame(() => input.setSelectionRange(start, end));
+			return;
+		}
+		input.setSelectionRange(start, end);
+	};
+	const handleClearTimeKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+		const input = event.currentTarget;
+		if (/^\d$/.test(event.key)) {
+			event.preventDefault();
+			const segment = clearTimeSegment.current;
+			const digit = clearTimeDigit.current;
+			const position = CLEAR_TIME_SEGMENTS[segment][0] + digit;
+			const characters = clearTime.split("");
+			characters[position] = event.key;
+			form.setValue("clear_time", characters.join(""), {
+				shouldDirty: true,
+				shouldValidate: true,
+			});
+			if (digit === 1) {
+				selectClearTimeSegment(
+					input,
+					Math.min(segment + 1, CLEAR_TIME_SEGMENTS.length - 1),
+					true,
+				);
+				return;
+			}
+			clearTimeDigit.current = 1;
+			input.setSelectionRange(position + 1, position + 2);
+			return;
+		}
+		if (event.key === "Backspace" || event.key === "Delete") {
+			event.preventDefault();
+			const segment = clearTimeSegment.current;
+			const [start, end] = CLEAR_TIME_SEGMENTS[segment];
+			form.setValue(
+				"clear_time",
+				`${clearTime.slice(0, start)}00${clearTime.slice(end)}`,
+				{ shouldDirty: true, shouldValidate: true },
+			);
+			selectClearTimeSegment(input, segment, true);
+		}
+	};
 	const submit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const parsed = formSchema.safeParse(form.getValues());
@@ -221,6 +310,7 @@ export const LoadoutSnapshotDialog = ({
 					value.difficulty as typeof LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
 				level: Number(value.level),
 				clear_time: value.clear_time,
+				boss_id: Number(value.boss_id) as LoadoutSnapshotConquestBossId,
 				res_element_ids: value.res_element_ids.map(
 					(elementId) => Number(elementId) as LoadoutSnapshotElement,
 				),
@@ -295,6 +385,52 @@ export const LoadoutSnapshotDialog = ({
 					</label>
 					{tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST && (
 						<>
+							<label
+								htmlFor="snapshot-conquest-boss"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Boss
+								<Select
+									value={bossId}
+									onValueChange={(value) =>
+										form.setValue("boss_id", value, {
+											shouldValidate: true,
+										})
+									}
+								>
+									<SelectTrigger id="snapshot-conquest-boss" aria-label="Boss">
+										<SelectValue placeholder="Select a boss">
+											{selectedBoss ? (
+												<>
+													<img
+														src={selectedBoss.image}
+														width="24"
+														height="24"
+														alt={`${selectedBoss.name} icon`}
+													/>
+													{selectedBoss.name}
+												</>
+											) : undefined}
+										</SelectValue>
+									</SelectTrigger>
+									<SelectContent>
+										{CONQUEST_BOSS_OPTIONS.map((option) => (
+											<SelectItem
+												key={option.value}
+												value={String(option.value)}
+											>
+												<img
+													src={option.image}
+													width="24"
+													height="24"
+													alt={`${option.name} icon`}
+												/>
+												{option.name}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</label>
 							<label
 								htmlFor="snapshot-difficulty"
 								className="grid gap-2 text-sm font-medium"
@@ -387,8 +523,34 @@ export const LoadoutSnapshotDialog = ({
 								Clear time
 								<Input
 									id="snapshot-clear-time"
+									inputMode="numeric"
 									placeholder="MM:SS.cc"
-									{...form.register("clear_time")}
+									value={clearTime}
+									onFocus={(event) =>
+										selectClearTimeSegment(event.currentTarget, 0)
+									}
+									onClick={(event) =>
+										selectClearTimeSegment(event.currentTarget, 0)
+									}
+									onKeyDown={handleClearTimeKeyDown}
+									onChange={(event) => {
+										form.setValue(
+											"clear_time",
+											formatLoadoutSnapshotClearTime(event.currentTarget.value),
+											{ shouldDirty: true, shouldValidate: true },
+										);
+									}}
+									onPaste={(event) => {
+										event.preventDefault();
+										form.setValue(
+											"clear_time",
+											formatLoadoutSnapshotClearTime(
+												event.clipboardData.getData("text"),
+											),
+											{ shouldDirty: true, shouldValidate: true },
+										);
+										selectClearTimeSegment(event.currentTarget, 2, true);
+									}}
 								/>
 								{form.formState.errors.clear_time && (
 									<span className="text-xs text-destructive">

@@ -1,9 +1,11 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import {
+	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_DIFFICULTIES,
 	LOADOUT_SNAPSHOT_ELEMENTS,
 	LOADOUT_SNAPSHOT_TAGS,
+	type LoadoutSnapshotConquestBossId,
 	type LoadoutSnapshotDifficulty,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
@@ -24,6 +26,7 @@ export type ConquestSnapshotDetails = {
 	difficulty: LoadoutSnapshotDifficulty;
 	level: number;
 	clear_time: string;
+	boss_id?: LoadoutSnapshotConquestBossId;
 	res_element_ids?: LoadoutSnapshotElement[];
 };
 export type RiftSnapshotDetails = {
@@ -86,10 +89,17 @@ export const normalizeLoadoutSnapshotDetails = (
 			!isValidLoadoutSnapshotClearTime(value.clear_time)
 		)
 			return null;
+		const bossId = value.boss_id;
+		const normalizedBossId = LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.includes(
+			bossId as never,
+		)
+			? (bossId as LoadoutSnapshotConquestBossId)
+			: undefined;
 		return {
 			difficulty: difficulty as LoadoutSnapshotDifficulty,
 			level,
 			clear_time: value.clear_time,
+			...(normalizedBossId === undefined ? {} : { boss_id: normalizedBossId }),
 			res_element_ids: normalizeLoadoutSnapshotResElements(
 				value.res_element_ids,
 			),

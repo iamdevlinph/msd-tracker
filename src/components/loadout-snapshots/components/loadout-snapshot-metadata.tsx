@@ -6,6 +6,7 @@ import {
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
+import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { fmt } from "@/lib/utils";
 import type { LoadoutSnapshotDetails } from "@/stores/loadout-snapshots-slice";
 
@@ -49,6 +50,17 @@ export const LoadoutSnapshotMetadata = ({
 			<span className="rounded-full border bg-muted px-2 py-0.5 text-[10px] font-medium text-foreground">
 				{LOADOUT_SNAPSHOT_TAG_LABELS[tag]}
 			</span>
+			{details && "difficulty" in details && details.boss_id !== undefined ? (
+				<span className="inline-flex items-center gap-1 text-foreground">
+					<img
+						src={MONSTERLINGS_DATA[details.boss_id].image}
+						width="20"
+						height="20"
+						alt={`${MONSTERLINGS_DATA[details.boss_id].name} icon`}
+					/>
+					{MONSTERLINGS_DATA[details.boss_id].name}
+				</span>
+			) : null}
 			{details && (
 				<span className="inline-flex flex-wrap items-center gap-1">
 					{"difficulty" in details ? (
