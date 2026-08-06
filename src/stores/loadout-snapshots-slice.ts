@@ -10,6 +10,7 @@ import {
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
+import { formatLoadoutSnapshotNameForTag } from "@/components/loadout-snapshots/utils/loadout-snapshot-name";
 import type { StoreState } from "@/stores/app-store";
 import { type LoadoutOwned, normalizeLoadouts } from "@/stores/loadouts-slice";
 
@@ -254,8 +255,9 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 	}) => {
 		const state = get();
 		const loadout = state.loadouts[loadoutId];
-		const snapshotName = name.trim();
-		if (!loadout || !snapshotName) return null;
+		const trimmedName = name.trim();
+		if (!loadout || !trimmedName) return null;
+		const snapshotName = formatLoadoutSnapshotNameForTag(trimmedName, tag);
 		const snapshotDetails = normalizeLoadoutSnapshotDetails(tag, details);
 		const characterIds = new Set(
 			loadout.characters.flatMap(({ characterId }) =>
@@ -319,13 +321,15 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 			const tag = LOADOUT_SNAPSHOT_TAG_VALUES.includes(input.tag)
 				? input.tag
 				: LOADOUT_SNAPSHOT_TAGS.OTHERS;
+			const snapshotName =
+				tag === current.tag ? name : formatLoadoutSnapshotNameForTag(name, tag);
 			const details = normalizeLoadoutSnapshotDetails(tag, input.details);
 			return {
 				loadoutSnapshots: {
 					...state.loadoutSnapshots,
 					[id]: {
 						...current,
-						name,
+						name: snapshotName,
 						tag,
 						notes: normalizeLoadoutSnapshotNotes(input.notes),
 						details,

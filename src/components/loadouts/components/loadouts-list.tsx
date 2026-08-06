@@ -23,6 +23,8 @@ import {
 } from "@/components/loadouts/loadout-constants";
 import { EditMonsterlingDialog } from "@/components/monsterlings/components/edit-monsterling-dialog";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { SearchInput } from "@/components/ui/search-input";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
@@ -35,6 +37,7 @@ type LoadoutEditorTarget =
 export const LoadoutsList = () => {
 	const ga = useGoogleAnalytics();
 	const [open, setOpen] = useState(false);
+	const [search, setSearch] = useState("");
 	const [loadoutToEdit, setLoadoutToEdit] = useState<string | null>(null);
 	const [loadoutToPreview, setLoadoutToPreview] = useState<string | null>(null);
 	const [loadoutToExport, setLoadoutToExport] = useState<string | null>(null);
@@ -55,9 +58,21 @@ export const LoadoutsList = () => {
 	const createLoadoutSnapshot = useAppStore(
 		(state) => state.createLoadoutSnapshot,
 	);
-	const loadoutEntries = Object.values(loadouts).sort((a, b) =>
-		a.name.localeCompare(b.name),
-	);
+	const searchQuery = search.trim().toLocaleLowerCase();
+	const loadoutEntries = Object.values(loadouts)
+		.filter((loadout) =>
+			[
+				loadout.name,
+				...loadout.characters.flatMap(({ characterId }) => {
+					if (characterId === null) return [];
+					const character = CHARACTERS_DATA[characterId];
+					return character ? [character.name] : [];
+				}),
+			].some((searchableName) =>
+				searchableName.toLocaleLowerCase().includes(searchQuery),
+			),
+		)
+		.sort((a, b) => a.name.localeCompare(b.name));
 	const previewLoadout = loadoutToPreview
 		? (loadouts[loadoutToPreview] ?? null)
 		: null;
@@ -140,13 +155,27 @@ export const LoadoutsList = () => {
 	};
 
 	return (
-		<div className="min-w-0">
-			{loadoutEntries.length === 0 && (
+		<div className="grid min-w-0 gap-3">
+			{Object.keys(loadouts).length > 0 && (
+				<SearchInput
+					aria-label="Search saved loadouts"
+					placeholder="Search loadouts or characters"
+					value={search}
+					onValueChange={setSearch}
+				/>
+			)}
+
+			{Object.keys(loadouts).length === 0 ? (
 				<CollectionEmptyState
 					title="No loadouts yet"
 					description="Create a loadout to organize your team, Monsterlings, and artifacts."
 				/>
-			)}
+			) : loadoutEntries.length === 0 ? (
+				<CollectionEmptyState
+					title="No loadouts match this search"
+					description="Try a different loadout or character name."
+				/>
+			) : null}
 
 			<div className="overflow-x-auto pb-2">
 				<div className="grid min-w-[18rem] grid-cols-[repeat(auto-fill,minmax(18rem,1fr))] gap-3">

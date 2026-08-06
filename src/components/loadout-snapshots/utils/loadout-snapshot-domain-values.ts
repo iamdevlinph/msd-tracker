@@ -70,6 +70,17 @@ export const LOADOUT_SNAPSHOT_TAG_LABELS: Record<LoadoutSnapshotTag, string> = {
 	[LOADOUT_SNAPSHOT_TAGS.OTHERS]: "Others",
 };
 
+export const LOADOUT_SNAPSHOT_TAG_STYLES: Record<LoadoutSnapshotTag, string> = {
+	[LOADOUT_SNAPSHOT_TAGS.CONQUEST]:
+		"border-rose-300 bg-rose-100 text-rose-700 dark:border-rose-700 dark:bg-rose-950 dark:text-rose-300",
+	[LOADOUT_SNAPSHOT_TAGS.RIFT]:
+		"border-violet-300 bg-violet-100 text-violet-700 dark:border-violet-700 dark:bg-violet-950 dark:text-violet-300",
+	[LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST]:
+		"border-amber-300 bg-amber-100 text-amber-700 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-300",
+	[LOADOUT_SNAPSHOT_TAGS.OTHERS]:
+		"border-slate-300 bg-slate-100 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300",
+};
+
 export const LOADOUT_SNAPSHOT_SORTS = {
 	NAME_ASC: "name-asc",
 	NAME_DESC: "name-desc",

@@ -135,6 +135,58 @@ describe("LoadoutsList", () => {
 		).toBeTruthy();
 	});
 
+	it("searches loadout and assigned character names while preserving alphabetical order", () => {
+		useAppStore.setState({
+			charactersOwned,
+			loadouts: {
+				zulu: {
+					...teamLoadout,
+					id: "zulu",
+					name: "Zulu Team",
+					characters: teamLoadout.characters.map((slot) => ({
+						...slot,
+						characterId: 1,
+					})) as LoadoutOwned["characters"],
+				},
+				alpha: {
+					...teamLoadout,
+					id: "alpha",
+					name: "Alpha Team",
+					characters: [
+						{ ...teamLoadout.characters[0], characterId: 3 },
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
+		});
+		render(<LoadoutsList />);
+		const search = screen.getByRole("textbox", {
+			name: "Search saved loadouts",
+		});
+
+		expect(
+			screen
+				.getAllByText(/^(Alpha|Zulu) Team$/)
+				.map(({ textContent }) => textContent),
+		).toEqual(["Alpha Team", "Zulu Team"]);
+		fireEvent.change(search, { target: { value: "  MiNa  " } });
+		expect(screen.getByText("Alpha Team")).toBeTruthy();
+		expect(screen.queryByText("Zulu Team")).toBeNull();
+		fireEvent.change(search, { target: { value: "zULu" } });
+		expect(screen.getByText("Zulu Team")).toBeTruthy();
+		fireEvent.change(search, { target: { value: "missing" } });
+		expect(
+			screen.getByRole("heading", { name: "No loadouts match this search" }),
+		).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
+		expect(
+			screen
+				.getAllByText(/^(Alpha|Zulu) Team$/)
+				.map(({ textContent }) => textContent),
+		).toEqual(["Alpha Team", "Zulu Team"]);
+	});
+
 	it("opens owned character and monsterling editors without previewing", () => {
 		useAppStore.setState({
 			charactersOwned,

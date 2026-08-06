@@ -162,7 +162,7 @@ describe("loadout snapshots store", () => {
 		});
 		expect(id).not.toBeNull();
 		const snapshot = useAppStore.getState().loadoutSnapshots[id as string];
-		expect(snapshot.name).toBe("Clear");
+		expect(snapshot.name).toBe("Conquest - Clear");
 		expect(snapshot.created_at).toBe(123);
 		expect(snapshot.characters_owned).toEqual({
 			1: expect.objectContaining({ awakening: 2 }),

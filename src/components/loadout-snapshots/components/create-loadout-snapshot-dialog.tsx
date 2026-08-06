@@ -13,6 +13,10 @@ import {
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
+import {
+	formatLoadoutSnapshotNameForTag,
+	formatNewLoadoutSnapshotName,
+} from "@/components/loadout-snapshots/utils/loadout-snapshot-name";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
@@ -148,7 +152,9 @@ const valuesFor = (
 ): FormValues => {
 	const details = snapshot?.details;
 	return {
-		name: snapshot?.name ?? (loadout ? loadout.name : ""),
+		name:
+			snapshot?.name ??
+			(loadout ? formatNewLoadoutSnapshotName(loadout.name) : ""),
 		tag: snapshot?.tag ?? LOADOUT_SNAPSHOT_TAGS.OTHERS,
 		notes: snapshot?.notes ?? "",
 		difficulty:
@@ -329,7 +335,10 @@ export const LoadoutSnapshotDialog = ({
 				),
 			};
 		onSubmit({
-			name: value.name.trim(),
+			name:
+				snapshot && snapshot.tag === value.tag
+					? value.name.trim()
+					: formatLoadoutSnapshotNameForTag(value.name, value.tag),
 			tag: value.tag,
 			notes: value.notes,
 			details,

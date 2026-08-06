@@ -110,6 +110,37 @@ describe("LoadoutSnapshotsList", () => {
 		expect(screen.queryByText("Beta clear")).toBeNull();
 	});
 
+	it("uses the tag-specific badge colors in rows and previews", () => {
+		useAppStore.setState({
+			loadoutSnapshots: {
+				conquest: snapshot("conquest", "Conquest", "conquest", 1),
+				rift: snapshot("rift", "Rift", "rift", 2),
+				legendary: snapshot("legendary", "Legendary", "legendary_conquest", 3),
+				others: snapshot("others", "Others", "others", 4),
+			},
+		});
+		render(<LoadoutSnapshotsList />);
+		expect(
+			screen
+				.getAllByText("Conquest")
+				.find((element) => element.tagName === "SPAN")?.className,
+		).toContain("bg-rose-100");
+		expect(
+			screen.getAllByText("Rift").find((element) => element.tagName === "SPAN")
+				?.className,
+		).toContain("bg-violet-100");
+		expect(
+			screen
+				.getAllByText("Legendary Conquest")
+				.find((element) => element.tagName === "SPAN")?.className,
+		).toContain("bg-amber-100");
+		expect(
+			screen
+				.getAllByText("Others")
+				.find((element) => element.tagName === "SPAN")?.className,
+		).toContain("bg-slate-100");
+	});
+
 	it("keeps frozen build images out of compact snapshot rows", () => {
 		const frozenSnapshot = snapshot("frozen", "Frozen team", "others", 3_000);
 		frozenSnapshot.loadout.characters[0] = {

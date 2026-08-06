@@ -43,13 +43,18 @@ describe("CreateLoadoutSnapshotDialog", () => {
 			}),
 		).toBeTruthy();
 		const name = screen.getByLabelText("Name") as HTMLInputElement;
-		expect(name.value).toBe("Fire Team");
+		expect(name.value).toBe("Others - Fire Team");
 		expect(
 			screen.getByRole("combobox", { name: "Snapshot tag" }).textContent,
 		).toContain("Others");
 		fireEvent.change(name, { target: { value: "  Rift clear  " } });
 		fireEvent.click(screen.getByRole("button", { name: "Create snapshot" }));
-		expect(onCreate).toHaveBeenCalledWith("Rift clear", "others", "", null);
+		expect(onCreate).toHaveBeenCalledWith(
+			"Others - Rift clear",
+			"others",
+			"",
+			null,
+		);
 	});
 
 	it("requires a Conquest boss and masks clear-time segment entry", async () => {
