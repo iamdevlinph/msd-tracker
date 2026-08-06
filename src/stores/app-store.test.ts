@@ -40,6 +40,30 @@ afterEach(() => {
 });
 
 describe("Monsterling Link Chain persistence", () => {
+	it("drops transient sync state from migrations and persistence", () => {
+		const migrated = migrateAppStore({
+			backupUpdatedAt: 123,
+			syncInProgress: true,
+			syncConflict: { local: {}, remote: {} },
+			isHydrated: true,
+		});
+		expect(migrated.backupUpdatedAt).toBe(123);
+		expect(migrated).not.toHaveProperty("syncInProgress");
+		expect(migrated).not.toHaveProperty("syncConflict");
+		expect(migrated).not.toHaveProperty("isHydrated");
+
+		const partialize = useAppStore.persist.getOptions().partialize;
+		const persisted = partialize?.({
+			...useAppStore.getState(),
+			syncInProgress: true,
+			syncConflict: { local: {}, remote: {} } as never,
+			isHydrated: true,
+		});
+		expect(persisted).not.toHaveProperty("syncInProgress");
+		expect(persisted).not.toHaveProperty("syncConflict");
+		expect(persisted).not.toHaveProperty("isHydrated");
+	});
+
 	it("normalizes legacy loadout artifact assignments", () => {
 		const migrated = migrateAppStore({
 			loadouts: {

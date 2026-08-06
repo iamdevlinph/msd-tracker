@@ -11,7 +11,16 @@ import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-sl
 const FILE_NAME = "state.json";
 
 let fileId: string | null = null;
-let debounce: number;
+let debounce: number | undefined;
+let unsubscribeAutoSync: (() => void) | null = null;
+let uploadController: AbortController | null = null;
+let initPromise: Promise<void> | null = null;
+let nextOperationId = 0;
+const activeOperations = new Set<number>();
+let suppressAutoSync = false;
+let isInitialized = false;
+let pendingRemoteBackup: Backup | null = null;
+let syncGeneration = 0;
 
 type Backup = Pick<
 	StoreState,
@@ -60,6 +69,7 @@ async function findFile() {
 		"https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id,name)",
 	);
 
+	assertResponseOk(res, "finding remote file");
 	const json = await res.json();
 	return json.files?.find((f: File) => f.name === FILE_NAME);
 }
@@ -87,48 +97,125 @@ async function createFile(data: Backup) {
 		{ method: "POST", body: form },
 	);
 
+	assertResponseOk(res, "creating remote file");
 	const json = await res.json();
-	fileId = json.id;
+	if (!json.id) throw new Error("Google Drive did not return a file ID");
+	return json.id as string;
+}
+
+function assertResponseOk(response: Response, operation: string) {
+	if (response.ok === false) throw new Error(`Failed ${operation}`);
+}
+
+function readRecordField<T>(
+	backup: Record<string, unknown>,
+	field: string,
+	fallback: T,
+): T {
+	const value = backup[field];
+	if (value === undefined) return fallback;
+	if (!value || typeof value !== "object" || Array.isArray(value)) {
+		throw new Error(`Google Drive backup has an invalid ${field} field`);
+	}
+	return value as T;
+}
+
+function readArrayField<T>(
+	backup: Record<string, unknown>,
+	field: string,
+	fallback: T,
+): T {
+	const value = backup[field];
+	if (value === undefined) return fallback;
+	if (!Array.isArray(value)) {
+		throw new Error(`Google Drive backup has an invalid ${field} field`);
+	}
+	return value as T;
+}
+
+function beginOperation() {
+	const operationId = ++nextOperationId;
+	activeOperations.add(operationId);
+	useAppStore.getState().setSyncInProgress(true);
+	return operationId;
+}
+
+function endOperation(operationId: number) {
+	activeOperations.delete(operationId);
+	if (activeOperations.size === 0)
+		useAppStore.getState().setSyncInProgress(false);
 }
 
 export async function download(): Promise<Backup | null> {
+	let operationId: number | undefined;
 	try {
 		if (!fileId) return null;
-		useAppStore.getState().setSyncInProgress(true);
+		operationId = beginOperation();
 
 		const res = await driveFetch(
 			`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
 		);
 
-		const backup = (await res.json()) as Omit<
-			Backup,
-			| "monsterCodexFavorites"
-			| "monsterlingLinkChainLevels"
-			| "monsterlingLinkChainPinnedIds"
-		> &
-			Partial<
-				Pick<
-					Backup,
-					| "monsterCodexFavorites"
-					| "monsterlingLinkChainLevels"
-					| "monsterlingLinkChainPinnedIds"
-				>
-			>;
+		assertResponseOk(res, "downloading remote file");
+		const backup = (await res.json()) as Record<string, unknown>;
+		if (
+			!backup ||
+			typeof backup !== "object" ||
+			Array.isArray(backup) ||
+			!Number.isFinite(backup.backupUpdatedAt)
+		) {
+			throw new Error("Google Drive returned an invalid backup");
+		}
+		const charactersOwned = readRecordField<Backup["charactersOwned"]>(
+			backup,
+			"charactersOwned",
+			{},
+		);
+		const monsterlingsOwned = readRecordField<Backup["monsterlingsOwned"]>(
+			backup,
+			"monsterlingsOwned",
+			{},
+		);
+		const monsterlingLinkChainLevels = readRecordField<
+			Backup["monsterlingLinkChainLevels"] | undefined
+		>(backup, "monsterlingLinkChainLevels", undefined);
+		const checklistState = normalizeChecklistPersistedState({
+			checklistTasks: readRecordField(backup, "checklistTasks", {}),
+			checklistCompletions: readRecordField(backup, "checklistCompletions", {}),
+			checklistPermanentNotes: readRecordField(
+				backup,
+				"checklistPermanentNotes",
+				{},
+			),
+			checklistPreferences: readRecordField(backup, "checklistPreferences", {}),
+		});
 
 		return {
-			...backup,
-			loadouts: normalizeLoadouts(backup.loadouts),
-			loadoutSnapshots: normalizeLoadoutSnapshots(backup.loadoutSnapshots),
-			...normalizeChecklistPersistedState(backup),
+			backupUpdatedAt: backup.backupUpdatedAt as number,
+			monsterCodexCompleted: readArrayField(
+				backup,
+				"monsterCodexCompleted",
+				[],
+			),
+			monsterCodexFavorites: readArrayField(
+				backup,
+				"monsterCodexFavorites",
+				[],
+			),
+			charactersOwned,
 			...consolidateMonsterlingLinkChainLevels(
-				backup.monsterlingsOwned ?? {},
-				backup.monsterlingLinkChainLevels,
+				monsterlingsOwned,
+				monsterlingLinkChainLevels,
 			),
-			monsterCodexFavorites: backup.monsterCodexFavorites ?? [],
 			monsterlingLinkChainPinnedIds: normalizeMonsterlingLinkChainPinnedIds(
-				backup.monsterlingLinkChainPinnedIds,
+				readArrayField(backup, "monsterlingLinkChainPinnedIds", []),
 			),
-			artifactsOwned: backup.artifactsOwned ?? {},
+			loadouts: normalizeLoadouts(readRecordField(backup, "loadouts", {})),
+			loadoutSnapshots: normalizeLoadoutSnapshots(
+				readRecordField(backup, "loadoutSnapshots", {}),
+			),
+			...checklistState,
+			artifactsOwned: readRecordField(backup, "artifactsOwned", {}),
 		};
 	} catch (e) {
 		toast.error(
@@ -137,17 +224,15 @@ export async function download(): Promise<Backup | null> {
 
 		return null;
 	} finally {
-		useAppStore.getState().setSyncInProgress(false);
+		if (operationId !== undefined) endOperation(operationId);
 	}
 }
 
 export async function upload(data: Backup, signal?: AbortSignal) {
+	if (!fileId) throw new Error("Google Drive file ID is unavailable");
+	const operationId = beginOperation();
 	try {
-		if (!fileId) return;
-
-		useAppStore.getState().setSyncInProgress(true);
-
-		await driveFetch(
+		const res = await driveFetch(
 			`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`,
 			{
 				method: "PATCH",
@@ -156,6 +241,7 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 				signal,
 			},
 		);
+		assertResponseOk(res, "uploading remote file");
 	} catch (e) {
 		if ((e as DOMException).name === "AbortError") {
 			return;
@@ -167,36 +253,82 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 
 		throw e;
 	} finally {
-		useAppStore.getState().setSyncInProgress(false);
+		endOperation(operationId);
 	}
 }
 
 export async function initSync() {
-	toast("Initializing data");
+	if (isInitialized) return;
+	if (initPromise) return initPromise;
+	const generation = syncGeneration;
+	const currentInitPromise = runInitSync(generation);
+	initPromise = currentInitPromise;
+	try {
+		await currentInitPromise;
+	} finally {
+		if (initPromise === currentInitPromise) initPromise = null;
+	}
+}
 
-	useAppStore.getState().setSyncInProgress(true);
+async function waitForHydration() {
+	if (useAppStore.getState().isHydrated || useAppStore.persist.hasHydrated())
+		return;
+	await new Promise<void>((resolve) => {
+		const unsubscribe = useAppStore.subscribe((state) => {
+			if (state.isHydrated || useAppStore.persist.hasHydrated()) {
+				unsubscribe();
+				resolve();
+			}
+		});
+	});
+}
+
+function ensureCurrentGeneration(generation: number) {
+	if (generation !== syncGeneration)
+		throw new DOMException("Sync stopped", "AbortError");
+}
+
+async function runInitSync(generation: number) {
+	toast("Initializing data");
+	await waitForHydration();
+	ensureCurrentGeneration(generation);
+	cancelPendingUpload();
+	const operationId = beginOperation();
 
 	try {
-		// existing logic
-		const local = useAppStore.getState();
-
 		const existing = await findFile();
+		ensureCurrentGeneration(generation);
 
 		if (!existing) {
-			await createFile(select(local));
+			const createdBackup = select(useAppStore.getState());
+			const createdFileId = await createFile(createdBackup);
+			ensureCurrentGeneration(generation);
+			fileId = createdFileId;
 			setupAutoSync();
+			const latestBackup = select(useAppStore.getState());
+			if (latestBackup.backupUpdatedAt !== createdBackup.backupUpdatedAt) {
+				await upload(latestBackup);
+			}
+			ensureCurrentGeneration(generation);
+			isInitialized = true;
 			return;
 		}
 
+		if (!existing.id) throw new Error("Google Drive file is missing its ID");
 		fileId = existing.id;
 
 		const remote = await download();
+		ensureCurrentGeneration(generation);
+		if (!remote) throw new Error("Unable to download the Google Drive backup");
+		const local = useAppStore.getState();
 		if (remote && remote.backupUpdatedAt !== local.backupUpdatedAt) {
+			pendingRemoteBackup = remote;
+			cancelPendingUpload();
 			useAppStore.setState({
 				syncConflict: {
 					local: {
 						updatedAt: local.backupUpdatedAt,
-						size: getSize(local),
+						size: getSize(select(local)),
 						metadata: {
 							charactersOwned: Object.keys(local.charactersOwned).length,
 							monsterlingsOwned: Object.keys(local.monsterlingsOwned).length,
@@ -238,25 +370,34 @@ export async function initSync() {
 				},
 			});
 		} else {
+			pendingRemoteBackup = null;
+			useAppStore.getState().setSyncConflict(null);
 			await upload(select(local));
 		}
 
+		ensureCurrentGeneration(generation);
 		setupAutoSync();
+		isInitialized = true;
 	} catch (e) {
+		if ((e as DOMException).name === "AbortError") return;
 		toast.error(
 			`Something went wrong with initializing data\n\n${(e as Error).message}`,
 		);
 	} finally {
-		useAppStore.getState().setSyncInProgress(false);
+		endOperation(operationId);
 	}
 }
 
-let uploadController: AbortController | null = null;
-
 function setupAutoSync() {
+	if (unsubscribeAutoSync) return;
 	const unsubscribe = useAppStore.subscribe(
 		(state) => state.backupUpdatedAt,
 		(newValue, prevValue) => {
+			if (useAppStore.getState().syncConflict) {
+				cancelPendingUpload();
+				return;
+			}
+			if (suppressAutoSync) return;
 			// if not logged in with google skip sync
 			const accessToken = sessionStorage.getItem(G_ACCESS_TOKEN_SESSION);
 
@@ -273,13 +414,11 @@ function setupAutoSync() {
 
 			if (newValue === prevValue) return;
 
-			clearTimeout(debounce);
+			if (debounce !== undefined) window.clearTimeout(debounce);
 
 			debounce = window.setTimeout(async () => {
 				toast("Sync start");
 				const controller = new AbortController();
-				useAppStore.getState().setSyncInProgress(true);
-
 				uploadController?.abort();
 				uploadController = controller;
 
@@ -295,15 +434,62 @@ function setupAutoSync() {
 						toast.error(`Sync failed\n\n${(e as Error).message}`);
 					}
 				} finally {
-					if (uploadController === controller) {
-						useAppStore.getState().setSyncInProgress(false);
-					}
+					if (uploadController === controller) uploadController = null;
 				}
 			}, 2000);
 		},
 	);
 
+	unsubscribeAutoSync = unsubscribe;
 	return unsubscribe;
+}
+
+export function cancelPendingUpload() {
+	if (debounce !== undefined) {
+		window.clearTimeout(debounce);
+		debounce = undefined;
+	}
+	uploadController?.abort();
+	uploadController = null;
+}
+
+export function teardownSync() {
+	syncGeneration += 1;
+	cancelPendingUpload();
+	unsubscribeAutoSync?.();
+	unsubscribeAutoSync = null;
+	initPromise = null;
+	isInitialized = false;
+	pendingRemoteBackup = null;
+	fileId = null;
+	activeOperations.clear();
+	useAppStore.setState({ syncInProgress: false, syncConflict: null });
+}
+
+export async function resolveSyncConflict(choice: "local" | "remote") {
+	if (!useAppStore.getState().syncConflict) {
+		throw new Error("There is no sync conflict to resolve");
+	}
+
+	cancelPendingUpload();
+	if (choice === "local") {
+		await upload(select(useAppStore.getState()));
+		useAppStore.getState().setSyncConflict(null);
+		pendingRemoteBackup = null;
+		return;
+	}
+
+	if (!pendingRemoteBackup) {
+		throw new Error("The remote backup is no longer available; refresh sync");
+	}
+
+	suppressAutoSync = true;
+	try {
+		useAppStore.setState({ ...pendingRemoteBackup, syncConflict: null });
+		pendingRemoteBackup = null;
+	} finally {
+		suppressAutoSync = false;
+	}
 }
 
 function getSize(obj: unknown) {

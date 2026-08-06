@@ -10,22 +10,17 @@ import { readableBytes } from "common-utils-pkg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
 import { useAppStore } from "@/stores/app-store";
-import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
-const { event, upload, download, select } = vi.hoisted(() => ({
+const { event, resolveSyncConflict } = vi.hoisted(() => ({
 	event: vi.fn(),
-	upload: vi.fn(),
-	download: vi.fn(),
-	select: vi.fn(() => ({})),
+	resolveSyncConflict: vi.fn(),
 }));
 
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),
 }));
 vi.mock("@/components/account/google/utils/drive-sync", () => ({
-	upload,
-	download,
-	select,
+	resolveSyncConflict,
 }));
 
 const copy = {
@@ -43,10 +38,7 @@ const copy = {
 
 beforeEach(() => {
 	event.mockClear();
-	upload.mockReset();
-	download.mockReset();
-	select.mockReset();
-	select.mockReturnValue({ monsterlingLinkChainLevels: { 67: 4 } });
+	resolveSyncConflict.mockReset();
 	useAppStore.setState({
 		syncConflict: { local: copy, remote: copy },
 		syncInProgress: false,
@@ -177,7 +169,7 @@ describe("SyncConflictDialog tables", () => {
 	});
 
 	it("tracks keeping the local copy through success", async () => {
-		upload.mockResolvedValue(undefined);
+		resolveSyncConflict.mockResolvedValue(undefined);
 		render(<SyncConflictDialog />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Keep Local" }));
@@ -188,53 +180,26 @@ describe("SyncConflictDialog tables", () => {
 				"sync_conflict_keep_local_success",
 			]),
 		);
-		expect(upload).toHaveBeenCalledWith({
-			monsterlingLinkChainLevels: { 67: 4 },
-		});
+		expect(resolveSyncConflict).toHaveBeenCalledWith("local");
 	});
 
-	it("restores shared levels and checklist data from the remote copy", async () => {
-		download.mockResolvedValue({
-			monsterlingLinkChainLevels: { 67: 5 },
-			checklistTasks: {
-				task: {
-					id: "task",
-					title: "Remote task",
-					kind: "custom",
-					startAt: "2026-07-27T00:00:00.000Z",
-					scheduleVersion: 1,
-				},
-			},
-			checklistCompletions: { "task:v1:occurrence": 123 },
-			checklistPermanentNotes: { permanent: "Remote note" },
-			checklistPreferences: {
-				...defaultChecklistPreferences,
-				showExpired: true,
-			},
-		});
+	it("tracks keeping the remote copy through success", async () => {
+		resolveSyncConflict.mockResolvedValue(undefined);
 		render(<SyncConflictDialog />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Keep Remote" }));
 
 		await waitFor(() =>
-			expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
-				67: 5,
-			}),
+			expect(event.mock.calls.map(([name]) => name)).toEqual([
+				"sync_conflict_keep_remote_attempt",
+				"sync_conflict_keep_remote_success",
+			]),
 		);
-		expect(useAppStore.getState().checklistTasks.task.title).toBe(
-			"Remote task",
-		);
-		expect(useAppStore.getState().checklistCompletions).toEqual({
-			"task:v1:occurrence": 123,
-		});
-		expect(useAppStore.getState().checklistPermanentNotes).toEqual({
-			permanent: "Remote note",
-		});
-		expect(useAppStore.getState().checklistPreferences.showExpired).toBe(true);
+		expect(resolveSyncConflict).toHaveBeenCalledWith("remote");
 	});
 
-	it("tracks a missing remote copy as a failure", async () => {
-		download.mockResolvedValue(null);
+	it("tracks a remote resolution failure", async () => {
+		resolveSyncConflict.mockRejectedValue(new Error("Remote unavailable"));
 		render(<SyncConflictDialog />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Keep Remote" }));

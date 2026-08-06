@@ -1,7 +1,10 @@
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { useEffect, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
-import { initSync } from "@/components/account/google/utils/drive-sync";
+import {
+	initSync,
+	teardownSync,
+} from "@/components/account/google/utils/drive-sync";
 import {
 	G_ACCESS_TOKEN_SESSION,
 	G_LOCAL_EMAIL,
@@ -85,9 +88,11 @@ export function useGoogleAuth(props?: UseGoogleAuthProps) {
 		try {
 			googleLogout();
 
-			await fetch("/api/auth/google-logout", {
+			const response = await fetch("/api/auth/google-logout", {
 				method: "GET",
 			});
+			if (!response.ok) throw new Error("Google logout failed");
+			teardownSync();
 
 			GOOGLE_LOCAL_DESTROY.forEach((key) => {
 				localStorage.removeItem(key);

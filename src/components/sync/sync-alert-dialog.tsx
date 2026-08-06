@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
-import {
-	download,
-	select,
-	upload,
-} from "@/components/account/google/utils/drive-sync";
+import { resolveSyncConflict } from "@/components/account/google/utils/drive-sync";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { SyncCopyCard } from "@/components/sync/sync-copy-card";
 import {
@@ -25,7 +21,6 @@ export function SyncConflictDialog() {
 		"local" | "remote" | undefined
 	>(undefined);
 	const conflict = useAppStore((s) => s.syncConflict);
-	const setConflict = useAppStore((s) => s.setSyncConflict);
 	const syncInProgress = useAppStore((s) => s.syncInProgress);
 
 	if (!conflict) return null;
@@ -57,8 +52,7 @@ export function SyncConflictDialog() {
 								setButtonClicked("local");
 								ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_LOCAL_ATTEMPT);
 								try {
-									await upload(select(useAppStore.getState()));
-									setConflict(null);
+									await resolveSyncConflict("local");
 									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_LOCAL_SUCCESS);
 								} catch {
 									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_LOCAL_FAILURE);
@@ -90,20 +84,7 @@ export function SyncConflictDialog() {
 								setButtonClicked("remote");
 								ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_ATTEMPT);
 								try {
-									const remote = await download();
-
-									if (!remote) {
-										ga.event(
-											ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_FAILURE,
-										);
-										return;
-									}
-
-									useAppStore.setState({
-										...remote,
-									});
-
-									setConflict(null);
+									await resolveSyncConflict("remote");
 									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_SUCCESS);
 								} catch {
 									ga.event(ANALYTICS_EVENTS.SYNC_CONFLICT_KEEP_REMOTE_FAILURE);

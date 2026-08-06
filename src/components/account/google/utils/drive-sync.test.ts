@@ -3,7 +3,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	download,
 	initSync,
+	resolveSyncConflict,
 	select,
+	teardownSync,
 } from "@/components/account/google/utils/drive-sync";
 import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
@@ -38,6 +40,7 @@ vi.mock("@/data/monsterlings/MONSTERLINGS_DATA", () => ({
 
 describe("Drive Monsterling backups", () => {
 	afterEach(() => {
+		teardownSync();
 		driveFetch.mockReset();
 		useAppStore.setState({
 			monsterlingsOwned: {},
@@ -230,37 +233,44 @@ describe("Drive Monsterling backups", () => {
 
 	it("normalizes checklist tasks and event metadata without changing the local backup timestamp", async () => {
 		useAppStore.setState({ backupUpdatedAt: 77 });
-		driveFetch.mockResolvedValueOnce({
-			json: async () => ({
-				backupUpdatedAt: 1,
-				monsterCodexCompleted: [],
-				charactersOwned: {},
-				monsterlingsOwned: {},
-				loadouts: {},
-				checklistTasks: {
-					legacy: {
-						title: "Legacy",
-						kind: "custom",
-						startAt: "2026-07-27T00:00:00+08:00",
-						recurrence: "daily",
-						scheduleVersion: 1,
-					},
-					anniversary: {
-						title: "Anniversary check-in",
-						noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
-						kind: "event",
-						startAt: "2026-07-22T00:00:00.000Z",
-						endAt: "2026-08-11T23:59:00.000Z",
-						recurrence: "daily",
-						scheduleVersion: 1,
-					},
+		const legacyBackup = {
+			backupUpdatedAt: 1,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+			checklistTasks: {
+				legacy: {
+					title: "Legacy",
+					kind: "custom",
+					startAt: "2026-07-27T00:00:00+08:00",
+					recurrence: "daily",
+					scheduleVersion: 1,
 				},
-				checklistPermanentNotes: {
-					"missing-definition": "  Remote note  ",
-					blank: " ",
+				anniversary: {
+					title: "Anniversary check-in",
+					noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
+					kind: "event",
+					startAt: "2026-07-22T00:00:00.000Z",
+					endAt: "2026-08-11T23:59:00.000Z",
+					recurrence: "daily",
+					scheduleVersion: 1,
 				},
-			}),
-		});
+			},
+			checklistPermanentNotes: {
+				"missing-definition": "  Remote note  ",
+				blank: " ",
+			},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => legacyBackup })
+			.mockResolvedValueOnce({ ok: true, json: async () => legacyBackup });
+
+		await initSync();
 
 		const downloaded = await download();
 		expect(downloaded?.checklistTasks.legacy.startAt).toBe(
@@ -277,5 +287,126 @@ describe("Drive Monsterling backups", () => {
 			"missing-definition": "Remote note",
 		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(77);
+	});
+
+	it("applies the exact remote conflict snapshot without uploading it", async () => {
+		useAppStore.setState({ backupUpdatedAt: 10, checklistTasks: {} });
+		const remoteBackup = {
+			backupUpdatedAt: 20,
+			syncInProgress: true,
+			setSyncConflict: "corrupted",
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+			checklistTasks: {
+				remote: {
+					id: "remote",
+					title: "Remote task",
+					kind: "custom",
+					startAt: "2026-08-06T00:00:00.000Z",
+					scheduleVersion: 2,
+				},
+			},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup });
+
+		await initSync();
+		expect(useAppStore.getState().syncConflict).not.toBeNull();
+
+		await resolveSyncConflict("remote");
+
+		expect(useAppStore.getState().backupUpdatedAt).toBe(20);
+		expect(useAppStore.getState().checklistTasks.remote.title).toBe(
+			"Remote task",
+		);
+		expect(useAppStore.getState().syncConflict).toBeNull();
+		expect(useAppStore.getState().syncInProgress).toBe(false);
+		expect(typeof useAppStore.getState().setSyncConflict).toBe("function");
+		expect(driveFetch).toHaveBeenCalledTimes(2);
+	});
+
+	it("keeps the conflict open when keeping local fails to upload", async () => {
+		useAppStore.setState({ backupUpdatedAt: 10 });
+		const remoteBackup = {
+			backupUpdatedAt: 20,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup })
+			.mockResolvedValueOnce({ ok: false, status: 500 });
+
+		await initSync();
+		await expect(resolveSyncConflict("local")).rejects.toThrow(
+			"Failed uploading remote file",
+		);
+		expect(useAppStore.getState().syncConflict).not.toBeNull();
+	});
+
+	it("does not upload local data when the remote download fails", async () => {
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: false, status: 401 });
+
+		await initSync();
+
+		expect(driveFetch).toHaveBeenCalledTimes(2);
+		expect(useAppStore.getState().syncConflict).toBeNull();
+	});
+
+	it("rejects malformed durable collection fields", async () => {
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					backupUpdatedAt: 20,
+					charactersOwned: [],
+				}),
+			});
+
+		await initSync();
+
+		expect(driveFetch).toHaveBeenCalledTimes(2);
+		expect(useAppStore.getState().syncConflict).toBeNull();
+	});
+
+	it("deduplicates repeated initialization", async () => {
+		const remoteBackup = {
+			backupUpdatedAt: 20,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup });
+
+		await Promise.all([initSync(), initSync()]);
+		await initSync();
+
+		expect(driveFetch).toHaveBeenCalledTimes(2);
 	});
 });

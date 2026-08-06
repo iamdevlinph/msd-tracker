@@ -85,6 +85,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 ## Account
 
 - [x] Highlight the newer backup date and larger serialized size independently when choosing between local and Google Drive copies during a sync conflict.
+- [x] Resolve Google Drive conflicts atomically with transient conflict state, guarded Drive responses, deduplicated sync lifecycle, and exact remote-copy restoration.
 - [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
 - [x] Link to the public GitHub repository from the Account page.
 

@@ -96,9 +96,19 @@ const initialState = {
 };
 
 export const migrateAppStore = (persistedState: unknown) => {
-	const state = persistedState as Partial<StoreState>;
+	const state = (persistedState ?? {}) as Partial<StoreState>;
+	const {
+		syncInProgress: _syncInProgress,
+		syncConflict: _syncConflict,
+		isHydrated: _isHydrated,
+		setSyncInProgress: _setSyncInProgress,
+		setSyncConflict: _setSyncConflict,
+		setHasHydrated: _setHasHydrated,
+		logout: _logout,
+		...durableState
+	} = state;
 	return {
-		...state,
+		...durableState,
 		loadouts: normalizeLoadouts(state.loadouts),
 		loadoutSnapshots: normalizeLoadoutSnapshots(state.loadoutSnapshots),
 		artifactsOwned: state.artifactsOwned ?? {},
@@ -139,8 +149,21 @@ export const useAppStore = create<StoreState>()(
 			}),
 			{
 				name: "msd-tracker",
-				version: 4,
+				version: 5,
 				migrate: migrateAppStore,
+				partialize: (state) => {
+					const {
+						syncInProgress: _syncInProgress,
+						syncConflict: _syncConflict,
+						isHydrated: _isHydrated,
+						setSyncInProgress: _setSyncInProgress,
+						setSyncConflict: _setSyncConflict,
+						setHasHydrated: _setHasHydrated,
+						logout: _logout,
+						...durableState
+					} = state;
+					return durableState;
+				},
 				onRehydrateStorage: (_state) => {
 					// NOTE: In the `google-section.tsx` I get hydration error
 					// when setting `disabled={!authenticatedGithub}` for the Login with Google button
