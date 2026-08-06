@@ -128,16 +128,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 	{
-		id: "mabel-update-check-in-discord",
-		title: "Mabel Update Check-In!",
-		noticeTitle: MABEL_DISCORD_NOTICE_TITLE,
-		participation: "discord",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-29T00:00:00.000Z",
-		endAt: "2026-08-06T01:00:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
 		id: "mabel-character-trivia-discord",
 		title: "New Character Mabel Debut! Character Trivia Event",
 		noticeTitle: MABEL_DISCORD_NOTICE_TITLE,
