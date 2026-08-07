@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Style Preflight"
+  short_description: "Align UI changes with shipped project patterns"
+  default_prompt: "Use $ui-style-preflight to inspect the closest shipped analogue before changing this UI."
