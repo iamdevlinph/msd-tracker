@@ -149,7 +149,8 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 	{
 		id: "20260807-CAT-DAY",
 		title: "Celebrate International Cat Day! Monsterling Growth Support Event",
-		noticeTitle: "Celebrate International Cat Day! Monsterling Growth Support Event",
+		noticeTitle:
+			"Celebrate International Cat Day! Monsterling Growth Support Event",
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-08-08T10:00:00.000Z",
 		endAt: "2026-08-12T09:59:00.000Z",
