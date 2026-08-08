@@ -88,7 +88,9 @@ export const ChecklistPage = () => {
 				) : (
 					<ChecklistList
 						items={visible}
-						showCompleted={preferences.showCompleted}
+						showCompleted={
+							preferences.showCompleted || preferences.showFullyCompleted
+						}
 						now={now}
 						onComplete={(key) => {
 							complete(key);

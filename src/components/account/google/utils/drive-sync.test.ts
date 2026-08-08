@@ -229,6 +229,7 @@ describe("Drive Monsterling backups", () => {
 		expect(downloaded?.checklistPreferences).toEqual(
 			defaultChecklistPreferences,
 		);
+		expect(downloaded?.checklistPreferences.showFullyCompleted).toBe(true);
 	});
 
 	it("normalizes checklist tasks and event metadata without changing the local backup timestamp", async () => {

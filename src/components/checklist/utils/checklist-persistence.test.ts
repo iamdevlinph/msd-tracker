@@ -6,7 +6,9 @@ import {
 
 describe("normalizeChecklistPersistedState", () => {
 	it("supplies safe checklist defaults for legacy state", () => {
-		expect(normalizeChecklistPersistedState({})).toEqual({
+		const state = normalizeChecklistPersistedState({});
+		expect(state.checklistPreferences.showFullyCompleted).toBe(true);
+		expect(state).toEqual({
 			checklistTasks: {},
 			checklistCompletions: {},
 			checklistPermanentNotes: {},

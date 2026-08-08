@@ -102,11 +102,13 @@ export const getChecklistView = ({
 				};
 			})
 			.filter(
-				({ status }) =>
+				({ fullyCompleted, status }) =>
 					(status !== CHECKLIST_STATUSES.UPCOMING ||
 						preferences.showUpcoming) &&
-					(status !== CHECKLIST_STATUSES.COMPLETED ||
+					(fullyCompleted ||
+						status !== CHECKLIST_STATUSES.COMPLETED ||
 						preferences.showCompleted) &&
+					(!fullyCompleted || preferences.showFullyCompleted) &&
 					(status !== CHECKLIST_STATUSES.EXPIRED || preferences.showExpired),
 			),
 	);

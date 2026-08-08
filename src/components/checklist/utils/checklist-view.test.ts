@@ -133,6 +133,33 @@ describe("getChecklistView", () => {
 		});
 	});
 
+	it.each([
+		[true, true, [fixtureEvent.id, fullEvent.id]],
+		[true, false, [fixtureEvent.id]],
+		[false, true, [fullEvent.id]],
+		[false, false, []],
+	])("filters ordinary and fully completed events independently (%s, %s)", (showCompleted, showFullyCompleted, expectedIds) => {
+		const completions = {
+			[occurrenceKey(fixtureEvent, Date.parse(fixtureEvent.startAt))]: now,
+			[fullCompletionKey(fullEvent)]: now,
+		};
+		const items = getChecklistView({
+			tasks: {},
+			completions,
+			preferences: {
+				...defaultChecklistPreferences,
+				showCompleted,
+				showFullyCompleted,
+			},
+			tab: "event",
+			now,
+		});
+
+		expect(new Set(items.map(({ definition }) => definition.id))).toEqual(
+			new Set(expectedIds),
+		);
+	});
+
 	it("projects player-created events in the Events tab", () => {
 		const playerEvent: ChecklistTask = {
 			id: "player-event",
@@ -190,5 +217,28 @@ describe("getChecklistView", () => {
 				.slice(expiredIndex)
 				.every(({ status }) => ["completed", "expired"].includes(status)),
 		).toBe(true);
+		const hiddenCompletedPreferences = {
+			...defaultChecklistPreferences,
+			showCompleted: false,
+			showFullyCompleted: false,
+		};
+		expect(
+			getChecklistView({
+				tasks: { [expiredEvent.id]: expiredEvent },
+				completions: {},
+				preferences: hiddenCompletedPreferences,
+				tab: "all",
+				now,
+			}).some(({ definition }) => definition.id === expiredEvent.id),
+		).toBe(true);
+		expect(
+			getChecklistView({
+				tasks: { [expiredEvent.id]: expiredEvent },
+				completions: {},
+				preferences: { ...hiddenCompletedPreferences, showExpired: false },
+				tab: "all",
+				now,
+			}).some(({ definition }) => definition.id === expiredEvent.id),
+		).toBe(false);
 	});
 });

@@ -466,6 +466,21 @@ describe("ChecklistPage", () => {
 		expect(screen.getByText("Nothing to show here")).toBeTruthy();
 	});
 
+	it("persists fully completed visibility from settings", () => {
+		vi.spyOn(Date, "now").mockReturnValue(321);
+		render(<ChecklistPage />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Checklist settings" }));
+		const fullyCompleted = screen.getByLabelText("Show fully completed");
+		expect(fullyCompleted.getAttribute("data-state")).toBe("checked");
+		fireEvent.click(fullyCompleted);
+
+		expect(useAppStore.getState().checklistPreferences.showFullyCompleted).toBe(
+			false,
+		);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(321);
+	});
+
 	it("shows compact upcoming rows and inline custom-task actions", () => {
 		useAppStore.setState({
 			checklistTasks: {

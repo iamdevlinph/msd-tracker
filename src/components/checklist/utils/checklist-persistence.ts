@@ -11,6 +11,7 @@ export type ChecklistPreferences = {
 	categories: Record<ChecklistKind, boolean>;
 	showUpcoming: boolean;
 	showCompleted: boolean;
+	showFullyCompleted: boolean;
 	showExpired: boolean;
 	endingSoonHours: 5 | 12 | 24 | 48 | 72;
 };
@@ -23,6 +24,7 @@ export const defaultChecklistPreferences: ChecklistPreferences = {
 	},
 	showUpcoming: true,
 	showCompleted: true,
+	showFullyCompleted: true,
 	showExpired: true,
 	endingSoonHours: 24,
 };

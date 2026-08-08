@@ -114,6 +114,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [x] Separate incomplete and completed checklist items with a labeled divider that follows the Show completed preference.
 - [x] Group expired checklist items in the completed section while preserving their expired styling and visibility preference.
+- [x] Independently control ordinary and fully completed checklist visibility, with legacy local and Drive preferences defaulting to visible.
 - [x] Expose the Checklist navigation item after the feature is release-ready.
 
 ## Chunk 2: Artifacts Inventory
