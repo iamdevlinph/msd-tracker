@@ -5,9 +5,9 @@ import {
 
 const SNAPSHOT_TAG_PREFIX = /^(Conquest|Rift|Legendary Conquest|Others) - /;
 
-/** Prefix a newly-created snapshot with the default Others category. */
+/** Trim the source loadout name for a newly-created snapshot. */
 export const formatNewLoadoutSnapshotName = (loadoutName: string): string =>
-	`Others - ${loadoutName.trim()}`;
+	loadoutName.trim();
 
 /** Replace a canonical category prefix while retaining the editable name suffix. */
 export const formatLoadoutSnapshotNameForTag = (

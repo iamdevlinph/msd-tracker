@@ -336,9 +336,9 @@ export const LoadoutSnapshotDialog = ({
 			};
 		onSubmit({
 			name:
-				snapshot && snapshot.tag === value.tag
-					? value.name.trim()
-					: formatLoadoutSnapshotNameForTag(value.name, value.tag),
+				snapshot && snapshot.tag !== value.tag
+					? formatLoadoutSnapshotNameForTag(value.name, value.tag)
+					: value.name.trim(),
 			tag: value.tag,
 			notes: value.notes,
 			details,

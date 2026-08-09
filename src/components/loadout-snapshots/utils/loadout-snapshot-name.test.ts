@@ -5,10 +5,8 @@ import {
 } from "./loadout-snapshot-name";
 
 describe("loadout snapshot names", () => {
-	it("starts new snapshots with the Others prefix", () => {
-		expect(formatNewLoadoutSnapshotName("  Fire Team ")).toBe(
-			"Others - Fire Team",
-		);
+	it("trims names for new snapshots without adding a tag prefix", () => {
+		expect(formatNewLoadoutSnapshotName("  Fire Team ")).toBe("Fire Team");
 	});
 
 	it("replaces each exact canonical prefix when changing tags", () => {

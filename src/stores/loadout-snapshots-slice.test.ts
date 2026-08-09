@@ -34,11 +34,18 @@ describe("loadout snapshots store", () => {
 		const source = {
 			bad: { name: "Bad", created_at: "y", loadout },
 			ok: { name: "  Saved  ", tag: "invalid", created_at: 10, loadout },
+			existing: {
+				name: "Others - Existing",
+				tag: LOADOUT_SNAPSHOT_TAGS.RIFT,
+				created_at: 10,
+				loadout,
+			},
 		};
 		const normalized = normalizeLoadoutSnapshots(source);
 		expect(normalized.bad).toBeUndefined();
 		expect(normalized.ok.name).toBe("Saved");
 		expect(normalized.ok.tag).toBe(LOADOUT_SNAPSHOT_TAGS.OTHERS);
+		expect(normalized.existing.name).toBe("Others - Existing");
 		expect(normalized.ok.loadout.characters).toHaveLength(3);
 		normalized.ok.loadout.characters[0].stat_values = { atk: 9 };
 		expect(source.ok.loadout.characters[0].stat_values).toEqual({ atk: 1200 });
@@ -162,7 +169,7 @@ describe("loadout snapshots store", () => {
 		});
 		expect(id).not.toBeNull();
 		const snapshot = useAppStore.getState().loadoutSnapshots[id as string];
-		expect(snapshot.name).toBe("Conquest - Clear");
+		expect(snapshot.name).toBe("Clear");
 		expect(snapshot.created_at).toBe(123);
 		expect(snapshot.characters_owned).toEqual({
 			1: expect.objectContaining({ awakening: 2 }),
@@ -185,6 +192,37 @@ describe("loadout snapshots store", () => {
 		useAppStore.getState().deleteLoadoutSnapshot(id as string);
 		expect(useAppStore.getState().loadoutSnapshots).toEqual({});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+	});
+
+	it("keeps newly-created names unprefixed for every tag", () => {
+		useAppStore.setState({ loadouts: { team: loadout }, loadoutSnapshots: {} });
+		for (const tag of Object.values(LOADOUT_SNAPSHOT_TAGS)) {
+			const id = useAppStore.getState().createLoadoutSnapshot({
+				loadoutId: "team",
+				name: "  Clear  ",
+				tag,
+			});
+			expect(id).not.toBeNull();
+			expect(useAppStore.getState().loadoutSnapshots[id as string].name).toBe(
+				"Clear",
+			);
+		}
+	});
+
+	it("prefixes an existing name only when its tag changes", () => {
+		useAppStore.setState({ loadouts: { team: loadout }, loadoutSnapshots: {} });
+		const id = useAppStore.getState().createLoadoutSnapshot({
+			loadoutId: "team",
+			name: "Clear",
+			tag: LOADOUT_SNAPSHOT_TAGS.OTHERS,
+		});
+		useAppStore.getState().updateLoadoutSnapshot(id as string, {
+			name: "  Clear  ",
+			tag: LOADOUT_SNAPSHOT_TAGS.RIFT,
+		});
+		expect(useAppStore.getState().loadoutSnapshots[id as string].name).toBe(
+			"Rift - Clear",
+		);
 	});
 
 	it("updates only editable metadata and preserves frozen fields", () => {

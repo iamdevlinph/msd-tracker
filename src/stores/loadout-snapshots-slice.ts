@@ -257,7 +257,7 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 		const loadout = state.loadouts[loadoutId];
 		const trimmedName = name.trim();
 		if (!loadout || !trimmedName) return null;
-		const snapshotName = formatLoadoutSnapshotNameForTag(trimmedName, tag);
+		const snapshotName = trimmedName;
 		const snapshotDetails = normalizeLoadoutSnapshotDetails(tag, details);
 		const characterIds = new Set(
 			loadout.characters.flatMap(({ characterId }) =>
