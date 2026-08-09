@@ -46,7 +46,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Preselect the current character class when opening the loadout artifact picker while keeping all artifact filters editable.
 - [x] Match selection picker height to the 888px loadout editor height while keeping shorter viewports bounded and scrollable.
 - [x] Capture immutable, tagged loadout snapshots with frozen build data; list, search, filter, sort, preview, copy, delete, reset, and Drive-sync them with creation metadata, tier-framed character portraits, and read-only preview hover styling distinct from editable loadouts.
-- [x] Search saved loadouts by loadout or assigned character name while preserving alphabetical ordering, style snapshot category badges consistently in rows/previews/exports, keep new snapshot names trimmed and separate from tag metadata, and prefix names only when an existing snapshot changes tags.
+- [x] Search saved loadouts by loadout or assigned character name while preserving alphabetical ordering, style snapshot category badges consistently in rows/previews/exports/dialogs, keep new snapshot names trimmed and separate from tag metadata, and prefix names only when an existing snapshot changes tags.
 - [x] Add loadout notes during creation/editing and category-aware snapshot metadata, including multi-select RES Element metadata for Conquest categories, editable compact snapshot rows, direct saved-loadout actions, immutable frozen builds, and Drive-compatible legacy normalization.
 - [x] Record required Conquest bosses with canonical portraits, use a fixed segmented clear-time format, and default new snapshot names to the trimmed source loadout name.
 

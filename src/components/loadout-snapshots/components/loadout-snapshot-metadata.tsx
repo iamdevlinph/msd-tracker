@@ -1,8 +1,6 @@
 import {
 	LOADOUT_SNAPSHOT_DIFFICULTY_LABELS,
 	LOADOUT_SNAPSHOT_ELEMENT_LABELS,
-	LOADOUT_SNAPSHOT_TAG_LABELS,
-	LOADOUT_SNAPSHOT_TAG_STYLES,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -10,6 +8,7 @@ import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { fmt } from "@/lib/utils";
 import type { LoadoutSnapshotDetails } from "@/stores/loadout-snapshots-slice";
+import { LoadoutSnapshotTagBadge } from "./loadout-snapshot-tag-badge";
 
 type LoadoutSnapshotMetadataProps = {
 	createdAt: number;
@@ -48,11 +47,7 @@ export const LoadoutSnapshotMetadata = ({
 }: LoadoutSnapshotMetadataProps) => (
 	<div className="mt-1 grid gap-1 text-xs text-muted-foreground">
 		<div className="flex flex-wrap items-center gap-1.5">
-			<span
-				className={`rounded-full border px-2 py-0.5 text-[10px] font-medium ${LOADOUT_SNAPSHOT_TAG_STYLES[tag]}`}
-			>
-				{LOADOUT_SNAPSHOT_TAG_LABELS[tag]}
-			</span>
+			<LoadoutSnapshotTagBadge tag={tag} />
 			{details && "difficulty" in details && details.boss_id !== undefined ? (
 				<span className="inline-flex items-center gap-1 text-foreground">
 					<img

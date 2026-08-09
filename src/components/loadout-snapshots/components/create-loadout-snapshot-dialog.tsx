@@ -43,6 +43,7 @@ import type {
 	LoadoutSnapshotDetails,
 } from "@/stores/loadout-snapshots-slice";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+import { LoadoutSnapshotTagBadge } from "./loadout-snapshot-tag-badge";
 
 const formSchema = z
 	.object({
@@ -354,8 +355,8 @@ export const LoadoutSnapshotDialog = ({
 								? "Edit loadout snapshot"
 								: `${loadout?.name ?? "Loadout"} Snapshot`}
 						</DialogTitle>
-						<DialogDescription>
-							Save category metadata without changing the captured build.
+						<DialogDescription className="flex items-center">
+							<LoadoutSnapshotTagBadge tag={tag} />
 						</DialogDescription>
 					</DialogHeader>
 					<label

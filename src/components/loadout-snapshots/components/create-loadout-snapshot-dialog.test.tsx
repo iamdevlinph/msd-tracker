@@ -47,9 +47,57 @@ describe("CreateLoadoutSnapshotDialog", () => {
 		expect(
 			screen.getByRole("combobox", { name: "Snapshot tag" }).textContent,
 		).toContain("Others");
+		expect(
+			screen.getByText("Others", {
+				selector: '[data-slot="dialog-description"] span',
+			}),
+		).toBeTruthy();
 		fireEvent.change(name, { target: { value: "  Rift clear  " } });
 		fireEvent.click(screen.getByRole("button", { name: "Create snapshot" }));
 		expect(onCreate).toHaveBeenCalledWith("Rift clear", "others", "", null);
+	});
+
+	it("shows the current edit tag in the header and updates it with the Tag select", () => {
+		window.HTMLElement.prototype.scrollIntoView = vi.fn();
+		render(
+			<LoadoutSnapshotDialog
+				loadout={null}
+				snapshot={{
+					id: "rift",
+					name: "Rift clear",
+					tag: "rift",
+					created_at: 1,
+					loadout: {
+						id: "team",
+						name: "Team",
+						characters: [
+							emptyLoadoutCharacterSlot(),
+							emptyLoadoutCharacterSlot(),
+							emptyLoadoutCharacterSlot(),
+						],
+					},
+					characters_owned: {},
+					monsterlings_owned: {},
+					monsterling_link_chain_levels: {},
+					artifacts_owned: {},
+					details: { level: 25 },
+				}}
+				onOpenChange={vi.fn()}
+				onSubmit={vi.fn()}
+			/>,
+		);
+
+		const headerBadge = () =>
+			screen.getByText(/Rift|Conquest/, {
+				selector: '[data-slot="dialog-description"] span',
+			});
+		expect(headerBadge().textContent).toBe("Rift");
+
+		const tagSelect = screen.getByRole("combobox", { name: "Snapshot tag" });
+		fireEvent.keyDown(tagSelect, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: /^Conquest$/ }));
+
+		expect(headerBadge().textContent).toBe("Conquest");
 	});
 
 	it("requires a Conquest boss and masks clear-time segment entry", async () => {
