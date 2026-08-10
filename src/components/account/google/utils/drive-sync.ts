@@ -11,7 +11,6 @@ import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-sl
 const FILE_NAME = "state.json";
 
 let fileId: string | null = null;
-let debounce: number | undefined;
 let unsubscribeAutoSync: (() => void) | null = null;
 let uploadController: AbortController | null = null;
 let activeUploadPromise: Promise<void> | null = null;
@@ -26,7 +25,11 @@ let syncGeneration = 0;
 let initController: AbortController | null = null;
 let isCreatingFile = false;
 let queuedUpload: Backup | null = null;
+let queuedUploadKind: "background" | "conflict-local" = "background";
+let uploadQueuePromise: Promise<void> | null = null;
+let lastUploadError: unknown = null;
 let lastFailureNotice = "";
+const SYNC_TOAST_ID = "google-drive-sync";
 
 type Backup = Pick<
 	StoreState,
@@ -345,7 +348,7 @@ async function runInitSync(generation: number) {
 			setupAutoSync();
 			const latestBackup = select(useAppStore.getState());
 			if (latestBackup.backupUpdatedAt !== createdBackup.backupUpdatedAt) {
-				scheduleUpload(true);
+				scheduleUpload();
 			}
 			ensureCurrentGeneration(generation);
 			isInitialized = true;
@@ -463,68 +466,82 @@ function setupAutoSync() {
 	return unsubscribe;
 }
 
-function scheduleUpload(immediate = false) {
+function scheduleUpload(shouldRetry = false) {
 	if (!fileId) return;
 	queuedUpload = select(useAppStore.getState());
+	queuedUploadKind = "background";
+	if (useAppStore.getState().syncStatus === "failed" && !shouldRetry) return;
+	lastUploadError = null;
+	lastFailureNotice = "";
 	useAppStore.getState().setSyncStatus("pending");
-	if (debounce !== undefined) window.clearTimeout(debounce);
-	debounce = window.setTimeout(
-		() => {
-			debounce = undefined;
-			void runUploadQueue();
-		},
-		immediate ? 0 : 2000,
-	);
+	toast.loading("Sync start", { id: SYNC_TOAST_ID });
+	void runUploadQueue();
 }
 
-async function runUploadQueue() {
-	if (uploadController || !queuedUpload || !fileId) return;
+function runUploadQueue() {
+	if (uploadQueuePromise) return uploadQueuePromise;
+	if (uploadController || !queuedUpload || !fileId) return Promise.resolve();
+	const currentPromise = processUploadQueue();
+	uploadQueuePromise = currentPromise;
+	void currentPromise.then(() => {
+		if (uploadQueuePromise === currentPromise) uploadQueuePromise = null;
+	});
+	return currentPromise;
+}
+
+async function processUploadQueue() {
 	const generation = syncGeneration;
-	const controller = new AbortController();
-	uploadController = controller;
-	const data = queuedUpload;
-	queuedUpload = null;
-	useAppStore.getState().setSyncStatus("syncing");
-	const mutation = upload(data, controller.signal);
-	activeUploadPromise = mutation;
-	try {
-		await mutation;
-		ensureCurrentGeneration(generation);
-		const latest = select(useAppStore.getState());
-		if (latest.backupUpdatedAt !== data.backupUpdatedAt) {
-			queuedUpload = latest;
-			scheduleUpload(true);
-		} else {
-			lastFailureNotice = "";
-			useAppStore.setState({
-				syncStatus: "idle",
-				syncError: null,
-				lastSyncCompletedAt: Date.now(),
-			});
-		}
-	} catch (error) {
-		if ((error as DOMException).name !== "AbortError") {
-			queuedUpload = select(useAppStore.getState());
-			const message = "Changes not backed up";
-			useAppStore.getState().setSyncStatus("failed", message);
-			if (lastFailureNotice !== message) {
-				lastFailureNotice = message;
-				toast.error(message);
+	while (queuedUpload && fileId) {
+		const data = queuedUpload;
+		const uploadKind = queuedUploadKind;
+		queuedUpload = null;
+		const controller = new AbortController();
+		uploadController = controller;
+		useAppStore.getState().setSyncStatus("syncing");
+		const mutation = upload(data, controller.signal);
+		activeUploadPromise = mutation;
+		try {
+			await mutation;
+			ensureCurrentGeneration(generation);
+			const latest = select(useAppStore.getState());
+			if (latest.backupUpdatedAt !== data.backupUpdatedAt) {
+				queuedUpload = latest;
+				queuedUploadKind = uploadKind;
+				useAppStore.getState().setSyncStatus("pending");
+			} else {
+				queuedUpload = null;
+				lastUploadError = null;
+				lastFailureNotice = "";
+				useAppStore.setState({
+					syncStatus: "idle",
+					syncError: null,
+				});
+				if (uploadKind === "background") {
+					toast.success("Sync success", { id: SYNC_TOAST_ID });
+				}
 			}
-		} else if (generation === syncGeneration) {
-			queuedUpload = select(useAppStore.getState());
-			useAppStore.getState().setSyncStatus("pending");
+		} catch (error) {
+			if ((error as DOMException).name !== "AbortError") {
+				lastUploadError = error;
+				queuedUpload = select(useAppStore.getState());
+				queuedUploadKind = uploadKind;
+				const message = "Changes not backed up";
+				useAppStore.getState().setSyncStatus("failed", message);
+				if (lastFailureNotice !== message) {
+					lastFailureNotice = message;
+					toast.error(message, { id: SYNC_TOAST_ID });
+				}
+			} else if (generation === syncGeneration) {
+				queuedUpload = select(useAppStore.getState());
+				queuedUploadKind = uploadKind;
+				useAppStore.getState().setSyncStatus("pending");
+			}
+		} finally {
+			if (uploadController === controller) uploadController = null;
+			if (activeUploadPromise === mutation) activeUploadPromise = null;
 		}
-	} finally {
-		if (uploadController === controller) uploadController = null;
-		if (activeUploadPromise === mutation) activeUploadPromise = null;
-		if (
-			queuedUpload &&
-			!debounce &&
-			useAppStore.getState().syncStatus !== "failed"
-		) {
-			void runUploadQueue();
-		}
+		if (generation !== syncGeneration) return;
+		if (useAppStore.getState().syncStatus === "failed") return;
 	}
 }
 
@@ -538,10 +555,6 @@ export function retrySync() {
 }
 
 export function cancelPendingUpload(abortActive = false) {
-	if (debounce !== undefined) {
-		window.clearTimeout(debounce);
-		debounce = undefined;
-	}
 	queuedUpload = null;
 	if (abortActive) uploadController?.abort();
 }
@@ -555,13 +568,29 @@ export function teardownSync() {
 	isInitialized = false;
 	pendingRemoteBackup = null;
 	queuedUpload = null;
+	queuedUploadKind = "background";
+	toast.dismiss(SYNC_TOAST_ID);
 	useAppStore.getState().setSyncStatus("idle");
 	fileId = null;
 	activeOperations.clear();
 	useAppStore.setState({ syncInProgress: false, syncConflict: null });
 }
 
+let conflictResolutionPromise: Promise<"resolved" | "refreshed"> | null = null;
+
 export async function resolveSyncConflict(choice: "local" | "remote") {
+	if (conflictResolutionPromise) return conflictResolutionPromise;
+	const resolution = resolveSyncConflictInternal(choice);
+	conflictResolutionPromise = resolution;
+	try {
+		return await resolution;
+	} finally {
+		if (conflictResolutionPromise === resolution)
+			conflictResolutionPromise = null;
+	}
+}
+
+async function resolveSyncConflictInternal(choice: "local" | "remote") {
 	const conflict = useAppStore.getState().syncConflict;
 	if (!conflict) {
 		throw new Error("There is no sync conflict to resolve");
@@ -570,27 +599,39 @@ export async function resolveSyncConflict(choice: "local" | "remote") {
 	cancelPendingUpload();
 	if (choice === "local") {
 		const generation = syncGeneration;
-		if (activeUploadPromise) await activeUploadPromise;
-		let uploadedRevision = -1;
-		while (uploadedRevision !== useAppStore.getState().backupUpdatedAt) {
-			const localBackup = select(useAppStore.getState());
-			await upload(localBackup);
+		if (uploadQueuePromise) {
+			try {
+				await uploadQueuePromise;
+			} catch {
+				// The queue reports terminal failures through syncStatus and its toast.
+			}
+		}
+		toast.loading("Uploading data", { id: SYNC_TOAST_ID });
+		queuedUpload = select(useAppStore.getState());
+		queuedUploadKind = "conflict-local";
+		try {
+			await runUploadQueue();
 			ensureCurrentGeneration(generation);
-			uploadedRevision = localBackup.backupUpdatedAt;
+			if (useAppStore.getState().syncStatus === "failed")
+				throw lastUploadError ?? new Error("Changes not backed up");
+		} catch (error) {
+			if ((error as DOMException).name === "AbortError") throw error;
+			throw error;
 		}
 		useAppStore.getState().setSyncConflict(null);
 		pendingRemoteBackup = null;
 		useAppStore.setState({
 			syncStatus: "idle",
 			syncError: null,
-			lastSyncCompletedAt: Date.now(),
 		});
+		toast.success("Data uploaded", { id: SYNC_TOAST_ID });
 		return "resolved" as const;
 	}
 
 	if (!pendingRemoteBackup) {
 		throw new Error("The remote backup is no longer available; refresh sync");
 	}
+	toast.loading("Downloading data", { id: SYNC_TOAST_ID });
 	if (
 		choice === "remote" &&
 		useAppStore.getState().backupUpdatedAt !== conflict.local.updatedAt
@@ -599,6 +640,13 @@ export async function resolveSyncConflict(choice: "local" | "remote") {
 		useAppStore.getState().setSyncConflict(null);
 		isInitialized = false;
 		await initSync();
+		if (useAppStore.getState().syncConflict) {
+			toast.error("Sync conflict detected", { id: SYNC_TOAST_ID });
+		} else if (useAppStore.getState().syncStatus === "failed") {
+			toast.error("Changes not backed up", { id: SYNC_TOAST_ID });
+		} else {
+			toast.success("Data downloaded", { id: SYNC_TOAST_ID });
+		}
 		return "refreshed" as const;
 	}
 
@@ -609,6 +657,7 @@ export async function resolveSyncConflict(choice: "local" | "remote") {
 	} finally {
 		suppressAutoSync = false;
 	}
+	toast.success("Data downloaded", { id: SYNC_TOAST_ID });
 	return "resolved" as const;
 }
 

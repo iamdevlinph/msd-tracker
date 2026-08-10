@@ -18,7 +18,6 @@ export const GoogleSection = () => {
 	const syncInProgress = useAppStore((s) => s.syncInProgress);
 	const syncStatus = useAppStore((s) => s.syncStatus);
 	const syncError = useAppStore((s) => s.syncError);
-	const lastSyncCompletedAt = useAppStore((s) => s.lastSyncCompletedAt);
 	const backupUpdatedAt = useAppStore((s) => s.backupUpdatedAt);
 	const isHydrated = useAppStore((s) => s.isHydrated);
 
@@ -40,11 +39,6 @@ export const GoogleSection = () => {
 						<div>
 							Logged in as <strong className="underline">{email}</strong>
 							<div className="text-xs">Last change: {fmt(backupUpdatedAt)}</div>
-							{lastSyncCompletedAt && (
-								<div className="text-xs">
-									Last backup: {fmt(lastSyncCompletedAt)}
-								</div>
-							)}
 						</div>
 					)}
 					<div className="w-max flex gap-2">

@@ -4,6 +4,7 @@ import {
 	download,
 	initSync,
 	resolveSyncConflict,
+	retrySync,
 	select,
 	teardownSync,
 } from "@/components/account/google/utils/drive-sync";
@@ -12,6 +13,14 @@ import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
 const { driveFetch } = vi.hoisted(() => ({ driveFetch: vi.fn() }));
+const { toast } = vi.hoisted(() => ({
+	toast: Object.assign(vi.fn(), {
+		loading: vi.fn(),
+		success: vi.fn(),
+		error: vi.fn(),
+		dismiss: vi.fn(),
+	}),
+}));
 
 const { monsterlingsData } = vi.hoisted(() => ({
 	monsterlingsData: {
@@ -32,6 +41,7 @@ const { monsterlingsData } = vi.hoisted(() => ({
 	},
 }));
 
+vi.mock("react-hot-toast", () => ({ default: toast }));
 vi.mock("@/components/account/google/utils/drive-client", () => ({
 	driveFetch,
 }));
@@ -45,6 +55,10 @@ describe("Drive Monsterling backups", () => {
 		sessionStorage.removeItem(G_ACCESS_TOKEN_SESSION);
 		teardownSync();
 		driveFetch.mockReset();
+		toast.loading.mockReset();
+		toast.success.mockReset();
+		toast.error.mockReset();
+		toast.dismiss.mockReset();
 		useAppStore.setState({
 			monsterlingsOwned: {},
 			monsterlingLinkChainLevels: {},
@@ -59,7 +73,6 @@ describe("Drive Monsterling backups", () => {
 	});
 
 	it("serializes edits during an upload and sends the latest snapshot last", async () => {
-		vi.useFakeTimers();
 		sessionStorage.setItem(G_ACCESS_TOKEN_SESSION, "token");
 		useAppStore.setState({ backupUpdatedAt: 20, isHydrated: true });
 		const remoteBackup = {
@@ -73,6 +86,7 @@ describe("Drive Monsterling backups", () => {
 		let activeUploads = 0;
 		let maximumActiveUploads = 0;
 		const uploadedRevisions: number[] = [];
+		const uploadedShowFullyCompleted: boolean[] = [];
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
@@ -82,7 +96,11 @@ describe("Drive Monsterling backups", () => {
 			.mockImplementation(async (_input, init) => {
 				activeUploads += 1;
 				maximumActiveUploads = Math.max(maximumActiveUploads, activeUploads);
-				uploadedRevisions.push(JSON.parse(String(init?.body)).backupUpdatedAt);
+				const uploadedBackup = JSON.parse(String(init?.body));
+				uploadedRevisions.push(uploadedBackup.backupUpdatedAt);
+				uploadedShowFullyCompleted.push(
+					uploadedBackup.checklistPreferences.showFullyCompleted,
+				);
 				if (uploadedRevisions.length === 1) {
 					await new Promise<void>((resolve) => {
 						finishFirstUpload = resolve;
@@ -93,18 +111,128 @@ describe("Drive Monsterling backups", () => {
 			});
 
 		await initSync();
-		useAppStore.setState({ backupUpdatedAt: 21 });
-		await vi.advanceTimersByTimeAsync(2000);
+		useAppStore.setState({
+			backupUpdatedAt: 21,
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showFullyCompleted: false,
+			},
+		});
 		expect(uploadedRevisions).toEqual([21]);
+		expect(uploadedShowFullyCompleted).toEqual([false]);
+		expect(toast.success).not.toHaveBeenCalledWith("Sync success", {
+			id: "google-drive-sync",
+		});
 
 		useAppStore.setState({ backupUpdatedAt: 22 });
-		await vi.advanceTimersByTimeAsync(2000);
+		useAppStore.setState({
+			backupUpdatedAt: 23,
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showFullyCompleted: true,
+			},
+		});
 		expect(uploadedRevisions).toEqual([21]);
 		finishFirstUpload?.();
-		await vi.runAllTimersAsync();
+		await vi.waitFor(() => expect(uploadedRevisions).toEqual([21, 23]));
 
 		expect(maximumActiveUploads).toBe(1);
-		expect(uploadedRevisions).toEqual([21, 22]);
+		expect(uploadedShowFullyCompleted).toEqual([false, true]);
+		expect(toast.success).toHaveBeenCalledWith("Sync success", {
+			id: "google-drive-sync",
+		});
+	});
+
+	it("retains a failed snapshot for manual retry", async () => {
+		sessionStorage.setItem(G_ACCESS_TOKEN_SESSION, "token");
+		useAppStore.setState({ backupUpdatedAt: 20, isHydrated: true });
+		const uploadedRevisions: number[] = [];
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					backupUpdatedAt: 20,
+					monsterCodexCompleted: [],
+					charactersOwned: {},
+					monsterlingsOwned: {},
+					loadouts: {},
+				}),
+			})
+			.mockImplementationOnce(async (_input, init) => {
+				uploadedRevisions.push(JSON.parse(String(init?.body)).backupUpdatedAt);
+				return { ok: false, status: 400 };
+			})
+			.mockImplementationOnce(async (_input, init) => {
+				uploadedRevisions.push(JSON.parse(String(init?.body)).backupUpdatedAt);
+				return { ok: true };
+			});
+
+		await initSync();
+		useAppStore.setState({ backupUpdatedAt: 21 });
+		await vi.waitFor(() =>
+			expect(useAppStore.getState().syncStatus).toBe("failed"),
+		);
+		expect(uploadedRevisions).toEqual([21]);
+		useAppStore.setState({ backupUpdatedAt: 22 });
+		await Promise.resolve();
+		expect(uploadedRevisions).toEqual([21]);
+
+		retrySync();
+		await vi.waitFor(() => expect(uploadedRevisions).toEqual([21, 22]));
+		await vi.waitFor(() =>
+			expect(useAppStore.getState().syncStatus).toBe("idle"),
+		);
+		expect(toast.success).toHaveBeenCalledWith("Sync success", {
+			id: "google-drive-sync",
+		});
+	});
+
+	it("aborts an active upload during teardown", async () => {
+		sessionStorage.setItem(G_ACCESS_TOKEN_SESSION, "token");
+		useAppStore.setState({ backupUpdatedAt: 20, isHydrated: true });
+		let wasAborted = false;
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					backupUpdatedAt: 20,
+					monsterCodexCompleted: [],
+					charactersOwned: {},
+					monsterlingsOwned: {},
+					loadouts: {},
+				}),
+			})
+			.mockImplementationOnce(
+				async (_input, init) =>
+					await new Promise((_resolve, reject) => {
+						init?.signal?.addEventListener("abort", () => {
+							wasAborted = true;
+							reject(new DOMException("Aborted", "AbortError"));
+						});
+					}),
+			);
+
+		await initSync();
+		useAppStore.setState({ backupUpdatedAt: 21 });
+		await vi.waitFor(() =>
+			expect(useAppStore.getState().syncStatus).toBe("syncing"),
+		);
+		teardownSync();
+
+		await vi.waitFor(() => expect(wasAborted).toBe(true));
+		expect(useAppStore.getState().syncStatus).toBe("idle");
+		expect(toast.dismiss).toHaveBeenCalledWith("google-drive-sync");
+		expect(toast.success).not.toHaveBeenCalledWith("Sync success", {
+			id: "google-drive-sync",
+		});
 	});
 
 	it("selects canonical levels and strips legacy instance values", () => {
@@ -381,6 +509,12 @@ describe("Drive Monsterling backups", () => {
 		expect(useAppStore.getState().syncConflict).toBeNull();
 		expect(useAppStore.getState().syncInProgress).toBe(false);
 		expect(typeof useAppStore.getState().setSyncConflict).toBe("function");
+		expect(toast.loading).toHaveBeenCalledWith("Downloading data", {
+			id: "google-drive-sync",
+		});
+		expect(toast.success).toHaveBeenCalledWith("Data downloaded", {
+			id: "google-drive-sync",
+		});
 		expect(driveFetch).toHaveBeenCalledTimes(2);
 	});
 
@@ -406,7 +540,42 @@ describe("Drive Monsterling backups", () => {
 			"Failed uploading remote file",
 		);
 		expect(useAppStore.getState().syncConflict).not.toBeNull();
+		expect(toast.loading).toHaveBeenCalledWith("Uploading data", {
+			id: "google-drive-sync",
+		});
+		expect(toast.error).toHaveBeenCalledWith("Changes not backed up", {
+			id: "google-drive-sync",
+		});
 	}, 12000);
+
+	it("reports the upload lifecycle when keeping local conflict data", async () => {
+		useAppStore.setState({ backupUpdatedAt: 10 });
+		const remoteBackup = {
+			backupUpdatedAt: 20,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup })
+			.mockResolvedValueOnce({ ok: true });
+
+		await initSync();
+		await resolveSyncConflict("local");
+
+		expect(toast.loading).toHaveBeenCalledWith("Uploading data", {
+			id: "google-drive-sync",
+		});
+		expect(toast.success).toHaveBeenCalledWith("Data uploaded", {
+			id: "google-drive-sync",
+		});
+		expect(useAppStore.getState().syncConflict).toBeNull();
+	});
 
 	it("does not upload local data when the remote download fails", async () => {
 		driveFetch

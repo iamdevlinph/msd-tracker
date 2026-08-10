@@ -42,7 +42,6 @@ export type StoreState = {
 	setSyncInProgress: (flag: boolean) => void;
 	syncStatus: "idle" | "pending" | "syncing" | "failed";
 	syncError: string | null;
-	lastSyncCompletedAt: number | null;
 	setSyncStatus: (
 		status: StoreState["syncStatus"],
 		error?: string | null,
@@ -100,13 +99,14 @@ const initialState = {
 	syncInProgress: false,
 	syncStatus: "idle" as const,
 	syncError: null,
-	lastSyncCompletedAt: null,
 	syncConflict: null,
 	isHydrated: false,
 };
 
 export const migrateAppStore = (persistedState: unknown) => {
-	const state = (persistedState ?? {}) as Partial<StoreState>;
+	const state = (persistedState ?? {}) as Partial<StoreState> & {
+		lastSyncCompletedAt?: unknown;
+	};
 	const {
 		syncInProgress: _syncInProgress,
 		syncStatus: _syncStatus,
@@ -172,7 +172,6 @@ export const useAppStore = create<StoreState>()(
 						syncInProgress: _syncInProgress,
 						syncStatus: _syncStatus,
 						syncError: _syncError,
-						lastSyncCompletedAt: _lastSyncCompletedAt,
 						syncConflict: _syncConflict,
 						isHydrated: _isHydrated,
 						setSyncInProgress: _setSyncInProgress,
