@@ -2,6 +2,7 @@ import { PinIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { PageTitle } from "@/components/shared/page-title";
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
@@ -29,6 +30,30 @@ type LinkChainCardProps = {
 	isPinned: boolean;
 	onEdit: () => void;
 	onPin: () => void;
+};
+
+type LinkChainExportCardProps = {
+	entry: LinkChainEntry;
+	level: ReturnType<typeof getMonsterlingLinkChainLevel>;
+};
+
+const LinkChainExportCard = ({ entry, level }: LinkChainExportCardProps) => {
+	const linkChain = entry.linkChain;
+	if (!linkChain) return null;
+	return (
+		<div className="relative size-[120px] overflow-hidden rounded-lg border bg-card">
+			<PortraitWithName name={entry.name} className="size-[120px]">
+				<TierPortrait
+					tier={linkChain.tier_id}
+					portraitImg={entry.image}
+					portraitSize={120}
+					name={entry.name}
+					portraitClassName="size-[120px] object-contain"
+				/>
+				<MonsterlingLinkChainBadge level={level} />
+			</PortraitWithName>
+		</div>
+	);
 };
 
 const LinkChainCard = ({
@@ -139,9 +164,26 @@ export const LinkChainsPage = () => {
 			<div className="flex flex-col gap-5">
 				<LinkChainsFilter filters={filters} onChange={setFilters} />
 				<section aria-labelledby="pinned-link-chains">
-					<h2 id="pinned-link-chains" className="mb-3 text-lg font-semibold">
-						Pinned Link Chains
-					</h2>
+					<div className="mb-3 flex flex-wrap items-center gap-2">
+						<h2 id="pinned-link-chains" className="text-lg font-semibold">
+							Pinned Link Chains
+						</h2>
+						<CollectionExportMenu
+							collection="link-chains"
+							title="Pinned Link Chains"
+							count={pinnedEntries.length}
+							itemWidth={120}
+							maxColumns={13}
+						>
+							{pinnedEntries.map((entry) => (
+								<LinkChainExportCard
+									key={entry.id}
+									entry={entry}
+									level={getMonsterlingLinkChainLevel(entry.id, levels)}
+								/>
+							))}
+						</CollectionExportMenu>
+					</div>
 					{pinnedEntries.length ? (
 						<div className="grid grid-cols-[repeat(auto-fill,120px)] justify-center gap-4 md:justify-start">
 							{pinnedEntries.map(renderCard)}

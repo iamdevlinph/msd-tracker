@@ -80,7 +80,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 - [x] Provide clear buttons and Escape-to-clear behavior for standalone search inputs.
 - [x] Focus the active collection or picker search with Ctrl+K or Cmd+K and show the platform shortcut in its placeholder.
-- [x] Copy or download fixed-layout images of the filtered Characters, Monsterlings, and Artifacts collections with filter context and site branding.
+- [x] Copy or download fixed-layout images of the filtered Characters, Monsterlings, Artifacts, and pinned Link Chains collections with filter context and site branding.
 - [ ] Standardize character, Monsterling, codex, and picker collections on fixed-width, left-to-right product grids with consistent gaps and left-aligned incomplete rows across breakpoints.
 
 ## Account

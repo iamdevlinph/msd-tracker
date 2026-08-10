@@ -118,12 +118,52 @@ describe("LinkChainsPage", () => {
 
 	it("pins a filtered duplicate without removing the level card", () => {
 		render(<LinkChainsPage />);
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "Export Pinned Link Chain",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
 		fireEvent.click(
 			screen.getByRole("button", { name: "Pin Beta Linker Link Chain" }),
 		);
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "Export Pinned Link Chain",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(false);
 		expect(useAppStore.getState().monsterlingLinkChainPinnedIds).toEqual([68]);
 		expect(screen.getAllByAltText("Beta Linker portrait")).toHaveLength(2);
 		expect(event).toHaveBeenCalledWith("monsterling_link_chain_pin");
+	});
+
+	it("previews filtered pinned cards in sort order with levels and no controls", () => {
+		useAppStore.setState({
+			monsterlingLinkChainLevels: { 67: 5, 69: 2 },
+			monsterlingLinkChainPinnedIds: [67, 69],
+		});
+		render(<LinkChainsPage />);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Export Pinned Link Chain" }),
+		);
+		const dialog = screen.getByRole("dialog");
+		expect(
+			within(dialog).getAllByRole("heading", { name: "Pinned Link Chains" })[0],
+		).toBeTruthy();
+		expect(
+			within(dialog).getByTestId("collection-export-surface").textContent,
+		).toContain("Zeta LinkerAlpha Linker");
+		expect(
+			within(dialog).getByTestId("collection-export-surface").textContent,
+		).not.toContain("Beta Linker");
+		expect(within(dialog).getByAltText("Link Chain Level 2")).toBeTruthy();
+		expect(within(dialog).getByAltText("Link Chain Level 5")).toBeTruthy();
+		expect(
+			within(dialog).queryByRole("button", { name: /Edit|Pin|Unpin/ }),
+		).toBeNull();
 	});
 
 	it("searches names and filters with Link Chain level icons", () => {

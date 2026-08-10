@@ -14,12 +14,14 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 const COLLECTION_LABELS = {
 	characters: "Character",
 	monsterlings: "Monsterling",
 	artifacts: "Artifact",
+	"link-chains": "Pinned Link Chain",
 } as const;
 
 type CollectionExportPreviewVariant = {
@@ -30,7 +32,7 @@ type CollectionExportPreviewVariant = {
 };
 
 type CollectionExportMenuProps = {
-	collection: "characters" | "monsterlings" | "artifacts";
+	collection: "characters" | "monsterlings" | "artifacts" | "link-chains";
 	title: string;
 	count: number;
 	itemWidth: number;
@@ -52,8 +54,11 @@ export const CollectionExportMenu = ({
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [open, setOpen] = useState(false);
 	const [showStats, setShowStats] = useState(false);
-	const [busy, setBusy] = useState(false);
-	const exportLabel = `Export ${COLLECTION_LABELS[collection]} Data`;
+	const [activeAction, setActiveAction] = useState<"copy" | "download" | null>(
+		null,
+	);
+	const busy = activeAction !== null;
+	const exportLabel = `Export ${COLLECTION_LABELS[collection]}`;
 	const isCompact = Boolean(previewVariant && !showStats);
 	const activeLayout =
 		isCompact && previewVariant ? previewVariant : { itemWidth, maxColumns };
@@ -73,7 +78,7 @@ export const CollectionExportMenu = ({
 				: ANALYTICS_EVENTS.COLLECTION_DOWNLOAD_ATTEMPT,
 			eventParams,
 		);
-		setBusy(true);
+		setActiveAction(action);
 		try {
 			const surface = surfaceRef.current;
 			const blob = await renderElementToPngBlob(surface, {
@@ -121,7 +126,7 @@ export const CollectionExportMenu = ({
 					: "Could not export collection image",
 			);
 		} finally {
-			setBusy(false);
+			setActiveAction(null);
 		}
 	};
 
@@ -151,7 +156,7 @@ export const CollectionExportMenu = ({
 						<DialogTitle>{title}</DialogTitle>
 						<DialogDescription>
 							Preview the filtered {COLLECTION_LABELS[collection].toLowerCase()}{" "}
-							data before exporting.
+							before exporting.
 						</DialogDescription>
 					</DialogHeader>
 					<div className="flex flex-wrap items-center justify-between gap-3 border-b p-3">
@@ -172,13 +177,26 @@ export const CollectionExportMenu = ({
 							<Button
 								variant="outline"
 								disabled={busy}
+								aria-busy={activeAction === "copy"}
 								onClick={() => void run("copy")}
 							>
-								<Copy className="mr-2 size-4" />
+								{activeAction === "copy" ? (
+									<Spinner className="mr-2" />
+								) : (
+									<Copy className="mr-2 size-4" />
+								)}
 								Copy Image
 							</Button>
-							<Button disabled={busy} onClick={() => void run("download")}>
-								<Download className="mr-2 size-4" />
+							<Button
+								disabled={busy}
+								aria-busy={activeAction === "download"}
+								onClick={() => void run("download")}
+							>
+								{activeAction === "download" ? (
+									<Spinner className="mr-2" />
+								) : (
+									<Download className="mr-2 size-4" />
+								)}
 								Download PNG
 							</Button>
 						</div>

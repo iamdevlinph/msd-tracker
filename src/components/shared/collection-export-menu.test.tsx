@@ -59,9 +59,7 @@ describe("CollectionExportMenu", () => {
 				<div>Artifact card</div>
 			</CollectionExportMenu>,
 		);
-		fireEvent.click(
-			screen.getByRole("button", { name: "Export Artifact Data" }),
-		);
+		fireEvent.click(screen.getByRole("button", { name: "Export Artifact" }));
 		fireEvent.click(screen.getByRole("button", { name: "Download PNG" }));
 		await waitFor(() => expect(toBlob).toHaveBeenCalledOnce());
 		expect(event).toHaveBeenNthCalledWith(
@@ -91,10 +89,118 @@ describe("CollectionExportMenu", () => {
 		expect(
 			(
 				screen.getByRole("button", {
-					name: "Export Artifact Data",
+					name: "Export Artifact",
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);
+	});
+
+	it("shows a spinner on the active export option while rendering", async () => {
+		let finishRendering: ((blob: Blob) => void) | undefined;
+		toBlob.mockReturnValueOnce(
+			new Promise<Blob>((resolve) => {
+				finishRendering = resolve;
+			}),
+		);
+		render(
+			<CollectionExportMenu
+				collection="artifacts"
+				title="Artifacts"
+				count={1}
+				itemWidth={120}
+				maxColumns={13}
+			>
+				<div>Artifact card</div>
+			</CollectionExportMenu>,
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Export Artifact" }));
+		const copyButton = screen.getByRole("button", { name: "Copy Image" });
+		const downloadButton = screen.getByRole("button", { name: "Download PNG" });
+		fireEvent.click(copyButton);
+
+		expect(copyButton.getAttribute("aria-busy")).toBe("true");
+		expect(copyButton.querySelector('[role="status"]')).toBeTruthy();
+		expect(downloadButton.getAttribute("aria-busy")).toBe("false");
+		expect(downloadButton.querySelector('[role="status"]')).toBeNull();
+		expect((copyButton as HTMLButtonElement).disabled).toBe(true);
+		expect((downloadButton as HTMLButtonElement).disabled).toBe(true);
+
+		finishRendering?.(new Blob(["png"]));
+		await waitFor(() => expect(write).toHaveBeenCalledOnce());
+		expect(copyButton.getAttribute("aria-busy")).toBe("false");
+		expect(copyButton.querySelector('[role="status"]')).toBeNull();
+	});
+
+	it("shows a spinner on Download PNG until the download finishes", async () => {
+		let finishRendering: ((blob: Blob) => void) | undefined;
+		toBlob.mockReturnValueOnce(
+			new Promise<Blob>((resolve) => {
+				finishRendering = resolve;
+			}),
+		);
+		const anchorClick = vi
+			.spyOn(HTMLAnchorElement.prototype, "click")
+			.mockImplementation(() => {});
+		render(
+			<CollectionExportMenu
+				collection="artifacts"
+				title="Artifacts"
+				count={1}
+				itemWidth={120}
+				maxColumns={13}
+			>
+				<div>Artifact card</div>
+			</CollectionExportMenu>,
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Export Artifact" }));
+		const downloadButton = screen.getByRole("button", { name: "Download PNG" });
+		fireEvent.click(downloadButton);
+
+		expect(downloadButton.getAttribute("aria-busy")).toBe("true");
+		expect(downloadButton.querySelector('[role="status"]')).toBeTruthy();
+
+		finishRendering?.(new Blob(["png"]));
+		await waitFor(() => expect(anchorClick).toHaveBeenCalledOnce());
+		expect(downloadButton.getAttribute("aria-busy")).toBe("false");
+		expect(downloadButton.querySelector('[role="status"]')).toBeNull();
+		anchorClick.mockRestore();
+	});
+
+	it("uses the pinned Link Chain label, filename, and analytics type", async () => {
+		let downloadedFilename = "";
+		const anchorClick = vi
+			.spyOn(HTMLAnchorElement.prototype, "click")
+			.mockImplementation(function (this: HTMLAnchorElement) {
+				downloadedFilename = this.download;
+			});
+		render(
+			<CollectionExportMenu
+				collection="link-chains"
+				title="Pinned Link Chains"
+				count={1}
+				itemWidth={120}
+				maxColumns={13}
+			>
+				<div>Beta Linker</div>
+			</CollectionExportMenu>,
+		);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Export Pinned Link Chain" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Download PNG" }));
+		await waitFor(() => expect(anchorClick).toHaveBeenCalledOnce());
+		expect(downloadedFilename).toBe("msd-tracker-link-chains.png");
+		expect(event).toHaveBeenNthCalledWith(
+			1,
+			ANALYTICS_EVENTS.COLLECTION_DOWNLOAD_ATTEMPT,
+			{ collection_type: "link-chains", compact: false },
+		);
+		expect(event).toHaveBeenNthCalledWith(
+			2,
+			ANALYTICS_EVENTS.COLLECTION_DOWNLOAD_SUCCESS,
+			{ collection_type: "link-chains", compact: false },
+		);
+		anchorClick.mockRestore();
 	});
 
 	it("opens a preview with the filtered heading and cards", () => {
@@ -109,9 +215,7 @@ describe("CollectionExportMenu", () => {
 				<div>Angel card</div>
 			</CollectionExportMenu>,
 		);
-		fireEvent.click(
-			screen.getByRole("button", { name: "Export Character Data" }),
-		);
+		fireEvent.click(screen.getByRole("button", { name: "Export Character" }));
 		expect(screen.getByRole("dialog")).toBeTruthy();
 		expect(screen.getByRole("dialog").querySelector("h2")?.textContent).toBe(
 			"Characters",
@@ -148,9 +252,7 @@ describe("CollectionExportMenu", () => {
 				<div>Detailed Cappy</div>
 			</CollectionExportMenu>,
 		);
-		fireEvent.click(
-			screen.getByRole("button", { name: "Export Monsterling Data" }),
-		);
+		fireEvent.click(screen.getByRole("button", { name: "Export Monsterling" }));
 		expect(
 			(screen.getByRole("checkbox", { name: "Show stats" }) as HTMLElement)
 				.dataset.state,
@@ -204,9 +306,7 @@ describe("CollectionExportMenu", () => {
 				<div>Character cards</div>
 			</CollectionExportMenu>,
 		);
-		fireEvent.click(
-			screen.getByRole("button", { name: "Export Character Data" }),
-		);
+		fireEvent.click(screen.getByRole("button", { name: "Export Character" }));
 		expect(
 			(screen.getByTestId("collection-export-surface") as HTMLElement).style
 				.width,
