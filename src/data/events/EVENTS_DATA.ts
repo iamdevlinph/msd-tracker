@@ -34,8 +34,9 @@ const MABEL_DISCORD_NOTICE_TITLE =
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Copy the published UTC date/time, add the year, and append Z. Do not convert
-	// it to the player's timezone. Daily reset is 00:00Z; weekly reset is Monday
-	// 00:00Z.
+	// it to the player's timezone. Fixed daily resets default to 00:00Z and
+	// weekly resets to Monday 00:00Z; set recurrenceStartAt when the notice
+	// publishes a different recurring claim or participation boundary.
 	{
 		id: "100-day-launch-anniversary-check-in",
 		title: "100 Day Launch Anniversary 14-Day Check-In Pass",
@@ -155,5 +156,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		startAt: "2026-08-08T10:00:00.000Z",
 		endAt: "2026-08-12T09:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
+		recurrenceStartAt: "2026-08-08T10:00:00.000Z",
 	},
 ];

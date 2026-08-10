@@ -26,6 +26,13 @@ const lateLaunchDailyEvent = {
 	recurrence: "daily",
 } satisfies ChecklistEvent;
 
+const publishedBoundaryDailyEvent = {
+	...lateLaunchDailyEvent,
+	id: "fixture-published-boundary-daily-event",
+	title: "Fixture published-boundary daily event",
+	recurrenceStartAt: "2026-08-08T10:00:00.000Z",
+} satisfies ChecklistEvent;
+
 const weeklyEvent = {
 	id: "fixture-weekly-event",
 	title: "Fixture weekly event",
@@ -107,6 +114,40 @@ describe("checklist UTC scheduling", () => {
 					Date.parse("2026-08-12T09:59:00.000Z"),
 				),
 				Date.parse("2026-08-12T09:59:00.000Z"),
+			),
+		).toBe("expired");
+	});
+
+	it("uses a published non-midnight daily boundary through expiry", () => {
+		const beforeMidnight = getOccurrence(
+			publishedBoundaryDailyEvent,
+			Date.parse("2026-08-08T23:59:59.999Z"),
+		);
+		const atMidnight = getOccurrence(
+			publishedBoundaryDailyEvent,
+			Date.parse("2026-08-09T00:00:00.000Z"),
+		);
+		const beforeBoundary = getOccurrence(
+			publishedBoundaryDailyEvent,
+			Date.parse("2026-08-09T09:59:59.999Z"),
+		);
+		const atBoundary = getOccurrence(
+			publishedBoundaryDailyEvent,
+			Date.parse("2026-08-09T10:00:00.000Z"),
+		);
+
+		expect(atMidnight.startAt).toBe(beforeMidnight.startAt);
+		expect(beforeBoundary.startAt).toBe(beforeMidnight.startAt);
+		expect(atBoundary.startAt).toBe(Date.parse("2026-08-09T10:00:00.000Z"));
+		expect(
+			occurrenceKey(publishedBoundaryDailyEvent, beforeBoundary.startAt),
+		).not.toBe(occurrenceKey(publishedBoundaryDailyEvent, atBoundary.startAt));
+		const end = Date.parse(publishedBoundaryDailyEvent.endAt);
+		expect(
+			getChecklistStatus(
+				publishedBoundaryDailyEvent,
+				getOccurrence(publishedBoundaryDailyEvent, end),
+				end,
 			),
 		).toBe("expired");
 	});

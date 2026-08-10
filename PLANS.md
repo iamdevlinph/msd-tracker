@@ -94,7 +94,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Chunk 1: Checklist and Event Tracking
 
-- [x] Keep checklist orchestration, focused row and page components, task-form conversion, fixed-daily reset anchors at 00:00 UTC, and persisted normalization colocated under the checklist feature without changing rolling, weekly, interval, sync, completion, analytics, or accessibility behavior (verified with focused tests, repository checks, and a production build).
+- [x] Keep checklist orchestration, focused row and page components, task-form conversion, fixed-daily reset anchors at 00:00 UTC by default with published reset exceptions, and persisted normalization colocated under the checklist feature without changing rolling, weekly, interval, sync, completion, analytics, or accessibility behavior (verified with focused tests, repository checks, and a production build).
 - [x] Use single-check completion indicators, switch completed actions to undo, hide disabled category filters while keeping All available, and align toolbar controls with shared page button styling.
 
 - [x] Define typed limited events with non-displayed notice-title metadata, UTC source timestamps, recurring reset schedules, expiry behavior, and player-created UTC Start/End times verified across daily and weekly UTC boundaries.
@@ -104,6 +104,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Add the 100-Day Anniversary Check-In Pass and Bonus Time daily event schedules using their published UTC periods.
 - [x] Add the First Summer Dive event set and Cool Summer Vacation login reward using their published UTC periods and explicit daily-reset behavior.
 - [x] Retire the July 28 event set and add the Mabel and Discord events using the completed maintenance time and published UTC periods.
+- [x] Import official checklist notices with the project skill, preserve published non-midnight reset boundaries, and remove expired limited events during each import without changing completion records.
 - [x] Show Event alongside Daily or Weekly badges when an event also has a recurring reset, and show expired rows by default with reduced opacity and struck-through names.
 - [x] Distinguish event rows with daily teal, weekly violet, one-time fuchsia, and Discord blue gradients; align their badges while reserving amber row styling for ending-soon status and destructive styling for overdue items.
 - [x] Show player-created Task and Event notes beneath item names with a compact two-line limit.

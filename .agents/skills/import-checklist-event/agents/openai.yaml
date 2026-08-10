@@ -1,0 +1,4 @@
+interface:
+  display_name: "Import Checklist Event"
+  short_description: "Import and maintain official checklist events"
+  default_prompt: "Use $import-checklist-event to import this official event notice into the checklist dataset."
