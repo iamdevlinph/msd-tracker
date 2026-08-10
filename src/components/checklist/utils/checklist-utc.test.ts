@@ -17,6 +17,15 @@ const dailyEvent = {
 	recurrence: "daily",
 } satisfies ChecklistEvent;
 
+const lateLaunchDailyEvent = {
+	id: "fixture-late-launch-daily-event",
+	title: "Fixture late-launch daily event",
+	kind: "event",
+	startAt: "2026-08-08T10:00:00.000Z",
+	endAt: "2026-08-12T09:59:00.000Z",
+	recurrence: "daily",
+} satisfies ChecklistEvent;
+
 const weeklyEvent = {
 	id: "fixture-weekly-event",
 	title: "Fixture weekly event",
@@ -57,6 +66,49 @@ describe("checklist UTC scheduling", () => {
 		const occurrence = getOccurrence(event, Date.parse(event.startAt));
 		expect(occurrence.startAt).toBe(Date.parse(event.startAt));
 		expect(occurrence.nextResetAt).toBe(Date.parse("2026-07-30T00:00:00.000Z"));
+	});
+
+	it("anchors an unconfigured late-launch daily event at UTC midnight", () => {
+		const launch = Date.parse(lateLaunchDailyEvent.startAt);
+		const beforeLaunch = getOccurrence(
+			lateLaunchDailyEvent,
+			Date.parse("2026-08-08T09:59:00.000Z"),
+		);
+		const atLaunch = getOccurrence(lateLaunchDailyEvent, launch);
+		const beforeReset = getOccurrence(
+			lateLaunchDailyEvent,
+			Date.parse("2026-08-08T23:59:59.999Z"),
+		);
+		const atReset = getOccurrence(
+			lateLaunchDailyEvent,
+			Date.parse("2026-08-09T00:00:00.000Z"),
+		);
+
+		expect(
+			getChecklistStatus(
+				lateLaunchDailyEvent,
+				beforeLaunch,
+				Date.parse("2026-08-08T09:59:00.000Z"),
+			),
+		).toBe("upcoming");
+		expect(atLaunch.startAt).toBe(launch);
+		expect(atLaunch.nextResetAt).toBe(Date.parse("2026-08-09T00:00:00.000Z"));
+		expect(occurrenceKey(lateLaunchDailyEvent, beforeReset.startAt)).toBe(
+			occurrenceKey(lateLaunchDailyEvent, launch),
+		);
+		expect(occurrenceKey(lateLaunchDailyEvent, atReset.startAt)).not.toBe(
+			occurrenceKey(lateLaunchDailyEvent, beforeReset.startAt),
+		);
+		expect(
+			getChecklistStatus(
+				lateLaunchDailyEvent,
+				getOccurrence(
+					lateLaunchDailyEvent,
+					Date.parse("2026-08-12T09:59:00.000Z"),
+				),
+				Date.parse("2026-08-12T09:59:00.000Z"),
+			),
+		).toBe("expired");
 	});
 
 	it("refreshes weekly completion keys on Monday at 00:00 UTC", () => {

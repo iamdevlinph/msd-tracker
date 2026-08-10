@@ -44,6 +44,12 @@ const getInterval = (recurrence: ChecklistRecurrence, intervalDays = 1) => {
 	return DAY;
 };
 
+const getUtcMidnight = (timestamp: number) => {
+	const date = new Date(timestamp);
+	date.setUTCHours(0, 0, 0, 0);
+	return date.getTime();
+};
+
 export function occurrenceKey(
 	definition: ChecklistDefinition,
 	startAt: number,
@@ -94,7 +100,10 @@ export function getOccurrence(
 	let nextResetAt: number | undefined;
 	const recurrenceStart = definition.recurrenceStartAt
 		? Date.parse(definition.recurrenceStartAt)
-		: start;
+		: recurrence === CHECKLIST_RECURRENCES.DAILY &&
+				definition.mode !== CHECKLIST_MODES.AFTER_COMPLETION
+			? getUtcMidnight(start)
+			: start;
 	if (definition.mode === CHECKLIST_MODES.AFTER_COMPLETION) {
 		occurrenceStart = completedAt ? completedAt + interval : start;
 	} else if (now >= start) {

@@ -47,7 +47,11 @@ export type ChecklistDefinition = {
 	noticeTitle?: string;
 	kind: ChecklistKind;
 	startAt: string;
-	/** Optional UTC anchor for recurring resets after the initial launch. */
+	/**
+	 * Optional UTC anchor for recurring resets after the initial launch. Fixed
+	 * daily schedules default to the UTC midnight containing startAt; this value
+	 * overrides that anchor when a schedule needs a different reset boundary.
+	 */
 	recurrenceStartAt?: string;
 	endAt?: string;
 	recurrence?: ChecklistRecurrence;
