@@ -26,6 +26,14 @@ describe("ArtifactsPage", () => {
 
 	it("renders artifact controls and clears all main-page filters", () => {
 		render(<ArtifactsPage />);
+		for (const groupName of [
+			"Elements",
+			"Character classes",
+			"Tiers",
+			"Clear artifact filters",
+		]) {
+			expect(screen.getByRole("group", { name: groupName })).toBeTruthy();
+		}
 
 		expect(screen.queryByRole("button", { name: "Delete" })).toBeNull();
 		expect(

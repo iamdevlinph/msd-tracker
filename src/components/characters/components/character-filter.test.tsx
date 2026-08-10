@@ -147,6 +147,15 @@ describe("character search", () => {
 
 	it("toggles Tier 4 and Tier 5 and clears every character filter", () => {
 		render(<CharactersPage />);
+		for (const groupName of [
+			"Elements",
+			"Character classes",
+			"Tiers",
+			"Sort owned characters",
+			"Clear character filters",
+		]) {
+			expect(screen.getByRole("group", { name: groupName })).toBeTruthy();
+		}
 		const tier4 = screen.getByRole("button", { name: "Tier 4" });
 		const tier5 = screen.getByRole("button", { name: "Tier 5" });
 		const star = tier4.querySelector("svg");

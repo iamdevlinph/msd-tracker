@@ -75,6 +75,12 @@ describe("LinkChainsPage", () => {
 	it("lists every capable species regardless of ownership", () => {
 		useAppStore.setState({ monsterlingLinkChainLevels: { 68: 4, 69: 2 } });
 		render(<LinkChainsPage />);
+		expect(
+			screen.getByRole("group", { name: "Link Chain levels" }),
+		).toBeTruthy();
+		expect(
+			screen.getByRole("group", { name: "Clear Link Chain filters" }),
+		).toBeTruthy();
 
 		expect(screen.getByAltText("Alpha Linker portrait")).toBeTruthy();
 		expect(screen.getByAltText("Beta Linker portrait")).toBeTruthy();

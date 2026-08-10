@@ -607,6 +607,10 @@ describe("LoadoutsDialog character picker", () => {
 		render(<LoadoutsDialog open setOpen={vi.fn()} loadoutToEdit="team" />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Select headgear" }));
+		expect(screen.getByRole("group", { name: "Tiers" })).toBeTruthy();
+		expect(
+			screen.getByRole("group", { name: "Clear equipment filters" }),
+		).toBeTruthy();
 		expect(screen.queryByRole("button", { name: "Headgear" })).toBeNull();
 		expect(
 			screen
@@ -622,6 +626,9 @@ describe("LoadoutsDialog character picker", () => {
 		expect(screen.getByText("No equipment matches.")).toBeTruthy();
 		fireEvent.change(search, { target: { value: "" } });
 		fireEvent.click(screen.getByRole("button", { name: "Tier 5" }));
+		expect(screen.getByRole("button", { name: "Tier 5" }).className).toContain(
+			"border",
+		);
 		expect(
 			screen.getByRole("button", { name: "Select Prime Test Helm" }),
 		).toBeTruthy();

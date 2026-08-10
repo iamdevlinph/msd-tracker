@@ -45,6 +45,7 @@ const snapshot = (
 
 describe("LoadoutSnapshotsList", () => {
 	beforeEach(() => {
+		Element.prototype.scrollIntoView = vi.fn();
 		event.mockClear();
 		useAppStore.setState({
 			loadoutSnapshots: {
@@ -68,7 +69,7 @@ describe("LoadoutSnapshotsList", () => {
 
 	it("shows the Conquest boss icon after the tag in rows and previews", () => {
 		render(<LoadoutSnapshotsList />);
-		const tag = screen.getByText("Conquest");
+		const tag = screen.getByText("Conquest", { selector: "span" });
 		expect(tag.nextElementSibling?.textContent).toBe("Custos");
 		expect(
 			tag.nextElementSibling?.querySelector("img")?.getAttribute("alt"),
@@ -90,7 +91,7 @@ describe("LoadoutSnapshotsList", () => {
 		expect(
 			screen.getByText(`Created ${new Date(2_000).toLocaleString()}`),
 		).toBeTruthy();
-		const tag = screen.getByText("Rift");
+		const tag = screen.getByText("Rift", { selector: "span" });
 		expect(tag.parentElement?.textContent).toContain(
 			"Level 50 · Score 12,345,678",
 		);
@@ -108,6 +109,86 @@ describe("LoadoutSnapshotsList", () => {
 		);
 		expect(screen.getByText("Alpha clear")).toBeTruthy();
 		expect(screen.queryByText("Beta clear")).toBeNull();
+	});
+
+	it("uses exclusive ordered tag buttons and resets every toolbar control", () => {
+		useAppStore.setState({
+			loadoutSnapshots: {
+				conquest: snapshot("conquest", "Conquest clear", "conquest", 1),
+				rift: snapshot("rift", "Rift clear", "rift", 2),
+				legendary: snapshot(
+					"legendary",
+					"Legendary clear",
+					"legendary_conquest",
+					3,
+				),
+				others: snapshot("others", "Other clear", "others", 4),
+			},
+		});
+		render(<LoadoutSnapshotsList />);
+
+		const tagGroup = screen.getByRole("group", {
+			name: "Filter loadout snapshots by tag",
+		});
+		const tagButtons = within(tagGroup).getAllByRole("button");
+		expect(tagGroup.className).toContain("max-w-full");
+		expect(tagGroup.className).toContain("flex-wrap");
+		expect(tagButtons.map((button) => button.textContent)).toEqual([
+			"All tags",
+			"Conquest",
+			"Rift",
+			"Legendary Conquest",
+			"Others",
+		]);
+		expect(screen.getAllByRole("combobox")).toHaveLength(1);
+
+		for (const [label, visibleName] of [
+			["Conquest", "Conquest clear"],
+			["Rift", "Rift clear"],
+			["Legendary Conquest", "Legendary clear"],
+			["Others", "Other clear"],
+		] as const) {
+			fireEvent.click(within(tagGroup).getByRole("button", { name: label }));
+			expect(screen.getByText(visibleName)).toBeTruthy();
+			expect(
+				tagButtons.filter(
+					(button) => button.getAttribute("aria-pressed") === "true",
+				),
+			).toEqual([within(tagGroup).getByRole("button", { name: label })]);
+		}
+
+		fireEvent.change(
+			screen.getByRole("textbox", { name: "Search loadout snapshots" }),
+			{ target: { value: "Other" } },
+		);
+		const sort = screen.getByRole("combobox", {
+			name: "Sort loadout snapshots",
+		});
+		fireEvent.keyDown(sort, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "Created: Oldest" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear loadout snapshot filters" }),
+		);
+
+		expect(
+			(
+				screen.getByRole("textbox", {
+					name: "Search loadout snapshots",
+				}) as HTMLInputElement
+			).value,
+		).toBe("");
+		expect(
+			within(tagGroup)
+				.getByRole("button", { name: "All tags" })
+				.getAttribute("aria-pressed"),
+		).toBe("true");
+		expect(sort.textContent).toContain("Created: Newest");
+		expect(
+			screen.getByRole("group", { name: "Sort loadout snapshots" }),
+		).toBeTruthy();
+		expect(
+			screen.getByRole("group", { name: "Clear loadout snapshot filters" }),
+		).toBeTruthy();
 	});
 
 	it("uses the tag-specific badge colors in rows and previews", () => {

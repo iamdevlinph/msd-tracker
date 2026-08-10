@@ -6,7 +6,7 @@ import { LoadoutSnapshotDialog } from "@/components/loadout-snapshots/components
 import { LoadoutSnapshotMetadata } from "@/components/loadout-snapshots/components/loadout-snapshot-metadata";
 import {
 	LOADOUT_SNAPSHOT_SORTS,
-	LOADOUT_SNAPSHOT_TAG_LABELS,
+	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotSort,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -19,14 +19,12 @@ import { LOADOUT_ACTION_SOURCES } from "@/components/loadouts/loadout-constants"
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { SortSelect } from "@/components/shared/sort-select";
 import { Button } from "@/components/ui/button";
-import { SearchInput } from "@/components/ui/search-input";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+	FilterButtonGroup,
+	FilterToggleButton,
+} from "@/components/ui/filter-button-group";
+import { SearchInput } from "@/components/ui/search-input";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
@@ -37,6 +35,19 @@ const SORT_OPTIONS: { label: string; value: LoadoutSnapshotSort }[] = [
 	{ label: "Name: Z–A", value: LOADOUT_SNAPSHOT_SORTS.NAME_DESC },
 	{ label: "Created: Oldest", value: LOADOUT_SNAPSHOT_SORTS.CREATED_ASC },
 	{ label: "Created: Newest", value: LOADOUT_SNAPSHOT_SORTS.CREATED_DESC },
+];
+const TAG_OPTIONS: {
+	label: string;
+	value: LoadoutSnapshotTag | typeof ALL_TAGS;
+}[] = [
+	{ label: "All tags", value: ALL_TAGS },
+	{ label: "Conquest", value: LOADOUT_SNAPSHOT_TAGS.CONQUEST },
+	{ label: "Rift", value: LOADOUT_SNAPSHOT_TAGS.RIFT },
+	{
+		label: "Legendary Conquest",
+		value: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
+	},
+	{ label: "Others", value: LOADOUT_SNAPSHOT_TAGS.OTHERS },
 ];
 
 const snapshotLoadout = (snapshot: LoadoutSnapshot) => ({
@@ -122,45 +133,41 @@ export const LoadoutSnapshotsList = () => {
 					onValueChange={setSearch}
 				/>
 				<div className="flex flex-wrap gap-2">
-					<Select
-						value={tag}
-						onValueChange={(value) =>
-							setTag(value as LoadoutSnapshotTag | typeof ALL_TAGS)
-						}
-					>
-						<SelectTrigger aria-label="Filter loadout snapshots by tag">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value={ALL_TAGS}>All tags</SelectItem>
-							{Object.entries(LOADOUT_SNAPSHOT_TAG_LABELS).map(
-								([value, label]) => (
-									<SelectItem key={value} value={value}>
-										{label}
-									</SelectItem>
-								),
-							)}
-						</SelectContent>
-					</Select>
-					<SortSelect
-						ariaLabel="Sort loadout snapshots"
-						options={SORT_OPTIONS}
-						value={sort}
-						onValueChange={setSort}
-					/>
-					<Button
-						type="button"
-						variant="secondary"
-						size="icon"
-						aria-label="Clear loadout snapshot filters"
-						onClick={() => {
-							setSearch("");
-							setTag(ALL_TAGS);
-							setSort(LOADOUT_SNAPSHOT_SORTS.CREATED_DESC);
-						}}
-					>
-						<XIcon />
-					</Button>
+					<FilterButtonGroup aria-label="Filter loadout snapshots by tag">
+						{TAG_OPTIONS.map(({ label, value }) => (
+							<FilterToggleButton
+								key={value}
+								isSelected={tag === value}
+								type="button"
+								onClick={() => setTag(value)}
+							>
+								{label}
+							</FilterToggleButton>
+						))}
+					</FilterButtonGroup>
+					<ButtonGroup aria-label="Sort loadout snapshots">
+						<SortSelect
+							ariaLabel="Sort loadout snapshots"
+							options={SORT_OPTIONS}
+							value={sort}
+							onValueChange={setSort}
+						/>
+					</ButtonGroup>
+					<ButtonGroup aria-label="Clear loadout snapshot filters">
+						<Button
+							type="button"
+							variant="secondary"
+							size="icon"
+							aria-label="Clear loadout snapshot filters"
+							onClick={() => {
+								setSearch("");
+								setTag(ALL_TAGS);
+								setSort(LOADOUT_SNAPSHOT_SORTS.CREATED_DESC);
+							}}
+						>
+							<XIcon />
+						</Button>
+					</ButtonGroup>
 				</div>
 			</div>
 

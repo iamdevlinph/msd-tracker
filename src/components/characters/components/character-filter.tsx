@@ -7,10 +7,11 @@ import type {
 import { CHARACTER_SORTS } from "@/components/characters/store/characters-filter-store";
 import { SortSelect } from "@/components/shared/sort-select";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
-	ButtonGroup,
-	ButtonGroupSeparator,
-} from "@/components/ui/button-group";
+	FilterButtonGroup,
+	FilterToggleButton,
+} from "@/components/ui/filter-button-group";
 import { SearchInput } from "@/components/ui/search-input";
 import {
 	CHARACTER_CLASS_DATA,
@@ -18,7 +19,6 @@ import {
 } from "@/data/character-classes/CHARACTER_CLASS_DATA";
 import { ELEMENTS_DATA, type ElementId } from "@/data/elements/ELEMENTS_DATA";
 import { TIERS_DATA, type TierId } from "@/data/tiers/TIERS_DATA";
-import { cn } from "@/lib/utils";
 
 type CharacterFilterProps = {
 	filters: CharacterFilters;
@@ -97,88 +97,85 @@ export const CharacterFilter = ({
 				onFocus={(event) => event.currentTarget.select()}
 				placeholder="Search characters"
 			/>
-			<ButtonGroup className="flex flex-wrap">
-				{Object.values(ELEMENTS_DATA).map(({ id, image, element, hide }) => {
-					if (hide) return null;
+			<div className="flex flex-wrap gap-2">
+				<FilterButtonGroup aria-label="Elements">
+					{Object.values(ELEMENTS_DATA).map(({ id, image, element, hide }) => {
+						if (hide) return null;
 
-					const isElemSelected = selectedElements.includes(id);
-
-					return (
-						<Button
-							type="button"
-							aria-pressed={isElemSelected}
-							variant={isElemSelected ? "default" : "outline"}
-							key={id}
-							onClick={() => handleSelectElement(id)}
-							className={cn(isElemSelected && "border")}
-							title={element}
-						>
-							<img src={image} width="25" height="25" alt={`${element} icon`} />
-						</Button>
-					);
-				})}
-
-				<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
-
-				{Object.values(CHARACTER_CLASS_DATA).map(
-					({ id, image, character_class }) => {
-						const isCharClassSelected = selectedCharacterClass.includes(id);
-						const elementName = toSentenceCase(character_class);
+						const isElemSelected = selectedElements.includes(id);
 
 						return (
-							<Button
+							<FilterToggleButton
+								isSelected={isElemSelected}
 								type="button"
-								aria-pressed={isCharClassSelected}
-								variant={isCharClassSelected ? "default" : "outline"}
 								key={id}
-								onClick={() => handleSelectClass(id)}
-								className={cn(isCharClassSelected && "border")}
-								title={elementName}
+								onClick={() => handleSelectElement(id)}
+								title={element}
 							>
 								<img
 									src={image}
 									width="25"
 									height="25"
-									alt={`${elementName} icon`}
+									alt={`${element} icon`}
 								/>
-							</Button>
-						);
-					},
-				)}
-
-				<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
-
-				{Object.values(TIERS_DATA)
-					.filter(({ id }) => id === 4 || id === 5)
-					.map(({ id, hex }) => {
-						const isTierSelected = selectedTiers.includes(id);
-
-						return (
-							<Button
-								type="button"
-								variant={isTierSelected ? "default" : "outline"}
-								key={id}
-								onClick={() => handleSelectTier(id)}
-								className={cn(isTierSelected && "border")}
-								aria-pressed={isTierSelected}
-								aria-label={`Tier ${id}`}
-								title={`Tier ${id}`}
-							>
-								{id}
-								<StarIcon
-									className="size-4"
-									fill="currentColor"
-									style={{ color: hex }}
-									aria-hidden
-								/>
-							</Button>
+							</FilterToggleButton>
 						);
 					})}
+				</FilterButtonGroup>
+				<FilterButtonGroup aria-label="Character classes">
+					{Object.values(CHARACTER_CLASS_DATA).map(
+						({ id, image, character_class }) => {
+							const isCharClassSelected = selectedCharacterClass.includes(id);
+							const elementName = toSentenceCase(character_class);
+
+							return (
+								<FilterToggleButton
+									isSelected={isCharClassSelected}
+									type="button"
+									key={id}
+									onClick={() => handleSelectClass(id)}
+									title={elementName}
+								>
+									<img
+										src={image}
+										width="25"
+										height="25"
+										alt={`${elementName} icon`}
+									/>
+								</FilterToggleButton>
+							);
+						},
+					)}
+				</FilterButtonGroup>
+				<FilterButtonGroup aria-label="Tiers">
+					{Object.values(TIERS_DATA)
+						.filter(({ id }) => id === 4 || id === 5)
+						.map(({ id, hex }) => {
+							const isTierSelected = selectedTiers.includes(id);
+
+							return (
+								<FilterToggleButton
+									isSelected={isTierSelected}
+									type="button"
+									key={id}
+									onClick={() => handleSelectTier(id)}
+									aria-label={`Tier ${id}`}
+									title={`Tier ${id}`}
+								>
+									{id}
+									<StarIcon
+										className="size-4"
+										fill="currentColor"
+										style={{ color: hex }}
+										aria-hidden
+									/>
+								</FilterToggleButton>
+							);
+						})}
+				</FilterButtonGroup>
 
 				{showSort && (
-					<>
-						<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
-
+					<ButtonGroup aria-label="Sort owned characters">
 						<SortSelect
 							ariaLabel="Sort owned characters"
 							options={sortOptions}
@@ -187,29 +184,29 @@ export const CharacterFilter = ({
 								onChange({ ...filters, sort: nextSort })
 							}
 						/>
-
-						<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
-					</>
+					</ButtonGroup>
 				)}
 
-				<Button
-					variant="secondary"
-					size="icon"
-					type="button"
-					onClick={() =>
-						onChange({
-							search: "",
-							selectedCharacterClass: [],
-							selectedElements: [],
-							selectedTiers: [],
-							sort: CHARACTER_SORTS.NAME_ASC,
-						})
-					}
-					aria-label="Clear character filters"
-				>
-					<XIcon />
-				</Button>
-			</ButtonGroup>
+				<ButtonGroup aria-label="Clear character filters">
+					<Button
+						variant="secondary"
+						size="icon"
+						type="button"
+						onClick={() =>
+							onChange({
+								search: "",
+								selectedCharacterClass: [],
+								selectedElements: [],
+								selectedTiers: [],
+								sort: CHARACTER_SORTS.NAME_ASC,
+							})
+						}
+						aria-label="Clear character filters"
+					>
+						<XIcon />
+					</Button>
+				</ButtonGroup>
+			</div>
 		</div>
 	);
 };

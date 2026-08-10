@@ -110,6 +110,10 @@ describe("MonsterlingsList", () => {
 			},
 		});
 		render(<MonsterlingsPage />);
+		expect(screen.getByRole("group", { name: "Tiers" })).toBeTruthy();
+		expect(
+			screen.getByRole("group", { name: "Clear monsterling filters" }),
+		).toBeTruthy();
 		for (const { id, hex } of Object.values(TIERS_DATA)) {
 			const star = screen
 				.getByRole("button", { name: `Tier ${id}` })

@@ -2,10 +2,11 @@ import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
 import { StarIcon, XIcon } from "lucide-react";
 import type { EquipmentFilters } from "@/components/equipments/utils/equipment-utils";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
-	ButtonGroup,
-	ButtonGroupSeparator,
-} from "@/components/ui/button-group";
+	FilterButtonGroup,
+	FilterToggleButton,
+} from "@/components/ui/filter-button-group";
 import { SearchInput } from "@/components/ui/search-input";
 import {
 	EQUIPMENT_PART_TYPES,
@@ -52,21 +53,16 @@ export const LoadoutEquipmentFilter = ({
 				onFocus={(event) => event.currentTarget.select()}
 				placeholder="Search equipment"
 			/>
-			<ButtonGroup className="flex flex-wrap">
+			<div className="flex flex-wrap gap-2">
 				{IS_PART_TYPE_FILTER_VISIBLE && (
-					<>
+					<FilterButtonGroup aria-label="Equipment part types">
 						{EQUIPMENT_PART_TYPES.map((partType) => (
-							<Button
+							<FilterToggleButton
+								isSelected={filters.selectedPartTypes.includes(partType)}
 								key={partType}
 								type="button"
 								aria-label={toSentenceCase(partType)}
 								title={toSentenceCase(partType)}
-								aria-pressed={filters.selectedPartTypes.includes(partType)}
-								variant={
-									filters.selectedPartTypes.includes(partType)
-										? "default"
-										: "outline"
-								}
 								onClick={() =>
 									toggle<EquipmentPartType>("selectedPartTypes", partType)
 								}
@@ -76,44 +72,44 @@ export const LoadoutEquipmentFilter = ({
 									alt=""
 									className="size-6 object-contain"
 								/>
-							</Button>
+							</FilterToggleButton>
 						))}
-						<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
-					</>
+					</FilterButtonGroup>
 				)}
-				{([5, 4] as TierId[]).map((tier) => (
+				<FilterButtonGroup aria-label="Tiers">
+					{([5, 4] as TierId[]).map((tier) => (
+						<FilterToggleButton
+							isSelected={filters.selectedTiers.includes(tier)}
+							key={tier}
+							type="button"
+							aria-label={`Tier ${tier}`}
+							title={`Tier ${tier}`}
+							onClick={() => toggle<TierId>("selectedTiers", tier)}
+						>
+							{tier}
+							<StarIcon
+								className="size-4"
+								fill="currentColor"
+								style={{ color: TIERS_DATA[tier].hex }}
+								aria-hidden
+							/>
+						</FilterToggleButton>
+					))}
+				</FilterButtonGroup>
+				<ButtonGroup aria-label="Clear equipment filters">
 					<Button
-						key={tier}
+						variant="secondary"
+						size="icon"
 						type="button"
-						aria-label={`Tier ${tier}`}
-						title={`Tier ${tier}`}
-						aria-pressed={filters.selectedTiers.includes(tier)}
-						variant={
-							filters.selectedTiers.includes(tier) ? "default" : "outline"
+						aria-label="Clear equipment filters"
+						onClick={() =>
+							onChange({ search: "", selectedPartTypes: [], selectedTiers: [] })
 						}
-						onClick={() => toggle<TierId>("selectedTiers", tier)}
 					>
-						{tier}
-						<StarIcon
-							className="size-4"
-							fill="currentColor"
-							style={{ color: TIERS_DATA[tier].hex }}
-							aria-hidden
-						/>
+						<XIcon />
 					</Button>
-				))}
-				<Button
-					variant="secondary"
-					size="icon"
-					type="button"
-					aria-label="Clear equipment filters"
-					onClick={() =>
-						onChange({ search: "", selectedPartTypes: [], selectedTiers: [] })
-					}
-				>
-					<XIcon />
-				</Button>
-			</ButtonGroup>
+				</ButtonGroup>
+			</div>
 		</div>
 	);
 };

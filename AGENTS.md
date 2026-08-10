@@ -55,6 +55,8 @@ GA4 page views are automatic. For meaningful user actions, add a normalized name
 
 Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. For behavior changes and bug fixes, add or update the smallest focused regression tests and run them before broader suites. Behavior tests use test-owned fixtures or module mocks rather than mutable game datasets; direct live-data imports are reserved for dedicated dataset-validation tests. Do not introduce a test framework or low-value tests solely for coverage; when automation is impractical, explain why and perform the strongest targeted verification available. Mock browser boundaries and keep fixtures focused, subject to the escalation rules above.
 
+For multi-dimensional collection filters, render each selectable dimension with `FilterButtonGroup` and `FilterToggleButton`; keep sort and Clear controls in independent labelled plain `ButtonGroup`s, and place the groups in a wrapping flex row with `gap-2` rather than visual separators.
+
 Treat existing tests as regression contracts. Preserve their assertions unless the requested behavior intentionally changes. When behavior changes, update only the affected tests and add coverage for the new contract; never weaken or delete tests merely to make the suite pass.
 
 ## Commit & Pull Request Guidelines

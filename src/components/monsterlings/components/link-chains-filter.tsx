@@ -1,10 +1,11 @@
 import { arrayRemoveItem } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
-	ButtonGroup,
-	ButtonGroupSeparator,
-} from "@/components/ui/button-group";
+	FilterButtonGroup,
+	FilterToggleButton,
+} from "@/components/ui/filter-button-group";
 import { SearchInput } from "@/components/ui/search-input";
 import type { LinkChainsFilters } from "../store/link-chains-filter-store";
 import { LINK_CHAIN_LEVELS } from "./monsterling-link-chain-utils";
@@ -23,45 +24,47 @@ export const LinkChainsFilter = ({
 			value={filters.search}
 			onValueChange={(search) => onChange({ ...filters, search })}
 		/>
-		<ButtonGroup className="flex flex-wrap" aria-label="Link Chain levels">
-			{LINK_CHAIN_LEVELS.map((level) => {
-				const selected = filters.selectedLevels.includes(level);
-				return (
-					<Button
-						key={level}
-						type="button"
-						variant={selected ? "default" : "outline"}
-						aria-pressed={selected}
-						aria-label={`Link Chain Level ${level}`}
-						title={`Link Chain Level ${level}`}
-						onClick={() =>
-							onChange({
-								...filters,
-								selectedLevels: selected
-									? arrayRemoveItem(filters.selectedLevels, level)
-									: [...filters.selectedLevels, level],
-							})
-						}
-					>
-						<img
-							src={`/images/MonsterLinkChain/link-${level}.webp`}
-							alt=""
-							className="size-5"
-						/>
-						<span className="sr-only">Link Chain Level {level}</span>
-					</Button>
-				);
-			})}
-			<ButtonGroupSeparator className="w-1.25! hidden sm:block" />
-			<Button
-				type="button"
-				variant="secondary"
-				size="icon"
-				aria-label="Clear Link Chain filters"
-				onClick={() => onChange({ search: "", selectedLevels: [] })}
-			>
-				<XIcon />
-			</Button>
-		</ButtonGroup>
+		<div className="flex flex-wrap gap-2">
+			<FilterButtonGroup aria-label="Link Chain levels">
+				{LINK_CHAIN_LEVELS.map((level) => {
+					const selected = filters.selectedLevels.includes(level);
+					return (
+						<FilterToggleButton
+							isSelected={selected}
+							key={level}
+							type="button"
+							aria-label={`Link Chain Level ${level}`}
+							title={`Link Chain Level ${level}`}
+							onClick={() =>
+								onChange({
+									...filters,
+									selectedLevels: selected
+										? arrayRemoveItem(filters.selectedLevels, level)
+										: [...filters.selectedLevels, level],
+								})
+							}
+						>
+							<img
+								src={`/images/MonsterLinkChain/link-${level}.webp`}
+								alt=""
+								className="size-5"
+							/>
+							<span className="sr-only">Link Chain Level {level}</span>
+						</FilterToggleButton>
+					);
+				})}
+			</FilterButtonGroup>
+			<ButtonGroup aria-label="Clear Link Chain filters">
+				<Button
+					type="button"
+					variant="secondary"
+					size="icon"
+					aria-label="Clear Link Chain filters"
+					onClick={() => onChange({ search: "", selectedLevels: [] })}
+				>
+					<XIcon />
+				</Button>
+			</ButtonGroup>
+		</div>
 	</div>
 );
