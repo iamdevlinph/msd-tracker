@@ -35,6 +35,8 @@ Before code changes, inspect manifests, configuration, scripts, and nearby files
 
 Before user-facing work, follow `.agents/skills/ui-style-preflight/SKILL.md` to inspect and reuse the closest shipped analogue, resolve unclear or conflicting precedent with the user, and compare rendered behavior when tooling permits.
 
+For new or materially changed user-facing interfaces, preserve accessibility as a baseline and verify changed interaction paths with practical accessibility tooling and manual keyboard/focus checks when available. Report unavailable checks and known limitations.
+
 Keep `AGENTS.md` focused on durable, always-applicable repository guidance. Add project skills under `.agents/skills/<skill-name>/SKILL.md` only for concrete, repeatable task-specific workflows, and avoid duplicating detailed instructions between this file and a skill. Keep critical safety, authorization, destructive-operation, database, and deployment restrictions here. Every project skill must have valid YAML frontmatter with a clear `name` and trigger-focused `description`, and must be validated after creation or modification.
 
 `TEMPLATE_AGENTS.md` is a staged codex-kit reference, not active guidance. When it is refreshed or `codex-kit project status` requires reconciliation, use the global `$codex-kit-reconcile-agents` skill; preserve local rules, keep project-specific content out of the template, avoid managed markers, and mark applied only after validation. Updating `AGENTS.md` does not update the packaged template automatically.
