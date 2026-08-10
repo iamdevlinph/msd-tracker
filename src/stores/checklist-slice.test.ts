@@ -88,6 +88,7 @@ describe("Checklist store", () => {
 
 	it("creates, edits, completes, undoes, and deletes durable task data", () => {
 		vi.spyOn(Date, "now").mockReturnValue(123);
+		useAppStore.setState({ backupUpdatedAt: 0 });
 		const id = useAppStore.getState().recordChecklistTask(task);
 		expect(useAppStore.getState().checklistTasks[id]).toMatchObject({
 			...task,
@@ -150,6 +151,7 @@ describe("Checklist store", () => {
 
 	it("persists preference changes and resets the complete slice", () => {
 		vi.spyOn(Date, "now").mockReturnValue(456);
+		useAppStore.setState({ backupUpdatedAt: 0 });
 		useAppStore
 			.getState()
 			.setChecklistPreferences({ showFullyCompleted: false });
@@ -166,6 +168,7 @@ describe("Checklist store", () => {
 
 	it("stores permanent notes only on effective changes and clears them on reset", () => {
 		vi.spyOn(Date, "now").mockReturnValue(100);
+		useAppStore.setState({ backupUpdatedAt: 0 });
 		useAppStore
 			.getState()
 			.setChecklistPermanentNote("fixture-permanent", "  Remember this  ");
@@ -198,7 +201,7 @@ describe("Checklist store", () => {
 
 		useAppStore.getState().setChecklistPermanentNote("fixture-permanent", " ");
 		expect(useAppStore.getState().checklistPermanentNotes).toEqual({});
-		expect(useAppStore.getState().backupUpdatedAt).toBe(200);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(201);
 
 		useAppStore
 			.getState()

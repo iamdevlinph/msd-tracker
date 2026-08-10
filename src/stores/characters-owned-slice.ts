@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
 import type { CharacterOwned } from "@/components/characters/components/character-details-form";
 import type { StoreState } from "@/stores/app-store";
+import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 
 export type CharactersOwnedSlice = {
 	charactersOwned: Record<number, CharacterOwned>;
@@ -26,7 +27,7 @@ export const createCharactersOwnedSlice: StateCreator<
 			};
 			return {
 				charactersOwned: { ...state.charactersOwned, [id]: tempCharacterOwn },
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 
@@ -35,10 +36,13 @@ export const createCharactersOwnedSlice: StateCreator<
 			const { [id]: _toDelete, ...rest } = state.charactersOwned;
 			return {
 				charactersOwned: { ...rest },
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 
 	resetCharacterSlice: () =>
-		set({ charactersOwned: [], backupUpdatedAt: Date.now() }),
+		set((state) => ({
+			charactersOwned: [],
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+		})),
 });

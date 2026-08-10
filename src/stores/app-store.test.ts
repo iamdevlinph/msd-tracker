@@ -118,6 +118,7 @@ describe("Monsterling Link Chain persistence", () => {
 
 	it("saves one shared level, retains it on delete and reset", () => {
 		vi.spyOn(Date, "now").mockReturnValue(123);
+		useAppStore.setState({ backupUpdatedAt: 0 });
 		const store = useAppStore.getState();
 
 		store.setMonsterlingLinkChainLevel(67, 4);
@@ -127,7 +128,7 @@ describe("Monsterling Link Chain persistence", () => {
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
 			67: 4,
 		});
-		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(125);
 		for (const monsterling of Object.values(
 			useAppStore.getState().monsterlingsOwned,
 		)) {
@@ -154,7 +155,7 @@ describe("Monsterling Link Chain persistence", () => {
 		expect(useAppStore.getState().monsterlingLinkChainLevels).toEqual({
 			67: 4,
 		});
-		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(129);
 	});
 
 	it("allows exact shared-level downgrades, including clearing to implicit level one", () => {

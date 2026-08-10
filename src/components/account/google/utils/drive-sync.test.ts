@@ -7,6 +7,7 @@ import {
 	select,
 	teardownSync,
 } from "@/components/account/google/utils/drive-sync";
+import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
@@ -40,6 +41,8 @@ vi.mock("@/data/monsterlings/MONSTERLINGS_DATA", () => ({
 
 describe("Drive Monsterling backups", () => {
 	afterEach(() => {
+		vi.useRealTimers();
+		sessionStorage.removeItem(G_ACCESS_TOKEN_SESSION);
 		teardownSync();
 		driveFetch.mockReset();
 		useAppStore.setState({
@@ -53,6 +56,55 @@ describe("Drive Monsterling backups", () => {
 			checklistPreferences: defaultChecklistPreferences,
 			syncConflict: null,
 		});
+	});
+
+	it("serializes edits during an upload and sends the latest snapshot last", async () => {
+		vi.useFakeTimers();
+		sessionStorage.setItem(G_ACCESS_TOKEN_SESSION, "token");
+		useAppStore.setState({ backupUpdatedAt: 20, isHydrated: true });
+		const remoteBackup = {
+			backupUpdatedAt: 20,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+		};
+		let finishFirstUpload: (() => void) | undefined;
+		let activeUploads = 0;
+		let maximumActiveUploads = 0;
+		const uploadedRevisions: number[] = [];
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup })
+			.mockImplementation(async (_input, init) => {
+				activeUploads += 1;
+				maximumActiveUploads = Math.max(maximumActiveUploads, activeUploads);
+				uploadedRevisions.push(JSON.parse(String(init?.body)).backupUpdatedAt);
+				if (uploadedRevisions.length === 1) {
+					await new Promise<void>((resolve) => {
+						finishFirstUpload = resolve;
+					});
+				}
+				activeUploads -= 1;
+				return { ok: true };
+			});
+
+		await initSync();
+		useAppStore.setState({ backupUpdatedAt: 21 });
+		await vi.advanceTimersByTimeAsync(2000);
+		expect(uploadedRevisions).toEqual([21]);
+
+		useAppStore.setState({ backupUpdatedAt: 22 });
+		await vi.advanceTimersByTimeAsync(2000);
+		expect(uploadedRevisions).toEqual([21]);
+		finishFirstUpload?.();
+		await vi.runAllTimersAsync();
+
+		expect(maximumActiveUploads).toBe(1);
+		expect(uploadedRevisions).toEqual([21, 22]);
 	});
 
 	it("selects canonical levels and strips legacy instance values", () => {
@@ -354,7 +406,7 @@ describe("Drive Monsterling backups", () => {
 			"Failed uploading remote file",
 		);
 		expect(useAppStore.getState().syncConflict).not.toBeNull();
-	});
+	}, 12000);
 
 	it("does not upload local data when the remote download fails", async () => {
 		driveFetch

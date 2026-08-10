@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import type { StoreState } from "@/stores/app-store";
+import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 
 export type ArtifactOwned = { artifact_id: number; fusion_level: number };
 export type ArtifactsOwnedSlice = {
@@ -30,7 +31,7 @@ export const createArtifactsOwnedSlice: StateCreator<
 				...s.artifactsOwned,
 				[id]: { artifact_id, fusion_level: validFusion(fusion_level) },
 			},
-			backupUpdatedAt: Date.now(),
+			backupUpdatedAt: nextBackupUpdatedAt(s.backupUpdatedAt),
 		}));
 		return id;
 	},
@@ -49,15 +50,21 @@ export const createArtifactsOwnedSlice: StateCreator<
 										: validFusion(artifact.fusion_level),
 							},
 						},
-						backupUpdatedAt: Date.now(),
+						backupUpdatedAt: nextBackupUpdatedAt(s.backupUpdatedAt),
 					}
 				: s,
 		),
 	deleteArtifactOwned: (id) =>
 		set((s) => {
 			const { [id]: _, ...rest } = s.artifactsOwned;
-			return { artifactsOwned: rest, backupUpdatedAt: Date.now() };
+			return {
+				artifactsOwned: rest,
+				backupUpdatedAt: nextBackupUpdatedAt(s.backupUpdatedAt),
+			};
 		}),
 	resetArtifactsOwned: () =>
-		set({ artifactsOwned: {}, backupUpdatedAt: Date.now() }),
+		set((state) => ({
+			artifactsOwned: {},
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+		})),
 });

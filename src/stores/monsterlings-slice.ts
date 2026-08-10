@@ -9,6 +9,7 @@ import {
 import type { CharId } from "@/data/characters/CHARACTERS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import type { StoreState } from "@/stores/app-store";
+import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 
 export type MonsterlingsSlice = {
 	monsterlingsOwned: Record<string, MonsterlingOwned & { usedBy?: CharId[] }>;
@@ -45,7 +46,7 @@ export const createMonsterlingsSlice: StateCreator<
 						...state.monsterlingsOwned,
 						[monsterlingOwnedId]: monsterling,
 					},
-					backupUpdatedAt: Date.now(),
+					backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 				};
 			}),
 
@@ -62,7 +63,7 @@ export const createMonsterlingsSlice: StateCreator<
 				else levels[id] = level;
 				return {
 					monsterlingLinkChainLevels: levels,
-					backupUpdatedAt: Date.now(),
+					backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 				};
 			}),
 
@@ -75,7 +76,7 @@ export const createMonsterlingsSlice: StateCreator<
 				if (isPinned) pins.push(id);
 				return {
 					monsterlingLinkChainPinnedIds: pins,
-					backupUpdatedAt: Date.now(),
+					backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 				};
 			}),
 
@@ -84,15 +85,15 @@ export const createMonsterlingsSlice: StateCreator<
 				const { [id]: _toDelete, ...rest } = state.monsterlingsOwned;
 				return {
 					monsterlingsOwned: { ...rest },
-					backupUpdatedAt: Date.now(),
+					backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 				};
 			}),
 
 		resetMonsterlingSlice: () =>
-			set({
+			set((state) => ({
 				monsterlingsOwned: {},
-				backupUpdatedAt: Date.now(),
-			}),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+			})),
 	};
 };
 

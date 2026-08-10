@@ -468,6 +468,7 @@ describe("ChecklistPage", () => {
 
 	it("persists fully completed visibility from settings", () => {
 		vi.spyOn(Date, "now").mockReturnValue(321);
+		useAppStore.setState({ backupUpdatedAt: 0 });
 		render(<ChecklistPage />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Checklist settings" }));

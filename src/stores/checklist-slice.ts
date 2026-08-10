@@ -7,6 +7,7 @@ import {
 import type { ChecklistTask } from "@/components/checklist/utils/checklist-task";
 import { CHECKLIST_KINDS } from "@/data/checklist/CHECKLIST_DATA";
 import type { StoreState } from "@/stores/app-store";
+import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 
 export {
 	type ChecklistPreferences,
@@ -77,7 +78,7 @@ export const createChecklistSlice: StateCreator<
 					scheduleVersion: 1,
 				},
 			},
-			backupUpdatedAt: Date.now(),
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 		}));
 		return id;
 	},
@@ -103,7 +104,7 @@ export const createChecklistSlice: StateCreator<
 							currentTask.scheduleVersion + Number(scheduleChanged),
 					},
 				},
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 	deleteChecklistTask: (id) =>
@@ -116,7 +117,7 @@ export const createChecklistSlice: StateCreator<
 					([key]) => !key.startsWith(`${id}:`),
 				),
 			),
-			backupUpdatedAt: Date.now(),
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 		})),
 	completeChecklist: (key) =>
 		set((state) =>
@@ -127,7 +128,7 @@ export const createChecklistSlice: StateCreator<
 							...state.checklistCompletions,
 							[key]: Date.now(),
 						},
-						backupUpdatedAt: Date.now(),
+						backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 					},
 		),
 	undoChecklist: (key) =>
@@ -135,7 +136,10 @@ export const createChecklistSlice: StateCreator<
 			if (!state.checklistCompletions[key]) return state;
 			const { [key]: _removed, ...checklistCompletions } =
 				state.checklistCompletions;
-			return { checklistCompletions, backupUpdatedAt: Date.now() };
+			return {
+				checklistCompletions,
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+			};
 		}),
 	setChecklistPreferences: (preferences) =>
 		set((state) => ({
@@ -147,7 +151,7 @@ export const createChecklistSlice: StateCreator<
 					...preferences.categories,
 				},
 			},
-			backupUpdatedAt: Date.now(),
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 		})),
 	setChecklistPermanentNote: (id, note) =>
 		set((state) => {
@@ -157,14 +161,17 @@ export const createChecklistSlice: StateCreator<
 			const checklistPermanentNotes = { ...state.checklistPermanentNotes };
 			if (trimmed) checklistPermanentNotes[id] = trimmed;
 			else delete checklistPermanentNotes[id];
-			return { checklistPermanentNotes, backupUpdatedAt: Date.now() };
+			return {
+				checklistPermanentNotes,
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+			};
 		}),
 	resetChecklist: () =>
-		set({
+		set((state) => ({
 			checklistTasks: {},
 			checklistCompletions: {},
 			checklistPermanentNotes: {},
 			checklistPreferences: defaultChecklistPreferences,
-			backupUpdatedAt: Date.now(),
-		}),
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+		})),
 });

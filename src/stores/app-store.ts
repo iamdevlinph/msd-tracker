@@ -40,6 +40,13 @@ export type StoreState = {
 	backupUpdatedAt: number;
 	syncInProgress: boolean;
 	setSyncInProgress: (flag: boolean) => void;
+	syncStatus: "idle" | "pending" | "syncing" | "failed";
+	syncError: string | null;
+	lastSyncCompletedAt: number | null;
+	setSyncStatus: (
+		status: StoreState["syncStatus"],
+		error?: string | null,
+	) => void;
 	syncConflict: {
 		local: {
 			updatedAt: number;
@@ -91,6 +98,9 @@ export type StoreState = {
 const initialState = {
 	backupUpdatedAt: Date.now(),
 	syncInProgress: false,
+	syncStatus: "idle" as const,
+	syncError: null,
+	lastSyncCompletedAt: null,
 	syncConflict: null,
 	isHydrated: false,
 };
@@ -99,9 +109,13 @@ export const migrateAppStore = (persistedState: unknown) => {
 	const state = (persistedState ?? {}) as Partial<StoreState>;
 	const {
 		syncInProgress: _syncInProgress,
+		syncStatus: _syncStatus,
+		syncError: _syncError,
+		lastSyncCompletedAt: _lastSyncCompletedAt,
 		syncConflict: _syncConflict,
 		isHydrated: _isHydrated,
 		setSyncInProgress: _setSyncInProgress,
+		setSyncStatus: _setSyncStatus,
 		setSyncConflict: _setSyncConflict,
 		setHasHydrated: _setHasHydrated,
 		logout: _logout,
@@ -134,6 +148,8 @@ export const useAppStore = create<StoreState>()(
 				logout: () => set({ ...initialState }),
 
 				setSyncInProgress: (flag) => set({ syncInProgress: flag }),
+				setSyncStatus: (status, error = null) =>
+					set({ syncStatus: status, syncError: error }),
 
 				setHasHydrated: (state) => set({ isHydrated: state }),
 
@@ -154,9 +170,13 @@ export const useAppStore = create<StoreState>()(
 				partialize: (state) => {
 					const {
 						syncInProgress: _syncInProgress,
+						syncStatus: _syncStatus,
+						syncError: _syncError,
+						lastSyncCompletedAt: _lastSyncCompletedAt,
 						syncConflict: _syncConflict,
 						isHydrated: _isHydrated,
 						setSyncInProgress: _setSyncInProgress,
+						setSyncStatus: _setSyncStatus,
 						setSyncConflict: _setSyncConflict,
 						setHasHydrated: _setHasHydrated,
 						logout: _logout,

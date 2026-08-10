@@ -3,6 +3,7 @@ import type { StateCreator } from "zustand";
 import type { CharId } from "@/data/characters/CHARACTERS_DATA";
 import type { EquipmentId } from "@/data/equipment/EQUIPMENT_DATA";
 import type { StoreState } from "@/stores/app-store";
+import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 
 export type EquipmentIds = [
 	EquipmentId | null,
@@ -171,7 +172,7 @@ export const createLoadoutsSlice: StateCreator<
 						...loadout,
 					},
 				},
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 
@@ -181,13 +182,13 @@ export const createLoadoutsSlice: StateCreator<
 
 			return {
 				loadouts: { ...rest },
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 
 	resetLoadoutsSlice: () =>
-		set({
+		set((state) => ({
 			loadouts: {},
-			backupUpdatedAt: Date.now(),
-		}),
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+		})),
 });

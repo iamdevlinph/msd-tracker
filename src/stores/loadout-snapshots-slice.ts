@@ -12,6 +12,7 @@ import {
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { formatLoadoutSnapshotNameForTag } from "@/components/loadout-snapshots/utils/loadout-snapshot-name";
 import type { StoreState } from "@/stores/app-store";
+import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 import { type LoadoutOwned, normalizeLoadouts } from "@/stores/loadouts-slice";
 
 const LOADOUT_SNAPSHOT_TAG_VALUES = Object.values(LOADOUT_SNAPSHOT_TAGS);
@@ -291,7 +292,7 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 			id,
 			name: snapshotName,
 			tag,
-			created_at: Date.now(),
+			created_at: nextBackupUpdatedAt(state.backupUpdatedAt),
 			loadout: structuredClone(loadout),
 			characters_owned: structuredClone(
 				selectRecord(state.charactersOwned, characterIds),
@@ -308,7 +309,7 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 		};
 		set((current) => ({
 			loadoutSnapshots: { ...current.loadoutSnapshots, [id]: snapshot },
-			backupUpdatedAt: Date.now(),
+			backupUpdatedAt: nextBackupUpdatedAt(current.backupUpdatedAt),
 		}));
 		return id;
 	},
@@ -335,14 +336,20 @@ export const createLoadoutSnapshotsSlice: StateCreator<
 						details,
 					},
 				},
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 	deleteLoadoutSnapshot: (id) =>
 		set((state) => {
 			const { [id]: _removed, ...loadoutSnapshots } = state.loadoutSnapshots;
-			return { loadoutSnapshots, backupUpdatedAt: Date.now() };
+			return {
+				loadoutSnapshots,
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+			};
 		}),
 	resetLoadoutSnapshots: () =>
-		set({ loadoutSnapshots: {}, backupUpdatedAt: Date.now() }),
+		set((state) => ({
+			loadoutSnapshots: {},
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+		})),
 });

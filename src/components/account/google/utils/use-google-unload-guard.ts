@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useAppStore } from "@/stores/app-store";
 
 export function useGoogleUnloadGuard() {
-	const syncInProgress = useAppStore((s) => s.syncInProgress);
+	const syncStatus = useAppStore((s) => s.syncStatus);
 
 	useEffect(() => {
 		const handler = (e: BeforeUnloadEvent) => {
-			if (!syncInProgress) return;
+			if (syncStatus === "idle") return;
 
 			e.preventDefault();
 			e.returnValue = "";
@@ -14,5 +14,5 @@ export function useGoogleUnloadGuard() {
 
 		window.addEventListener("beforeunload", handler);
 		return () => window.removeEventListener("beforeunload", handler);
-	}, [syncInProgress]);
+	}, [syncStatus]);
 }

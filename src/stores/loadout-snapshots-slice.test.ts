@@ -191,7 +191,7 @@ describe("loadout snapshots store", () => {
 		expect(snapshot.loadout.characters[0].stat_values).toEqual({ atk: 1200 });
 		useAppStore.getState().deleteLoadoutSnapshot(id as string);
 		expect(useAppStore.getState().loadoutSnapshots).toEqual({});
-		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(124);
 	});
 
 	it("keeps newly-created names unprefixed for every tag", () => {
@@ -227,6 +227,7 @@ describe("loadout snapshots store", () => {
 
 	it("updates only editable metadata and preserves frozen fields", () => {
 		vi.spyOn(Date, "now").mockReturnValue(10);
+		useAppStore.setState({ backupUpdatedAt: 0 });
 		useAppStore.setState({ loadouts: { team: loadout }, loadoutSnapshots: {} });
 		const id = useAppStore.getState().createLoadoutSnapshot({
 			loadoutId: "team",

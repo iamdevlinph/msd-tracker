@@ -1,4 +1,5 @@
 import { SiGoogledrive } from "@icons-pack/react-simple-icons";
+import { retrySync } from "@/components/account/google/utils/drive-sync";
 import { useGoogleAuth } from "@/components/account/google/utils/use-google-auth";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,9 @@ import { useAppStore } from "@/stores/app-store";
 export const GoogleSection = () => {
 	const { status, login, logout, email } = useGoogleAuth();
 	const syncInProgress = useAppStore((s) => s.syncInProgress);
+	const syncStatus = useAppStore((s) => s.syncStatus);
+	const syncError = useAppStore((s) => s.syncError);
+	const lastSyncCompletedAt = useAppStore((s) => s.lastSyncCompletedAt);
 	const backupUpdatedAt = useAppStore((s) => s.backupUpdatedAt);
 	const isHydrated = useAppStore((s) => s.isHydrated);
 
@@ -35,10 +39,23 @@ export const GoogleSection = () => {
 					{!!email && (
 						<div>
 							Logged in as <strong className="underline">{email}</strong>
-							<div className="text-xs">Last sync: {fmt(backupUpdatedAt)}</div>
+							<div className="text-xs">Last change: {fmt(backupUpdatedAt)}</div>
+							{lastSyncCompletedAt && (
+								<div className="text-xs">
+									Last backup: {fmt(lastSyncCompletedAt)}
+								</div>
+							)}
 						</div>
 					)}
 					<div className="w-max flex gap-2">
+						{syncStatus === "failed" && (
+							<div className="flex items-center gap-2 text-sm text-destructive">
+								<span>{syncError ?? "Changes not backed up"}</span>
+								<Button variant="outline" size="sm" onClick={retrySync}>
+									Retry Sync
+								</Button>
+							</div>
+						)}
 						{status === "loading" && (
 							<Button disabled variant={"outline"}>
 								Loading...

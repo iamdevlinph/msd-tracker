@@ -14,13 +14,19 @@ let fileId: string | null = null;
 let debounce: number | undefined;
 let unsubscribeAutoSync: (() => void) | null = null;
 let uploadController: AbortController | null = null;
+let activeUploadPromise: Promise<void> | null = null;
 let initPromise: Promise<void> | null = null;
+let initPromiseGeneration = -1;
 let nextOperationId = 0;
 const activeOperations = new Set<number>();
 let suppressAutoSync = false;
 let isInitialized = false;
 let pendingRemoteBackup: Backup | null = null;
 let syncGeneration = 0;
+let initController: AbortController | null = null;
+let isCreatingFile = false;
+let queuedUpload: Backup | null = null;
+let lastFailureNotice = "";
 
 type Backup = Pick<
 	StoreState,
@@ -64,9 +70,10 @@ export function select(state: StoreState): Backup {
 	};
 }
 
-async function findFile() {
+async function findFile(signal?: AbortSignal) {
 	const res = await driveFetch(
 		"https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id,name)",
+		{ signal },
 	);
 
 	assertResponseOk(res, "finding remote file");
@@ -74,7 +81,7 @@ async function findFile() {
 	return json.files?.find((f: File) => f.name === FILE_NAME);
 }
 
-async function createFile(data: Backup) {
+async function createFile(data: Backup, signal?: AbortSignal) {
 	const form = new FormData();
 
 	form.append(
@@ -94,7 +101,7 @@ async function createFile(data: Backup) {
 
 	const res = await driveFetch(
 		"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-		{ method: "POST", body: form },
+		{ method: "POST", body: form, signal },
 	);
 
 	assertResponseOk(res, "creating remote file");
@@ -104,7 +111,13 @@ async function createFile(data: Backup) {
 }
 
 function assertResponseOk(response: Response, operation: string) {
-	if (response.ok === false) throw new Error(`Failed ${operation}`);
+	if (!response || response.ok === false) {
+		const error = new Error(`Failed ${operation}`) as Error & {
+			status?: number;
+		};
+		error.status = response?.status;
+		throw error;
+	}
 }
 
 function readRecordField<T>(
@@ -146,7 +159,7 @@ function endOperation(operationId: number) {
 		useAppStore.getState().setSyncInProgress(false);
 }
 
-export async function download(): Promise<Backup | null> {
+export async function download(signal?: AbortSignal): Promise<Backup | null> {
 	let operationId: number | undefined;
 	try {
 		if (!fileId) return null;
@@ -154,6 +167,7 @@ export async function download(): Promise<Backup | null> {
 
 		const res = await driveFetch(
 			`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
+			{ signal },
 		);
 
 		assertResponseOk(res, "downloading remote file");
@@ -217,11 +231,7 @@ export async function download(): Promise<Backup | null> {
 			...checklistState,
 			artifactsOwned: readRecordField(backup, "artifactsOwned", {}),
 		};
-	} catch (e) {
-		toast.error(
-			`Something went wrong downloading remote file\n\n${(e as Error).message}`,
-		);
-
+	} catch {
 		return null;
 	} finally {
 		if (operationId !== undefined) endOperation(operationId);
@@ -232,25 +242,40 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 	if (!fileId) throw new Error("Google Drive file ID is unavailable");
 	const operationId = beginOperation();
 	try {
-		const res = await driveFetch(
-			`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`,
-			{
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(data),
-				signal,
-			},
-		);
-		assertResponseOk(res, "uploading remote file");
-	} catch (e) {
-		if ((e as DOMException).name === "AbortError") {
-			return;
+		for (let attempt = 0; ; attempt += 1) {
+			try {
+				const res = await driveFetch(
+					`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`,
+					{
+						method: "PATCH",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify(data),
+						signal,
+					},
+				);
+				assertResponseOk(res, "uploading remote file");
+				break;
+			} catch (error) {
+				if ((error as DOMException).name === "AbortError") throw error;
+				const status = (error as Error & { status?: number }).status;
+				const retryable =
+					status === 429 || status === undefined || status >= 500;
+				if (!retryable || attempt >= 3) throw error;
+				await new Promise<void>((resolve, reject) => {
+					const timer = window.setTimeout(resolve, 2 ** attempt * 1000);
+					signal?.addEventListener(
+						"abort",
+						() => {
+							window.clearTimeout(timer);
+							reject(new DOMException("Aborted", "AbortError"));
+						},
+						{ once: true },
+					);
+				});
+			}
 		}
-
-		toast.error(
-			`Something went wrong uploading file\n\n${(e as Error).message}`,
-		);
-
+	} catch (e) {
+		if ((e as DOMException).name === "AbortError") throw e;
 		throw e;
 	} finally {
 		endOperation(operationId);
@@ -259,14 +284,23 @@ export async function upload(data: Backup, signal?: AbortSignal) {
 
 export async function initSync() {
 	if (isInitialized) return;
-	if (initPromise) return initPromise;
 	const generation = syncGeneration;
+	if (initPromise) {
+		if (initPromiseGeneration === generation) return initPromise;
+		await initPromise;
+		if (generation !== syncGeneration) return;
+		return initSync();
+	}
 	const currentInitPromise = runInitSync(generation);
 	initPromise = currentInitPromise;
+	initPromiseGeneration = generation;
 	try {
 		await currentInitPromise;
 	} finally {
-		if (initPromise === currentInitPromise) initPromise = null;
+		if (initPromise === currentInitPromise) {
+			initPromise = null;
+			initPromiseGeneration = -1;
+		}
 	}
 }
 
@@ -294,20 +328,24 @@ async function runInitSync(generation: number) {
 	ensureCurrentGeneration(generation);
 	cancelPendingUpload();
 	const operationId = beginOperation();
+	const controller = new AbortController();
+	initController = controller;
 
 	try {
-		const existing = await findFile();
+		const existing = await findFile(controller.signal);
 		ensureCurrentGeneration(generation);
 
 		if (!existing) {
 			const createdBackup = select(useAppStore.getState());
+			isCreatingFile = true;
 			const createdFileId = await createFile(createdBackup);
+			isCreatingFile = false;
 			ensureCurrentGeneration(generation);
 			fileId = createdFileId;
 			setupAutoSync();
 			const latestBackup = select(useAppStore.getState());
 			if (latestBackup.backupUpdatedAt !== createdBackup.backupUpdatedAt) {
-				await upload(latestBackup);
+				scheduleUpload(true);
 			}
 			ensureCurrentGeneration(generation);
 			isInitialized = true;
@@ -317,7 +355,7 @@ async function runInitSync(generation: number) {
 		if (!existing.id) throw new Error("Google Drive file is missing its ID");
 		fileId = existing.id;
 
-		const remote = await download();
+		const remote = await download(controller.signal);
 		ensureCurrentGeneration(generation);
 		if (!remote) throw new Error("Unable to download the Google Drive backup");
 		const local = useAppStore.getState();
@@ -372,7 +410,6 @@ async function runInitSync(generation: number) {
 		} else {
 			pendingRemoteBackup = null;
 			useAppStore.getState().setSyncConflict(null);
-			await upload(select(local));
 		}
 
 		ensureCurrentGeneration(generation);
@@ -380,10 +417,15 @@ async function runInitSync(generation: number) {
 		isInitialized = true;
 	} catch (e) {
 		if ((e as DOMException).name === "AbortError") return;
+		useAppStore
+			.getState()
+			.setSyncStatus("failed", "Changes not backed up. Retry Sync");
 		toast.error(
 			`Something went wrong with initializing data\n\n${(e as Error).message}`,
 		);
 	} finally {
+		isCreatingFile = false;
+		if (initController === controller) initController = null;
 		endOperation(operationId);
 	}
 }
@@ -413,30 +455,7 @@ function setupAutoSync() {
 			}
 
 			if (newValue === prevValue) return;
-
-			if (debounce !== undefined) window.clearTimeout(debounce);
-
-			debounce = window.setTimeout(async () => {
-				toast("Sync start");
-				const controller = new AbortController();
-				uploadController?.abort();
-				uploadController = controller;
-
-				try {
-					const data = select(useAppStore.getState());
-					await upload(data, controller.signal);
-
-					if (!controller.signal.aborted) {
-						toast.success("Sync success");
-					}
-				} catch (e) {
-					if ((e as DOMException).name !== "AbortError") {
-						toast.error(`Sync failed\n\n${(e as Error).message}`);
-					}
-				} finally {
-					if (uploadController === controller) uploadController = null;
-				}
-			}, 2000);
+			scheduleUpload();
 		},
 	);
 
@@ -444,43 +463,143 @@ function setupAutoSync() {
 	return unsubscribe;
 }
 
-export function cancelPendingUpload() {
+function scheduleUpload(immediate = false) {
+	if (!fileId) return;
+	queuedUpload = select(useAppStore.getState());
+	useAppStore.getState().setSyncStatus("pending");
+	if (debounce !== undefined) window.clearTimeout(debounce);
+	debounce = window.setTimeout(
+		() => {
+			debounce = undefined;
+			void runUploadQueue();
+		},
+		immediate ? 0 : 2000,
+	);
+}
+
+async function runUploadQueue() {
+	if (uploadController || !queuedUpload || !fileId) return;
+	const generation = syncGeneration;
+	const controller = new AbortController();
+	uploadController = controller;
+	const data = queuedUpload;
+	queuedUpload = null;
+	useAppStore.getState().setSyncStatus("syncing");
+	const mutation = upload(data, controller.signal);
+	activeUploadPromise = mutation;
+	try {
+		await mutation;
+		ensureCurrentGeneration(generation);
+		const latest = select(useAppStore.getState());
+		if (latest.backupUpdatedAt !== data.backupUpdatedAt) {
+			queuedUpload = latest;
+			scheduleUpload(true);
+		} else {
+			lastFailureNotice = "";
+			useAppStore.setState({
+				syncStatus: "idle",
+				syncError: null,
+				lastSyncCompletedAt: Date.now(),
+			});
+		}
+	} catch (error) {
+		if ((error as DOMException).name !== "AbortError") {
+			queuedUpload = select(useAppStore.getState());
+			const message = "Changes not backed up";
+			useAppStore.getState().setSyncStatus("failed", message);
+			if (lastFailureNotice !== message) {
+				lastFailureNotice = message;
+				toast.error(message);
+			}
+		} else if (generation === syncGeneration) {
+			queuedUpload = select(useAppStore.getState());
+			useAppStore.getState().setSyncStatus("pending");
+		}
+	} finally {
+		if (uploadController === controller) uploadController = null;
+		if (activeUploadPromise === mutation) activeUploadPromise = null;
+		if (
+			queuedUpload &&
+			!debounce &&
+			useAppStore.getState().syncStatus !== "failed"
+		) {
+			void runUploadQueue();
+		}
+	}
+}
+
+export function retrySync() {
+	if (!isInitialized) {
+		void initSync();
+		return;
+	}
+	if (useAppStore.getState().syncConflict) return;
+	scheduleUpload(true);
+}
+
+export function cancelPendingUpload(abortActive = false) {
 	if (debounce !== undefined) {
 		window.clearTimeout(debounce);
 		debounce = undefined;
 	}
-	uploadController?.abort();
-	uploadController = null;
+	queuedUpload = null;
+	if (abortActive) uploadController?.abort();
 }
 
 export function teardownSync() {
 	syncGeneration += 1;
-	cancelPendingUpload();
+	if (!isCreatingFile) initController?.abort();
+	cancelPendingUpload(true);
 	unsubscribeAutoSync?.();
 	unsubscribeAutoSync = null;
-	initPromise = null;
 	isInitialized = false;
 	pendingRemoteBackup = null;
+	queuedUpload = null;
+	useAppStore.getState().setSyncStatus("idle");
 	fileId = null;
 	activeOperations.clear();
 	useAppStore.setState({ syncInProgress: false, syncConflict: null });
 }
 
 export async function resolveSyncConflict(choice: "local" | "remote") {
-	if (!useAppStore.getState().syncConflict) {
+	const conflict = useAppStore.getState().syncConflict;
+	if (!conflict) {
 		throw new Error("There is no sync conflict to resolve");
 	}
 
 	cancelPendingUpload();
 	if (choice === "local") {
-		await upload(select(useAppStore.getState()));
+		const generation = syncGeneration;
+		if (activeUploadPromise) await activeUploadPromise;
+		let uploadedRevision = -1;
+		while (uploadedRevision !== useAppStore.getState().backupUpdatedAt) {
+			const localBackup = select(useAppStore.getState());
+			await upload(localBackup);
+			ensureCurrentGeneration(generation);
+			uploadedRevision = localBackup.backupUpdatedAt;
+		}
 		useAppStore.getState().setSyncConflict(null);
 		pendingRemoteBackup = null;
-		return;
+		useAppStore.setState({
+			syncStatus: "idle",
+			syncError: null,
+			lastSyncCompletedAt: Date.now(),
+		});
+		return "resolved" as const;
 	}
 
 	if (!pendingRemoteBackup) {
 		throw new Error("The remote backup is no longer available; refresh sync");
+	}
+	if (
+		choice === "remote" &&
+		useAppStore.getState().backupUpdatedAt !== conflict.local.updatedAt
+	) {
+		pendingRemoteBackup = null;
+		useAppStore.getState().setSyncConflict(null);
+		isInitialized = false;
+		await initSync();
+		return "refreshed" as const;
 	}
 
 	suppressAutoSync = true;
@@ -490,6 +609,7 @@ export async function resolveSyncConflict(choice: "local" | "remote") {
 	} finally {
 		suppressAutoSync = false;
 	}
+	return "resolved" as const;
 }
 
 function getSize(obj: unknown) {

@@ -1,6 +1,7 @@
 import { arrayRemoveItem } from "common-utils-pkg";
 import type { StateCreator } from "zustand";
 import type { StoreState } from "@/stores/app-store";
+import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 
 export type CompletedCodexSlice = {
 	monsterCodexCompleted: number[];
@@ -25,7 +26,7 @@ export const createMonsterCodexSlice: StateCreator<
 		set((state) => {
 			return {
 				monsterCodexCompleted: [...state.monsterCodexCompleted, id],
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 
@@ -34,7 +35,7 @@ export const createMonsterCodexSlice: StateCreator<
 			const newArr = arrayRemoveItem(state.monsterCodexCompleted, id);
 			return {
 				monsterCodexCompleted: newArr,
-				backupUpdatedAt: Date.now(),
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),
 
@@ -43,13 +44,13 @@ export const createMonsterCodexSlice: StateCreator<
 			monsterCodexFavorites: state.monsterCodexFavorites.includes(id)
 				? arrayRemoveItem(state.monsterCodexFavorites, id)
 				: [...state.monsterCodexFavorites, id],
-			backupUpdatedAt: Date.now(),
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 		})),
 
 	resetCodexStore: () =>
-		set({
+		set((state) => ({
 			monsterCodexCompleted: [],
 			monsterCodexFavorites: [],
-			backupUpdatedAt: Date.now(),
-		}),
+			backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+		})),
 });

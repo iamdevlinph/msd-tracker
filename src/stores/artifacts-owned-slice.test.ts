@@ -24,7 +24,7 @@ describe("artifacts owned store", () => {
 		expect(useAppStore.getState().artifactsOwned).toEqual({
 			[second]: { artifact_id: 1, fusion_level: 5 },
 		});
-		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(126);
 	});
 
 	it("constrains fusion levels and resets the collection", () => {
@@ -34,6 +34,6 @@ describe("artifacts owned store", () => {
 		expect(useAppStore.getState().artifactsOwned[id].fusion_level).toBe(5);
 		useAppStore.getState().resetArtifactsOwned();
 		expect(useAppStore.getState().artifactsOwned).toEqual({});
-		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+		expect(useAppStore.getState().backupUpdatedAt).toBe(124);
 	});
 });
