@@ -60,6 +60,26 @@ export type LoadoutOwned = {
 	];
 };
 
+export type LoadoutCardPreferences = {
+	showArtifactsAndEquipment: boolean;
+};
+
+export const DEFAULT_LOADOUT_CARD_PREFERENCES: LoadoutCardPreferences = {
+	showArtifactsAndEquipment: true,
+};
+
+export const normalizeLoadoutCardPreferences = (
+	value: unknown,
+): LoadoutCardPreferences => ({
+	showArtifactsAndEquipment:
+		value &&
+		typeof value === "object" &&
+		typeof (value as Record<string, unknown>).showArtifactsAndEquipment ===
+			"boolean"
+			? (value as Record<string, boolean>).showArtifactsAndEquipment
+			: true,
+});
+
 const normalizeStats = (value: unknown): LoadoutCharacterStats => {
 	if (!value || typeof value !== "object") return {};
 	const source = value as Record<string, unknown>;
@@ -93,8 +113,12 @@ export const normalizePinnedStats = (value: unknown): LoadoutStatKey[] => {
 
 export type LoadoutsSlice = {
 	loadouts: Record<string, LoadoutOwned>;
+	loadoutCardPreferences: LoadoutCardPreferences;
 
 	setLoadout: (loadout: Omit<LoadoutOwned, "id">, id?: string) => void;
+	setLoadoutCardPreferences: (
+		preferences: Partial<LoadoutCardPreferences>,
+	) => void;
 	deleteLoadout: (id: string) => void;
 	resetLoadoutsSlice: () => void;
 };
@@ -159,6 +183,7 @@ export const createLoadoutsSlice: StateCreator<
 	LoadoutsSlice
 > = (set) => ({
 	loadouts: {},
+	loadoutCardPreferences: DEFAULT_LOADOUT_CARD_PREFERENCES,
 
 	setLoadout: (loadout, id) =>
 		set((state) => {
@@ -172,6 +197,23 @@ export const createLoadoutsSlice: StateCreator<
 						...loadout,
 					},
 				},
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+			};
+		}),
+
+	setLoadoutCardPreferences: (preferences) =>
+		set((state) => {
+			const next = normalizeLoadoutCardPreferences({
+				...state.loadoutCardPreferences,
+				...preferences,
+			});
+			if (
+				next.showArtifactsAndEquipment ===
+				state.loadoutCardPreferences.showArtifactsAndEquipment
+			)
+				return state;
+			return {
+				loadoutCardPreferences: next,
 				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),

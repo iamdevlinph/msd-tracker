@@ -36,6 +36,8 @@ afterEach(() => {
 	useAppStore.setState({
 		monsterlingsOwned: {},
 		monsterlingLinkChainLevels: {},
+		loadouts: {},
+		loadoutCardPreferences: { showArtifactsAndEquipment: true },
 	});
 });
 
@@ -88,6 +90,38 @@ describe("Monsterling Link Chain persistence", () => {
 				({ artifactInstanceId }) => artifactInstanceId,
 			),
 		).toEqual([null, "artifact-copy", null]);
+	});
+
+	it("defaults legacy loadout card preferences and preserves explicit values", () => {
+		expect(migrateAppStore({}).loadoutCardPreferences).toEqual({
+			showArtifactsAndEquipment: true,
+		});
+		expect(
+			migrateAppStore({
+				loadoutCardPreferences: { showArtifactsAndEquipment: false },
+			}).loadoutCardPreferences,
+		).toEqual({ showArtifactsAndEquipment: false });
+	});
+
+	it("updates the backup timestamp when card visibility changes", () => {
+		vi.spyOn(Date, "now").mockReturnValue(123);
+		useAppStore.setState({
+			backupUpdatedAt: 0,
+			loadoutCardPreferences: { showArtifactsAndEquipment: true },
+		});
+
+		useAppStore.getState().setLoadoutCardPreferences({
+			showArtifactsAndEquipment: false,
+		});
+		expect(useAppStore.getState().loadoutCardPreferences).toEqual({
+			showArtifactsAndEquipment: false,
+		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+
+		useAppStore.getState().setLoadoutCardPreferences({
+			showArtifactsAndEquipment: false,
+		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 	});
 
 	it("migrates the highest existing level and strips legacy instance fields", () => {

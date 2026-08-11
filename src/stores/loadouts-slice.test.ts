@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { normalizeLoadouts } from "@/stores/loadouts-slice";
+import {
+	DEFAULT_LOADOUT_CARD_PREFERENCES,
+	normalizeLoadoutCardPreferences,
+	normalizeLoadouts,
+} from "@/stores/loadouts-slice";
 
 describe("normalizeLoadouts", () => {
 	it("defaults legacy equipment and normalizes equipment tuples", () => {
@@ -90,5 +94,22 @@ describe("normalizeLoadouts", () => {
 			"crit_dmg",
 			"special_skill_cd",
 		]);
+	});
+});
+
+describe("normalizeLoadoutCardPreferences", () => {
+	it("defaults missing and malformed legacy values to visible details", () => {
+		expect(normalizeLoadoutCardPreferences(undefined)).toEqual(
+			DEFAULT_LOADOUT_CARD_PREFERENCES,
+		);
+		expect(
+			normalizeLoadoutCardPreferences({ showArtifactsAndEquipment: "no" }),
+		).toEqual(DEFAULT_LOADOUT_CARD_PREFERENCES);
+	});
+
+	it("preserves an explicit hidden-details preference", () => {
+		expect(
+			normalizeLoadoutCardPreferences({ showArtifactsAndEquipment: false }),
+		).toEqual({ showArtifactsAndEquipment: false });
 	});
 });

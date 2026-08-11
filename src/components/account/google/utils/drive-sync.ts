@@ -5,7 +5,10 @@ import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 import { normalizeLoadoutSnapshots } from "@/stores/loadout-snapshots-slice";
-import { normalizeLoadouts } from "@/stores/loadouts-slice";
+import {
+	normalizeLoadoutCardPreferences,
+	normalizeLoadouts,
+} from "@/stores/loadouts-slice";
 import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-slice";
 
 const FILE_NAME = "state.json";
@@ -41,6 +44,7 @@ type Backup = Pick<
 	| "monsterlingLinkChainLevels"
 	| "monsterlingLinkChainPinnedIds"
 	| "loadouts"
+	| "loadoutCardPreferences"
 	| "loadoutSnapshots"
 	| "checklistTasks"
 	| "checklistCompletions"
@@ -64,6 +68,9 @@ export function select(state: StoreState): Backup {
 			state.monsterlingLinkChainPinnedIds,
 		),
 		loadouts: state.loadouts,
+		loadoutCardPreferences: normalizeLoadoutCardPreferences(
+			state.loadoutCardPreferences,
+		),
 		loadoutSnapshots: state.loadoutSnapshots,
 		checklistTasks: state.checklistTasks,
 		checklistCompletions: state.checklistCompletions,
@@ -228,6 +235,9 @@ export async function download(signal?: AbortSignal): Promise<Backup | null> {
 				readArrayField(backup, "monsterlingLinkChainPinnedIds", []),
 			),
 			loadouts: normalizeLoadouts(readRecordField(backup, "loadouts", {})),
+			loadoutCardPreferences: normalizeLoadoutCardPreferences(
+				readRecordField(backup, "loadoutCardPreferences", {}),
+			),
 			loadoutSnapshots: normalizeLoadoutSnapshots(
 				readRecordField(backup, "loadoutSnapshots", {}),
 			),

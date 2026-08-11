@@ -64,6 +64,7 @@ describe("Drive Monsterling backups", () => {
 			monsterlingLinkChainLevels: {},
 			monsterlingLinkChainPinnedIds: [],
 			loadoutSnapshots: {},
+			loadoutCardPreferences: { showArtifactsAndEquipment: true },
 			checklistTasks: {},
 			checklistCompletions: {},
 			checklistPermanentNotes: {},
@@ -254,6 +255,7 @@ describe("Drive Monsterling backups", () => {
 			monsterlingLinkChainLevels: { 67: 4, 68: 2 },
 			monsterlingLinkChainPinnedIds: [68, 67, 68, 1],
 			loadoutSnapshots: { saved: { id: "saved" } as never },
+			loadoutCardPreferences: { showArtifactsAndEquipment: false },
 		});
 
 		const selected = select(useAppStore.getState());
@@ -268,6 +270,9 @@ describe("Drive Monsterling backups", () => {
 		expect(selected.monsterlingLinkChainPinnedIds).toEqual([68, 67]);
 		expect(selected.loadoutSnapshots).toEqual({
 			saved: { id: "saved" },
+		});
+		expect(selected.loadoutCardPreferences).toEqual({
+			showArtifactsAndEquipment: false,
 		});
 		expect(selected).not.toHaveProperty("syncInProgress");
 		expect(selected.checklistTasks).toEqual({});
@@ -329,6 +334,9 @@ describe("Drive Monsterling backups", () => {
 		expect(downloaded?.monsterlingLinkChainLevels).toEqual({ 67: 4 });
 		expect(downloaded?.monsterlingLinkChainPinnedIds).toEqual([67]);
 		expect(downloaded?.loadoutSnapshots).toEqual({});
+		expect(downloaded?.loadoutCardPreferences).toEqual({
+			showArtifactsAndEquipment: true,
+		});
 		expect(
 			downloaded?.loadouts.team.characters.map(
 				({ artifactInstanceId }) => artifactInstanceId,
@@ -378,6 +386,7 @@ describe("Drive Monsterling backups", () => {
 				},
 			},
 			loadouts: {},
+			loadoutCardPreferences: { showArtifactsAndEquipment: false },
 		};
 		driveFetch
 			.mockResolvedValueOnce({
@@ -410,6 +419,9 @@ describe("Drive Monsterling backups", () => {
 			defaultChecklistPreferences,
 		);
 		expect(downloaded?.checklistPreferences.showFullyCompleted).toBe(true);
+		expect(downloaded?.loadoutCardPreferences).toEqual({
+			showArtifactsAndEquipment: false,
+		});
 	});
 
 	it("normalizes checklist tasks and event metadata without changing the local backup timestamp", async () => {

@@ -49,6 +49,9 @@ export const LoadoutCard = ({
 	const liveCharactersOwned = useAppStore((state) => state.charactersOwned);
 	const liveMonsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
 	const liveArtifactsOwned = useAppStore((state) => state.artifactsOwned);
+	const showArtifactsAndEquipment = useAppStore(
+		(state) => state.loadoutCardPreferences.showArtifactsAndEquipment,
+	);
 	const charactersOwned = renderData?.charactersOwned ?? liveCharactersOwned;
 	const monsterlingsOwned =
 		renderData?.monsterlingsOwned ?? liveMonsterlingsOwned;
@@ -96,6 +99,9 @@ export const LoadoutCard = ({
 						charactersOwned={charactersOwned}
 						monsterlingsOwned={monsterlingsOwned}
 						artifactsOwned={artifactsOwned}
+						showArtifactsAndEquipment={
+							renderData ? true : showArtifactsAndEquipment
+						}
 						onEditCharacter={onEditCharacter}
 						onEditMonsterling={onEditMonsterling}
 						onEditArtifact={onEditArtifact}

@@ -40,6 +40,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Return to the originating loadout preview after canceling or saving an edit opened from that preview.
 - [x] Show tier portrait frames and tier-colored backgrounds behind assigned artifacts and Monsterlings in saved loadout cards.
 - [x] Keep saved loadout character tiles focused on portraits while preserving detail in previews, pickers, and editors.
+- [x] Add a persisted Loadout Card Visibility setting for saved cards, with local and Google Drive defaults and accessible responsive controls.
 - [x] Default-hide equipment in loadout previews and exports with a one-row character/artifact/Monsterling layout toggle.
 - [x] Keep dialog state, selectors, previews, and saved-card tiles in focused feature-owned files without changing loadout behavior (verified with focused tests, repository checks, and a production build).
 - [x] Track loadout editing, picker, slot, preview, entity-editor, image-copy, and image-download actions in GA4 without names, IDs, search text, or raw errors.

@@ -23,6 +23,7 @@ type LoadoutCardCharacterRowProps = {
 	charactersOwned: StoreState["charactersOwned"];
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
 	artifactsOwned: StoreState["artifactsOwned"];
+	showArtifactsAndEquipment: boolean;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
 	onEditArtifact?: (id: string) => void;
@@ -34,6 +35,7 @@ export const LoadoutCardCharacterRow = ({
 	charactersOwned,
 	monsterlingsOwned,
 	artifactsOwned,
+	showArtifactsAndEquipment,
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
@@ -80,39 +82,42 @@ export const LoadoutCardCharacterRow = ({
 					);
 				},
 			)}
-			<LoadoutCardArtifactTile
-				id={artifactId}
-				artifact={artifact}
-				owned={artifactOwned}
-				onEdit={onEditArtifact}
-			/>
-			{EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => {
-				const equipmentId = slot.equipment_ids?.[equipmentIndex - 1] ?? null;
-				const equipment = equipmentId ? EQUIPMENT_DATA[equipmentId] : null;
-				return (
-					<div
-						key={`${loadoutId}-${index}-equipment-${equipmentIndex}`}
-						className={cn(
-							"relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center text-[10px] text-muted-foreground",
-							!equipment && "border-dashed",
-						)}
-					>
-						{equipment ? (
-							<TierPortrait
-								tier={equipment.tier_id}
-								portraitImg={equipment.image}
-								portraitSize={112}
-								name={equipment.name}
-								portraitClassName="size-full object-contain p-1"
-							/>
-						) : (
-							<span className="capitalize">
-								{COMPACT_EQUIPMENT_LABELS[equipmentIndex - 1]}
-							</span>
-						)}
-					</div>
-				);
-			})}
+			{showArtifactsAndEquipment && (
+				<LoadoutCardArtifactTile
+					id={artifactId}
+					artifact={artifact}
+					owned={artifactOwned}
+					onEdit={onEditArtifact}
+				/>
+			)}
+			{showArtifactsAndEquipment &&
+				EQUIPMENT_SLOT_INDEXES.map((equipmentIndex) => {
+					const equipmentId = slot.equipment_ids?.[equipmentIndex - 1] ?? null;
+					const equipment = equipmentId ? EQUIPMENT_DATA[equipmentId] : null;
+					return (
+						<div
+							key={`${loadoutId}-${index}-equipment-${equipmentIndex}`}
+							className={cn(
+								"relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center text-[10px] text-muted-foreground",
+								!equipment && "border-dashed",
+							)}
+						>
+							{equipment ? (
+								<TierPortrait
+									tier={equipment.tier_id}
+									portraitImg={equipment.image}
+									portraitSize={112}
+									name={equipment.name}
+									portraitClassName="size-full object-contain p-1"
+								/>
+							) : (
+								<span className="capitalize">
+									{COMPACT_EQUIPMENT_LABELS[equipmentIndex - 1]}
+								</span>
+							)}
+						</div>
+					);
+				})}
 		</div>
 	);
 };

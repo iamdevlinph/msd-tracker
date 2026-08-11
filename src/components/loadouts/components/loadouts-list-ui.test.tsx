@@ -378,6 +378,45 @@ describe("LoadoutsList", () => {
 		expect(event).toHaveBeenCalledWith("loadout_preview", { source: "card" });
 	});
 
+	it("hides artifact and equipment tiles when saved-card details are disabled", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {},
+			artifactsOwned: {
+				artifact: { artifact_id: 1, fusion_level: 2 },
+			},
+			loadoutCardPreferences: { showArtifactsAndEquipment: false },
+			loadouts: {
+				team: {
+					...teamLoadout,
+					characters: [
+						{
+							...teamLoadout.characters[0],
+							artifactInstanceId: "artifact",
+							equipment_ids: [1, null, null, null],
+						},
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
+		});
+
+		render(<LoadoutsList />);
+		expect(
+			screen.queryByAltText(`${ARTIFACTS_DATA[1].name} portrait`),
+		).toBeNull();
+		expect(screen.queryByAltText("Test Equipment portrait")).toBeNull();
+		expect(screen.getAllByText("Link Chain")).toHaveLength(3);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Preview Team loadout card" }),
+		);
+		expect(
+			screen.getByAltText(`${ARTIFACTS_DATA[1].name} portrait`),
+		).toBeTruthy();
+	});
+
 	it("opens the delete dialog without previewing the card", () => {
 		useAppStore.setState({
 			charactersOwned,

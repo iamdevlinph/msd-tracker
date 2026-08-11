@@ -5,7 +5,9 @@ import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog
 import { Button } from "@/components/ui/button";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
-export const AddLoadoutDialog = () => {
+type AddLoadoutDialogProps = { className?: string };
+
+export const AddLoadoutDialog = ({ className }: AddLoadoutDialogProps) => {
 	const [open, setOpen] = useState(false);
 	const ga = useGoogleAnalytics();
 
@@ -13,7 +15,7 @@ export const AddLoadoutDialog = () => {
 		<>
 			<Button
 				type="button"
-				className="w-min"
+				className={className ?? "w-min"}
 				onClick={() => {
 					ga.event(ANALYTICS_EVENTS.LOADOUT_EDITOR_OPEN, { mode: "create" });
 					setOpen(true);

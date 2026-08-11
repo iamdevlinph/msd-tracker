@@ -26,6 +26,7 @@ import {
 import {
 	createLoadoutsSlice,
 	type LoadoutsSlice,
+	normalizeLoadoutCardPreferences,
 	normalizeLoadouts,
 } from "@/stores/loadouts-slice";
 import {
@@ -124,6 +125,9 @@ export const migrateAppStore = (persistedState: unknown) => {
 	return {
 		...durableState,
 		loadouts: normalizeLoadouts(state.loadouts),
+		loadoutCardPreferences: normalizeLoadoutCardPreferences(
+			state.loadoutCardPreferences,
+		),
 		loadoutSnapshots: normalizeLoadoutSnapshots(state.loadoutSnapshots),
 		artifactsOwned: state.artifactsOwned ?? {},
 		...normalizeChecklistPersistedState(state),
@@ -165,7 +169,7 @@ export const useAppStore = create<StoreState>()(
 			}),
 			{
 				name: "msd-tracker",
-				version: 5,
+				version: 6,
 				migrate: migrateAppStore,
 				partialize: (state) => {
 					const {
