@@ -67,41 +67,43 @@ export const HomeFeatureSections = ({
 			</div>
 		</section>
 
-		<section aria-labelledby="upcoming-heading">
-			<div className="mb-4 flex items-end justify-between gap-4">
-				<div>
-					<h2
-						id="upcoming-heading"
-						className="text-2xl font-semibold tracking-tight"
-					>
-						Coming next
-					</h2>
-					<p className="mt-1 text-sm text-muted-foreground">
-						More ways to plan and track your account are on the roadmap.
-					</p>
+		{upcomingFeatures.length > 0 && (
+			<section aria-labelledby="upcoming-heading">
+				<div className="mb-4 flex items-end justify-between gap-4">
+					<div>
+						<h2
+							id="upcoming-heading"
+							className="text-2xl font-semibold tracking-tight"
+						>
+							Coming next
+						</h2>
+						<p className="mt-1 text-sm text-muted-foreground">
+							More ways to plan and track your account are on the roadmap.
+						</p>
+					</div>
+					<span className="hidden rounded-full border px-3 py-1 text-xs font-medium text-muted-foreground sm:inline-flex">
+						Planned
+					</span>
 				</div>
-				<span className="hidden rounded-full border px-3 py-1 text-xs font-medium text-muted-foreground sm:inline-flex">
-					Planned
-				</span>
-			</div>
-			<div className="grid gap-3 sm:grid-cols-2">
-				{upcomingFeatures.map(({ title, description, icon: Icon }) => (
-					<Card
-						key={title}
-						className="gap-3 border-dashed bg-muted/20 py-4 shadow-none"
-					>
-						<CardHeader className="grid-cols-[auto_1fr] items-center gap-x-3 px-4">
-							<span className="row-span-2 rounded-lg border bg-background p-2 text-muted-foreground">
-								<Icon className="size-4" aria-hidden="true" />
-							</span>
-							<CardTitle className="text-sm">{title}</CardTitle>
-							<CardDescription className="col-start-2 leading-5">
-								{description}
-							</CardDescription>
-						</CardHeader>
-					</Card>
-				))}
-			</div>
-		</section>
+				<div className="grid gap-3 sm:grid-cols-2">
+					{upcomingFeatures.map(({ title, description, icon: Icon }) => (
+						<Card
+							key={title}
+							className="gap-3 border-dashed bg-muted/20 py-4 shadow-none"
+						>
+							<CardHeader className="grid-cols-[auto_1fr] items-center gap-x-3 px-4">
+								<span className="row-span-2 rounded-lg border bg-background p-2 text-muted-foreground">
+									<Icon className="size-4" aria-hidden="true" />
+								</span>
+								<CardTitle className="text-sm">{title}</CardTitle>
+								<CardDescription className="col-start-2 leading-5">
+									{description}
+								</CardDescription>
+							</CardHeader>
+						</Card>
+					))}
+				</div>
+			</section>
+		)}
 	</>
 );

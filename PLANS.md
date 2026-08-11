@@ -69,7 +69,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 - [x] Welcome users and link the available tracker features.
 - [x] Show linked counts for owned characters, owned monsterlings, cleared codex entries, and loadouts.
-- [x] Preview planned Checklist, Artifact, Equipment, and complete Loadout features.
+- [x] Hide the optional roadmap section when no upcoming features are configured.
 
 ## SEO: Available
 

@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { ShieldCheck } from "lucide-react";
 import type { ComponentProps } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { HomeFeatureSections } from "@/components/home/home-feature-sections";
 import { HomePage } from "@/components/home/home-page";
 import {
 	initialCodexFilters,
@@ -93,12 +95,34 @@ describe("HomePage", () => {
 		expect(screen.getAllByText("—")).toHaveLength(6);
 	});
 
-	it("presents upcoming features without linking to unfinished pages", () => {
+	it("hides the roadmap when no upcoming features are configured", () => {
 		render(<HomePage />);
 
-		expect(screen.getByText("Equipment")).toBeTruthy();
+		expect(screen.queryByRole("heading", { name: "Coming next" })).toBeNull();
+		expect(screen.queryByText("Equipment")).toBeNull();
 		expect(
 			screen.getByRole("link", { name: "Explore Checklist" }),
 		).toBeTruthy();
+		expect(
+			screen.getByRole("link", { name: "Explore Artifacts" }),
+		).toBeTruthy();
+	});
+
+	it("shows the roadmap when upcoming features are configured", () => {
+		render(
+			<HomeFeatureSections
+				features={[]}
+				upcomingFeatures={[
+					{
+						title: "Equipment",
+						description: "Manage equipment across slots and categories.",
+						icon: ShieldCheck,
+					},
+				]}
+			/>,
+		);
+
+		expect(screen.getByRole("heading", { name: "Coming next" })).toBeTruthy();
+		expect(screen.getByText("Equipment")).toBeTruthy();
 	});
 });

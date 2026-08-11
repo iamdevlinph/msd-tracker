@@ -5,13 +5,11 @@ import {
 	Camera,
 	Gem,
 	PawPrint,
-	ShieldCheck,
 	UserRoundCheck,
 } from "lucide-react";
 import {
 	type HomeFeature,
 	HomeFeatureSections,
-	type UpcomingFeature,
 } from "@/components/home/home-feature-sections";
 import { HomeHero } from "@/components/home/home-hero";
 import {
@@ -76,19 +74,6 @@ const features: HomeFeature[] = [
 		description: "Catalog owned artifacts and their fusion levels.",
 		to: "/artifacts",
 		icon: Gem,
-	},
-];
-
-const upcomingFeatures: UpcomingFeature[] = [
-	{
-		title: "Equipment",
-		description: "Manage equipment across slots and categories.",
-		icon: ShieldCheck,
-	},
-	{
-		title: "Complete Loadouts",
-		description: "Assign artifacts and equipment to each loadout character.",
-		icon: Blocks,
 	},
 ];
 
