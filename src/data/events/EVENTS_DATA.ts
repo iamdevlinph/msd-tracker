@@ -148,6 +148,15 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 	{
+		id: "forum.netmarble.com/stardive_gl/view/6/531-bonus-time-event",
+		title: "Bonus Time Event",
+		noticeTitle: "8/12 (Wed) Event Notice",
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-12T00:00:00.000Z",
+		endAt: "2026-08-18T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
 		id: "20260807-CAT-DAY",
 		title: "Celebrate International Cat Day! Monsterling Growth Support Event",
 		noticeTitle:
