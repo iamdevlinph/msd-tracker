@@ -32,43 +32,45 @@ export const ChecklistToolbar = ({
 		([value]) => value === "all" || preferences.categories[value],
 	);
 	return (
-		<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-			<div className="-mx-1 min-w-0 flex-1 overflow-x-auto px-1 pb-1">
-				<ButtonGroup className="flex flex-wrap">
-					{visibleCategories.map(([value, label]) => {
-						const isSelected = tab === value;
-						return (
-							<Button
-								aria-pressed={isSelected}
-								className={cn(isSelected && "border")}
-								key={value}
-								type="button"
-								variant={isSelected ? "default" : "outline"}
-								onClick={() => onTabChange(value)}
-							>
-								{label}
-							</Button>
-						);
-					})}
-				</ButtonGroup>
+		<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+			<div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
+				<div className="-mx-1 min-w-0 overflow-x-auto px-1 pb-1">
+					<ButtonGroup className="flex flex-wrap">
+						{visibleCategories.map(([value, label]) => {
+							const isSelected = tab === value;
+							return (
+								<Button
+									aria-pressed={isSelected}
+									className={cn(isSelected && "border")}
+									key={value}
+									type="button"
+									variant={isSelected ? "default" : "outline"}
+									onClick={() => onTabChange(value)}
+								>
+									{label}
+								</Button>
+							);
+						})}
+					</ButtonGroup>
+				</div>
+				<Button
+					aria-label="Add item"
+					className="w-full shrink-0 sm:w-auto"
+					onClick={onAdd}
+				>
+					<Plus className="size-4" />
+					<span>Add item</span>
+				</Button>
 			</div>
-			<div className="flex w-full shrink-0 gap-2 sm:w-auto">
+			<div className="flex w-full shrink-0 sm:w-auto">
 				<Button
 					aria-label="Checklist settings"
-					className="flex-1 sm:flex-none"
+					className="w-full sm:w-auto"
 					variant="outline"
 					onClick={onSettings}
 				>
 					<Settings className="size-4" />
 					<span>Settings</span>
-				</Button>
-				<Button
-					aria-label="Add item"
-					className="flex-1 sm:flex-none"
-					onClick={onAdd}
-				>
-					<Plus className="size-4" />
-					<span>Add item</span>
 				</Button>
 			</div>
 		</div>
