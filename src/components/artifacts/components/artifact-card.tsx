@@ -1,3 +1,5 @@
+import { EquippedCharacterBadge } from "@/components/loadouts/components/equipped-character-badge";
+import type { EquippedCharacter } from "@/components/loadouts/utils/equipped-character-usage";
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
@@ -9,6 +11,7 @@ type ArtifactCardProps = {
 	className?: string;
 	imageClassName?: string;
 	portraitSize?: number;
+	equippedCharacters?: EquippedCharacter[];
 };
 
 export const ArtifactCard = ({
@@ -17,6 +20,7 @@ export const ArtifactCard = ({
 	className,
 	imageClassName,
 	portraitSize = 144,
+	equippedCharacters,
 }: ArtifactCardProps) => (
 	<PortraitWithName
 		name={artifact.name}
@@ -27,6 +31,7 @@ export const ArtifactCard = ({
 		nameClassName="z-20 text-shadow-sm/80"
 		style={{ height: portraitSize, width: portraitSize }}
 	>
+		<EquippedCharacterBadge characters={equippedCharacters} />
 		<TierPortrait
 			tier={artifact.tier_id}
 			portraitImg={artifact.image}

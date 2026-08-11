@@ -8,6 +8,7 @@ import {
 	emptyArtifactFilters,
 	filterArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
+import { getEquippedCharacterUsage } from "@/components/loadouts/utils/equipped-character-usage";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { PageTitle } from "@/components/shared/page-title";
@@ -16,6 +17,12 @@ import { useAppStore } from "@/stores/app-store";
 
 export const ArtifactsPage = () => {
 	const owned = useAppStore((s) => s.artifactsOwned);
+	const loadouts = useAppStore((s) => s.loadouts);
+	const equippedCharacterUsage = getEquippedCharacterUsage(
+		loadouts,
+		undefined,
+		{ artifactInstanceIds: Object.keys(owned) },
+	);
 	const [filters, setFilters] = useState(emptyArtifactFilters);
 	const [instanceIdToEdit, setInstanceIdToEdit] = useState<string | null>(null);
 	const [editOpen, setEditOpen] = useState(false);
@@ -90,7 +97,7 @@ export const ArtifactsPage = () => {
 					<div className="grid grid-cols-[repeat(auto-fill,120px)] gap-3">
 						{cards.map(({ instanceId, value, artifact }) => (
 							<button
-								className="w-[120px] text-left"
+								className="group w-[120px] text-left"
 								key={instanceId}
 								type="button"
 								onClick={() => {
@@ -103,6 +110,9 @@ export const ArtifactsPage = () => {
 									fusionLevel={value.fusion_level}
 									portraitSize={120}
 									imageClassName="p-1"
+									equippedCharacters={
+										equippedCharacterUsage.artifacts[instanceId]
+									}
 								/>
 							</button>
 						))}

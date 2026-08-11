@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getEquippedCharacterUsage } from "@/components/loadouts/utils/equipped-character-usage";
 import { EditMonsterlingDialog } from "@/components/monsterlings/components/edit-monsterling-dialog";
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
@@ -19,6 +20,12 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 	const monsterlingsOwned = useAppStore((s) => s.monsterlingsOwned);
 	const monsterlingLinkChainLevels = useAppStore(
 		(s) => s.monsterlingLinkChainLevels,
+	);
+	const loadouts = useAppStore((s) => s.loadouts);
+	const equippedCharacterUsage = getEquippedCharacterUsage(
+		loadouts,
+		undefined,
+		{ monsterlingInstanceIds: Object.keys(monsterlingsOwned) },
 	);
 	const sortedMonsterlings = Object.entries(monsterlingsOwned)
 		.filter(([, monsterling]) => {
@@ -64,7 +71,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 						<button
 							key={key}
 							type="button"
-							className="text-left cursor-pointer"
+							className="group text-left cursor-pointer"
 							onClick={() => {
 								setOpen(true);
 								setMonsterlingToEdit(key);
@@ -78,6 +85,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 									monsterlingLinkChainLevels,
 								)}
 								traits={monsterling.traits}
+								equippedCharacters={equippedCharacterUsage.monsterlings[key]}
 							/>
 						</button>
 					);

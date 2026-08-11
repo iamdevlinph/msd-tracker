@@ -147,6 +147,44 @@ describe("ArtifactsPage", () => {
 		});
 	});
 
+	it("uses the owned-card button as the equipped-character tooltip trigger", () => {
+		useAppStore.setState({
+			loadouts: {
+				team: {
+					id: "team",
+					name: "Team",
+					characters: [
+						{
+							characterId: 1,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: "owned",
+						},
+						{
+							characterId: null,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: null,
+						},
+						{
+							characterId: null,
+							monsterlingIds: [null, null, null],
+							artifactInstanceId: null,
+						},
+					],
+				},
+			},
+		});
+		render(<ArtifactsPage />);
+
+		const badge = screen.getByRole("img", { name: /equipped by/i });
+		const editButton = badge.closest("button");
+		expect(editButton?.className).toContain("group");
+		expect(editButton?.querySelectorAll("button")).toHaveLength(0);
+		fireEvent.mouseEnter(badge);
+		const tooltip = screen.getByRole("tooltip");
+		expect(tooltip.parentElement).toBe(document.body);
+		expect(editButton?.contains(tooltip)).toBe(false);
+	});
+
 	it("keeps dialog filters independent and clears search before Escape closes", () => {
 		render(<ArtifactsPage />);
 		fireEvent.change(

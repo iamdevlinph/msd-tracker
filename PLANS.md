@@ -141,6 +141,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Chunk 4: Loadout Inventory Integration
 
+- [x] Show exact-instance loadout usage on owned Monsterling and Artifact cards with deduplicated character portrait stacks and complete hover/focus details, without affecting pickers, forms, previews, exports, snapshots, or persisted data.
 - [x] Assign one unique owned-artifact copy per character slot, with legacy local and Drive defaults.
 - [x] Add artifact filtering, assignment, replacement, clearing, cards, previews, exports, safe missing-record handling, and editor links.
 - [x] Show completed Artifact slots in production.

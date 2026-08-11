@@ -1,3 +1,5 @@
+import { EquippedCharacterBadge } from "@/components/loadouts/components/equipped-character-badge";
+import type { EquippedCharacter } from "@/components/loadouts/utils/equipped-character-usage";
 import {
 	MONSTERLING_CARD_WIDTH,
 	MONSTERLING_COMPACT_CARD_WIDTH,
@@ -18,6 +20,7 @@ export type MonsterlingCardProps = MonsterlingOwned & {
 	statsDisplay?: "icons" | "full";
 	showLinkChainBadge?: boolean;
 	linkChainLevel: LinkChainLevel;
+	equippedCharacters?: EquippedCharacter[];
 };
 
 export const MonsterlingCard = ({
@@ -29,6 +32,7 @@ export const MonsterlingCard = ({
 	compactStats = false,
 	statsDisplay,
 	showLinkChainBadge = true,
+	equippedCharacters,
 }: MonsterlingCardProps) => {
 	const { name, image, linkChain } = MONSTERLINGS_DATA[monsterling_id];
 	const display = statsDisplay ?? (compactStats ? "icons" : "full");
@@ -55,6 +59,7 @@ export const MonsterlingCard = ({
 		>
 			<div className="w-max" style={{ gridArea: "portrait" }}>
 				<PortraitWithName name={name}>
+					<EquippedCharacterBadge characters={equippedCharacters} />
 					{showLinkChainBadge && linkChain?.name && (
 						<MonsterlingLinkChainBadge level={linkChainLevel} />
 					)}
