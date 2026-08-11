@@ -7,6 +7,7 @@ import {
 	within,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
@@ -220,6 +221,96 @@ describe("LoadoutSnapshotsList", () => {
 				.getAllByText("Others")
 				.find((element) => element.tagName === "SPAN")?.className,
 		).toContain("bg-slate-100");
+	});
+
+	it("shows conditional metadata filters with multi-select OR behavior", () => {
+		useAppStore.setState({
+			loadoutSnapshots: {
+				fire: {
+					...snapshot("fire", "Fire run", "legendary_conquest", 1),
+					details: { element_id: 2, score: 1 },
+				},
+				earth: {
+					...snapshot("earth", "Earth run", "legendary_conquest", 2),
+					details: { element_id: 1, score: 1 },
+				},
+				missing: snapshot(
+					"missing",
+					"Missing element",
+					"legendary_conquest",
+					3,
+				),
+			},
+		});
+		render(<LoadoutSnapshotsList />);
+
+		const tagGroup = screen.getByRole("group", {
+			name: "Filter loadout snapshots by tag",
+		});
+		fireEvent.click(
+			within(tagGroup).getByRole("button", { name: "Legendary Conquest" }),
+		);
+		const elementGroup = screen.getByRole("group", {
+			name: "Filter loadout snapshots by element",
+		});
+		expect(within(elementGroup).getAllByRole("button")).toHaveLength(5);
+		fireEvent.click(within(elementGroup).getByRole("button", { name: "Fire" }));
+		fireEvent.click(
+			within(elementGroup).getByRole("button", { name: "Earth" }),
+		);
+		expect(screen.getByText("Fire run")).toBeTruthy();
+		expect(screen.getByText("Earth run")).toBeTruthy();
+		expect(screen.queryByText("Missing element")).toBeNull();
+
+		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
+		expect(
+			screen.queryByRole("group", {
+				name: "Filter loadout snapshots by element",
+			}),
+		).toBeNull();
+		const bossGroup = screen.getByRole("group", {
+			name: "Filter loadout snapshots by boss",
+		});
+		expect(within(bossGroup).getAllByRole("button")).toHaveLength(
+			LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.length,
+		);
+		fireEvent.click(
+			within(tagGroup).getByRole("button", { name: "Legendary Conquest" }),
+		);
+		const resetElementGroup = screen.getByRole("group", {
+			name: "Filter loadout snapshots by element",
+		});
+		expect(
+			within(resetElementGroup)
+				.getAllByRole("button")
+				.every((button) => button.getAttribute("aria-pressed") === "false"),
+		).toBe(true);
+		expect(screen.getByText("Missing element")).toBeTruthy();
+
+		fireEvent.click(
+			within(resetElementGroup).getByRole("button", { name: "Fire" }),
+		);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear loadout snapshot filters" }),
+		);
+		expect(
+			screen.queryByRole("group", {
+				name: "Filter loadout snapshots by element",
+			}),
+		).toBeNull();
+		fireEvent.click(
+			within(tagGroup).getByRole("button", { name: "Legendary Conquest" }),
+		);
+		expect(
+			within(
+				screen.getByRole("group", {
+					name: "Filter loadout snapshots by element",
+				}),
+			)
+				.getAllByRole("button")
+				.every((button) => button.getAttribute("aria-pressed") === "false"),
+		).toBe(true);
+		expect(screen.getByText("Missing element")).toBeTruthy();
 	});
 
 	it("keeps frozen build images out of compact snapshot rows", () => {

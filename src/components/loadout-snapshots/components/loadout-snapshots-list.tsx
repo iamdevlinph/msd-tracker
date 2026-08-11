@@ -1,15 +1,18 @@
-import { XIcon } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { LoadoutSnapshotDialog } from "@/components/loadout-snapshots/components/create-loadout-snapshot-dialog";
+import { LoadoutSnapshotFilter } from "@/components/loadout-snapshots/components/loadout-snapshot-filter";
 import { LoadoutSnapshotMetadata } from "@/components/loadout-snapshots/components/loadout-snapshot-metadata";
 import {
 	LOADOUT_SNAPSHOT_SORTS,
-	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotSort,
-	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
+import {
+	LOADOUT_SNAPSHOT_ALL_TAGS,
+	type LoadoutSnapshotFilters,
+	matchesLoadoutSnapshotFilters,
+} from "@/components/loadout-snapshots/utils/loadout-snapshot-filter";
 import { LoadoutActions } from "@/components/loadouts/components/loadout-actions";
 import { useLoadoutImageActions } from "@/components/loadouts/components/loadout-image-actions";
 import { LoadoutPreviewDialog } from "@/components/loadouts/components/loadout-preview-dialog";
@@ -17,38 +20,9 @@ import { LoadoutPreviewSurface } from "@/components/loadouts/components/loadout-
 import type { LoadoutRenderData } from "@/components/loadouts/components/loadout-render-data";
 import { LOADOUT_ACTION_SOURCES } from "@/components/loadouts/loadout-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
-import { SortSelect } from "@/components/shared/sort-select";
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
-import {
-	FilterButtonGroup,
-	FilterToggleButton,
-} from "@/components/ui/filter-button-group";
-import { SearchInput } from "@/components/ui/search-input";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
-
-const ALL_TAGS = "all";
-const SORT_OPTIONS: { label: string; value: LoadoutSnapshotSort }[] = [
-	{ label: "Name: A–Z", value: LOADOUT_SNAPSHOT_SORTS.NAME_ASC },
-	{ label: "Name: Z–A", value: LOADOUT_SNAPSHOT_SORTS.NAME_DESC },
-	{ label: "Created: Oldest", value: LOADOUT_SNAPSHOT_SORTS.CREATED_ASC },
-	{ label: "Created: Newest", value: LOADOUT_SNAPSHOT_SORTS.CREATED_DESC },
-];
-const TAG_OPTIONS: {
-	label: string;
-	value: LoadoutSnapshotTag | typeof ALL_TAGS;
-}[] = [
-	{ label: "All tags", value: ALL_TAGS },
-	{ label: "Conquest", value: LOADOUT_SNAPSHOT_TAGS.CONQUEST },
-	{ label: "Rift", value: LOADOUT_SNAPSHOT_TAGS.RIFT },
-	{
-		label: "Legendary Conquest",
-		value: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
-	},
-	{ label: "Others", value: LOADOUT_SNAPSHOT_TAGS.OTHERS },
-];
 
 const snapshotLoadout = (snapshot: LoadoutSnapshot) => ({
 	...snapshot.loadout,
@@ -73,10 +47,12 @@ export const LoadoutSnapshotsList = () => {
 	const updateLoadoutSnapshot = useAppStore(
 		(state) => state.updateLoadoutSnapshot,
 	);
-	const [search, setSearch] = useState("");
-	const [tag, setTag] = useState<LoadoutSnapshotTag | typeof ALL_TAGS>(
-		ALL_TAGS,
-	);
+	const [filters, setFilters] = useState<LoadoutSnapshotFilters>({
+		search: "",
+		tag: LOADOUT_SNAPSHOT_ALL_TAGS,
+		selectedElementIds: [],
+		selectedBossIds: [],
+	});
 	const [sort, setSort] = useState<LoadoutSnapshotSort>(
 		LOADOUT_SNAPSHOT_SORTS.CREATED_DESC,
 	);
@@ -89,13 +65,8 @@ export const LoadoutSnapshotsList = () => {
 		"snapshot",
 	);
 	const entries = useMemo(() => {
-		const query = search.trim().toLocaleLowerCase();
 		return Object.values(snapshots)
-			.filter(
-				(snapshot) =>
-					(!query || snapshot.name.toLocaleLowerCase().includes(query)) &&
-					(tag === ALL_TAGS || snapshot.tag === tag),
-			)
+			.filter((snapshot) => matchesLoadoutSnapshotFilters(snapshot, filters))
 			.sort((a, b) => {
 				if (sort === LOADOUT_SNAPSHOT_SORTS.NAME_ASC)
 					return a.name.localeCompare(b.name) || b.created_at - a.created_at;
@@ -105,7 +76,7 @@ export const LoadoutSnapshotsList = () => {
 					? a.created_at - b.created_at || a.name.localeCompare(b.name)
 					: b.created_at - a.created_at || a.name.localeCompare(b.name);
 			});
-	}, [search, snapshots, sort, tag]);
+	}, [filters, snapshots, sort]);
 	const preview = previewId ? (snapshots[previewId] ?? null) : null;
 	const exported = exportId ? (snapshots[exportId] ?? null) : null;
 	const editing = editId ? (snapshots[editId] ?? null) : null;
@@ -126,49 +97,21 @@ export const LoadoutSnapshotsList = () => {
 	return (
 		<div className="grid gap-5">
 			<div className="grid gap-3">
-				<SearchInput
-					aria-label="Search loadout snapshots"
-					placeholder="Search loadout snapshots"
-					value={search}
-					onValueChange={setSearch}
+				<LoadoutSnapshotFilter
+					filters={filters}
+					sort={sort}
+					onFiltersChange={setFilters}
+					onSortChange={setSort}
+					onClear={() => {
+						setFilters({
+							search: "",
+							tag: LOADOUT_SNAPSHOT_ALL_TAGS,
+							selectedElementIds: [],
+							selectedBossIds: [],
+						});
+						setSort(LOADOUT_SNAPSHOT_SORTS.CREATED_DESC);
+					}}
 				/>
-				<div className="flex flex-wrap gap-2">
-					<FilterButtonGroup aria-label="Filter loadout snapshots by tag">
-						{TAG_OPTIONS.map(({ label, value }) => (
-							<FilterToggleButton
-								key={value}
-								isSelected={tag === value}
-								type="button"
-								onClick={() => setTag(value)}
-							>
-								{label}
-							</FilterToggleButton>
-						))}
-					</FilterButtonGroup>
-					<ButtonGroup aria-label="Sort loadout snapshots">
-						<SortSelect
-							ariaLabel="Sort loadout snapshots"
-							options={SORT_OPTIONS}
-							value={sort}
-							onValueChange={setSort}
-						/>
-					</ButtonGroup>
-					<ButtonGroup aria-label="Clear loadout snapshot filters">
-						<Button
-							type="button"
-							variant="secondary"
-							size="icon"
-							aria-label="Clear loadout snapshot filters"
-							onClick={() => {
-								setSearch("");
-								setTag(ALL_TAGS);
-								setSort(LOADOUT_SNAPSHOT_SORTS.CREATED_DESC);
-							}}
-						>
-							<XIcon />
-						</Button>
-					</ButtonGroup>
-				</div>
 			</div>
 
 			{entries.length === 0 ? (

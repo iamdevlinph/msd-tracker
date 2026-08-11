@@ -50,6 +50,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Search saved loadouts by loadout or assigned character name while preserving alphabetical ordering, style snapshot category badges consistently in rows/previews/exports/dialogs, keep new snapshot names trimmed and separate from tag metadata, and prefix names only when an existing snapshot changes tags.
 - [x] Add loadout notes during creation/editing and category-aware snapshot metadata, including multi-select RES Element metadata for Conquest categories, editable compact snapshot rows, direct saved-loadout actions, immutable frozen builds, and Drive-compatible legacy normalization.
 - [x] Record required Conquest bosses with canonical portraits, use a fixed segmented clear-time format, and default new snapshot names to the trimmed source loadout name.
+- [x] Filter snapshot lists by conditional Legendary Conquest elements or Conquest bosses with multi-select OR semantics, tag-aware reset behavior, extracted toolbar/predicate modules, and focused verification.
 
 ## Loadout Code Sharing: Deferred
 
