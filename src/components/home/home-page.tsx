@@ -154,10 +154,7 @@ export const HomePage = () => {
 					}
 				}}
 			/>
-			<HomeFeatureSections
-				features={features}
-				upcomingFeatures={[]}
-			/>
+			<HomeFeatureSections features={features} upcomingFeatures={[]} />
 		</div>
 	);
 };
