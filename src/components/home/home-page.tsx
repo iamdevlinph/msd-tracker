@@ -156,7 +156,7 @@ export const HomePage = () => {
 			/>
 			<HomeFeatureSections
 				features={features}
-				upcomingFeatures={upcomingFeatures}
+				upcomingFeatures={[]}
 			/>
 		</div>
 	);
