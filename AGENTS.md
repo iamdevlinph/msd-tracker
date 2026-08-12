@@ -23,6 +23,10 @@ Biome is authoritative: use tabs, double quotes, and organized imports. Follow n
 
 Use intent-revealing domain names. A reader should understand what a variable contains or what a helper guarantees at the call site without opening its implementation. Avoid vague transformation names such as `normalized`, `processed`, `result`, or `data` when a value- or behavior-specific name is available.
 
+Replace numeric literals that encode domain rules, limits, durations, units, or protocol values with descriptively named constants. Obvious structural values, such as basic indexes or empty-state values, may remain inline.
+
+Prefer clear structure, and simplify or extract complex logic before relying on comments. Use comments to explain non-obvious purpose, constraints, invariants, tradeoffs, or workarounds, not to narrate statements.
+
 Keep naming conventions consistent within each code-owned object, schema, type, and module. Use `snake_case` for app-owned domain/data record fields and serialized form/store records; use `camelCase` for functions, variables, React/framework props and APIs, state, other code-owned object properties, and ordinary local `const` bindings; use `PascalCase` for types/components; and use `UPPER_SNAKE_CASE` for module-level constants, enum members, and lookup keys. Preserve externally defined names at the boundary, then map them once to the project's internal convention.
 
 Name custom hooks as `useThing`, higher-order components as `withThing`, local event-handler functions as `handleThing`, and code-owned callback props with an `onThing` prefix. Prefix boolean props, state, and variables with `is`, `has`, or `should` when the prefix accurately describes their meaning.
