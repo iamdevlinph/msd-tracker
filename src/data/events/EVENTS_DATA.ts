@@ -38,15 +38,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 	// weekly resets to Monday 00:00Z; set recurrenceStartAt when the notice
 	// publishes a different recurring claim or participation boundary.
 	{
-		id: "100-day-launch-anniversary-check-in",
-		title: "100 Day Launch Anniversary 14-Day Check-In Pass",
-		noticeTitle: "MONGIL: STAR DIVE 100-Day Anniversary Events Notice",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-22T00:00:00.000Z",
-		endAt: "2026-08-11T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
 		id: "monsterling-trait-change-support",
 		title: "Monsterling Trait Change Support",
 		noticeTitle: SUMMER_DIVE_NOTICE_TITLE,
@@ -155,16 +146,5 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		startAt: "2026-08-12T00:00:00.000Z",
 		endAt: "2026-08-18T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
-		id: "20260807-CAT-DAY",
-		title: "Celebrate International Cat Day! Monsterling Growth Support Event",
-		noticeTitle:
-			"Celebrate International Cat Day! Monsterling Growth Support Event",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-08T10:00:00.000Z",
-		endAt: "2026-08-12T09:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-		recurrenceStartAt: "2026-08-08T10:00:00.000Z",
 	},
 ];

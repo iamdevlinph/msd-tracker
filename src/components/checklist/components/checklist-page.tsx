@@ -12,7 +12,9 @@ import type { ChecklistTask } from "@/components/checklist/utils/checklist-task"
 import {
 	type ChecklistTab,
 	getChecklistView,
+	hasOngoingOrUpcomingChecklistItems,
 } from "@/components/checklist/utils/checklist-view";
+import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { PageTitle } from "@/components/shared/page-title";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
@@ -50,6 +52,18 @@ export const ChecklistPage = () => {
 					}),
 		[completions, now, permanentNotes, preferences, tab, tasks],
 	);
+	const showNoItemsState =
+		isHydrated &&
+		now !== null &&
+		visible.length > 0 &&
+		!hasOngoingOrUpcomingChecklistItems({
+			tasks,
+			completions,
+			preferences,
+			permanentNotes,
+			tab,
+			now,
+		});
 
 	useEffect(() => {
 		if (tab !== "all" && !preferences.categories[tab]) setTab("all");
@@ -86,32 +100,37 @@ export const ChecklistPage = () => {
 						))}
 					</div>
 				) : (
-					<ChecklistList
-						items={visible}
-						showCompleted={
-							preferences.showCompleted || preferences.showFullyCompleted
-						}
-						now={now}
-						onComplete={(key) => {
-							complete(key);
-							ga.event(ANALYTICS_EVENTS.CHECKLIST_COMPLETE);
-						}}
-						onFullComplete={(key) => {
-							complete(key);
-							ga.event(ANALYTICS_EVENTS.CHECKLIST_FULL_COMPLETE);
-						}}
-						onDelete={setTaskToDelete}
-						onEdit={openEditTask}
-						onEditPermanentNote={setNotesDefinition}
-						onUndo={(key) => {
-							undo(key);
-							ga.event(ANALYTICS_EVENTS.CHECKLIST_UNDO);
-						}}
-						onFullUndo={(key) => {
-							undo(key);
-							ga.event(ANALYTICS_EVENTS.CHECKLIST_FULL_UNDO);
-						}}
-					/>
+					<>
+						{showNoItemsState && (
+							<CollectionEmptyState
+								title="No ongoing or upcoming items."
+								description="Check back later for new schedules."
+							/>
+						)}
+						<ChecklistList
+							items={visible}
+							now={now}
+							onComplete={(key) => {
+								complete(key);
+								ga.event(ANALYTICS_EVENTS.CHECKLIST_COMPLETE);
+							}}
+							onFullComplete={(key) => {
+								complete(key);
+								ga.event(ANALYTICS_EVENTS.CHECKLIST_FULL_COMPLETE);
+							}}
+							onDelete={setTaskToDelete}
+							onEdit={openEditTask}
+							onEditPermanentNote={setNotesDefinition}
+							onUndo={(key) => {
+								undo(key);
+								ga.event(ANALYTICS_EVENTS.CHECKLIST_UNDO);
+							}}
+							onFullUndo={(key) => {
+								undo(key);
+								ga.event(ANALYTICS_EVENTS.CHECKLIST_FULL_UNDO);
+							}}
+						/>
+					</>
 				)}
 				{isHydrated && now !== null && visible.length === 0 && (
 					<ChecklistEmptyState tab={tab} onAdd={openAddTask} />

@@ -5,7 +5,7 @@ import {
 	getOccurrence,
 	occurrenceKey,
 } from "@/components/checklist/utils/checklist";
-import type { ChecklistEvent } from "@/data/events/EVENTS_DATA";
+import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
 
 const DAY = 86_400_000;
 const dailyEvent = {
@@ -15,7 +15,7 @@ const dailyEvent = {
 	startAt: "2026-07-27T00:00:00.000Z",
 	endAt: "2026-08-03T23:59:00.000Z",
 	recurrence: "daily",
-} satisfies ChecklistEvent;
+} satisfies ChecklistDefinition;
 
 const lateLaunchDailyEvent = {
 	id: "fixture-late-launch-daily-event",
@@ -24,14 +24,14 @@ const lateLaunchDailyEvent = {
 	startAt: "2026-08-08T10:00:00.000Z",
 	endAt: "2026-08-12T09:59:00.000Z",
 	recurrence: "daily",
-} satisfies ChecklistEvent;
+} satisfies ChecklistDefinition;
 
 const publishedBoundaryDailyEvent = {
 	...lateLaunchDailyEvent,
 	id: "fixture-published-boundary-daily-event",
 	title: "Fixture published-boundary daily event",
 	recurrenceStartAt: "2026-08-08T10:00:00.000Z",
-} satisfies ChecklistEvent;
+} satisfies ChecklistDefinition;
 
 const weeklyEvent = {
 	id: "fixture-weekly-event",
@@ -40,7 +40,7 @@ const weeklyEvent = {
 	startAt: "2026-07-27T00:00:00.000Z",
 	endAt: "2026-08-31T23:59:00.000Z",
 	recurrence: "weekly",
-} satisfies ChecklistEvent;
+} satisfies ChecklistDefinition;
 
 const expiringEvent = {
 	id: "fixture-expiring-event",
@@ -49,7 +49,7 @@ const expiringEvent = {
 	startAt: "2026-07-27T00:00:00.000Z",
 	endAt: "2026-07-28T23:59:00.000Z",
 	recurrence: "none",
-} satisfies ChecklistEvent;
+} satisfies ChecklistDefinition;
 
 describe("checklist UTC scheduling", () => {
 	it("refreshes daily completion keys at 00:00 UTC", () => {

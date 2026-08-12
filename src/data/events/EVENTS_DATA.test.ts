@@ -2,6 +2,15 @@ import { describe, expect, it } from "vitest";
 import { EVENTS_DATA } from "@/data/events/EVENTS_DATA";
 
 describe("EVENTS_DATA", () => {
+	it("does not retain retired official event records", () => {
+		expect(EVENTS_DATA.map(({ id }) => id)).not.toEqual(
+			expect.arrayContaining([
+				"100-day-launch-anniversary-check-in",
+				"20260807-CAT-DAY",
+			]),
+		);
+	});
+
 	it("defines unique, valid UTC event periods and optional reset anchors", () => {
 		expect(new Set(EVENTS_DATA.map(({ id }) => id)).size).toBe(
 			EVENTS_DATA.length,

@@ -43,15 +43,18 @@ type ChecklistViewInput = {
 	now: number;
 };
 
-export const getChecklistView = ({
-	tasks,
-	completions,
-	preferences,
-	permanentNotes = {},
-	tab,
-	now,
-}: ChecklistViewInput): ChecklistViewItem[] =>
-	sortChecklistItems(
+const getChecklistItems = (
+	{
+		tasks,
+		completions,
+		preferences,
+		permanentNotes = {},
+		tab,
+		now,
+	}: ChecklistViewInput,
+	applyVisibility = true,
+): ChecklistViewItem[] => {
+	const items = sortChecklistItems(
 		[...PERMANENT_EVENTS, ...EVENTS_DATA, ...Object.values(tasks)]
 			.filter(
 				(definition) =>
@@ -100,15 +103,42 @@ export const getChecklistView = ({
 						preferences.endingSoonHours,
 					),
 				};
-			})
-			.filter(
-				({ fullyCompleted, status }) =>
-					(status !== CHECKLIST_STATUSES.UPCOMING ||
-						preferences.showUpcoming) &&
-					(fullyCompleted ||
-						status !== CHECKLIST_STATUSES.COMPLETED ||
-						preferences.showCompleted) &&
-					(!fullyCompleted || preferences.showFullyCompleted) &&
-					(status !== CHECKLIST_STATUSES.EXPIRED || preferences.showExpired),
-			),
+			}),
 	);
+	if (!applyVisibility) return items;
+	return items.filter(
+		({ fullyCompleted, status }) =>
+			(status !== CHECKLIST_STATUSES.UPCOMING || preferences.showUpcoming) &&
+			(fullyCompleted ||
+				status !== CHECKLIST_STATUSES.COMPLETED ||
+				preferences.showCompleted) &&
+			(!fullyCompleted || preferences.showFullyCompleted) &&
+			(status !== CHECKLIST_STATUSES.EXPIRED || preferences.showExpired),
+	);
+};
+
+export const getChecklistView = (input: ChecklistViewInput) =>
+	getChecklistItems(input);
+
+export const hasOngoingOrUpcomingChecklistItems = (
+	input: ChecklistViewInput,
+) => {
+	const items = getChecklistItems(
+		{
+			...input,
+			preferences: {
+				...input.preferences,
+				showUpcoming: true,
+				showCompleted: true,
+				showFullyCompleted: true,
+				showExpired: true,
+			},
+		},
+		false,
+	);
+	return items.some(
+		({ status }) =>
+			status !== CHECKLIST_STATUSES.COMPLETED &&
+			status !== CHECKLIST_STATUSES.EXPIRED,
+	);
+};

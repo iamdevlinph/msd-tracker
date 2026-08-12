@@ -10,7 +10,6 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ChecklistPage } from "@/components/checklist/components/checklist-page";
 import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
-import type { ChecklistEvent } from "@/data/events/EVENTS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
@@ -96,7 +95,7 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 			endAt: "2026-08-28T23:59:00.000Z",
 			recurrence: "weekly",
 		},
-	] satisfies ChecklistEvent[],
+	] satisfies ChecklistDefinition[],
 }));
 
 vi.mock("@/data/checklist/CHECKLIST_DATA", async (importOriginal) => ({
@@ -787,6 +786,201 @@ describe("ChecklistPage", () => {
 		expect(expiredRow?.previousElementSibling).toBe(
 			screen.getByTestId("checklist-completed-divider"),
 		);
+	});
+
+	it("shows the generic empty state above retained expired event history", () => {
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-08-29T00:00:00.000Z"));
+		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showCompleted: false,
+				showFullyCompleted: false,
+				showExpired: true,
+			},
+			checklistTasks: {
+				"expired-player-event": {
+					id: "expired-player-event",
+					title: "Expired player event",
+					kind: "event",
+					source: "user",
+					startAt: "2026-08-20T00:00:00.000Z",
+					endAt: "2026-08-21T00:00:00.000Z",
+					recurrence: "none",
+					scheduleVersion: 1,
+				},
+			},
+		});
+
+		render(<ChecklistPage />);
+		expect(screen.queryByText("No ongoing or upcoming items.")).toBeNull();
+		expect(screen.getByText("Expired player event")).toBeTruthy();
+
+		fireEvent.click(screen.getByRole("button", { name: "Events" }));
+		expect(screen.getByText("No ongoing or upcoming items.")).toBeTruthy();
+		expect(
+			screen.getByText("Check back later for new schedules."),
+		).toBeTruthy();
+		const emptyState = screen
+			.getByText("No ongoing or upcoming items.")
+			.closest("div");
+		expect(emptyState).toBeTruthy();
+		expect(emptyState?.getAttribute("data-slot")).toBeNull();
+		expect(emptyState?.className).toContain("gap-1");
+		expect(emptyState?.className).toContain("py-10");
+		const expiredRow = screen.getByText("Expired player event").closest("li");
+		expect(expiredRow).toBeTruthy();
+		expect(emptyState?.nextElementSibling?.querySelectorAll("li")).toContain(
+			expiredRow,
+		);
+		expect(emptyState?.nextElementSibling?.firstElementChild).toBe(
+			screen.getByTestId("checklist-completed-divider"),
+		);
+	});
+
+	it.each([
+		["Permanent", "Fixture Monster Race"],
+		["Custom", "Completed custom task"],
+	])("shows the history-only state for the %s tab", (tab, itemTitle) => {
+		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showCompleted: true,
+				showFullyCompleted: true,
+				showExpired: true,
+			},
+			checklistTasks:
+				tab === "Custom"
+					? {
+							custom: {
+								id: "custom",
+								title: itemTitle,
+								kind: "custom",
+								source: "user",
+								startAt: "2026-07-20T00:00:00.000Z",
+								recurrence: "none",
+								scheduleVersion: 1,
+							},
+						}
+					: {},
+		});
+
+		const permanentCompletions = {
+			"fixture-rift:2026-07-27T00:00:00.000Z": Date.now(),
+			"fixture-monster-race:2026-07-20T00:00:00.000Z": Date.now(),
+			"fixture-conquest-weekly:2026-07-27T00:00:00.000Z": Date.now(),
+			"fixture-conquest:2026-07-27T00:00:00.000Z": Date.now(),
+			"fixture-dispatch:2026-07-27T00:00:00.000Z": Date.now(),
+			"fixture-request-board:2026-07-27T00:00:00.000Z": Date.now(),
+		};
+		useAppStore.setState({
+			checklistCompletions:
+				tab === "Permanent"
+					? permanentCompletions
+					: tab === "Custom"
+						? { "custom:v1:2026-07-20T00:00:00.000Z": Date.now() }
+						: {},
+		});
+		render(<ChecklistPage />);
+		fireEvent.click(screen.getByRole("button", { name: tab }));
+		expect(screen.getByText("No ongoing or upcoming items.")).toBeTruthy();
+		const historyRow = screen.getByText(itemTitle).closest("li");
+		expect(historyRow).toBeTruthy();
+		expect(
+			screen
+				.getByTestId("checklist-completed-divider")
+				.compareDocumentPosition(historyRow as Node) &
+				Node.DOCUMENT_POSITION_FOLLOWING,
+		).toBeTruthy();
+	});
+
+	it("uses Nothing to show here when history is hidden and no rows are visible", () => {
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-08-29T00:00:00.000Z"));
+		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showCompleted: false,
+				showFullyCompleted: false,
+				showExpired: false,
+				categories: {
+					...defaultChecklistPreferences.categories,
+					event: true,
+					permanent: false,
+					custom: false,
+				},
+			},
+			checklistTasks: {
+				expired: {
+					id: "expired",
+					title: "Hidden expired event",
+					kind: "event",
+					source: "user",
+					startAt: "2026-07-20T00:00:00.000Z",
+					endAt: "2026-07-21T00:00:00.000Z",
+					recurrence: "none",
+					scheduleVersion: 1,
+				},
+			},
+		});
+
+		render(<ChecklistPage />);
+		expect(screen.getByText("Nothing to show here")).toBeTruthy();
+		expect(screen.queryByText("No ongoing or upcoming items.")).toBeNull();
+	});
+
+	it("shows the history-only state for the All tab", () => {
+		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showCompleted: true,
+				showFullyCompleted: true,
+				showExpired: true,
+				categories: {
+					...defaultChecklistPreferences.categories,
+					event: false,
+					permanent: false,
+				},
+			},
+			checklistTasks: {
+				completed: {
+					id: "completed-all",
+					title: "Completed All item",
+					kind: "custom",
+					source: "user",
+					startAt: "2026-07-20T00:00:00.000Z",
+					recurrence: "none",
+					scheduleVersion: 1,
+				},
+			},
+		});
+		useAppStore.setState({
+			checklistCompletions: {
+				"completed-all:v1:2026-07-20T00:00:00.000Z": Date.now(),
+			},
+		});
+
+		render(<ChecklistPage />);
+		expect(screen.getByText("No ongoing or upcoming items.")).toBeTruthy();
+		const historyRow = screen.getByText("Completed All item").closest("li");
+		expect(historyRow).toBeTruthy();
+		expect(
+			screen
+				.getByTestId("checklist-completed-divider")
+				.compareDocumentPosition(historyRow as Node) &
+				Node.DOCUMENT_POSITION_FOLLOWING,
+		).toBeTruthy();
+	});
+
+	it("keeps the generic state hidden when the current category is disabled", () => {
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-08-29T00:00:00.000Z"));
+		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				categories: { ...defaultChecklistPreferences.categories, event: false },
+			},
+		});
+
+		render(<ChecklistPage />);
+		expect(screen.queryByText("No ongoing or upcoming items.")).toBeNull();
 	});
 
 	it("defaults new items to UTC midnight and shows inline validation", async () => {

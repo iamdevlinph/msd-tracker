@@ -8,7 +8,6 @@ import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
 
 type ChecklistListProps = {
 	items: ChecklistViewItem[];
-	showCompleted: boolean;
 	now: number;
 	onComplete: (key: string) => void;
 	onUndo: (key: string) => void;
@@ -19,16 +18,11 @@ type ChecklistListProps = {
 	onEditPermanentNote: (definition: ChecklistDefinition) => void;
 };
 
-export const ChecklistList = ({
-	items,
-	showCompleted,
-	...props
-}: ChecklistListProps) => {
+export const ChecklistList = ({ items, ...props }: ChecklistListProps) => {
 	const completedIndex = items.findIndex((item) =>
 		isChecklistCompletedSectionStatus(item.status),
 	);
-	const showDivider =
-		showCompleted && completedIndex > 0 && completedIndex < items.length;
+	const showDivider = completedIndex >= 0;
 	return (
 		<ul aria-label="Checklist items" className="grid gap-2">
 			{items.map((item, index) => (
