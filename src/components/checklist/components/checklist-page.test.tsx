@@ -475,7 +475,10 @@ describe("ChecklistPage", () => {
 		expect(
 			screen.getByRole("button", { name: "All" }).getAttribute("aria-pressed"),
 		).toBe("true");
-		expect(screen.getByText("Nothing to show here")).toBeTruthy();
+		expect(screen.getByText("No ongoing or upcoming items.")).toBeTruthy();
+		expect(
+			screen.getByText("Check back later for new schedules."),
+		).toBeTruthy();
 	});
 
 	it("persists fully completed visibility from settings", () => {
@@ -893,7 +896,7 @@ describe("ChecklistPage", () => {
 		).toBeTruthy();
 	});
 
-	it("uses Nothing to show here when history is hidden and no rows are visible", () => {
+	it("uses the collection empty state when history is hidden", () => {
 		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-08-29T00:00:00.000Z"));
 		useAppStore.setState({
 			checklistPreferences: {
@@ -923,8 +926,10 @@ describe("ChecklistPage", () => {
 		});
 
 		render(<ChecklistPage />);
-		expect(screen.getByText("Nothing to show here")).toBeTruthy();
-		expect(screen.queryByText("No ongoing or upcoming items.")).toBeNull();
+		expect(screen.getByText("No ongoing or upcoming items.")).toBeTruthy();
+		expect(
+			screen.getByText("Check back later for new schedules."),
+		).toBeTruthy();
 	});
 
 	it("shows the history-only state for the All tab", () => {

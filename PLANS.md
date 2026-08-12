@@ -121,7 +121,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Group expired checklist items in the completed section while preserving their expired styling and visibility preference.
 - [x] Independently control ordinary and fully completed checklist visibility, with legacy local and Drive preferences defaulting to visible.
 - [x] Expose the Checklist navigation item after the feature is release-ready.
-- [x] Use the shared compact collection empty state titled “No ongoing or upcoming items.” when computed rows are only completed or expired, independent of history visibility preferences, and show a visible “Completed” separator before retained completed or expired history.
+- [x] Use the shared compact collection empty state titled “No ongoing or upcoming items.” for retained-history-only, hidden-history, and disabled-category empty results, and show a visible “Completed” separator before retained completed or expired history.
 
 ## Chunk 2: Artifacts Inventory
 

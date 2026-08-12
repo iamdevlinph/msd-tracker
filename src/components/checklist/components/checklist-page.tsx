@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { ChecklistDeleteDialog } from "@/components/checklist/components/checklist-delete-dialog";
-import { ChecklistEmptyState } from "@/components/checklist/components/checklist-empty-state";
 import { ChecklistList } from "@/components/checklist/components/checklist-list";
 import { ChecklistPermanentNotesDialog } from "@/components/checklist/components/checklist-permanent-notes-dialog";
 import { ChecklistSettingsDialog } from "@/components/checklist/components/checklist-settings-dialog";
@@ -133,7 +132,10 @@ export const ChecklistPage = () => {
 					</>
 				)}
 				{isHydrated && now !== null && visible.length === 0 && (
-					<ChecklistEmptyState tab={tab} onAdd={openAddTask} />
+					<CollectionEmptyState
+						title="No ongoing or upcoming items."
+						description="Check back later for new schedules."
+					/>
 				)}
 			</div>
 			{taskDialogOpen && (
