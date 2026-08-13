@@ -20,6 +20,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Show the shared Link Chain badge in the Monsterling form preview for eligible species without mutating shared levels.
 - [x] Group Monster Codex and Link Chains under a Monsterlings navigation section after Inventory.
 - [x] Open accessible Monster Codex detail dialogs from cards with mutation-first navigation and source-only fallback, show published abilities and dialog-contained, independently scrollable, drag-to-pan reverse-hierarchy mutation trees with occurrence-based shared-ingredient duplication, automatically framed selected recipes, subtree centering, final mutations above their paired ingredients, straight connectors, and stacked navigation, use full-width source accordions with capture-only location placeholders, hide unavailable mutation tabs, and filter by multiple source categories with OR semantics.
+- [x] Show a detached close-all control for stacked Monster Codex dialogs while keeping X and Escape navigation level-aware.
 
 ## Loadouts: Available
 

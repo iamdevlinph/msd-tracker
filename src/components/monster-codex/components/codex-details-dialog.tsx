@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { MutationFamilyTree } from "@/components/monster-codex/components/mutation-family-tree";
 import { getMonsterlingMutationFamily } from "@/components/monster-codex/utils/mutation-family";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -105,6 +106,11 @@ export const CodexDetailsDialog = ({
 		});
 	};
 
+	const handleCloseAll = () => {
+		setStack([]);
+		onClose();
+	};
+
 	const handleOpenMonsterling = (nextMonsterlingId: number) => {
 		if (nextMonsterlingId === frame?.monsterlingId) return;
 		setStack((current) => {
@@ -139,96 +145,108 @@ export const CodexDetailsDialog = ({
 				if (!isOpen) handleCloseOne();
 			}}
 		>
-			<DialogContent className="max-h-[calc(100dvh-2rem)] min-w-0 overflow-x-hidden overflow-y-auto sm:max-w-4xl">
-				{monsterling && frame && family && (
-					<>
-						<DialogHeader className="pr-8">
-							<div className="flex items-center gap-3 text-left">
-								<img
-									src={monsterling.image}
-									alt=""
-									width="64"
-									height="64"
-									className="size-16 object-contain drop-shadow-lg"
-								/>
-								<div>
-									<DialogTitle>{monsterling.name}</DialogTitle>
-									<DialogDescription>
-										No. {monsterling.display_id ?? monsterling.id}
-									</DialogDescription>
+			<DialogContent className="grid max-h-[calc(100dvh-2rem)] min-w-0 grid-rows-[minmax(0,1fr)_auto] gap-2 overflow-x-hidden border-0 bg-transparent p-0 shadow-none sm:max-w-4xl">
+				<div className="grid min-h-0 gap-4 overflow-x-hidden overflow-y-auto rounded-lg border bg-background p-6 shadow-lg">
+					{monsterling && frame && family && (
+						<>
+							<DialogHeader className="pr-8">
+								<div className="flex items-center gap-3 text-left">
+									<img
+										src={monsterling.image}
+										alt=""
+										width="64"
+										height="64"
+										className="size-16 object-contain drop-shadow-lg"
+									/>
+									<div>
+										<DialogTitle>{monsterling.name}</DialogTitle>
+										<DialogDescription>
+											No. {monsterling.display_id ?? monsterling.id}
+										</DialogDescription>
+									</div>
 								</div>
+							</DialogHeader>
+							<div className="rounded-lg border bg-muted/30 px-3 py-2 text-sm">
+								<p className="font-medium">Ability</p>
+								<p className="mt-1 text-muted-foreground">
+									{monsterling.ability || "No published ability available."}
+								</p>
 							</div>
-						</DialogHeader>
-						<div className="rounded-lg border bg-muted/30 px-3 py-2 text-sm">
-							<p className="font-medium">Ability</p>
-							<p className="mt-1 text-muted-foreground">
-								{monsterling.ability || "No published ability available."}
-							</p>
-						</div>
 
-						<Tabs
-							className="min-w-0 w-full"
-							value={hasMutation ? frame.tab : "source"}
-							onValueChange={handleTabChange}
-						>
-							<TabsList
-								className={
-									hasMutation
-										? "grid w-full grid-cols-2"
-										: "grid w-full grid-cols-1"
-								}
+							<Tabs
+								className="min-w-0 w-full"
+								value={hasMutation ? frame.tab : "source"}
+								onValueChange={handleTabChange}
 							>
-								<TabsTrigger value="source">Source</TabsTrigger>
-								{hasMutation && (
-									<TabsTrigger
-										value="mutation"
-										onClick={() => handleTabChange("mutation")}
-									>
-										Mutation Combination
-									</TabsTrigger>
-								)}
-							</TabsList>
-							<TabsContent value="source" className="min-w-0 pt-3">
-								<div className="grid w-full gap-2">
-									{monsterling.source_id.map((sourceId) => (
-										<details
-											key={sourceId}
-											className="rounded-lg border bg-card text-sm"
-										>
-											<summary className="cursor-pointer px-3 py-2 font-medium">
-												{MONSTERLINGS_SOURCE_DATA[sourceId].label}
-											</summary>
-											{sourceId === SOURCE_ID_BY_SOURCE.CAPTURE && (
-												<div className="border-t px-3 py-2 text-muted-foreground">
-													Locations coming soon.
-												</div>
-											)}
-										</details>
-									))}
-								</div>
-							</TabsContent>
-							{hasMutation && (
-								<TabsContent
-									value="mutation"
-									className="min-w-0 max-w-full overflow-hidden pt-3"
+								<TabsList
+									className={
+										hasMutation
+											? "grid w-full grid-cols-2"
+											: "grid w-full grid-cols-1"
+									}
 								>
-									{family.recipes.length === 0 ? (
-										<p className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
-											No known mutation combinations for this Monsterling.
-										</p>
-									) : (
-										<MutationFamilyTree
-											family={family}
-											selectedMonsterlingId={frame.monsterlingId}
-											shouldAutoFrame={frame.scrollLeft === null}
-											onSelectMonsterling={handleOpenMonsterling}
-											scrollContainerRef={mutationScrollRef}
-										/>
+									<TabsTrigger value="source">Source</TabsTrigger>
+									{hasMutation && (
+										<TabsTrigger
+											value="mutation"
+											onClick={() => handleTabChange("mutation")}
+										>
+											Mutation Combination
+										</TabsTrigger>
 									)}
+								</TabsList>
+								<TabsContent value="source" className="min-w-0 pt-3">
+									<div className="grid w-full gap-2">
+										{monsterling.source_id.map((sourceId) => (
+											<details
+												key={sourceId}
+												className="rounded-lg border bg-card text-sm"
+											>
+												<summary className="cursor-pointer px-3 py-2 font-medium">
+													{MONSTERLINGS_SOURCE_DATA[sourceId].label}
+												</summary>
+												{sourceId === SOURCE_ID_BY_SOURCE.CAPTURE && (
+													<div className="border-t px-3 py-2 text-muted-foreground">
+														Locations coming soon.
+													</div>
+												)}
+											</details>
+										))}
+									</div>
 								</TabsContent>
-							)}
-						</Tabs>
-					</>
+								{hasMutation && (
+									<TabsContent
+										value="mutation"
+										className="min-w-0 max-w-full overflow-hidden pt-3"
+									>
+										{family.recipes.length === 0 ? (
+											<p className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
+												No known mutation combinations for this Monsterling.
+											</p>
+										) : (
+											<MutationFamilyTree
+												family={family}
+												selectedMonsterlingId={frame.monsterlingId}
+												shouldAutoFrame={frame.scrollLeft === null}
+												onSelectMonsterling={handleOpenMonsterling}
+												scrollContainerRef={mutationScrollRef}
+											/>
+										)}
+									</TabsContent>
+								)}
+							</Tabs>
+						</>
+					)}
+				</div>
+				{stack.length > 1 && (
+					<Button
+						type="button"
+						variant="outline"
+						className="justify-self-center bg-background/70 backdrop-blur-sm"
+						onClick={handleCloseAll}
+					>
+						Close all modals
+					</Button>
 				)}
 			</DialogContent>
 		</Dialog>

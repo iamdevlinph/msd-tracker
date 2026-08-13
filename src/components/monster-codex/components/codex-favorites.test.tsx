@@ -281,6 +281,29 @@ describe("monster codex favorites", () => {
 		});
 	});
 
+	it("closes the complete mutation-node dialog stack", () => {
+		render(<CodexList />);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: `View ${favorite.name} details` }),
+		);
+		expect(
+			screen.queryByRole("button", { name: "Close all modals" }),
+		).toBeNull();
+
+		fireEvent.click(screen.getByRole("button", { name: other.name }));
+		fireEvent.keyDown(document, { key: "Escape" });
+		expect(screen.getByRole("heading", { name: favorite.name })).toBeTruthy();
+		expect(
+			screen.queryByRole("button", { name: "Close all modals" }),
+		).toBeNull();
+
+		fireEvent.click(screen.getByRole("button", { name: other.name }));
+		fireEvent.click(screen.getByRole("button", { name: "Close all modals" }));
+
+		expect(screen.queryByRole("dialog")).toBeNull();
+	});
+
 	it("falls back to Source when a Monsterling has no mutation family", () => {
 		render(<CodexList />);
 
