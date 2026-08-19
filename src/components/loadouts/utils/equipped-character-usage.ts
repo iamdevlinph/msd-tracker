@@ -1,3 +1,7 @@
+import {
+	type CharacterOwnedCostume,
+	resolveCharacterPortrait,
+} from "@/components/characters/utils/character-costume";
 import type { Character, CharId } from "@/data/characters/CHARACTERS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
@@ -15,6 +19,7 @@ export type EquippedCharacterUsage = {
 export type EquippedCharacterInventory = {
 	monsterlingInstanceIds?: Iterable<string>;
 	artifactInstanceIds?: Iterable<string>;
+	charactersOwned?: Record<number, CharacterOwnedCostume>;
 };
 
 type EquippedCharacterSlot = Pick<
@@ -67,7 +72,10 @@ export const getEquippedCharacterUsage = (
 			const resolved = {
 				id: character.id,
 				name: character.name,
-				portraitImage: character.portraitImage,
+				portraitImage: resolveCharacterPortrait(
+					character,
+					inventory.charactersOwned?.[characterId],
+				),
 				...(character.variant ? { variant: character.variant } : {}),
 			} satisfies EquippedCharacter;
 			const monsterlingIds = [

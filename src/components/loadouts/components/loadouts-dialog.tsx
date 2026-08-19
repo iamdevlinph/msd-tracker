@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { preventSearchInputDismissOnEscape } from "@/components/ui/search-input";
 import { cn } from "@/lib/utils";
+import { useAppStore } from "@/stores/app-store";
 
 type LoadoutsDialogProps = {
 	open: boolean;
@@ -38,6 +39,7 @@ export const LoadoutsDialog = ({
 		setOpen,
 		onClose,
 	);
+	const charactersOwned = useAppStore((state) => state.charactersOwned);
 	const title =
 		controller.pickerTarget?.type === LOADOUT_TARGET_TYPES.CHARACTER
 			? "Select Character"
@@ -157,6 +159,7 @@ export const LoadoutsDialog = ({
 							draft={controller.draft}
 							activeTab={controller.activeTab}
 							monsterlingsOwned={controller.monsterlingsOwned}
+							charactersOwned={charactersOwned}
 							artifactsOwned={controller.artifactsOwned}
 							onNameChange={controller.setName}
 							onNotesChange={controller.setNotes}

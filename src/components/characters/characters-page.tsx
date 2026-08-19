@@ -4,6 +4,7 @@ import { CharacterFilter } from "@/components/characters/components/character-fi
 import { CharacterOwnedList } from "@/components/characters/components/character-owned-list";
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
+import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { PageTitle } from "@/components/shared/page-title";
@@ -58,7 +59,10 @@ export const CharactersPage = () => {
 							<CharacterCard
 								portraitSize={130}
 								iconSize={30}
-								portraitImage={character.info.portraitImage}
+								portraitImage={resolveCharacterPortrait(
+									character.info,
+									character,
+								)}
 								name={character.info.name}
 								element_id={character.info.element_id}
 								class_id={character.info.class_id}

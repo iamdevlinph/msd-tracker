@@ -15,7 +15,12 @@ const character = (id: number, name: string, variant?: "Summer Dive!") => ({
 describe("getEquippedCharacterUsage", () => {
 	it("matches exact regular, legendary, and artifact owned instances", () => {
 		const characters = {
-			1: character(1, "Zoe"),
+			1: {
+				...character(1, "Zoe"),
+				costumes: [
+					{ id: 1, name: "Costume 1", portraitImage: "/costume.webp" },
+				],
+			},
 			2: character(2, "Angel"),
 		};
 		const usage = getEquippedCharacterUsage(
@@ -41,6 +46,7 @@ describe("getEquippedCharacterUsage", () => {
 			{
 				monsterlingInstanceIds: ["regular", "legendary", "unused"],
 				artifactInstanceIds: ["artifact-a", "artifact-b"],
+				charactersOwned: { 1: { costume_id: 1 } },
 			},
 		);
 
@@ -49,6 +55,9 @@ describe("getEquippedCharacterUsage", () => {
 		expect(usage.monsterlings.unused.map(({ id }) => id)).toEqual([1]);
 		expect(usage.artifacts["artifact-a"].map(({ id }) => id)).toEqual([1]);
 		expect(usage.artifacts["artifact-b"].map(({ id }) => id)).toEqual([2]);
+		expect(usage.artifacts["artifact-a"][0].portraitImage).toBe(
+			"/costume.webp",
+		);
 	});
 
 	it("deduplicates by character ID, sorts display names, and ignores bad references", () => {

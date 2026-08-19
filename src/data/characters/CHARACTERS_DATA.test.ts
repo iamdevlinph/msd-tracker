@@ -60,6 +60,20 @@ describe("CHARACTERS_DATA", () => {
 			expect(existsSync(resolve("public", character.fullImage.slice(1)))).toBe(
 				true,
 			);
+			for (const costume of character.costumes ?? []) {
+				expect(costume.name).toMatch(/^Costume \d+$/);
+				expect(costume.portraitImage).toMatch(/^\/images\/.+\.webp$/);
+				expect(
+					existsSync(resolve("public", costume.portraitImage.slice(1))),
+				).toBe(true);
+			}
 		}
+		const costumes = characters.flatMap(({ costumes = [] }) => costumes);
+		expect(
+			new Set(costumes.map(({ portraitImage }) => portraitImage)).size,
+		).toBe(costumes.length);
+		expect(CHARACTERS_DATA[3].costumes?.[0]?.is_hidden).toBe(true);
+		expect(CHARACTERS_DATA[7].costumes?.[0]?.is_hidden).toBeUndefined();
+		expect(CHARACTERS_DATA[9].costumes?.[0]?.is_hidden).toBeUndefined();
 	});
 });

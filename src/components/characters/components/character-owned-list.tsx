@@ -6,6 +6,7 @@ import {
 	CHARACTER_SORTS,
 	type CharacterFilters,
 } from "@/components/characters/store/characters-filter-store";
+import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
@@ -78,7 +79,10 @@ export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 									key={charOwned.id}
 									portraitSize={130}
 									iconSize={30}
-									portraitImage={charOwned.info.portraitImage}
+									portraitImage={resolveCharacterPortrait(
+										charOwned.info,
+										charOwned,
+									)}
 									name={charOwned.info.name}
 									element_id={charOwned.info.element_id}
 									class_id={charOwned.info.class_id}

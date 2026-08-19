@@ -1,4 +1,5 @@
 import { isArtifactVisible } from "@/components/artifacts/utils/artifact-utils";
+import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -28,6 +29,7 @@ type LoadoutEditorProps = {
 	draft: Omit<LoadoutOwned, "id">;
 	activeTab: string;
 	monsterlingsOwned: StoreState["monsterlingsOwned"];
+	charactersOwned: StoreState["charactersOwned"];
 	artifactsOwned: StoreState["artifactsOwned"];
 	onNameChange: (name: string) => void;
 	onNotesChange: (notes: string) => void;
@@ -53,6 +55,7 @@ export const LoadoutEditor = ({
 	draft,
 	activeTab,
 	monsterlingsOwned,
+	charactersOwned,
 	artifactsOwned,
 	onNameChange,
 	onNotesChange,
@@ -103,7 +106,13 @@ export const LoadoutEditor = ({
 						>
 							<img
 								src={
-									character?.portraitImage ?? UNKNOWN_CHARACTER_PORTRAIT_IMAGE
+									(character && charactersOwned[character.id]
+										? resolveCharacterPortrait(
+												character,
+												charactersOwned[character.id],
+											)
+										: character?.portraitImage) ??
+									UNKNOWN_CHARACTER_PORTRAIT_IMAGE
 								}
 								alt=""
 								className="size-10 shrink-0 rounded-sm object-cover"

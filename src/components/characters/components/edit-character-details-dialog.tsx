@@ -1,5 +1,6 @@
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
+import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { ConfirmDeleteButton } from "@/components/shared/confirm-delete-button";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import {
@@ -59,7 +60,10 @@ export const EditCharacterDetailsDialog = (
 								aria-hidden="true"
 							>
 								<TierPortrait
-									portraitImg={charInfo.portraitImage}
+									portraitImg={resolveCharacterPortrait(
+										charInfo,
+										charToEditInfo,
+									)}
 									portraitSize={50}
 									tier={charInfo.tier_id}
 									name={charInfo.name}

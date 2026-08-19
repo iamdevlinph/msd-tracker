@@ -11,6 +11,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Show owned/total roster progress and disable additions when every character is owned.
 - [x] Highlight max-level skills in green so awakening styling never obscures a stored level 12.
 - [x] Place Characters first in the Inventory navigation section.
+- [x] Add portrait-selectable Mina, Jiwon, and Ophelia costumes with hidden-catalog development navigation details.
 
 ## Monsterlings: Available
 
