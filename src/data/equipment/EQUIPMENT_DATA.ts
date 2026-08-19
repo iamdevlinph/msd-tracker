@@ -1,4 +1,5 @@
-import { TIER_ID_BY_TIER, type TierId } from "@/data/tiers/TIERS_DATA";
+import type { EquipmentSetName } from "@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA";
+import type { TierId } from "@/data/tiers/TIERS_DATA";
 
 export const EQUIPMENT_PART_TYPES = [
 	"headgear",
@@ -8,415 +9,814 @@ export const EQUIPMENT_PART_TYPES = [
 ] as const;
 export type EquipmentPartType = (typeof EQUIPMENT_PART_TYPES)[number];
 export type EquipmentId = number;
-export type EquipmentSetEffect = { pieces: 2 | 4; effect: string };
 export type Equipment = {
 	id: EquipmentId;
 	name: string;
 	image: string;
 	tier_id: TierId;
 	part_type: EquipmentPartType;
-	set_name: string;
-	set_effects: readonly EquipmentSetEffect[];
+	set_name: EquipmentSetName;
 };
 
-type EquipmentPiece = readonly [
-	id: EquipmentId,
-	name: string,
-	part_type: EquipmentPartType,
-	image: string,
-];
-type EquipmentSet = {
-	set_name: string;
-	tier_id: TierId;
-	set_effects: readonly EquipmentSetEffect[];
-	pieces: readonly EquipmentPiece[];
-};
-
-const choice = (
-	set_name: string,
-	set_effects: EquipmentSet["set_effects"],
-	pieces: EquipmentSet["pieces"],
-): EquipmentSet => ({
-	set_name,
-	tier_id: TIER_ID_BY_TIER.CHOICE_4,
-	set_effects,
-	pieces,
-});
-const prime = (
-	firstId: EquipmentId,
-	set_name: string,
-	set_effects: EquipmentSet["set_effects"],
-	file: string,
-	names: readonly [string, string, string, string],
-	fileSuffix = "",
-): EquipmentSet => ({
-	set_name,
-	tier_id: TIER_ID_BY_TIER.PRIME_5,
-	set_effects,
-	pieces: EQUIPMENT_PART_TYPES.map((part_type, index) => [
-		firstId + index,
-		names[index],
-		part_type,
-		`${file}_${["H", "C", "G", "S"][index]}${fileSuffix}`,
-	]),
-});
-
-const EQUIPMENT_SETS = [
-	choice(
-		"Glutton's Visage",
-		[{ pieces: 2, effect: "Basic Attack DMG +3% upon using a Fire attack." }],
-		[
-			[1, "Glutton's Hat", "headgear", "EQUIP_HAT_005"],
-			[2, "Glutton's Apron", "chestpiece", "EQUIP_COAT_004"],
-		],
-	),
-	choice(
-		"Sticky Gorger",
-		[{ pieces: 2, effect: "ATK +3%" }],
-		[
-			[3, "Gooey Gloves", "gloves", "EQUIP_SET_002_G"],
-			[4, "Gooey Shoes", "footwear", "EQUIP_SET_002_S"],
-		],
-	),
-	choice(
-		"Green Nightmare",
-		[
-			{ pieces: 2, effect: "Ice DMG +3% for 2s upon using a Basic Attack." },
-			{
-				pieces: 4,
-				effect:
-					"Crit DMG +3% for 5s upon using a Switch Skill on an enemy with Ice Affliction.",
-			},
-		],
-		[
-			[5, "Green Nightmare Helm", "headgear", "EQUIP_SET_009_H"],
-			[6, "Green Nightmare Armor", "chestpiece", "EQUIP_SET_009_C"],
-			[7, "Green Nightmare Gauntlets", "gloves", "EQUIP_SET_009_G"],
-			[8, "Green Nightmare Boots", "footwear", "EQUIP_SET_009_S"],
-		],
-	),
-	choice(
-		"Frenzied White Wolf",
-		[
-			{
-				pieces: 2,
-				effect: "Teammates' DEF +3% for 5s upon using a Support Skill.",
-			},
-			{
-				pieces: 4,
-				effect:
-					"Target's Elemental Weakness DMG taken +2% for 5s upon attacking an enemy with Earth Affliction.",
-			},
-		],
-		[
-			[9, "Frenzied Wolf's Mask", "headgear", "EQUIP_SET_010_H"],
-			[10, "Frenzied Wolf's Restraints", "chestpiece", "EQUIP_COAT_04"],
-			[11, "Frenzied Wolf's Claws", "gloves", "EQUIP_SET_010_G"],
-			[12, "Frenzied Wolf's Sprinters", "footwear", "EQUIP_SET_010_S"],
-		],
-	),
-	choice(
-		"Stone Heart",
-		[{ pieces: 2, effect: "DEF +3%" }],
-		[
-			[13, "Stone Mask", "headgear", "EQUIP_HAT_010"],
-			[14, "Stone Sandals", "footwear", "EQUIP_SHOES_009"],
-		],
-	),
-	choice(
-		"Mountain Peak Majesty",
-		[
-			{
-				pieces: 2,
-				effect: "Target's Fire RES -3% for 5s upon landing a Tag-out Skill.",
-			},
-			{
-				pieces: 4,
-				effect: "Fire DMG +5% upon attacking an enemy with Fire Affliction.",
-			},
-		],
-		[
-			[15, "Mountain Peak Helm", "headgear", "EQUIP_HAT_009"],
-			[16, "Mountain Peak Iron Armor", "chestpiece", "EQUIP_COAT_008"],
-			[17, "Mountain Peak Gloves", "gloves", "EQUIP_GLOVES_009"],
-			[18, "Mountain Peak Marching Boots", "footwear", "EQUIP_SHOES_008"],
-		],
-	),
-	choice(
-		"Ice Heart",
-		[{ pieces: 2, effect: "Lightning Attack Neutralization DMG +3%" }],
-		[
-			[19, "Frozen Crown", "headgear", "EQUIP_HAT_012"],
-			[20, "Touch of Frost", "gloves", "EQUIP_GLOVES_017"],
-		],
-	),
-	choice(
-		"Assault Squad Leader",
-		[{ pieces: 2, effect: "ATK +5% for 5s upon using a Support Skill." }],
-		[
-			[21, "Assault Squad Buff Coat", "chestpiece", "EQUIP_COAT_012"],
-			[22, "Assault Squad Leather Boots", "footwear", "EQUIP_SHOES_011"],
-		],
-	),
-	choice(
-		"Devourer Stance",
-		[
-			{
-				pieces: 2,
-				effect: "Wind DMG +5% upon attacking an enemy with Wind Affliction.",
-			},
-			{
-				pieces: 4,
-				effect:
-					"Teammates' Crit Rate +3% for 5s upon using a Support Skill. Crit DMG +10% for 5s upon using a Tag-out Skill.",
-			},
-		],
-		[
-			[23, "Devourer's Hat", "headgear", "EQUIP_HAT_013"],
-			[24, "Devourer's Apron", "chestpiece", "EQUIP_COAT_011"],
-			[25, "Devourer's Gloves", "gloves", "EQUIP_GLOVES_013"],
-			[26, "Devourer's Sandals", "footwear", "EQUIP_SHOES_010"],
-		],
-	),
-	choice(
-		"Military Officer's Courtesy",
-		[
-			{
-				pieces: 2,
-				effect:
-					"Earth DMG +3% upon landing a critical hit with an Earth attack.",
-			},
-		],
-		[
-			[27, "Gilded Armguards", "gloves", "EQUIP_GLOVES_015"],
-			[28, "Gilded Greaves", "footwear", "EQUIP_SHOES_01"],
-		],
-	),
-	choice(
-		"Mystical Jade Odong",
-		[{ pieces: 2, effect: "Max HP +3%" }],
-		[
-			[29, "Jade Odong Hat", "headgear", "EQUIP_HAT_015"],
-			[30, "Jade Odong Brigandine", "chestpiece", "EQUIP_COAT_015"],
-		],
-	),
-	choice(
-		"Moonshadow",
-		[
-			{
-				pieces: 2,
-				effect: "Crit DMG +5% upon attacking an enemy with Fire Affliction.",
-			},
-			{ pieces: 4, effect: "Fire DMG +5% for 5s when a minion is summoned." },
-		],
-		[
-			[31, "Eunwol's Antlers", "headgear", "EQUIP_HAT_017"],
-			[32, "Moonlight Clothes", "chestpiece", "EQUIP_COAT_017"],
-			[33, "Sage's Touch", "gloves", "EQUIP_GLOVES_014"],
-			[34, "Shadow Hooves", "footwear", "EQUIP_SHOES_017"],
-		],
-	),
-	choice(
-		"Onsae's Dance",
-		[
-			{
-				pieces: 2,
-				effect: "Crit Rate +5% for 5s upon triggering a Perfect Dodge.",
-			},
-		],
-		[
-			[35, "Mad Fox's Fur Gloves", "gloves", "EQUIP_GLOVES_012"],
-			[36, "Mad Fox's Paws", "footwear", "EQUIP_SHOES_03"],
-		],
-	),
-	choice(
-		"Gisaeng's Glow Up",
-		[{ pieces: 2, effect: "Ice DMG +5% for 5s upon using a Special Skill." }],
-		[
-			[37, "Gisaeng's Glow Up Headgear", "headgear", "EQUIP_SET_CHEAH_H_001"],
-			[38, "Gisaeng's Glow Up Footwear", "footwear", "EQUIP_SET_CHEAH_S_001"],
-		],
-	),
-	prime(
-		39,
-		"Arbiter",
-		[
-			{ pieces: 2, effect: "Ice DMG +10% for 5s upon using a Switch Skill." },
-			{
-				pieces: 4,
-				effect:
-					"Ice DMG +10% for 5s upon attacking an enemy with Ice Affliction.",
-			},
-		],
-		"EQUIP_SET_102",
-		[
-			"Warden Helmet",
-			"Arbiter of Nature",
-			"Magic Vine Gloves",
-			"Root's Footprints",
-		],
-	),
-	prime(
-		43,
-		"Abyss",
-		[
-			{ pieces: 2, effect: "Wind DMG +10% for 5s upon using a Special Skill." },
-			{
-				pieces: 4,
-				effect: "Wind DMG +10% for 5s upon landing a critical hit.",
-			},
-		],
-		"EQUIP_SET_103",
-		[
-			"Corrupted Soul Helmet",
-			"Ominous Sculpture",
-			"Abyssal Touch",
-			"Lord of the Void's Greaves",
-		],
-	),
-	prime(
-		47,
-		"Spirit King",
-		[
-			{
-				pieces: 2,
-				effect: "Lightning DMG +8% for 3s upon using a Basic Attack.",
-			},
-			{
-				pieces: 4,
-				effect:
-					"Lightning DMG +10% upon attacking an enemy with Lightning Affliction.",
-			},
-		],
-		"EQUIP_SET_101",
-		[
-			"Spirit King's Coronet",
-			"Spirit Barrier",
-			"Sacred Grasp",
-			"Spirit Rock Boots",
-		],
-	),
-	prime(
-		51,
-		"West Wind",
-		[
-			{ pieces: 2, effect: "Earth DMG +8% for 3s upon using a Basic Attack." },
-			{
-				pieces: 4,
-				effect:
-					"Earth DMG +10% for 5s upon using a Switch Skill on an enemy with Earth Affliction.",
-			},
-		],
-		"EQUIP_SET_104",
-		[
-			"Eerie Horned Helmet",
-			"Avenger's Prayer Beads",
-			"Avenger's Gauntlet",
-			"Breeze Walkers",
-		],
-	),
-	prime(
-		55,
-		"Hahnul's Roar",
-		[
-			{
-				pieces: 2,
-				effect: "Fire DMG +10% for 5s upon using an Ultimate Skill.",
-			},
-			{
-				pieces: 4,
-				effect: "Crit DMG +10% upon attacking an enemy with Fire Affliction.",
-			},
-		],
-		"EQUIP_SET_105",
-		[
-			"Fierce Tiger's Valor",
-			"Tiger Leather Armor",
-			"Beast Claws",
-			"Beastly Footprints",
-		],
-	),
-	prime(
-		59,
-		"Swamp Lord",
-		[
-			{
-				pieces: 2,
-				effect: "Teammates' Ice DMG +5% for 5s upon granting a Shield.",
-			},
-			{
-				pieces: 4,
-				effect:
-					"Elemental Weakness DMG taken by target +10% for 5s upon attacking an enemy inflicted with Ice Affliction and Stagger.",
-			},
-		],
-		"EQUIP_SET_WETLANDMASTER",
-		[
-			"Swamp Lord Headgear",
-			"Swamp Lord Chestpiece",
-			"Swamp Lord Gloves",
-			"Swamp Lord Footwear",
-		],
-		"_001",
-	),
-] as const satisfies readonly EquipmentSet[];
-
-const equipment = EQUIPMENT_SETS.flatMap((set) =>
-	set.pieces.map(([id, name, part_type, image]) => ({
-		id,
-		name,
-		part_type,
-		image: `/images/Equipment/${image}.webp`,
-		tier_id: set.tier_id,
-		set_name: set.set_name,
-		set_effects: set.set_effects,
-	})),
-);
-
-const PRIME_VARIANT_EFFECT = {
-	pieces: 2,
-	effect: "Effect details pending.",
-} as const;
-const PRIME_VARIANTS = [
-	[63, "Gourmand's Grand Banquet", [1, 2]],
-	[65, "Devourer of the Abyss", [3, 4]],
-	[67, "Forest Tyrant", [5, 6, 7, 8]],
-	[71, "Sirius", [9, 10, 11, 12]],
-	[75, "Ancient Stone", [13, 14]],
-	[77, "Mount Tai's Towering Might", [15, 16, 17, 18]],
-	[81, "Heart of Eternal Frost", [19, 20]],
-	[83, "Vanguard of Victory", [21, 22]],
-	[85, "Gourmand Level", [23, 24, 25, 26]],
-	[89, "Victorious General's Rites", [27, 28]],
-	[91, "Thousand-Year-Old Tree", [29, 30]],
-	[93, "Night of a Full Moon", [31, 32, 33, 34]],
-	[97, "Fox Youkai's Fighting Spirit", [35, 36]],
-	[99, "Blossoms in Full Bloom", [37, 38]],
-] as const;
-const equipmentById = Object.fromEntries(
-	equipment.map((piece) => [piece.id, piece]),
-);
-const primeVariantEquipment = PRIME_VARIANTS.flatMap(
-	([firstId, set_name, sourceIds]) =>
-		sourceIds.map((sourceId, index) => {
-			const source = equipmentById[sourceId];
-			return {
-				...source,
-				id: firstId + index,
-				name:
-					set_name === "Heart of Eternal Frost" && sourceId === 20
-						? "Touch of Eternal Frost"
-						: source.name,
-				tier_id: TIER_ID_BY_TIER.PRIME_5,
-				set_name,
-				set_effects:
-					sourceIds.length === 4
-						? [PRIME_VARIANT_EFFECT, { ...PRIME_VARIANT_EFFECT, pieces: 4 }]
-						: [PRIME_VARIANT_EFFECT],
-			};
-		}),
-);
-
-export const EQUIPMENT_DATA = Object.fromEntries(
-	[...equipment, ...primeVariantEquipment].map((item) => [item.id, item]),
-) as Record<EquipmentId, Equipment>;
+export const EQUIPMENT_DATA: Record<EquipmentId, Equipment> = {
+	1: {
+		id: 1,
+		name: "Glutton's Hat",
+		image: "/images/Equipment/EQUIP_HAT_005.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Glutton's Visage",
+	},
+	2: {
+		id: 2,
+		name: "Glutton's Apron",
+		image: "/images/Equipment/EQUIP_COAT_004.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Glutton's Visage",
+	},
+	3: {
+		id: 3,
+		name: "Gooey Gloves",
+		image: "/images/Equipment/EQUIP_SET_002_G.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Sticky Gorger",
+	},
+	4: {
+		id: 4,
+		name: "Gooey Shoes",
+		image: "/images/Equipment/EQUIP_SET_002_S.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Sticky Gorger",
+	},
+	5: {
+		id: 5,
+		name: "Green Nightmare Helm",
+		image: "/images/Equipment/EQUIP_SET_009_H.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Green Nightmare",
+	},
+	6: {
+		id: 6,
+		name: "Green Nightmare Armor",
+		image: "/images/Equipment/EQUIP_SET_009_C.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Green Nightmare",
+	},
+	7: {
+		id: 7,
+		name: "Green Nightmare Gauntlets",
+		image: "/images/Equipment/EQUIP_SET_009_G.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Green Nightmare",
+	},
+	8: {
+		id: 8,
+		name: "Green Nightmare Boots",
+		image: "/images/Equipment/EQUIP_SET_009_S.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Green Nightmare",
+	},
+	9: {
+		id: 9,
+		name: "Frenzied Wolf's Mask",
+		image: "/images/Equipment/EQUIP_SET_010_H.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Frenzied White Wolf",
+	},
+	10: {
+		id: 10,
+		name: "Frenzied Wolf's Restraints",
+		image: "/images/Equipment/EQUIP_COAT_04.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Frenzied White Wolf",
+	},
+	11: {
+		id: 11,
+		name: "Frenzied Wolf's Claws",
+		image: "/images/Equipment/EQUIP_SET_010_G.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Frenzied White Wolf",
+	},
+	12: {
+		id: 12,
+		name: "Frenzied Wolf's Sprinters",
+		image: "/images/Equipment/EQUIP_SET_010_S.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Frenzied White Wolf",
+	},
+	13: {
+		id: 13,
+		name: "Stone Mask",
+		image: "/images/Equipment/EQUIP_HAT_010.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Stone Heart",
+	},
+	14: {
+		id: 14,
+		name: "Stone Sandals",
+		image: "/images/Equipment/EQUIP_SHOES_009.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Stone Heart",
+	},
+	15: {
+		id: 15,
+		name: "Mountain Peak Helm",
+		image: "/images/Equipment/EQUIP_HAT_009.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Mountain Peak Majesty",
+	},
+	16: {
+		id: 16,
+		name: "Mountain Peak Iron Armor",
+		image: "/images/Equipment/EQUIP_COAT_008.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Mountain Peak Majesty",
+	},
+	17: {
+		id: 17,
+		name: "Mountain Peak Gloves",
+		image: "/images/Equipment/EQUIP_GLOVES_009.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Mountain Peak Majesty",
+	},
+	18: {
+		id: 18,
+		name: "Mountain Peak Marching Boots",
+		image: "/images/Equipment/EQUIP_SHOES_008.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Mountain Peak Majesty",
+	},
+	19: {
+		id: 19,
+		name: "Frozen Crown",
+		image: "/images/Equipment/EQUIP_HAT_012.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Ice Heart",
+	},
+	20: {
+		id: 20,
+		name: "Touch of Frost",
+		image: "/images/Equipment/EQUIP_GLOVES_017.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Ice Heart",
+	},
+	21: {
+		id: 21,
+		name: "Assault Squad Buff Coat",
+		image: "/images/Equipment/EQUIP_COAT_012.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Assault Squad Leader",
+	},
+	22: {
+		id: 22,
+		name: "Assault Squad Leather Boots",
+		image: "/images/Equipment/EQUIP_SHOES_011.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Assault Squad Leader",
+	},
+	23: {
+		id: 23,
+		name: "Devourer's Hat",
+		image: "/images/Equipment/EQUIP_HAT_013.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Devourer Stance",
+	},
+	24: {
+		id: 24,
+		name: "Devourer's Apron",
+		image: "/images/Equipment/EQUIP_COAT_011.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Devourer Stance",
+	},
+	25: {
+		id: 25,
+		name: "Devourer's Gloves",
+		image: "/images/Equipment/EQUIP_GLOVES_013.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Devourer Stance",
+	},
+	26: {
+		id: 26,
+		name: "Devourer's Sandals",
+		image: "/images/Equipment/EQUIP_SHOES_010.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Devourer Stance",
+	},
+	27: {
+		id: 27,
+		name: "Gilded Armguards",
+		image: "/images/Equipment/EQUIP_GLOVES_015.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Military Officer's Courtesy",
+	},
+	28: {
+		id: 28,
+		name: "Gilded Greaves",
+		image: "/images/Equipment/EQUIP_SHOES_01.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Military Officer's Courtesy",
+	},
+	29: {
+		id: 29,
+		name: "Jade Odong Hat",
+		image: "/images/Equipment/EQUIP_HAT_015.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Mystical Jade Odong",
+	},
+	30: {
+		id: 30,
+		name: "Jade Odong Brigandine",
+		image: "/images/Equipment/EQUIP_COAT_015.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Mystical Jade Odong",
+	},
+	31: {
+		id: 31,
+		name: "Eunwol's Antlers",
+		image: "/images/Equipment/EQUIP_HAT_017.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Moonshadow",
+	},
+	32: {
+		id: 32,
+		name: "Moonlight Clothes",
+		image: "/images/Equipment/EQUIP_COAT_017.webp",
+		tier_id: 4,
+		part_type: "chestpiece",
+		set_name: "Moonshadow",
+	},
+	33: {
+		id: 33,
+		name: "Sage's Touch",
+		image: "/images/Equipment/EQUIP_GLOVES_014.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Moonshadow",
+	},
+	34: {
+		id: 34,
+		name: "Shadow Hooves",
+		image: "/images/Equipment/EQUIP_SHOES_017.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Moonshadow",
+	},
+	35: {
+		id: 35,
+		name: "Mad Fox's Fur Gloves",
+		image: "/images/Equipment/EQUIP_GLOVES_012.webp",
+		tier_id: 4,
+		part_type: "gloves",
+		set_name: "Onsae's Dance",
+	},
+	36: {
+		id: 36,
+		name: "Mad Fox's Paws",
+		image: "/images/Equipment/EQUIP_SHOES_03.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Onsae's Dance",
+	},
+	37: {
+		id: 37,
+		name: "Gisaeng's Glow Up Headgear",
+		image: "/images/Equipment/EQUIP_SET_CHEAH_H_001.webp",
+		tier_id: 4,
+		part_type: "headgear",
+		set_name: "Gisaeng's Glow Up",
+	},
+	38: {
+		id: 38,
+		name: "Gisaeng's Glow Up Footwear",
+		image: "/images/Equipment/EQUIP_SET_CHEAH_S_001.webp",
+		tier_id: 4,
+		part_type: "footwear",
+		set_name: "Gisaeng's Glow Up",
+	},
+	39: {
+		id: 39,
+		name: "Warden Helmet",
+		image: "/images/Equipment/EQUIP_SET_102_H.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Arbiter",
+	},
+	40: {
+		id: 40,
+		name: "Arbiter of Nature",
+		image: "/images/Equipment/EQUIP_SET_102_C.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Arbiter",
+	},
+	41: {
+		id: 41,
+		name: "Magic Vine Gloves",
+		image: "/images/Equipment/EQUIP_SET_102_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Arbiter",
+	},
+	42: {
+		id: 42,
+		name: "Root's Footprints",
+		image: "/images/Equipment/EQUIP_SET_102_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Arbiter",
+	},
+	43: {
+		id: 43,
+		name: "Corrupted Soul Helmet",
+		image: "/images/Equipment/EQUIP_SET_103_H.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Abyss",
+	},
+	44: {
+		id: 44,
+		name: "Ominous Sculpture",
+		image: "/images/Equipment/EQUIP_SET_103_C.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Abyss",
+	},
+	45: {
+		id: 45,
+		name: "Abyssal Touch",
+		image: "/images/Equipment/EQUIP_SET_103_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Abyss",
+	},
+	46: {
+		id: 46,
+		name: "Lord of the Void's Greaves",
+		image: "/images/Equipment/EQUIP_SET_103_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Abyss",
+	},
+	47: {
+		id: 47,
+		name: "Spirit King's Coronet",
+		image: "/images/Equipment/EQUIP_SET_101_H.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Spirit King",
+	},
+	48: {
+		id: 48,
+		name: "Spirit Barrier",
+		image: "/images/Equipment/EQUIP_SET_101_C.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Spirit King",
+	},
+	49: {
+		id: 49,
+		name: "Sacred Grasp",
+		image: "/images/Equipment/EQUIP_SET_101_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Spirit King",
+	},
+	50: {
+		id: 50,
+		name: "Spirit Rock Boots",
+		image: "/images/Equipment/EQUIP_SET_101_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Spirit King",
+	},
+	51: {
+		id: 51,
+		name: "Eerie Horned Helmet",
+		image: "/images/Equipment/EQUIP_SET_104_H.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "West Wind",
+	},
+	52: {
+		id: 52,
+		name: "Avenger's Prayer Beads",
+		image: "/images/Equipment/EQUIP_SET_104_C.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "West Wind",
+	},
+	53: {
+		id: 53,
+		name: "Avenger's Gauntlet",
+		image: "/images/Equipment/EQUIP_SET_104_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "West Wind",
+	},
+	54: {
+		id: 54,
+		name: "Breeze Walkers",
+		image: "/images/Equipment/EQUIP_SET_104_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "West Wind",
+	},
+	55: {
+		id: 55,
+		name: "Fierce Tiger's Valor",
+		image: "/images/Equipment/EQUIP_SET_105_H.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Hahnul's Roar",
+	},
+	56: {
+		id: 56,
+		name: "Tiger Leather Armor",
+		image: "/images/Equipment/EQUIP_SET_105_C.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Hahnul's Roar",
+	},
+	57: {
+		id: 57,
+		name: "Beast Claws",
+		image: "/images/Equipment/EQUIP_SET_105_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Hahnul's Roar",
+	},
+	58: {
+		id: 58,
+		name: "Beastly Footprints",
+		image: "/images/Equipment/EQUIP_SET_105_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Hahnul's Roar",
+	},
+	59: {
+		id: 59,
+		name: "Swamp Lord Headgear",
+		image: "/images/Equipment/EQUIP_SET_WETLANDMASTER_H_001.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Swamp Lord",
+	},
+	60: {
+		id: 60,
+		name: "Swamp Lord Chestpiece",
+		image: "/images/Equipment/EQUIP_SET_WETLANDMASTER_C_001.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Swamp Lord",
+	},
+	61: {
+		id: 61,
+		name: "Swamp Lord Gloves",
+		image: "/images/Equipment/EQUIP_SET_WETLANDMASTER_G_001.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Swamp Lord",
+	},
+	62: {
+		id: 62,
+		name: "Swamp Lord Footwear",
+		image: "/images/Equipment/EQUIP_SET_WETLANDMASTER_S_001.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Swamp Lord",
+	},
+	63: {
+		id: 63,
+		name: "Grand Banquet Chapeau",
+		image: "/images/Equipment/EQUIP_HAT_005.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Gourmand's Grand Banquet",
+	},
+	64: {
+		id: 64,
+		name: "Gourmand's Apron",
+		image: "/images/Equipment/EQUIP_COAT_004.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Gourmand's Grand Banquet",
+	},
+	65: {
+		id: 65,
+		name: "Devourer's Sticky Gloves",
+		image: "/images/Equipment/EQUIP_SET_002_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Devourer of the Abyss",
+	},
+	66: {
+		id: 66,
+		name: "Devourer's Sticky Footwear",
+		image: "/images/Equipment/EQUIP_SET_002_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Devourer of the Abyss",
+	},
+	67: {
+		id: 67,
+		name: "Tyrant's Helmet",
+		image: "/images/Equipment/EQUIP_SET_009_H.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Forest Tyrant",
+	},
+	68: {
+		id: 68,
+		name: "Tyrant's Armor",
+		image: "/images/Equipment/EQUIP_SET_009_C.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Forest Tyrant",
+	},
+	69: {
+		id: 69,
+		name: "Tyrant's Gauntlets",
+		image: "/images/Equipment/EQUIP_SET_009_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Forest Tyrant",
+	},
+	70: {
+		id: 70,
+		name: "Tyrant's Boots",
+		image: "/images/Equipment/EQUIP_SET_009_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Forest Tyrant",
+	},
+	71: {
+		id: 71,
+		name: "Ascendant White Wolf's Mask",
+		image: "/images/Equipment/EQUIP_SET_010_H.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Sirius",
+	},
+	72: {
+		id: 72,
+		name: "Ascendant White Wolf's Restraints",
+		image: "/images/Equipment/EQUIP_COAT_04.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Sirius",
+	},
+	73: {
+		id: 73,
+		name: "Ascendant White Wolf's Grasp",
+		image: "/images/Equipment/EQUIP_SET_010_G.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Sirius",
+	},
+	74: {
+		id: 74,
+		name: "Ascendant White Wolf's Claw",
+		image: "/images/Equipment/EQUIP_SET_010_S.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Sirius",
+	},
+	75: {
+		id: 75,
+		name: "Ancient Stone Mark",
+		image: "/images/Equipment/EQUIP_HAT_010.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Ancient Stone",
+	},
+	76: {
+		id: 76,
+		name: "Ancient Stone Sandals",
+		image: "/images/Equipment/EQUIP_SHOES_009.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Ancient Stone",
+	},
+	77: {
+		id: 77,
+		name: "Towering Mount Tai's Helmet",
+		image: "/images/Equipment/EQUIP_HAT_009.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Mount Tai's Towering Might",
+	},
+	78: {
+		id: 78,
+		name: "Towering Mount Tai's Iron Armor",
+		image: "/images/Equipment/EQUIP_COAT_008.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Mount Tai's Towering Might",
+	},
+	79: {
+		id: 79,
+		name: "Towering Mount Tai's Gloves",
+		image: "/images/Equipment/EQUIP_GLOVES_009.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Mount Tai's Towering Might",
+	},
+	80: {
+		id: 80,
+		name: "Towering Mount Tai's Boots",
+		image: "/images/Equipment/EQUIP_SHOES_008.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Mount Tai's Towering Might",
+	},
+	81: {
+		id: 81,
+		name: "Crown of Eternal Frost",
+		image: "/images/Equipment/EQUIP_HAT_012.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Heart of Eternal Frost",
+	},
+	82: {
+		id: 82,
+		name: "Touch of Eternal Frost",
+		image: "/images/Equipment/EQUIP_GLOVES_017.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Heart of Eternal Frost",
+	},
+	83: {
+		id: 83,
+		name: "Vanguard Buff Coat",
+		image: "/images/Equipment/EQUIP_COAT_012.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Vanguard of Victory",
+	},
+	84: {
+		id: 84,
+		name: "Vanguard Leather Boots",
+		image: "/images/Equipment/EQUIP_SHOES_011.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Vanguard of Victory",
+	},
+	85: {
+		id: 85,
+		name: "Gourmand's Hat",
+		image: "/images/Equipment/EQUIP_HAT_013.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Gourmand Level",
+	},
+	86: {
+		id: 86,
+		name: "Gourmand's Apron",
+		image: "/images/Equipment/EQUIP_COAT_011.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Gourmand Level",
+	},
+	87: {
+		id: 87,
+		name: "Gourmand's Gloves",
+		image: "/images/Equipment/EQUIP_GLOVES_013.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Gourmand Level",
+	},
+	88: {
+		id: 88,
+		name: "Gourmand's Slippers",
+		image: "/images/Equipment/EQUIP_SHOES_010.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Gourmand Level",
+	},
+	89: {
+		id: 89,
+		name: "Victorious General's Gilded Armguards",
+		image: "/images/Equipment/EQUIP_GLOVES_015.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Victorious General's Rites",
+	},
+	90: {
+		id: 90,
+		name: "Victorious General's Gilded Greaves",
+		image: "/images/Equipment/EQUIP_SHOES_01.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Victorious General's Rites",
+	},
+	91: {
+		id: 91,
+		name: "Almighty Jade Odong Hat",
+		image: "/images/Equipment/EQUIP_HAT_015.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Thousand-Year-Old Tree",
+	},
+	92: {
+		id: 92,
+		name: "Almighty Jade Odong Armor",
+		image: "/images/Equipment/EQUIP_COAT_015.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Thousand-Year-Old Tree",
+	},
+	93: {
+		id: 93,
+		name: "Manwol's Antlers",
+		image: "/images/Equipment/EQUIP_HAT_017.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Night of a Full Moon",
+	},
+	94: {
+		id: 94,
+		name: "Radiant Garb",
+		image: "/images/Equipment/EQUIP_COAT_017.webp",
+		tier_id: 5,
+		part_type: "chestpiece",
+		set_name: "Night of a Full Moon",
+	},
+	95: {
+		id: 95,
+		name: "Great Sage's Touch",
+		image: "/images/Equipment/EQUIP_GLOVES_014.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Night of a Full Moon",
+	},
+	96: {
+		id: 96,
+		name: "Moonlight Hooves",
+		image: "/images/Equipment/EQUIP_SHOES_017.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Night of a Full Moon",
+	},
+	97: {
+		id: 97,
+		name: "Fox Youkai's Fur Gloves",
+		image: "/images/Equipment/EQUIP_GLOVES_012.webp",
+		tier_id: 5,
+		part_type: "gloves",
+		set_name: "Fox Youkai's Fighting Spirit",
+	},
+	98: {
+		id: 98,
+		name: "Fox Youkai's Paws",
+		image: "/images/Equipment/EQUIP_SHOES_03.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Fox Youkai's Fighting Spirit",
+	},
+	99: {
+		id: 99,
+		name: "Undefeated Gisaeng's Headband",
+		image: "/images/Equipment/EQUIP_SET_CHEAH_H_001.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Blossoms in Full Bloom",
+	},
+	100: {
+		id: 100,
+		name: "Undefeated Gisaeng's Flower Slippers",
+		image: "/images/Equipment/EQUIP_SET_CHEAH_S_001.webp",
+		tier_id: 5,
+		part_type: "footwear",
+		set_name: "Blossoms in Full Bloom",
+	},
+} satisfies Record<EquipmentId, Equipment>;

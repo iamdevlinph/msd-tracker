@@ -40,7 +40,6 @@ vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
 			tier_id: 5,
 			part_type: "headgear",
 			set_name: "Test Set",
-			set_effects: [{ pieces: 2, effect: "Test effect" }],
 		},
 	},
 }));

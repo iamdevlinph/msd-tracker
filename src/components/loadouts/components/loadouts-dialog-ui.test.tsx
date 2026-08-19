@@ -31,7 +31,6 @@ vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
 			tier_id: 5,
 			part_type: "headgear",
 			set_name: "Prime Test Set",
-			set_effects: [{ pieces: 2, effect: "Test effect" }],
 		},
 		2: {
 			id: 2,
@@ -40,7 +39,6 @@ vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
 			tier_id: 4,
 			part_type: "gloves",
 			set_name: "Choice Test Set",
-			set_effects: [{ pieces: 2, effect: "Other effect" }],
 		},
 	},
 }));

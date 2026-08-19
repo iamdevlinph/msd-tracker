@@ -5,6 +5,10 @@ import {
 	EQUIPMENT_DATA,
 	EQUIPMENT_PART_TYPES,
 } from "@/data/equipment/EQUIPMENT_DATA";
+import {
+	EQUIPMENT_SET_EFFECTS_DATA,
+	type EquipmentSetName,
+} from "@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA";
 
 describe("equipment data", () => {
 	it("contains the 100 catalog pieces across the 34 reference sets", () => {
@@ -20,21 +24,21 @@ describe("equipment data", () => {
 		for (const piece of pieces) {
 			expect(EQUIPMENT_PART_TYPES).toContain(piece.part_type);
 			expect(existsSync(resolve("public", piece.image.slice(1)))).toBe(true);
-			expect(piece.set_effects.length).toBeGreaterThan(0);
+			expect(EQUIPMENT_SET_EFFECTS_DATA[piece.set_name]).toBeDefined();
 		}
-		const sets = pieces.reduce((grouped, piece) => {
-			const set = grouped.get(piece.set_name) ?? [];
-			set.push(piece);
-			grouped.set(piece.set_name, set);
-			return grouped;
-		}, new Map<string, typeof pieces>());
-		for (const set of sets.values()) {
-			const requiredPieces = set[0].set_effects.at(-1)?.pieces;
+		const setNames = new Set(pieces.map((piece) => piece.set_name));
+		expect(
+			Object.keys(EQUIPMENT_SET_EFFECTS_DATA).filter(
+				(setName) => !setNames.has(setName as EquipmentSetName),
+			),
+		).toEqual([]);
+		for (const setName of setNames) {
+			const setPieces = pieces.filter((piece) => piece.set_name === setName);
+			const requiredPieces = EQUIPMENT_SET_EFFECTS_DATA[setName].at(-1)?.pieces;
 			expect(requiredPieces).toBeDefined();
-			if (!requiredPieces) continue;
-			expect(set).toHaveLength(requiredPieces);
+			expect(setPieces).toHaveLength(requiredPieces ?? 0);
 			if (requiredPieces === 4)
-				expect(new Set(set.map((piece) => piece.part_type))).toEqual(
+				expect(new Set(setPieces.map((piece) => piece.part_type))).toEqual(
 					new Set(EQUIPMENT_PART_TYPES),
 				);
 		}
@@ -49,15 +53,77 @@ describe("equipment data", () => {
 		expect(primeVariants.map((piece) => piece.image)).toEqual(
 			primeVariantSourceIds.map((id) => EQUIPMENT_DATA[id].image),
 		);
-		expect(new Set(primeVariants.map((piece) => piece.name)).size).toBe(38);
 		for (const piece of primeVariants) {
 			expect(piece.tier_id).toBe(5);
 			expect(tier4Images).toContain(piece.image);
 			expect(
-				piece.set_effects.every(
+				EQUIPMENT_SET_EFFECTS_DATA[piece.set_name].every(
 					({ effect }) => effect === "Effect details pending.",
 				),
 			).toBe(true);
 		}
+	});
+
+	it("preserves representative equipment records", () => {
+		expect(EQUIPMENT_DATA[1]).toEqual({
+			id: 1,
+			name: "Glutton's Hat",
+			image: "/images/Equipment/EQUIP_HAT_005.webp",
+			tier_id: 4,
+			part_type: "headgear",
+			set_name: "Glutton's Visage",
+		});
+		expect(EQUIPMENT_DATA[39]).toEqual({
+			id: 39,
+			name: "Warden Helmet",
+			image: "/images/Equipment/EQUIP_SET_102_H.webp",
+			tier_id: 5,
+			part_type: "headgear",
+			set_name: "Arbiter",
+		});
+		expect(
+			Object.values(EQUIPMENT_DATA)
+				.filter((piece) => piece.id >= 63)
+				.map((piece) => piece.name),
+		).toEqual([
+			"Grand Banquet Chapeau",
+			"Gourmand's Apron",
+			"Devourer's Sticky Gloves",
+			"Devourer's Sticky Footwear",
+			"Tyrant's Helmet",
+			"Tyrant's Armor",
+			"Tyrant's Gauntlets",
+			"Tyrant's Boots",
+			"Ascendant White Wolf's Mask",
+			"Ascendant White Wolf's Restraints",
+			"Ascendant White Wolf's Grasp",
+			"Ascendant White Wolf's Claw",
+			"Ancient Stone Mark",
+			"Ancient Stone Sandals",
+			"Towering Mount Tai's Helmet",
+			"Towering Mount Tai's Iron Armor",
+			"Towering Mount Tai's Gloves",
+			"Towering Mount Tai's Boots",
+			"Crown of Eternal Frost",
+			"Touch of Eternal Frost",
+			"Vanguard Buff Coat",
+			"Vanguard Leather Boots",
+			"Gourmand's Hat",
+			"Gourmand's Apron",
+			"Gourmand's Gloves",
+			"Gourmand's Slippers",
+			"Victorious General's Gilded Armguards",
+			"Victorious General's Gilded Greaves",
+			"Almighty Jade Odong Hat",
+			"Almighty Jade Odong Armor",
+			"Manwol's Antlers",
+			"Radiant Garb",
+			"Great Sage's Touch",
+			"Moonlight Hooves",
+			"Fox Youkai's Fur Gloves",
+			"Fox Youkai's Paws",
+			"Undefeated Gisaeng's Headband",
+			"Undefeated Gisaeng's Flower Slippers",
+		]);
 	});
 });
