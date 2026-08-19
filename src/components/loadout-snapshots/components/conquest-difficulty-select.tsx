@@ -1,8 +1,8 @@
 import {
-	LOADOUT_SNAPSHOT_DIFFICULTIES,
-	LOADOUT_SNAPSHOT_DIFFICULTY_LABELS,
-	LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS,
-	type LoadoutSnapshotDifficulty,
+	CONQUEST_DIFFICULTIES,
+	CONQUEST_DIFFICULTY_LABELS,
+	CONQUEST_DIFFICULTY_OPTIONS,
+	type ConquestDifficulty,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import {
 	Select,
@@ -13,38 +13,35 @@ import {
 } from "@/components/ui/select";
 
 const ALL_DIFFICULTIES = "all" as const;
-type DifficultySelectValue =
-	| LoadoutSnapshotDifficulty
-	| typeof ALL_DIFFICULTIES;
+type DifficultySelectValue = ConquestDifficulty | typeof ALL_DIFFICULTIES;
 
-const DIFFICULTY_IMAGES: Record<LoadoutSnapshotDifficulty, string> = {
-	[LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL]:
+const DIFFICULTY_IMAGES: Record<ConquestDifficulty, string> = {
+	[CONQUEST_DIFFICULTIES.NORMAL]:
 		"/images/UI/widget/Boss/Sprite/Boss/normal.webp",
-	[LOADOUT_SNAPSHOT_DIFFICULTIES.RAGING]:
+	[CONQUEST_DIFFICULTIES.RAGING]:
 		"/images/UI/widget/Boss/Sprite/Boss/raging.webp",
-	[LOADOUT_SNAPSHOT_DIFFICULTIES.AWAKENED]:
+	[CONQUEST_DIFFICULTIES.AWAKENED]:
 		"/images/UI/widget/Boss/Sprite/Boss/awakened.webp",
-	[LOADOUT_SNAPSHOT_DIFFICULTIES.VOID]:
-		"/images/UI/widget/Boss/Sprite/Boss/void.webp",
-	[LOADOUT_SNAPSHOT_DIFFICULTIES.ABYSS]:
+	[CONQUEST_DIFFICULTIES.VOID]: "/images/UI/widget/Boss/Sprite/Boss/void.webp",
+	[CONQUEST_DIFFICULTIES.ABYSS]:
 		"/images/UI/widget/Boss/Sprite/Boss/abyss.webp",
 };
 
-type LoadoutSnapshotDifficultySelectProps = {
-	value: LoadoutSnapshotDifficulty | null;
-	onValueChange: (value: LoadoutSnapshotDifficulty | null) => void;
+type ConquestDifficultySelectProps = {
+	value: ConquestDifficulty | null;
+	onValueChange: (value: ConquestDifficulty | null) => void;
 	allowAll?: boolean;
 	ariaLabel: string;
 	id?: string;
 };
 
-export const LoadoutSnapshotDifficultySelect = ({
+export const ConquestDifficultySelect = ({
 	value,
 	onValueChange,
 	allowAll = false,
 	ariaLabel,
 	id,
-}: LoadoutSnapshotDifficultySelectProps) => {
+}: ConquestDifficultySelectProps) => {
 	const selectValue: DifficultySelectValue = value ?? ALL_DIFFICULTIES;
 	return (
 		<Select
@@ -53,7 +50,7 @@ export const LoadoutSnapshotDifficultySelect = ({
 				onValueChange(
 					nextValue === ALL_DIFFICULTIES
 						? null
-						: (nextValue as LoadoutSnapshotDifficulty),
+						: (nextValue as ConquestDifficulty),
 				)
 			}
 		>
@@ -73,7 +70,7 @@ export const LoadoutSnapshotDifficultySelect = ({
 			>
 				<SelectValue>
 					{value ? (
-						<span>{LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[value]}</span>
+						<span>{CONQUEST_DIFFICULTY_LABELS[value]}</span>
 					) : (
 						<span>All difficulties</span>
 					)}
@@ -83,7 +80,7 @@ export const LoadoutSnapshotDifficultySelect = ({
 				{allowAll && (
 					<SelectItem value={ALL_DIFFICULTIES}>All difficulties</SelectItem>
 				)}
-				{LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS.map(({ value: difficulty }) => (
+				{CONQUEST_DIFFICULTY_OPTIONS.map(({ value: difficulty }) => (
 					<SelectItem
 						key={difficulty}
 						value={difficulty}
@@ -92,7 +89,7 @@ export const LoadoutSnapshotDifficultySelect = ({
 							backgroundImage: `url(${DIFFICULTY_IMAGES[difficulty]})`,
 						}}
 					>
-						{LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[difficulty]}
+						{CONQUEST_DIFFICULTY_LABELS[difficulty]}
 					</SelectItem>
 				))}
 			</SelectContent>

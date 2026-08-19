@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { LoadoutSnapshotDifficultySelect } from "./loadout-snapshot-difficulty-select";
+import { ConquestDifficultySelect } from "./conquest-difficulty-select";
 
-describe("LoadoutSnapshotDifficultySelect", () => {
+describe("ConquestDifficultySelect", () => {
 	afterEach(cleanup);
 	beforeEach(() => {
 		Element.prototype.scrollIntoView = vi.fn();
@@ -11,13 +11,15 @@ describe("LoadoutSnapshotDifficultySelect", () => {
 
 	it("shows the accessible initial value and maps every banner option", () => {
 		render(
-			<LoadoutSnapshotDifficultySelect
-				ariaLabel="Difficulty"
+			<ConquestDifficultySelect
+				ariaLabel="Conquest difficulty"
 				value="normal"
 				onValueChange={vi.fn()}
 			/>,
 		);
-		const select = screen.getByRole("combobox", { name: "Difficulty" });
+		const select = screen.getByRole("combobox", {
+			name: "Conquest difficulty",
+		});
 		expect(select.textContent).toContain("Normal");
 		fireEvent.keyDown(select, { key: "ArrowDown" });
 		const expectedImages = {
@@ -42,14 +44,16 @@ describe("LoadoutSnapshotDifficultySelect", () => {
 	it("updates selection and supports the plain all state", () => {
 		const onValueChange = vi.fn();
 		render(
-			<LoadoutSnapshotDifficultySelect
-				ariaLabel="Filter difficulty"
+			<ConquestDifficultySelect
+				ariaLabel="Filter Conquest difficulty"
 				allowAll
 				value={null}
 				onValueChange={onValueChange}
 			/>,
 		);
-		const select = screen.getByRole("combobox", { name: "Filter difficulty" });
+		const select = screen.getByRole("combobox", {
+			name: "Filter Conquest difficulty",
+		});
 		expect(select.textContent).toContain("All difficulties");
 		expect(select.style.backgroundImage).toBe("");
 		fireEvent.keyDown(select, { key: "ArrowDown" });

@@ -1,6 +1,6 @@
 import { arrayRemoveItem } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
-import { LoadoutSnapshotDifficultySelect } from "@/components/loadout-snapshots/components/loadout-snapshot-difficulty-select";
+import { ConquestDifficultySelect } from "@/components/loadout-snapshots/components/conquest-difficulty-select";
 import {
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_ELEMENTS,
@@ -167,8 +167,8 @@ export const LoadoutSnapshotFilter = ({
 								);
 							})}
 						</FilterButtonGroup>
-						<LoadoutSnapshotDifficultySelect
-							ariaLabel="Filter loadout snapshots by difficulty"
+						<ConquestDifficultySelect
+							ariaLabel="Filter loadout snapshots by Conquest difficulty"
 							allowAll
 							value={filters.difficulty}
 							onValueChange={(difficulty) =>

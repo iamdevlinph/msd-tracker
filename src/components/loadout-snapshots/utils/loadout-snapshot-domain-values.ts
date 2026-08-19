@@ -7,35 +7,32 @@ export const LOADOUT_SNAPSHOT_TAGS = {
 export type LoadoutSnapshotTag =
 	(typeof LOADOUT_SNAPSHOT_TAGS)[keyof typeof LOADOUT_SNAPSHOT_TAGS];
 
-export const LOADOUT_SNAPSHOT_DIFFICULTIES = {
+export const CONQUEST_DIFFICULTIES = {
 	NORMAL: "normal",
 	RAGING: "raging",
 	AWAKENED: "awakened",
 	VOID: "void",
 	ABYSS: "abyss",
 } as const;
-export type LoadoutSnapshotDifficulty =
-	(typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES];
-export const LOADOUT_SNAPSHOT_DIFFICULTY_LABELS: Record<
-	LoadoutSnapshotDifficulty,
-	string
-> = {
+export type ConquestDifficulty =
+	(typeof CONQUEST_DIFFICULTIES)[keyof typeof CONQUEST_DIFFICULTIES];
+export const CONQUEST_DIFFICULTY_LABELS: Record<ConquestDifficulty, string> = {
 	normal: "Normal",
 	raging: "Raging",
 	awakened: "Awakened",
 	void: "Void",
 	abyss: "Abyss",
 };
-export const LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS = Object.values(
-	LOADOUT_SNAPSHOT_DIFFICULTIES,
+export const CONQUEST_DIFFICULTY_OPTIONS = Object.values(
+	CONQUEST_DIFFICULTIES,
 ).map((value) => ({
 	value,
-	label: LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[value],
+	label: CONQUEST_DIFFICULTY_LABELS[value],
 }));
 
 export const getLoadoutSnapshotConquestMaxLevel = (
-	difficulty: LoadoutSnapshotDifficulty,
-) => (difficulty === LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL ? 15 : 10);
+	difficulty: ConquestDifficulty,
+) => (difficulty === CONQUEST_DIFFICULTIES.NORMAL ? 15 : 10);
 
 export const LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS = [
 	38, 67, 94, 119, 143, 164,

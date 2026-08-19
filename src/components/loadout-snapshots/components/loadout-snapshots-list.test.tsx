@@ -78,7 +78,9 @@ describe("LoadoutSnapshotsList", () => {
 		expect(
 			tag.nextElementSibling?.querySelector("img")?.getAttribute("alt"),
 		).toBe("Custos icon");
-		expect(tag.parentElement?.textContent).toContain("Difficulty Normal");
+		expect(tag.parentElement?.textContent).toContain(
+			"Conquest difficulty Normal",
+		);
 		expect(screen.getByText("Custos").className).toContain("font-semibold");
 		expect(screen.getByText("Normal").className).toContain("font-semibold");
 
@@ -444,7 +446,7 @@ describe("LoadoutSnapshotsList", () => {
 			name: "Filter loadout snapshots by boss",
 		});
 		const difficulty = screen.getByRole("combobox", {
-			name: "Filter loadout snapshots by difficulty",
+			name: "Filter loadout snapshots by Conquest difficulty",
 		});
 		expect(
 			bossGroup.compareDocumentPosition(difficulty) &
@@ -459,12 +461,12 @@ describe("LoadoutSnapshotsList", () => {
 		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
 		expect(
 			screen.getByRole("combobox", {
-				name: "Filter loadout snapshots by difficulty",
+				name: "Filter loadout snapshots by Conquest difficulty",
 			}).textContent,
 		).toContain("All difficulties");
 		fireEvent.keyDown(
 			screen.getByRole("combobox", {
-				name: "Filter loadout snapshots by difficulty",
+				name: "Filter loadout snapshots by Conquest difficulty",
 			}),
 			{ key: "ArrowDown" },
 		);
@@ -475,7 +477,7 @@ describe("LoadoutSnapshotsList", () => {
 		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
 		expect(
 			screen.getByRole("combobox", {
-				name: "Filter loadout snapshots by difficulty",
+				name: "Filter loadout snapshots by Conquest difficulty",
 			}).textContent,
 		).toContain("All difficulties");
 	});

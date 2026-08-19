@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-	LOADOUT_SNAPSHOT_DIFFICULTIES,
+	CONQUEST_DIFFICULTIES,
 	LOADOUT_SNAPSHOT_ELEMENTS,
 	LOADOUT_SNAPSHOT_TAGS,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -61,7 +61,7 @@ describe("loadout snapshots store", () => {
 				notes: "n".repeat(2100),
 				details: {
 					boss_id: 38,
-					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+					difficulty: CONQUEST_DIFFICULTIES.NORMAL,
 					level: 10,
 					clear_time: "09:59.99",
 					res_element_ids: [1, 2, 2, 8],
@@ -74,7 +74,7 @@ describe("loadout snapshots store", () => {
 				loadout,
 				details: {
 					boss_id: 999,
-					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+					difficulty: CONQUEST_DIFFICULTIES.NORMAL,
 					level: 1,
 					clear_time: "00:00.00",
 				},
@@ -107,7 +107,7 @@ describe("loadout snapshots store", () => {
 				loadout,
 				details: {
 					boss_id: 38,
-					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+					difficulty: CONQUEST_DIFFICULTIES.NORMAL,
 					level: 15,
 					clear_time: "00:00.00",
 				},
@@ -119,7 +119,7 @@ describe("loadout snapshots store", () => {
 				loadout,
 				details: {
 					boss_id: 38,
-					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.RAGING,
+					difficulty: CONQUEST_DIFFICULTIES.RAGING,
 					level: 15,
 					clear_time: "00:00.00",
 				},

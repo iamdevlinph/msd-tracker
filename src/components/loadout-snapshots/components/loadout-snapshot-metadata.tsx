@@ -1,5 +1,5 @@
 import {
-	LOADOUT_SNAPSHOT_DIFFICULTY_LABELS,
+	CONQUEST_DIFFICULTY_LABELS,
 	LOADOUT_SNAPSHOT_ELEMENT_LABELS,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
@@ -65,9 +65,9 @@ export const LoadoutSnapshotMetadata = ({
 				<span className="inline-flex flex-wrap items-center gap-1">
 					{"difficulty" in details ? (
 						<>
-							<span>Difficulty</span>{" "}
+							<span>Conquest difficulty</span>{" "}
 							<span className="font-semibold text-foreground">
-								{LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[details.difficulty]}
+								{CONQUEST_DIFFICULTY_LABELS[details.difficulty]}
 							</span>{" "}
 							· <span>Level</span>{" "}
 							<span className="font-semibold text-foreground">

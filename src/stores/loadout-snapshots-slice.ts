@@ -1,13 +1,13 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import {
+	CONQUEST_DIFFICULTIES,
+	type ConquestDifficulty,
 	getLoadoutSnapshotConquestMaxLevel,
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
-	LOADOUT_SNAPSHOT_DIFFICULTIES,
 	LOADOUT_SNAPSHOT_ELEMENTS,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
-	type LoadoutSnapshotDifficulty,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -17,16 +17,14 @@ import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 import { type LoadoutOwned, normalizeLoadouts } from "@/stores/loadouts-slice";
 
 const LOADOUT_SNAPSHOT_TAG_VALUES = Object.values(LOADOUT_SNAPSHOT_TAGS);
-const LOADOUT_SNAPSHOT_DIFFICULTY_VALUES = Object.values(
-	LOADOUT_SNAPSHOT_DIFFICULTIES,
-);
+const CONQUEST_DIFFICULTY_VALUES = Object.values(CONQUEST_DIFFICULTIES);
 const LOADOUT_SNAPSHOT_ELEMENT_VALUES = Object.values(
 	LOADOUT_SNAPSHOT_ELEMENTS,
 );
 const MAX_SNAPSHOT_NOTES_LENGTH = 2000;
 
 export type ConquestSnapshotDetails = {
-	difficulty: LoadoutSnapshotDifficulty;
+	difficulty: ConquestDifficulty;
 	level: number;
 	clear_time: string;
 	boss_id?: LoadoutSnapshotConquestBossId;
@@ -83,16 +81,12 @@ export const normalizeLoadoutSnapshotDetails = (
 		const difficulty = value.difficulty;
 		const level = value.level;
 		if (
-			!LOADOUT_SNAPSHOT_DIFFICULTY_VALUES.includes(
-				difficulty as LoadoutSnapshotDifficulty,
-			) ||
+			!CONQUEST_DIFFICULTY_VALUES.includes(difficulty as ConquestDifficulty) ||
 			typeof level !== "number" ||
 			!Number.isInteger(level) ||
 			level < 1 ||
 			level >
-				getLoadoutSnapshotConquestMaxLevel(
-					difficulty as LoadoutSnapshotDifficulty,
-				) ||
+				getLoadoutSnapshotConquestMaxLevel(difficulty as ConquestDifficulty) ||
 			!isValidLoadoutSnapshotClearTime(value.clear_time)
 		)
 			return null;
@@ -103,7 +97,7 @@ export const normalizeLoadoutSnapshotDetails = (
 			? (bossId as LoadoutSnapshotConquestBossId)
 			: undefined;
 		return {
-			difficulty: difficulty as LoadoutSnapshotDifficulty,
+			difficulty: difficulty as ConquestDifficulty,
 			level,
 			clear_time: value.clear_time,
 			...(normalizedBossId === undefined ? {} : { boss_id: normalizedBossId }),

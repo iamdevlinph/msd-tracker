@@ -1,7 +1,7 @@
 import {
+	type ConquestDifficulty,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
-	type LoadoutSnapshotDifficulty,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -17,7 +17,7 @@ export type LoadoutSnapshotFilters = {
 	tag: LoadoutSnapshotFilterTag;
 	selectedElementIds: LoadoutSnapshotElement[];
 	selectedBossIds: LoadoutSnapshotConquestBossId[];
-	difficulty: LoadoutSnapshotDifficulty | null;
+	difficulty: ConquestDifficulty | null;
 };
 
 export const matchesLoadoutSnapshotFilters = (

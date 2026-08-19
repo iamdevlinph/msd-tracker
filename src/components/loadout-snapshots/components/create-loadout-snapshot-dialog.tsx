@@ -3,14 +3,14 @@ import { type FormEvent, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import {
+	CONQUEST_DIFFICULTIES,
+	type ConquestDifficulty,
 	getLoadoutSnapshotConquestMaxLevel,
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
-	LOADOUT_SNAPSHOT_DIFFICULTIES,
 	LOADOUT_SNAPSHOT_ELEMENT_OPTIONS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
-	type LoadoutSnapshotDifficulty,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -44,8 +44,8 @@ import type {
 	LoadoutSnapshotDetails,
 } from "@/stores/loadout-snapshots-slice";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+import { ConquestDifficultySelect } from "./conquest-difficulty-select";
 import { LoadoutSnapshotClearTimeInput } from "./loadout-snapshot-clear-time-input";
-import { LoadoutSnapshotDifficultySelect } from "./loadout-snapshot-difficulty-select";
 import { LoadoutSnapshotTagBadge } from "./loadout-snapshot-tag-badge";
 
 const formSchema = z
@@ -76,7 +76,7 @@ const formSchema = z
 					message: "Select a boss",
 				});
 			if (
-				!Object.values(LOADOUT_SNAPSHOT_DIFFICULTIES).includes(
+				!Object.values(CONQUEST_DIFFICULTIES).includes(
 					value.difficulty as never,
 				)
 			)
@@ -90,7 +90,7 @@ const formSchema = z
 				level < 1 ||
 				level >
 					getLoadoutSnapshotConquestMaxLevel(
-						value.difficulty as (typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES],
+						value.difficulty as (typeof CONQUEST_DIFFICULTIES)[keyof typeof CONQUEST_DIFFICULTIES],
 					)
 			)
 				context.addIssue({
@@ -166,7 +166,7 @@ const valuesFor = (
 		difficulty:
 			details && "difficulty" in details
 				? details.difficulty
-				: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+				: CONQUEST_DIFFICULTIES.NORMAL,
 		level: details && "level" in details ? String(details.level) : "1",
 		clear_time:
 			details && "clear_time" in details ? details.clear_time : "00:00.00",
@@ -266,8 +266,7 @@ export const LoadoutSnapshotDialog = ({
 		let details: LoadoutSnapshotDetails | null = null;
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST)
 			details = {
-				difficulty:
-					value.difficulty as typeof LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+				difficulty: value.difficulty as typeof CONQUEST_DIFFICULTIES.NORMAL,
 				level: Number(value.level),
 				clear_time: value.clear_time,
 				boss_id: Number(value.boss_id) as LoadoutSnapshotConquestBossId,
@@ -399,11 +398,11 @@ export const LoadoutSnapshotDialog = ({
 								htmlFor="snapshot-difficulty"
 								className="grid gap-2 text-sm font-medium"
 							>
-								Difficulty
-								<LoadoutSnapshotDifficultySelect
+								Conquest difficulty
+								<ConquestDifficultySelect
 									id="snapshot-difficulty"
-									ariaLabel="Difficulty"
-									value={difficulty as LoadoutSnapshotDifficulty}
+									ariaLabel="Conquest difficulty"
+									value={difficulty as ConquestDifficulty}
 									onValueChange={(value) => {
 										if (!value) return;
 										form.setValue("difficulty", value, {
@@ -470,7 +469,7 @@ export const LoadoutSnapshotDialog = ({
 										{Array.from(
 											{
 												length: getLoadoutSnapshotConquestMaxLevel(
-													difficulty as (typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES],
+													difficulty as (typeof CONQUEST_DIFFICULTIES)[keyof typeof CONQUEST_DIFFICULTIES],
 												),
 											},
 											(_, index) => String(index + 1),
