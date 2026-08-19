@@ -16,7 +16,7 @@ describe("artifacts data", () => {
 	it("includes Brisshell's signature artifact", () => {
 		expect(ARTIFACTS_DATA[38]).toEqual({
 			id: 38,
-			name: "Brisshell's Artifact",
+			name: "Monstrous Longing",
 			image: "/images/Icon_Artifact/ArtifactBrisshell.webp",
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			class_id: CLASS_ID_BY_CLASS.ASSASSIN,

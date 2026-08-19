@@ -321,7 +321,7 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 	),
 	38: artifact(
 		38,
-		"Brisshell's Artifact",
+		"Monstrous Longing",
 		"Brisshell",
 		TIER_ID_BY_TIER.PRIME_5,
 		CLASS_ID_BY_CLASS.ASSASSIN,

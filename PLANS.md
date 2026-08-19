@@ -127,7 +127,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Chunk 2: Artifacts Inventory
 
-- [x] Add Brisshell's Tier 5 Earth Assassin artifact with a temporary title pending its official name.
+- [x] Add Brisshell's Tier 5 Earth Assassin artifact, Monstrous Longing.
 - [x] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
 - [x] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.
 - [x] Build the Artifacts page with cards, search, filters, empty states, and accessible forms.
