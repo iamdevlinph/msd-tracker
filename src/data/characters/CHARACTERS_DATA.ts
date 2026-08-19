@@ -336,4 +336,13 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Maybell.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
+	24: {
+		id: 24,
+		name: "Brisshell",
+		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+		portraitImage: "/images/Character_Portrait/portrait_Brisshell_01.webp",
+		fullImage: "/images/Character_Full/Img_CharacterIllust_Brisshell.webp",
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
+	},
 };

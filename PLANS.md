@@ -4,6 +4,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 
 ## Characters: Available
 
+- [x] Add Brisshell as a Tier 5 Earth Assassin with her catalog images.
 - [x] Filter owned and selectable characters by Tier 4 and Tier 5.
 - [x] Sort owned characters by name or awakening level in either direction.
 - [x] Show owned/total roster progress and disable additions when every character is owned.
@@ -126,6 +127,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Chunk 2: Artifacts Inventory
 
+- [x] Add Brisshell's Tier 5 Earth Assassin artifact, Monstrous Longing.
 - [x] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
 - [x] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.
 - [x] Build the Artifacts page with cards, search, filters, empty states, and accessible forms.

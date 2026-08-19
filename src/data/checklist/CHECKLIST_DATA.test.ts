@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
 	CHECKLIST_KINDS,
-	CURRENT_SEASON_COMPLETION_VERSION,
+	CURRENT_SEASON_GAME_VERSION,
 	PERMANENT_EVENTS,
 } from "@/data/checklist/CHECKLIST_DATA";
 
@@ -22,12 +22,12 @@ describe("CHECKLIST_DATA", () => {
 			PERMANENT_EVENTS.map((event) => [event.id, event]),
 		);
 		expect(permanentById["dimensional-rift"]).toMatchObject({
-			completionVersion: CURRENT_SEASON_COMPLETION_VERSION,
+			completionVersion: CURRENT_SEASON_GAME_VERSION,
 			recurrence: "weekly",
 		});
 		expect(permanentById["monster-race"]).toMatchObject({
 			startAt: "2026-07-29T01:30:00.000Z",
-			completionVersion: CURRENT_SEASON_COMPLETION_VERSION,
+			completionVersion: CURRENT_SEASON_GAME_VERSION,
 			seasonal: true,
 		});
 		expect(permanentById["dimensional-rift"]).not.toHaveProperty("seasonal");

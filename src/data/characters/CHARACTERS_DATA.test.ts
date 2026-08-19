@@ -1,12 +1,30 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { CHARACTER_CLASS_DATA } from "@/data/character-classes/CHARACTER_CLASS_DATA";
+import {
+	CHARACTER_CLASS_DATA,
+	CLASS_ID_BY_CLASS,
+} from "@/data/character-classes/CHARACTER_CLASS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
-import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
-import { TIERS_DATA } from "@/data/tiers/TIERS_DATA";
+import {
+	ELEMENT_ID_BY_ELEMENT,
+	ELEMENTS_DATA,
+} from "@/data/elements/ELEMENTS_DATA";
+import { TIER_ID_BY_TIER, TIERS_DATA } from "@/data/tiers/TIERS_DATA";
 
 describe("CHARACTERS_DATA", () => {
+	it("includes Brisshell with her catalog classifications and images", () => {
+		expect(CHARACTERS_DATA[24]).toEqual({
+			id: 24,
+			name: "Brisshell",
+			class_id: CLASS_ID_BY_CLASS.ASSASSIN,
+			element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+			portraitImage: "/images/Character_Portrait/portrait_Brisshell_01.webp",
+			fullImage: "/images/Character_Full/Img_CharacterIllust_Brisshell.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+		});
+	});
+
 	it("has unique identities and valid references", () => {
 		const characters = Object.values(CHARACTERS_DATA);
 		expect(new Set(characters.map(({ id }) => id)).size).toBe(
