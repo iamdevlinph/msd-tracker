@@ -55,7 +55,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Add loadout notes during creation/editing and category-aware snapshot metadata, including multi-select RES Element metadata for Conquest categories, editable compact snapshot rows, direct saved-loadout actions, immutable frozen builds, and Drive-compatible legacy normalization.
 - [x] Record required Conquest bosses with canonical portraits, use a fixed segmented clear-time format, and default new snapshot names to the trimmed source loadout name.
 - [x] Require Rift clear times with the shared segmented control, normalize legacy Rift snapshots, and allow Normal Conquest levels through 15 while retaining level 10 caps elsewhere.
-- [x] Filter snapshot lists by conditional Legendary Conquest elements or Conquest bosses with multi-select OR semantics, tag-aware reset behavior, extracted toolbar/predicate modules, and focused verification.
+- [x] Filter snapshot lists by conditional Legendary Conquest elements or Conquest bosses with multi-select OR semantics, single-select Conquest difficulty banners, tag-aware reset behavior, extracted toolbar/predicate modules, and focused verification.
 - [x] Emphasize loadout snapshot field values while keeping creation timestamps only in interactive preview headers.
 
 ## Loadout Code Sharing: Deferred

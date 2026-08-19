@@ -1,6 +1,7 @@
 import {
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
+	type LoadoutSnapshotDifficulty,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -16,6 +17,7 @@ export type LoadoutSnapshotFilters = {
 	tag: LoadoutSnapshotFilterTag;
 	selectedElementIds: LoadoutSnapshotElement[];
 	selectedBossIds: LoadoutSnapshotConquestBossId[];
+	difficulty: LoadoutSnapshotDifficulty | null;
 };
 
 export const matchesLoadoutSnapshotFilters = (
@@ -50,6 +52,14 @@ export const matchesLoadoutSnapshotFilters = (
 		)
 			return false;
 	}
+	if (
+		filters.tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST &&
+		filters.difficulty !== null &&
+		(!snapshot.details ||
+			!("difficulty" in snapshot.details) ||
+			snapshot.details.difficulty !== filters.difficulty)
+	)
+		return false;
 
 	return true;
 };

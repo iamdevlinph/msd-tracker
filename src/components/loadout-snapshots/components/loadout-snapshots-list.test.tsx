@@ -411,4 +411,72 @@ describe("LoadoutSnapshotsList", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Delete" }));
 		expect(useAppStore.getState().loadoutSnapshots.newer).toBeUndefined();
 	});
+
+	it("places and resets the Conquest difficulty filter after bosses", () => {
+		useAppStore.setState({
+			loadoutSnapshots: {
+				normal: {
+					...snapshot("normal", "Normal clear", "conquest", 1),
+					details: {
+						boss_id: 38,
+						difficulty: "normal",
+						level: 1,
+						clear_time: "00:12.34",
+					},
+				},
+				abyss: {
+					...snapshot("abyss", "Abyss clear", "conquest", 2),
+					details: {
+						boss_id: 38,
+						difficulty: "abyss",
+						level: 1,
+						clear_time: "00:12.34",
+					},
+				},
+			},
+		});
+		render(<LoadoutSnapshotsList />);
+		const tagGroup = screen.getByRole("group", {
+			name: "Filter loadout snapshots by tag",
+		});
+		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
+		const bossGroup = screen.getByRole("group", {
+			name: "Filter loadout snapshots by boss",
+		});
+		const difficulty = screen.getByRole("combobox", {
+			name: "Filter loadout snapshots by difficulty",
+		});
+		expect(
+			bossGroup.compareDocumentPosition(difficulty) &
+				Node.DOCUMENT_POSITION_FOLLOWING,
+		).toBeTruthy();
+		fireEvent.keyDown(difficulty, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "Abyss" }));
+		expect(screen.getByText("Abyss clear")).toBeTruthy();
+		expect(screen.queryByText("Normal clear")).toBeNull();
+
+		fireEvent.click(within(tagGroup).getByRole("button", { name: "All tags" }));
+		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
+		expect(
+			screen.getByRole("combobox", {
+				name: "Filter loadout snapshots by difficulty",
+			}).textContent,
+		).toContain("All difficulties");
+		fireEvent.keyDown(
+			screen.getByRole("combobox", {
+				name: "Filter loadout snapshots by difficulty",
+			}),
+			{ key: "ArrowDown" },
+		);
+		fireEvent.click(screen.getByRole("option", { name: "Normal" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear loadout snapshot filters" }),
+		);
+		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
+		expect(
+			screen.getByRole("combobox", {
+				name: "Filter loadout snapshots by difficulty",
+			}).textContent,
+		).toContain("All difficulties");
+	});
 });

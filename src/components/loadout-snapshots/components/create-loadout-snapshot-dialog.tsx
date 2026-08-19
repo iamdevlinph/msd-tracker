@@ -6,11 +6,11 @@ import {
 	getLoadoutSnapshotConquestMaxLevel,
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_DIFFICULTIES,
-	LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS,
 	LOADOUT_SNAPSHOT_ELEMENT_OPTIONS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
+	type LoadoutSnapshotDifficulty,
 	type LoadoutSnapshotElement,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
@@ -45,6 +45,7 @@ import type {
 } from "@/stores/loadout-snapshots-slice";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 import { LoadoutSnapshotClearTimeInput } from "./loadout-snapshot-clear-time-input";
+import { LoadoutSnapshotDifficultySelect } from "./loadout-snapshot-difficulty-select";
 import { LoadoutSnapshotTagBadge } from "./loadout-snapshot-tag-badge";
 
 const formSchema = z
@@ -399,36 +400,23 @@ export const LoadoutSnapshotDialog = ({
 								className="grid gap-2 text-sm font-medium"
 							>
 								Difficulty
-								<Select
-									value={form.watch("difficulty")}
+								<LoadoutSnapshotDifficultySelect
+									id="snapshot-difficulty"
+									ariaLabel="Difficulty"
+									value={difficulty as LoadoutSnapshotDifficulty}
 									onValueChange={(value) => {
+										if (!value) return;
 										form.setValue("difficulty", value, {
 											shouldValidate: true,
 										});
-										const maxLevel = getLoadoutSnapshotConquestMaxLevel(
-											value as (typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES],
-										);
+										const maxLevel = getLoadoutSnapshotConquestMaxLevel(value);
 										if (Number(form.getValues("level")) > maxLevel)
 											form.setValue("level", String(maxLevel), {
 												shouldDirty: true,
 												shouldValidate: true,
 											});
 									}}
-								>
-									<SelectTrigger
-										id="snapshot-difficulty"
-										aria-label="Difficulty"
-									>
-										<SelectValue />
-									</SelectTrigger>
-									<SelectContent>
-										{LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS.map((option) => (
-											<SelectItem key={option.value} value={option.value}>
-												{option.label}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
+								/>
 							</label>
 							<fieldset className="grid gap-2">
 								<legend className="text-sm font-medium">RES Element</legend>

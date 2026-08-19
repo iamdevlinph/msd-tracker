@@ -1,5 +1,6 @@
 import { arrayRemoveItem } from "common-utils-pkg";
 import { XIcon } from "lucide-react";
+import { LoadoutSnapshotDifficultySelect } from "@/components/loadout-snapshots/components/loadout-snapshot-difficulty-select";
 import {
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_ELEMENTS,
@@ -87,6 +88,7 @@ export const LoadoutSnapshotFilter = ({
 									tag: value,
 									selectedElementIds: [],
 									selectedBossIds: [],
+									difficulty: null,
 								})
 							}
 						>
@@ -134,36 +136,46 @@ export const LoadoutSnapshotFilter = ({
 					</FilterButtonGroup>
 				)}
 				{isConquest && (
-					<FilterButtonGroup aria-label="Filter loadout snapshots by boss">
-						{LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.map((id) => {
-							const boss = MONSTERLINGS_DATA[id];
-							return (
-								<FilterToggleButton
-									key={id}
-									type="button"
-									isSelected={filters.selectedBossIds.includes(id)}
-									aria-label={boss.name}
-									title={boss.name}
-									onClick={() =>
-										onFiltersChange({
-											...filters,
-											selectedBossIds: toggleValue(
-												filters.selectedBossIds,
-												id as LoadoutSnapshotConquestBossId,
-											),
-										})
-									}
-								>
-									<img
-										src={boss.image}
-										width="25"
-										height="25"
-										alt={`${boss.name} icon`}
-									/>
-								</FilterToggleButton>
-							);
-						})}
-					</FilterButtonGroup>
+					<>
+						<FilterButtonGroup aria-label="Filter loadout snapshots by boss">
+							{LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.map((id) => {
+								const boss = MONSTERLINGS_DATA[id];
+								return (
+									<FilterToggleButton
+										key={id}
+										type="button"
+										isSelected={filters.selectedBossIds.includes(id)}
+										aria-label={boss.name}
+										title={boss.name}
+										onClick={() =>
+											onFiltersChange({
+												...filters,
+												selectedBossIds: toggleValue(
+													filters.selectedBossIds,
+													id as LoadoutSnapshotConquestBossId,
+												),
+											})
+										}
+									>
+										<img
+											src={boss.image}
+											width="25"
+											height="25"
+											alt={`${boss.name} icon`}
+										/>
+									</FilterToggleButton>
+								);
+							})}
+						</FilterButtonGroup>
+						<LoadoutSnapshotDifficultySelect
+							ariaLabel="Filter loadout snapshots by difficulty"
+							allowAll
+							value={filters.difficulty}
+							onValueChange={(difficulty) =>
+								onFiltersChange({ ...filters, difficulty })
+							}
+						/>
+					</>
 				)}
 				<ButtonGroup aria-label="Sort loadout snapshots">
 					<SortSelect

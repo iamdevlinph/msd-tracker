@@ -52,6 +52,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 			tag: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
 			selectedElementIds: [1, 2] as const,
 			selectedBossIds: [],
+			difficulty: null,
 		};
 
 		expect(
@@ -74,6 +75,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 				tag: LOADOUT_SNAPSHOT_ALL_TAGS,
 				selectedElementIds: [],
 				selectedBossIds: [],
+				difficulty: null,
 			}),
 		).toBe(true);
 	});
@@ -110,6 +112,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 			tag: LOADOUT_SNAPSHOT_TAGS.CONQUEST,
 			selectedElementIds: [],
 			selectedBossIds: [38, 67],
+			difficulty: null,
 		};
 
 		expect(matchesLoadoutSnapshotFilters(withBoss, base)).toBe(true);
@@ -129,6 +132,56 @@ describe("matchesLoadoutSnapshotFilters", () => {
 				...base,
 				selectedBossIds: [],
 			}),
+		).toBe(true);
+	});
+
+	it("matches an active Conquest difficulty and accepts all difficulties", () => {
+		const normal = snapshot("Normal", LOADOUT_SNAPSHOT_TAGS.CONQUEST, {
+			difficulty: "normal",
+			level: 1,
+			clear_time: "00:12.34",
+			boss_id: 38,
+		});
+		const normalWrongBoss = snapshot(
+			"Normal wrong boss",
+			LOADOUT_SNAPSHOT_TAGS.CONQUEST,
+			{
+				difficulty: "normal",
+				level: 1,
+				clear_time: "00:12.34",
+				boss_id: 67,
+			},
+		);
+		const abyss = snapshot("Abyss", LOADOUT_SNAPSHOT_TAGS.CONQUEST, {
+			difficulty: "abyss",
+			level: 1,
+			clear_time: "00:12.34",
+			boss_id: 38,
+		});
+		const missing = snapshot("Missing", LOADOUT_SNAPSHOT_TAGS.CONQUEST);
+		const incompatible = snapshot(
+			"Incompatible",
+			LOADOUT_SNAPSHOT_TAGS.CONQUEST,
+			{
+				element_id: 1,
+				score: 1,
+			},
+		);
+		const base: LoadoutSnapshotFilters = {
+			search: "",
+			tag: LOADOUT_SNAPSHOT_TAGS.CONQUEST,
+			selectedElementIds: [],
+			selectedBossIds: [38],
+			difficulty: "normal",
+		};
+
+		expect(matchesLoadoutSnapshotFilters(normal, base)).toBe(true);
+		expect(matchesLoadoutSnapshotFilters(normalWrongBoss, base)).toBe(false);
+		expect(matchesLoadoutSnapshotFilters(abyss, base)).toBe(false);
+		expect(matchesLoadoutSnapshotFilters(missing, base)).toBe(false);
+		expect(matchesLoadoutSnapshotFilters(incompatible, base)).toBe(false);
+		expect(
+			matchesLoadoutSnapshotFilters(abyss, { ...base, difficulty: null }),
 		).toBe(true);
 	});
 });

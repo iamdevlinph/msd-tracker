@@ -577,6 +577,12 @@
 		"Tiers/Img_SlotTIerBase_04.png": "9dfc9bee323cfca6bfe08a5d4f7ce0fbdf52da6af639fc908a5a037f25d39a78",
 		"Tiers/Img_SlotTIerBase_05_02.png": "7457afe6318fce68386c186bbb7e3683606904bcbbe67379671635cfec1994b3",
 		"Tiers/Img_SlotTIerBase_05.png": "4d298de9f75295c453d31070f6b07587c99ddeca7271ac8b3e919aca79615fda",
-		"Tiers/Img_SlotTIerBase_06_02.png": "69a86b54db24349ca4cd2352d8afaf62871bf81b2baf0d36778e05ecf1500c8e"
+		"Tiers/Img_SlotTIerBase_06_02.png": "69a86b54db24349ca4cd2352d8afaf62871bf81b2baf0d36778e05ecf1500c8e",
+		"UI/widget/Boss/Sprite/Boss/abyss.png": "cb538e5d2e162d17dde862f841597a2653c9ad6f9fa11b141ef45417c14e4083",
+		"UI/widget/Boss/Sprite/Boss/awakened.png": "79738fafa037d5c95c7b9cc7e7057e8182e6de1208344c35d5ef2f59d9e1e129",
+		"UI/widget/Boss/Sprite/Boss/normal.png": "af46c3d90103495a599a2924c7af2e9960c4eee6f92f3d2647afa0d2f18cf141",
+		"UI/widget/Boss/Sprite/Boss/raging.png": "dc6e409a4cfd50ca4ac1cd84393d77aadb0ff3321b484ad882bd94ab4da433fa",
+		"UI/widget/Boss/Sprite/Boss/Texture2D_0.png": "9739ee3382809f9117b4c11fe72c4d9ef78cc13b91d5e6121a3cc8ed3cc3be8a",
+		"UI/widget/Boss/Sprite/Boss/void.png": "59f4c934bfde01e717cd5356ba9f009b08daeeb85aeab236490f2459d3965452"
 	}
 }
