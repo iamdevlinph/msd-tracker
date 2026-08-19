@@ -91,7 +91,7 @@ export const LoadoutSnapshotMetadata = ({
 							· Score {details.score.toLocaleString("en-US")}
 						</>
 					) : (
-						`Level ${details.level}${details.score === undefined ? "" : ` · Score ${details.score.toLocaleString("en-US")}`}`
+						`Level ${details.level} · Clear time ${details.clear_time}${details.score === undefined ? "" : ` · Score ${details.score.toLocaleString("en-US")}`}`
 					)}
 				</span>
 			)}

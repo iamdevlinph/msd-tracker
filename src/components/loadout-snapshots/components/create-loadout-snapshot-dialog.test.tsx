@@ -80,7 +80,7 @@ describe("CreateLoadoutSnapshotDialog", () => {
 					monsterlings_owned: {},
 					monsterling_link_chain_levels: {},
 					artifacts_owned: {},
-					details: { level: 25 },
+					details: { level: 25, clear_time: "01:02.03" },
 				}}
 				onOpenChange={vi.fn()}
 				onSubmit={vi.fn()}
@@ -143,6 +143,14 @@ describe("CreateLoadoutSnapshotDialog", () => {
 		fireEvent.click(screen.getByRole("option", { name: /Custos/ }));
 		expect(boss.textContent).toContain("Custos");
 		expect(screen.getAllByAltText("Custos icon").length).toBeGreaterThan(0);
+		const level = screen.getByRole("combobox", { name: "Level" });
+		fireEvent.keyDown(level, { key: "ArrowDown" });
+		expect(screen.getByRole("option", { name: "15" })).toBeTruthy();
+		fireEvent.click(screen.getByRole("option", { name: "15" }));
+		const difficulty = screen.getByRole("combobox", { name: "Difficulty" });
+		fireEvent.keyDown(difficulty, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "Raging" }));
+		expect(level.textContent).toContain("10");
 
 		const clearTime = screen.getByLabelText("Clear time") as HTMLInputElement;
 		fireEvent.focus(clearTime);
@@ -182,6 +190,7 @@ describe("CreateLoadoutSnapshotDialog", () => {
 	});
 
 	it("clamps Rift numeric inputs to whole-number boundaries", () => {
+		const onSubmit = vi.fn();
 		render(
 			<LoadoutSnapshotDialog
 				loadout={null}
@@ -203,10 +212,10 @@ describe("CreateLoadoutSnapshotDialog", () => {
 					monsterlings_owned: {},
 					monsterling_link_chain_levels: {},
 					artifacts_owned: {},
-					details: { level: 25 },
+					details: { level: 25, clear_time: "01:02.03" },
 				}}
 				onOpenChange={vi.fn()}
-				onSubmit={vi.fn()}
+				onSubmit={onSubmit}
 			/>,
 		);
 
@@ -218,11 +227,24 @@ describe("CreateLoadoutSnapshotDialog", () => {
 		fireEvent.change(level, { target: { value: "10.8" } });
 		expect(level.value).toBe("10");
 
+		const clearTime = screen.getByLabelText("Clear time") as HTMLInputElement;
+		expect(clearTime.value).toBe("01:02.03");
+		fireEvent.paste(clearTime, {
+			clipboardData: { getData: () => "07:08.09" },
+		});
+		expect(clearTime.value).toBe("07:08.09");
+
 		const score = screen.getByLabelText("Score (optional)") as HTMLInputElement;
 		fireEvent.change(score, { target: { value: "-5" } });
 		expect(score.value).toBe("0");
 		fireEvent.change(score, { target: { value: "abc" } });
 		expect(score.value).toBe("");
+		fireEvent.click(screen.getByRole("button", { name: "Save changes" }));
+		expect(onSubmit).toHaveBeenCalledWith(
+			expect.objectContaining({
+				details: { level: 10, clear_time: "07:08.09" },
+			}),
+		);
 	});
 
 	it("selects multiple RES Elements without shifting selected buttons", () => {

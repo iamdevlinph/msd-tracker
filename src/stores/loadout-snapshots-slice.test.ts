@@ -84,7 +84,45 @@ describe("loadout snapshots store", () => {
 				tag: LOADOUT_SNAPSHOT_TAGS.RIFT,
 				created_at: 1,
 				loadout,
-				details: { level: 50, score: 12345678 },
+				details: { level: 50, clear_time: "01:02.03", score: 12345678 },
+			},
+			legacy_rift: {
+				name: "Legacy Rift",
+				tag: LOADOUT_SNAPSHOT_TAGS.RIFT,
+				created_at: 1,
+				loadout,
+				details: { level: 1 },
+			},
+			malformed_rift: {
+				name: "Malformed Rift",
+				tag: LOADOUT_SNAPSHOT_TAGS.RIFT,
+				created_at: 1,
+				loadout,
+				details: { level: 1, clear_time: "1:00.00" },
+			},
+			normal_fifteen: {
+				name: "Normal 15",
+				tag: LOADOUT_SNAPSHOT_TAGS.CONQUEST,
+				created_at: 1,
+				loadout,
+				details: {
+					boss_id: 38,
+					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL,
+					level: 15,
+					clear_time: "00:00.00",
+				},
+			},
+			raging_fifteen: {
+				name: "Raging 15",
+				tag: LOADOUT_SNAPSHOT_TAGS.CONQUEST,
+				created_at: 1,
+				loadout,
+				details: {
+					boss_id: 38,
+					difficulty: LOADOUT_SNAPSHOT_DIFFICULTIES.RAGING,
+					level: 15,
+					clear_time: "00:00.00",
+				},
 			},
 			legendary: {
 				name: "Legendary",
@@ -119,7 +157,20 @@ describe("loadout snapshots store", () => {
 			clear_time: "00:00.00",
 			res_element_ids: [],
 		});
-		expect(normalized.rift.details).toEqual({ level: 50, score: 12345678 });
+		expect(normalized.rift.details).toEqual({
+			level: 50,
+			clear_time: "01:02.03",
+			score: 12345678,
+		});
+		expect(normalized.legacy_rift.details).toEqual({
+			level: 1,
+			clear_time: "00:00.00",
+		});
+		expect(normalized.malformed_rift.details).toBeNull();
+		expect(normalized.normal_fifteen.details).toEqual(
+			expect.objectContaining({ level: 15 }),
+		);
+		expect(normalized.raging_fifteen.details).toBeNull();
 		expect(normalized.legendary.details).toEqual({
 			element_id: 5,
 			score: 0,
@@ -233,7 +284,7 @@ describe("loadout snapshots store", () => {
 			loadoutId: "team",
 			name: "Before",
 			tag: LOADOUT_SNAPSHOT_TAGS.RIFT,
-			details: { level: 1 },
+			details: { level: 1, clear_time: "00:00.00" },
 		});
 		const before = useAppStore.getState().loadoutSnapshots[id as string];
 		vi.spyOn(Date, "now").mockReturnValue(20);
@@ -241,12 +292,16 @@ describe("loadout snapshots store", () => {
 			name: " After ",
 			tag: LOADOUT_SNAPSHOT_TAGS.RIFT,
 			notes: "note",
-			details: { level: 50, score: 0 },
+			details: { level: 50, clear_time: "00:00.00", score: 0 },
 		});
 		const after = useAppStore.getState().loadoutSnapshots[id as string];
 		expect(after.name).toBe("After");
 		expect(after.notes).toBe("note");
-		expect(after.details).toEqual({ level: 50, score: 0 });
+		expect(after.details).toEqual({
+			level: 50,
+			clear_time: "00:00.00",
+			score: 0,
+		});
 		expect(after.id).toBe(before.id);
 		expect(after.created_at).toBe(before.created_at);
 		expect(after.loadout).toEqual(before.loadout);

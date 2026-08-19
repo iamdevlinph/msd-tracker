@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type FormEvent, type KeyboardEvent, useEffect, useRef } from "react";
+import { type FormEvent, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import {
+	getLoadoutSnapshotConquestMaxLevel,
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_DIFFICULTIES,
 	LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS,
@@ -43,6 +44,7 @@ import type {
 	LoadoutSnapshotDetails,
 } from "@/stores/loadout-snapshots-slice";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+import { LoadoutSnapshotClearTimeInput } from "./loadout-snapshot-clear-time-input";
 import { LoadoutSnapshotTagBadge } from "./loadout-snapshot-tag-badge";
 
 const formSchema = z
@@ -82,7 +84,14 @@ const formSchema = z
 					path: ["difficulty"],
 					message: "Select a difficulty",
 				});
-			if (!Number.isInteger(level) || level < 1 || level > 10)
+			if (
+				!Number.isInteger(level) ||
+				level < 1 ||
+				level >
+					getLoadoutSnapshotConquestMaxLevel(
+						value.difficulty as (typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES],
+					)
+			)
 				context.addIssue({
 					code: "custom",
 					path: ["level"],
@@ -107,6 +116,12 @@ const formSchema = z
 					code: "custom",
 					path: ["score"],
 					message: "Enter a nonnegative whole number",
+				});
+			if (!/^\d{2}:[0-5]\d\.\d{2}$/.test(value.clear_time))
+				context.addIssue({
+					code: "custom",
+					path: ["clear_time"],
+					message: "Use MM:SS.cc",
 				});
 		}
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST) {
@@ -135,17 +150,6 @@ const CONQUEST_BOSS_OPTIONS = LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.map((id) => ({
 	name: MONSTERLINGS_DATA[id].name,
 	image: MONSTERLINGS_DATA[id].image,
 }));
-
-const formatLoadoutSnapshotClearTime = (raw: string): string => {
-	const digits = raw.replace(/\D/g, "").slice(0, 6).padEnd(6, "0");
-	return `${digits.slice(0, 2)}:${digits.slice(2, 4)}.${digits.slice(4)}`;
-};
-
-const CLEAR_TIME_SEGMENTS = [
-	[0, 2],
-	[3, 5],
-	[6, 8],
-] as const;
 
 const valuesFor = (
 	loadout: LoadoutOwned | null,
@@ -213,9 +217,8 @@ export const LoadoutSnapshotDialog = ({
 	});
 	const bossId = useWatch({ control: form.control, name: "boss_id" });
 	const clearTime = useWatch({ control: form.control, name: "clear_time" });
+	const difficulty = useWatch({ control: form.control, name: "difficulty" });
 	const selectedBoss = bossId ? MONSTERLINGS_DATA[Number(bossId)] : undefined;
-	const clearTimeSegment = useRef(0);
-	const clearTimeDigit = useRef(0);
 	const open = loadout !== null || snapshot !== null;
 	useEffect(() => {
 		if (open) form.reset(valuesFor(loadout, snapshot));
@@ -254,57 +257,6 @@ export const LoadoutSnapshotDialog = ({
 			shouldValidate: true,
 		});
 	};
-	const selectClearTimeSegment = (
-		input: HTMLInputElement,
-		segment: number,
-		shouldDefer = false,
-	) => {
-		clearTimeSegment.current = segment;
-		clearTimeDigit.current = 0;
-		const [start, end] = CLEAR_TIME_SEGMENTS[segment];
-		if (shouldDefer) {
-			requestAnimationFrame(() => input.setSelectionRange(start, end));
-			return;
-		}
-		input.setSelectionRange(start, end);
-	};
-	const handleClearTimeKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-		const input = event.currentTarget;
-		if (/^\d$/.test(event.key)) {
-			event.preventDefault();
-			const segment = clearTimeSegment.current;
-			const digit = clearTimeDigit.current;
-			const position = CLEAR_TIME_SEGMENTS[segment][0] + digit;
-			const characters = clearTime.split("");
-			characters[position] = event.key;
-			form.setValue("clear_time", characters.join(""), {
-				shouldDirty: true,
-				shouldValidate: true,
-			});
-			if (digit === 1) {
-				selectClearTimeSegment(
-					input,
-					Math.min(segment + 1, CLEAR_TIME_SEGMENTS.length - 1),
-					true,
-				);
-				return;
-			}
-			clearTimeDigit.current = 1;
-			input.setSelectionRange(position + 1, position + 2);
-			return;
-		}
-		if (event.key === "Backspace" || event.key === "Delete") {
-			event.preventDefault();
-			const segment = clearTimeSegment.current;
-			const [start, end] = CLEAR_TIME_SEGMENTS[segment];
-			form.setValue(
-				"clear_time",
-				`${clearTime.slice(0, start)}00${clearTime.slice(end)}`,
-				{ shouldDirty: true, shouldValidate: true },
-			);
-			selectClearTimeSegment(input, segment, true);
-		}
-	};
 	const submit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const parsed = formSchema.safeParse(form.getValues());
@@ -325,6 +277,7 @@ export const LoadoutSnapshotDialog = ({
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.RIFT)
 			details = {
 				level: Number(value.level),
+				clear_time: value.clear_time,
 				...(value.score === "" ? {} : { score: Number(value.score) }),
 			};
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST)
@@ -448,9 +401,19 @@ export const LoadoutSnapshotDialog = ({
 								Difficulty
 								<Select
 									value={form.watch("difficulty")}
-									onValueChange={(value) =>
-										form.setValue("difficulty", value, { shouldValidate: true })
-									}
+									onValueChange={(value) => {
+										form.setValue("difficulty", value, {
+											shouldValidate: true,
+										});
+										const maxLevel = getLoadoutSnapshotConquestMaxLevel(
+											value as (typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES],
+										);
+										if (Number(form.getValues("level")) > maxLevel)
+											form.setValue("level", String(maxLevel), {
+												shouldDirty: true,
+												shouldValidate: true,
+											});
+									}}
 								>
 									<SelectTrigger
 										id="snapshot-difficulty"
@@ -516,8 +479,13 @@ export const LoadoutSnapshotDialog = ({
 										<SelectValue />
 									</SelectTrigger>
 									<SelectContent>
-										{Array.from({ length: 10 }, (_, index) =>
-											String(index + 1),
+										{Array.from(
+											{
+												length: getLoadoutSnapshotConquestMaxLevel(
+													difficulty as (typeof LOADOUT_SNAPSHOT_DIFFICULTIES)[keyof typeof LOADOUT_SNAPSHOT_DIFFICULTIES],
+												),
+											},
+											(_, index) => String(index + 1),
 										).map((level) => (
 											<SelectItem key={level} value={level}>
 												{level}
@@ -526,48 +494,16 @@ export const LoadoutSnapshotDialog = ({
 									</SelectContent>
 								</Select>
 							</label>
-							<label
-								htmlFor="snapshot-clear-time"
-								className="grid gap-2 text-sm font-medium"
-							>
-								Clear time
-								<Input
-									id="snapshot-clear-time"
-									inputMode="numeric"
-									placeholder="MM:SS.cc"
-									value={clearTime}
-									onFocus={(event) =>
-										selectClearTimeSegment(event.currentTarget, 0)
-									}
-									onClick={(event) =>
-										selectClearTimeSegment(event.currentTarget, 0)
-									}
-									onKeyDown={handleClearTimeKeyDown}
-									onChange={(event) => {
-										form.setValue(
-											"clear_time",
-											formatLoadoutSnapshotClearTime(event.currentTarget.value),
-											{ shouldDirty: true, shouldValidate: true },
-										);
-									}}
-									onPaste={(event) => {
-										event.preventDefault();
-										form.setValue(
-											"clear_time",
-											formatLoadoutSnapshotClearTime(
-												event.clipboardData.getData("text"),
-											),
-											{ shouldDirty: true, shouldValidate: true },
-										);
-										selectClearTimeSegment(event.currentTarget, 2, true);
-									}}
-								/>
-								{form.formState.errors.clear_time && (
-									<span className="text-xs text-destructive">
-										{form.formState.errors.clear_time.message}
-									</span>
-								)}
-							</label>
+							<LoadoutSnapshotClearTimeInput
+								value={clearTime}
+								onChange={(value) =>
+									form.setValue("clear_time", value, {
+										shouldDirty: true,
+										shouldValidate: true,
+									})
+								}
+								error={form.formState.errors.clear_time?.message}
+							/>
 						</>
 					)}
 					{tag === LOADOUT_SNAPSHOT_TAGS.RIFT && (
@@ -588,6 +524,16 @@ export const LoadoutSnapshotDialog = ({
 									}
 								/>
 							</label>
+							<LoadoutSnapshotClearTimeInput
+								value={clearTime}
+								onChange={(value) =>
+									form.setValue("clear_time", value, {
+										shouldDirty: true,
+										shouldValidate: true,
+									})
+								}
+								error={form.formState.errors.clear_time?.message}
+							/>
 							<label
 								htmlFor="snapshot-rift-score"
 								className="grid gap-2 text-sm font-medium"

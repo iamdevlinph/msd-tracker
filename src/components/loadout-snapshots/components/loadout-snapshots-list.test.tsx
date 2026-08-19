@@ -61,7 +61,7 @@ describe("LoadoutSnapshotsList", () => {
 				},
 				newer: {
 					...snapshot("newer", "Beta clear", "rift", 2_000),
-					details: { level: 50, score: 12_345_678 },
+					details: { level: 50, clear_time: "01:02.03", score: 12_345_678 },
 					notes: "Bring fire resistance",
 				},
 			},
@@ -94,7 +94,7 @@ describe("LoadoutSnapshotsList", () => {
 		).toBeTruthy();
 		const tag = screen.getByText("Rift", { selector: "span" });
 		expect(tag.parentElement?.textContent).toContain(
-			"Level 50 · Score 12,345,678",
+			"Level 50 · Clear time 01:02.03 · Score 12,345,678",
 		);
 		expect(tag.parentElement?.nextElementSibling?.textContent).toBe(
 			`Created ${new Date(2_000).toLocaleString()}`,

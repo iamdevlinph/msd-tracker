@@ -33,6 +33,10 @@ export const LOADOUT_SNAPSHOT_DIFFICULTY_OPTIONS = Object.values(
 	label: LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[value],
 }));
 
+export const getLoadoutSnapshotConquestMaxLevel = (
+	difficulty: LoadoutSnapshotDifficulty,
+) => (difficulty === LOADOUT_SNAPSHOT_DIFFICULTIES.NORMAL ? 15 : 10);
+
 export const LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS = [
 	38, 67, 94, 119, 143, 164,
 ] as const;

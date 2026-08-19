@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import type { StateCreator } from "zustand";
 import {
+	getLoadoutSnapshotConquestMaxLevel,
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_DIFFICULTIES,
 	LOADOUT_SNAPSHOT_ELEMENTS,
@@ -33,6 +34,7 @@ export type ConquestSnapshotDetails = {
 };
 export type RiftSnapshotDetails = {
 	level: number;
+	clear_time: string;
 	score?: number;
 };
 export type LegendaryConquestSnapshotDetails = {
@@ -87,7 +89,10 @@ export const normalizeLoadoutSnapshotDetails = (
 			typeof level !== "number" ||
 			!Number.isInteger(level) ||
 			level < 1 ||
-			level > 10 ||
+			level >
+				getLoadoutSnapshotConquestMaxLevel(
+					difficulty as LoadoutSnapshotDifficulty,
+				) ||
 			!isValidLoadoutSnapshotClearTime(value.clear_time)
 		)
 			return null;
@@ -118,7 +123,16 @@ export const normalizeLoadoutSnapshotDetails = (
 			return null;
 		const score = value.score;
 		if (score !== undefined && !isNonnegativeInteger(score)) return null;
-		return score === undefined ? { level } : { level, score };
+		if (
+			value.clear_time !== undefined &&
+			!isValidLoadoutSnapshotClearTime(value.clear_time)
+		)
+			return null;
+		return {
+			level,
+			clear_time: value.clear_time ?? "00:00.00",
+			...(score === undefined ? {} : { score }),
+		};
 	}
 	if (tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST) {
 		const elementId = value.element_id;
