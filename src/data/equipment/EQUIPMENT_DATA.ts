@@ -373,6 +373,50 @@ const equipment = EQUIPMENT_SETS.flatMap((set) =>
 	})),
 );
 
+const PRIME_VARIANT_EFFECT = {
+	pieces: 2,
+	effect: "Effect details pending.",
+} as const;
+const PRIME_VARIANTS = [
+	[63, "Gourmand's Grand Banquet", [1, 2]],
+	[65, "Devourer of the Abyss", [3, 4]],
+	[67, "Forest Tyrant", [5, 6, 7, 8]],
+	[71, "Sirius", [9, 10, 11, 12]],
+	[75, "Ancient Stone", [13, 14]],
+	[77, "Mount Tai's Towering Might", [15, 16, 17, 18]],
+	[81, "Heart of Eternal Frost", [19, 20]],
+	[83, "Vanguard of Victory", [21, 22]],
+	[85, "Gourmand Level", [23, 24, 25, 26]],
+	[89, "Victorious General's Rites", [27, 28]],
+	[91, "Thousand-Year-Old Tree", [29, 30]],
+	[93, "Night of a Full Moon", [31, 32, 33, 34]],
+	[97, "Fox Youkai's Fighting Spirit", [35, 36]],
+	[99, "Blossoms in Full Bloom", [37, 38]],
+] as const;
+const equipmentById = Object.fromEntries(
+	equipment.map((piece) => [piece.id, piece]),
+);
+const primeVariantEquipment = PRIME_VARIANTS.flatMap(
+	([firstId, set_name, sourceIds]) =>
+		sourceIds.map((sourceId, index) => {
+			const source = equipmentById[sourceId];
+			return {
+				...source,
+				id: firstId + index,
+				name:
+					set_name === "Heart of Eternal Frost" && sourceId === 20
+						? "Touch of Eternal Frost"
+						: source.name,
+				tier_id: TIER_ID_BY_TIER.PRIME_5,
+				set_name,
+				set_effects:
+					sourceIds.length === 4
+						? [PRIME_VARIANT_EFFECT, { ...PRIME_VARIANT_EFFECT, pieces: 4 }]
+						: [PRIME_VARIANT_EFFECT],
+			};
+		}),
+);
+
 export const EQUIPMENT_DATA = Object.fromEntries(
-	equipment.map((item) => [item.id, item]),
+	[...equipment, ...primeVariantEquipment].map((item) => [item.id, item]),
 ) as Record<EquipmentId, Equipment>;
