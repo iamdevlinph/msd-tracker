@@ -213,12 +213,12 @@ describe("checklist schedule utilities", () => {
 	it("prefers player schedule versions over official completion versions", () => {
 		const official = {
 			...daily,
-			completionVersion: 2,
+			completionVersion: "1.3.0",
 		};
 		expect(occurrenceKey(official, 0)).toBe(
-			"daily:v2:1970-01-01T00:00:00.000Z",
+			"daily:v1.3.0:1970-01-01T00:00:00.000Z",
 		);
-		expect(fullCompletionKey(official)).toBe("daily:v2:full");
+		expect(fullCompletionKey(official)).toBe("daily:v1.3.0:full");
 
 		const player = {
 			...official,
