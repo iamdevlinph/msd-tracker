@@ -56,6 +56,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Record required Conquest bosses with canonical portraits, use a fixed segmented clear-time format, and default new snapshot names to the trimmed source loadout name.
 - [x] Require Rift clear times with the shared segmented control, normalize legacy Rift snapshots, and allow Normal Conquest levels through 15 while retaining level 10 caps elsewhere.
 - [x] Filter snapshot lists by conditional Legendary Conquest elements or Conquest bosses with multi-select OR semantics, tag-aware reset behavior, extracted toolbar/predicate modules, and focused verification.
+- [x] Emphasize loadout snapshot field values while keeping creation timestamps only in interactive preview headers.
 
 ## Loadout Code Sharing: Deferred
 

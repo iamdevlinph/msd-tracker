@@ -146,7 +146,6 @@ export const LoadoutSnapshotsList = () => {
 							<div className="pointer-events-none relative z-10 min-w-0">
 								<h3 className="font-semibold">{snapshot.name}</h3>
 								<LoadoutSnapshotMetadata
-									createdAt={snapshot.created_at}
 									tag={snapshot.tag}
 									details={snapshot.details}
 									notes={snapshot.notes}
@@ -181,7 +180,6 @@ export const LoadoutSnapshotsList = () => {
 				metadata={
 					preview ? (
 						<LoadoutSnapshotMetadata
-							createdAt={preview.created_at}
 							tag={preview.tag}
 							details={preview.details}
 							showNotes={false}
@@ -191,7 +189,6 @@ export const LoadoutSnapshotsList = () => {
 				metadataWithNotes={
 					preview?.notes ? (
 						<LoadoutSnapshotMetadata
-							createdAt={preview.created_at}
 							tag={preview.tag}
 							details={preview.details}
 							notes={preview.notes}
@@ -199,6 +196,16 @@ export const LoadoutSnapshotsList = () => {
 					) : null
 				}
 				typeLabel="Loadout Snapshot"
+				headerSupplement={
+					preview ? (
+						<time
+							className="border-b px-4 py-1 text-[10px] leading-relaxed text-muted-foreground"
+							dateTime={new Date(preview.created_at).toISOString()}
+						>
+							Created {new Date(preview.created_at).toLocaleString()}
+						</time>
+					) : null
+				}
 				target="snapshot"
 				showMetadataInHeader={false}
 			/>
@@ -225,7 +232,6 @@ export const LoadoutSnapshotsList = () => {
 						renderData={snapshotRenderData(exported)}
 						metadata={
 							<LoadoutSnapshotMetadata
-								createdAt={exported.created_at}
 								tag={exported.tag}
 								details={exported.details}
 								notes={exported.notes}

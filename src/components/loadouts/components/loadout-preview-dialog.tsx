@@ -32,6 +32,7 @@ type LoadoutPreviewDialogProps = {
 	renderData?: LoadoutRenderData;
 	metadata?: ReactNode;
 	metadataWithNotes?: ReactNode;
+	headerSupplement?: ReactNode;
 	showMetadataInHeader?: boolean;
 	typeLabel?: string;
 	target?: "loadout" | "snapshot";
@@ -51,6 +52,7 @@ export const LoadoutPreviewDialog = ({
 	renderData,
 	metadata,
 	metadataWithNotes,
+	headerSupplement,
 	showMetadataInHeader = true,
 	typeLabel = "Team Loadout",
 	target = "loadout",
@@ -81,7 +83,10 @@ export const LoadoutPreviewDialog = ({
 		>
 			<DialogContent
 				className={cn(
-					"grid max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-none grid-rows-[auto_auto_minmax(0,1fr)] gap-0 overflow-hidden p-0",
+					"grid max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-none gap-0 overflow-hidden p-0",
+					headerSupplement
+						? "grid-rows-[auto_auto_auto_minmax(0,1fr)]"
+						: "grid-rows-[auto_auto_minmax(0,1fr)]",
 					compactMonsterlings
 						? "sm:max-w-max"
 						: hideEquipment
@@ -99,6 +104,7 @@ export const LoadoutPreviewDialog = ({
 						overview.
 					</DialogDescription>
 				</DialogHeader>
+				{headerSupplement}
 				<div className="flex flex-wrap items-center justify-between gap-3 border-b p-3">
 					<div className="flex flex-wrap items-center gap-3">
 						<Label htmlFor="hide-equipment" className="cursor-pointer">

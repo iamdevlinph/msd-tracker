@@ -6,12 +6,10 @@ import {
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
-import { fmt } from "@/lib/utils";
 import type { LoadoutSnapshotDetails } from "@/stores/loadout-snapshots-slice";
 import { LoadoutSnapshotTagBadge } from "./loadout-snapshot-tag-badge";
 
 type LoadoutSnapshotMetadataProps = {
-	createdAt: number;
 	tag: LoadoutSnapshotTag;
 	details?: LoadoutSnapshotDetails | null;
 	notes?: string;
@@ -25,21 +23,22 @@ const ResElementMetadata = ({
 }) =>
 	elementIds?.length ? (
 		<span className="inline-flex flex-wrap items-center gap-1">
-			RES Element
-			{elementIds.map((elementId) => (
-				<img
-					key={elementId}
-					src={ELEMENTS_DATA[elementId].image}
-					width="16"
-					height="16"
-					alt={`${LOADOUT_SNAPSHOT_ELEMENT_LABELS[elementId]} RES Element icon`}
-				/>
-			))}
+			<span className="text-muted-foreground">RES Element</span>
+			<span className="inline-flex items-center gap-1 font-semibold text-foreground">
+				{elementIds.map((elementId) => (
+					<img
+						key={elementId}
+						src={ELEMENTS_DATA[elementId].image}
+						width="16"
+						height="16"
+						alt={`${LOADOUT_SNAPSHOT_ELEMENT_LABELS[elementId]} RES Element icon`}
+					/>
+				))}
+			</span>
 		</span>
 	) : null;
 
 export const LoadoutSnapshotMetadata = ({
-	createdAt,
 	tag,
 	details,
 	notes,
@@ -50,22 +49,34 @@ export const LoadoutSnapshotMetadata = ({
 			<LoadoutSnapshotTagBadge tag={tag} />
 			{details && "difficulty" in details && details.boss_id !== undefined ? (
 				<span className="inline-flex items-center gap-1 text-foreground">
+					<span className="text-muted-foreground">Boss</span>
 					<img
 						src={MONSTERLINGS_DATA[details.boss_id].image}
 						width="20"
 						height="20"
 						alt={`${MONSTERLINGS_DATA[details.boss_id].name} icon`}
 					/>
-					{MONSTERLINGS_DATA[details.boss_id].name}
+					<span className="font-semibold">
+						{MONSTERLINGS_DATA[details.boss_id].name}
+					</span>
 				</span>
 			) : null}
 			{details && (
 				<span className="inline-flex flex-wrap items-center gap-1">
 					{"difficulty" in details ? (
 						<>
-							Difficulty{" "}
-							{LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[details.difficulty]} · Level{" "}
-							{details.level} · Clear time {details.clear_time}
+							<span>Difficulty</span>{" "}
+							<span className="font-semibold text-foreground">
+								{LOADOUT_SNAPSHOT_DIFFICULTY_LABELS[details.difficulty]}
+							</span>{" "}
+							· <span>Level</span>{" "}
+							<span className="font-semibold text-foreground">
+								{details.level}
+							</span>{" "}
+							· <span>Clear time</span>{" "}
+							<span className="font-semibold text-foreground">
+								{details.clear_time}
+							</span>
 							{details.res_element_ids?.length ? (
 								<>
 									{" "}
@@ -75,28 +86,51 @@ export const LoadoutSnapshotMetadata = ({
 						</>
 					) : "element_id" in details ? (
 						<>
-							Element{" "}
-							<img
-								src={ELEMENTS_DATA[details.element_id].image}
-								width="16"
-								height="16"
-								alt={`${LOADOUT_SNAPSHOT_ELEMENT_LABELS[details.element_id]} icon`}
-							/>{" "}
+							<span>Element</span>{" "}
+							<span className="inline-flex items-center gap-1 font-semibold text-foreground">
+								<img
+									src={ELEMENTS_DATA[details.element_id].image}
+									width="16"
+									height="16"
+									alt={`${LOADOUT_SNAPSHOT_ELEMENT_LABELS[details.element_id]} icon`}
+								/>
+							</span>{" "}
 							{details.res_element_ids?.length ? (
 								<>
-									{" "}
-									· <ResElementMetadata elementIds={details.res_element_ids} />
+									· <ResElementMetadata
+										elementIds={details.res_element_ids}
+									/>{" "}
 								</>
-							) : null}{" "}
-							· Score {details.score.toLocaleString("en-US")}
+							) : null}
+							· <span>Score</span>{" "}
+							<span className="font-semibold text-foreground">
+								{details.score.toLocaleString("en-US")}
+							</span>
 						</>
 					) : (
-						`Level ${details.level} · Clear time ${details.clear_time}${details.score === undefined ? "" : ` · Score ${details.score.toLocaleString("en-US")}`}`
+						<>
+							<span>Level</span>{" "}
+							<span className="font-semibold text-foreground">
+								{details.level}
+							</span>{" "}
+							· <span>Clear time</span>{" "}
+							<span className="font-semibold text-foreground">
+								{details.clear_time}
+							</span>
+							{details.score === undefined ? null : (
+								<>
+									{" "}
+									· <span>Score</span>{" "}
+									<span className="font-semibold text-foreground">
+										{details.score.toLocaleString("en-US")}
+									</span>
+								</>
+							)}
+						</>
 					)}
 				</span>
 			)}
 		</div>
-		<div>Created {fmt(createdAt)}</div>
 		{showNotes && notes && (
 			<p className="whitespace-pre-wrap text-foreground">
 				<span className="font-medium">Note:</span> {notes}

@@ -71,11 +71,16 @@ describe("LoadoutSnapshotsList", () => {
 	it("shows the Conquest boss icon after the tag in rows and previews", () => {
 		render(<LoadoutSnapshotsList />);
 		const tag = screen.getByText("Conquest", { selector: "span" });
-		expect(tag.nextElementSibling?.textContent).toBe("Custos");
+		expect(tag.parentElement?.parentElement?.className).toContain(
+			"text-muted-foreground",
+		);
+		expect(tag.nextElementSibling?.textContent).toBe("BossCustos");
 		expect(
 			tag.nextElementSibling?.querySelector("img")?.getAttribute("alt"),
 		).toBe("Custos icon");
 		expect(tag.parentElement?.textContent).toContain("Difficulty Normal");
+		expect(screen.getByText("Custos").className).toContain("font-semibold");
+		expect(screen.getByText("Normal").className).toContain("font-semibold");
 
 		fireEvent.click(
 			screen.getByRole("button", { name: "Preview Alpha clear snapshot row" }),
@@ -89,16 +94,14 @@ describe("LoadoutSnapshotsList", () => {
 
 	it("shows frozen snapshot metadata and filters by snapshot name", () => {
 		render(<LoadoutSnapshotsList />);
-		expect(
-			screen.getByText(`Created ${new Date(2_000).toLocaleString()}`),
-		).toBeTruthy();
+		expect(screen.queryByRole("time")).toBeNull();
+		expect(screen.queryByText(new Date(2_000).toLocaleString())).toBeNull();
 		const tag = screen.getByText("Rift", { selector: "span" });
 		expect(tag.parentElement?.textContent).toContain(
 			"Level 50 · Clear time 01:02.03 · Score 12,345,678",
 		);
-		expect(tag.parentElement?.nextElementSibling?.textContent).toBe(
-			`Created ${new Date(2_000).toLocaleString()}`,
-		);
+		for (const value of ["50", "01:02.03", "12,345,678"])
+			expect(screen.getByText(value).className).toContain("font-semibold");
 		expect(screen.getByText(/Note:/).closest("p")?.textContent).toBe(
 			"Note: Bring fire resistance",
 		);
@@ -228,7 +231,7 @@ describe("LoadoutSnapshotsList", () => {
 			loadoutSnapshots: {
 				fire: {
 					...snapshot("fire", "Fire run", "legendary_conquest", 1),
-					details: { element_id: 2, score: 1 },
+					details: { element_id: 2, res_element_ids: [1], score: 1_234 },
 				},
 				earth: {
 					...snapshot("earth", "Earth run", "legendary_conquest", 2),
@@ -243,6 +246,13 @@ describe("LoadoutSnapshotsList", () => {
 			},
 		});
 		render(<LoadoutSnapshotsList />);
+		expect(screen.getByAltText("Fire icon").parentElement?.className).toContain(
+			"font-semibold",
+		);
+		expect(
+			screen.getByAltText("Earth RES Element icon").parentElement?.className,
+		).toContain("font-semibold");
+		expect(screen.getByText("1,234").className).toContain("font-semibold");
 
 		const tagGroup = screen.getByRole("group", {
 			name: "Filter loadout snapshots by tag",
@@ -352,6 +362,14 @@ describe("LoadoutSnapshotsList", () => {
 			expect(screen.getByRole("button", { name })).toBeTruthy();
 		fireEvent.click(
 			screen.getByRole("button", { name: "Preview Beta clear snapshot row" }),
+		);
+		const timestamp = screen.getByRole("time");
+		expect(timestamp.textContent).toBe(
+			`Created ${new Date(2_000).toLocaleString()}`,
+		);
+		expect(timestamp.className).toContain("text-[10px]");
+		expect(timestamp.previousElementSibling?.getAttribute("data-slot")).toBe(
+			"dialog-header",
 		);
 		expect(screen.getByText("Loadout Snapshot")).toBeTruthy();
 		const previewDialog = within(
