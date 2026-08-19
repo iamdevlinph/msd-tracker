@@ -9,6 +9,12 @@ import {
 import { TIER_ID_BY_TIER, type TierId } from "@/data/tiers/TIERS_DATA";
 
 export type CharId = number;
+export type Costume = {
+	id: number;
+	name: string;
+	portraitImage: string;
+	is_hidden?: boolean;
+};
 
 export type Character = {
 	id: CharId;
@@ -21,6 +27,7 @@ export type Character = {
 	tier_id: TierId;
 	variant?: "Summer Dive!";
 	is_hidden?: boolean;
+	costumes?: Costume[];
 };
 
 export const CHARACTERS_DATA: Record<number, Character> = {
@@ -62,6 +69,15 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_Mina_00.webp",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Mina.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		costumes: [
+			{
+				id: 1,
+				name: "Costume 1",
+				portraitImage:
+					"/images/Character_Portrait/portrait_Mina_Costume_01.webp",
+				is_hidden: true,
+			},
+		],
 	},
 	4: {
 		id: 4,
@@ -125,6 +141,14 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_Ophelia_00.webp",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Ophelia.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		costumes: [
+			{
+				id: 1,
+				name: "Costume 1",
+				portraitImage:
+					"/images/Character_Portrait/portrait_Ophelia_Costume_01.webp",
+			},
+		],
 	},
 	8: {
 		id: 8,
@@ -151,6 +175,14 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_Jiwon_00.webp",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Jiwon.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		costumes: [
+			{
+				id: 1,
+				name: "Costume 1",
+				portraitImage:
+					"/images/Character_Portrait/portrait_Jiwon_Costume_01.webp",
+			},
+		],
 	},
 	10: {
 		id: 10,

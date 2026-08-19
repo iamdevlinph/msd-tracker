@@ -3,6 +3,7 @@ import type { CharacterOwned } from "@/components/characters/components/characte
 import { CharacterFilter } from "@/components/characters/components/character-filter";
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
+import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +49,10 @@ export const LoadoutCharacterPicker = ({
 						<CharacterCard
 							portraitSize={130}
 							iconSize={30}
-							portraitImage={character.info.portraitImage}
+							portraitImage={resolveCharacterPortrait(
+								character.info,
+								character,
+							)}
 							name={character.info.name}
 							element_id={character.info.element_id}
 							class_id={character.info.class_id}

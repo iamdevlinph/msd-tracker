@@ -1,3 +1,4 @@
+import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import {
 	MONSTERLING_CARD_WIDTH,
@@ -90,7 +91,15 @@ export const LoadoutPreviewRow = ({
 			<div className="grid items-center gap-3" style={{ gridTemplateColumns }}>
 				{character && characterOwned ? (
 					<LoadoutPreviewCharacter
-						character={character}
+						character={
+							character && {
+								...character,
+								portraitImage: resolveCharacterPortrait(
+									character,
+									characterOwned,
+								),
+							}
+						}
 						owned={characterOwned}
 						statValues={slot.stat_values ?? {}}
 						pinnedStatIds={slot.pinned_stat_ids ?? []}

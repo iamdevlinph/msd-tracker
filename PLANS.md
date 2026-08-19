@@ -11,6 +11,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Show owned/total roster progress and disable additions when every character is owned.
 - [x] Highlight max-level skills in green so awakening styling never obscures a stored level 12.
 - [x] Place Characters first in the Inventory navigation section.
+- [x] Add portrait-selectable Mina, Jiwon, and Ophelia costumes with hidden-catalog development navigation details.
 
 ## Monsterlings: Available
 
@@ -128,7 +129,11 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 ## Chunk 2: Artifacts Inventory
 
-- [x] Add Brisshell's Tier 5 Earth Assassin artifact, Monstrous Longing.
+<<<<<<< HEAD
+
+- [x] # Add Brisshell's Tier 5 Earth Assassin artifact, Monstrous Longing.
+- [x] Add Brisshell's Tier 5 Earth Assassin artifact with a temporary title pending its official name.
+  > > > > > > > 59afb26 (Prepare Brishell assets)
 - [x] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
 - [x] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.
 - [x] Build the Artifacts page with cards, search, filters, empty states, and accessible forms.

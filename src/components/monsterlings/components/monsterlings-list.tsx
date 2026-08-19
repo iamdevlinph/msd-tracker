@@ -22,10 +22,11 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 		(s) => s.monsterlingLinkChainLevels,
 	);
 	const loadouts = useAppStore((s) => s.loadouts);
+	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const equippedCharacterUsage = getEquippedCharacterUsage(
 		loadouts,
 		undefined,
-		{ monsterlingInstanceIds: Object.keys(monsterlingsOwned) },
+		{ monsterlingInstanceIds: Object.keys(monsterlingsOwned), charactersOwned },
 	);
 	const sortedMonsterlings = Object.entries(monsterlingsOwned)
 		.filter(([, monsterling]) => {

@@ -37,6 +37,7 @@ type PreviewCharacter = Character;
 type CharacterOwned = {
 	awakening: number;
 	skills: Record<CharacterSkill, number>;
+	costume_id?: number | null;
 };
 type LoadoutPreviewCharacterProps = {
 	character: PreviewCharacter;

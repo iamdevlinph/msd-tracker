@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { z } from "zod";
+import { getVisibleCostumes } from "@/components/characters/utils/character-costume";
 import { CHARACTER_SKILLS } from "@/components/characters/utils/character-domain-values";
 import { NumberControlInput } from "@/components/forms/number-control-input";
 import { SeparatorText } from "@/components/shared/separator-text";
@@ -31,6 +32,7 @@ const characterOwnedDetailsSchema = z.object({
 		[CHARACTER_SKILLS.SPECIAL]: z.number().min(1).max(12),
 		[CHARACTER_SKILLS.ULTIMATE]: z.number().min(1).max(12),
 	}),
+	costume_id: z.number().nullable().optional(),
 });
 
 export type CharacterOwned = z.infer<typeof characterOwnedDetailsSchema>;
@@ -58,12 +60,13 @@ export const CharacterOwnedDetailsForm = ({
 				[CHARACTER_SKILLS.SPECIAL]: editCharacterData?.skills.special ?? 1,
 				[CHARACTER_SKILLS.ULTIMATE]: editCharacterData?.skills.ultimate ?? 1,
 			},
+			costume_id: editCharacterData?.costume_id ?? null,
 		},
 		mode: "onChange",
 	});
 
 	const onSubmit = (data: CharacterOwned) => {
-		const { awakening, skills } = data;
+		const { awakening, skills, costume_id } = data;
 		const object = {
 			id,
 			awakening: Number(awakening),
@@ -73,6 +76,7 @@ export const CharacterOwnedDetailsForm = ({
 				[CHARACTER_SKILLS.SPECIAL]: Number(skills[CHARACTER_SKILLS.SPECIAL]),
 				[CHARACTER_SKILLS.ULTIMATE]: Number(skills[CHARACTER_SKILLS.ULTIMATE]),
 			},
+			costume_id: costume_id ?? null,
 		};
 		setCharacterOwned(object);
 
@@ -91,6 +95,9 @@ export const CharacterOwnedDetailsForm = ({
 		control: form.control,
 		name: "awakening",
 	});
+	const costumeId = useWatch({ control: form.control, name: "costume_id" });
+	const character = CHARACTERS_DATA[id];
+	const costumes = getVisibleCostumes(character);
 
 	return (
 		<div className="flex flex-col gap-5">
@@ -101,6 +108,44 @@ export const CharacterOwnedDetailsForm = ({
 						className="gap-y-2 flex flex-col"
 						id={FORM_ID}
 					>
+						<FieldGroup>
+							{costumes.length > 0 && (
+								<fieldset className="grid gap-2">
+									<legend className="text-sm font-medium">Costume</legend>
+									<div className="flex flex-wrap gap-2">
+										<button
+											type="button"
+											onClick={() => form.setValue("costume_id", null)}
+											aria-pressed={costumeId == null}
+											className="rounded-md border p-1 aria-pressed:border-primary aria-pressed:ring-2 aria-pressed:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+										>
+											<img
+												src={character.portraitImage}
+												alt="Default"
+												className="size-16 object-contain"
+											/>
+										</button>
+										{costumes.map((costume) => (
+											<button
+												key={costume.id}
+												type="button"
+												onClick={() => form.setValue("costume_id", costume.id)}
+												aria-pressed={costumeId === costume.id}
+												aria-label={costume.name}
+												className="rounded-md border p-1 aria-pressed:border-primary aria-pressed:ring-2 aria-pressed:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+											>
+												<img
+													src={costume.portraitImage}
+													alt={costume.name}
+													className="size-16 object-contain"
+												/>
+											</button>
+										))}
+									</div>
+								</fieldset>
+							)}
+						</FieldGroup>
+
 						<FieldGroup>
 							<NumberControlInput<CharacterOwned>
 								name="awakening"

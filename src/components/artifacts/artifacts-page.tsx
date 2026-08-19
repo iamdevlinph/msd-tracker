@@ -17,11 +17,12 @@ import { useAppStore } from "@/stores/app-store";
 
 export const ArtifactsPage = () => {
 	const owned = useAppStore((s) => s.artifactsOwned);
+	const charactersOwned = useAppStore((s) => s.charactersOwned);
 	const loadouts = useAppStore((s) => s.loadouts);
 	const equippedCharacterUsage = getEquippedCharacterUsage(
 		loadouts,
 		undefined,
-		{ artifactInstanceIds: Object.keys(owned) },
+		{ artifactInstanceIds: Object.keys(owned), charactersOwned },
 	);
 	const [filters, setFilters] = useState(emptyArtifactFilters);
 	const [instanceIdToEdit, setInstanceIdToEdit] = useState<string | null>(null);

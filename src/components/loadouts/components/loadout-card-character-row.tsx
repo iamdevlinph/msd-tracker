@@ -1,4 +1,5 @@
 import { isArtifactVisible } from "@/components/artifacts/utils/artifact-utils";
+import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
@@ -50,6 +51,13 @@ export const LoadoutCardCharacterRow = ({
 			: null;
 	const characterOwned =
 		slot.characterId !== null ? charactersOwned[slot.characterId] : null;
+	const resolvedCharacter =
+		character && characterOwned
+			? {
+					...character,
+					portraitImage: resolveCharacterPortrait(character, characterOwned),
+				}
+			: character;
 	const artifactId = slot.artifactInstanceId;
 	const artifactOwned = artifactId ? artifactsOwned[artifactId] : null;
 	const catalogArtifact = artifactOwned
@@ -62,7 +70,7 @@ export const LoadoutCardCharacterRow = ({
 	return (
 		<div className="grid grid-cols-5 gap-1 rounded-md border bg-muted/20 p-2">
 			<LoadoutCardCharacterTile
-				character={character}
+				character={resolvedCharacter}
 				owned={characterOwned}
 				onEdit={onEditCharacter}
 			/>
