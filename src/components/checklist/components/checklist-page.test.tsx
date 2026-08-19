@@ -65,6 +65,8 @@ const { permanentEvents, eventsData } = vi.hoisted(() => ({
 		{
 			id: "fixture-gulgak",
 			title: "Fixture Gulgak",
+			noticeUrl:
+				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Fixture%20Gulgak",
 			kind: "event",
 			startAt: "2026-07-15T00:00:00.000Z",
 			endAt: "2026-07-28T23:59:00.000Z",
@@ -260,6 +262,18 @@ describe("ChecklistPage", () => {
 		expect(eventsFilter.getAttribute("aria-pressed")).toBe("true");
 		expect(screen.getByText("Fixture Gulgak")).toBeTruthy();
 		expect(screen.queryByText("Fixture Rift")).toBeNull();
+	});
+
+	it("links official event notices and leaves unlinked titles plain", () => {
+		render(<ChecklistPage />);
+
+		const linkedTitle = screen.getByRole("link", { name: "Fixture Gulgak" });
+		expect(linkedTitle.getAttribute("href")).toBe(
+			"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Fixture%20Gulgak",
+		);
+		expect(linkedTitle.getAttribute("target")).toBe("_blank");
+		expect(linkedTitle.getAttribute("rel")).toBe("noreferrer");
+		expect(screen.getByText("Fixture Ice").tagName).toBe("SPAN");
 	});
 
 	it("fully completes an event without losing its occurrence completion", () => {

@@ -25,45 +25,19 @@ export type ChecklistEvent = Omit<
 		| typeof CHECKLIST_RECURRENCES.WEEKLY;
 };
 
-const SUMMER_DIVE_NOTICE_TITLE =
-	"7/7 (Tue)「An Unforgettable First Summer Dive!」Event Notice";
+const BRISSHELL_EVENT_NOTICE_TITLE =
+	"8/18 (Tue) [Girl from the Void] Event Notice";
+const BRISSHELL_EVENT_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/548";
+const BRISSHELL_DISCORD_NOTICE_TITLE =
+	"8/19 (Wed) 「The Girl from the Void」Brisshell Screenshot Event Notice";
+const BRISSHELL_DISCORD_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/556";
 const MABEL_EVENT_NOTICE_TITLE =
 	"7/28 (Tue)「Inquisitor, Recorder of Reality and Phenomena Therein」Event Notice";
-const MABEL_DISCORD_NOTICE_TITLE =
-	"7/29 (Wed) Update Celebration! Two Discord Events";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
-	// Copy the published UTC date/time, add the year, and append Z. Do not convert
-	// it to the player's timezone. Fixed daily resets default to 00:00Z and
-	// weekly resets to Monday 00:00Z; set recurrenceStartAt when the notice
-	// publishes a different recurring claim or participation boundary.
-	{
-		id: "monsterling-trait-change-support",
-		title: "Monsterling Trait Change Support",
-		noticeTitle: SUMMER_DIVE_NOTICE_TITLE,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-07T00:00:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "legendary-monster-reginula-power-up-support",
-		title: "Legendary Monster Reginula Power Up Support",
-		noticeTitle: SUMMER_DIVE_NOTICE_TITLE,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-07T00:00:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "inquisitors-day-off-event-stage-inquisition",
-		title: "The Inquisitor's Day Off — Event Stage/Inquisition of the Lambs",
-		noticeTitle: MABEL_EVENT_NOTICE_TITLE,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-29T01:30:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
+	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
 	{
 		id: "inquisitors-day-off-shop-story-missions",
 		title: "The Inquisitor's Day Off — Shop/Story/Missions",
@@ -74,77 +48,104 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "arbiters-divine-indulgence",
-		title: "The Arbiter's Divine Indulgence",
-		noticeTitle: MABEL_EVENT_NOTICE_TITLE,
+		id: "tons-of-recruitment-tickets-check-in-streak-gift",
+		title: "Tons of Recruitment Tickets! Check-In Streak Gift",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Tons%20of%20Recruitment%20Tickets!%20Check-In%20Streak%20Gift`,
 		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-29T01:30:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "inquisitor-mabel-7-day-gifts",
-		title: "Inquisitor Mabel's 7-Day Gifts",
-		noticeTitle: MABEL_EVENT_NOTICE_TITLE,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-29T01:30:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
+		startAt: "2026-08-19T05:30:00.000Z",
+		endAt: "2026-09-02T05:30:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
-		recurrenceStartAt: "2026-07-29T00:00:00.000Z",
 	},
 	{
-		id: "special-missions-with-mabel",
-		title: "Special Missions with Mabel",
-		noticeTitle: MABEL_EVENT_NOTICE_TITLE,
+		id: "girl-from-the-void-event-stage-brisshells-link-rush",
+		title: "Girl from the Void — Event Stage/Brisshell’s Link Rush",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Girl%20from%20the%20Void%20%E2%80%94%20Event%20Stage%2FBrisshell%E2%80%99s%20Link%20Rush`,
 		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-29T01:30:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
+		startAt: "2026-08-19T05:30:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "mabel-invitation-to-break-the-ice",
+		id: "girl-from-the-void-shop-story-missions",
+		title: "Girl from the Void — Shop/Story/Missions",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Girl%20from%20the%20Void%20%E2%80%94%20Shop%2FStory%2FMissions`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-19T05:30:00.000Z",
+		endAt: "2026-09-15T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "th-this-is-for-being-my-friend",
+		title: "Th-this is for being my friend...",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Th-this%20is%20for%20being%20my%20friend...`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-19T05:30:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "brisshells-7-day-gifts",
+		title: "Brisshell’s 7-Day Gifts",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Brisshell%E2%80%99s%207-Day%20Gifts`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-19T05:30:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "special-missions-with-brisshell",
+		title: "Special Missions with Brisshell",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Special%20Missions%20with%20Brisshell`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-19T05:30:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "equipment-crafting-mission",
+		title: "Equipment Crafting Mission",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Equipment%20Crafting%20Mission`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-19T05:30:00.000Z",
+		endAt: "2026-08-25T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "anomaly-el-dorado-guardian",
+		title: "Anomaly: El Dorado Guardian",
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Anomaly%3A%20El%20Dorado%20Guardian`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-26T00:00:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "brisshell-an-invitation-to-break-the-ice",
 		title: "An Invitation to Break the Ice",
-		noticeTitle: MABEL_EVENT_NOTICE_TITLE,
+		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=An%20Invitation%20to%20Break%20the%20Ice`,
 		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-12T00:00:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
+		startAt: "2026-09-02T00:00:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "anomaly-blue-shadow",
-		title: "Anomaly: Blue Shadow",
-		noticeTitle: MABEL_EVENT_NOTICE_TITLE,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-05T00:00:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
-		id: "mabel-character-trivia-discord",
-		title: "New Character Mabel Debut! Character Trivia Event",
-		noticeTitle: MABEL_DISCORD_NOTICE_TITLE,
+		id: "brisshell-screenshot-event-discord",
+		title: "Brisshell Screenshot Event",
+		noticeTitle: BRISSHELL_DISCORD_NOTICE_TITLE,
+		noticeUrl: `${BRISSHELL_DISCORD_NOTICE_URL}#:~:text=Brisshell%20Screenshot%20Event`,
 		participation: "discord",
 		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-29T00:00:00.000Z",
-		endAt: "2026-08-19T01:00:00.000Z",
+		startAt: "2026-08-19T05:25:23.088Z",
+		endAt: "2026-08-26T01:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "forum.netmarble.com/stardive_gl/view/6/521-10-day-check-in",
-		title: "10-Day Check-In Mission",
-		noticeTitle: "8/5 (Wed) Event Notice",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-05T00:00:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
-		id: "forum.netmarble.com/stardive_gl/view/6/531-bonus-time-event",
-		title: "Bonus Time Event",
-		noticeTitle: "8/12 (Wed) Event Notice",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-12T00:00:00.000Z",
-		endAt: "2026-08-18T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 ];

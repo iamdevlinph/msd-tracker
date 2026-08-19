@@ -45,6 +45,7 @@ export type ChecklistDefinition = {
 	title: string;
 	description?: string;
 	noticeTitle?: string;
+	noticeUrl?: string;
 	kind: ChecklistKind;
 	startAt: string;
 	/**

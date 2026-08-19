@@ -14,6 +14,7 @@ Convert official notices into validated `ChecklistEvent` records without inferri
 3. Extract and keep distinct:
    - notice title;
    - separately trackable event title;
+   - the exact visible notice heading for each separately trackable event;
    - exact start and end instants in UTC;
    - participation channel, including Discord when published;
    - each recurring participation or claim window.
@@ -24,6 +25,10 @@ Convert official notices into validated `ChecklistEvent` records without inferri
 - Use `daily` only for published daily participation or claim windows and `weekly` only when explicitly published. Otherwise use `none`.
 - Omit `recurrenceStartAt` for the default `00:00 UTC` daily boundary. Set it to a full UTC ISO instant when the published recurring boundary differs. Preserve the event's separately published `startAt` and `endAt`.
 - Preserve an existing record's `id` when updating it.
+- When the official notice URL is known, set `noticeUrl` to that URL with a
+  `#:~:text=` fragment containing the percent-encoded exact visible event heading
+  so the event-name link scrolls to its section on anchorless notice pages. Use
+  the plain notice URL only when the page has no trustworthy exact heading.
 - For a new record, derive a stable unique ID from the official URL identifier when available; otherwise slugify the event title. Check uniqueness in the complete dataset.
 - Keep one record per separately completable checklist concern. Do not split a notice solely because it has multiple prose sections.
 - Do not add an event whose `endAt` is less than or equal to the current UTC instant unless the user explicitly requests historical retention.

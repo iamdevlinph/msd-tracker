@@ -163,19 +163,39 @@ export const ChecklistItemRow = ({
 				<div className="mr-2 flex min-w-0 flex-1 items-center gap-1.5 leading-tight">
 					<ChecklistBadges definition={definition} />
 					<div className="min-w-0 flex-1">
-						<span
-							className={cn(
-								"line-clamp-2 font-semibold",
-								customTask
-									? "text-sm sm:text-base"
-									: "text-xs sm:text-sm md:text-base",
-								(status === CHECKLIST_STATUSES.COMPLETED ||
-									status === CHECKLIST_STATUSES.EXPIRED) &&
-									"line-through",
-							)}
-						>
-							{definition.title}
-						</span>
+						{definition.noticeUrl ? (
+							<a
+								className={cn(
+									"line-clamp-2 w-fit max-w-full font-semibold underline-offset-4 hover:text-primary focus-visible:outline-none",
+									customTask
+										? "text-sm sm:text-base"
+										: "text-xs sm:text-sm md:text-base",
+									status === CHECKLIST_STATUSES.COMPLETED ||
+										status === CHECKLIST_STATUSES.EXPIRED
+										? "line-through hover:[text-decoration-line:underline_line-through] focus-visible:[text-decoration-line:underline_line-through]"
+										: "hover:underline focus-visible:underline",
+								)}
+								href={definition.noticeUrl}
+								target="_blank"
+								rel="noreferrer"
+							>
+								{definition.title}
+							</a>
+						) : (
+							<span
+								className={cn(
+									"line-clamp-2 font-semibold",
+									customTask
+										? "text-sm sm:text-base"
+										: "text-xs sm:text-sm md:text-base",
+									(status === CHECKLIST_STATUSES.COMPLETED ||
+										status === CHECKLIST_STATUSES.EXPIRED) &&
+										"line-through",
+								)}
+							>
+								{definition.title}
+							</span>
+						)}
 						{item.notes && (
 							<p className="mt-0.5 line-clamp-2 break-words whitespace-pre-line text-xs font-normal text-muted-foreground">
 								{item.notes}
