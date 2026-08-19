@@ -13,9 +13,13 @@ import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { useAppStore } from "@/stores/app-store";
 
 describe("ArtifactsPage", () => {
-	afterEach(cleanup);
+	afterEach(() => {
+		cleanup();
+		vi.unstubAllEnvs();
+	});
 
 	beforeEach(() => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
 		Element.prototype.scrollIntoView = vi.fn();
 		useAppStore.setState({
 			artifactsOwned: {
@@ -206,6 +210,21 @@ describe("ArtifactsPage", () => {
 		fireEvent.keyDown(dialogSearch, { key: "Escape" });
 		expect((dialogSearch as HTMLInputElement).value).toBe("");
 		expect(screen.getByRole("dialog")).toBeTruthy();
+	});
+
+	it("keeps Vivian's hidden artifact out of the add dialog", () => {
+		render(<ArtifactsPage />);
+		fireEvent.click(screen.getByRole("button", { name: "Add Artifact" }));
+
+		expect(screen.queryByText("Vivian's Artifact")).toBeNull();
+	});
+
+	it("shows Vivian's hidden artifact in local development", () => {
+		vi.stubEnv("VITE_NODE_ENV", "development");
+		render(<ArtifactsPage />);
+		fireEvent.click(screen.getByRole("button", { name: "Add Artifact" }));
+
+		expect(screen.getByText("Vivian's Artifact")).toBeTruthy();
 	});
 
 	it("allows another owned copy and resets fusion after closing", async () => {

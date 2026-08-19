@@ -5,6 +5,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 ## Characters: Available
 
 - [x] Add Brisshell as a Tier 5 Earth Assassin with her catalog images.
+- [x] Stage Vivian and her signature artifact as hidden catalog records outside local development, with local-development catalog counts, until official metadata is available.
 - [x] Filter owned and selectable characters by Tier 4 and Tier 5.
 - [x] Sort owned characters by name or awakening level in either direction.
 - [x] Show owned/total roster progress and disable additions when every character is owned.

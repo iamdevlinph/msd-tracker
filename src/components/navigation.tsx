@@ -10,7 +10,11 @@ import {
 	UserRoundCheck,
 } from "lucide-react";
 import type { JSX } from "react";
+import { isArtifactVisible } from "@/components/artifacts/utils/artifact-utils";
+import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import { SeparatorText } from "@/components/shared/separator-text";
+import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 import type { FileRoutesByTo } from "@/routeTree.gen";
 
@@ -149,6 +153,17 @@ const hoverStyle = "hover:text-foreground hover:bg-accent/50";
 
 export const Nav = () => {
 	const { pathname } = useLocation();
+	const showHiddenCatalog = import.meta.env.VITE_NODE_ENV === "development";
+	const hiddenCharacterCount = showHiddenCatalog
+		? Object.values(CHARACTERS_DATA).filter(
+				({ is_hidden }) => is_hidden && isCharacterVisible({ is_hidden }),
+			).length
+		: 0;
+	const hiddenArtifactCount = showHiddenCatalog
+		? Object.values(ARTIFACTS_DATA).filter(
+				({ is_hidden }) => is_hidden && isArtifactVisible({ is_hidden }),
+			).length
+		: 0;
 
 	return (
 		<nav className="flex-1 py-4 px-3 overflow-y-auto">
@@ -178,7 +193,13 @@ export const Nav = () => {
 										<Icon.icon className="size-4 shrink-0" />
 									)}
 									{Icon.type === "iconify" && Icon.icon}
-									<span>{label}</span>
+									<span>
+										{id === "characters" && showHiddenCatalog
+											? `${label} (${hiddenCharacterCount})`
+											: id === "artifacts" && showHiddenCatalog
+												? `${label} (${hiddenArtifactCount})`
+												: label}
+									</span>
 								</Link>
 							);
 						})}

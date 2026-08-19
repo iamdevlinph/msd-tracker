@@ -1,3 +1,5 @@
+import { isArtifactVisible } from "@/components/artifacts/utils/artifact-utils";
+import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
@@ -87,8 +89,12 @@ export const LoadoutEditor = ({
 			<TabsList className="grid w-full grid-cols-3 divide-x divide-border group-data-[orientation=horizontal]/tabs:h-[4.375rem]">
 				{SLOT_INDEXES.map((index) => {
 					const characterId = draft.characters[index].characterId;
-					const character =
+					const catalogCharacter =
 						characterId === null ? null : CHARACTERS_DATA[characterId];
+					const character =
+						catalogCharacter && isCharacterVisible(catalogCharacter)
+							? catalogCharacter
+							: null;
 					return (
 						<TabsTrigger
 							key={index}
@@ -111,13 +117,21 @@ export const LoadoutEditor = ({
 			</TabsList>
 			{SLOT_INDEXES.map((index) => {
 				const slot = draft.characters[index];
-				const character =
+				const catalogCharacter =
 					slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
+				const character =
+					catalogCharacter && isCharacterVisible(catalogCharacter)
+						? catalogCharacter
+						: null;
 				const artifactId = slot.artifactInstanceId;
 				const artifactOwned = artifactId ? artifactsOwned[artifactId] : null;
-				const artifact = artifactOwned
+				const catalogArtifact = artifactOwned
 					? ARTIFACTS_DATA[artifactOwned.artifact_id]
 					: null;
+				const artifact =
+					catalogArtifact && isArtifactVisible(catalogArtifact)
+						? catalogArtifact
+						: null;
 				const equipmentIds = slot.equipment_ids ?? [null, null, null, null];
 				return (
 					<TabsContent

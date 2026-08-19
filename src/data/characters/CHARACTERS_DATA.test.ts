@@ -25,6 +25,19 @@ describe("CHARACTERS_DATA", () => {
 		});
 	});
 
+	it("includes hidden Vivian with her staged classifications and images", () => {
+		expect(CHARACTERS_DATA[25]).toEqual({
+			id: 25,
+			name: "Vivian",
+			class_id: CLASS_ID_BY_CLASS.FIGHTER,
+			element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+			portraitImage: "/images/Character_Portrait/portrait_Vivian_01.webp",
+			fullImage: "/images/Character_Full/Img_CharacterIllust_Vivian.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			is_hidden: true,
+		});
+	});
+
 	it("has unique identities and valid references", () => {
 		const characters = Object.values(CHARACTERS_DATA);
 		expect(new Set(characters.map(({ id }) => id)).size).toBe(

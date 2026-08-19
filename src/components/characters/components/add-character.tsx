@@ -4,7 +4,10 @@ import CharacterCard from "@/components/characters/components/character-card";
 import { CharacterOwnedDetailsForm } from "@/components/characters/components/character-details-form";
 import { CharacterFilter } from "@/components/characters/components/character-filter";
 import { emptyCharacterFilters } from "@/components/characters/store/characters-filter-store";
-import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
+import {
+	isCharacterVisible,
+	matchesCharacterFilters,
+} from "@/components/characters/utils/character-utils";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +34,7 @@ export function AddCharacter() {
 	const charToAddInfo = hasSelectedChar ? CHARACTERS_DATA[charToAdd] : null;
 
 	const ownedSet = new Set(Object.values(charactersOwned).map((c) => c.id));
-	const characters = Object.values(CHARACTERS_DATA);
+	const characters = Object.values(CHARACTERS_DATA).filter(isCharacterVisible);
 	const ownedCount = characters.filter((character) =>
 		ownedSet.has(character.id),
 	).length;

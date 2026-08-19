@@ -1,3 +1,4 @@
+import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import {
 	MONSTERLING_CARD_WIDTH,
 	MONSTERLING_COMPACT_CARD_WIDTH,
@@ -42,8 +43,12 @@ export const LoadoutPreviewRow = ({
 	onEditMonsterling,
 	onEditArtifact,
 }: LoadoutPreviewRowProps) => {
-	const character =
+	const catalogCharacter =
 		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
+	const character =
+		catalogCharacter && isCharacterVisible(catalogCharacter)
+			? catalogCharacter
+			: null;
 	const monsterlingCardWidth =
 		monsterlingStatsDisplay === "icons"
 			? MONSTERLING_COMPACT_CARD_WIDTH

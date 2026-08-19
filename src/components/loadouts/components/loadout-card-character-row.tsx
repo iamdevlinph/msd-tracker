@@ -1,3 +1,5 @@
+import { isArtifactVisible } from "@/components/artifacts/utils/artifact-utils";
+import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
@@ -40,15 +42,23 @@ export const LoadoutCardCharacterRow = ({
 	onEditMonsterling,
 	onEditArtifact,
 }: LoadoutCardCharacterRowProps) => {
-	const character =
+	const catalogCharacter =
 		slot.characterId !== null ? CHARACTERS_DATA[slot.characterId] : null;
+	const character =
+		catalogCharacter && isCharacterVisible(catalogCharacter)
+			? catalogCharacter
+			: null;
 	const characterOwned =
 		slot.characterId !== null ? charactersOwned[slot.characterId] : null;
 	const artifactId = slot.artifactInstanceId;
 	const artifactOwned = artifactId ? artifactsOwned[artifactId] : null;
-	const artifact = artifactOwned
+	const catalogArtifact = artifactOwned
 		? ARTIFACTS_DATA[artifactOwned.artifact_id]
 		: null;
+	const artifact =
+		catalogArtifact && isArtifactVisible(catalogArtifact)
+			? catalogArtifact
+			: null;
 	return (
 		<div className="grid grid-cols-5 gap-1 rounded-md border bg-muted/20 p-2">
 			<LoadoutCardCharacterTile

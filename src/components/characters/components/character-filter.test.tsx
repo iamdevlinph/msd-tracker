@@ -41,9 +41,13 @@ const ownedCharacterNames = () =>
 		.map((element) => element.textContent);
 
 describe("character search", () => {
-	afterEach(cleanup);
+	afterEach(() => {
+		cleanup();
+		vi.unstubAllEnvs();
+	});
 
 	beforeEach(() => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
 		Element.prototype.scrollIntoView = vi.fn();
 		useAppStore.setState({ charactersOwned: owned });
 		useCharacterFilter.setState({
@@ -93,7 +97,10 @@ describe("character search", () => {
 	});
 
 	it("shows roster progress and disables adding when every character is owned", () => {
-		const total = Object.keys(CHARACTERS_DATA).length;
+		const visibleCharacters = Object.values(CHARACTERS_DATA).filter(
+			({ is_hidden }) => !is_hidden,
+		);
+		const total = visibleCharacters.length;
 		render(<AddCharacter />);
 
 		expect(screen.getByText(`3/${total}`)).toBeTruthy();
@@ -106,10 +113,7 @@ describe("character search", () => {
 		act(() => {
 			useAppStore.setState({
 				charactersOwned: Object.fromEntries(
-					Object.values(CHARACTERS_DATA).map(({ id }) => [
-						id,
-						{ ...owned[1], id },
-					]),
+					visibleCharacters.map(({ id }) => [id, { ...owned[1], id }]),
 				),
 			});
 		});
@@ -122,6 +126,29 @@ describe("character search", () => {
 
 		fireEvent.click(disabledButton);
 		expect(screen.queryByRole("dialog")).toBeNull();
+	});
+
+	it("keeps hidden Vivian out of the add list and roster total", () => {
+		render(<AddCharacter />);
+
+		expect(
+			screen.getByText(`3/${Object.keys(CHARACTERS_DATA).length - 1}`),
+		).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Add Character" }));
+
+		expect(screen.queryByText("Vivian")).toBeNull();
+	});
+
+	it("shows hidden Vivian in local development", () => {
+		vi.stubEnv("VITE_NODE_ENV", "development");
+		render(<AddCharacter />);
+
+		expect(
+			screen.getByText(`3/${Object.keys(CHARACTERS_DATA).length}`),
+		).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Add Character" }));
+
+		expect(screen.getByText("Vivian")).toBeTruthy();
 	});
 
 	it("filters candidates locally and clears before closing Add Character", () => {
