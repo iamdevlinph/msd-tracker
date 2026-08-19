@@ -118,6 +118,7 @@ describe("LoadoutsList", () => {
 		cleanup();
 		vi.restoreAllMocks();
 		vi.unstubAllGlobals();
+		vi.unstubAllEnvs();
 	});
 
 	it("renders the shared centered empty-state treatment", () => {
@@ -133,6 +134,41 @@ describe("LoadoutsList", () => {
 				"Create a loadout to organize your team, Monsterlings, and artifacts.",
 			),
 		).toBeTruthy();
+	});
+
+	it("hides persisted hidden catalog assignments outside local development", () => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
+		useAppStore.setState({
+			charactersOwned: {
+				25: {
+					id: 25,
+					awakening: 0,
+					skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
+				},
+			},
+			artifactsOwned: { vivian: { artifact_id: 39, fusion_level: 1 } },
+			loadouts: {
+				team: {
+					...teamLoadout,
+					characters: [
+						{
+							...teamLoadout.characters[0],
+							characterId: 25,
+							artifactInstanceId: "vivian",
+						},
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
+		});
+
+		render(<LoadoutsList />);
+
+		expect(screen.queryByAltText("Vivian portrait")).toBeNull();
+		expect(screen.queryByAltText("Vivian's Artifact portrait")).toBeNull();
+		expect(screen.getByText("Artifact unavailable")).toBeTruthy();
+		expect(screen.getByAltText("Unknown character portrait")).toBeTruthy();
 	});
 
 	it("searches loadout and assigned character names while preserving alphabetical order", () => {

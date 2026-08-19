@@ -16,6 +16,7 @@ export interface Artifact {
 	tier_id: TierId;
 	class_id: CharacterClassId;
 	element_effect_id?: ElementId;
+	is_hidden?: boolean;
 }
 
 const artifact = (
@@ -327,4 +328,15 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 		CLASS_ID_BY_CLASS.ASSASSIN,
 		ELEMENT_ID_BY_ELEMENT.EARTH,
 	),
+	39: {
+		...artifact(
+			39,
+			"Vivian's Artifact",
+			"Vivian",
+			TIER_ID_BY_TIER.PRIME_5,
+			CLASS_ID_BY_CLASS.FIGHTER,
+			ELEMENT_ID_BY_ELEMENT.EARTH,
+		),
+		is_hidden: true,
+	},
 };

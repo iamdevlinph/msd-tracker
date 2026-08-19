@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { EditArtifactDetailsDialog } from "@/components/artifacts/components/edit-artifact-details-dialog";
 import { EditCharacterDetailsDialog } from "@/components/characters/components/edit-character-details-dialog";
+import { isCharacterVisible } from "@/components/characters/utils/character-utils";
 import { CreateLoadoutSnapshotDialog } from "@/components/loadout-snapshots/components/create-loadout-snapshot-dialog";
 import { LoadoutCard } from "@/components/loadouts/components/loadout-card";
 import {
@@ -65,7 +66,11 @@ export const LoadoutsList = () => {
 				loadout.name,
 				...loadout.characters.flatMap(({ characterId }) => {
 					if (characterId === null) return [];
-					const character = CHARACTERS_DATA[characterId];
+					const catalogCharacter = CHARACTERS_DATA[characterId];
+					const character =
+						catalogCharacter && isCharacterVisible(catalogCharacter)
+							? catalogCharacter
+							: null;
 					return character ? [character.name] : [];
 				}),
 			].some((searchableName) =>

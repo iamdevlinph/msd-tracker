@@ -1,3 +1,4 @@
+import { isArtifactVisible } from "@/components/artifacts/utils/artifact-utils";
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
@@ -17,7 +18,11 @@ export const LoadoutPreviewArtifact = ({
 	onEdit,
 }: LoadoutPreviewArtifactProps) => {
 	const item = id ? owned[id] : null;
-	const artifact = item ? ARTIFACTS_DATA[item.artifact_id] : null;
+	const catalogArtifact = item ? ARTIFACTS_DATA[item.artifact_id] : null;
+	const artifact =
+		catalogArtifact && isArtifactVisible(catalogArtifact)
+			? catalogArtifact
+			: null;
 	if (!item || !artifact || !id)
 		return <LoadoutPreviewPlaceholder label="Artifact unavailable" />;
 	const card = (

@@ -20,6 +20,7 @@ export type Character = {
 	fullImage: string;
 	tier_id: TierId;
 	variant?: "Summer Dive!";
+	is_hidden?: boolean;
 };
 
 export const CHARACTERS_DATA: Record<number, Character> = {
@@ -344,5 +345,15 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_Brisshell_01.webp",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Brisshell.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
+	},
+	25: {
+		id: 25,
+		name: "Vivian",
+		class_id: CLASS_ID_BY_CLASS.FIGHTER,
+		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+		portraitImage: "/images/Character_Portrait/portrait_Vivian_01.webp",
+		fullImage: "/images/Character_Full/Img_CharacterIllust_Vivian.webp",
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		is_hidden: true,
 	},
 };

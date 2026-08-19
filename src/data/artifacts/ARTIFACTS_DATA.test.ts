@@ -24,11 +24,23 @@ describe("artifacts data", () => {
 		});
 	});
 
+	it("includes Vivian's hidden signature artifact", () => {
+		expect(ARTIFACTS_DATA[39]).toEqual({
+			id: 39,
+			name: "Vivian's Artifact",
+			image: "/images/Icon_Artifact/ArtifactVivian.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			class_id: CLASS_ID_BY_CLASS.FIGHTER,
+			element_effect_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+			is_hidden: true,
+		});
+	});
+
 	it("contains all local artifact images with stable unique ids", () => {
 		const artifacts = Object.values(ARTIFACTS_DATA);
-		expect(artifacts).toHaveLength(38);
-		expect(new Set(artifacts.map((a) => a.id)).size).toBe(38);
-		expect(new Set(artifacts.map((a) => a.image)).size).toBe(38);
+		expect(artifacts).toHaveLength(39);
+		expect(new Set(artifacts.map((a) => a.id)).size).toBe(39);
+		expect(new Set(artifacts.map((a) => a.image)).size).toBe(39);
 		for (const artifact of artifacts) {
 			expect(TIERS_DATA[artifact.tier_id]).toBeDefined();
 			expect(CHARACTER_CLASS_DATA[artifact.class_id]).toBeDefined();

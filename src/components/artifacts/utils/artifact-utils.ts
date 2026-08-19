@@ -3,6 +3,9 @@ import type { CharacterClassId } from "@/data/character-classes/CHARACTER_CLASS_
 import type { ElementId } from "@/data/elements/ELEMENTS_DATA";
 import type { TierId } from "@/data/tiers/TIERS_DATA";
 
+export const isArtifactVisible = ({ is_hidden }: Pick<Artifact, "is_hidden">) =>
+	import.meta.env.VITE_NODE_ENV === "development" || !is_hidden;
+
 export const FUSION_LEVELS = [1, 2, 3, 4, 5] as const;
 
 export type ArtifactFilters = {
@@ -26,6 +29,7 @@ export const filterArtifacts = (
 	const search = filters.search?.trim().toLowerCase();
 	return artifacts.filter(
 		(a) =>
+			isArtifactVisible(a) &&
 			(!search || a.name.toLowerCase().includes(search)) &&
 			(!filters.selectedTiers?.length ||
 				filters.selectedTiers.includes(a.tier_id)) &&

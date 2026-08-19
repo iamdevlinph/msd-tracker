@@ -8,7 +8,10 @@ import {
 	filterArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
 import { emptyCharacterFilters } from "@/components/characters/store/characters-filter-store";
-import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
+import {
+	isCharacterVisible,
+	matchesCharacterFilters,
+} from "@/components/characters/utils/character-utils";
 import {
 	type EquipmentFilters,
 	emptyEquipmentFilters,
@@ -319,9 +322,14 @@ export function useLoadoutDialogController(
 			character_slot: characterIndex,
 		});
 		const id = draft.characters[characterIndex].characterId;
+		const catalogCharacter = id === null ? null : CHARACTERS_DATA[id];
+		const character =
+			catalogCharacter && isCharacterVisible(catalogCharacter)
+				? catalogCharacter
+				: null;
 		setCharacterFilters({
 			...emptyCharacterFilters(),
-			search: id === null ? "" : (CHARACTERS_DATA[id]?.name ?? ""),
+			search: character?.name ?? "",
 		});
 		setPickerTarget({ type: LOADOUT_TARGET_TYPES.CHARACTER, characterIndex });
 	};
