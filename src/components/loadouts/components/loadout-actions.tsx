@@ -32,6 +32,7 @@ type LoadoutActionsProps = {
 	onDownload?: () => void;
 	onDelete?: () => void;
 	onNotes?: () => void;
+	hasNotes?: boolean;
 	onCreateSnapshot?: () => void;
 	onPreview?: () => void;
 	activeImageAction?: LoadoutImageAction | null;
@@ -47,6 +48,7 @@ export const LoadoutActions = ({
 	onCopy,
 	onDelete,
 	onNotes,
+	hasNotes = false,
 	onCreateSnapshot,
 	onPreview,
 	activeImageAction = null,
@@ -141,12 +143,27 @@ export const LoadoutActions = ({
 					type="button"
 					size="icon-sm"
 					variant="outline"
+					className="relative"
 					disabled={busy}
 					onClick={onNotes}
-					aria-label={`Notes for ${loadoutName}`}
-					title={`Notes for ${loadoutName}`}
+					aria-label={
+						hasNotes
+							? `Notes saved for ${loadoutName}`
+							: `Notes for ${loadoutName}`
+					}
+					title={
+						hasNotes
+							? `Notes saved for ${loadoutName}`
+							: `Notes for ${loadoutName}`
+					}
 				>
 					<FileTextIcon />
+					{hasNotes && (
+						<span
+							aria-hidden="true"
+							className="absolute -right-0.5 -top-0.5 size-2 rounded-full bg-red-600 ring-2 ring-background"
+						/>
+					)}
 				</Button>
 			)}
 			{onCreateSnapshot && (

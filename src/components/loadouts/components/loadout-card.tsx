@@ -83,6 +83,7 @@ export const LoadoutCard = ({
 					onDownload={onDownload}
 					onDelete={onDelete}
 					onNotes={onNotes}
+					hasNotes={Boolean(loadout.notes?.trim())}
 					onCreateSnapshot={onCreateSnapshot}
 					activeImageAction={activeImageAction}
 					disabled={disabled}

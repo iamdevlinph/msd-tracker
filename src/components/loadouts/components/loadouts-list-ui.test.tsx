@@ -493,7 +493,51 @@ describe("LoadoutsList", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Save notes" }));
 		expect(useAppStore.getState().loadouts.team.notes).toBe("Damage test");
 		expect(event).toHaveBeenCalledWith("loadout_notes_save");
-		expect(screen.getByRole("button", { name: "Notes for Team" })).toBeTruthy();
+		const savedNotesButton = screen.getByRole("button", {
+			name: "Notes saved for Team",
+		});
+		expect(savedNotesButton.title).toBe("Notes saved for Team");
+		expect(
+			savedNotesButton.querySelector('span[aria-hidden="true"]'),
+		).toBeTruthy();
+
+		fireEvent.click(savedNotesButton);
+		fireEvent.change(screen.getByRole("textbox", { name: "Loadout notes" }), {
+			target: { value: "   " },
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Save notes" }));
+		const clearedNotesButton = screen.getByRole("button", {
+			name: "Notes for Team",
+		});
+		expect(
+			clearedNotesButton.querySelector('span[aria-hidden="true"]'),
+		).toBeNull();
+	});
+
+	it("shows saved-note indicators on cards and previews only for meaningful notes", () => {
+		useAppStore.setState({
+			charactersOwned,
+			monsterlingsOwned: {},
+			loadouts: {
+				team: { ...teamLoadout, notes: "Damage test" },
+				blank: { ...teamLoadout, id: "blank", name: "Blank", notes: "  " },
+			},
+		});
+		render(<LoadoutsList />);
+
+		expect(
+			screen.getByRole("button", { name: "Notes saved for Team" }),
+		).toBeTruthy();
+		expect(
+			screen.getByRole("button", { name: "Notes for Blank" }),
+		).toBeTruthy();
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Preview Team loadout card" }),
+		);
+		expect(
+			screen.getByRole("button", { name: "Notes saved for Team" }),
+		).toBeTruthy();
 	});
 
 	it("duplicates a loadout into the first available name", () => {

@@ -164,6 +164,7 @@ export const LoadoutPreviewDialog = ({
 							}
 							onDelete={onDelete}
 							onNotes={onNotes}
+							hasNotes={target === "loadout" && Boolean(loadout.notes?.trim())}
 							onCreateSnapshot={onCreateSnapshot}
 							activeImageAction={imageActions.activeAction}
 							itemType={target === "snapshot" ? "loadout snapshot" : undefined}
