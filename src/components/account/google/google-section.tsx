@@ -43,11 +43,16 @@ export const GoogleSection = () => {
 					)}
 					<div className="w-max flex gap-2">
 						{syncStatus === "failed" && (
-							<div className="flex items-center gap-2 text-sm text-destructive">
-								<span>{syncError ?? "Changes not backed up"}</span>
-								<Button variant="outline" size="sm" onClick={retrySync}>
-									Retry Sync
-								</Button>
+							<div className="flex flex-col gap-1 text-sm text-destructive">
+								<div className="flex items-center gap-2">
+									<span>{syncError ?? "Changes not backed up"}</span>
+									<Button variant="outline" size="sm" onClick={retrySync}>
+										Retry Sync
+									</Button>
+								</div>
+								<p className="text-xs text-muted-foreground">
+									Check Cloudflare logs for MSD_GOOGLE_DRIVE_SYNC.
+								</p>
 							</div>
 						)}
 						{status === "loading" && (

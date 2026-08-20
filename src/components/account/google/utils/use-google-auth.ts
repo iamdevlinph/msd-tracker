@@ -122,6 +122,9 @@ export function useGoogleAuth(props?: UseGoogleAuthProps) {
 				sessionStatus = "in";
 
 				const tokens = await res.json();
+				if (typeof tokens.access_token !== "string" || !tokens.access_token) {
+					throw new Error("Google session returned no access token");
+				}
 
 				sessionStorage.setItem(G_ACCESS_TOKEN_SESSION, tokens.access_token);
 

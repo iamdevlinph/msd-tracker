@@ -95,6 +95,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 ## Account
 
 - [x] Serialize Google Drive uploads with latest-state-wins queuing, bounded retry, recoverable failure status, monotonic local revisions, unload protection, and generation-safe conflict handling.
+- [x] Renew expired Google access tokens for Drive requests, replay one unauthorized request, refresh before manual Retry Sync, harden invalid session responses, and expose the Cloudflare diagnostic marker in Account failure state (verified with focused sync/auth tests and repository checks).
 - [x] Highlight the newer backup date and larger serialized size independently when choosing between local and Google Drive copies during a sync conflict.
 - [x] Resolve Google Drive conflicts atomically with transient conflict state, guarded Drive responses, deduplicated sync lifecycle, and exact remote-copy restoration.
 - [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.

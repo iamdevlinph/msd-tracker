@@ -1,8 +1,10 @@
 import toast from "react-hot-toast";
-import { driveFetch } from "@/components/account/google/utils/drive-client";
+import {
+	driveFetch,
+	refreshGoogleAccessToken,
+} from "@/components/account/google/utils/drive-client";
 import { normalizeChecklistPersistedState } from "@/components/checklist/utils/checklist-persistence";
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
-import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 import { normalizeLoadoutSnapshots } from "@/stores/loadout-snapshots-slice";
 import {
@@ -32,6 +34,7 @@ let queuedUploadKind: "background" | "conflict-local" = "background";
 let uploadQueuePromise: Promise<void> | null = null;
 let lastUploadError: unknown = null;
 let lastFailureNotice = "";
+let manualRetryController: AbortController | null = null;
 const SYNC_TOAST_ID = "google-drive-sync";
 
 type Backup = Pick<
@@ -453,20 +456,6 @@ function setupAutoSync() {
 				return;
 			}
 			if (suppressAutoSync) return;
-			// if not logged in with google skip sync
-			const accessToken = sessionStorage.getItem(G_ACCESS_TOKEN_SESSION);
-
-			if (!accessToken) {
-				// return toast.error("Not logged in to Google", {
-				// 	description: "Cannot sync since you are not logged in to Google",
-				// });
-				console.error("Not logged in to Google", {
-					description: "Cannot sync since you are not logged in to Google",
-				});
-
-				return;
-			}
-
 			if (newValue === prevValue) return;
 			scheduleUpload();
 		},
@@ -556,12 +545,57 @@ async function processUploadQueue() {
 }
 
 export function retrySync() {
-	if (!isInitialized) {
-		void initSync();
-		return;
-	}
 	if (useAppStore.getState().syncConflict) return;
-	scheduleUpload(true);
+	manualRetryController?.abort();
+	const controller = new AbortController();
+	manualRetryController = controller;
+	queuedUpload = select(useAppStore.getState());
+	queuedUploadKind = "background";
+	void refreshAndRetryUpload(
+		!isInitialized,
+		syncGeneration,
+		controller.signal,
+	).finally(() => {
+		if (manualRetryController === controller) manualRetryController = null;
+	});
+}
+
+async function refreshAndRetryUpload(
+	shouldInitialize: boolean,
+	generation: number,
+	signal: AbortSignal,
+) {
+	const retryBackup = queuedUpload ?? select(useAppStore.getState());
+	try {
+		await refreshGoogleAccessToken("manual-retry", signal);
+		if (signal.aborted || generation !== syncGeneration) return;
+		if (shouldInitialize) {
+			await initSync();
+			if (
+				signal.aborted ||
+				generation !== syncGeneration ||
+				!isInitialized ||
+				useAppStore.getState().syncStatus === "failed" ||
+				useAppStore.getState().syncConflict
+			) {
+				queuedUpload = retryBackup;
+				queuedUploadKind = "background";
+				return;
+			}
+		}
+		scheduleUpload(true);
+	} catch (error) {
+		if ((error as DOMException).name === "AbortError") return;
+		lastUploadError = error;
+		queuedUpload = select(useAppStore.getState());
+		queuedUploadKind = "background";
+		const message = "Changes not backed up";
+		useAppStore.getState().setSyncStatus("failed", message);
+		if (lastFailureNotice !== message) {
+			lastFailureNotice = message;
+			toast.error(message, { id: SYNC_TOAST_ID });
+		}
+	}
 }
 
 export function cancelPendingUpload(abortActive = false) {
@@ -571,6 +605,8 @@ export function cancelPendingUpload(abortActive = false) {
 
 export function teardownSync() {
 	syncGeneration += 1;
+	manualRetryController?.abort();
+	manualRetryController = null;
 	if (!isCreatingFile) initController?.abort();
 	cancelPendingUpload(true);
 	unsubscribeAutoSync?.();

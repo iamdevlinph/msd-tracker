@@ -12,7 +12,10 @@ import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
 
-const { driveFetch } = vi.hoisted(() => ({ driveFetch: vi.fn() }));
+const { driveFetch, refreshGoogleAccessToken } = vi.hoisted(() => ({
+	driveFetch: vi.fn(),
+	refreshGoogleAccessToken: vi.fn(),
+}));
 const { toast } = vi.hoisted(() => ({
 	toast: Object.assign(vi.fn(), {
 		loading: vi.fn(),
@@ -44,6 +47,7 @@ const { monsterlingsData } = vi.hoisted(() => ({
 vi.mock("react-hot-toast", () => ({ default: toast }));
 vi.mock("@/components/account/google/utils/drive-client", () => ({
 	driveFetch,
+	refreshGoogleAccessToken,
 }));
 vi.mock("@/data/monsterlings/MONSTERLINGS_DATA", () => ({
 	MONSTERLINGS_DATA: monsterlingsData,
@@ -55,6 +59,8 @@ describe("Drive Monsterling backups", () => {
 		sessionStorage.removeItem(G_ACCESS_TOKEN_SESSION);
 		teardownSync();
 		driveFetch.mockReset();
+		refreshGoogleAccessToken.mockReset();
+		refreshGoogleAccessToken.mockResolvedValue("token");
 		toast.loading.mockReset();
 		toast.success.mockReset();
 		toast.error.mockReset();
@@ -190,6 +196,86 @@ describe("Drive Monsterling backups", () => {
 		expect(toast.success).toHaveBeenCalledWith("Sync success", {
 			id: "google-drive-sync",
 		});
+	});
+
+	it("refreshes before retrying after initialization failed", async () => {
+		useAppStore.setState({ backupUpdatedAt: 20, isHydrated: true });
+		driveFetch
+			.mockResolvedValueOnce({ ok: false, status: 500 })
+			.mockResolvedValueOnce({ ok: false, status: 500 });
+
+		await initSync();
+		expect(useAppStore.getState().syncStatus).toBe("failed");
+
+		retrySync();
+		await vi.waitFor(() =>
+			expect(refreshGoogleAccessToken).toHaveBeenCalledWith(
+				"manual-retry",
+				expect.anything(),
+			),
+		);
+		expect(useAppStore.getState().syncStatus).toBe("failed");
+	});
+
+	it("does not upload when retry initialization discovers a conflict", async () => {
+		useAppStore.setState({ backupUpdatedAt: 20, isHydrated: true });
+		driveFetch
+			.mockResolvedValueOnce({ ok: false, status: 500 })
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					backupUpdatedAt: 21,
+					monsterCodexCompleted: [],
+					charactersOwned: {},
+					monsterlingsOwned: {},
+					loadouts: {},
+				}),
+			});
+
+		await initSync();
+		retrySync();
+		await vi.waitFor(() =>
+			expect(useAppStore.getState().syncConflict).not.toBeNull(),
+		);
+
+		expect(driveFetch).toHaveBeenCalledTimes(3);
+		expect(driveFetch.mock.calls[2][1]?.method).toBeUndefined();
+	});
+
+	it("aborts a pending manual refresh during teardown", async () => {
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					backupUpdatedAt: 20,
+					monsterCodexCompleted: [],
+					charactersOwned: {},
+					monsterlingsOwned: {},
+					loadouts: {},
+				}),
+			});
+		await initSync();
+		refreshGoogleAccessToken.mockImplementationOnce(
+			async (_reason, signal?: AbortSignal) =>
+				await new Promise<string>((_resolve, reject) => {
+					signal?.addEventListener("abort", () =>
+						reject(new DOMException("Aborted", "AbortError")),
+					);
+				}),
+		);
+
+		retrySync();
+		teardownSync();
+		await Promise.resolve();
+		expect(driveFetch).toHaveBeenCalledTimes(2);
 	});
 
 	it("aborts an active upload during teardown", async () => {
