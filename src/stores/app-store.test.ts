@@ -103,6 +103,29 @@ describe("Monsterling Link Chain persistence", () => {
 		).toEqual({ showArtifactsAndEquipment: false });
 	});
 
+	it("defaults preview preferences and skips no-op timestamp changes", () => {
+		vi.spyOn(Date, "now").mockReturnValue(123);
+		expect(migrateAppStore({}).loadoutPreviewPreferences).toEqual({
+			hideEquipment: true,
+			compactMonsterlings: true,
+		});
+		useAppStore.setState({
+			backupUpdatedAt: 0,
+			loadoutPreviewPreferences: {
+				hideEquipment: true,
+				compactMonsterlings: true,
+			},
+		});
+		useAppStore.getState().setLoadoutPreviewPreferences({
+			hideEquipment: true,
+		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(0);
+		useAppStore.getState().setLoadoutPreviewPreferences({
+			hideEquipment: false,
+		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+	});
+
 	it("updates the backup timestamp when card visibility changes", () => {
 		vi.spyOn(Date, "now").mockReturnValue(123);
 		useAppStore.setState({

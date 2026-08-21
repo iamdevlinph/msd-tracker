@@ -58,8 +58,10 @@ const renderPreview = () => {
 		onDuplicate: vi.fn(),
 		onDelete: vi.fn(),
 	};
-	render(<LoadoutPreviewDialog loadout={loadout} {...callbacks} />);
-	return callbacks;
+	return {
+		...callbacks,
+		...render(<LoadoutPreviewDialog loadout={loadout} {...callbacks} />),
+	};
 };
 
 describe("LoadoutPreviewDialog", () => {
@@ -75,6 +77,10 @@ describe("LoadoutPreviewDialog", () => {
 		});
 		HTMLImageElement.prototype.decode = vi.fn().mockResolvedValue(undefined);
 		useAppStore.setState({
+			loadoutPreviewPreferences: {
+				hideEquipment: true,
+				compactMonsterlings: true,
+			},
 			charactersOwned: {
 				1: {
 					id: 1,
@@ -268,6 +274,43 @@ describe("LoadoutPreviewDialog", () => {
 		expect(screen.getAllByText("Monsterling 2 unavailable")).toHaveLength(3);
 	});
 
+	it("restores the latest Settings defaults after temporary preview overrides", () => {
+		useAppStore.setState({
+			loadoutPreviewPreferences: {
+				hideEquipment: false,
+				compactMonsterlings: false,
+			},
+		});
+		const { rerender } = renderPreview();
+		const hide = screen.getByRole("checkbox", { name: "Hide equipment" });
+		const compact = screen.getByRole("checkbox", {
+			name: "Compact monsterlings",
+		});
+		fireEvent.click(hide);
+		fireEvent.click(compact);
+		expect(hide.getAttribute("data-state")).toBe("checked");
+		expect(compact.getAttribute("data-state")).toBe("checked");
+
+		rerender(<LoadoutPreviewDialog loadout={null} onOpenChange={vi.fn()} />);
+		useAppStore.setState({
+			loadoutPreviewPreferences: {
+				hideEquipment: false,
+				compactMonsterlings: true,
+			},
+		});
+		rerender(<LoadoutPreviewDialog loadout={loadout} onOpenChange={vi.fn()} />);
+		expect(
+			screen
+				.getByRole("checkbox", { name: "Hide equipment" })
+				.getAttribute("data-state"),
+		).toBe("unchecked");
+		expect(
+			screen
+				.getByRole("checkbox", { name: "Compact monsterlings" })
+				.getAttribute("data-state"),
+		).toBe("checked");
+	});
+
 	it("toggles between cropped icons and full Monsterling stat strips", () => {
 		const { onOpenChange } = renderPreview();
 		const checkbox = screen.getByRole("checkbox", {
@@ -290,6 +333,7 @@ describe("LoadoutPreviewDialog", () => {
 		fireEvent.click(checkbox);
 		expect(event).toHaveBeenCalledWith("loadout_preview_compact_toggle", {
 			compact_monsterlings: false,
+			control_location: "preview",
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(

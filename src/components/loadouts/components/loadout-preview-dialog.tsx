@@ -1,4 +1,4 @@
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { LoadoutActions } from "@/components/loadouts/components/loadout-actions";
 import { useLoadoutImageActions } from "@/components/loadouts/components/loadout-image-actions";
@@ -15,6 +15,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 import type { LoadoutRenderData } from "./loadout-render-data";
 
@@ -66,6 +67,12 @@ export const LoadoutPreviewDialog = ({
 		LOADOUT_ACTION_SOURCES.PREVIEW,
 		target,
 	);
+	useEffect(() => {
+		if (!loadout?.id) return;
+		const preferences = useAppStore.getState().loadoutPreviewPreferences;
+		setCompactMonsterlings(preferences.compactMonsterlings);
+		setHideEquipment(preferences.hideEquipment);
+	}, [loadout?.id]);
 
 	return (
 		<Dialog
@@ -74,8 +81,13 @@ export const LoadoutPreviewDialog = ({
 				if (!open) {
 					if (target === "loadout")
 						ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_CLOSE);
-					setCompactMonsterlings(true);
-					setHideEquipment(true);
+					setCompactMonsterlings(
+						useAppStore.getState().loadoutPreviewPreferences
+							.compactMonsterlings,
+					);
+					setHideEquipment(
+						useAppStore.getState().loadoutPreviewPreferences.hideEquipment,
+					);
 					setShowNotes(false);
 				}
 				onOpenChange(open);
@@ -116,6 +128,7 @@ export const LoadoutPreviewDialog = ({
 									const shouldHideEquipment = checked === true;
 									ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_EQUIPMENT_TOGGLE, {
 										hide_equipment: shouldHideEquipment,
+										control_location: "preview",
 									});
 									setHideEquipment(shouldHideEquipment);
 								}}
@@ -131,6 +144,7 @@ export const LoadoutPreviewDialog = ({
 									const isCompact = checked === true;
 									ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_COMPACT_TOGGLE, {
 										compact_monsterlings: isCompact,
+										control_location: "preview",
 									});
 									setCompactMonsterlings(isCompact);
 								}}

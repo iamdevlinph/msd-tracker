@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as MonsterlingsRouteImport } from './routes/monsterlings'
 import { Route as MonsterCodexRouteImport } from './routes/monster-codex'
 import { Route as LoadoutsRouteImport } from './routes/loadouts'
@@ -24,6 +25,11 @@ import { Route as ApiAuthGoogleSessionRouteImport } from './routes/api/auth/goog
 import { Route as ApiAuthGoogleLogoutRouteImport } from './routes/api/auth/google-logout'
 import { Route as ApiAuthGoogleRouteImport } from './routes/api/auth/google'
 
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MonsterlingsRoute = MonsterlingsRouteImport.update({
   id: '/monsterlings',
   path: '/monsterlings',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
+  '/settings': typeof SettingsRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
+  '/settings': typeof SettingsRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/loadouts': typeof LoadoutsRoute
   '/monster-codex': typeof MonsterCodexRoute
   '/monsterlings': typeof MonsterlingsRoute
+  '/settings': typeof SettingsRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/google-logout': typeof ApiAuthGoogleLogoutRoute
   '/api/auth/google-session': typeof ApiAuthGoogleSessionRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
+    | '/settings'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
+    | '/settings'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/loadouts'
     | '/monster-codex'
     | '/monsterlings'
+    | '/settings'
     | '/api/auth/google'
     | '/api/auth/google-logout'
     | '/api/auth/google-session'
@@ -207,6 +219,7 @@ export interface RootRouteChildren {
   LoadoutsRoute: typeof LoadoutsRoute
   MonsterCodexRoute: typeof MonsterCodexRoute
   MonsterlingsRoute: typeof MonsterlingsRoute
+  SettingsRoute: typeof SettingsRoute
   ApiAuthGoogleRoute: typeof ApiAuthGoogleRoute
   ApiAuthGoogleLogoutRoute: typeof ApiAuthGoogleLogoutRoute
   ApiAuthGoogleSessionRoute: typeof ApiAuthGoogleSessionRoute
@@ -214,6 +227,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/monsterlings': {
       id: '/monsterlings'
       path: '/monsterlings'
@@ -327,6 +347,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoadoutsRoute: LoadoutsRoute,
   MonsterCodexRoute: MonsterCodexRoute,
   MonsterlingsRoute: MonsterlingsRoute,
+  SettingsRoute: SettingsRoute,
   ApiAuthGoogleRoute: ApiAuthGoogleRoute,
   ApiAuthGoogleLogoutRoute: ApiAuthGoogleLogoutRoute,
   ApiAuthGoogleSessionRoute: ApiAuthGoogleSessionRoute,

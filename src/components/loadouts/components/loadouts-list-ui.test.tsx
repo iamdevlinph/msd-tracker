@@ -457,6 +457,10 @@ describe("LoadoutsList", () => {
 			charactersOwned,
 			monsterlingsOwned: {},
 			loadouts: { team: teamLoadout },
+			loadoutPreviewPreferences: {
+				hideEquipment: false,
+				compactMonsterlings: false,
+			},
 		});
 		render(<LoadoutsList />);
 
@@ -741,12 +745,12 @@ describe("LoadoutsList", () => {
 			expect(success).toHaveBeenCalledWith("Loadout image copied"),
 		);
 		expect(write).toHaveBeenCalledOnce();
-		expect(toBlob.mock.calls[0][0].style.width).toBe("1120px");
+		expect(toBlob.mock.calls[0][0].style.width).toBe("1660px");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {
-			compact_monsterlings: true,
-			hide_equipment: true,
+			compact_monsterlings: false,
+			hide_equipment: false,
 			source: "card",
 		});
 

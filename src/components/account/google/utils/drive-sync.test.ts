@@ -360,6 +360,10 @@ describe("Drive Monsterling backups", () => {
 		expect(selected.loadoutCardPreferences).toEqual({
 			showArtifactsAndEquipment: false,
 		});
+		expect(selected.loadoutPreviewPreferences).toEqual({
+			hideEquipment: true,
+			compactMonsterlings: true,
+		});
 		expect(selected).not.toHaveProperty("syncInProgress");
 		expect(selected.checklistTasks).toEqual({});
 		expect(selected.checklistCompletions).toEqual({});
@@ -422,6 +426,10 @@ describe("Drive Monsterling backups", () => {
 		expect(downloaded?.loadoutSnapshots).toEqual({});
 		expect(downloaded?.loadoutCardPreferences).toEqual({
 			showArtifactsAndEquipment: true,
+		});
+		expect(downloaded?.loadoutPreviewPreferences).toEqual({
+			hideEquipment: true,
+			compactMonsterlings: true,
 		});
 		expect(
 			downloaded?.loadouts.team.characters.map(
@@ -572,6 +580,10 @@ describe("Drive Monsterling backups", () => {
 		useAppStore.setState({ backupUpdatedAt: 10, checklistTasks: {} });
 		const remoteBackup = {
 			backupUpdatedAt: 20,
+			loadoutPreviewPreferences: {
+				hideEquipment: false,
+				compactMonsterlings: false,
+			},
 			syncInProgress: true,
 			setSyncConflict: "corrupted",
 			monsterCodexCompleted: [],
@@ -601,6 +613,10 @@ describe("Drive Monsterling backups", () => {
 		await resolveSyncConflict("remote");
 
 		expect(useAppStore.getState().backupUpdatedAt).toBe(20);
+		expect(useAppStore.getState().loadoutPreviewPreferences).toEqual({
+			hideEquipment: false,
+			compactMonsterlings: false,
+		});
 		expect(useAppStore.getState().checklistTasks.remote.title).toBe(
 			"Remote task",
 		);

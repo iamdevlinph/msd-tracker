@@ -57,6 +57,8 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Require Rift clear times with the shared segmented control, normalize legacy Rift snapshots, and allow Normal Conquest levels through 15 while retaining level 10 caps elsewhere.
 - [x] Filter snapshot lists by conditional Legendary Conquest elements or Conquest bosses with multi-select OR semantics, single-select Conquest difficulty banners, tag-aware reset behavior, extracted toolbar/predicate modules, and focused verification.
 - [x] Emphasize loadout snapshot field values while keeping creation timestamps only in interactive preview headers.
+- [x] Add Drive-synced Settings control for equipment set-name captions and show active equipment sets with notification dots and portal effect tooltips in loadout previews.
+- [x] Add Drive-synced defaults for hiding equipment and compact Monsterlings in loadout and snapshot previews and exports, with temporary preview overrides.
 
 ## Loadout Code Sharing: Deferred
 

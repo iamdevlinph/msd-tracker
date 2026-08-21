@@ -41,6 +41,9 @@ const snapshotRenderData = (snapshot: LoadoutSnapshot): LoadoutRenderData => ({
 export const LoadoutSnapshotsList = () => {
 	const ga = useGoogleAnalytics();
 	const snapshots = useAppStore((state) => state.loadoutSnapshots);
+	const previewPreferences = useAppStore(
+		(state) => state.loadoutPreviewPreferences,
+	);
 	const deleteLoadoutSnapshot = useAppStore(
 		(state) => state.deleteLoadoutSnapshot,
 	);
@@ -89,7 +92,12 @@ export const LoadoutSnapshotsList = () => {
 	const copy = async (snapshot: LoadoutSnapshot) => {
 		flushSync(() => setExportId(snapshot.id));
 		try {
-			await imageActions.copy(snapshot.name, exportRef.current, true, true);
+			await imageActions.copy(
+				snapshot.name,
+				exportRef.current,
+				previewPreferences.compactMonsterlings,
+				previewPreferences.hideEquipment,
+			);
 		} finally {
 			setExportId(null);
 		}
@@ -239,8 +247,8 @@ export const LoadoutSnapshotsList = () => {
 								notes={exported.notes}
 							/>
 						}
-						compactMonsterlings
-						hideEquipment
+						compactMonsterlings={previewPreferences.compactMonsterlings}
+						hideEquipment={previewPreferences.hideEquipment}
 						typeLabel="Loadout Snapshot"
 					/>
 				</div>

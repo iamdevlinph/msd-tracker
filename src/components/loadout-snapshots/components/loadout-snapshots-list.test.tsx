@@ -4,6 +4,7 @@ import {
 	fireEvent,
 	render,
 	screen,
+	waitFor,
 	within,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -14,9 +15,15 @@ import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
 import { emptyLoadoutCharacterSlot } from "@/stores/loadouts-slice";
 import { LoadoutSnapshotsList } from "./loadout-snapshots-list";
 
-const { event } = vi.hoisted(() => ({ event: vi.fn() }));
+const { copyImage, event } = vi.hoisted(() => ({
+	copyImage: vi.fn().mockResolvedValue(undefined),
+	event: vi.fn(),
+}));
 vi.mock("tanstack-router-ga4", () => ({
 	useGoogleAnalytics: () => ({ event }),
+}));
+vi.mock("@/components/loadouts/components/loadout-image-actions", () => ({
+	useLoadoutImageActions: () => ({ activeAction: null, copy: copyImage }),
 }));
 
 const snapshot = (
@@ -48,6 +55,7 @@ describe("LoadoutSnapshotsList", () => {
 	beforeEach(() => {
 		Element.prototype.scrollIntoView = vi.fn();
 		event.mockClear();
+		copyImage.mockClear();
 		useAppStore.setState({
 			loadoutSnapshots: {
 				older: {
@@ -412,6 +420,25 @@ describe("LoadoutSnapshotsList", () => {
 		).toBeTruthy();
 		fireEvent.click(screen.getByRole("button", { name: "Delete" }));
 		expect(useAppStore.getState().loadoutSnapshots.newer).toBeUndefined();
+	});
+
+	it("uses saved preview defaults for direct snapshot exports", async () => {
+		useAppStore.setState({
+			loadoutPreviewPreferences: {
+				hideEquipment: false,
+				compactMonsterlings: false,
+			},
+		});
+		render(<LoadoutSnapshotsList />);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Copy Beta clear image" }),
+		);
+
+		await waitFor(() => expect(copyImage).toHaveBeenCalledOnce());
+		expect(copyImage.mock.calls[0][0]).toBe("Beta clear");
+		expect(copyImage.mock.calls[0][1]).toBeInstanceOf(HTMLElement);
+		expect(copyImage.mock.calls[0].slice(2)).toEqual([false, false]);
 	});
 
 	it("places and resets the Conquest difficulty filter after bosses", () => {

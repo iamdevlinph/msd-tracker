@@ -5,6 +5,8 @@ import type {
 	Equipment,
 	EquipmentPartType,
 } from "@/data/equipment/EQUIPMENT_DATA";
+import { useAppStore } from "@/stores/app-store";
+import { getEquipmentCaption } from "../utils/equipment-set-effects";
 
 type LoadoutEditorEquipmentSelectorProps = {
 	equipment: Equipment | null;
@@ -18,39 +20,47 @@ export const LoadoutEditorEquipmentSelector = ({
 	partType,
 	onOpen,
 	onClear,
-}: LoadoutEditorEquipmentSelectorProps) => (
-	<div className="relative aspect-square min-w-0">
-		<button
-			type="button"
-			aria-label={equipment?.name ?? `Select ${partType}`}
-			onClick={onOpen}
-			className="relative grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
-		>
-			{equipment ? (
-				<div className="relative size-28 overflow-hidden rounded-sm">
-					<TierPortrait
-						tier={equipment.tier_id}
-						portraitImg={equipment.image}
-						portraitSize={112}
-						name={equipment.name}
-						portraitClassName="size-full object-contain p-1"
-					/>
-				</div>
-			) : (
-				<span className="capitalize">Select {partType}</span>
-			)}
-		</button>
-		{equipment && (
-			<Button
+}: LoadoutEditorEquipmentSelectorProps) => {
+	const showEquipmentSetNames = useAppStore(
+		(state) => state.showEquipmentSetNames,
+	);
+	return (
+		<div className="relative aspect-square min-w-0">
+			<button
 				type="button"
-				size="icon-sm"
-				variant="destructive"
-				className="absolute -right-1 -top-1 size-6"
-				aria-label={`Clear ${partType}`}
-				onClick={onClear}
+				aria-label={equipment?.name ?? `Select ${partType}`}
+				onClick={onOpen}
+				className="relative grid size-full place-items-center overflow-hidden rounded-md border border-dashed p-1 text-center text-[10px] text-muted-foreground hover:bg-accent"
 			>
-				<Trash2Icon />
-			</Button>
-		)}
-	</div>
-);
+				{equipment ? (
+					<div className="relative size-28 overflow-hidden rounded-sm">
+						<TierPortrait
+							tier={equipment.tier_id}
+							portraitImg={equipment.image}
+							portraitSize={112}
+							name={equipment.name}
+							portraitClassName="size-full object-contain p-1"
+						/>
+						<span className="absolute inset-x-1 bottom-1 truncate rounded bg-black/80 px-1 py-0.5 text-center text-[10px] text-white">
+							{getEquipmentCaption(equipment, showEquipmentSetNames)}
+						</span>
+					</div>
+				) : (
+					<span className="capitalize">Select {partType}</span>
+				)}
+			</button>
+			{equipment && (
+				<Button
+					type="button"
+					size="icon-sm"
+					variant="destructive"
+					className="absolute -right-1 -top-1 size-6"
+					aria-label={`Clear ${partType}`}
+					onClick={onClear}
+				>
+					<Trash2Icon />
+				</Button>
+			)}
+		</div>
+	);
+};

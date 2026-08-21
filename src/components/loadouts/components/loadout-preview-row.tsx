@@ -8,6 +8,7 @@ import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { EQUIPMENT_PART_TYPES } from "@/data/equipment/EQUIPMENT_DATA";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
+import { deriveActiveEquipmentSets } from "../utils/equipment-set-effects";
 import { LoadoutPreviewArtifact } from "./loadout-preview-artifact-slot";
 import { LoadoutPreviewCharacter } from "./loadout-preview-character-slot";
 import {
@@ -30,6 +31,7 @@ type LoadoutPreviewRowProps = {
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
 	onEditArtifact?: (id: string) => void;
+	showEquipmentSetNames: boolean;
 };
 
 export const LoadoutPreviewRow = ({
@@ -43,6 +45,7 @@ export const LoadoutPreviewRow = ({
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
+	showEquipmentSetNames,
 }: LoadoutPreviewRowProps) => {
 	const catalogCharacter =
 		slot.characterId === null ? null : CHARACTERS_DATA[slot.characterId];
@@ -57,6 +60,8 @@ export const LoadoutPreviewRow = ({
 	const gridTemplateColumns = hideEquipment
 		? `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px ${LOADOUT_PREVIEW_PORTRAIT_SIZE}px repeat(4, ${monsterlingCardWidth}px)`
 		: `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px repeat(4, ${monsterlingCardWidth}px)`;
+	const equipmentIds = slot.equipment_ids ?? [null, null, null, null];
+	const activeEquipmentSets = deriveActiveEquipmentSets(equipmentIds);
 	const monsterlingSlots = (
 		<div className="contents">
 			{MONSTERLING_SLOT_INDEXES.map((index) => (
@@ -133,13 +138,15 @@ export const LoadoutPreviewRow = ({
 							onEdit={onEditArtifact}
 						/>
 					</div>
-					{(slot.equipment_ids ?? [null, null, null, null]).map(
-						(equipmentId, index) => (
-							<div key={EQUIPMENT_PART_TYPES[index]}>
-								<LoadoutPreviewEquipment id={equipmentId} />
-							</div>
-						),
-					)}
+					{equipmentIds.map((equipmentId, index) => (
+						<div key={EQUIPMENT_PART_TYPES[index]}>
+							<LoadoutPreviewEquipment
+								id={equipmentId}
+								activeSets={activeEquipmentSets}
+								showSetName={showEquipmentSetNames}
+							/>
+						</div>
+					))}
 				</div>
 			)}
 		</section>

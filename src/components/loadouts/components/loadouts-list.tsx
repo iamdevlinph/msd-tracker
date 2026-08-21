@@ -54,6 +54,9 @@ export const LoadoutsList = () => {
 	const imageActions = useLoadoutImageActions(LOADOUT_ACTION_SOURCES.CARD);
 
 	const loadouts = useAppStore((state) => state.loadouts);
+	const previewPreferences = useAppStore(
+		(state) => state.loadoutPreviewPreferences,
+	);
 	const setLoadout = useAppStore((state) => state.setLoadout);
 	const deleteLoadout = useAppStore((state) => state.deleteLoadout);
 	const createLoadoutSnapshot = useAppStore(
@@ -146,8 +149,8 @@ export const LoadoutsList = () => {
 			await imageActions[action](
 				loadout.name,
 				exportSurfaceRef.current,
-				true,
-				true,
+				previewPreferences.compactMonsterlings,
+				previewPreferences.hideEquipment,
 			);
 		} finally {
 			setLoadoutToExport(null);
@@ -360,8 +363,8 @@ export const LoadoutsList = () => {
 					<LoadoutPreviewSurface
 						ref={exportSurfaceRef}
 						loadout={exportLoadout}
-						compactMonsterlings
-						hideEquipment
+						compactMonsterlings={previewPreferences.compactMonsterlings}
+						hideEquipment={previewPreferences.hideEquipment}
 					/>
 				</div>
 			)}

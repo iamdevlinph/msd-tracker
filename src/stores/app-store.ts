@@ -27,6 +27,7 @@ import {
 	createLoadoutsSlice,
 	type LoadoutsSlice,
 	normalizeLoadoutCardPreferences,
+	normalizeLoadoutPreviewPreferences,
 	normalizeLoadouts,
 } from "@/stores/loadouts-slice";
 import {
@@ -128,6 +129,10 @@ export const migrateAppStore = (persistedState: unknown) => {
 		loadoutCardPreferences: normalizeLoadoutCardPreferences(
 			state.loadoutCardPreferences,
 		),
+		loadoutPreviewPreferences: normalizeLoadoutPreviewPreferences(
+			state.loadoutPreviewPreferences,
+		),
+		showEquipmentSetNames: state.showEquipmentSetNames === true,
 		loadoutSnapshots: normalizeLoadoutSnapshots(state.loadoutSnapshots),
 		artifactsOwned: state.artifactsOwned ?? {},
 		...normalizeChecklistPersistedState(state),

@@ -64,6 +64,33 @@ export type LoadoutCardPreferences = {
 	showArtifactsAndEquipment: boolean;
 };
 
+export type LoadoutPreviewPreferences = {
+	hideEquipment: boolean;
+	compactMonsterlings: boolean;
+};
+
+export const DEFAULT_LOADOUT_PREVIEW_PREFERENCES: LoadoutPreviewPreferences = {
+	hideEquipment: true,
+	compactMonsterlings: true,
+};
+
+export const normalizeLoadoutPreviewPreferences = (
+	value: unknown,
+): LoadoutPreviewPreferences => ({
+	hideEquipment:
+		value &&
+		typeof value === "object" &&
+		typeof (value as Record<string, unknown>).hideEquipment === "boolean"
+			? (value as Record<string, boolean>).hideEquipment
+			: true,
+	compactMonsterlings:
+		value &&
+		typeof value === "object" &&
+		typeof (value as Record<string, unknown>).compactMonsterlings === "boolean"
+			? (value as Record<string, boolean>).compactMonsterlings
+			: true,
+});
+
 export const DEFAULT_LOADOUT_CARD_PREFERENCES: LoadoutCardPreferences = {
 	showArtifactsAndEquipment: true,
 };
@@ -114,10 +141,16 @@ export const normalizePinnedStats = (value: unknown): LoadoutStatKey[] => {
 export type LoadoutsSlice = {
 	loadouts: Record<string, LoadoutOwned>;
 	loadoutCardPreferences: LoadoutCardPreferences;
+	loadoutPreviewPreferences: LoadoutPreviewPreferences;
+	showEquipmentSetNames: boolean;
 
 	setLoadout: (loadout: Omit<LoadoutOwned, "id">, id?: string) => void;
 	setLoadoutCardPreferences: (
 		preferences: Partial<LoadoutCardPreferences>,
+	) => void;
+	setShowEquipmentSetNames: (show: boolean) => void;
+	setLoadoutPreviewPreferences: (
+		preferences: Partial<LoadoutPreviewPreferences>,
 	) => void;
 	deleteLoadout: (id: string) => void;
 	resetLoadoutsSlice: () => void;
@@ -184,6 +217,8 @@ export const createLoadoutsSlice: StateCreator<
 > = (set) => ({
 	loadouts: {},
 	loadoutCardPreferences: DEFAULT_LOADOUT_CARD_PREFERENCES,
+	loadoutPreviewPreferences: DEFAULT_LOADOUT_PREVIEW_PREFERENCES,
+	showEquipmentSetNames: false,
 
 	setLoadout: (loadout, id) =>
 		set((state) => {
@@ -214,6 +249,34 @@ export const createLoadoutsSlice: StateCreator<
 				return state;
 			return {
 				loadoutCardPreferences: next,
+				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+			};
+		}),
+
+	setShowEquipmentSetNames: (show) =>
+		set((state) =>
+			state.showEquipmentSetNames === show
+				? state
+				: {
+						showEquipmentSetNames: show,
+						backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
+					},
+		),
+
+	setLoadoutPreviewPreferences: (preferences) =>
+		set((state) => {
+			const next = normalizeLoadoutPreviewPreferences({
+				...state.loadoutPreviewPreferences,
+				...preferences,
+			});
+			if (
+				next.hideEquipment === state.loadoutPreviewPreferences.hideEquipment &&
+				next.compactMonsterlings ===
+					state.loadoutPreviewPreferences.compactMonsterlings
+			)
+				return state;
+			return {
+				loadoutPreviewPreferences: next,
 				backupUpdatedAt: nextBackupUpdatedAt(state.backupUpdatedAt),
 			};
 		}),

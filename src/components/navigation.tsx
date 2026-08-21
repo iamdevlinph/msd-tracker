@@ -7,6 +7,7 @@ import {
 	Camera,
 	type LucideIcon,
 	Settings,
+	UserRound,
 	UserRoundCheck,
 } from "lucide-react";
 import type { JSX } from "react";
@@ -20,6 +21,7 @@ type Tab =
 	| "characters"
 	| "monster-codex"
 	| "account"
+	| "settings"
 	| "artifacts"
 	| "equipments"
 	| "monsterlings"
@@ -135,8 +137,14 @@ const navSections: NavSection[] = [
 			{
 				id: "account",
 				label: "Account",
-				icon: { type: "lucide", icon: Settings },
+				icon: { type: "lucide", icon: UserRound },
 				link: "/account",
+			},
+			{
+				id: "settings",
+				label: "Settings",
+				icon: { type: "lucide", icon: Settings },
+				link: "/settings",
 			},
 		],
 	},

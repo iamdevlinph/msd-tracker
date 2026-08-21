@@ -9,6 +9,7 @@ import { type StoreState, useAppStore } from "@/stores/app-store";
 import { normalizeLoadoutSnapshots } from "@/stores/loadout-snapshots-slice";
 import {
 	normalizeLoadoutCardPreferences,
+	normalizeLoadoutPreviewPreferences,
 	normalizeLoadouts,
 } from "@/stores/loadouts-slice";
 import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-slice";
@@ -48,6 +49,8 @@ type Backup = Pick<
 	| "monsterlingLinkChainPinnedIds"
 	| "loadouts"
 	| "loadoutCardPreferences"
+	| "loadoutPreviewPreferences"
+	| "showEquipmentSetNames"
 	| "loadoutSnapshots"
 	| "checklistTasks"
 	| "checklistCompletions"
@@ -74,6 +77,10 @@ export function select(state: StoreState): Backup {
 		loadoutCardPreferences: normalizeLoadoutCardPreferences(
 			state.loadoutCardPreferences,
 		),
+		loadoutPreviewPreferences: normalizeLoadoutPreviewPreferences(
+			state.loadoutPreviewPreferences,
+		),
+		showEquipmentSetNames: state.showEquipmentSetNames === true,
 		loadoutSnapshots: state.loadoutSnapshots,
 		checklistTasks: state.checklistTasks,
 		checklistCompletions: state.checklistCompletions,
@@ -241,6 +248,10 @@ export async function download(signal?: AbortSignal): Promise<Backup | null> {
 			loadoutCardPreferences: normalizeLoadoutCardPreferences(
 				readRecordField(backup, "loadoutCardPreferences", {}),
 			),
+			loadoutPreviewPreferences: normalizeLoadoutPreviewPreferences(
+				readRecordField(backup, "loadoutPreviewPreferences", {}),
+			),
+			showEquipmentSetNames: backup.showEquipmentSetNames === true,
 			loadoutSnapshots: normalizeLoadoutSnapshots(
 				readRecordField(backup, "loadoutSnapshots", {}),
 			),

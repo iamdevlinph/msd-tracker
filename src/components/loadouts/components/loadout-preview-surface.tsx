@@ -49,6 +49,9 @@ export const LoadoutPreviewSurface = ({
 	const liveCharactersOwned = useAppStore((state) => state.charactersOwned);
 	const liveMonsterlingsOwned = useAppStore((state) => state.monsterlingsOwned);
 	const liveArtifactsOwned = useAppStore((state) => state.artifactsOwned);
+	const showEquipmentSetNames = useAppStore(
+		(state) => state.showEquipmentSetNames,
+	);
 	const liveMonsterlingLinkChainLevels = useAppStore(
 		(state) => state.monsterlingLinkChainLevels,
 	);
@@ -106,6 +109,7 @@ export const LoadoutPreviewSurface = ({
 					onEditCharacter={onEditCharacter}
 					onEditMonsterling={onEditMonsterling}
 					onEditArtifact={onEditArtifact}
+					showEquipmentSetNames={showEquipmentSetNames}
 				/>
 			))}
 			<footer className="flex justify-end px-1 pb-1 pt-2 text-sm text-muted-foreground">
