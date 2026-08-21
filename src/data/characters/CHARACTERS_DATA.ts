@@ -381,8 +381,8 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 	25: {
 		id: 25,
 		name: "Vivian",
-		class_id: CLASS_ID_BY_CLASS.FIGHTER,
-		element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+		class_id: CLASS_ID_BY_CLASS.SUPPORT,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		portraitImage: "/images/Character_Portrait/portrait_Vivian_01.webp",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Vivian.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
