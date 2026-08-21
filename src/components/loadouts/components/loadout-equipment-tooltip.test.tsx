@@ -1,8 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { Tooltip } from "radix-ui";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { EQUIPMENT_DATA } from "@/data/equipment/EQUIPMENT_DATA";
 import { LoadoutEquipmentTooltip } from "./loadout-equipment-tooltip";
+
+const renderWithTooltip = (ui: React.ReactElement) =>
+	render(<Tooltip.Provider delayDuration={200}>{ui}</Tooltip.Provider>);
 
 describe("LoadoutEquipmentTooltip", () => {
 	beforeEach(() => {
@@ -16,7 +20,7 @@ describe("LoadoutEquipmentTooltip", () => {
 
 	it("shows the set name and every published effect on focus", () => {
 		const equipment = EQUIPMENT_DATA[7];
-		render(
+		renderWithTooltip(
 			<LoadoutEquipmentTooltip
 				equipment={equipment}
 				trigger={<button type="button">{equipment.name}</button>}

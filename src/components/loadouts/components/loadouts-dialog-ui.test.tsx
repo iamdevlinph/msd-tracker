@@ -2,10 +2,11 @@
 import {
 	cleanup,
 	fireEvent,
-	render,
+	render as rtlRender,
 	screen,
 	waitFor,
 } from "@testing-library/react";
+import { Tooltip } from "radix-ui";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import { LoadoutsDialog } from "@/components/loadouts/components/loadouts-dialog";
@@ -14,6 +15,9 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
+
+const render = (ui: React.ReactElement) =>
+	rtlRender(<Tooltip.Provider delayDuration={200}>{ui}</Tooltip.Provider>);
 
 const { event } = vi.hoisted(() => ({ event: vi.fn() }));
 

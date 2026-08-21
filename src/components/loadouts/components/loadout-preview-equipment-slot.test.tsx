@@ -1,7 +1,11 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { Tooltip } from "radix-ui";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LoadoutPreviewEquipment } from "./loadout-preview-equipment-slot";
+
+const renderWithTooltip = (ui: React.ReactElement) =>
+	render(<Tooltip.Provider delayDuration={200}>{ui}</Tooltip.Provider>);
 
 vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
 	EQUIPMENT_DATA: {
@@ -50,7 +54,7 @@ describe("LoadoutPreviewEquipment", () => {
 	afterEach(cleanup);
 
 	it("shows every active set on focus and preserves item accessible labels", () => {
-		render(
+		renderWithTooltip(
 			<LoadoutPreviewEquipment id={1} activeSets={activeSets} showSetName />,
 		);
 		const trigger = screen.getByRole("button", {
@@ -73,7 +77,7 @@ describe("LoadoutPreviewEquipment", () => {
 	});
 
 	it("does not make inactive pieces interactive or show a tooltip without active sets", () => {
-		const { rerender } = render(
+		const { rerender } = renderWithTooltip(
 			<LoadoutPreviewEquipment id={2} activeSets={[activeSets[0]]} />,
 		);
 		expect(screen.queryByRole("button", { name: /Loose Boots/ })).toBeNull();
