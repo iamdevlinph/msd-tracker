@@ -56,11 +56,6 @@ describe("equipment data", () => {
 		for (const piece of primeVariants) {
 			expect(piece.tier_id).toBe(5);
 			expect(tier4Images).toContain(piece.image);
-			expect(
-				EQUIPMENT_SET_EFFECTS_DATA[piece.set_name].every(
-					({ effect }) => effect === "Effect details pending.",
-				),
-			).toBe(true);
 		}
 	});
 
@@ -87,7 +82,7 @@ describe("equipment data", () => {
 				.map((piece) => piece.name),
 		).toEqual([
 			"Grand Banquet Chapeau",
-			"Gourmand's Apron",
+			"Grand Banquet Apron",
 			"Devourer's Sticky Gloves",
 			"Devourer's Sticky Footwear",
 			"Tyrant's Helmet",

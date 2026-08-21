@@ -160,7 +160,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Add four equipment references to each character slot, with legacy local and Drive defaults.
 - [x] Add catalog equipment filtering, assignment by part type, replacement, clearing, cards, previews, exports, validation, analytics, and behavioral tests.
 - [x] Show completed Equipment slots in production while keeping owned Equipment inventory deferred.
-- [x] Add the 14 Prime equipment variants from the published catalog reference.
+- [x] Add the 14 Prime equipment variants and published set effects from the catalog reference.
 
 ## Release Checklist
 

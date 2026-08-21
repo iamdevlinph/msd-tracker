@@ -23,28 +23,25 @@ describe("equipment set effects data", () => {
 		]);
 	});
 
-	it("marks the newly added Prime set effects as pending", () => {
-		for (const setName of [
-			"Gourmand's Grand Banquet",
-			"Devourer of the Abyss",
-			"Forest Tyrant",
-			"Sirius",
-			"Ancient Stone",
-			"Mount Tai's Towering Might",
-			"Heart of Eternal Frost",
-			"Vanguard of Victory",
-			"Gourmand Level",
-			"Victorious General's Rites",
-			"Thousand-Year-Old Tree",
-			"Night of a Full Moon",
-			"Fox Youkai's Fighting Spirit",
-			"Blossoms in Full Bloom",
-		] as const) {
-			expect(
-				EQUIPMENT_SET_EFFECTS_DATA[setName].every(
-					({ effect }) => effect === "Effect details pending.",
-				),
-			).toBe(true);
-		}
+	it("contains finalized effects for the newly added Prime sets", () => {
+		expect(
+			Object.values(EQUIPMENT_SET_EFFECTS_DATA)
+				.flatMap((effects) => effects.map(({ effect }) => effect))
+				.join("\n"),
+		).not.toContain("Effect details pending.");
+		expect(EQUIPMENT_SET_EFFECTS_DATA["Forest Tyrant"]).toEqual([
+			{ pieces: 2, effect: "Ice DMG +7.5% for 3s upon using a Basic Attack" },
+			{
+				pieces: 4,
+				effect:
+					"Crit Rate +5% for 5s upon attacking an enemy with Ice Affliction",
+			},
+		]);
+		expect(EQUIPMENT_SET_EFFECTS_DATA["Thousand-Year-Old Tree"]).toEqual([
+			{
+				pieces: 2,
+				effect: "Teammates' Fire DMG +7.5% for 5s upon using a Support Skill",
+			},
+		]);
 	});
 });
