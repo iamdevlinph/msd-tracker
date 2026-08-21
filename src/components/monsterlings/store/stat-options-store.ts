@@ -1,14 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { SelectOption } from "@/constants";
+import { CURRENT_GAME_VERSION, type SelectOption } from "@/constants";
 import { STAT_DATA } from "@/data/stats/STAT_DATA";
 
-const STAT_OPTIONS_GAME_VERSION = "1.3.0";
 export const STAT_OPTIONS_CACHE = "stat-options-cache";
 
 const initialState = {
 	statOptions: [],
-	version: STAT_OPTIONS_GAME_VERSION,
+	version: CURRENT_GAME_VERSION,
 };
 
 export type StatOptionsStore = {
@@ -27,7 +26,7 @@ export const useStatOptionStore = create<StatOptionsStore>()(
 
 				if (
 					state.statOptions.length > 0 &&
-					state.version === STAT_OPTIONS_GAME_VERSION
+					state.version === CURRENT_GAME_VERSION
 				) {
 					return state.statOptions;
 				}
@@ -36,7 +35,7 @@ export const useStatOptionStore = create<StatOptionsStore>()(
 
 				set({
 					statOptions: options,
-					version: STAT_OPTIONS_GAME_VERSION,
+					version: CURRENT_GAME_VERSION,
 				});
 
 				return options;

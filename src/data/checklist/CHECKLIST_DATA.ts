@@ -1,3 +1,5 @@
+import { CURRENT_GAME_VERSION } from "@/constants";
+
 export const CHECKLIST_KINDS = {
 	EVENT: "event",
 	PERMANENT: "permanent",
@@ -37,9 +39,6 @@ export const CHECKLIST_MODE_VALUES = [
 	CHECKLIST_MODES.AFTER_COMPLETION,
 ] as const;
 
-// Shared by Rift and seasonal definitions; increment after official activity refreshes.
-export const CURRENT_SEASON_GAME_VERSION = "1.3.0";
-
 export type ChecklistDefinition = {
 	id: string;
 	title: string;
@@ -71,14 +70,14 @@ export const PERMANENT_EVENTS: ChecklistDefinition[] = [
 		kind: CHECKLIST_KINDS.PERMANENT,
 		startAt: "2024-01-01T00:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.WEEKLY,
-		completionVersion: CURRENT_SEASON_GAME_VERSION,
+		completionVersion: CURRENT_GAME_VERSION,
 	},
 	{
 		id: "monster-race",
 		title: "Monster Race",
 		kind: CHECKLIST_KINDS.PERMANENT,
 		startAt: "2026-07-29T01:30:00.000Z",
-		completionVersion: CURRENT_SEASON_GAME_VERSION,
+		completionVersion: CURRENT_GAME_VERSION,
 		seasonal: true,
 	},
 	{

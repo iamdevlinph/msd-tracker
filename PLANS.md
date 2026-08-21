@@ -110,7 +110,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 
 - [x] Define typed limited events with non-displayed notice-title metadata, UTC source timestamps, recurring reset schedules, expiry behavior, and player-created UTC Start/End times verified across daily and weekly UTC boundaries.
 - [x] Version completion keys independently from schedule changes, add the Monster Race permanent reset, and mark Discord participation on its two notice entries.
-- [x] Share completion version 2 between Dimensional Rift and seasonal activities; increment it manually for official refreshes without adding seasonal recurrence or countdown behavior.
+- [x] Share the current game version between Dimensional Rift, seasonal activities, and rebuildable stat-option caches; increment it manually for official refreshes without adding seasonal recurrence or countdown behavior.
 - [x] Default new player-created Task and Event starts to the current UTC date at 00:00 while preserving saved times when editing.
 - [x] Add the 100-Day Anniversary Check-In Pass and Bonus Time daily event schedules using their published UTC periods.
 - [x] Add the First Summer Dive event set and Cool Summer Vacation login reward using their published UTC periods and explicit daily-reset behavior.
