@@ -106,6 +106,7 @@ export const LoadoutCard = ({
 						onEditCharacter={onEditCharacter}
 						onEditMonsterling={onEditMonsterling}
 						onEditArtifact={onEditArtifact}
+						onPreview={() => onPreview("card")}
 					/>
 				))}
 			</CardContent>

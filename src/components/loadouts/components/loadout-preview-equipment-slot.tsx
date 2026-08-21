@@ -61,30 +61,28 @@ export const LoadoutPreviewEquipment = ({
 		</button>
 	);
 	return (
-		<Tooltip.Provider delayDuration={200}>
-			<Tooltip.Root>
-				<Tooltip.Trigger asChild>{trigger}</Tooltip.Trigger>
-				<Tooltip.Portal>
-					<Tooltip.Content
-						className="z-50 max-w-xs rounded-md border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-md"
-						sideOffset={6}
-					>
-						<div className="grid gap-3">
-							{activeSets.map((set) => (
-								<div key={set.name} className="grid gap-1.5">
-									<strong>{set.name}</strong>
-									{getActiveEquipmentSetEffects(set).map((effect) => (
-										<div key={effect.pieces}>
-											{`[${effect.pieces} set] - ${effect.effect}`}
-										</div>
-									))}
-								</div>
-							))}
-						</div>
-						<Tooltip.Arrow className="fill-popover" />
-					</Tooltip.Content>
-				</Tooltip.Portal>
-			</Tooltip.Root>
-		</Tooltip.Provider>
+		<Tooltip.Root>
+			<Tooltip.Trigger asChild>{trigger}</Tooltip.Trigger>
+			<Tooltip.Portal>
+				<Tooltip.Content
+					className="z-50 max-w-xs rounded-md border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-md"
+					sideOffset={6}
+				>
+					<div className="grid gap-3">
+						{activeSets.map((set) => (
+							<div key={set.name} className="grid gap-1.5">
+								<strong>{set.name}</strong>
+								{getActiveEquipmentSetEffects(set).map((effect) => (
+									<div key={effect.pieces}>
+										{`[${effect.pieces} set] - ${effect.effect}`}
+									</div>
+								))}
+							</div>
+						))}
+					</div>
+					<Tooltip.Arrow className="fill-popover" />
+				</Tooltip.Content>
+			</Tooltip.Portal>
+		</Tooltip.Root>
 	);
 };

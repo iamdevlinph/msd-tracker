@@ -6,6 +6,7 @@ import {
 import { useAppStore } from "@/stores/app-store";
 import { LoadoutEquipmentCard } from "./loadout-equipment-card";
 import { LoadoutEquipmentFilter } from "./loadout-equipment-filter";
+import { LoadoutEquipmentTooltip } from "./loadout-equipment-tooltip";
 
 type LoadoutEquipmentPickerProps = {
 	filters: EquipmentFilters;
@@ -34,19 +35,24 @@ export const LoadoutEquipmentPicker = ({
 				{options.map((id) => {
 					const equipment = EQUIPMENT_DATA[id];
 					return (
-						<button
+						<LoadoutEquipmentTooltip
 							key={id}
-							type="button"
-							aria-pressed={selectedIds.has(id)}
-							onClick={() => onSelect(id)}
-							aria-label={`Select ${equipment.name}`}
-							className="rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-						>
-							<LoadoutEquipmentCard
-								equipment={equipment}
-								showSetName={showEquipmentSetNames}
-							/>
-						</button>
+							equipment={equipment}
+							trigger={
+								<button
+									type="button"
+									aria-pressed={selectedIds.has(id)}
+									onClick={() => onSelect(id)}
+									aria-label={`Select ${equipment.name}`}
+									className="rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								>
+									<LoadoutEquipmentCard
+										equipment={equipment}
+										showSetName={showEquipmentSetNames}
+									/>
+								</button>
+							}
+						/>
 					);
 				})}
 				{options.length === 0 && (

@@ -1,16 +1,15 @@
 import { isArtifactVisible } from "@/components/artifacts/utils/artifact-utils";
 import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { isCharacterVisible } from "@/components/characters/utils/character-utils";
-import { TierPortrait } from "@/components/shared/tier-portrait";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { EQUIPMENT_DATA } from "@/data/equipment/EQUIPMENT_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
-import { cn } from "@/lib/utils";
 import type { StoreState } from "@/stores/app-store";
 import type { LoadoutCharacterSlot } from "@/stores/loadouts-slice";
 import { LoadoutCardArtifactTile } from "./loadout-card-artifact-tile";
 import { LoadoutCardCharacterTile } from "./loadout-card-character-tile";
+import { LoadoutCardEquipmentTile } from "./loadout-card-equipment-tile";
 import { LoadoutCardMonsterlingTile } from "./loadout-card-monsterling-tile";
 import {
 	EQUIPMENT_SLOT_INDEXES,
@@ -30,6 +29,7 @@ type LoadoutCardCharacterRowProps = {
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
 	onEditArtifact?: (id: string) => void;
+	onPreview?: () => void;
 };
 export const LoadoutCardCharacterRow = ({
 	loadoutId,
@@ -42,6 +42,7 @@ export const LoadoutCardCharacterRow = ({
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
+	onPreview,
 }: LoadoutCardCharacterRowProps) => {
 	const catalogCharacter =
 		slot.characterId !== null ? CHARACTERS_DATA[slot.characterId] : null;
@@ -113,27 +114,12 @@ export const LoadoutCardCharacterRow = ({
 					const equipmentId = slot.equipment_ids?.[equipmentIndex - 1] ?? null;
 					const equipment = equipmentId ? EQUIPMENT_DATA[equipmentId] : null;
 					return (
-						<div
+						<LoadoutCardEquipmentTile
 							key={`${loadoutId}-${index}-equipment-${equipmentIndex}`}
-							className={cn(
-								"relative grid aspect-square min-w-0 place-items-center overflow-hidden rounded-md border bg-background/60 text-center text-[10px] text-muted-foreground",
-								!equipment && "border-dashed",
-							)}
-						>
-							{equipment ? (
-								<TierPortrait
-									tier={equipment.tier_id}
-									portraitImg={equipment.image}
-									portraitSize={112}
-									name={equipment.name}
-									portraitClassName="size-full object-contain p-1"
-								/>
-							) : (
-								<span className="capitalize">
-									{COMPACT_EQUIPMENT_LABELS[equipmentIndex - 1]}
-								</span>
-							)}
-						</div>
+							equipment={equipment}
+							label={COMPACT_EQUIPMENT_LABELS[equipmentIndex - 1]}
+							onPreview={onPreview}
+						/>
 					);
 				})}
 		</div>

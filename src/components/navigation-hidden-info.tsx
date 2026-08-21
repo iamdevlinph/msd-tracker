@@ -21,33 +21,31 @@ export const NavigationHiddenInfo = ({
 					.map(({ name }) => `Artifact: ${name}`);
 
 	return (
-		<Tooltip.Provider delayDuration={200}>
-			<Tooltip.Root>
-				<Tooltip.Trigger asChild>
-					<button
-						type="button"
-						aria-label={`Hidden ${catalog} details`}
-						onPointerDown={(event) => event.preventDefault()}
-						className="rounded p-1 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-					>
-						<Info className="size-4" />
-					</button>
-				</Tooltip.Trigger>
-				<Tooltip.Portal>
-					<Tooltip.Content
-						side="right"
-						sideOffset={8}
-						className="z-50 w-56 rounded-md border bg-popover p-3 text-xs text-popover-foreground shadow-md"
-					>
-						<p className="font-semibold">Hidden in production</p>
-						<ul>
-							{entries.map((entry) => (
-								<li key={entry}>{entry}</li>
-							))}
-						</ul>
-					</Tooltip.Content>
-				</Tooltip.Portal>
-			</Tooltip.Root>
-		</Tooltip.Provider>
+		<Tooltip.Root>
+			<Tooltip.Trigger asChild>
+				<button
+					type="button"
+					aria-label={`Hidden ${catalog} details`}
+					onPointerDown={(event) => event.preventDefault()}
+					className="rounded p-1 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+				>
+					<Info className="size-4" />
+				</button>
+			</Tooltip.Trigger>
+			<Tooltip.Portal>
+				<Tooltip.Content
+					side="right"
+					sideOffset={8}
+					className="z-50 w-56 rounded-md border bg-popover p-3 text-xs text-popover-foreground shadow-md"
+				>
+					<p className="font-semibold">Hidden in production</p>
+					<ul>
+						{entries.map((entry) => (
+							<li key={entry}>{entry}</li>
+						))}
+					</ul>
+				</Tooltip.Content>
+			</Tooltip.Portal>
+		</Tooltip.Root>
 	);
 };

@@ -59,6 +59,7 @@ Keep this checklist aligned with repository behavior. Check off work in the same
 - [x] Emphasize loadout snapshot field values while keeping creation timestamps only in interactive preview headers.
 - [x] Add Drive-synced Settings control for equipment set-name captions and show active equipment sets with notification dots and portal effect tooltips in loadout previews.
 - [x] Add Drive-synced defaults for hiding equipment and compact Monsterlings in loadout and snapshot previews and exports, with temporary preview overrides.
+- [x] Show complete published equipment set effects in delayed hover/focus tooltips on picker cards, assigned editor buttons, and saved-card equipment tiles while keeping preview tooltips active-only.
 
 ## Loadout Code Sharing: Deferred
 
