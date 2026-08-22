@@ -1,6 +1,8 @@
 import crypto from "node:crypto";
+import { execFile } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { promisify } from "node:util";
 import sharp from "sharp";
 
 const root = process.cwd();
@@ -8,6 +10,7 @@ const sourceRoot = path.join(root, "assets/images-source");
 const outputRoot = path.join(root, "public/images");
 const manifestPath = path.join(root, "assets/images-manifest.json");
 const settings = { format: "webp", quality: 85, alphaQuality: 100 };
+const execFileAsync = promisify(execFile);
 
 async function filesIn(dir, extension) {
 	const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => []);
@@ -18,6 +21,20 @@ async function filesIn(dir, extension) {
 		else if (!extension || entry.name.toLowerCase().endsWith(extension)) files.push(full);
 	}
 	return files;
+}
+
+async function sourceFiles() {
+	const discovered = await filesIn(sourceRoot, ".png");
+	try {
+		const { stdout } = await execFileAsync("git", ["ls-files", "-z", "--", "assets/images-source"]);
+		const tracked = stdout
+			.split("\0")
+			.filter((file) => file.toLowerCase().endsWith(".png"))
+			.map((file) => path.join(root, file));
+		return [...new Set([...discovered, ...tracked])];
+	} catch {
+		return discovered;
+	}
 }
 
 async function hashFile(file) {
@@ -34,7 +51,7 @@ async function readManifest() {
 
 async function convert() {
 	const manifest = await readManifest();
-	const sources = (await filesIn(sourceRoot, ".png")).sort();
+	const sources = (await sourceFiles()).sort();
 	const nextFiles = {};
 	let converted = 0;
 	let skipped = 0;
@@ -67,7 +84,7 @@ async function convert() {
 
 async function check() {
 	const manifest = await readManifest();
-	const sources = (await filesIn(sourceRoot, ".png")).sort();
+	const sources = (await sourceFiles()).sort();
 	const problems = [];
 	if (manifest.version !== 1 || JSON.stringify(manifest.settings) !== JSON.stringify(settings)) problems.push("manifest version/settings mismatch");
 	const sourceSet = new Set();
