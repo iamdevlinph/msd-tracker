@@ -211,7 +211,7 @@ describe("LoadoutSnapshotsList", () => {
 			"Legendary Conquest",
 			"Others",
 		]);
-		expect(screen.getAllByRole("combobox")).toHaveLength(1);
+		expect(screen.getAllByRole("combobox")).toHaveLength(2);
 
 		for (const [label, visibleName] of [
 			["Conquest", "Conquest clear"],
@@ -496,6 +496,140 @@ describe("LoadoutSnapshotsList", () => {
 		expect(copyImage.mock.calls[0][0]).toBe("Beta clear");
 		expect(copyImage.mock.calls[0][1]).toBeInstanceOf(HTMLElement);
 		expect(copyImage.mock.calls[0].slice(2)).toEqual([false, false]);
+	});
+
+	it("paginates sorted rows and resets the page for page size and search changes", () => {
+		const snapshots = Object.fromEntries(
+			Array.from({ length: 21 }, (_, index) => {
+				const id = `snapshot-${index}`;
+				return [id, snapshot(id, `Snapshot ${index}`, "others", index)];
+			}),
+		);
+		useAppStore.setState({ loadoutSnapshots: snapshots });
+		render(<LoadoutSnapshotsList />);
+		const visibleRows = () =>
+			screen
+				.getAllByRole("button", { name: /snapshot row$/ })
+				.map((button) => button.getAttribute("aria-label"));
+
+		expect(screen.getByText("Page 1 of 3")).toBeTruthy();
+		expect(visibleRows()).toEqual(
+			Array.from(
+				{ length: 10 },
+				(_, index) => `Preview Snapshot ${20 - index} snapshot row`,
+			),
+		);
+		expect(
+			(screen.getByRole("button", { name: "First page" }) as HTMLButtonElement)
+				.disabled,
+		).toBe(true);
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "Previous page",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
+		fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+		expect(screen.getByText("Page 2 of 3")).toBeTruthy();
+		expect(visibleRows()).toEqual(
+			Array.from(
+				{ length: 10 },
+				(_, index) => `Preview Snapshot ${10 - index} snapshot row`,
+			),
+		);
+		expect(
+			(screen.getByRole("button", { name: "First page" }) as HTMLButtonElement)
+				.disabled,
+		).toBe(false);
+		fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+		expect(screen.getByText("Page 1 of 3")).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+		fireEvent.click(screen.getByRole("button", { name: "Last page" }));
+		expect(screen.getByText("Page 3 of 3")).toBeTruthy();
+		expect(visibleRows()).toEqual(["Preview Snapshot 0 snapshot row"]);
+		expect(
+			(screen.getByRole("button", { name: "Next page" }) as HTMLButtonElement)
+				.disabled,
+		).toBe(true);
+		fireEvent.click(screen.getByRole("button", { name: "First page" }));
+		expect(screen.getByText("Page 1 of 3")).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Last page" }));
+
+		const pageSize = screen.getByRole("combobox", { name: "Rows per page" });
+		fireEvent.keyDown(pageSize, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "20" }));
+		expect(screen.getByText("Page 1 of 2")).toBeTruthy();
+		expect(screen.getByText("Snapshot 20")).toBeTruthy();
+		fireEvent.keyDown(pageSize, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "50" }));
+		expect(screen.getByText("Page 1 of 1")).toBeTruthy();
+		expect(screen.getByText("Snapshot 0")).toBeTruthy();
+		fireEvent.keyDown(pageSize, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "10" }));
+
+		fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+		const sort = screen.getByRole("combobox", {
+			name: "Sort loadout snapshots",
+		});
+		fireEvent.keyDown(sort, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "Created: Oldest" }));
+		expect(screen.getByText("Page 1 of 3")).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear loadout snapshot filters" }),
+		);
+		expect(screen.getByText("Page 1 of 3")).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+		fireEvent.change(
+			screen.getByRole("textbox", { name: "Search loadout snapshots" }),
+			{
+				target: { value: "Snapshot 0" },
+			},
+		);
+		expect(screen.getByText("Page 1 of 1")).toBeTruthy();
+		expect(screen.getByText("Snapshot 0")).toBeTruthy();
+		expect(
+			(screen.getByRole("button", { name: "First page" }) as HTMLButtonElement)
+				.disabled,
+		).toBe(true);
+	});
+
+	it("clamps after deletion and hides pagination only for empty results", () => {
+		useAppStore.setState({
+			loadoutSnapshots: Object.fromEntries(
+				Array.from({ length: 11 }, (_, index) => {
+					const id = `snapshot-${index}`;
+					return [id, snapshot(id, `Snapshot ${index}`, "others", index)];
+				}),
+			),
+		});
+		const { rerender } = render(<LoadoutSnapshotsList />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Last page" }));
+		expect(screen.getByText("Page 2 of 2")).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Delete Snapshot 0" }));
+		fireEvent.click(screen.getByRole("button", { name: "Delete" }));
+		expect(screen.getByText("Page 1 of 1")).toBeTruthy();
+		expect(screen.getByText("Snapshot 10")).toBeTruthy();
+		for (const label of [
+			"First page",
+			"Previous page",
+			"Next page",
+			"Last page",
+		])
+			expect(
+				(screen.getByRole("button", { name: label }) as HTMLButtonElement)
+					.disabled,
+			).toBe(true);
+
+		useAppStore.setState({ loadoutSnapshots: {} });
+		rerender(<LoadoutSnapshotsList />);
+		expect(screen.getByText("No loadout snapshots yet")).toBeTruthy();
+		expect(screen.queryByText(/Page \d+ of \d+/)).toBeNull();
+		expect(
+			screen.queryByRole("combobox", { name: "Rows per page" }),
+		).toBeNull();
 	});
 
 	it("places and resets the Difficulty filter after bosses", () => {

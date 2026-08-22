@@ -1,9 +1,10 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useGoogleAnalytics } from "tanstack-router-ga4";
 import { LoadoutSnapshotDialog } from "@/components/loadout-snapshots/components/create-loadout-snapshot-dialog";
 import { LoadoutSnapshotFilter } from "@/components/loadout-snapshots/components/loadout-snapshot-filter";
 import { LoadoutSnapshotMetadata } from "@/components/loadout-snapshots/components/loadout-snapshot-metadata";
+import { LoadoutSnapshotPagination } from "@/components/loadout-snapshots/components/loadout-snapshot-pagination";
 import {
 	LOADOUT_SNAPSHOT_SORTS,
 	type LoadoutSnapshotSort,
@@ -60,6 +61,8 @@ export const LoadoutSnapshotsList = () => {
 	const [sort, setSort] = useState<LoadoutSnapshotSort>(
 		LOADOUT_SNAPSHOT_SORTS.CREATED_DESC,
 	);
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(10);
 	const [previewId, setPreviewId] = useState<string | null>(null);
 	const [exportId, setExportId] = useState<string | null>(null);
 	const [editId, setEditId] = useState<string | null>(null);
@@ -81,6 +84,15 @@ export const LoadoutSnapshotsList = () => {
 					: b.created_at - a.created_at || a.name.localeCompare(b.name);
 			});
 	}, [filters, snapshots, sort]);
+	const pageCount = Math.max(1, Math.ceil(entries.length / pageSize));
+	const safePage = Math.min(page, pageCount);
+	useEffect(() => {
+		setPage((currentPage) => Math.min(currentPage, pageCount));
+	}, [pageCount]);
+	const paginatedEntries = entries.slice(
+		(safePage - 1) * pageSize,
+		safePage * pageSize,
+	);
 	const preview = previewId ? (snapshots[previewId] ?? null) : null;
 	const exported = exportId ? (snapshots[exportId] ?? null) : null;
 	const editing = editId ? (snapshots[editId] ?? null) : null;
@@ -109,8 +121,14 @@ export const LoadoutSnapshotsList = () => {
 				<LoadoutSnapshotFilter
 					filters={filters}
 					sort={sort}
-					onFiltersChange={setFilters}
-					onSortChange={setSort}
+					onFiltersChange={(nextFilters) => {
+						setFilters(nextFilters);
+						setPage(1);
+					}}
+					onSortChange={(nextSort) => {
+						setSort(nextSort);
+						setPage(1);
+					}}
 					onClear={() => {
 						setFilters({
 							search: "",
@@ -120,6 +138,7 @@ export const LoadoutSnapshotsList = () => {
 							difficulty: null,
 						});
 						setSort(LOADOUT_SNAPSHOT_SORTS.CREATED_DESC);
+						setPage(1);
 					}}
 				/>
 			</div>
@@ -139,7 +158,7 @@ export const LoadoutSnapshotsList = () => {
 				/>
 			) : (
 				<div className="grid gap-2">
-					{entries.map((snapshot) => (
+					{paginatedEntries.map((snapshot) => (
 						<div
 							key={snapshot.id}
 							className="relative flex cursor-pointer flex-col gap-3 rounded-lg border bg-card p-4 transition-colors hover:border-primary focus-within:border-primary sm:flex-row sm:items-center sm:justify-between"
@@ -178,6 +197,16 @@ export const LoadoutSnapshotsList = () => {
 							/>
 						</div>
 					))}
+					<LoadoutSnapshotPagination
+						page={safePage}
+						pageCount={pageCount}
+						pageSize={pageSize}
+						onPageChange={setPage}
+						onPageSizeChange={(nextPageSize) => {
+							setPageSize(nextPageSize);
+							setPage(1);
+						}}
+					/>
 				</div>
 			)}
 
