@@ -12,13 +12,13 @@ describe("ConquestDifficultySelect", () => {
 	it("shows the accessible initial value and maps every banner option", () => {
 		render(
 			<ConquestDifficultySelect
-				ariaLabel="Conquest difficulty"
+				ariaLabel="Difficulty"
 				value="normal"
 				onValueChange={vi.fn()}
 			/>,
 		);
 		const select = screen.getByRole("combobox", {
-			name: "Conquest difficulty",
+			name: "Difficulty",
 		});
 		expect(select.textContent).toContain("Normal");
 		fireEvent.keyDown(select, { key: "ArrowDown" });
@@ -45,14 +45,14 @@ describe("ConquestDifficultySelect", () => {
 		const onValueChange = vi.fn();
 		render(
 			<ConquestDifficultySelect
-				ariaLabel="Filter Conquest difficulty"
+				ariaLabel="Filter Difficulty"
 				allowAll
 				value={null}
 				onValueChange={onValueChange}
 			/>,
 		);
 		const select = screen.getByRole("combobox", {
-			name: "Filter Conquest difficulty",
+			name: "Filter Difficulty",
 		});
 		expect(select.textContent).toContain("All difficulties");
 		expect(select.style.backgroundImage).toBe("");

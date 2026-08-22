@@ -168,7 +168,7 @@ export const LoadoutSnapshotFilter = ({
 							})}
 						</FilterButtonGroup>
 						<ConquestDifficultySelect
-							ariaLabel="Filter loadout snapshots by Conquest difficulty"
+							ariaLabel="Filter loadout snapshots by Difficulty"
 							allowAll
 							value={filters.difficulty}
 							onValueChange={(difficulty) =>

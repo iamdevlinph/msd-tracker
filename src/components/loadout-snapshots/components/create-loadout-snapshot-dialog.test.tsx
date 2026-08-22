@@ -148,7 +148,7 @@ describe("CreateLoadoutSnapshotDialog", () => {
 		expect(screen.getByRole("option", { name: "15" })).toBeTruthy();
 		fireEvent.click(screen.getByRole("option", { name: "15" }));
 		const difficulty = screen.getByRole("combobox", {
-			name: "Conquest difficulty",
+			name: "Difficulty",
 		});
 		fireEvent.keyDown(difficulty, { key: "ArrowDown" });
 		fireEvent.click(screen.getByRole("option", { name: "Raging" }));

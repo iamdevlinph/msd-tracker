@@ -398,10 +398,10 @@ export const LoadoutSnapshotDialog = ({
 								htmlFor="snapshot-difficulty"
 								className="grid gap-2 text-sm font-medium"
 							>
-								Conquest difficulty
+								Difficulty
 								<ConquestDifficultySelect
 									id="snapshot-difficulty"
-									ariaLabel="Conquest difficulty"
+									ariaLabel="Difficulty"
 									value={difficulty as ConquestDifficulty}
 									onValueChange={(value) => {
 										if (!value) return;

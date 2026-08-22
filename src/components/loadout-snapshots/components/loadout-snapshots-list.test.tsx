@@ -65,6 +65,7 @@ describe("LoadoutSnapshotsList", () => {
 						difficulty: "normal",
 						level: 1,
 						clear_time: "00:12.34",
+						res_element_ids: [1],
 					},
 				},
 				newer: {
@@ -76,28 +77,84 @@ describe("LoadoutSnapshotsList", () => {
 		});
 	});
 
-	it("shows the Conquest boss icon after the tag in rows and previews", () => {
+	it("uses the fixed Conquest metadata grid in rows and previews", () => {
 		render(<LoadoutSnapshotsList />);
 		const tag = screen.getByText("Conquest", { selector: "span" });
-		expect(tag.parentElement?.parentElement?.className).toContain(
-			"text-muted-foreground",
-		);
-		expect(tag.nextElementSibling?.textContent).toBe("BossCustos");
+		const metadata = tag.closest('[class~="grid-cols-2"]');
+		expect(metadata).toBeTruthy();
+		expect(metadata?.className).toContain("grid-cols-2");
+		expect(metadata?.className).toContain("sm:grid-cols-3");
+		expect(metadata?.children).toHaveLength(6);
 		expect(
-			tag.nextElementSibling?.querySelector("img")?.getAttribute("alt"),
+			Array.from(metadata?.children ?? []).map((cell) => cell.textContent),
+		).toEqual([
+			"Conquest",
+			"BossCustos",
+			"RES Element",
+			"DifficultyNormal",
+			"Level1",
+			"Clear time00:12.34",
+		]);
+		expect(within(metadata as HTMLElement).getByText("Boss")).toBeTruthy();
+		expect(
+			within(metadata as HTMLElement)
+				.getByAltText("Custos icon")
+				.getAttribute("alt"),
 		).toBe("Custos icon");
-		expect(tag.parentElement?.textContent).toContain(
-			"Conquest difficulty Normal",
-		);
-		expect(screen.getByText("Custos").className).toContain("font-semibold");
-		expect(screen.getByText("Normal").className).toContain("font-semibold");
+		expect(
+			within(metadata as HTMLElement).getByText("Difficulty"),
+		).toBeTruthy();
+		expect(
+			within(metadata as HTMLElement).getByAltText("Earth RES Element icon"),
+		).toBeTruthy();
+		for (const value of ["Custos", "Normal", "1", "00:12.34"])
+			expect(
+				within(metadata as HTMLElement).getByText(value).className,
+			).toContain("font-semibold");
+		expect(
+			within(metadata as HTMLElement).getByAltText("Earth RES Element icon")
+				.parentElement?.className,
+		).toContain("font-semibold");
 
 		fireEvent.click(
 			screen.getByRole("button", { name: "Preview Alpha clear snapshot row" }),
 		);
 		const preview = within(screen.getByRole("dialog", { name: "Alpha clear" }));
-		expect(preview.getByText("Custos")).toBeTruthy();
+		const previewMetadata = preview
+			.getByText("Conquest")
+			.closest('[class~="grid-cols-2"]');
+		expect(
+			Array.from(previewMetadata?.children ?? []).map(
+				(cell) => cell.textContent,
+			),
+		).toEqual(
+			Array.from(metadata?.children ?? []).map((cell) => cell.textContent),
+		);
 		expect(preview.getByAltText("Custos icon")).toBeTruthy();
+		expect(preview.getByAltText("Earth RES Element icon")).toBeTruthy();
+	});
+
+	it("reserves the Conquest RES Element grid cell when unset", () => {
+		useAppStore.setState((state) => ({
+			loadoutSnapshots: {
+				...state.loadoutSnapshots,
+				older: {
+					...state.loadoutSnapshots.older,
+					details: {
+						boss_id: 38,
+						difficulty: "normal",
+						level: 1,
+						clear_time: "00:12.34",
+					},
+				},
+			},
+		}));
+		render(<LoadoutSnapshotsList />);
+		const metadata = screen
+			.getByText("Conquest", { selector: "span" })
+			.closest('[class~="grid-cols-2"]');
+		expect(metadata?.children).toHaveLength(6);
+		expect(metadata?.children[2]?.textContent).toBe("");
 	});
 
 	afterEach(cleanup);
@@ -441,7 +498,7 @@ describe("LoadoutSnapshotsList", () => {
 		expect(copyImage.mock.calls[0].slice(2)).toEqual([false, false]);
 	});
 
-	it("places and resets the Conquest difficulty filter after bosses", () => {
+	it("places and resets the Difficulty filter after bosses", () => {
 		useAppStore.setState({
 			loadoutSnapshots: {
 				normal: {
@@ -473,7 +530,7 @@ describe("LoadoutSnapshotsList", () => {
 			name: "Filter loadout snapshots by boss",
 		});
 		const difficulty = screen.getByRole("combobox", {
-			name: "Filter loadout snapshots by Conquest difficulty",
+			name: "Filter loadout snapshots by Difficulty",
 		});
 		expect(
 			bossGroup.compareDocumentPosition(difficulty) &
@@ -488,12 +545,12 @@ describe("LoadoutSnapshotsList", () => {
 		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
 		expect(
 			screen.getByRole("combobox", {
-				name: "Filter loadout snapshots by Conquest difficulty",
+				name: "Filter loadout snapshots by Difficulty",
 			}).textContent,
 		).toContain("All difficulties");
 		fireEvent.keyDown(
 			screen.getByRole("combobox", {
-				name: "Filter loadout snapshots by Conquest difficulty",
+				name: "Filter loadout snapshots by Difficulty",
 			}),
 			{ key: "ArrowDown" },
 		);
@@ -504,7 +561,7 @@ describe("LoadoutSnapshotsList", () => {
 		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
 		expect(
 			screen.getByRole("combobox", {
-				name: "Filter loadout snapshots by Conquest difficulty",
+				name: "Filter loadout snapshots by Difficulty",
 			}).textContent,
 		).toContain("All difficulties");
 	});

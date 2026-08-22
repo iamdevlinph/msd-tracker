@@ -135,7 +135,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 		).toBe(true);
 	});
 
-	it("matches an active Conquest difficulty and accepts all difficulties", () => {
+	it("matches an active Difficulty and accepts all difficulties", () => {
 		const normal = snapshot("Normal", LOADOUT_SNAPSHOT_TAGS.CONQUEST, {
 			difficulty: "normal",
 			level: 1,
