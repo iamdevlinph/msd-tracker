@@ -20,7 +20,7 @@ describe("EVENTS_DATA", () => {
 				"forum.netmarble.com/stardive_gl/view/6/531-bonus-time-event",
 			]),
 		);
-		expect(EVENTS_DATA).toHaveLength(11);
+		expect(EVENTS_DATA).toHaveLength(13);
 		expect(EVENTS_DATA.map(({ id }) => id)).toContain(
 			"inquisitors-day-off-shop-story-missions",
 		);
@@ -28,7 +28,9 @@ describe("EVENTS_DATA", () => {
 
 	it("imports the Brisshell notice periods and published recurrence metadata", () => {
 		const brisshellEvents = EVENTS_DATA.filter(
-			({ id }) => id !== "inquisitors-day-off-shop-story-missions",
+			({ noticeUrl }) =>
+				noticeUrl?.includes("/548#:~:text=") ||
+				noticeUrl?.includes("/556#:~:text="),
 		);
 		expect(brisshellEvents).toHaveLength(10);
 		expect(brisshellEvents.filter((event) => event.noticeUrl)).toHaveLength(10);
@@ -177,6 +179,36 @@ describe("EVENTS_DATA", () => {
 				"recurrenceStartAt",
 			);
 		}
+	});
+
+	it("imports the August 26 notice periods and published recurrence metadata", () => {
+		const expectedEvents = {
+			"combine-monsterlings-missions": {
+				noticeUrl:
+					"https://forum.netmarble.com/stardive_gl/view/6/565#:~:text=Combine%20Monsterlings%20Missions",
+				startAt: "2026-08-26T00:00:00.000Z",
+				endAt: "2026-09-01T23:59:00.000Z",
+				recurrence: "none",
+			},
+			"10-day-check-in-mission": {
+				noticeUrl:
+					"https://forum.netmarble.com/stardive_gl/view/6/565#:~:text=10-Day%20Check-In%20Mission",
+				startAt: "2026-08-26T00:00:00.000Z",
+				endAt: "2026-09-08T23:59:00.000Z",
+				recurrence: "daily",
+			},
+		} as const;
+
+		for (const [id, expectedEvent] of Object.entries(expectedEvents)) {
+			expect(EVENTS_DATA.find((event) => event.id === id)).toMatchObject({
+				id,
+				noticeTitle: "8/26 (Wed) Event Notice",
+				...expectedEvent,
+			});
+		}
+		expect(
+			EVENTS_DATA.find((event) => event.id === "10-day-check-in-mission"),
+		).not.toHaveProperty("recurrenceStartAt");
 	});
 
 	it("defines unique, valid UTC event periods and optional reset anchors", () => {

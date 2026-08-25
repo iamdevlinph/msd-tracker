@@ -33,6 +33,9 @@ const BRISSHELL_DISCORD_NOTICE_TITLE =
 	"8/19 (Wed) 「The Girl from the Void」Brisshell Screenshot Event Notice";
 const BRISSHELL_DISCORD_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/556";
+const AUGUST_26_EVENT_NOTICE_TITLE = "8/26 (Wed) Event Notice";
+const AUGUST_26_EVENT_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/565";
 const MABEL_EVENT_NOTICE_TITLE =
 	"7/28 (Tue)「Inquisitor, Recorder of Reality and Phenomena Therein」Event Notice";
 
@@ -147,5 +150,25 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		startAt: "2026-08-19T05:25:23.088Z",
 		endAt: "2026-08-26T01:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "combine-monsterlings-missions",
+		title: "Combine Monsterlings Missions",
+		noticeTitle: AUGUST_26_EVENT_NOTICE_TITLE,
+		noticeUrl: `${AUGUST_26_EVENT_NOTICE_URL}#:~:text=Combine%20Monsterlings%20Missions`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-26T00:00:00.000Z",
+		endAt: "2026-09-01T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "10-day-check-in-mission",
+		title: "10-Day Check-In Mission",
+		noticeTitle: AUGUST_26_EVENT_NOTICE_TITLE,
+		noticeUrl: `${AUGUST_26_EVENT_NOTICE_URL}#:~:text=10-Day%20Check-In%20Mission`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-08-26T00:00:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 ];
