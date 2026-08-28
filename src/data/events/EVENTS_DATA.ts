@@ -29,27 +29,12 @@ const BRISSHELL_EVENT_NOTICE_TITLE =
 	"8/18 (Tue) [Girl from the Void] Event Notice";
 const BRISSHELL_EVENT_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/548";
-const BRISSHELL_DISCORD_NOTICE_TITLE =
-	"8/19 (Wed) 「The Girl from the Void」Brisshell Screenshot Event Notice";
-const BRISSHELL_DISCORD_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/556";
 const AUGUST_26_EVENT_NOTICE_TITLE = "8/26 (Wed) Event Notice";
 const AUGUST_26_EVENT_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/565";
-const MABEL_EVENT_NOTICE_TITLE =
-	"7/28 (Tue)「Inquisitor, Recorder of Reality and Phenomena Therein」Event Notice";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
-	{
-		id: "inquisitors-day-off-shop-story-missions",
-		title: "The Inquisitor's Day Off — Shop/Story/Missions",
-		noticeTitle: MABEL_EVENT_NOTICE_TITLE,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-07-29T01:30:00.000Z",
-		endAt: "2026-08-25T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
 	{
 		id: "tons-of-recruitment-tickets-check-in-streak-gift",
 		title: "Tons of Recruitment Tickets! Check-In Streak Gift",
@@ -111,16 +96,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "equipment-crafting-mission",
-		title: "Equipment Crafting Mission",
-		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
-		noticeUrl: `${BRISSHELL_EVENT_NOTICE_URL}#:~:text=Equipment%20Crafting%20Mission`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-19T05:30:00.000Z",
-		endAt: "2026-08-25T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
 		id: "anomaly-el-dorado-guardian",
 		title: "Anomaly: El Dorado Guardian",
 		noticeTitle: BRISSHELL_EVENT_NOTICE_TITLE,
@@ -138,17 +113,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-09-02T00:00:00.000Z",
 		endAt: "2026-09-08T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "brisshell-screenshot-event-discord",
-		title: "Brisshell Screenshot Event",
-		noticeTitle: BRISSHELL_DISCORD_NOTICE_TITLE,
-		noticeUrl: `${BRISSHELL_DISCORD_NOTICE_URL}#:~:text=Brisshell%20Screenshot%20Event`,
-		participation: "discord",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-19T05:25:23.088Z",
-		endAt: "2026-08-26T01:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{

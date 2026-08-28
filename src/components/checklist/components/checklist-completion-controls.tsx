@@ -32,9 +32,7 @@ export const ChecklistCompletionControls = ({
 		fullyCompleted,
 		status,
 	} = item;
-	const canComplete =
-		status !== CHECKLIST_STATUSES.UPCOMING &&
-		status !== CHECKLIST_STATUSES.EXPIRED;
+	const canComplete = status !== CHECKLIST_STATUSES.UPCOMING;
 	const occurrenceIsCompleted =
 		definition.kind === CHECKLIST_KINDS.EVENT
 			? occurrenceCompleted

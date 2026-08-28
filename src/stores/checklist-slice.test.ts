@@ -63,11 +63,19 @@ describe("Checklist store", () => {
 	});
 
 	it("migrates legacy persisted state with safe checklist defaults", () => {
-		const migrated = migrateAppStore({});
+		const migrated = migrateAppStore({
+			backupUpdatedAt: 123,
+			checklistPreferences: { showExpired: false, showUpcoming: false },
+		});
+		expect(migrated.backupUpdatedAt).toBe(123);
 		expect(migrated.checklistTasks).toEqual({});
 		expect(migrated.checklistCompletions).toEqual({});
 		expect(migrated.checklistPermanentNotes).toEqual({});
-		expect(migrated.checklistPreferences).toEqual(defaultChecklistPreferences);
+		expect(migrated.checklistPreferences).toEqual({
+			...defaultChecklistPreferences,
+			showUpcoming: false,
+		});
+		expect(migrated.checklistPreferences).not.toHaveProperty("showExpired");
 	});
 
 	it("anchors legacy local-midnight dates at the reset and advances the schedule", () => {

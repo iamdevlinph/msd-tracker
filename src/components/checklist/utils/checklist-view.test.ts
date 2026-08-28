@@ -322,10 +322,7 @@ describe("getChecklistView", () => {
 			status: "completed",
 		});
 		expect(second?.occurrence.startAt).not.toBe(first?.occurrence.startAt);
-		expect(expired).toMatchObject({
-			fullyCompleted: false,
-			status: "expired",
-		});
+		expect(expired).toBeUndefined();
 	});
 
 	it.each([
@@ -380,7 +377,7 @@ describe("getChecklistView", () => {
 		);
 	});
 
-	it("sorts expired events into the completed section", () => {
+	it("hides expired player-created events", () => {
 		const expiredEvent: ChecklistTask = {
 			id: "expired-event",
 			title: "Expired event",
@@ -396,22 +393,11 @@ describe("getChecklistView", () => {
 			completions: {},
 			preferences: defaultChecklistPreferences,
 			tab: "all",
-			now,
-		});
-		const expiredIndex = items.findIndex(
-			({ definition }) => definition.id === expiredEvent.id,
-		);
-
-		expect(expiredIndex).toBeGreaterThan(0);
-		expect(items[expiredIndex]).toMatchObject({
-			definition: { id: expiredEvent.id },
-			status: "expired",
+			now: Date.parse(expiredEvent.endAt as string),
 		});
 		expect(
-			items
-				.slice(expiredIndex)
-				.every(({ status }) => ["completed", "expired"].includes(status)),
-		).toBe(true);
+			items.some(({ definition }) => definition.id === expiredEvent.id),
+		).toBe(false);
 		const hiddenCompletedPreferences = {
 			...defaultChecklistPreferences,
 			showCompleted: false,
@@ -423,16 +409,7 @@ describe("getChecklistView", () => {
 				completions: {},
 				preferences: hiddenCompletedPreferences,
 				tab: "all",
-				now,
-			}).some(({ definition }) => definition.id === expiredEvent.id),
-		).toBe(true);
-		expect(
-			getChecklistView({
-				tasks: { [expiredEvent.id]: expiredEvent },
-				completions: {},
-				preferences: { ...hiddenCompletedPreferences, showExpired: false },
-				tab: "all",
-				now,
+				now: Date.parse(expiredEvent.endAt as string),
 			}).some(({ definition }) => definition.id === expiredEvent.id),
 		).toBe(false);
 	});

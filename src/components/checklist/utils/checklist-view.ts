@@ -22,6 +22,10 @@ import {
 import { EVENTS_DATA } from "@/data/events/EVENTS_DATA";
 
 export type ChecklistTab = ChecklistKind | "all";
+export type ChecklistRenderableStatus = Exclude<
+	ChecklistStatus,
+	typeof CHECKLIST_STATUSES.EXPIRED
+>;
 
 export type ChecklistViewItem = {
 	definition: ChecklistDefinition;
@@ -30,7 +34,7 @@ export type ChecklistViewItem = {
 	fullCompletionKey: string;
 	occurrenceCompleted: boolean;
 	fullyCompleted: boolean;
-	status: ChecklistStatus;
+	status: ChecklistRenderableStatus;
 	notes?: string;
 };
 
@@ -41,6 +45,10 @@ type ChecklistViewInput = {
 	permanentNotes?: Record<string, string>;
 	tab: ChecklistTab;
 	now: number;
+};
+
+type ComputedChecklistItem = Omit<ChecklistViewItem, "status"> & {
+	status: ChecklistStatus;
 };
 
 const getChecklistItems = (
@@ -54,66 +62,67 @@ const getChecklistItems = (
 	}: ChecklistViewInput,
 	applyVisibility = true,
 ): ChecklistViewItem[] => {
-	const items = sortChecklistItems(
-		[...PERMANENT_EVENTS, ...EVENTS_DATA, ...Object.values(tasks)]
-			.filter(
-				(definition) =>
-					preferences.categories[definition.kind] &&
-					(tab === "all" || definition.kind === tab),
-			)
-			.map((definition) => {
-				const latest = latestCompletion(definition, completions);
-				const occurrence = getOccurrence(definition, now, latest?.[1]);
-				const currentKey = occurrenceKey(definition, occurrence.startAt);
-				const eventFullKey = fullCompletionKey(definition);
-				const occurrenceCompleted = Boolean(completions[currentKey]);
-				const fullyCompleted =
-					definition.kind === CHECKLIST_KINDS.EVENT &&
-					Boolean(completions[eventFullKey]) &&
-					now >= occurrence.startAt &&
-					!(occurrence.endAt !== undefined && now >= occurrence.endAt);
-				const waitingForRollingReset =
-					definition.kind === CHECKLIST_KINDS.CUSTOM &&
-					definition.mode === CHECKLIST_MODES.AFTER_COMPLETION &&
-					Boolean(latest) &&
-					now < occurrence.startAt;
-				const completed =
-					fullyCompleted ||
-					(waitingForRollingReset ? true : occurrenceCompleted);
+	const items = [...PERMANENT_EVENTS, ...EVENTS_DATA, ...Object.values(tasks)]
+		.filter(
+			(definition) =>
+				preferences.categories[definition.kind] &&
+				(tab === "all" || definition.kind === tab),
+		)
+		.map((definition): ComputedChecklistItem => {
+			const latest = latestCompletion(definition, completions);
+			const occurrence = getOccurrence(definition, now, latest?.[1]);
+			const currentKey = occurrenceKey(definition, occurrence.startAt);
+			const eventFullKey = fullCompletionKey(definition);
+			const occurrenceCompleted = Boolean(completions[currentKey]);
+			const fullyCompleted =
+				definition.kind === CHECKLIST_KINDS.EVENT &&
+				Boolean(completions[eventFullKey]) &&
+				now >= occurrence.startAt &&
+				!(occurrence.endAt !== undefined && now >= occurrence.endAt);
+			const waitingForRollingReset =
+				definition.kind === CHECKLIST_KINDS.CUSTOM &&
+				definition.mode === CHECKLIST_MODES.AFTER_COMPLETION &&
+				Boolean(latest) &&
+				now < occurrence.startAt;
+			const completed =
+				fullyCompleted || (waitingForRollingReset ? true : occurrenceCompleted);
 
-				return {
+			return {
+				definition,
+				notes:
+					definition.kind === CHECKLIST_KINDS.PERMANENT
+						? permanentNotes[definition.id]
+						: isChecklistTask(definition)
+							? definition.notes
+							: undefined,
+				occurrence,
+				completionKey:
+					waitingForRollingReset && latest ? latest[0] : currentKey,
+				fullCompletionKey: eventFullKey,
+				occurrenceCompleted,
+				fullyCompleted,
+				status: getChecklistStatus(
 					definition,
-					notes:
-						definition.kind === CHECKLIST_KINDS.PERMANENT
-							? permanentNotes[definition.id]
-							: isChecklistTask(definition)
-								? definition.notes
-								: undefined,
 					occurrence,
-					completionKey:
-						waitingForRollingReset && latest ? latest[0] : currentKey,
-					fullCompletionKey: eventFullKey,
-					occurrenceCompleted,
-					fullyCompleted,
-					status: getChecklistStatus(
-						definition,
-						occurrence,
-						now,
-						completed,
-						preferences.endingSoonHours,
-					),
-				};
-			}),
-	);
-	if (!applyVisibility) return items;
-	return items.filter(
+					now,
+					completed,
+					preferences.endingSoonHours,
+				),
+			};
+		})
+		.filter(
+			(item): item is ChecklistViewItem =>
+				item.status !== CHECKLIST_STATUSES.EXPIRED,
+		);
+	const sortedItems = sortChecklistItems(items);
+	if (!applyVisibility) return sortedItems;
+	return sortedItems.filter(
 		({ fullyCompleted, status }) =>
 			(status !== CHECKLIST_STATUSES.UPCOMING || preferences.showUpcoming) &&
 			(fullyCompleted ||
 				status !== CHECKLIST_STATUSES.COMPLETED ||
 				preferences.showCompleted) &&
-			(!fullyCompleted || preferences.showFullyCompleted) &&
-			(status !== CHECKLIST_STATUSES.EXPIRED || preferences.showExpired),
+			(!fullyCompleted || preferences.showFullyCompleted),
 	);
 };
 
@@ -131,14 +140,9 @@ export const hasOngoingOrUpcomingChecklistItems = (
 				showUpcoming: true,
 				showCompleted: true,
 				showFullyCompleted: true,
-				showExpired: true,
 			},
 		},
 		false,
 	);
-	return items.some(
-		({ status }) =>
-			status !== CHECKLIST_STATUSES.COMPLETED &&
-			status !== CHECKLIST_STATUSES.EXPIRED,
-	);
+	return items.some(({ status }) => status !== CHECKLIST_STATUSES.COMPLETED);
 };

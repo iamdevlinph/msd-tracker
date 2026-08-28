@@ -119,7 +119,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Add the First Summer Dive event set and Cool Summer Vacation login reward using their published UTC periods and explicit daily-reset behavior.
 - [x] Retire the July 28 event set and add the Mabel and Discord events using the completed maintenance time and published UTC periods.
 - [x] Import official checklist notices, including the Brisshell event set with official source links and verified metadata, using the project skill; preserve published non-midnight reset boundaries; and remove expired limited events during each import without changing completion records.
-- [x] Show Event alongside Daily or Weekly badges when an event also has a recurring reset, and show expired rows by default with reduced opacity and struck-through names.
+- [x] Show Event alongside Daily or Weekly badges when an event also has a recurring reset, and hide expired events at the shared checklist view boundary.
 - [x] Distinguish event rows with daily teal, weekly violet, one-time fuchsia, and Discord blue gradients; align their badges while reserving amber row styling for ending-soon status and destructive styling for overdue items.
 - [x] Show player-created Task and Event notes beneath item names with a compact two-line limit.
 - [x] Add editable 500-character notes to permanent checklist items, persisted locally and through Google Drive.
@@ -130,10 +130,10 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [x] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
 - [x] Separate incomplete and completed checklist items with a labeled divider that follows the Show completed preference.
-- [x] Group expired checklist items in the completed section while preserving their expired styling and visibility preference.
+- [x] Hide expired official and player-created events at the shared checklist view boundary while preserving stored tasks and completion keys.
 - [x] Independently control ordinary and fully completed checklist visibility, with legacy local and Drive preferences defaulting to visible.
 - [x] Expose the Checklist navigation item after the feature is release-ready.
-- [x] Use the shared compact collection empty state titled “No ongoing or upcoming items.” for retained-history-only, hidden-history, and disabled-category empty results, and show a visible “Completed” separator before retained completed or expired history.
+- [x] Use the shared compact collection empty state titled “No ongoing or upcoming items.” for history-only, hidden-history, and disabled-category empty results, with a visible “Completed” separator before retained completed history.
 
 ## Chunk 2: Artifacts Inventory
 

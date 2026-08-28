@@ -12,7 +12,6 @@ export type ChecklistPreferences = {
 	showUpcoming: boolean;
 	showCompleted: boolean;
 	showFullyCompleted: boolean;
-	showExpired: boolean;
 	endingSoonHours: 5 | 12 | 24 | 48 | 72;
 };
 
@@ -25,7 +24,6 @@ export const defaultChecklistPreferences: ChecklistPreferences = {
 	showUpcoming: true,
 	showCompleted: true,
 	showFullyCompleted: true,
-	showExpired: true,
 	endingSoonHours: 24,
 };
 
@@ -51,6 +49,27 @@ export const normalizeChecklistPermanentNotes = (
 	);
 };
 
+export const normalizeChecklistPreferences = (
+	preferences: unknown,
+): ChecklistPreferences => {
+	const persisted =
+		preferences && typeof preferences === "object"
+			? (preferences as Partial<ChecklistPreferences> & {
+					categories?: Partial<ChecklistPreferences["categories"]>;
+					showExpired?: unknown;
+				})
+			: {};
+	const { showExpired: _showExpired, ...currentPreferences } = persisted;
+	return {
+		...defaultChecklistPreferences,
+		...currentPreferences,
+		categories: {
+			...defaultChecklistPreferences.categories,
+			...persisted.categories,
+		},
+	};
+};
+
 export const normalizeChecklistPersistedState = (
 	state: PersistedChecklistState,
 ): {
@@ -64,12 +83,7 @@ export const normalizeChecklistPersistedState = (
 	checklistPermanentNotes: normalizeChecklistPermanentNotes(
 		state.checklistPermanentNotes,
 	),
-	checklistPreferences: {
-		...defaultChecklistPreferences,
-		...state.checklistPreferences,
-		categories: {
-			...defaultChecklistPreferences.categories,
-			...state.checklistPreferences?.categories,
-		},
-	},
+	checklistPreferences: normalizeChecklistPreferences(
+		state.checklistPreferences,
+	),
 });

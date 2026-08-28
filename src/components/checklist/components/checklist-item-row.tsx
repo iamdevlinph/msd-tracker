@@ -106,19 +106,17 @@ export const ChecklistItemRow = ({
 		? "Fully completed"
 		: status === CHECKLIST_STATUSES.COMPLETED
 			? "Completed"
-			: status === CHECKLIST_STATUSES.EXPIRED
-				? "Expired"
-				: status === CHECKLIST_STATUSES.OVERDUE
-					? "Overdue"
-					: status === CHECKLIST_STATUSES.UPCOMING
-						? `Starts in ${formatCountdown(occurrence.startAt - now)}`
-						: definition.kind === CHECKLIST_KINDS.EVENT && occurrence.endAt
-							? `Ends in ${formatCountdown(occurrence.endAt - now)}`
-							: customTask && occurrence.endAt
-								? `Due in ${formatCountdown(occurrence.endAt - now)}`
-								: occurrence.nextResetAt
-									? `Resets in ${formatCountdown(occurrence.nextResetAt - now)}`
-									: "Available now";
+			: status === CHECKLIST_STATUSES.OVERDUE
+				? "Overdue"
+				: status === CHECKLIST_STATUSES.UPCOMING
+					? `Starts in ${formatCountdown(occurrence.startAt - now)}`
+					: definition.kind === CHECKLIST_KINDS.EVENT && occurrence.endAt
+						? `Ends in ${formatCountdown(occurrence.endAt - now)}`
+						: customTask && occurrence.endAt
+							? `Due in ${formatCountdown(occurrence.endAt - now)}`
+							: occurrence.nextResetAt
+								? `Resets in ${formatCountdown(occurrence.nextResetAt - now)}`
+								: "Available now";
 	const countdown = fullyCompleted
 		? "Fully completed"
 		: status === CHECKLIST_STATUSES.COMPLETED
@@ -149,7 +147,6 @@ export const ChecklistItemRow = ({
 				status === CHECKLIST_STATUSES.OVERDUE &&
 					"from-destructive/10 hover:border-destructive/40",
 				status === CHECKLIST_STATUSES.COMPLETED && "opacity-70",
-				status === CHECKLIST_STATUSES.EXPIRED && "opacity-50",
 			)}
 		>
 			<div className="flex w-full min-w-0 flex-1 items-center sm:w-auto">
@@ -170,8 +167,7 @@ export const ChecklistItemRow = ({
 									customTask
 										? "text-sm sm:text-base"
 										: "text-xs sm:text-sm md:text-base",
-									status === CHECKLIST_STATUSES.COMPLETED ||
-										status === CHECKLIST_STATUSES.EXPIRED
+									status === CHECKLIST_STATUSES.COMPLETED
 										? "line-through hover:[text-decoration-line:underline_line-through] focus-visible:[text-decoration-line:underline_line-through]"
 										: "hover:underline focus-visible:underline",
 								)}
@@ -188,9 +184,7 @@ export const ChecklistItemRow = ({
 									customTask
 										? "text-sm sm:text-base"
 										: "text-xs sm:text-sm md:text-base",
-									(status === CHECKLIST_STATUSES.COMPLETED ||
-										status === CHECKLIST_STATUSES.EXPIRED) &&
-										"line-through",
+									status === CHECKLIST_STATUSES.COMPLETED && "line-through",
 								)}
 							>
 								{definition.title}

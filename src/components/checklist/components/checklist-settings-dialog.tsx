@@ -27,7 +27,6 @@ const visibilityOptions = [
 	["showUpcoming", "Upcoming"],
 	["showCompleted", "Completed"],
 	["showFullyCompleted", "fully completed"],
-	["showExpired", "Expired"],
 ] as const;
 
 export const ChecklistSettingsDialog = ({

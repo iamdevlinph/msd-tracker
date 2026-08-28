@@ -19,8 +19,7 @@ export type ChecklistStatus =
 	(typeof CHECKLIST_STATUSES)[keyof typeof CHECKLIST_STATUSES];
 
 export const isChecklistCompletedSectionStatus = (status: ChecklistStatus) =>
-	status === CHECKLIST_STATUSES.COMPLETED ||
-	status === CHECKLIST_STATUSES.EXPIRED;
+	status === CHECKLIST_STATUSES.COMPLETED;
 
 const DAY = 86_400_000;
 const WEEK = 7 * DAY;

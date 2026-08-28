@@ -18,12 +18,12 @@ describe("EVENTS_DATA", () => {
 				"mabel-character-trivia-discord",
 				"forum.netmarble.com/stardive_gl/view/6/521-10-day-check-in",
 				"forum.netmarble.com/stardive_gl/view/6/531-bonus-time-event",
+				"inquisitors-day-off-shop-story-missions",
+				"equipment-crafting-mission",
+				"brisshell-screenshot-event-discord",
 			]),
 		);
-		expect(EVENTS_DATA).toHaveLength(13);
-		expect(EVENTS_DATA.map(({ id }) => id)).toContain(
-			"inquisitors-day-off-shop-story-missions",
-		);
+		expect(EVENTS_DATA).toHaveLength(10);
 	});
 
 	it("imports the Brisshell notice periods and published recurrence metadata", () => {
@@ -32,18 +32,18 @@ describe("EVENTS_DATA", () => {
 				noticeUrl?.includes("/548#:~:text=") ||
 				noticeUrl?.includes("/556#:~:text="),
 		);
-		expect(brisshellEvents).toHaveLength(10);
-		expect(brisshellEvents.filter((event) => event.noticeUrl)).toHaveLength(10);
+		expect(brisshellEvents).toHaveLength(8);
+		expect(brisshellEvents.filter((event) => event.noticeUrl)).toHaveLength(8);
 		expect(
 			brisshellEvents.filter((event) =>
 				event.noticeUrl?.includes("/548#:~:text="),
 			),
-		).toHaveLength(9);
+		).toHaveLength(8);
 		expect(
 			brisshellEvents.filter((event) =>
 				event.noticeUrl?.includes("/556#:~:text="),
 			),
-		).toHaveLength(1);
+		).toHaveLength(0);
 		const expectedNoticeUrls = {
 			"tons-of-recruitment-tickets-check-in-streak-gift":
 				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Tons%20of%20Recruitment%20Tickets!%20Check-In%20Streak%20Gift",
@@ -57,14 +57,10 @@ describe("EVENTS_DATA", () => {
 				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Brisshell%E2%80%99s%207-Day%20Gifts",
 			"special-missions-with-brisshell":
 				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Special%20Missions%20with%20Brisshell",
-			"equipment-crafting-mission":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Equipment%20Crafting%20Mission",
 			"anomaly-el-dorado-guardian":
 				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Anomaly%3A%20El%20Dorado%20Guardian",
 			"brisshell-an-invitation-to-break-the-ice":
 				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=An%20Invitation%20to%20Break%20the%20Ice",
-			"brisshell-screenshot-event-discord":
-				"https://forum.netmarble.com/stardive_gl/view/6/556#:~:text=Brisshell%20Screenshot%20Event",
 		} as const;
 		for (const [id, noticeUrl] of Object.entries(expectedNoticeUrls)) {
 			expect(EVENTS_DATA.find((event) => event.id === id)).toMatchObject({
@@ -72,17 +68,6 @@ describe("EVENTS_DATA", () => {
 				noticeUrl,
 			});
 		}
-		expect(
-			brisshellEvents.find(
-				(event) => event.id === "brisshell-screenshot-event-discord",
-			),
-		).toMatchObject({
-			noticeTitle:
-				"8/19 (Wed) 「The Girl from the Void」Brisshell Screenshot Event Notice",
-			noticeUrl:
-				"https://forum.netmarble.com/stardive_gl/view/6/556#:~:text=Brisshell%20Screenshot%20Event",
-			startAt: "2026-08-19T05:25:23.088Z",
-		});
 		expect(brisshellEvents.map(({ noticeTitle }) => noticeTitle)).toEqual([
 			"8/18 (Tue) [Girl from the Void] Event Notice",
 			"8/18 (Tue) [Girl from the Void] Event Notice",
@@ -92,14 +77,7 @@ describe("EVENTS_DATA", () => {
 			"8/18 (Tue) [Girl from the Void] Event Notice",
 			"8/18 (Tue) [Girl from the Void] Event Notice",
 			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/19 (Wed) 「The Girl from the Void」Brisshell Screenshot Event Notice",
 		]);
-		expect(
-			EVENTS_DATA.find(
-				(event) => event.id === "inquisitors-day-off-shop-story-missions",
-			),
-		).not.toHaveProperty("noticeUrl");
 
 		const expectedEvents = {
 			"tons-of-recruitment-tickets-check-in-streak-gift": [
@@ -132,11 +110,6 @@ describe("EVENTS_DATA", () => {
 				"2026-09-08T23:59:00.000Z",
 				"none",
 			],
-			"equipment-crafting-mission": [
-				"2026-08-19T05:30:00.000Z",
-				"2026-08-25T23:59:00.000Z",
-				"none",
-			],
 			"anomaly-el-dorado-guardian": [
 				"2026-08-26T00:00:00.000Z",
 				"2026-09-08T23:59:00.000Z",
@@ -145,11 +118,6 @@ describe("EVENTS_DATA", () => {
 			"brisshell-an-invitation-to-break-the-ice": [
 				"2026-09-02T00:00:00.000Z",
 				"2026-09-08T23:59:00.000Z",
-				"none",
-			],
-			"brisshell-screenshot-event-discord": [
-				"2026-08-19T05:25:23.088Z",
-				"2026-08-26T01:00:00.000Z",
 				"none",
 			],
 		} as const;
@@ -165,11 +133,6 @@ describe("EVENTS_DATA", () => {
 			});
 		}
 
-		expect(
-			EVENTS_DATA.find(
-				(event) => event.id === "brisshell-screenshot-event-discord",
-			),
-		).toMatchObject({ participation: "discord" });
 		for (const id of [
 			"tons-of-recruitment-tickets-check-in-streak-gift",
 			"brisshells-7-day-gifts",

@@ -386,6 +386,19 @@ describe("Drive Monsterling backups", () => {
 		).toEqual([67]);
 	});
 
+	it("strips legacy expired visibility from selected preferences", () => {
+		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				showExpired: false,
+			} as never,
+		});
+
+		expect(select(useAppStore.getState()).checklistPreferences).toEqual(
+			defaultChecklistPreferences,
+		);
+	});
+
 	it("downloads retained levels without owned copies", async () => {
 		const backup = {
 			backupUpdatedAt: 1,
@@ -480,6 +493,7 @@ describe("Drive Monsterling backups", () => {
 				},
 			},
 			loadouts: {},
+			checklistPreferences: { showExpired: false, showUpcoming: false },
 			loadoutCardPreferences: { showArtifactsAndEquipment: false },
 		};
 		driveFetch
@@ -509,9 +523,11 @@ describe("Drive Monsterling backups", () => {
 		expect(downloaded?.checklistTasks).toEqual({});
 		expect(downloaded?.checklistCompletions).toEqual({});
 		expect(downloaded?.checklistPermanentNotes).toEqual({});
-		expect(downloaded?.checklistPreferences).toEqual(
-			defaultChecklistPreferences,
-		);
+		expect(downloaded?.checklistPreferences).toEqual({
+			...defaultChecklistPreferences,
+			showUpcoming: false,
+		});
+		expect(downloaded?.checklistPreferences).not.toHaveProperty("showExpired");
 		expect(downloaded?.checklistPreferences.showFullyCompleted).toBe(true);
 		expect(downloaded?.loadoutCardPreferences).toEqual({
 			showArtifactsAndEquipment: false,

@@ -501,6 +501,7 @@ describe("ChecklistPage", () => {
 		render(<ChecklistPage />);
 
 		fireEvent.click(screen.getByRole("button", { name: "Checklist settings" }));
+		expect(screen.queryByLabelText("Show Expired")).toBeNull();
 		const fullyCompleted = screen.getByLabelText("Show fully completed");
 		expect(fullyCompleted.getAttribute("data-state")).toBe("checked");
 		fireEvent.click(fullyCompleted);
@@ -745,7 +746,7 @@ describe("ChecklistPage", () => {
 		expect(screen.queryByText(/^Bring support\./)).toBeNull();
 	});
 
-	it("disables completion controls outside an event's active period", () => {
+	it("disables completion controls before an event starts and hides expired events", () => {
 		useAppStore.setState({
 			checklistTasks: {
 				upcoming: {
@@ -773,11 +774,8 @@ describe("ChecklistPage", () => {
 		render(<ChecklistPage />);
 
 		const upcomingRow = screen.getByText("Upcoming player event").closest("li");
-		const expiredName = screen.getByText("Expired player event");
-		const expiredRow = expiredName.closest("li");
 		for (const [row, title] of [
 			[upcomingRow, "Upcoming player event"],
-			[expiredRow, "Expired player event"],
 		] as const) {
 			expect(
 				within(row as HTMLElement).queryByRole("button", {
@@ -795,24 +793,16 @@ describe("ChecklistPage", () => {
 					.hasAttribute("disabled"),
 			).toBe(true);
 		}
-		expect(expiredName.className).toContain("line-through");
-		expect(expiredRow?.className).toContain("opacity-50");
-		expect(screen.getByTestId("checklist-completed-divider").textContent).toBe(
-			"Completed",
-		);
-		expect(expiredRow?.previousElementSibling).toBe(
-			screen.getByTestId("checklist-completed-divider"),
-		);
+		expect(screen.queryByText("Expired player event")).toBeNull();
 	});
 
-	it("shows the generic empty state above retained expired event history", () => {
+	it("shows the generic empty state for an expired-only event tab", () => {
 		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-08-29T00:00:00.000Z"));
 		useAppStore.setState({
 			checklistPreferences: {
 				...defaultChecklistPreferences,
 				showCompleted: false,
 				showFullyCompleted: false,
-				showExpired: true,
 			},
 			checklistTasks: {
 				"expired-player-event": {
@@ -829,9 +819,6 @@ describe("ChecklistPage", () => {
 		});
 
 		render(<ChecklistPage />);
-		expect(screen.queryByText("No ongoing or upcoming items.")).toBeNull();
-		expect(screen.getByText("Expired player event")).toBeTruthy();
-
 		fireEvent.click(screen.getByRole("button", { name: "Events" }));
 		expect(screen.getByText("No ongoing or upcoming items.")).toBeTruthy();
 		expect(
@@ -844,14 +831,8 @@ describe("ChecklistPage", () => {
 		expect(emptyState?.getAttribute("data-slot")).toBeNull();
 		expect(emptyState?.className).toContain("gap-1");
 		expect(emptyState?.className).toContain("py-10");
-		const expiredRow = screen.getByText("Expired player event").closest("li");
-		expect(expiredRow).toBeTruthy();
-		expect(emptyState?.nextElementSibling?.querySelectorAll("li")).toContain(
-			expiredRow,
-		);
-		expect(emptyState?.nextElementSibling?.firstElementChild).toBe(
-			screen.getByTestId("checklist-completed-divider"),
-		);
+		expect(screen.queryByText("Expired player event")).toBeNull();
+		expect(screen.queryByTestId("checklist-completed-divider")).toBeNull();
 	});
 
 	it.each([
@@ -863,7 +844,6 @@ describe("ChecklistPage", () => {
 				...defaultChecklistPreferences,
 				showCompleted: true,
 				showFullyCompleted: true,
-				showExpired: true,
 			},
 			checklistTasks:
 				tab === "Custom"
@@ -917,7 +897,6 @@ describe("ChecklistPage", () => {
 				...defaultChecklistPreferences,
 				showCompleted: false,
 				showFullyCompleted: false,
-				showExpired: false,
 				categories: {
 					...defaultChecklistPreferences.categories,
 					event: true,
@@ -952,7 +931,6 @@ describe("ChecklistPage", () => {
 				...defaultChecklistPreferences,
 				showCompleted: true,
 				showFullyCompleted: true,
-				showExpired: true,
 				categories: {
 					...defaultChecklistPreferences.categories,
 					event: false,

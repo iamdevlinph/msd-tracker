@@ -56,7 +56,7 @@ describe("normalizeChecklistPersistedState", () => {
 			checklistPreferences: {
 				showExpired: false,
 				categories: { event: false },
-			},
+			} as never,
 		});
 
 		expect(state.checklistTasks.legacy).toMatchObject({
@@ -65,7 +65,6 @@ describe("normalizeChecklistPersistedState", () => {
 		});
 		expect(state.checklistPreferences).toEqual({
 			...defaultChecklistPreferences,
-			showExpired: false,
 			categories: {
 				...defaultChecklistPreferences.categories,
 				event: false,

@@ -1,8 +1,6 @@
 import { CalendarDays, Check, CheckCheck, RotateCcw } from "lucide-react";
-import {
-	CHECKLIST_STATUSES,
-	type ChecklistStatus,
-} from "@/components/checklist/utils/checklist";
+import { CHECKLIST_STATUSES } from "@/components/checklist/utils/checklist";
+import type { ChecklistRenderableStatus } from "@/components/checklist/utils/checklist-view";
 import { cn } from "@/lib/utils";
 
 const statusPillStyles = {
@@ -10,12 +8,11 @@ const statusPillStyles = {
 	[CHECKLIST_STATUSES.ACTIVE]: "bg-muted-foreground text-background",
 	[CHECKLIST_STATUSES.ENDING_SOON]: "bg-amber-500 text-amber-950",
 	[CHECKLIST_STATUSES.COMPLETED]: "bg-emerald-600 text-white",
-	[CHECKLIST_STATUSES.EXPIRED]: "bg-destructive text-destructive-foreground",
 	[CHECKLIST_STATUSES.OVERDUE]: "bg-destructive text-destructive-foreground",
 } as const;
 
 type ChecklistStatusProps = {
-	status: ChecklistStatus;
+	status: ChecklistRenderableStatus;
 	countdownLabel: string;
 	countdown: string;
 	completedCountdown?: { label: string; text: string };
@@ -51,8 +48,7 @@ export const ChecklistStatusDisplay = ({
 		>
 			<span className="sr-only">{countdownLabel}</span>
 			<span aria-hidden="true" className="inline-flex items-center">
-				{status === CHECKLIST_STATUSES.OVERDUE ||
-				status === CHECKLIST_STATUSES.EXPIRED ? (
+				{status === CHECKLIST_STATUSES.OVERDUE ? (
 					<RotateCcw className="mr-1 size-4" />
 				) : fullyCompleted ? (
 					<CheckCheck className="mr-1 size-4" />

@@ -3,7 +3,10 @@ import {
 	driveFetch,
 	refreshGoogleAccessToken,
 } from "@/components/account/google/utils/drive-client";
-import { normalizeChecklistPersistedState } from "@/components/checklist/utils/checklist-persistence";
+import {
+	normalizeChecklistPersistedState,
+	normalizeChecklistPreferences,
+} from "@/components/checklist/utils/checklist-persistence";
 import { consolidateMonsterlingLinkChainLevels } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import { type StoreState, useAppStore } from "@/stores/app-store";
 import { normalizeLoadoutSnapshots } from "@/stores/loadout-snapshots-slice";
@@ -85,7 +88,9 @@ export function select(state: StoreState): Backup {
 		checklistTasks: state.checklistTasks,
 		checklistCompletions: state.checklistCompletions,
 		checklistPermanentNotes: state.checklistPermanentNotes,
-		checklistPreferences: state.checklistPreferences,
+		checklistPreferences: normalizeChecklistPreferences(
+			state.checklistPreferences,
+		),
 		artifactsOwned: state.artifactsOwned,
 	};
 }
