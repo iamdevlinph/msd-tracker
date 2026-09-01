@@ -120,7 +120,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Retire the July 28 event set and add the Mabel and Discord events using the completed maintenance time and published UTC periods.
 - [x] Import official checklist notices, including the Brisshell event set with official source links and verified metadata, using the project skill; preserve published non-midnight reset boundaries; and remove expired limited events during each import without changing completion records.
 - [x] Show Event alongside Daily or Weekly badges when an event also has a recurring reset, and hide expired events at the shared checklist view boundary.
-- [x] Distinguish event rows with daily teal, weekly violet, one-time fuchsia, and Discord blue gradients; align their badges while reserving amber row styling for ending-soon status and destructive styling for overdue items.
+- [x] Distinguish event rows with daily teal, weekly violet, one-time fuchsia, and Discord blue gradients; align their badges; dim upcoming official and player-created events to 40% opacity without dimming upcoming custom tasks; and reserve amber row styling for ending-soon status and destructive styling for overdue items (verified with focused checklist tests).
 - [x] Show player-created Task and Event notes beneath item names with a compact two-line limit.
 - [x] Add editable 500-character notes to permanent checklist items, persisted locally and through Google Drive.
 - [x] Track Request Board as a permanent daily activity resetting at 00:00 UTC.

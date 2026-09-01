@@ -147,6 +147,9 @@ export const ChecklistItemRow = ({
 				status === CHECKLIST_STATUSES.OVERDUE &&
 					"from-destructive/10 hover:border-destructive/40",
 				status === CHECKLIST_STATUSES.COMPLETED && "opacity-70",
+				status === CHECKLIST_STATUSES.UPCOMING &&
+					definition.kind === CHECKLIST_KINDS.EVENT &&
+					"opacity-40",
 			)}
 		>
 			<div className="flex w-full min-w-0 flex-1 items-center sm:w-auto">

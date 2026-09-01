@@ -581,6 +581,7 @@ describe("ChecklistPage", () => {
 
 		const futureRow = screen.getByText("Future task").closest("li");
 		expect(futureRow).toBeTruthy();
+		expect(futureRow?.className).not.toContain("opacity-40");
 		expect(futureRow?.className).toContain("flex-col");
 		expect(futureRow?.className).toContain("sm:flex-row");
 		expect(futureRow?.lastElementChild?.className).toContain("self-end");
@@ -774,6 +775,7 @@ describe("ChecklistPage", () => {
 		render(<ChecklistPage />);
 
 		const upcomingRow = screen.getByText("Upcoming player event").closest("li");
+		expect(upcomingRow?.className).toContain("opacity-40");
 		for (const [row, title] of [
 			[upcomingRow, "Upcoming player event"],
 		] as const) {
