@@ -32,6 +32,9 @@ const BRISSHELL_EVENT_NOTICE_URL =
 const AUGUST_26_EVENT_NOTICE_TITLE = "8/26 (Wed) Event Notice";
 const AUGUST_26_EVENT_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/565";
+const SEPTEMBER_2_EVENT_NOTICE_TITLE = "9/2 (Wed) Event Notice";
+const SEPTEMBER_2_EVENT_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/571";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
@@ -132,6 +135,16 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		noticeUrl: `${AUGUST_26_EVENT_NOTICE_URL}#:~:text=10-Day%20Check-In%20Mission`,
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-08-26T00:00:00.000Z",
+		endAt: "2026-09-08T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "571-bonus-time-event",
+		title: "Bonus Time Event",
+		noticeTitle: SEPTEMBER_2_EVENT_NOTICE_TITLE,
+		noticeUrl: `${SEPTEMBER_2_EVENT_NOTICE_URL}#:~:text=Bonus%20Time%20Event`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-09-02T00:00:00.000Z",
 		endAt: "2026-09-08T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},

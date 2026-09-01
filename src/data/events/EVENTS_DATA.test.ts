@@ -23,7 +23,28 @@ describe("EVENTS_DATA", () => {
 				"brisshell-screenshot-event-discord",
 			]),
 		);
-		expect(EVENTS_DATA).toHaveLength(10);
+		expect(EVENTS_DATA).toHaveLength(11);
+	});
+
+	it("imports notice 571 as one daily bonus-time concern", () => {
+		const bonusTimeEvent = EVENTS_DATA.find(
+			({ id }) => id === "571-bonus-time-event",
+		);
+
+		expect(bonusTimeEvent).toMatchObject({
+			id: "571-bonus-time-event",
+			title: "Bonus Time Event",
+			noticeTitle: "9/2 (Wed) Event Notice",
+			noticeUrl:
+				"https://forum.netmarble.com/stardive_gl/view/6/571#:~:text=Bonus%20Time%20Event",
+			startAt: "2026-09-02T00:00:00.000Z",
+			endAt: "2026-09-08T23:59:00.000Z",
+			recurrence: "daily",
+		});
+		expect(bonusTimeEvent).not.toHaveProperty("recurrenceStartAt");
+		expect(
+			EVENTS_DATA.filter(({ id }) => id === "571-bonus-time-event"),
+		).toHaveLength(1);
 	});
 
 	it("imports the Brisshell notice periods and published recurrence metadata", () => {
