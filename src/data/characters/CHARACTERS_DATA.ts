@@ -386,6 +386,5 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_Vivian_01.webp",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Vivian.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
-		is_hidden: true,
 	},
 };
