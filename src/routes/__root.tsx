@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { TanStackDevtools } from "@tanstack/react-devtools";
@@ -9,9 +8,8 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Menu } from "lucide-react";
 import { Tooltip } from "radix-ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { scan } from "react-scan";
 import { GoogleAnalytics } from "tanstack-router-ga4";
 import { useGoogleUnloadGuard } from "@/components/account/google/utils/use-google-unload-guard";
 import { SyncConflictDialog } from "@/components/sync/sync-alert-dialog";
@@ -81,7 +79,7 @@ export const Route = createRootRoute({
 });
 
 const asyncStoragePersister = createAsyncStoragePersister({
-	storage: AsyncStorage,
+	storage: typeof window === "undefined" ? undefined : window.localStorage,
 });
 
 export type Sidebar = {
@@ -93,13 +91,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	useGoogleUnloadGuard();
 
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-
-	useEffect(() => {
-		scan({
-			// enabled: import.meta.env.VITE_NODE_ENV === "development",
-			enabled: false,
-		});
-	}, []);
 
 	return (
 		<html lang="en" suppressHydrationWarning>
