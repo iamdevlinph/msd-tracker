@@ -337,6 +337,5 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 			CLASS_ID_BY_CLASS.FIGHTER,
 			ELEMENT_ID_BY_ELEMENT.EARTH,
 		),
-		is_hidden: true,
 	},
 };
