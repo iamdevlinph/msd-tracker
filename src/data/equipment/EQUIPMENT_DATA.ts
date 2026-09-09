@@ -669,11 +669,11 @@ export const EQUIPMENT_DATA: Record<EquipmentId, Equipment> = {
 	},
 	82: {
 		id: 82,
-		name: "Touch of Eternal Frost",
+		name: "Great Sage's Touch",
 		image: "/images/Equipment/EQUIP_GLOVES_017.webp",
 		tier_id: 5,
 		part_type: "gloves",
-		set_name: "Heart of Eternal Frost",
+		set_name: "Night of a Full Moon",
 	},
 	83: {
 		id: 83,
