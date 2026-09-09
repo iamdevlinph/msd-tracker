@@ -1,205 +1,142 @@
 import { describe, expect, it } from "vitest";
 import { EVENTS_DATA } from "@/data/events/EVENTS_DATA";
 
+const NOTICE_600_EVENTS = {
+	"600-moonlight-bunny-show-event-stage-chase-the-bunny": [
+		"Moonlight Bunny Show — Event Stage/Chase the Bunny!",
+		"2026-09-09T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"none",
+		"Event 1. Moonlight Bunny Show",
+	],
+	"600-moonlight-bunny-show-shop-story-missions": [
+		"Moonlight Bunny Show — Shop/Story/Missions",
+		"2026-09-09T00:00:00.000Z",
+		"2026-10-06T23:59:00.000Z",
+		"none",
+		"Event 1. Moonlight Bunny Show",
+	],
+	"600-secret-fanservice-for-my-biggest-fans": [
+		"Secret Fanservice for My Biggest Fans",
+		"2026-09-09T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"none",
+		"Event 2. Secret Fanservice for My Biggest Fans",
+	],
+	"600-vivians-7-day-gifts": [
+		"Vivian’s 7-Day Gifts",
+		"2026-09-09T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"daily",
+		"Event 3. Vivian’s 7-Day Gifts",
+	],
+	"600-special-missions-with-vivian": [
+		"Special Missions with Vivian",
+		"2026-09-09T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"none",
+		"Event 4. Special Missions with Vivian",
+	],
+	"600-equipment-crafting-mission": [
+		"Equipment Crafting Mission",
+		"2026-09-09T00:00:00.000Z",
+		"2026-09-15T23:59:00.000Z",
+		"none",
+		"Event 5. Equipment Crafting Mission",
+	],
+	"600-anomaly-amons-shadow": [
+		"Anomaly: Amon's Shadow",
+		"2026-09-16T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"daily",
+		"Event 6. Anomaly: Amon's Shadow",
+	],
+	"600-an-invitation-to-break-the-ice": [
+		"An Invitation to Break the Ice",
+		"2026-09-23T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"none",
+		"Event 7. An Invitation to Break the Ice",
+	],
+} as const;
+
 describe("EVENTS_DATA", () => {
-	it("does not retain retired official event records", () => {
+	it("replaces the ten expired records and retains the active Brisshell event", () => {
+		expect(EVENTS_DATA).toHaveLength(10);
+		expect(EVENTS_DATA.map(({ id }) => id)).toContain(
+			"girl-from-the-void-shop-story-missions",
+		);
 		expect(EVENTS_DATA.map(({ id }) => id)).not.toEqual(
 			expect.arrayContaining([
-				"100-day-launch-anniversary-check-in",
-				"20260807-CAT-DAY",
-				"monsterling-trait-change-support",
-				"legendary-monster-reginula-power-up-support",
-				"inquisitors-day-off-event-stage-inquisition",
-				"arbiters-divine-indulgence",
-				"inquisitor-mabel-7-day-gifts",
-				"special-missions-with-mabel",
-				"mabel-invitation-to-break-the-ice",
-				"anomaly-blue-shadow",
-				"mabel-character-trivia-discord",
-				"forum.netmarble.com/stardive_gl/view/6/521-10-day-check-in",
-				"forum.netmarble.com/stardive_gl/view/6/531-bonus-time-event",
-				"inquisitors-day-off-shop-story-missions",
-				"equipment-crafting-mission",
-				"brisshell-screenshot-event-discord",
+				"tons-of-recruitment-tickets-check-in-streak-gift",
+				"girl-from-the-void-event-stage-brisshells-link-rush",
+				"th-this-is-for-being-my-friend",
+				"brisshells-7-day-gifts",
+				"special-missions-with-brisshell",
+				"anomaly-el-dorado-guardian",
+				"brisshell-an-invitation-to-break-the-ice",
+				"combine-monsterlings-missions",
+				"10-day-check-in-mission",
+				"571-bonus-time-event",
 			]),
 		);
-		expect(EVENTS_DATA).toHaveLength(11);
 	});
 
-	it("imports notice 571 as one daily bonus-time concern", () => {
-		const bonusTimeEvent = EVENTS_DATA.find(
-			({ id }) => id === "571-bonus-time-event",
-		);
-
-		expect(bonusTimeEvent).toMatchObject({
-			id: "571-bonus-time-event",
-			title: "Bonus Time Event",
-			noticeTitle: "9/2 (Wed) Event Notice",
-			noticeUrl:
-				"https://forum.netmarble.com/stardive_gl/view/6/571#:~:text=Bonus%20Time%20Event",
-			startAt: "2026-09-02T00:00:00.000Z",
-			endAt: "2026-09-08T23:59:00.000Z",
-			recurrence: "daily",
-		});
-		expect(bonusTimeEvent).not.toHaveProperty("recurrenceStartAt");
-		expect(
-			EVENTS_DATA.filter(({ id }) => id === "571-bonus-time-event"),
-		).toHaveLength(1);
-	});
-
-	it("imports the Brisshell notice periods and published recurrence metadata", () => {
-		const brisshellEvents = EVENTS_DATA.filter(
-			({ noticeUrl }) =>
-				noticeUrl?.includes("/548#:~:text=") ||
-				noticeUrl?.includes("/556#:~:text="),
-		);
-		expect(brisshellEvents).toHaveLength(8);
-		expect(brisshellEvents.filter((event) => event.noticeUrl)).toHaveLength(8);
-		expect(
-			brisshellEvents.filter((event) =>
-				event.noticeUrl?.includes("/548#:~:text="),
-			),
-		).toHaveLength(8);
-		expect(
-			brisshellEvents.filter((event) =>
-				event.noticeUrl?.includes("/556#:~:text="),
-			),
-		).toHaveLength(0);
-		const expectedNoticeUrls = {
-			"tons-of-recruitment-tickets-check-in-streak-gift":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Tons%20of%20Recruitment%20Tickets!%20Check-In%20Streak%20Gift",
-			"girl-from-the-void-event-stage-brisshells-link-rush":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Girl%20from%20the%20Void%20%E2%80%94%20Event%20Stage%2FBrisshell%E2%80%99s%20Link%20Rush",
-			"girl-from-the-void-shop-story-missions":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Girl%20from%20the%20Void%20%E2%80%94%20Shop%2FStory%2FMissions",
-			"th-this-is-for-being-my-friend":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Th-this%20is%20for%20being%20my%20friend...",
-			"brisshells-7-day-gifts":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Brisshell%E2%80%99s%207-Day%20Gifts",
-			"special-missions-with-brisshell":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Special%20Missions%20with%20Brisshell",
-			"anomaly-el-dorado-guardian":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Anomaly%3A%20El%20Dorado%20Guardian",
-			"brisshell-an-invitation-to-break-the-ice":
-				"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=An%20Invitation%20to%20Break%20the%20Ice",
-		} as const;
-		for (const [id, noticeUrl] of Object.entries(expectedNoticeUrls)) {
+	it("imports notice 600 metadata", () => {
+		for (const [
+			id,
+			[title, startAt, endAt, recurrence, heading],
+		] of Object.entries(NOTICE_600_EVENTS)) {
 			expect(EVENTS_DATA.find((event) => event.id === id)).toMatchObject({
 				id,
-				noticeUrl,
-			});
-		}
-		expect(brisshellEvents.map(({ noticeTitle }) => noticeTitle)).toEqual([
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-			"8/18 (Tue) [Girl from the Void] Event Notice",
-		]);
-
-		const expectedEvents = {
-			"tons-of-recruitment-tickets-check-in-streak-gift": [
-				"2026-08-19T05:30:00.000Z",
-				"2026-09-02T05:30:00.000Z",
-				"daily",
-			],
-			"girl-from-the-void-event-stage-brisshells-link-rush": [
-				"2026-08-19T05:30:00.000Z",
-				"2026-09-08T23:59:00.000Z",
-				"none",
-			],
-			"girl-from-the-void-shop-story-missions": [
-				"2026-08-19T05:30:00.000Z",
-				"2026-09-15T23:59:00.000Z",
-				"none",
-			],
-			"th-this-is-for-being-my-friend": [
-				"2026-08-19T05:30:00.000Z",
-				"2026-09-08T23:59:00.000Z",
-				"none",
-			],
-			"brisshells-7-day-gifts": [
-				"2026-08-19T05:30:00.000Z",
-				"2026-09-08T23:59:00.000Z",
-				"daily",
-			],
-			"special-missions-with-brisshell": [
-				"2026-08-19T05:30:00.000Z",
-				"2026-09-08T23:59:00.000Z",
-				"none",
-			],
-			"anomaly-el-dorado-guardian": [
-				"2026-08-26T00:00:00.000Z",
-				"2026-09-08T23:59:00.000Z",
-				"daily",
-			],
-			"brisshell-an-invitation-to-break-the-ice": [
-				"2026-09-02T00:00:00.000Z",
-				"2026-09-08T23:59:00.000Z",
-				"none",
-			],
-		} as const;
-
-		for (const [id, [startAt, endAt, recurrence]] of Object.entries(
-			expectedEvents,
-		)) {
-			expect(EVENTS_DATA.find((event) => event.id === id)).toMatchObject({
-				id,
+				title,
+				noticeTitle: "9/8 (Tue) Event Notice",
+				noticeUrl: `https://forum.netmarble.com/stardive_gl/view/6/600#:~:text=${encodeURIComponent(heading)}`,
 				startAt,
 				endAt,
 				recurrence,
 			});
 		}
-
-		for (const id of [
-			"tons-of-recruitment-tickets-check-in-streak-gift",
-			"brisshells-7-day-gifts",
-			"anomaly-el-dorado-guardian",
-		]) {
-			expect(EVENTS_DATA.find((event) => event.id === id)).not.toHaveProperty(
-				"recurrenceStartAt",
-			);
-		}
 	});
 
-	it("imports the August 26 notice periods and published recurrence metadata", () => {
-		const expectedEvents = {
-			"combine-monsterlings-missions": {
-				noticeUrl:
-					"https://forum.netmarble.com/stardive_gl/view/6/565#:~:text=Combine%20Monsterlings%20Missions",
-				startAt: "2026-08-26T00:00:00.000Z",
-				endAt: "2026-09-01T23:59:00.000Z",
-				recurrence: "none",
-			},
-			"10-day-check-in-mission": {
-				noticeUrl:
-					"https://forum.netmarble.com/stardive_gl/view/6/565#:~:text=10-Day%20Check-In%20Mission",
-				startAt: "2026-08-26T00:00:00.000Z",
-				endAt: "2026-09-08T23:59:00.000Z",
-				recurrence: "daily",
-			},
-		} as const;
-
-		for (const [id, expectedEvent] of Object.entries(expectedEvents)) {
-			expect(EVENTS_DATA.find((event) => event.id === id)).toMatchObject({
-				id,
-				noticeTitle: "8/26 (Wed) Event Notice",
-				...expectedEvent,
-			});
-		}
+	it("imports notice 601 as one Discord participation task", () => {
 		expect(
-			EVENTS_DATA.find((event) => event.id === "10-day-check-in-mission"),
-		).not.toHaveProperty("recurrenceStartAt");
+			EVENTS_DATA.find(
+				({ id }) => id === "601-vivian-arrival-celebration-spotlight-discord",
+			),
+		).toMatchObject({
+			id: "601-vivian-arrival-celebration-spotlight-discord",
+			title: "New Character [Vivian] Arrival Celebration! Spotlight Event",
+			noticeTitle:
+				"New Character [Vivian] Arrival Celebration! Spotlight Event",
+			noticeUrl:
+				"https://forum.netmarble.com/stardive_gl/view/6/601#:~:text=New%20Character%20%5BVivian%5D%20Arrival%20Celebration!%20Spotlight%20Event",
+			startAt: "2026-09-09T01:33:00.000Z",
+			endAt: "2026-09-16T01:00:00.000Z",
+			recurrence: "none",
+			participation: "discord",
+		});
+		expect(
+			EVENTS_DATA.filter(({ participation }) => participation),
+		).toHaveLength(1);
+	});
+
+	it("uses default midnight resets only for the two daily events", () => {
+		const dailyEvents = EVENTS_DATA.filter(
+			({ recurrence }) => recurrence === "daily",
+		);
+		expect(dailyEvents.map(({ id }) => id)).toEqual([
+			"600-vivians-7-day-gifts",
+			"600-anomaly-amons-shadow",
+		]);
+		for (const event of dailyEvents)
+			expect(event).not.toHaveProperty("recurrenceStartAt");
 	});
 
 	it("defines unique, valid UTC event periods and optional reset anchors", () => {
 		expect(new Set(EVENTS_DATA.map(({ id }) => id)).size).toBe(
 			EVENTS_DATA.length,
 		);
-
 		for (const event of EVENTS_DATA) {
 			expect(event.startAt).toMatch(/Z$/);
 			expect(event.endAt).toMatch(/Z$/);

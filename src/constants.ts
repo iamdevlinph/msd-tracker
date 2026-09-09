@@ -1,4 +1,4 @@
-export const CURRENT_GAME_VERSION = "1.3.0";
+export const CURRENT_GAME_VERSION = "v1.03.00 p336093 r326920:7313468ca8 e0";
 
 const STALE_TIME_MINS = 5;
 export const STALE_TIME = STALE_TIME_MINS * 60 * 10000;
