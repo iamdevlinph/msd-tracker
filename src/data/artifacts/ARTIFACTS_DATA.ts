@@ -331,7 +331,7 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 	39: {
 		...artifact(
 			39,
-			"Vivian's Artifact",
+			"Unending Finale",
 			"Vivian",
 			TIER_ID_BY_TIER.PRIME_5,
 			CLASS_ID_BY_CLASS.FIGHTER,
