@@ -334,8 +334,8 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 			"Unending Finale",
 			"Vivian",
 			TIER_ID_BY_TIER.PRIME_5,
-			CLASS_ID_BY_CLASS.FIGHTER,
-			ELEMENT_ID_BY_ELEMENT.EARTH,
+			CLASS_ID_BY_CLASS.SUPPORT,
+			ELEMENT_ID_BY_ELEMENT.FIRE,
 		),
 	},
 };
