@@ -35,12 +35,10 @@ export const EquippedCharacterBadge = ({
 	const tooltipId = useId();
 	const [isHovered, setIsHovered] = useState(false);
 	const [isTooltipHovered, setIsTooltipHovered] = useState(false);
-	const [isFocused, setIsFocused] = useState(false);
 	const [tooltipPosition, setTooltipPosition] =
 		useState<TooltipPosition | null>(null);
 	const hasCharacters = characters.length > 0;
-	const isTooltipOpen =
-		hasCharacters && (isHovered || isTooltipHovered || isFocused);
+	const isTooltipOpen = hasCharacters && (isHovered || isTooltipHovered);
 	const updateTooltipPosition = useCallback(() => {
 		const badge = badgeRef.current;
 		const tooltip = tooltipRef.current;
@@ -81,8 +79,7 @@ export const EquippedCharacterBadge = ({
 	useEffect(() => {
 		if (!hasCharacters) return;
 		const badge = badgeRef.current;
-		const cardButton = badge?.closest("button");
-		if (!badge || !cardButton) return;
+		if (!badge) return;
 		const handleMouseEnter = () => {
 			if (hoverCloseTimerRef.current) clearTimeout(hoverCloseTimerRef.current);
 			setIsHovered(true);
@@ -90,22 +87,14 @@ export const EquippedCharacterBadge = ({
 		const handleMouseLeave = () => {
 			hoverCloseTimerRef.current = setTimeout(() => setIsHovered(false), 100);
 		};
-		const handleFocus = () => setIsFocused(true);
-		const handleBlur = () => setIsFocused(false);
 		badge.addEventListener("mouseenter", handleMouseEnter);
 		badge.addEventListener("mouseleave", handleMouseLeave);
-		cardButton.addEventListener("focus", handleFocus);
-		cardButton.addEventListener("blur", handleBlur);
-		cardButton.setAttribute("aria-describedby", tooltipId);
 		return () => {
 			badge.removeEventListener("mouseenter", handleMouseEnter);
 			badge.removeEventListener("mouseleave", handleMouseLeave);
-			cardButton.removeEventListener("focus", handleFocus);
-			cardButton.removeEventListener("blur", handleBlur);
 			if (hoverCloseTimerRef.current) clearTimeout(hoverCloseTimerRef.current);
-			cardButton.removeAttribute("aria-describedby");
 		};
-	}, [hasCharacters, tooltipId]);
+	}, [hasCharacters]);
 
 	useLayoutEffect(() => {
 		if (!isTooltipOpen) {

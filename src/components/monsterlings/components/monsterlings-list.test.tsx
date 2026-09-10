@@ -51,7 +51,7 @@ describe("MonsterlingsList", () => {
 		expect(screen.queryByText("No monsterlings yet")).toBeNull();
 	});
 
-	it("uses the owned-card button as the equipped-character tooltip trigger", () => {
+	it("opens an equipped card without activating its tooltip", () => {
 		useAppStore.setState({
 			monsterlingsOwned: {
 				owned: { monsterling_id: first.id, tier_id: 5, traits: [] },
@@ -87,9 +87,10 @@ describe("MonsterlingsList", () => {
 		expect(editButton?.className).toContain("group");
 		expect(editButton?.querySelectorAll("button")).toHaveLength(0);
 		fireEvent.focus(editButton as HTMLButtonElement);
-		const tooltip = screen.getByRole("tooltip");
-		expect(tooltip.parentElement).toBe(document.body);
-		expect(editButton?.contains(tooltip)).toBe(false);
+		expect(screen.queryByRole("tooltip")).toBeNull();
+		fireEvent.click(editButton as HTMLButtonElement);
+		expect(screen.getByRole("dialog")).toBeTruthy();
+		expect(screen.queryByRole("tooltip")).toBeNull();
 	});
 
 	it("shows link-chain badges only for eligible monsterlings", () => {

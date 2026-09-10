@@ -29,10 +29,10 @@ describe("EquippedCharacterBadge", () => {
 		vi.useRealTimers();
 	});
 
-	it("portals every character outside the card on hover and focus", () => {
+	it("opens only when the badge is hovered", () => {
 		vi.useFakeTimers();
 		const handleCardClick = vi.fn();
-		const { container, rerender } = render(
+		const { container } = render(
 			<button type="button" className="group" onClick={handleCardClick}>
 				Edit owned item
 				<EquippedCharacterBadge characters={characters} />
@@ -44,6 +44,11 @@ describe("EquippedCharacterBadge", () => {
 		const editButton = screen.getByRole("button", { name: /edit owned item/i });
 		fireEvent.mouseEnter(editButton);
 		expect(screen.queryByRole("tooltip")).toBeNull();
+		fireEvent.focus(editButton);
+		expect(screen.queryByRole("tooltip")).toBeNull();
+		fireEvent.click(editButton);
+		expect(handleCardClick).toHaveBeenCalledOnce();
+		expect(screen.queryByRole("tooltip")).toBeNull();
 		const badge = screen.getByRole("img", { name: /equipped by/i });
 		fireEvent.mouseEnter(badge);
 		const tooltip = screen.getByRole("tooltip");
@@ -52,32 +57,15 @@ describe("EquippedCharacterBadge", () => {
 		expect(editButton.contains(tooltip)).toBe(false);
 		fireEvent.pointerDown(tooltip);
 		fireEvent.click(tooltip);
-		expect(handleCardClick).not.toHaveBeenCalled();
+		expect(handleCardClick).toHaveBeenCalledOnce();
 		fireEvent.mouseLeave(badge);
 		fireEvent.mouseEnter(tooltip);
 		act(() => vi.advanceTimersByTime(100));
 		expect(screen.getByRole("tooltip")).toBeTruthy();
 		fireEvent.mouseLeave(tooltip);
 		expect(screen.queryByRole("tooltip")).toBeNull();
-		fireEvent.mouseEnter(badge);
-		fireEvent.focus(editButton);
-		expect(screen.getByRole("tooltip").parentElement).toBe(document.body);
-		fireEvent.mouseLeave(badge);
-		expect(screen.getByRole("tooltip")).toBeTruthy();
-		fireEvent.blur(editButton);
-		act(() => vi.advanceTimersByTime(100));
-		expect(screen.queryByRole("tooltip")).toBeNull();
 		expect(container.querySelectorAll("button")).toHaveLength(1);
 		expect(container.querySelectorAll('img[alt$=" portrait"]')).toHaveLength(3);
-		expect(editButton.getAttribute("aria-describedby")).toBeTruthy();
-
-		rerender(
-			<button type="button">
-				Edit owned item
-				<EquippedCharacterBadge characters={[]} />
-			</button>,
-		);
-		expect(editButton.getAttribute("aria-describedby")).toBeNull();
 	});
 
 	it("flips and clamps a long tooltip within the viewport", () => {

@@ -151,7 +151,7 @@ describe("ArtifactsPage", () => {
 		});
 	});
 
-	it("uses the owned-card button as the equipped-character tooltip trigger", () => {
+	it("opens an equipped card without activating its tooltip", () => {
 		useAppStore.setState({
 			loadouts: {
 				team: {
@@ -183,10 +183,11 @@ describe("ArtifactsPage", () => {
 		const editButton = badge.closest("button");
 		expect(editButton?.className).toContain("group");
 		expect(editButton?.querySelectorAll("button")).toHaveLength(0);
-		fireEvent.mouseEnter(badge);
-		const tooltip = screen.getByRole("tooltip");
-		expect(tooltip.parentElement).toBe(document.body);
-		expect(editButton?.contains(tooltip)).toBe(false);
+		fireEvent.focus(editButton as HTMLButtonElement);
+		expect(screen.queryByRole("tooltip")).toBeNull();
+		fireEvent.click(editButton as HTMLButtonElement);
+		expect(screen.getByRole("dialog")).toBeTruthy();
+		expect(screen.queryByRole("tooltip")).toBeNull();
 	});
 
 	it("keeps dialog filters independent and clears search before Escape closes", () => {
