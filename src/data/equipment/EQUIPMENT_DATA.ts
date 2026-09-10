@@ -525,7 +525,7 @@ export const EQUIPMENT_DATA: Record<EquipmentId, Equipment> = {
 	},
 	64: {
 		id: 64,
-		name: "Grand Banquet Apron",
+		name: "Apron of the Grand Feast",
 		image: "/images/Equipment/EQUIP_COAT_004.webp",
 		tier_id: 5,
 		part_type: "chestpiece",
