@@ -24,12 +24,14 @@ vi.mock("@/stores/app-store", () => ({
 }));
 
 describe("Google sync failure state", () => {
-	it("shows retry and the Cloudflare operator hint", () => {
+	it("shows retry and browser token-refresh guidance", () => {
 		render(<GoogleSection />);
 
 		screen.getByRole("button", { name: "Retry Sync" });
 		expect(
-			screen.getByText("Check Cloudflare logs for MSD_GOOGLE_DRIVE_SYNC."),
+			screen.getByText(
+				"Drive requests run in your browser; MSD_GOOGLE_DRIVE_SYNC covers token refresh only.",
+			),
 		).toBeTruthy();
 	});
 });

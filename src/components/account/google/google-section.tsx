@@ -51,7 +51,8 @@ export const GoogleSection = () => {
 									</Button>
 								</div>
 								<p className="text-xs text-muted-foreground">
-									Check Cloudflare logs for MSD_GOOGLE_DRIVE_SYNC.
+									Drive requests run in your browser; MSD_GOOGLE_DRIVE_SYNC
+									covers token refresh only.
 								</p>
 							</div>
 						)}

@@ -79,6 +79,145 @@ describe("Drive Monsterling backups", () => {
 		});
 	});
 
+	it("prefers the canonical MSD file and ignores legacy and PN backups", async () => {
+		const remoteBackup = {
+			backupUpdatedAt: useAppStore.getState().backupUpdatedAt,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [
+						{ id: "pn", name: "pn-tracker-state.json" },
+						{ id: "legacy", name: "state.json" },
+						{ id: "msd", name: "msd-tracker-state.json" },
+					],
+				}),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup });
+
+		await initSync();
+
+		expect(driveFetch).toHaveBeenNthCalledWith(
+			2,
+			"https://www.googleapis.com/drive/v3/files/msd?alt=media",
+			expect.anything(),
+		);
+	});
+
+	it("checks every Drive result page before falling back to legacy", async () => {
+		const remoteBackup = {
+			backupUpdatedAt: useAppStore.getState().backupUpdatedAt,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [{ id: "legacy", name: "state.json" }],
+					nextPageToken: "next",
+				}),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [{ id: "msd", name: "msd-tracker-state.json" }],
+				}),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup });
+
+		await initSync();
+
+		expect(String(driveFetch.mock.calls[1]?.[0])).toContain("pageToken=next");
+		expect(driveFetch).toHaveBeenNthCalledWith(
+			3,
+			"https://www.googleapis.com/drive/v3/files/msd?alt=media",
+			expect.anything(),
+		);
+	});
+
+	it("renames a legacy backup in place before downloading it", async () => {
+		const remoteBackup = {
+			backupUpdatedAt: useAppStore.getState().backupUpdatedAt,
+			monsterCodexCompleted: [],
+			charactersOwned: {},
+			monsterlingsOwned: {},
+			loadouts: {},
+		};
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "legacy", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: true })
+			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup });
+
+		await initSync();
+
+		expect(driveFetch).toHaveBeenNthCalledWith(
+			2,
+			"https://www.googleapis.com/drive/v3/files/legacy",
+			expect.objectContaining({
+				method: "PATCH",
+				body: JSON.stringify({ name: "msd-tracker-state.json" }),
+			}),
+		);
+		expect(driveFetch).toHaveBeenNthCalledWith(
+			3,
+			"https://www.googleapis.com/drive/v3/files/legacy?alt=media",
+			expect.anything(),
+		);
+	});
+
+	it("creates an MSD backup when only unrelated files exist", async () => {
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [{ id: "pn", name: "pn-tracker-state.json" }],
+				}),
+			})
+			.mockResolvedValueOnce({ ok: true, json: async () => ({ id: "msd" }) });
+
+		await initSync();
+
+		const form = driveFetch.mock.calls[1]?.[1]?.body as FormData;
+		expect(await (form.get("metadata") as Blob).text()).toBe(
+			JSON.stringify({
+				name: "msd-tracker-state.json",
+				parents: ["appDataFolder"],
+			}),
+		);
+	});
+
+	it("reports safe list and rename failures with HTTP status", async () => {
+		driveFetch.mockResolvedValueOnce({ ok: false, status: 503 });
+
+		await initSync();
+		expect(useAppStore.getState().syncError).toBe(
+			"Google Drive finding remote file failed (HTTP 503)",
+		);
+
+		teardownSync();
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ files: [{ id: "legacy", name: "state.json" }] }),
+			})
+			.mockResolvedValueOnce({ ok: false, status: 403 });
+		await initSync();
+		expect(useAppStore.getState().syncError).toBe(
+			"Google Drive renaming remote file failed (HTTP 403)",
+		);
+	});
+
 	it("serializes edits during an upload and sends the latest snapshot last", async () => {
 		sessionStorage.setItem(G_ACCESS_TOKEN_SESSION, "token");
 		useAppStore.setState({ backupUpdatedAt: 20, isHydrated: true });
@@ -97,7 +236,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup })
 			.mockImplementation(async (_input, init) => {
@@ -157,7 +298,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({
 				ok: true,
@@ -223,7 +366,9 @@ describe("Drive Monsterling backups", () => {
 			.mockResolvedValueOnce({ ok: false, status: 500 })
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({
 				ok: true,
@@ -250,7 +395,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({
 				ok: true,
@@ -285,7 +432,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({
 				ok: true,
@@ -425,7 +574,9 @@ describe("Drive Monsterling backups", () => {
 		};
 		driveFetch
 			.mockResolvedValueOnce({
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ json: async () => backup });
 
@@ -498,7 +649,9 @@ describe("Drive Monsterling backups", () => {
 		};
 		driveFetch
 			.mockResolvedValueOnce({
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ json: async () => legacyBackup });
 
@@ -568,7 +721,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ ok: true, json: async () => legacyBackup })
 			.mockResolvedValueOnce({ ok: true, json: async () => legacyBackup });
@@ -619,7 +774,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup });
 
@@ -660,10 +817,12 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup })
-			.mockResolvedValueOnce({ ok: false, status: 500 });
+			.mockResolvedValue({ ok: false, status: 500 });
 
 		await initSync();
 		await expect(resolveSyncConflict("local")).rejects.toThrow(
@@ -673,9 +832,12 @@ describe("Drive Monsterling backups", () => {
 		expect(toast.loading).toHaveBeenCalledWith("Uploading data", {
 			id: "google-drive-sync",
 		});
-		expect(toast.error).toHaveBeenCalledWith("Changes not backed up", {
-			id: "google-drive-sync",
-		});
+		expect(toast.error).toHaveBeenCalledWith(
+			"Google Drive uploading remote file failed (HTTP 500)",
+			{
+				id: "google-drive-sync",
+			},
+		);
 	}, 12000);
 
 	it("reports the upload lifecycle when keeping local conflict data", async () => {
@@ -690,7 +852,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup })
 			.mockResolvedValueOnce({ ok: true });
@@ -711,7 +875,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ ok: false, status: 401 });
 
@@ -719,13 +885,18 @@ describe("Drive Monsterling backups", () => {
 
 		expect(driveFetch).toHaveBeenCalledTimes(2);
 		expect(useAppStore.getState().syncConflict).toBeNull();
+		expect(useAppStore.getState().syncError).toBe(
+			"Google Drive downloading remote file failed (HTTP 401)",
+		);
 	});
 
 	it("rejects malformed durable collection fields", async () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({
 				ok: true,
@@ -739,6 +910,9 @@ describe("Drive Monsterling backups", () => {
 
 		expect(driveFetch).toHaveBeenCalledTimes(2);
 		expect(useAppStore.getState().syncConflict).toBeNull();
+		expect(useAppStore.getState().syncError).toBe(
+			"Google Drive validating remote backup failed",
+		);
 	});
 
 	it("deduplicates repeated initialization", async () => {
@@ -752,7 +926,9 @@ describe("Drive Monsterling backups", () => {
 		driveFetch
 			.mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ files: [{ id: "file", name: "state.json" }] }),
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
 			})
 			.mockResolvedValueOnce({ ok: true, json: async () => remoteBackup });
 

@@ -17,7 +17,8 @@ import {
 } from "@/stores/loadouts-slice";
 import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-slice";
 
-const FILE_NAME = "state.json";
+const FILE_NAME = "msd-tracker-state.json";
+const LEGACY_FILE_NAME = "state.json";
 
 let fileId: string | null = null;
 let unsubscribeAutoSync: (() => void) | null = null;
@@ -96,14 +97,48 @@ export function select(state: StoreState): Backup {
 }
 
 async function findFile(signal?: AbortSignal) {
-	const res = await driveFetch(
-		"https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id,name)",
-		{ signal },
-	);
+	let legacyFile: File | undefined;
+	let pageToken: string | undefined;
+	do {
+		const params = new URLSearchParams({
+			spaces: "appDataFolder",
+			fields: "nextPageToken,files(id,name)",
+		});
+		if (pageToken) params.set("pageToken", pageToken);
+		const res = await driveFetch(
+			`https://www.googleapis.com/drive/v3/files?${params}`,
+			{ signal },
+		);
 
-	assertResponseOk(res, "finding remote file");
-	const json = await res.json();
-	return json.files?.find((f: File) => f.name === FILE_NAME);
+		assertResponseOk(res, "finding remote file");
+		try {
+			const json = await res.json();
+			const files = Array.isArray(json?.files) ? json.files : [];
+			const canonicalFile = files.find((file: File) => file.name === FILE_NAME);
+			if (canonicalFile) return canonicalFile;
+			legacyFile ??= files.find((file: File) => file.name === LEGACY_FILE_NAME);
+			pageToken =
+				typeof json?.nextPageToken === "string"
+					? json.nextPageToken
+					: undefined;
+		} catch {
+			throw createDriveError("finding remote file", res.status);
+		}
+	} while (pageToken);
+	return legacyFile;
+}
+
+async function renameFile(fileIdToRename: string, signal?: AbortSignal) {
+	const res = await driveFetch(
+		`https://www.googleapis.com/drive/v3/files/${fileIdToRename}`,
+		{
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name: FILE_NAME }),
+			signal,
+		},
+	);
+	assertResponseOk(res, "renaming remote file");
 }
 
 async function createFile(data: Backup, signal?: AbortSignal) {
@@ -130,19 +165,36 @@ async function createFile(data: Backup, signal?: AbortSignal) {
 	);
 
 	assertResponseOk(res, "creating remote file");
-	const json = await res.json();
-	if (!json.id) throw new Error("Google Drive did not return a file ID");
-	return json.id as string;
+	try {
+		const json = await res.json();
+		if (!json.id) throw new Error("missing file ID");
+		return json.id as string;
+	} catch {
+		throw createDriveError("creating remote file", res.status);
+	}
 }
 
 function assertResponseOk(response: Response, operation: string) {
 	if (!response || response.ok === false) {
-		const error = new Error(`Failed ${operation}`) as Error & {
-			status?: number;
-		};
-		error.status = response?.status;
-		throw error;
+		throw createDriveError(operation, response?.status);
 	}
+}
+
+type DriveSyncError = Error & { operation: string; status?: number };
+
+function createDriveError(operation: string, status?: number): DriveSyncError {
+	const error = new Error(`Failed ${operation}`) as DriveSyncError;
+	error.operation = operation;
+	error.status = status;
+	return error;
+}
+
+function getFailureMessage(error: unknown, operation: string) {
+	const driveError = error as Partial<DriveSyncError>;
+	const status = Number.isFinite(driveError.status)
+		? ` (HTTP ${driveError.status})`
+		: "";
+	return `Google Drive ${driveError.operation ?? operation} failed${status}`;
 }
 
 function readRecordField<T>(
@@ -196,75 +248,86 @@ export async function download(signal?: AbortSignal): Promise<Backup | null> {
 		);
 
 		assertResponseOk(res, "downloading remote file");
-		const backup = (await res.json()) as Record<string, unknown>;
-		if (
-			!backup ||
-			typeof backup !== "object" ||
-			Array.isArray(backup) ||
-			!Number.isFinite(backup.backupUpdatedAt)
-		) {
-			throw new Error("Google Drive returned an invalid backup");
-		}
-		const charactersOwned = readRecordField<Backup["charactersOwned"]>(
-			backup,
-			"charactersOwned",
-			{},
-		);
-		const monsterlingsOwned = readRecordField<Backup["monsterlingsOwned"]>(
-			backup,
-			"monsterlingsOwned",
-			{},
-		);
-		const monsterlingLinkChainLevels = readRecordField<
-			Backup["monsterlingLinkChainLevels"] | undefined
-		>(backup, "monsterlingLinkChainLevels", undefined);
-		const checklistState = normalizeChecklistPersistedState({
-			checklistTasks: readRecordField(backup, "checklistTasks", {}),
-			checklistCompletions: readRecordField(backup, "checklistCompletions", {}),
-			checklistPermanentNotes: readRecordField(
+		try {
+			const backup = (await res.json()) as Record<string, unknown>;
+			if (
+				!backup ||
+				typeof backup !== "object" ||
+				Array.isArray(backup) ||
+				!Number.isFinite(backup.backupUpdatedAt)
+			) {
+				throw new Error("invalid backup");
+			}
+			const charactersOwned = readRecordField<Backup["charactersOwned"]>(
 				backup,
-				"checklistPermanentNotes",
+				"charactersOwned",
 				{},
-			),
-			checklistPreferences: readRecordField(backup, "checklistPreferences", {}),
-		});
+			);
+			const monsterlingsOwned = readRecordField<Backup["monsterlingsOwned"]>(
+				backup,
+				"monsterlingsOwned",
+				{},
+			);
+			const monsterlingLinkChainLevels = readRecordField<
+				Backup["monsterlingLinkChainLevels"] | undefined
+			>(backup, "monsterlingLinkChainLevels", undefined);
+			const checklistState = normalizeChecklistPersistedState({
+				checklistTasks: readRecordField(backup, "checklistTasks", {}),
+				checklistCompletions: readRecordField(
+					backup,
+					"checklistCompletions",
+					{},
+				),
+				checklistPermanentNotes: readRecordField(
+					backup,
+					"checklistPermanentNotes",
+					{},
+				),
+				checklistPreferences: readRecordField(
+					backup,
+					"checklistPreferences",
+					{},
+				),
+			});
 
-		return {
-			backupUpdatedAt: backup.backupUpdatedAt as number,
-			monsterCodexCompleted: readArrayField(
-				backup,
-				"monsterCodexCompleted",
-				[],
-			),
-			monsterCodexFavorites: readArrayField(
-				backup,
-				"monsterCodexFavorites",
-				[],
-			),
-			charactersOwned,
-			...consolidateMonsterlingLinkChainLevels(
-				monsterlingsOwned,
-				monsterlingLinkChainLevels,
-			),
-			monsterlingLinkChainPinnedIds: normalizeMonsterlingLinkChainPinnedIds(
-				readArrayField(backup, "monsterlingLinkChainPinnedIds", []),
-			),
-			loadouts: normalizeLoadouts(readRecordField(backup, "loadouts", {})),
-			loadoutCardPreferences: normalizeLoadoutCardPreferences(
-				readRecordField(backup, "loadoutCardPreferences", {}),
-			),
-			loadoutPreviewPreferences: normalizeLoadoutPreviewPreferences(
-				readRecordField(backup, "loadoutPreviewPreferences", {}),
-			),
-			showEquipmentSetNames: backup.showEquipmentSetNames === true,
-			loadoutSnapshots: normalizeLoadoutSnapshots(
-				readRecordField(backup, "loadoutSnapshots", {}),
-			),
-			...checklistState,
-			artifactsOwned: readRecordField(backup, "artifactsOwned", {}),
-		};
-	} catch {
-		return null;
+			return {
+				backupUpdatedAt: backup.backupUpdatedAt as number,
+				monsterCodexCompleted: readArrayField(
+					backup,
+					"monsterCodexCompleted",
+					[],
+				),
+				monsterCodexFavorites: readArrayField(
+					backup,
+					"monsterCodexFavorites",
+					[],
+				),
+				charactersOwned,
+				...consolidateMonsterlingLinkChainLevels(
+					monsterlingsOwned,
+					monsterlingLinkChainLevels,
+				),
+				monsterlingLinkChainPinnedIds: normalizeMonsterlingLinkChainPinnedIds(
+					readArrayField(backup, "monsterlingLinkChainPinnedIds", []),
+				),
+				loadouts: normalizeLoadouts(readRecordField(backup, "loadouts", {})),
+				loadoutCardPreferences: normalizeLoadoutCardPreferences(
+					readRecordField(backup, "loadoutCardPreferences", {}),
+				),
+				loadoutPreviewPreferences: normalizeLoadoutPreviewPreferences(
+					readRecordField(backup, "loadoutPreviewPreferences", {}),
+				),
+				showEquipmentSetNames: backup.showEquipmentSetNames === true,
+				loadoutSnapshots: normalizeLoadoutSnapshots(
+					readRecordField(backup, "loadoutSnapshots", {}),
+				),
+				...checklistState,
+				artifactsOwned: readRecordField(backup, "artifactsOwned", {}),
+			};
+		} catch (error) {
+			if ((error as Partial<DriveSyncError>).operation) throw error;
+			throw createDriveError("validating remote backup", res.status);
+		}
 	} finally {
 		if (operationId !== undefined) endOperation(operationId);
 	}
@@ -385,7 +448,12 @@ async function runInitSync(generation: number) {
 		}
 
 		if (!existing.id) throw new Error("Google Drive file is missing its ID");
-		fileId = existing.id;
+		const existingFileId = existing.id;
+		fileId = existingFileId;
+		if (existing.name === LEGACY_FILE_NAME) {
+			await renameFile(existingFileId, controller.signal);
+			ensureCurrentGeneration(generation);
+		}
 
 		const remote = await download(controller.signal);
 		ensureCurrentGeneration(generation);
@@ -449,12 +517,9 @@ async function runInitSync(generation: number) {
 		isInitialized = true;
 	} catch (e) {
 		if ((e as DOMException).name === "AbortError") return;
-		useAppStore
-			.getState()
-			.setSyncStatus("failed", "Changes not backed up. Retry Sync");
-		toast.error(
-			`Something went wrong with initializing data\n\n${(e as Error).message}`,
-		);
+		const message = getFailureMessage(e, "initializing sync");
+		useAppStore.getState().setSyncStatus("failed", message);
+		toast.error(message);
 	} finally {
 		isCreatingFile = false;
 		if (initController === controller) initController = null;
@@ -540,7 +605,7 @@ async function processUploadQueue() {
 				lastUploadError = error;
 				queuedUpload = select(useAppStore.getState());
 				queuedUploadKind = uploadKind;
-				const message = "Changes not backed up";
+				const message = getFailureMessage(error, "uploading remote file");
 				useAppStore.getState().setSyncStatus("failed", message);
 				if (lastFailureNotice !== message) {
 					lastFailureNotice = message;
@@ -605,7 +670,7 @@ async function refreshAndRetryUpload(
 		lastUploadError = error;
 		queuedUpload = select(useAppStore.getState());
 		queuedUploadKind = "background";
-		const message = "Changes not backed up";
+		const message = getFailureMessage(error, "refreshing access token");
 		useAppStore.getState().setSyncStatus("failed", message);
 		if (lastFailureNotice !== message) {
 			lastFailureNotice = message;
