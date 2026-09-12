@@ -40,6 +40,7 @@ let uploadQueuePromise: Promise<void> | null = null;
 let lastUploadError: unknown = null;
 let lastFailureNotice = "";
 let manualRetryController: AbortController | null = null;
+let invalidRemoteRecoveryPromise: Promise<"resolved"> | null = null;
 const SYNC_TOAST_ID = "google-drive-sync";
 
 type Backup = Pick<
@@ -425,6 +426,7 @@ async function runInitSync(generation: number) {
 	const operationId = beginOperation();
 	const controller = new AbortController();
 	initController = controller;
+	useAppStore.getState().setSyncRecovery(null);
 
 	try {
 		const existing = await findFile(controller.signal);
@@ -517,13 +519,61 @@ async function runInitSync(generation: number) {
 		isInitialized = true;
 	} catch (e) {
 		if ((e as DOMException).name === "AbortError") return;
+		if (generation !== syncGeneration) return;
 		const message = getFailureMessage(e, "initializing sync");
+		if (
+			(e as Partial<DriveSyncError>).operation === "validating remote backup"
+		) {
+			useAppStore.getState().setSyncRecovery("invalid-remote");
+		}
 		useAppStore.getState().setSyncStatus("failed", message);
 		toast.error(message);
 	} finally {
 		isCreatingFile = false;
 		if (initController === controller) initController = null;
 		endOperation(operationId);
+	}
+}
+
+export async function keepLocalBackup() {
+	if (invalidRemoteRecoveryPromise) return invalidRemoteRecoveryPromise;
+	if (useAppStore.getState().syncRecovery !== "invalid-remote") {
+		throw new Error("There is no invalid remote backup to replace");
+	}
+	if (!fileId) throw new Error("Google Drive file ID is unavailable");
+
+	const recovery = (async () => {
+		const generation = syncGeneration;
+		cancelPendingUpload();
+		toast.loading("Uploading data", { id: SYNC_TOAST_ID });
+		queuedUpload = select(useAppStore.getState());
+		queuedUploadKind = "conflict-local";
+		try {
+			await runUploadQueue();
+			ensureCurrentGeneration(generation);
+			if (useAppStore.getState().syncStatus === "failed")
+				throw lastUploadError ?? new Error("Changes not backed up");
+			setupAutoSync();
+			isInitialized = true;
+			useAppStore.setState({
+				syncRecovery: null,
+				syncStatus: "idle",
+				syncError: null,
+			});
+			toast.success("Data uploaded", { id: SYNC_TOAST_ID });
+			return "resolved" as const;
+		} catch (error) {
+			if ((error as DOMException).name === "AbortError") throw error;
+			ensureCurrentGeneration(generation);
+			throw error;
+		}
+	})();
+	invalidRemoteRecoveryPromise = recovery;
+	try {
+		return await recovery;
+	} finally {
+		if (invalidRemoteRecoveryPromise === recovery)
+			invalidRemoteRecoveryPromise = null;
 	}
 }
 
@@ -601,6 +651,7 @@ async function processUploadQueue() {
 				}
 			}
 		} catch (error) {
+			if (generation !== syncGeneration) return;
 			if ((error as DOMException).name !== "AbortError") {
 				lastUploadError = error;
 				queuedUpload = select(useAppStore.getState());
@@ -694,6 +745,7 @@ export function teardownSync() {
 	unsubscribeAutoSync = null;
 	isInitialized = false;
 	pendingRemoteBackup = null;
+	invalidRemoteRecoveryPromise = null;
 	queuedUpload = null;
 	queuedUploadKind = "background";
 	toast.dismiss(SYNC_TOAST_ID);
@@ -701,6 +753,7 @@ export function teardownSync() {
 	fileId = null;
 	activeOperations.clear();
 	useAppStore.setState({ syncInProgress: false, syncConflict: null });
+	useAppStore.getState().setSyncRecovery(null);
 }
 
 let conflictResolutionPromise: Promise<"resolved" | "refreshed"> | null = null;

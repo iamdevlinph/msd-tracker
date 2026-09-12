@@ -48,6 +48,8 @@ export type StoreState = {
 		status: StoreState["syncStatus"],
 		error?: string | null,
 	) => void;
+	syncRecovery: "invalid-remote" | null;
+	setSyncRecovery: (recovery: StoreState["syncRecovery"]) => void;
 	syncConflict: {
 		local: {
 			updatedAt: number;
@@ -101,6 +103,7 @@ const initialState = {
 	syncInProgress: false,
 	syncStatus: "idle" as const,
 	syncError: null,
+	syncRecovery: null,
 	syncConflict: null,
 	isHydrated: false,
 };
@@ -113,11 +116,13 @@ export const migrateAppStore = (persistedState: unknown) => {
 		syncInProgress: _syncInProgress,
 		syncStatus: _syncStatus,
 		syncError: _syncError,
+		syncRecovery: _syncRecovery,
 		lastSyncCompletedAt: _lastSyncCompletedAt,
 		syncConflict: _syncConflict,
 		isHydrated: _isHydrated,
 		setSyncInProgress: _setSyncInProgress,
 		setSyncStatus: _setSyncStatus,
+		setSyncRecovery: _setSyncRecovery,
 		setSyncConflict: _setSyncConflict,
 		setHasHydrated: _setHasHydrated,
 		logout: _logout,
@@ -159,6 +164,7 @@ export const useAppStore = create<StoreState>()(
 				setSyncInProgress: (flag) => set({ syncInProgress: flag }),
 				setSyncStatus: (status, error = null) =>
 					set({ syncStatus: status, syncError: error }),
+				setSyncRecovery: (recovery) => set({ syncRecovery: recovery }),
 
 				setHasHydrated: (state) => set({ isHydrated: state }),
 
@@ -181,10 +187,12 @@ export const useAppStore = create<StoreState>()(
 						syncInProgress: _syncInProgress,
 						syncStatus: _syncStatus,
 						syncError: _syncError,
+						syncRecovery: _syncRecovery,
 						syncConflict: _syncConflict,
 						isHydrated: _isHydrated,
 						setSyncInProgress: _setSyncInProgress,
 						setSyncStatus: _setSyncStatus,
+						setSyncRecovery: _setSyncRecovery,
 						setSyncConflict: _setSyncConflict,
 						setHasHydrated: _setHasHydrated,
 						logout: _logout,

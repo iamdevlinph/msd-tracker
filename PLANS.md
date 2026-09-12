@@ -104,6 +104,7 @@ Implementation is intentionally deferred. Keep every item unchecked until the co
 - [x] Isolate MSD Google Drive backups under `msd-tracker-state.json`, migrate legacy `state.json` files in place, prefer the canonical file, and surface safe Drive operation/status failures in Account.
 - [x] Highlight the newer backup date and larger serialized size independently when choosing between local and Google Drive copies during a sync conflict.
 - [x] Resolve Google Drive conflicts atomically with transient conflict state, guarded Drive responses, deduplicated sync lifecycle, and exact remote-copy restoration.
+- [x] Offer an explicit Keep Local recovery upload when the canonical Drive backup is unreadable, preserving the local dataset and retrying safely on upload failure.
 - [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
 - [x] Link to the public GitHub repository from the Account page.
 

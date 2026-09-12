@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	download,
 	initSync,
+	keepLocalBackup,
 	resolveSyncConflict,
 	retrySync,
 	select,
@@ -76,6 +77,7 @@ describe("Drive Monsterling backups", () => {
 			checklistPermanentNotes: {},
 			checklistPreferences: defaultChecklistPreferences,
 			syncConflict: null,
+			syncRecovery: null,
 		});
 	});
 
@@ -910,9 +912,142 @@ describe("Drive Monsterling backups", () => {
 
 		expect(driveFetch).toHaveBeenCalledTimes(2);
 		expect(useAppStore.getState().syncConflict).toBeNull();
+		expect(useAppStore.getState().syncRecovery).toBe("invalid-remote");
 		expect(useAppStore.getState().syncError).toBe(
 			"Google Drive validating remote backup failed",
 		);
+	});
+
+	it("keeps the canonical file ID and replaces an invalid remote backup on confirmation", async () => {
+		useAppStore.setState({ backupUpdatedAt: 77 });
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ invalid: true }),
+			})
+			.mockResolvedValueOnce({ ok: true });
+
+		await initSync();
+		expect(useAppStore.getState().syncRecovery).toBe("invalid-remote");
+
+		await keepLocalBackup();
+
+		expect(driveFetch).toHaveBeenNthCalledWith(
+			3,
+			"https://www.googleapis.com/upload/drive/v3/files/file?uploadType=media",
+			expect.objectContaining({ method: "PATCH" }),
+		);
+		expect(
+			JSON.parse(String(driveFetch.mock.calls[2]?.[1]?.body)).backupUpdatedAt,
+		).toBe(77);
+		expect(useAppStore.getState().syncRecovery).toBeNull();
+		expect(useAppStore.getState().syncStatus).toBe("idle");
+		expect(toast.success).toHaveBeenCalledWith("Data uploaded", {
+			id: "google-drive-sync",
+		});
+	});
+
+	it("keeps recovery available when replacing an invalid remote backup fails", async () => {
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ invalid: true }),
+			})
+			.mockResolvedValueOnce({ ok: false, status: 400 });
+
+		await initSync();
+		await expect(keepLocalBackup()).rejects.toThrow(
+			"Failed uploading remote file",
+		);
+
+		expect(useAppStore.getState().syncRecovery).toBe("invalid-remote");
+		expect(useAppStore.getState().syncStatus).toBe("failed");
+	});
+
+	it("uploads a concurrent local edit before reporting invalid-backup recovery success", async () => {
+		useAppStore.setState({ backupUpdatedAt: 77 });
+		let finishFirstUpload: (() => void) | undefined;
+		const uploadedRevisions: number[] = [];
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ invalid: true }),
+			})
+			.mockImplementation(async (_input, init) => {
+				uploadedRevisions.push(JSON.parse(String(init?.body)).backupUpdatedAt);
+				if (uploadedRevisions.length === 1) {
+					await new Promise<void>((resolve) => {
+						finishFirstUpload = resolve;
+					});
+				}
+				return { ok: true };
+			});
+
+		await initSync();
+		const recovery = keepLocalBackup();
+		await vi.waitFor(() => expect(uploadedRevisions).toEqual([77]));
+		useAppStore.setState({ backupUpdatedAt: 78 });
+		finishFirstUpload?.();
+		await recovery;
+
+		expect(uploadedRevisions).toEqual([77, 78]);
+		expect(toast.success).toHaveBeenCalledWith("Data uploaded", {
+			id: "google-drive-sync",
+		});
+	});
+
+	it("aborts invalid-backup recovery during teardown without stale state writes", async () => {
+		let wasAborted = false;
+		driveFetch
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					files: [{ id: "file", name: "msd-tracker-state.json" }],
+				}),
+			})
+			.mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ invalid: true }),
+			})
+			.mockImplementationOnce(
+				async (_input, init) =>
+					await new Promise((_resolve, reject) => {
+						init?.signal?.addEventListener("abort", () => {
+							wasAborted = true;
+							reject(new DOMException("Aborted", "AbortError"));
+						});
+					}),
+			);
+
+		await initSync();
+		const recovery = keepLocalBackup();
+		await vi.waitFor(() =>
+			expect(useAppStore.getState().syncStatus).toBe("syncing"),
+		);
+		teardownSync();
+		await expect(recovery).rejects.toThrow("Sync stopped");
+
+		expect(wasAborted).toBe(true);
+		expect(useAppStore.getState().syncRecovery).toBeNull();
+		expect(useAppStore.getState().syncStatus).toBe("idle");
 	});
 
 	it("deduplicates repeated initialization", async () => {
