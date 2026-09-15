@@ -28,6 +28,9 @@ export type ChecklistEvent = Omit<
 const BRISSHELL_NOTICE_TITLE = "8/18 (Tue) [Girl from the Void] Event Notice";
 const VIVIAN_NOTICE_TITLE = "9/8 (Tue) Event Notice";
 const VIVIAN_NOTICE_URL = "https://forum.netmarble.com/stardive_gl/view/6/600";
+const SEPTEMBER_16_NOTICE_TITLE = "9/16 (Wed) Event Notice";
+const SEPTEMBER_16_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/611";
 const DISCORD_NOTICE_TITLE =
 	"New Character [Vivian] Arrival Celebration! Spotlight Event";
 
@@ -135,5 +138,25 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		endAt: "2026-09-16T01:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 		participation: "discord",
+	},
+	{
+		id: "611-combine-monsterlings-missions",
+		title: "Combine Monsterlings Missions",
+		noticeTitle: SEPTEMBER_16_NOTICE_TITLE,
+		noticeUrl: `${SEPTEMBER_16_NOTICE_URL}#:~:text=Event%201.%20Combine%20Monsterlings%20Missions`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-09-16T00:00:00.000Z",
+		endAt: "2026-09-22T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "611-10-day-check-in-mission",
+		title: "10-Day Check-In Mission",
+		noticeTitle: SEPTEMBER_16_NOTICE_TITLE,
+		noticeUrl: `${SEPTEMBER_16_NOTICE_URL}#:~:text=Event%202.%2010-Day%20Check-In%20Mission`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-09-16T00:00:00.000Z",
+		endAt: "2026-09-29T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 ];

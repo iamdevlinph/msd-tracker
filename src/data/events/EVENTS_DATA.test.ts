@@ -60,9 +60,26 @@ const NOTICE_600_EVENTS = {
 	],
 } as const;
 
+const NOTICE_611_EVENTS = {
+	"611-combine-monsterlings-missions": [
+		"Combine Monsterlings Missions",
+		"2026-09-16T00:00:00.000Z",
+		"2026-09-22T23:59:00.000Z",
+		"none",
+		"Event 1. Combine Monsterlings Missions",
+	],
+	"611-10-day-check-in-mission": [
+		"10-Day Check-In Mission",
+		"2026-09-16T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"daily",
+		"Event 2. 10-Day Check-In Mission",
+	],
+} as const;
+
 describe("EVENTS_DATA", () => {
 	it("replaces the ten expired records and retains the active Brisshell event", () => {
-		expect(EVENTS_DATA).toHaveLength(10);
+		expect(EVENTS_DATA).toHaveLength(12);
 		expect(EVENTS_DATA.map(({ id }) => id)).toContain(
 			"girl-from-the-void-shop-story-missions",
 		);
@@ -80,6 +97,23 @@ describe("EVENTS_DATA", () => {
 				"571-bonus-time-event",
 			]),
 		);
+	});
+
+	it("imports notice 611 metadata", () => {
+		for (const [
+			id,
+			[title, startAt, endAt, recurrence, heading],
+		] of Object.entries(NOTICE_611_EVENTS)) {
+			expect(EVENTS_DATA.find((event) => event.id === id)).toMatchObject({
+				id,
+				title,
+				noticeTitle: "9/16 (Wed) Event Notice",
+				noticeUrl: `https://forum.netmarble.com/stardive_gl/view/6/611#:~:text=${encodeURIComponent(heading)}`,
+				startAt,
+				endAt,
+				recurrence,
+			});
+		}
 	});
 
 	it("imports notice 600 metadata", () => {
@@ -121,13 +155,14 @@ describe("EVENTS_DATA", () => {
 		).toHaveLength(1);
 	});
 
-	it("uses default midnight resets only for the two daily events", () => {
+	it("uses default midnight resets only for the three daily events", () => {
 		const dailyEvents = EVENTS_DATA.filter(
 			({ recurrence }) => recurrence === "daily",
 		);
 		expect(dailyEvents.map(({ id }) => id)).toEqual([
 			"600-vivians-7-day-gifts",
 			"600-anomaly-amons-shadow",
+			"611-10-day-check-in-mission",
 		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");
