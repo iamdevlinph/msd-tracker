@@ -16,6 +16,11 @@ description: Align MSD Tracker user-facing work with shipped UI precedents. Use 
 - If no written standard exists but trustworthy repeated precedent does, add concise always-on guidance to `AGENTS.md`. Record feature-specific decisions and approved exceptions in `PLANS.md`.
 - Ask the user whether to keep, update, or override the standard before deliberate divergence, changing an established guideline, resolving conflicting precedents, or proceeding without a trustworthy analogue. Include the evidence and affected pattern.
 
+## Reuse Collection Patterns
+
+- For multi-dimensional collection filters, render each selectable dimension with `FilterButtonGroup` and `FilterToggleButton`; keep sort and Clear controls in independent labelled plain `ButtonGroup`s, and place the groups in a wrapping flex row with `gap-2` rather than visual separators.
+- For applicable page and collection empty states, reuse `CollectionEmptyState` with its compact borderless layout, `gap-1 py-10` spacing, heading semantics, and muted description. Keep a feature-specific empty state only when it needs an action or other feature interaction.
+
 ## Preserve Accessibility
 
 For new or materially changed user-facing interfaces:

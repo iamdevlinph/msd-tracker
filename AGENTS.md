@@ -35,6 +35,8 @@ Promote repeated closed-set domain strings used in production control flow to fe
 
 ## Agent Workflow
 
+Before planning, classify the requested work and load only the project skills and supporting references needed for that work and its validation. Test-only work does not require UI guidance, UI-only work does not require unrelated testing guidance, visual-regression work may require both, and release or deployment guidance applies only when that operation is requested or required.
+
 Before code changes, inspect manifests, configuration, scripts, and nearby files for the actual stack and conventions. Keep changes minimal, localized, and limited to the request; do not introduce frameworks, abstractions, architecture changes, or project paradigms without approval. Work within existing architecture. If it prevents safe completion, explain the blocker, propose the smallest viable change, and wait for approval rather than bypassing it. Update schemas before generating migrations or derived types, and do not manually edit generated migrations or snapshots unless requested.
 
 Before user-facing work, follow `.agents/skills/ui-style-preflight/SKILL.md` to inspect and reuse the closest shipped analogue, resolve unclear or conflicting precedent with the user, and compare rendered behavior when tooling permits.
@@ -60,10 +62,6 @@ GA4 page views are automatic. For meaningful user actions, add a normalized name
 ## Testing Guidelines
 
 Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. Select focused regression tests by observable contract, meaningful boundaries, and plausible costly failures; use one representative case per equivalent behavior class, and skip redundant permutations, implementation-detail assertions, and contrived or unreachable states unless a requirement or past defect justifies them. Run focused tests before broader suites. Behavior tests must use test-owned fixtures or module mocks rather than importing mutable game datasets, including for fixture typing; direct live-data imports are reserved for dedicated dataset-validation tests. Do not introduce a test framework or low-value tests solely for coverage; when automation is impractical, explain why and perform the strongest targeted verification available. Mock browser boundaries and keep fixtures focused, subject to the escalation rules above.
-
-For multi-dimensional collection filters, render each selectable dimension with `FilterButtonGroup` and `FilterToggleButton`; keep sort and Clear controls in independent labelled plain `ButtonGroup`s, and place the groups in a wrapping flex row with `gap-2` rather than visual separators.
-
-Applicable page and collection empty states reuse the shared `CollectionEmptyState` component, preserving its compact borderless layout, `gap-1 py-10` spacing, heading semantics, and muted description treatment. Feature-specific empty states may remain distinct when they provide an action or other interaction required by the feature.
 
 Treat existing tests as regression contracts. Preserve their assertions unless the requested behavior intentionally changes. When behavior changes, update only the affected tests and add coverage for the new contract; never weaken or delete tests merely to make the suite pass.
 
