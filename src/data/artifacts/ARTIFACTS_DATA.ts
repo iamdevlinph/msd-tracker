@@ -218,7 +218,7 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 		24,
 		"Unrelenting Chivalry",
 		"Reina",
-		TIER_ID_BY_TIER.PRIME_5,
+		TIER_ID_BY_TIER.CHOICE_4,
 		CLASS_ID_BY_CLASS.DESTROYER,
 		ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 	),
