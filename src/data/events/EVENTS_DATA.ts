@@ -25,28 +25,17 @@ export type ChecklistEvent = Omit<
 		| typeof CHECKLIST_RECURRENCES.WEEKLY;
 };
 
-const BRISSHELL_NOTICE_TITLE = "8/18 (Tue) [Girl from the Void] Event Notice";
 const VIVIAN_NOTICE_TITLE = "9/8 (Tue) Event Notice";
 const VIVIAN_NOTICE_URL = "https://forum.netmarble.com/stardive_gl/view/6/600";
 const SEPTEMBER_16_NOTICE_TITLE = "9/16 (Wed) Event Notice";
 const SEPTEMBER_16_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/611";
-const DISCORD_NOTICE_TITLE =
-	"New Character [Vivian] Arrival Celebration! Spotlight Event";
+const SEPTEMBER_22_NOTICE_TITLE = "9/22 (Wed) Event Notice";
+const SEPTEMBER_22_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/626";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
-	{
-		id: "girl-from-the-void-shop-story-missions",
-		title: "Girl from the Void — Shop/Story/Missions",
-		noticeTitle: BRISSHELL_NOTICE_TITLE,
-		noticeUrl:
-			"https://forum.netmarble.com/stardive_gl/view/6/548#:~:text=Girl%20from%20the%20Void%20%E2%80%94%20Shop%2FStory%2FMissions",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-08-19T05:30:00.000Z",
-		endAt: "2026-09-15T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
 	{
 		id: "600-moonlight-bunny-show-event-stage-chase-the-bunny",
 		title: "Moonlight Bunny Show — Event Stage/Chase the Bunny!",
@@ -98,16 +87,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "600-equipment-crafting-mission",
-		title: "Equipment Crafting Mission",
-		noticeTitle: VIVIAN_NOTICE_TITLE,
-		noticeUrl: `${VIVIAN_NOTICE_URL}#:~:text=Event%205.%20Equipment%20Crafting%20Mission`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-09T00:00:00.000Z",
-		endAt: "2026-09-15T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
 		id: "600-anomaly-amons-shadow",
 		title: "Anomaly: Amon's Shadow",
 		noticeTitle: VIVIAN_NOTICE_TITLE,
@@ -128,18 +107,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "601-vivian-arrival-celebration-spotlight-discord",
-		title: DISCORD_NOTICE_TITLE,
-		noticeTitle: DISCORD_NOTICE_TITLE,
-		noticeUrl:
-			"https://forum.netmarble.com/stardive_gl/view/6/601#:~:text=New%20Character%20%5BVivian%5D%20Arrival%20Celebration!%20Spotlight%20Event",
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-09T01:33:00.000Z",
-		endAt: "2026-09-16T01:00:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-		participation: "discord",
-	},
-	{
 		id: "611-combine-monsterlings-missions",
 		title: "Combine Monsterlings Missions",
 		noticeTitle: SEPTEMBER_16_NOTICE_TITLE,
@@ -156,6 +123,26 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		noticeUrl: `${SEPTEMBER_16_NOTICE_URL}#:~:text=Event%202.%2010-Day%20Check-In%20Mission`,
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-09-16T00:00:00.000Z",
+		endAt: "2026-09-29T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "626-moon-gazing-7-day-check-in-pass",
+		title: "Moon Gazing 7-Day Check-In Pass",
+		noticeTitle: SEPTEMBER_22_NOTICE_TITLE,
+		noticeUrl: `${SEPTEMBER_22_NOTICE_URL}#:~:text=Event%201.%20Moon%20Gazing%207-Day%20Check-In%20Pass`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-09-22T00:00:00.000Z",
+		endAt: "2026-10-05T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "626-bonus-time-event",
+		title: "Bonus Time Event",
+		noticeTitle: SEPTEMBER_22_NOTICE_TITLE,
+		noticeUrl: `${SEPTEMBER_22_NOTICE_URL}#:~:text=Event%202.%20Bonus%20Time%20Event`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-09-23T00:00:00.000Z",
 		endAt: "2026-09-29T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},

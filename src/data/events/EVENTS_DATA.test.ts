@@ -37,13 +37,6 @@ const NOTICE_600_EVENTS = {
 		"none",
 		"Event 4. Special Missions with Vivian",
 	],
-	"600-equipment-crafting-mission": [
-		"Equipment Crafting Mission",
-		"2026-09-09T00:00:00.000Z",
-		"2026-09-15T23:59:00.000Z",
-		"none",
-		"Event 5. Equipment Crafting Mission",
-	],
 	"600-anomaly-amons-shadow": [
 		"Anomaly: Amon's Shadow",
 		"2026-09-16T00:00:00.000Z",
@@ -77,14 +70,31 @@ const NOTICE_611_EVENTS = {
 	],
 } as const;
 
+const NOTICE_626_EVENTS = {
+	"626-moon-gazing-7-day-check-in-pass": [
+		"Moon Gazing 7-Day Check-In Pass",
+		"2026-09-22T00:00:00.000Z",
+		"2026-10-05T23:59:00.000Z",
+		"daily",
+		"Event 1. Moon Gazing 7-Day Check-In Pass",
+	],
+	"626-bonus-time-event": [
+		"Bonus Time Event",
+		"2026-09-23T00:00:00.000Z",
+		"2026-09-29T23:59:00.000Z",
+		"daily",
+		"Event 2. Bonus Time Event",
+	],
+} as const;
+
 describe("EVENTS_DATA", () => {
-	it("replaces the ten expired records and retains the active Brisshell event", () => {
-		expect(EVENTS_DATA).toHaveLength(12);
-		expect(EVENTS_DATA.map(({ id }) => id)).toContain(
-			"girl-from-the-void-shop-story-missions",
-		);
+	it("removes expired records", () => {
+		expect(EVENTS_DATA).toHaveLength(11);
 		expect(EVENTS_DATA.map(({ id }) => id)).not.toEqual(
 			expect.arrayContaining([
+				"girl-from-the-void-shop-story-missions",
+				"600-equipment-crafting-mission",
+				"601-vivian-arrival-celebration-spotlight-discord",
 				"tons-of-recruitment-tickets-check-in-streak-gift",
 				"girl-from-the-void-event-stage-brisshells-link-rush",
 				"th-this-is-for-being-my-friend",
@@ -97,6 +107,23 @@ describe("EVENTS_DATA", () => {
 				"571-bonus-time-event",
 			]),
 		);
+	});
+
+	it("imports notice 626 metadata", () => {
+		for (const [
+			id,
+			[title, startAt, endAt, recurrence, heading],
+		] of Object.entries(NOTICE_626_EVENTS)) {
+			expect(EVENTS_DATA.find((event) => event.id === id)).toMatchObject({
+				id,
+				title,
+				noticeTitle: "9/22 (Wed) Event Notice",
+				noticeUrl: `https://forum.netmarble.com/stardive_gl/view/6/626#:~:text=${encodeURIComponent(heading)}`,
+				startAt,
+				endAt,
+				recurrence,
+			});
+		}
 	});
 
 	it("imports notice 611 metadata", () => {
@@ -133,29 +160,7 @@ describe("EVENTS_DATA", () => {
 		}
 	});
 
-	it("imports notice 601 as one Discord participation task", () => {
-		expect(
-			EVENTS_DATA.find(
-				({ id }) => id === "601-vivian-arrival-celebration-spotlight-discord",
-			),
-		).toMatchObject({
-			id: "601-vivian-arrival-celebration-spotlight-discord",
-			title: "New Character [Vivian] Arrival Celebration! Spotlight Event",
-			noticeTitle:
-				"New Character [Vivian] Arrival Celebration! Spotlight Event",
-			noticeUrl:
-				"https://forum.netmarble.com/stardive_gl/view/6/601#:~:text=New%20Character%20%5BVivian%5D%20Arrival%20Celebration!%20Spotlight%20Event",
-			startAt: "2026-09-09T01:33:00.000Z",
-			endAt: "2026-09-16T01:00:00.000Z",
-			recurrence: "none",
-			participation: "discord",
-		});
-		expect(
-			EVENTS_DATA.filter(({ participation }) => participation),
-		).toHaveLength(1);
-	});
-
-	it("uses default midnight resets only for the three daily events", () => {
+	it("uses default midnight resets for the five daily events", () => {
 		const dailyEvents = EVENTS_DATA.filter(
 			({ recurrence }) => recurrence === "daily",
 		);
@@ -163,6 +168,8 @@ describe("EVENTS_DATA", () => {
 			"600-vivians-7-day-gifts",
 			"600-anomaly-amons-shadow",
 			"611-10-day-check-in-mission",
+			"626-moon-gazing-7-day-check-in-pass",
+			"626-bonus-time-event",
 		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");
