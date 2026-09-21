@@ -15,7 +15,7 @@ For every new or materially changed feature, implement and stabilize it, map eac
 - `pnpm test` runs the Vitest suite once.
 - `pnpm run check` runs both Biome formatting and linting checks.
 
-Use the documented `pnpm` scripts and run the smallest meaningful targeted check first, then broader checks for route, schema, server, or shared-state changes. Report commands and results. Do not change dependencies, global tools, or the environment without approval. When dependency changes are approved, pin exact versions with `pnpm add -E` (`--save-exact`). Do not inspect, generate, migrate, or query databases unless the task requires it. Merges to `main` deploy automatically; do not deploy manually.
+Select validation from the changed observable behavior and concrete failure risk. Run the smallest documented `pnpm` check that establishes correctness, then report the command and result. Run broader checks only when route, schema, server, or shared-state impact, a failure, or an explicit release requirement justifies them; availability or speed alone does not. Do not change dependencies, global tools, or the environment without approval. When dependency changes are approved, pin exact versions with `pnpm add -E` (`--save-exact`). Do not inspect, generate, migrate, or query databases unless the task requires it. Merges to `main` deploy automatically; do not deploy manually.
 
 ## Coding Style & Naming Conventions
 
@@ -39,7 +39,7 @@ Before planning, classify the requested work and load only the project skills an
 
 Before code changes, inspect manifests, configuration, scripts, and nearby files for the actual stack and conventions. Keep changes minimal, localized, and limited to the request; do not introduce frameworks, abstractions, architecture changes, or project paradigms without approval. Work within existing architecture. If it prevents safe completion, explain the blocker, propose the smallest viable change, and wait for approval rather than bypassing it. Update schemas before generating migrations or derived types, and do not manually edit generated migrations or snapshots unless requested.
 
-Before user-facing work, follow `.agents/skills/ui-style-preflight/SKILL.md` to inspect and reuse the closest shipped analogue, resolve unclear or conflicting precedent with the user, and compare rendered behavior when tooling permits.
+When UI appearance or interaction changes, follow `.agents/skills/ui-style-preflight/SKILL.md` to inspect and reuse the closest shipped analogue, resolve unclear or conflicting precedent with the user, and compare rendered behavior when tooling permits.
 
 For new or materially changed user-facing interfaces, preserve accessibility as a baseline and verify changed interaction paths with practical accessibility tooling and manual keyboard/focus checks when available. Report unavailable checks and known limitations.
 
@@ -61,7 +61,7 @@ GA4 page views are automatic. For meaningful user actions, add a normalized name
 
 ## Testing Guidelines
 
-Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. Select focused regression tests by observable contract, meaningful boundaries, and plausible costly failures; use one representative case per equivalent behavior class, and skip redundant permutations, implementation-detail assertions, and contrived or unreachable states unless a requirement or past defect justifies them. Run focused tests before broader suites. Behavior tests must use test-owned fixtures or module mocks rather than importing mutable game datasets, including for fixture typing; direct live-data imports are reserved for dedicated dataset-validation tests. Do not introduce a test framework or low-value tests solely for coverage; when automation is impractical, explain why and perform the strongest targeted verification available. Mock browser boundaries and keep fixtures focused, subject to the escalation rules above.
+Use Vitest and Testing Library. Add `// @vitest-environment jsdom` to DOM tests; Node is default. Select focused regression tests by observable contracts, reported regressions, meaningful boundaries, and plausible costly failures. Use one representative case per necessary observable contract or reported regression; skip speculative edge cases, redundant permutations, implementation-detail assertions, and contrived or unreachable states. Retain boundary coverage only for an explicit requirement, past defect, or plausible security, trust-boundary, or data-loss failure. Run focused tests before broader suites. Behavior tests must use test-owned fixtures or module mocks rather than importing mutable game datasets, including for fixture typing; direct live-data imports are reserved for dedicated dataset-validation tests. Do not introduce a test framework or low-value tests solely for coverage; when automation is impractical, explain why and perform the strongest targeted verification available. Mock browser boundaries and keep fixtures focused, subject to the escalation rules above.
 
 Treat existing tests as regression contracts. Preserve their assertions unless the requested behavior intentionally changes. When behavior changes, update only the affected tests and add coverage for the new contract; never weaken or delete tests merely to make the suite pass.
 
