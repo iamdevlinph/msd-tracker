@@ -9,7 +9,7 @@ Convert official notices into validated `ChecklistEvent` records without inferri
 
 ## Gather evidence
 
-1. Read `AGENTS.md`, `PLANS.md`, `src/data/events/EVENTS_DATA.ts`, `src/data/checklist/CHECKLIST_DATA.ts`, and the focused dataset and UTC scheduling tests.
+1. Read `AGENTS.md`, the root `PLANS.md` index, `.agents/plans/checklist.md`, `src/data/events/EVENTS_DATA.ts`, `src/data/checklist/CHECKLIST_DATA.ts`, and the focused dataset and UTC scheduling tests. Do not load unrelated feature plans; also read `.agents/plans/account.md` only when the import changes durable or Drive-backed checklist behavior.
 2. Use pasted notice text directly. For an official URL, retrieve the official page with the web browser first. If the browser cannot read it, make at most one direct `curl -L <notice-url>` fallback using the existing narrow curl approval; do not probe forum JavaScript bundles or issue a chain of differently shaped curl commands. Ask for the pasted notice when that direct fetch is inaccessible or omits required details.
 3. Extract and keep distinct:
    - notice title;
@@ -46,6 +46,6 @@ Default to editing `src/data/events/EVENTS_DATA.ts`. If the user explicitly requ
 After editing:
 
 1. Update focused dataset and synthetic scheduling tests when the imported schedule introduces a new contract. Do not bind scheduling behavior tests to live limited records.
-2. Update the checklist section of `PLANS.md` only when the import changes durable product behavior or an existing decision. Do not add milestones for routine one-time event additions, updates, expiry removals, or corrections.
+2. Update `.agents/plans/checklist.md` only when the import changes durable product behavior or an existing decision. Update the root `PLANS.md` only when cross-feature status, dependencies, priorities, or release verification change. Do not add milestones for routine one-time event additions, updates, expiry removals, or corrections.
 3. Run the focused event/checklist tests, then the repository checks required by `AGENTS.md`.
 4. Report source evidence, added or updated IDs, every expiry removal, verification, and whether any completion key may need to be checked again after a corrected reset anchor.

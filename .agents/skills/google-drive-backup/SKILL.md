@@ -15,7 +15,7 @@ Treat Google Drive backup as an explicit allowlist. Zustand persistence does not
 
 ## Update the Contract
 
-1. Read the owning store slice, `src/stores/app-store.ts`, `src/components/account/google/utils/drive-sync.ts`, and the sync-conflict components and tests before editing.
+1. Read the root `PLANS.md` index, `.agents/plans/account.md`, every affected feature plan routed by the index, the owning store slice, `src/stores/app-store.ts`, `src/components/account/google/utils/drive-sync.ts`, and the sync-conflict components and tests before editing. Do not load unrelated feature plans.
 2. Add a backward-compatible initial value for new durable state. Preserve existing persisted and remote backups when fields are missing.
 3. Update every user mutation, deletion, and reset for the field to set `backupUpdatedAt: Date.now()`. Do not bump the timestamp for hydration, remote restore, or transient sync state.
 4. Add the field to `Backup` and `select(...)` in `drive-sync.ts`. Keep auth tokens, sync flags, and actions out of the payload.

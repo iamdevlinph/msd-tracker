@@ -13,7 +13,7 @@ description: Align MSD Tracker user-facing work with shipped UI precedents. Use 
 
 ## Resolve the Standard
 
-- If no written standard exists but trustworthy repeated precedent does, add concise always-on guidance to `AGENTS.md`. Record feature-specific decisions and approved exceptions in `PLANS.md`.
+- If no written standard exists but trustworthy repeated precedent does, add concise always-on guidance to `AGENTS.md`. Record feature-specific decisions and approved exceptions in the owning feature plan routed from the root `PLANS.md` index; update the root only for cross-feature status, dependencies, priorities, or release verification.
 - Ask the user whether to keep, update, or override the standard before deliberate divergence, changing an established guideline, resolving conflicting precedents, or proceeding without a trustworthy analogue. Include the evidence and affected pattern.
 
 ## Reuse Collection Patterns
