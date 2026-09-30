@@ -140,9 +140,22 @@ describe("CreateLoadoutSnapshotDialog", () => {
 		const boss = screen.getByRole("combobox", { name: "Boss" });
 		expect(boss.textContent).toContain("Select a boss");
 		fireEvent.keyDown(boss, { key: "ArrowDown" });
-		fireEvent.click(screen.getByRole("option", { name: /Custos/ }));
-		expect(boss.textContent).toContain("Custos");
-		expect(screen.getAllByAltText("Custos icon").length).toBeGreaterThan(0);
+		const bossOptions = screen.getAllByRole("option");
+		const redShadowIndex = bossOptions.findIndex(
+			(option) => option.textContent === "Red Shadow",
+		);
+		const greatUnknownOption = screen.getByRole("option", {
+			name: /The Great Unknown/,
+		});
+		expect(bossOptions.indexOf(greatUnknownOption)).toBe(redShadowIndex + 1);
+		expect(greatUnknownOption.querySelector("img")?.getAttribute("src")).toBe(
+			"/images/Monsterling_Icons/MonsterlingUnknown.webp",
+		);
+		fireEvent.click(greatUnknownOption);
+		expect(boss.textContent).toContain("The Great Unknown");
+		expect(
+			screen.getAllByAltText("The Great Unknown icon").length,
+		).toBeGreaterThan(0);
 		const level = screen.getByRole("combobox", { name: "Level" });
 		fireEvent.keyDown(level, { key: "ArrowDown" });
 		expect(screen.getByRole("option", { name: "15" })).toBeTruthy();
@@ -184,7 +197,7 @@ describe("CreateLoadoutSnapshotDialog", () => {
 		expect(onSubmit).toHaveBeenCalledWith(
 			expect.objectContaining({
 				details: expect.objectContaining({
-					boss_id: 38,
+					boss_id: 192,
 					clear_time: "12:34.56",
 				}),
 			}),
