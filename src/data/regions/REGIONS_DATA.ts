@@ -6,11 +6,18 @@ type MonsterCodexRegion =
 	| "serenia"
 	| "surah"
 	| "varhine"
+	| "sector 3"
+	| "unassigned"
 	| "legendary monsters"
 	| "events";
 type MonsterCodexRegionData = Record<
 	RegionId,
-	{ id: RegionId; region: MonsterCodexRegion; image: string }
+	{
+		id: RegionId;
+		region: MonsterCodexRegion;
+		image: string;
+		is_hidden?: boolean;
+	}
 >;
 
 export const REGION_ID_BY_REGION = {
@@ -23,6 +30,8 @@ export const REGION_ID_BY_REGION = {
 	VARHINE: 6,
 	LEGENDARY: 7,
 	EVENTS: 8,
+	SECTOR_3: 9,
+	UNASSIGNED: 10,
 } as const;
 export type RegionId =
 	(typeof REGION_ID_BY_REGION)[keyof typeof REGION_ID_BY_REGION];
@@ -78,13 +87,30 @@ export const REGIONS_DATA: MonsterCodexRegionData = {
 		image: "/images/Maps/map-icon-muwon.webp",
 	},
 	7: {
+		id: REGION_ID_BY_REGION.SECTOR_3,
+		region: "sector 3",
+		image: "/images/Maps/map-icon-sector-3.webp",
+	},
+	8: {
+		id: REGION_ID_BY_REGION.UNASSIGNED,
+		region: "unassigned",
+		image: "/images/Maps/map-icon-unassigned-2.webp",
+		is_hidden: true,
+	},
+	9: {
 		id: REGION_ID_BY_REGION.LEGENDARY,
 		region: "legendary monsters",
 		image: "/images/Maps/map-icon-legendary.webp",
 	},
-	8: {
+	10: {
 		id: REGION_ID_BY_REGION.EVENTS,
 		region: "events",
 		image: "/images/Maps/map-icon-event.webp",
 	},
 };
+
+export const getVisibleRegions = () =>
+	Object.values(REGIONS_DATA).filter(
+		({ is_hidden }) =>
+			import.meta.env.VITE_NODE_ENV === "development" || !is_hidden,
+	);

@@ -56,6 +56,7 @@ const { monsterlingData } = vi.hoisted(() => ({
 			image: "/images/fixture-isolated.png",
 			element_id: 1,
 			ability: "Fixture ability",
+			placeholder_fields: ["Name", "Element", "Source"],
 		},
 	} satisfies MonsterCodexData,
 }));
@@ -190,6 +191,18 @@ describe("monster codex favorites", () => {
 			monsterling_id: favorite.id,
 			monsterling_name: favorite.name,
 		});
+	});
+
+	it("labels placeholder cards with their pending fields", () => {
+		render(
+			<>
+				<CodexCard monsterling_id={favorite.id} />
+				<CodexCard monsterling_id={isolated.id} />
+			</>,
+		);
+
+		expect(screen.getAllByText("Placeholder")).toHaveLength(1);
+		expect(screen.getByText("Pending: Name, Element, Source")).toBeTruthy();
 	});
 
 	it("selects multiple source filters with OR semantics", () => {

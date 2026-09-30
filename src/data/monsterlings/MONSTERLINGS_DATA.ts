@@ -5,6 +5,7 @@ import { MONSTERLING_DATA_EVENTS } from "@/data/monsterlings/MONSTERLING_DATA_EV
 import { MONSTERLING_DATA_LEGENDARY_MONSTERS } from "@/data/monsterlings/MONSTERLING_DATA_LEGENDARY_MONSTERS";
 import { MONSTERLING_DATA_MUWON } from "@/data/monsterlings/MONSTERLING_DATA_MUWON";
 import { MONSTERLING_DATA_NAMRYUNG } from "@/data/monsterlings/MONSTERLING_DATA_NAMRYUNG";
+import { MONSTERLING_DATA_SECTOR_3 } from "@/data/monsterlings/MONSTERLING_DATA_SECTOR_3";
 import { MONSTERLING_DATA_SERENIA } from "@/data/monsterlings/MONSTERLING_DATA_SERENIA";
 import { MONSTERLING_DATA_SURAH } from "@/data/monsterlings/MONSTERLING_DATA_SURAH";
 import { MONSTERLING_DATA_VARHINE } from "@/data/monsterlings/MONSTERLING_DATA_VARHINE";
@@ -20,6 +21,7 @@ export type MonsterCodexEntry = {
 	image: string;
 	element_id: ElementId;
 	ability: string;
+	placeholder_fields?: Array<"Name" | "Element" | "Source">;
 	linkChain?: {
 		unlock_level: number;
 		sort_order?: number;
@@ -41,6 +43,7 @@ export const MONSTERLINGS_DATA: MonsterCodexData = {
 	...MONSTERLING_DATA_SURAH,
 	...MONSTERLING_DATA_NAMRYUNG,
 	...MONSTERLING_DATA_MUWON,
+	...MONSTERLING_DATA_SECTOR_3,
 	...MONSTERLING_DATA_LEGENDARY_MONSTERS,
 	...MONSTERLING_DATA_EVENTS,
 };

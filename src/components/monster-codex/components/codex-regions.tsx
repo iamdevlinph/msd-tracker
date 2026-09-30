@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { useCodexStore } from "@/components/monster-codex/store/codex-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { REGIONS_DATA } from "@/data/regions/REGIONS_DATA";
+import { getVisibleRegions } from "@/data/regions/REGIONS_DATA";
 import { cn } from "@/lib/utils";
 
 export const CodexRegions = () => {
@@ -13,8 +13,9 @@ export const CodexRegions = () => {
 	return (
 		<ScrollArea className="">
 			<div className="flex flex-row">
-				{Object.values(REGIONS_DATA).map((region) => {
+				{getVisibleRegions().map((region) => {
 					const regionNameTitleCase = toTitleCase(region.region);
+					const regionNameWords = regionNameTitleCase.split(" ");
 					return (
 						<Card
 							key={region.id}
@@ -34,14 +35,14 @@ export const CodexRegions = () => {
 									alt={`${region.region} map icon`}
 								/>
 								<div className="text-center break-keep whitespace-nowrap">
-									{/* {toTitleCase(region.region)} */}
-									{/* {toTitleCase()} */}
-									{regionNameTitleCase.split(" ").map((word, index) => (
-										<Fragment key={word}>
-											{index > 0 && <br />}
-											{word}
-										</Fragment>
-									))}
+									{region.region === "legendary monsters"
+										? regionNameWords.map((word, index) => (
+												<Fragment key={word}>
+													{index > 0 && <br />}
+													{word}
+												</Fragment>
+											))
+										: regionNameTitleCase}
 								</div>
 							</CardContent>
 						</Card>
