@@ -20,6 +20,7 @@ Read this plan for checklist behavior, permanent activities, limited events, pla
 - [x] Show player-created Task and Event notes beneath item names with a compact two-line limit.
 - [x] Add editable 500-character notes to permanent checklist items, persisted locally and through Google Drive.
 - [x] Track Request Board as a permanent daily activity resetting at 00:00 UTC.
+- [x] Track Elemental Sanctum as a permanent weekly activity resetting Monday at 00:00 UTC, with an independent permanent daily bonus checklist item.
 - [x] Keep single occurrence checks and grouped full-event checks, sort non-completed before completed and then by event > permanent > custom and weekly > daily > other, and show reset/End countdowns beside status.
 - [x] Sort same-group checklist events by upcoming start time, then active or ending-soon end time, before alphabetical fallback.
 - [x] Show occurrence and full-event completion controls for daily events, while non-daily events use only one full-event completion control for their full duration.

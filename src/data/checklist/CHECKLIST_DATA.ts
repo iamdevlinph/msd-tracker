@@ -88,10 +88,27 @@ export const PERMANENT_EVENTS: ChecklistDefinition[] = [
 		recurrence: CHECKLIST_RECURRENCES.WEEKLY,
 	},
 	{
+		id: "elemental-sanctum",
+		title: "Elemental Sanctum",
+		noticeUrl: "https://forum.netmarble.com/stardive_gl/view/8/635",
+		kind: CHECKLIST_KINDS.PERMANENT,
+		startAt: "2026-09-30T03:30:00.000Z",
+		recurrenceStartAt: "2026-09-28T00:00:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.WEEKLY,
+	},
+	{
 		id: "conquest-daily",
 		title: "Conquest",
 		kind: CHECKLIST_KINDS.PERMANENT,
 		startAt: "2024-01-01T00:00:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "elemental-sanctum-daily-bonus",
+		title: "Elemental Sanctum Daily Bonus",
+		noticeUrl: "https://forum.netmarble.com/stardive_gl/view/8/635",
+		kind: CHECKLIST_KINDS.PERMANENT,
+		startAt: "2026-09-30T03:30:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 	{

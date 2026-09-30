@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { CURRENT_GAME_VERSION } from "@/constants";
 import {
 	CHECKLIST_KINDS,
+	CHECKLIST_RECURRENCES,
 	PERMANENT_EVENTS,
 } from "@/data/checklist/CHECKLIST_DATA";
 
@@ -35,5 +36,30 @@ describe("CHECKLIST_DATA", () => {
 		expect(PERMANENT_EVENTS.filter(({ seasonal }) => seasonal)).toEqual([
 			permanentById["monster-race"],
 		]);
+	});
+
+	it("defines Elemental Sanctum weekly and daily schedules", () => {
+		const permanentById = Object.fromEntries(
+			PERMANENT_EVENTS.map((event) => [event.id, event]),
+		);
+		const sharedSchedule = {
+			noticeUrl: "https://forum.netmarble.com/stardive_gl/view/8/635",
+			kind: CHECKLIST_KINDS.PERMANENT,
+			startAt: "2026-09-30T03:30:00.000Z",
+		};
+
+		expect(permanentById["elemental-sanctum"]).toEqual({
+			id: "elemental-sanctum",
+			title: "Elemental Sanctum",
+			...sharedSchedule,
+			recurrenceStartAt: "2026-09-28T00:00:00.000Z",
+			recurrence: CHECKLIST_RECURRENCES.WEEKLY,
+		});
+		expect(permanentById["elemental-sanctum-daily-bonus"]).toEqual({
+			id: "elemental-sanctum-daily-bonus",
+			title: "Elemental Sanctum Daily Bonus",
+			...sharedSchedule,
+			recurrence: CHECKLIST_RECURRENCES.DAILY,
+		});
 	});
 });
