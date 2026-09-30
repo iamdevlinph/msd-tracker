@@ -60,6 +60,7 @@ describe("loadout snapshots store", () => {
 				loadout,
 				notes: "n".repeat(2100),
 				details: {
+					monsterling_id: 100_002,
 					boss_id: 38,
 					difficulty: CONQUEST_DIFFICULTIES.NORMAL,
 					level: 10,
@@ -130,9 +131,31 @@ describe("loadout snapshots store", () => {
 				created_at: 1,
 				loadout,
 				details: {
+					monsterling_id: 100_002,
 					element_id: LOADOUT_SNAPSHOT_ELEMENTS.WIND,
 					score: 0,
 					res_element_ids: [5],
+				},
+			},
+			legacy_legendary: {
+				name: "Legacy Legendary",
+				tag: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
+				created_at: 1,
+				loadout,
+				details: {
+					element_id: LOADOUT_SNAPSHOT_ELEMENTS.EARTH,
+					score: 1,
+				},
+			},
+			invalid_legendary: {
+				name: "Invalid Legendary",
+				tag: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
+				created_at: 1,
+				loadout,
+				details: {
+					monsterling_id: 999,
+					element_id: LOADOUT_SNAPSHOT_ELEMENTS.EARTH,
+					score: 1,
 				},
 			},
 			invalid: {
@@ -172,10 +195,18 @@ describe("loadout snapshots store", () => {
 		);
 		expect(normalized.raging_fifteen.details).toBeNull();
 		expect(normalized.legendary.details).toEqual({
+			monsterling_id: 100_002,
 			element_id: 5,
 			score: 0,
 			res_element_ids: [5],
 		});
+		expect(normalized.legacy_legendary.details).toEqual({
+			monsterling_id: 100_001,
+			element_id: 1,
+			score: 1,
+			res_element_ids: [],
+		});
+		expect(normalized.invalid_legendary.details).toBeNull();
 		expect(normalized.invalid.details).toBeNull();
 	});
 

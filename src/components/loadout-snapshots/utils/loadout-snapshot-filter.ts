@@ -3,6 +3,7 @@ import {
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
 	type LoadoutSnapshotElement,
+	type LoadoutSnapshotLegendaryMonsterlingId,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
@@ -17,6 +18,7 @@ export type LoadoutSnapshotFilters = {
 	tag: LoadoutSnapshotFilterTag;
 	selectedElementIds: LoadoutSnapshotElement[];
 	selectedBossIds: LoadoutSnapshotConquestBossId[];
+	selectedMonsterlingId: LoadoutSnapshotLegendaryMonsterlingId | null;
 	difficulty: ConquestDifficulty | null;
 };
 
@@ -40,6 +42,14 @@ export const matchesLoadoutSnapshotFilters = (
 		)
 			return false;
 	}
+	if (
+		filters.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST &&
+		filters.selectedMonsterlingId !== null &&
+		(!snapshot.details ||
+			!("monsterling_id" in snapshot.details) ||
+			snapshot.details.monsterling_id !== filters.selectedMonsterlingId)
+	)
+		return false;
 	if (
 		filters.tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST &&
 		filters.selectedBossIds.length > 0

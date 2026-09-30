@@ -157,6 +157,42 @@ describe("LoadoutSnapshotsList", () => {
 		expect(metadata?.children[2]?.textContent).toBe("");
 	});
 
+	it("shows the Legendary Monsterling in rows, previews, and exports", async () => {
+		useAppStore.setState({
+			loadoutSnapshots: {
+				legendary: {
+					...snapshot("legendary", "Legendary clear", "legendary_conquest", 1),
+					details: {
+						monsterling_id: 100_002,
+						element_id: 1,
+						score: 1,
+					},
+				},
+			},
+		});
+		render(<LoadoutSnapshotsList />);
+
+		expect(screen.getByText("Sorin")).toBeTruthy();
+		expect(screen.getByAltText("Sorin icon")).toBeTruthy();
+		fireEvent.click(
+			screen.getByRole("button", {
+				name: "Preview Legendary clear snapshot row",
+			}),
+		);
+		const preview = within(
+			screen.getByRole("dialog", { name: "Legendary clear" }),
+		);
+		expect(preview.getByText("Sorin")).toBeTruthy();
+		expect(preview.getByAltText("Sorin icon")).toBeTruthy();
+		fireEvent.click(
+			preview.getByRole("button", { name: "Copy Legendary clear image" }),
+		);
+		await waitFor(() => expect(copyImage).toHaveBeenCalledOnce());
+		const exportSurface = copyImage.mock.calls[0][1] as HTMLElement;
+		expect(within(exportSurface).getByText("Sorin")).toBeTruthy();
+		expect(within(exportSurface).getByAltText("Sorin icon")).toBeTruthy();
+	});
+
 	afterEach(cleanup);
 
 	it("shows frozen snapshot metadata and filters by snapshot name", () => {
@@ -298,11 +334,16 @@ describe("LoadoutSnapshotsList", () => {
 			loadoutSnapshots: {
 				fire: {
 					...snapshot("fire", "Fire run", "legendary_conquest", 1),
-					details: { element_id: 2, res_element_ids: [1], score: 1_234 },
+					details: {
+						monsterling_id: 100_001,
+						element_id: 2,
+						res_element_ids: [1],
+						score: 1_234,
+					},
 				},
 				earth: {
 					...snapshot("earth", "Earth run", "legendary_conquest", 2),
-					details: { element_id: 1, score: 1 },
+					details: { monsterling_id: 100_002, element_id: 1, score: 1 },
 				},
 				missing: snapshot(
 					"missing",
@@ -313,6 +354,8 @@ describe("LoadoutSnapshotsList", () => {
 			},
 		});
 		render(<LoadoutSnapshotsList />);
+		expect(screen.getByText("Reginula")).toBeTruthy();
+		expect(screen.getByText("Sorin")).toBeTruthy();
 		expect(screen.getByAltText("Fire icon").parentElement?.className).toContain(
 			"font-semibold",
 		);
@@ -327,6 +370,21 @@ describe("LoadoutSnapshotsList", () => {
 		fireEvent.click(
 			within(tagGroup).getByRole("button", { name: "Legendary Conquest" }),
 		);
+		const monsterling = screen.getByRole("combobox", {
+			name: "Filter loadout snapshots by Monsterling",
+		});
+		expect(monsterling.textContent).toContain("All Monsterlings");
+		fireEvent.keyDown(monsterling, { key: "ArrowDown" });
+		expect(
+			screen.getAllByRole("option").map((option) => option.textContent),
+		).toEqual(["All Monsterlings", "Reginula", "Sorin"]);
+		expect(screen.getAllByAltText("Reginula icon")).toHaveLength(2);
+		expect(screen.getAllByAltText("Sorin icon")).toHaveLength(2);
+		fireEvent.click(screen.getByRole("option", { name: /Sorin/ }));
+		expect(screen.getByText("Earth run")).toBeTruthy();
+		expect(screen.queryByText("Fire run")).toBeNull();
+		fireEvent.keyDown(monsterling, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "All Monsterlings" }));
 		const elementGroup = screen.getByRole("group", {
 			name: "Filter loadout snapshots by element",
 		});
@@ -341,6 +399,11 @@ describe("LoadoutSnapshotsList", () => {
 
 		fireEvent.click(within(tagGroup).getByRole("button", { name: "Conquest" }));
 		expect(
+			screen.queryByRole("combobox", {
+				name: "Filter loadout snapshots by Monsterling",
+			}),
+		).toBeNull();
+		expect(
 			screen.queryByRole("group", {
 				name: "Filter loadout snapshots by element",
 			}),
@@ -354,6 +417,11 @@ describe("LoadoutSnapshotsList", () => {
 		fireEvent.click(
 			within(tagGroup).getByRole("button", { name: "Legendary Conquest" }),
 		);
+		expect(
+			screen.getByRole("combobox", {
+				name: "Filter loadout snapshots by Monsterling",
+			}).textContent,
+		).toContain("All Monsterlings");
 		const resetElementGroup = screen.getByRole("group", {
 			name: "Filter loadout snapshots by element",
 		});

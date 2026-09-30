@@ -4,11 +4,13 @@ import { ConquestDifficultySelect } from "@/components/loadout-snapshots/compone
 import {
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_ELEMENTS,
+	LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS,
 	LOADOUT_SNAPSHOT_SORTS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
 	type LoadoutSnapshotElement,
+	type LoadoutSnapshotLegendaryMonsterlingId,
 	type LoadoutSnapshotSort,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import {
@@ -24,6 +26,13 @@ import {
 	FilterToggleButton,
 } from "@/components/ui/filter-button-group";
 import { SearchInput } from "@/components/ui/search-input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { ELEMENTS_DATA } from "@/data/elements/ELEMENTS_DATA";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 
@@ -44,6 +53,14 @@ const TAG_OPTIONS: {
 		value,
 	})),
 ];
+
+const ALL_LEGENDARY_MONSTERLINGS = "all" as const;
+const LEGENDARY_MONSTERLING_OPTIONS =
+	LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS.map((id) => ({
+		value: id,
+		name: MONSTERLINGS_DATA[id].name,
+		image: MONSTERLINGS_DATA[id].image,
+	}));
 
 type LoadoutSnapshotFilterProps = {
 	filters: LoadoutSnapshotFilters;
@@ -66,6 +83,10 @@ export const LoadoutSnapshotFilter = ({
 	const isLegendaryConquest =
 		filters.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST;
 	const isConquest = filters.tag === LOADOUT_SNAPSHOT_TAGS.CONQUEST;
+	const selectedLegendaryMonsterling =
+		filters.selectedMonsterlingId === null
+			? null
+			: MONSTERLINGS_DATA[filters.selectedMonsterlingId];
 
 	return (
 		<div className="grid gap-3">
@@ -88,6 +109,7 @@ export const LoadoutSnapshotFilter = ({
 									tag: value,
 									selectedElementIds: [],
 									selectedBossIds: [],
+									selectedMonsterlingId: null,
 									difficulty: null,
 								})
 							}
@@ -97,43 +119,100 @@ export const LoadoutSnapshotFilter = ({
 					))}
 				</FilterButtonGroup>
 				{isLegendaryConquest && (
-					<FilterButtonGroup aria-label="Filter loadout snapshots by element">
-						{Object.values(ELEMENTS_DATA)
-							.filter(
-								({ id, hide }) =>
-									!hide &&
-									Object.values(LOADOUT_SNAPSHOT_ELEMENTS).includes(
-										id as LoadoutSnapshotElement,
-									),
-							)
-							.map(({ id, image, element }) => (
-								<FilterToggleButton
-									key={id}
-									type="button"
-									isSelected={filters.selectedElementIds.includes(
-										id as LoadoutSnapshotElement,
+					<>
+						<Select
+							value={
+								filters.selectedMonsterlingId === null
+									? ALL_LEGENDARY_MONSTERLINGS
+									: String(filters.selectedMonsterlingId)
+							}
+							onValueChange={(value) =>
+								onFiltersChange({
+									...filters,
+									selectedMonsterlingId:
+										value === ALL_LEGENDARY_MONSTERLINGS
+											? null
+											: (Number(
+													value,
+												) as LoadoutSnapshotLegendaryMonsterlingId),
+								})
+							}
+						>
+							<SelectTrigger
+								aria-label="Filter loadout snapshots by Monsterling"
+								className="min-w-40"
+							>
+								<SelectValue>
+									{selectedLegendaryMonsterling ? (
+										<>
+											<img
+												src={selectedLegendaryMonsterling.image}
+												width="24"
+												height="24"
+												alt={`${selectedLegendaryMonsterling.name} icon`}
+											/>
+											{selectedLegendaryMonsterling.name}
+										</>
+									) : (
+										"All Monsterlings"
 									)}
-									aria-label={element}
-									title={element}
-									onClick={() =>
-										onFiltersChange({
-											...filters,
-											selectedElementIds: toggleValue(
-												filters.selectedElementIds,
-												id as LoadoutSnapshotElement,
-											),
-										})
-									}
-								>
-									<img
-										src={image}
-										width="25"
-										height="25"
-										alt={`${element} icon`}
-									/>
-								</FilterToggleButton>
-							))}
-					</FilterButtonGroup>
+								</SelectValue>
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value={ALL_LEGENDARY_MONSTERLINGS}>
+									All Monsterlings
+								</SelectItem>
+								{LEGENDARY_MONSTERLING_OPTIONS.map((option) => (
+									<SelectItem key={option.value} value={String(option.value)}>
+										<img
+											src={option.image}
+											width="24"
+											height="24"
+											alt={`${option.name} icon`}
+										/>
+										{option.name}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+						<FilterButtonGroup aria-label="Filter loadout snapshots by element">
+							{Object.values(ELEMENTS_DATA)
+								.filter(
+									({ id, hide }) =>
+										!hide &&
+										Object.values(LOADOUT_SNAPSHOT_ELEMENTS).includes(
+											id as LoadoutSnapshotElement,
+										),
+								)
+								.map(({ id, image, element }) => (
+									<FilterToggleButton
+										key={id}
+										type="button"
+										isSelected={filters.selectedElementIds.includes(
+											id as LoadoutSnapshotElement,
+										)}
+										aria-label={element}
+										title={element}
+										onClick={() =>
+											onFiltersChange({
+												...filters,
+												selectedElementIds: toggleValue(
+													filters.selectedElementIds,
+													id as LoadoutSnapshotElement,
+												),
+											})
+										}
+									>
+										<img
+											src={image}
+											width="25"
+											height="25"
+											alt={`${element} icon`}
+										/>
+									</FilterToggleButton>
+								))}
+						</FilterButtonGroup>
+					</>
 				)}
 				{isConquest && (
 					<>

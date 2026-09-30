@@ -56,6 +56,7 @@ export const LoadoutSnapshotsList = () => {
 		tag: LOADOUT_SNAPSHOT_ALL_TAGS,
 		selectedElementIds: [],
 		selectedBossIds: [],
+		selectedMonsterlingId: null,
 		difficulty: null,
 	});
 	const [sort, setSort] = useState<LoadoutSnapshotSort>(
@@ -135,6 +136,7 @@ export const LoadoutSnapshotsList = () => {
 							tag: LOADOUT_SNAPSHOT_ALL_TAGS,
 							selectedElementIds: [],
 							selectedBossIds: [],
+							selectedMonsterlingId: null,
 							difficulty: null,
 						});
 						setSort(LOADOUT_SNAPSHOT_SORTS.CREATED_DESC);

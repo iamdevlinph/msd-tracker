@@ -36,6 +36,7 @@ Read this plan for Loadouts, portable code sharing, snapshots, previews, exports
 - [x] Paginate filtered and sorted loadout snapshots with selectable page sizes and accessible boundary navigation.
 - [x] Emphasize loadout snapshot field values while keeping creation timestamps only in interactive preview headers.
 - [x] Arrange Conquest snapshot metadata responsively in a two-column mobile, three-column small-and-up, two-row grid across saved cards, previews, and generated images, preserving reserved RES Element space and accessible Difficulty labels (verified with focused snapshot tests and repository formatting).
+- [x] Record Reginula or Sorin for Legendary Conquest snapshots, default legacy records to Reginula, show the selected Monsterling across snapshot metadata, and filter Legendary snapshots by Monsterling.
 - [x] Add Drive-synced Settings control for equipment set-name captions and show active equipment sets with notification dots and portal effect tooltips in loadout previews.
 - [x] Add Drive-synced defaults for hiding equipment and compact Monsterlings in loadout and snapshot previews and exports, with temporary preview overrides.
 - [x] Show complete published equipment set effects in delayed hover/focus tooltips on picker cards, assigned editor buttons, and saved-card equipment tiles while keeping preview tooltips active-only.

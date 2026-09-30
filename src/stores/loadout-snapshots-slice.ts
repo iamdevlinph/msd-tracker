@@ -3,12 +3,15 @@ import type { StateCreator } from "zustand";
 import {
 	CONQUEST_DIFFICULTIES,
 	type ConquestDifficulty,
+	DEFAULT_LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_ID,
 	getLoadoutSnapshotConquestMaxLevel,
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_ELEMENTS,
+	LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
 	type LoadoutSnapshotElement,
+	type LoadoutSnapshotLegendaryMonsterlingId,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import { formatLoadoutSnapshotNameForTag } from "@/components/loadout-snapshots/utils/loadout-snapshot-name";
@@ -36,6 +39,7 @@ export type RiftSnapshotDetails = {
 	score?: number;
 };
 export type LegendaryConquestSnapshotDetails = {
+	monsterling_id: LoadoutSnapshotLegendaryMonsterlingId;
 	element_id: LoadoutSnapshotElement;
 	score: number;
 	res_element_ids?: LoadoutSnapshotElement[];
@@ -130,14 +134,23 @@ export const normalizeLoadoutSnapshotDetails = (
 	}
 	if (tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST) {
 		const elementId = value.element_id;
+		const monsterlingId = value.monsterling_id;
 		if (
 			!LOADOUT_SNAPSHOT_ELEMENT_VALUES.includes(
 				elementId as LoadoutSnapshotElement,
 			) ||
+			(monsterlingId !== undefined &&
+				!LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS.includes(
+					monsterlingId as LoadoutSnapshotLegendaryMonsterlingId,
+				)) ||
 			!isNonnegativeInteger(value.score)
 		)
 			return null;
 		return {
+			monsterling_id:
+				monsterlingId === undefined
+					? DEFAULT_LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_ID
+					: (monsterlingId as LoadoutSnapshotLegendaryMonsterlingId),
 			element_id: elementId as LoadoutSnapshotElement,
 			score: value.score,
 			res_element_ids: normalizeLoadoutSnapshotResElements(

@@ -5,13 +5,16 @@ import { z } from "zod";
 import {
 	CONQUEST_DIFFICULTIES,
 	type ConquestDifficulty,
+	DEFAULT_LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_ID,
 	getLoadoutSnapshotConquestMaxLevel,
 	LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS,
 	LOADOUT_SNAPSHOT_ELEMENT_OPTIONS,
+	LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS,
 	LOADOUT_SNAPSHOT_TAG_LABELS,
 	LOADOUT_SNAPSHOT_TAGS,
 	type LoadoutSnapshotConquestBossId,
 	type LoadoutSnapshotElement,
+	type LoadoutSnapshotLegendaryMonsterlingId,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
 import {
@@ -57,6 +60,7 @@ const formSchema = z
 		level: z.string(),
 		clear_time: z.string(),
 		boss_id: z.string(),
+		monsterling_id: z.string(),
 		element_id: z.string(),
 		res_element_ids: z.array(z.string()),
 		score: z.string(),
@@ -127,6 +131,16 @@ const formSchema = z
 		}
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST) {
 			if (
+				!LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS.some(
+					(id) => String(id) === value.monsterling_id,
+				)
+			)
+				context.addIssue({
+					code: "custom",
+					path: ["monsterling_id"],
+					message: "Select a Monsterling",
+				});
+			if (
 				!LOADOUT_SNAPSHOT_ELEMENT_OPTIONS.some(
 					({ value: id }) => String(id) === value.element_id,
 				)
@@ -151,6 +165,12 @@ const CONQUEST_BOSS_OPTIONS = LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS.map((id) => ({
 	name: MONSTERLINGS_DATA[id].name,
 	image: MONSTERLINGS_DATA[id].image,
 }));
+const LEGENDARY_MONSTERLING_OPTIONS =
+	LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS.map((id) => ({
+		value: id,
+		name: MONSTERLINGS_DATA[id].name,
+		image: MONSTERLINGS_DATA[id].image,
+	}));
 
 const valuesFor = (
 	loadout: LoadoutOwned | null,
@@ -174,6 +194,10 @@ const valuesFor = (
 			details && "boss_id" in details && details.boss_id !== undefined
 				? String(details.boss_id)
 				: "",
+		monsterling_id:
+			details && "monsterling_id" in details
+				? String(details.monsterling_id)
+				: String(DEFAULT_LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_ID),
 		element_id:
 			details && "element_id" in details ? String(details.element_id) : "1",
 		res_element_ids:
@@ -217,9 +241,16 @@ export const LoadoutSnapshotDialog = ({
 		name: "res_element_ids",
 	});
 	const bossId = useWatch({ control: form.control, name: "boss_id" });
+	const monsterlingId = useWatch({
+		control: form.control,
+		name: "monsterling_id",
+	});
 	const clearTime = useWatch({ control: form.control, name: "clear_time" });
 	const difficulty = useWatch({ control: form.control, name: "difficulty" });
 	const selectedBoss = bossId ? MONSTERLINGS_DATA[Number(bossId)] : undefined;
+	const selectedLegendaryMonsterling = monsterlingId
+		? MONSTERLINGS_DATA[Number(monsterlingId)]
+		: undefined;
 	const open = loadout !== null || snapshot !== null;
 	useEffect(() => {
 		if (open) form.reset(valuesFor(loadout, snapshot));
@@ -282,6 +313,9 @@ export const LoadoutSnapshotDialog = ({
 			};
 		if (value.tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST)
 			details = {
+				monsterling_id: Number(
+					value.monsterling_id,
+				) as LoadoutSnapshotLegendaryMonsterlingId,
 				element_id: Number(value.element_id) as 1,
 				score: Number(value.score),
 				res_element_ids: value.res_element_ids.map(
@@ -541,6 +575,55 @@ export const LoadoutSnapshotDialog = ({
 					)}
 					{tag === LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST && (
 						<>
+							<label
+								htmlFor="snapshot-legendary-monsterling"
+								className="grid gap-2 text-sm font-medium"
+							>
+								Monsterling
+								<Select
+									value={monsterlingId}
+									onValueChange={(value) =>
+										form.setValue("monsterling_id", value, {
+											shouldValidate: true,
+										})
+									}
+								>
+									<SelectTrigger
+										id="snapshot-legendary-monsterling"
+										aria-label="Monsterling"
+									>
+										<SelectValue>
+											{selectedLegendaryMonsterling ? (
+												<>
+													<img
+														src={selectedLegendaryMonsterling.image}
+														width="24"
+														height="24"
+														alt={`${selectedLegendaryMonsterling.name} icon`}
+													/>
+													{selectedLegendaryMonsterling.name}
+												</>
+											) : undefined}
+										</SelectValue>
+									</SelectTrigger>
+									<SelectContent>
+										{LEGENDARY_MONSTERLING_OPTIONS.map((option) => (
+											<SelectItem
+												key={option.value}
+												value={String(option.value)}
+											>
+												<img
+													src={option.image}
+													width="24"
+													height="24"
+													alt={`${option.name} icon`}
+												/>
+												{option.name}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</label>
 							<fieldset className="grid gap-2">
 								<legend className="text-sm font-medium">Element</legend>
 								<ButtonGroup className="flex flex-wrap" aria-label="Element">

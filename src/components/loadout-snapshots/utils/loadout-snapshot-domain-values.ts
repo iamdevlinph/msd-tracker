@@ -40,6 +40,14 @@ export const LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS = [
 export type LoadoutSnapshotConquestBossId =
 	(typeof LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS)[number];
 
+export const LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS = [
+	100_001, 100_002,
+] as const;
+export type LoadoutSnapshotLegendaryMonsterlingId =
+	(typeof LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS)[number];
+export const DEFAULT_LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_ID =
+	LOADOUT_SNAPSHOT_LEGENDARY_MONSTERLING_IDS[0];
+
 // Keep these IDs aligned with the canonical game element catalog.
 export const LOADOUT_SNAPSHOT_ELEMENTS = {
 	EARTH: 1,

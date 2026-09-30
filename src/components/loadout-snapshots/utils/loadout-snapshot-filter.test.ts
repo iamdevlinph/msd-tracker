@@ -37,10 +37,12 @@ describe("matchesLoadoutSnapshotFilters", () => {
 	it("combines search and tag with OR metadata selections", () => {
 		const snapshots = [
 			snapshot("Fire run", LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST, {
+				monsterling_id: 100_001,
 				element_id: 2,
 				score: 1,
 			}),
 			snapshot("Earth run", LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST, {
+				monsterling_id: 100_002,
 				element_id: 1,
 				score: 1,
 			}),
@@ -52,6 +54,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 			tag: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
 			selectedElementIds: [1, 2] as const,
 			selectedBossIds: [],
+			selectedMonsterlingId: null,
 			difficulty: null,
 		};
 
@@ -75,6 +78,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 				tag: LOADOUT_SNAPSHOT_ALL_TAGS,
 				selectedElementIds: [],
 				selectedBossIds: [],
+				selectedMonsterlingId: null,
 				difficulty: null,
 			}),
 		).toBe(true);
@@ -105,13 +109,14 @@ describe("matchesLoadoutSnapshotFilters", () => {
 		const incompatibleDetails = snapshot(
 			"Wrong details",
 			LOADOUT_SNAPSHOT_TAGS.CONQUEST,
-			{ element_id: 2, score: 1 },
+			{ monsterling_id: 100_001, element_id: 2, score: 1 },
 		);
 		const base: LoadoutSnapshotFilters = {
 			search: "",
 			tag: LOADOUT_SNAPSHOT_TAGS.CONQUEST,
 			selectedElementIds: [],
 			selectedBossIds: [38, 67],
+			selectedMonsterlingId: null,
 			difficulty: null,
 		};
 
@@ -163,6 +168,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 			"Incompatible",
 			LOADOUT_SNAPSHOT_TAGS.CONQUEST,
 			{
+				monsterling_id: 100_001,
 				element_id: 1,
 				score: 1,
 			},
@@ -172,6 +178,7 @@ describe("matchesLoadoutSnapshotFilters", () => {
 			tag: LOADOUT_SNAPSHOT_TAGS.CONQUEST,
 			selectedElementIds: [],
 			selectedBossIds: [38],
+			selectedMonsterlingId: null,
 			difficulty: "normal",
 		};
 
@@ -182,6 +189,36 @@ describe("matchesLoadoutSnapshotFilters", () => {
 		expect(matchesLoadoutSnapshotFilters(incompatible, base)).toBe(false);
 		expect(
 			matchesLoadoutSnapshotFilters(abyss, { ...base, difficulty: null }),
+		).toBe(true);
+	});
+
+	it("matches the selected Legendary Monsterling", () => {
+		const reginula = snapshot(
+			"Reginula",
+			LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
+			{ monsterling_id: 100_001, element_id: 1, score: 1 },
+		);
+		const sorin = snapshot("Sorin", LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST, {
+			monsterling_id: 100_002,
+			element_id: 1,
+			score: 1,
+		});
+		const filters: LoadoutSnapshotFilters = {
+			search: "",
+			tag: LOADOUT_SNAPSHOT_TAGS.LEGENDARY_CONQUEST,
+			selectedElementIds: [],
+			selectedBossIds: [],
+			selectedMonsterlingId: 100_002,
+			difficulty: null,
+		};
+
+		expect(matchesLoadoutSnapshotFilters(reginula, filters)).toBe(false);
+		expect(matchesLoadoutSnapshotFilters(sorin, filters)).toBe(true);
+		expect(
+			matchesLoadoutSnapshotFilters(reginula, {
+				...filters,
+				selectedMonsterlingId: null,
+			}),
 		).toBe(true);
 	});
 });

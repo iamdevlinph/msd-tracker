@@ -272,7 +272,12 @@ describe("CreateLoadoutSnapshotDialog", () => {
 					monsterlings_owned: {},
 					monsterling_link_chain_levels: {},
 					artifacts_owned: {},
-					details: { element_id: 1, score: 0, res_element_ids: [1] },
+					details: {
+						monsterling_id: 100_001,
+						element_id: 1,
+						score: 0,
+						res_element_ids: [1],
+					},
 				}}
 				onOpenChange={vi.fn()}
 				onSubmit={onSubmit}
@@ -292,5 +297,86 @@ describe("CreateLoadoutSnapshotDialog", () => {
 				details: expect.objectContaining({ res_element_ids: [1, 2] }),
 			}),
 		);
+	});
+
+	it("shows only Legendary Monsterlings and submits Sorin", () => {
+		window.HTMLElement.prototype.scrollIntoView = vi.fn();
+		const onCreate = vi.fn();
+		render(
+			<CreateLoadoutSnapshotDialog
+				loadout={{
+					id: "team",
+					name: "Team",
+					characters: [
+						emptyLoadoutCharacterSlot(),
+						emptyLoadoutCharacterSlot(),
+						emptyLoadoutCharacterSlot(),
+					],
+				}}
+				onOpenChange={vi.fn()}
+				onCreate={onCreate}
+			/>,
+		);
+
+		expect(screen.queryByRole("combobox", { name: "Monsterling" })).toBeNull();
+		const tag = screen.getByRole("combobox", { name: "Snapshot tag" });
+		fireEvent.keyDown(tag, { key: "ArrowDown" });
+		fireEvent.click(screen.getByRole("option", { name: "Legendary Conquest" }));
+		const monsterling = screen.getByRole("combobox", { name: "Monsterling" });
+		expect(monsterling.textContent).toContain("Reginula");
+		expect(screen.getByAltText("Reginula icon")).toBeTruthy();
+		fireEvent.keyDown(monsterling, { key: "ArrowDown" });
+		const options = screen.getAllByRole("option");
+		expect(options.map((option) => option.textContent)).toEqual([
+			"Reginula",
+			"Sorin",
+		]);
+		expect(screen.getAllByAltText("Reginula icon")).toHaveLength(2);
+		expect(screen.getByAltText("Sorin icon")).toBeTruthy();
+		fireEvent.click(screen.getByRole("option", { name: /Sorin/ }));
+		fireEvent.change(screen.getByLabelText("Score"), {
+			target: { value: "0" },
+		});
+		fireEvent.click(screen.getByRole("button", { name: "Create snapshot" }));
+		expect(onCreate).toHaveBeenCalledWith(
+			"Team",
+			"legendary_conquest",
+			"",
+			expect.objectContaining({ monsterling_id: 100_002 }),
+		);
+	});
+
+	it("defaults a legacy Legendary snapshot to Reginula", () => {
+		render(
+			<LoadoutSnapshotDialog
+				loadout={null}
+				snapshot={{
+					id: "legacy",
+					name: "Legacy clear",
+					tag: "legendary_conquest",
+					created_at: 1,
+					loadout: {
+						id: "team",
+						name: "Team",
+						characters: [
+							emptyLoadoutCharacterSlot(),
+							emptyLoadoutCharacterSlot(),
+							emptyLoadoutCharacterSlot(),
+						],
+					},
+					characters_owned: {},
+					monsterlings_owned: {},
+					monsterling_link_chain_levels: {},
+					artifacts_owned: {},
+					details: { element_id: 1, score: 0 } as never,
+				}}
+				onOpenChange={vi.fn()}
+				onSubmit={vi.fn()}
+			/>,
+		);
+
+		expect(
+			screen.getByRole("combobox", { name: "Monsterling" }).textContent,
+		).toContain("Reginula");
 	});
 });

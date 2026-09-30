@@ -102,6 +102,17 @@ export const LoadoutSnapshotMetadata = ({
 		) : (
 			<div className="flex flex-wrap items-center gap-1.5">
 				<LoadoutSnapshotTagBadge tag={tag} />
+				{details && "monsterling_id" in details ? (
+					<span className="inline-flex items-center gap-1 font-semibold text-foreground">
+						<img
+							src={MONSTERLINGS_DATA[details.monsterling_id].image}
+							width="20"
+							height="20"
+							alt={`${MONSTERLINGS_DATA[details.monsterling_id].name} icon`}
+						/>
+						{MONSTERLINGS_DATA[details.monsterling_id].name}
+					</span>
+				) : null}
 				{details && (
 					<span className="inline-flex flex-wrap items-center gap-1">
 						{"element_id" in details ? (
