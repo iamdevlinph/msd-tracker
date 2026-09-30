@@ -37,6 +37,77 @@ describe("monsterling data shards", () => {
 		const images = Object.values(MONSTERLING_DATA_SECTOR_3).map(
 			({ image }) => image,
 		);
+		const confirmedEntries = [
+			[167, "EightB", "MonsterlingEightB", ELEMENT_ID_BY_ELEMENT.LIGHTNING],
+			[168, "RedB", "MonsterlingEightBRed", ELEMENT_ID_BY_ELEMENT.LIGHTNING],
+			[169, "Hak-yu", "MonsterlingHaCube", ELEMENT_ID_BY_ELEMENT.LIGHTNING],
+			[
+				170,
+				"CapQ",
+				"MonsterlingHaCubeCaptain",
+				ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+			],
+			[171, "Promo", "MonsterlingProMo", ELEMENT_ID_BY_ELEMENT.PHYSICAL],
+			[172, "Bizpomo", "MonsterlingBispoMo", ELEMENT_ID_BY_ELEMENT.PHYSICAL],
+			[173, "Beepmo", "MonsterlingBipMo", ELEMENT_ID_BY_ELEMENT.ICE],
+			[180, "Grippy", "MonsterlingOrtusGrip", ELEMENT_ID_BY_ELEMENT.PHYSICAL],
+			[
+				181,
+				"Hunppy",
+				"MonsterlingOrtusGripHunt",
+				ELEMENT_ID_BY_ELEMENT.PHYSICAL,
+			],
+			[182, "Crusher", "MonsterlingGolem", ELEMENT_ID_BY_ELEMENT.FIRE],
+			[183, "Titus", "MonsterlingOrtusShark", ELEMENT_ID_BY_ELEMENT.LIGHTNING],
+			[186, "Fearless", "MonsterlingFearless", ELEMENT_ID_BY_ELEMENT.PHYSICAL],
+			[
+				187,
+				"Feargiver",
+				"MonsterlingFearlessBlack",
+				ELEMENT_ID_BY_ELEMENT.PHYSICAL,
+			],
+			[188, "Sludge", "MonsterlingSludge", ELEMENT_ID_BY_ELEMENT.EARTH],
+			[
+				190,
+				"Fidelis Raptor",
+				"MonsterlingFidelisRaptor",
+				ELEMENT_ID_BY_ELEMENT.LIGHTNING,
+			],
+		] as const;
+		const captureAndMutationIds = new Set([168, 170, 172, 181, 187]);
+		const partiallyConfirmedEntries = [
+			[174, "Colossus", "MonsterlingCollossus", ["Element", "Source"]],
+			[
+				175,
+				"Colossus Alter",
+				"MonsterlingCollossusBlack",
+				["Element", "Source"],
+			],
+			[176, "Scrap Hoarder", "MonsterlingScrapHoarder", ["Element", "Source"]],
+			[
+				177,
+				"Clean Horde",
+				"MonsterlingScrapHoarderClean",
+				["Element", "Source"],
+			],
+			[178, "Garbinator", "MonsterlingGarbage", ["Element", "Source"]],
+			[179, "Silbinator", "MonsterlingGarbageSilver", ["Element", "Source"]],
+			[184, "Macrodon", "MonsterlingOrtusSharkBoss", ["Element", "Source"]],
+			[
+				185,
+				"Whitelon",
+				"MonsterlingOrtusSharkBossWhite",
+				["Element", "Source"],
+			],
+			[189, "Ragnadon", "MonsterlingRagnadon", ["Element", "Source"]],
+			[
+				191,
+				"Altus Raptor",
+				"MonsterlingFidelisRaptorGold",
+				["Element", "Source"],
+			],
+			[192, "The Great Unknown", "MonsterlingUnknown", ["Element"]],
+		] as const;
 
 		expect(MONSTERLING_DATA_MUWON[166]).toMatchObject({
 			id: 166,
@@ -44,51 +115,45 @@ describe("monsterling data shards", () => {
 			region_id: REGION_ID_BY_REGION.MUWON,
 			placeholder_fields: ["Name", "Element", "Source"],
 		});
-		expect(MONSTERLING_DATA_SECTOR_3[167]).toMatchObject({
-			id: 167,
-			name: "EightB",
-			element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
-			source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		});
-		expect(MONSTERLING_DATA_SECTOR_3[167].placeholder_fields).toBeUndefined();
-		expect(MONSTERLING_DATA_SECTOR_3[169]).toMatchObject({
-			id: 169,
-			name: "Hak-yu",
-			image: "/images/Monsterling_Icons/MonsterlingHaCube.webp",
-			placeholder_fields: ["Element", "Source"],
-		});
-		expect(MONSTERLING_DATA_SECTOR_3[171]).toMatchObject({
-			id: 171,
-			name: "Promo",
-			element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
-			source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		});
-		expect(MONSTERLING_DATA_SECTOR_3[171].placeholder_fields).toBeUndefined();
-		expect(MONSTERLING_DATA_SECTOR_3[173]).toMatchObject({
-			id: 173,
-			name: "Beepmo",
-			image: "/images/Monsterling_Icons/MonsterlingBipMo.webp",
-			placeholder_fields: ["Element", "Source"],
-		});
-		expect(MONSTERLING_DATA_SECTOR_3[188]).toMatchObject({
-			id: 188,
-			name: "Sludge",
-			element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
-			source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
-		});
-		expect(MONSTERLING_DATA_SECTOR_3[188].placeholder_fields).toBeUndefined();
-		expect(MONSTERLING_DATA_SECTOR_3[192]).toMatchObject({
-			id: 192,
-			name: "The Great Unknown",
-			image: "/images/Monsterling_Icons/MonsterlingUnknown.webp",
-			source_id: [SOURCE_ID_BY_SOURCE.CONQUEST],
-			placeholder_fields: ["Element"],
-		});
+		for (const [id, name, imageName, elementId] of confirmedEntries) {
+			expect(MONSTERLING_DATA_SECTOR_3[id]).toMatchObject({
+				id,
+				name,
+				image: `/images/Monsterling_Icons/${imageName}.webp`,
+				element_id: elementId,
+				source_id: captureAndMutationIds.has(id)
+					? [SOURCE_ID_BY_SOURCE.CAPTURE, SOURCE_ID_BY_SOURCE.MUTATION]
+					: [SOURCE_ID_BY_SOURCE.CAPTURE],
+			});
+			expect(MONSTERLING_DATA_SECTOR_3[id].placeholder_fields).toBeUndefined();
+		}
+		for (const [
+			id,
+			name,
+			imageName,
+			placeholderFields,
+		] of partiallyConfirmedEntries) {
+			expect(MONSTERLING_DATA_SECTOR_3[id]).toMatchObject({
+				id,
+				name,
+				image: `/images/Monsterling_Icons/${imageName}.webp`,
+				placeholder_fields: placeholderFields,
+			});
+		}
+		expect(MONSTERLING_DATA_SECTOR_3[192].source_id).toEqual([
+			SOURCE_ID_BY_SOURCE.CONQUEST,
+		]);
 		expect(images).toHaveLength(29);
 		expect(new Set(images).size).toBe(29);
 		expect(
 			Object.values(MONSTERLING_DATA_SECTOR_3)
-				.filter(({ id }) => ![167, 171, 188].includes(id))
+				.filter(
+					({ id }) =>
+						![
+							167, 168, 169, 170, 171, 172, 173, 180, 181, 182, 183, 186, 187,
+							188, 190,
+						].includes(id),
+				)
 				.every(({ placeholder_fields }) => placeholder_fields?.length),
 		).toBe(true);
 		expect(

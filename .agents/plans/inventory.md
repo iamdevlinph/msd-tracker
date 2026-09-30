@@ -17,7 +17,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 
 ## Monsterlings: Available
 
-- [x] Add the unresolved Muwon No. 166 placeholder and Sector 3 from No. 167 with all 29 available Monsterling images linked; finalize records only after their name, element, and source are explicitly supplied, show each unresolved record's pending fields on its Codex card, use Sector 3's identified icon, and retain the remaining icon as a development-only Codex tab.
+- [x] Add the unresolved Muwon No. 166 placeholder and Sector 3 from No. 167 with all 29 available Monsterling images linked; finalize records only after their name, element, and source are explicitly supplied, show each unresolved record's pending fields on its Codex card, maintain confirmed mutation recipes, use Sector 3's identified icon, and retain the remaining icon as a development-only Codex tab.
 - [x] Add Sorin as Legendary Monsterling No. 2 with its catalog image.
 - [x] Search owned monsterlings by name and filter them across Tier 1 through Tier 5.
 - [x] Track one shared, editable Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups; saving a species corrects its exact level (with level one implicit), levels survive copy deletion and owned-data resets, with verified names, triggers, and effects.

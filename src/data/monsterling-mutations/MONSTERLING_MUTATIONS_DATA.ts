@@ -75,4 +75,9 @@ export const MONSTERLING_MUTATIONS_DATA = [
 	{ result_id: 161, ingredient_ids: [160, 157] },
 	{ result_id: 163, ingredient_ids: [162, 154] },
 	{ result_id: 165, ingredient_ids: [164, 151] },
+	{ result_id: 168, ingredient_ids: [167, 152] },
+	{ result_id: 170, ingredient_ids: [169, 182] },
+	{ result_id: 172, ingredient_ids: [171, 173] },
+	{ result_id: 181, ingredient_ids: [180, 182] },
+	{ result_id: 187, ingredient_ids: [186, 169] },
 ] as const satisfies readonly MonsterlingMutationRecipe[];

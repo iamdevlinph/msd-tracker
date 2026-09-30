@@ -16,7 +16,7 @@ describe("MONSTERLING_MUTATIONS_DATA", () => {
 		).sort((a, b) => a - b);
 
 		expect(recipeResultIds).toEqual(mutationResultIds);
-		expect(recipeResultIds).toHaveLength(65);
+		expect(recipeResultIds).toHaveLength(70);
 	});
 
 	it("references valid, unique, acyclic recipes", () => {
@@ -73,5 +73,17 @@ describe("MONSTERLING_MUTATIONS_DATA", () => {
 			result_id: 155,
 			ingredient_ids: [154, 96],
 		});
+	});
+
+	it("includes the confirmed Sector 3 recipes", () => {
+		expect(MONSTERLING_MUTATIONS_DATA).toEqual(
+			expect.arrayContaining([
+				{ result_id: 168, ingredient_ids: [167, 152] },
+				{ result_id: 170, ingredient_ids: [169, 182] },
+				{ result_id: 172, ingredient_ids: [171, 173] },
+				{ result_id: 181, ingredient_ids: [180, 182] },
+				{ result_id: 187, ingredient_ids: [186, 169] },
+			]),
+		);
 	});
 });
