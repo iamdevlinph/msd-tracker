@@ -338,4 +338,12 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 			ELEMENT_ID_BY_ELEMENT.FIRE,
 		),
 	},
+	40: artifact(
+		40,
+		"Stabilized Superconductor",
+		"Isabella",
+		TIER_ID_BY_TIER.PRIME_5,
+		CLASS_ID_BY_CLASS.DESTROYER,
+		ELEMENT_ID_BY_ELEMENT.ICE,
+	),
 };

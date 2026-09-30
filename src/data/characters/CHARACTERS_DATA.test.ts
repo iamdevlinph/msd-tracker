@@ -25,6 +25,37 @@ describe("CHARACTERS_DATA", () => {
 		});
 	});
 
+	it("includes Isabella as a Tier 5 Ice Destroyer with her catalog images", () => {
+		expect(CHARACTERS_DATA[26]).toEqual({
+			id: 26,
+			name: "Isabella",
+			class_id: CLASS_ID_BY_CLASS.DESTROYER,
+			element_id: ELEMENT_ID_BY_ELEMENT.ICE,
+			portraitImage: "/images/Character_Portrait/portrait_Isabella_01.webp",
+			fullImage: "/images/Character_Full/Img_CharacterIllust_Isabella.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+		});
+	});
+
+	it("offers the new Esther and Sangun costume portraits", () => {
+		expect(CHARACTERS_DATA[10].costumes).toEqual([
+			{
+				id: 1,
+				name: "Costume 1",
+				portraitImage:
+					"/images/Character_Portrait/portrait_Esde_Costume_01.webp",
+			},
+		]);
+		expect(CHARACTERS_DATA[19].costumes).toEqual([
+			{
+				id: 1,
+				name: "Costume 1",
+				portraitImage:
+					"/images/Character_Portrait/portrait_Sangun_Costume_01.webp",
+			},
+		]);
+	});
+
 	it("includes hidden Vivian with her staged classifications and images", () => {
 		expect(CHARACTERS_DATA[25]).toEqual({
 			id: 25,

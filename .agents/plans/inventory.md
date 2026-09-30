@@ -4,6 +4,8 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 
 ## Characters: Available
 
+- [x] Add Isabella as a Tier 5 Ice Destroyer with her catalog images.
+- [x] Add the Version 1.4 Esther and Sangun costume portraits.
 - [x] Add Brisshell as a Tier 5 Earth Assassin with her catalog images.
 - [x] Stage Vivian and her signature artifact as hidden catalog records outside local development, with local-development catalog counts, until official metadata is available.
 - [x] Filter owned and selectable characters by Tier 4 and Tier 5.
@@ -15,6 +17,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 
 ## Monsterlings: Available
 
+- [x] Add Sorin as Legendary Monsterling No. 2 with its catalog image.
 - [x] Search owned monsterlings by name and filter them across Tier 1 through Tier 5.
 - [x] Track one shared, editable Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups; saving a species corrects its exact level (with level one implicit), levels survive copy deletion and owned-data resets, with verified names, triggers, and effects.
 - [x] Manage every Link Chain-capable species on a dedicated searchable, level-filterable page, with portrait-driven level editing independent of Monsterling ownership.
@@ -27,6 +30,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 
 ## Chunk 2: Artifacts Inventory
 
+- [x] Add Isabella's Tier 5 Ice Destroyer artifact, Stabilized Superconductor.
 - [x] Add Brisshell's Tier 5 Earth Assassin artifact, Monstrous Longing.
 - [x] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
 - [x] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.

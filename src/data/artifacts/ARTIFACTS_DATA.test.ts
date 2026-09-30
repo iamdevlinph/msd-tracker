@@ -24,6 +24,17 @@ describe("artifacts data", () => {
 		});
 	});
 
+	it("includes Isabella's signature artifact", () => {
+		expect(ARTIFACTS_DATA[40]).toEqual({
+			id: 40,
+			name: "Stabilized Superconductor",
+			image: "/images/Icon_Artifact/ArtifactIsabella.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			class_id: CLASS_ID_BY_CLASS.DESTROYER,
+			element_effect_id: ELEMENT_ID_BY_ELEMENT.ICE,
+		});
+	});
+
 	it("includes Vivian's hidden signature artifact", () => {
 		expect(ARTIFACTS_DATA[39]).toEqual({
 			id: 39,
@@ -38,9 +49,9 @@ describe("artifacts data", () => {
 
 	it("contains all local artifact images with stable unique ids", () => {
 		const artifacts = Object.values(ARTIFACTS_DATA);
-		expect(artifacts).toHaveLength(39);
-		expect(new Set(artifacts.map((a) => a.id)).size).toBe(39);
-		expect(new Set(artifacts.map((a) => a.image)).size).toBe(39);
+		expect(artifacts).toHaveLength(40);
+		expect(new Set(artifacts.map((a) => a.id)).size).toBe(40);
+		expect(new Set(artifacts.map((a) => a.image)).size).toBe(40);
 		for (const artifact of artifacts) {
 			expect(TIERS_DATA[artifact.tier_id]).toBeDefined();
 			expect(CHARACTER_CLASS_DATA[artifact.class_id]).toBeDefined();

@@ -19,9 +19,19 @@ export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
 				"Accompanies the character into battle and actively participates in combat.",
 		},
 		image: "/images/Monsterling_Icons/MIcon_MonsterlingReginula.webp",
-		element_id: ELEMENT_ID_BY_ELEMENT.ICE, // TODO: need to find out
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE, // TODO: need to find out
 		region_id: REGION_ID_BY_REGION.LEGENDARY,
 		source_id: [SOURCE_ID_BY_SOURCE.LEGENDARY_CONQUEST], // TODO: keep or idk
+		ability: "",
+	},
+	[100_002]: {
+		id: 100_002,
+		display_id: 2,
+		name: "Sorin",
+		image: "/images/Monsterling_Icons/MonsterlingSorin.webp",
+		element_id: ELEMENT_ID_BY_ELEMENT.ICE, // TODO: need to find out
+		region_id: REGION_ID_BY_REGION.LEGENDARY,
+		source_id: [SOURCE_ID_BY_SOURCE.LEGENDARY_CONQUEST],
 		ability: "",
 	},
 };

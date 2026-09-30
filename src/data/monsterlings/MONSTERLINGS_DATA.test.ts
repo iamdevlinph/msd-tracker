@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
 import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 const EXPECTED_LINK_CHAINS = {
@@ -72,6 +73,16 @@ const EXPECTED_LINK_CHAINS = {
 };
 
 describe("MONSTERLINGS_DATA", () => {
+	it("includes Sorin as Legendary Monsterling No. 2", () => {
+		expect(MONSTERLINGS_DATA[100_002]).toMatchObject({
+			id: 100_002,
+			display_id: 2,
+			name: "Sorin",
+			image: "/images/Monsterling_Icons/MonsterlingSorin.webp",
+			region_id: REGION_ID_BY_REGION.LEGENDARY,
+		});
+	});
+
 	it("defines a published ability for every numbered Codex Monsterling", () => {
 		for (const monsterling of Object.values(MONSTERLINGS_DATA)) {
 			if (monsterling.id > 165) continue;
