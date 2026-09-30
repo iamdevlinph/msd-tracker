@@ -15,7 +15,7 @@ Convert official notices into validated `ChecklistEvent` records without inferri
    - notice title;
    - separately trackable event title;
    - the exact visible notice heading for each separately trackable event;
-   - exact start and end instants in UTC;
+   - the exact start instant and either the exact end instant in UTC or explicit published open-ended wording such as “until further notice”;
    - participation channel, including Discord when published;
    - each recurring participation or claim window.
 4. Stop for clarification when the year, timezone, inclusive boundary, recurrence, or grouping into independently trackable records is ambiguous. Never guess from similar events.
@@ -23,7 +23,7 @@ Convert official notices into validated `ChecklistEvent` records without inferri
 ## Derive records
 
 - Use `daily` only for published daily participation or claim windows and `weekly` only when explicitly published. Otherwise use `none`.
-- Omit `recurrenceStartAt` for the default `00:00 UTC` daily boundary. Set it to a full UTC ISO instant when the published recurring boundary differs. Preserve the event's separately published `startAt` and `endAt`.
+- Omit `recurrenceStartAt` for the default `00:00 UTC` daily boundary. Set it to a full UTC ISO instant when the published recurring boundary differs. Preserve the event's separately published `startAt` and `endAt`. Omit `endAt` only when the notice explicitly publishes an open-ended period; never infer one from a missing or unclear date.
 - Preserve an existing record's `id` when updating it.
 - When the official notice URL is known, set `noticeUrl` to that URL with a
   `#:~:text=` fragment containing the percent-encoded exact visible event heading
@@ -31,11 +31,11 @@ Convert official notices into validated `ChecklistEvent` records without inferri
   the plain notice URL only when the page has no trustworthy exact heading.
 - For a new record, derive a stable unique ID from the official URL identifier when available; otherwise slugify the event title. Check uniqueness in the complete dataset.
 - Keep one record per separately completable checklist concern. Do not split a notice solely because it has multiple prose sections.
-- Do not add an event whose `endAt` is less than or equal to the current UTC instant unless the user explicitly requests historical retention.
+- Do not add a dated event whose `endAt` is less than or equal to the current UTC instant unless the user explicitly requests historical retention.
 
 ## Maintain expiry
 
-On every import, compare the current UTC instant with every limited record in `EVENTS_DATA`. Remove records whose `endAt` is less than or equal to now, and report each removed record's ID, title, and end time.
+On every import, compare the current UTC instant with every dated record in `EVENTS_DATA`. Remove records whose `endAt` is less than or equal to now, keep explicitly open-ended records, and report each removed record's ID, title, and end time.
 
 Apply this cleanup only to official limited events in `EVENTS_DATA`. Never remove permanent activities or player-created events, and never modify completion records; completion keys for removed definitions remain inert.
 

@@ -11,34 +11,43 @@ import {
 	hasOngoingOrUpcomingChecklistItems,
 } from "@/components/checklist/utils/checklist-view";
 import type { ChecklistDefinition } from "@/data/checklist/CHECKLIST_DATA";
+import { type ChecklistEvent, EVENTS_DATA } from "@/data/events/EVENTS_DATA";
 
 const now = Date.parse("2026-07-27T00:30:00.000Z");
 
-const { fixtureEvent, fullEvent, permanentRecurring } = vi.hoisted(() => ({
-	fixtureEvent: {
-		id: "fixture-limited-event",
-		title: "Fixture limited event",
-		kind: "event",
-		startAt: "2026-07-27T00:00:00.000Z",
-		endAt: "2026-07-28T00:00:00.000Z",
-		recurrence: "daily",
-	} satisfies ChecklistDefinition,
-	fullEvent: {
-		id: "fixture-full-event",
-		title: "Fixture full event",
-		kind: "event",
-		startAt: "2026-07-27T00:00:00.000Z",
-		endAt: "2026-07-29T00:00:00.000Z",
-		recurrence: "daily",
-	} satisfies ChecklistDefinition,
-	permanentRecurring: {
-		id: "fixture-permanent-recurring",
-		title: "Fixture permanent recurring",
-		kind: "permanent",
-		startAt: "2026-07-27T00:00:00.000Z",
-		recurrence: "daily",
-	} satisfies ChecklistDefinition,
-}));
+const { fixtureEvent, fullEvent, openEndedEvent, permanentRecurring } =
+	vi.hoisted(() => ({
+		fixtureEvent: {
+			id: "fixture-limited-event",
+			title: "Fixture limited event",
+			kind: "event",
+			startAt: "2026-07-27T00:00:00.000Z",
+			endAt: "2026-07-28T00:00:00.000Z",
+			recurrence: "daily",
+		} satisfies ChecklistEvent,
+		fullEvent: {
+			id: "fixture-full-event",
+			title: "Fixture full event",
+			kind: "event",
+			startAt: "2026-07-27T00:00:00.000Z",
+			endAt: "2026-07-29T00:00:00.000Z",
+			recurrence: "daily",
+		} satisfies ChecklistDefinition,
+		openEndedEvent: {
+			id: "fixture-open-ended-event",
+			title: "Fixture open-ended event",
+			kind: "event",
+			startAt: "2026-07-28T00:00:00.000Z",
+			recurrence: "none",
+		} satisfies ChecklistEvent,
+		permanentRecurring: {
+			id: "fixture-permanent-recurring",
+			title: "Fixture permanent recurring",
+			kind: "permanent",
+			startAt: "2026-07-27T00:00:00.000Z",
+			recurrence: "daily",
+		} satisfies ChecklistDefinition,
+	}));
 
 vi.mock("@/data/checklist/CHECKLIST_DATA", async (importOriginal) => ({
 	...(await importOriginal<typeof import("@/data/checklist/CHECKLIST_DATA")>()),
@@ -295,6 +304,43 @@ describe("getChecklistView", () => {
 			now,
 		}).find(({ definition }) => definition.id === fixtureEvent.id);
 		expect(item?.definition).toEqual(fixtureEvent);
+	});
+
+	it("keeps an open-ended official event active until fully completed", () => {
+		EVENTS_DATA.push(openEndedEvent);
+		const getEvent = (at: number, isFullyCompleted = false) =>
+			getChecklistView({
+				tasks: {},
+				completions: isFullyCompleted
+					? { [fullCompletionKey(openEndedEvent)]: at }
+					: {},
+				preferences: defaultChecklistPreferences,
+				tab: "event",
+				now: at,
+			}).find(({ definition }) => definition.id === openEndedEvent.id);
+
+		try {
+			expect(getEvent(now)).toMatchObject({
+				status: "upcoming",
+				occurrence: { endAt: undefined },
+			});
+			const activeAt = Date.parse("2027-07-28T00:00:00.000Z");
+			expect(getEvent(activeAt)).toMatchObject({
+				status: "active",
+				fullyCompleted: false,
+			});
+			expect(getEvent(activeAt, true)).toMatchObject({
+				status: "completed",
+				fullyCompleted: true,
+				fullCompletionKey: "fixture-open-ended-event:full",
+			});
+			expect(getEvent(activeAt)).toMatchObject({
+				status: "active",
+				fullyCompleted: false,
+			});
+		} finally {
+			EVENTS_DATA.pop();
+		}
 	});
 
 	it("keeps full-event completion across resets until expiry", () => {
