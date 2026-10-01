@@ -292,6 +292,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		name: "Blue Shadow",
 		linkChain: {
 			unlock_level: 31,
+			sort_order: 3,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Purple Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
@@ -309,5 +310,23 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.MUTATION],
 		ability: "Ice DMG +11% upon attacking with an Ice Special Skill",
+	},
+	166: {
+		id: 166,
+		name: "Nagi",
+		linkChain: {
+			unlock_level: 9,
+			sort_order: 2,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Nagi",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
+		image: "/images/Monsterling_Icons/MonsterlingMob_Nagi.webp",
+		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
+		region_id: REGION_ID_BY_REGION.MUWON,
+		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],
+		ability: "",
+		placeholder_fields: ["Element", "Source"],
 	},
 };

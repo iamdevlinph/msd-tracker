@@ -61,7 +61,7 @@ describe("loadout snapshots store", () => {
 				notes: "n".repeat(2100),
 				details: {
 					monsterling_id: 100_002,
-					boss_id: 38,
+					boss_id: 192,
 					difficulty: CONQUEST_DIFFICULTIES.NORMAL,
 					level: 10,
 					clear_time: "09:59.99",
@@ -168,7 +168,7 @@ describe("loadout snapshots store", () => {
 		});
 		expect(normalized.conquest.notes).toHaveLength(2000);
 		expect(normalized.conquest.details).toEqual({
-			boss_id: 38,
+			boss_id: 192,
 			difficulty: "normal",
 			level: 10,
 			clear_time: "09:59.99",

@@ -56,6 +56,7 @@ const { monsterlingData } = vi.hoisted(() => ({
 			image: "/images/fixture-isolated.png",
 			element_id: 1,
 			ability: "Fixture ability",
+			placeholder_fields: ["Name", "Element", "Source"],
 		},
 	} satisfies MonsterCodexData,
 }));
@@ -86,7 +87,10 @@ describe("monster codex favorites", () => {
 		useCodexStore.setState({ filters: { ...initialCodexFilters } });
 	});
 
-	afterEach(cleanup);
+	afterEach(() => {
+		cleanup();
+		vi.unstubAllEnvs();
+	});
 
 	it("shows only favorites and removes them immediately", () => {
 		useCodexStore.setState({
@@ -190,6 +194,28 @@ describe("monster codex favorites", () => {
 			monsterling_id: favorite.id,
 			monsterling_name: favorite.name,
 		});
+	});
+
+	it("labels placeholder cards with their pending fields in development", () => {
+		vi.stubEnv("VITE_NODE_ENV", "development");
+		render(
+			<>
+				<CodexCard monsterling_id={favorite.id} />
+				<CodexCard monsterling_id={isolated.id} />
+			</>,
+		);
+
+		expect(screen.getAllByText("Placeholder")).toHaveLength(1);
+		expect(screen.getByText("Pending: Name, Element, Source")).toBeTruthy();
+	});
+
+	it("hides placeholder labels in production", () => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
+		render(<CodexCard monsterling_id={isolated.id} />);
+
+		expect(screen.getByAltText(`${isolated.name} monsterling`)).toBeTruthy();
+		expect(screen.queryByText("Placeholder")).toBeNull();
+		expect(screen.queryByText("Pending: Name, Element, Source")).toBeNull();
 	});
 
 	it("selects multiple source filters with OR semantics", () => {

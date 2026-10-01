@@ -35,7 +35,7 @@ export const getLoadoutSnapshotConquestMaxLevel = (
 ) => (difficulty === CONQUEST_DIFFICULTIES.NORMAL ? 15 : 10);
 
 export const LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS = [
-	38, 67, 94, 119, 143, 164,
+	38, 67, 94, 119, 143, 164, 192,
 ] as const;
 export type LoadoutSnapshotConquestBossId =
 	(typeof LOADOUT_SNAPSHOT_CONQUEST_BOSS_IDS)[number];
