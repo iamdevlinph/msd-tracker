@@ -17,7 +17,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 
 ## Monsterlings: Available
 
-- [x] Add the unresolved Muwon No. 166 placeholder with its Nagi icon and Sector 3 through No. 193 with 27 images, including the Ortus Dog icon for No. 182 and mutation-only Oblivion at No. 193; finalize unresolved fields only when explicitly supplied, show pending-field annotations only in development, maintain confirmed mutation recipes, and retain the remaining icon as a development-only Codex tab.
+- [x] Add Nagi as Muwon No. 166 with unresolved element and source fields, and Sector 3 through No. 193 with 27 images, including the Ortus Dog icon for No. 182 and mutation-only Oblivion at No. 193; finalize unresolved fields only when explicitly supplied, show pending-field annotations only in development, maintain confirmed mutation recipes, and retain the remaining icon as a development-only Codex tab.
 - [x] Add Sorin as Legendary Monsterling No. 2 with its catalog image.
 - [x] Search owned monsterlings by name and filter them across Tier 1 through Tier 5.
 - [x] Track one shared, editable Link Chain Level per capable Monsterling species across owned copies, forms, portraits, loadouts, local migrations, and Drive backups; saving a species corrects its exact level (with level one implicit), levels survive copy deletion and owned-data resets, with verified names, triggers, and effects.

@@ -16,7 +16,7 @@ describe("MONSTERLING_MUTATIONS_DATA", () => {
 		).sort((a, b) => a - b);
 
 		expect(recipeResultIds).toEqual(mutationResultIds);
-		expect(recipeResultIds).toHaveLength(70);
+		expect(recipeResultIds).toHaveLength(76);
 	});
 
 	it("references valid, unique, acyclic recipes", () => {
@@ -81,8 +81,14 @@ describe("MONSTERLING_MUTATIONS_DATA", () => {
 				{ result_id: 168, ingredient_ids: [167, 152] },
 				{ result_id: 170, ingredient_ids: [169, 182] },
 				{ result_id: 172, ingredient_ids: [171, 173] },
+				{ result_id: 175, ingredient_ids: [174, 170] },
+				{ result_id: 177, ingredient_ids: [176, 168] },
+				{ result_id: 179, ingredient_ids: [178, 170] },
 				{ result_id: 181, ingredient_ids: [180, 182] },
+				{ result_id: 185, ingredient_ids: [184, 172] },
 				{ result_id: 187, ingredient_ids: [186, 169] },
+				{ result_id: 191, ingredient_ids: [190, 172] },
+				{ result_id: 193, ingredient_ids: [192, 185] },
 			]),
 		);
 	});

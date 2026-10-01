@@ -112,10 +112,10 @@ describe("monsterling data shards", () => {
 
 		expect(MONSTERLING_DATA_MUWON[166]).toMatchObject({
 			id: 166,
-			name: "Muwon No. 166",
+			name: "Nagi",
 			image: "/images/Monsterling_Icons/MonsterlingMob_Nagi.webp",
 			region_id: REGION_ID_BY_REGION.MUWON,
-			placeholder_fields: ["Name", "Element", "Source"],
+			placeholder_fields: ["Element", "Source"],
 		});
 		for (const [id, name, imageName, elementId] of confirmedEntries) {
 			expect(MONSTERLING_DATA_SECTOR_3[id]).toMatchObject({
