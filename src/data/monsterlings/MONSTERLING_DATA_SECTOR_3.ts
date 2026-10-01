@@ -2,6 +2,7 @@ import { ELEMENT_ID_BY_ELEMENT } from "@/data/elements/ELEMENTS_DATA";
 import { SOURCE_ID_BY_SOURCE } from "@/data/monsterling-sources/MONSTERLINGS_SOURCE_DATA";
 import type { MonsterCodexData } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { TIER_ID_BY_TIER } from "@/data/tiers/TIERS_DATA";
 
 export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	167: {
@@ -70,6 +71,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	174: {
 		id: 174,
 		name: "Colossus",
+		linkChain: {
+			unlock_level: 31,
+			sort_order: 1,
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
+			name: "Colossus",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingCollossus.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -80,6 +89,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	175: {
 		id: 175,
 		name: "Colossus Alter",
+		linkChain: {
+			unlock_level: 32,
+			sort_order: 2,
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
+			name: "Colossus Alter",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingCollossusBlack.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -90,6 +107,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	176: {
 		id: 176,
 		name: "Scrap Hoarder",
+		linkChain: {
+			unlock_level: 31,
+			sort_order: 2,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Scrap Hoarder",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingScrapHoarder.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -100,6 +125,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	177: {
 		id: 177,
 		name: "Clean Horde",
+		linkChain: {
+			unlock_level: 32,
+			sort_order: 3,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Clean Horde",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingScrapHoarderClean.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -110,6 +143,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	178: {
 		id: 178,
 		name: "Garbinator",
+		linkChain: {
+			unlock_level: 32,
+			sort_order: 1,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Garbinator",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingGarbage.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -120,6 +161,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	179: {
 		id: 179,
 		name: "Silbinator",
+		linkChain: {
+			unlock_level: 33,
+			sort_order: 3,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Silbinator",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingGarbageSilver.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -166,6 +215,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	184: {
 		id: 184,
 		name: "Macrodon",
+		linkChain: {
+			unlock_level: 33,
+			sort_order: 1,
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
+			name: "Macrodon",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingOrtusSharkBoss.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -176,6 +233,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	185: {
 		id: 185,
 		name: "Whitelon",
+		linkChain: {
+			unlock_level: 34,
+			sort_order: 3,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Whitelon",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingOrtusSharkBossWhite.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -213,6 +278,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	189: {
 		id: 189,
 		name: "Ragnadon",
+		linkChain: {
+			unlock_level: 33,
+			sort_order: 2,
+			tier_id: TIER_ID_BY_TIER.SELECT_3,
+			name: "Ragnadon",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingRagnadon.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -223,6 +296,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	190: {
 		id: 190,
 		name: "Fidelis Raptor",
+		linkChain: {
+			unlock_level: 34,
+			sort_order: 1,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Fidelis Raptor",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingFidelisRaptor.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.LIGHTNING,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -232,6 +313,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	191: {
 		id: 191,
 		name: "Altus Raptor",
+		linkChain: {
+			unlock_level: 34,
+			sort_order: 4,
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			name: "Altus Raptor",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingFidelisRaptorGold.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -242,6 +331,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	192: {
 		id: 192,
 		name: "The Great Unknown",
+		linkChain: {
+			unlock_level: 34,
+			sort_order: 2,
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			name: "The Great Unknown",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingUnknown.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,
@@ -252,6 +349,14 @@ export const MONSTERLING_DATA_SECTOR_3: MonsterCodexData = {
 	193: {
 		id: 193,
 		name: "Oblivion",
+		linkChain: {
+			unlock_level: 35,
+			sort_order: 1,
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			name: "Oblivion",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingUnknownEternity.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.SECTOR_3,

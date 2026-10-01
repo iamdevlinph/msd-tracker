@@ -12,6 +12,7 @@ export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
 		name: "Reginula",
 		linkChain: {
 			unlock_level: 20,
+			sort_order: 2,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Star Waves",
 			trigger: ["While equipped"],
@@ -28,6 +29,14 @@ export const MONSTERLING_DATA_LEGENDARY_MONSTERS: MonsterCodexData = {
 		id: 100_002,
 		display_id: 2,
 		name: "Sorin",
+		linkChain: {
+			unlock_level: 20,
+			sort_order: 3,
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			name: "Sorin",
+			trigger: ["Details pending"],
+			effect: "Details pending",
+		},
 		image: "/images/Monsterling_Icons/MonsterlingSorin.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.ICE, // TODO: need to find out
 		region_id: REGION_ID_BY_REGION.LEGENDARY,

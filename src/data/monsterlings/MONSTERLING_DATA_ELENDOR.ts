@@ -310,6 +310,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		name: "Moon Shadow Lupe",
 		linkChain: {
 			unlock_level: 9,
+			sort_order: 3,
 			tier_id: TIER_ID_BY_TIER.CHOICE_4,
 			name: "Moonlight-Touched Claw",
 			trigger: ["Using a Special Skill"],
@@ -558,6 +559,7 @@ export const MONSTERLING_DATA_ELENDOR: MonsterCodexData = {
 		name: "Custos",
 		linkChain: {
 			unlock_level: 9,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Warden's Core",
 			trigger: ["Using a Special Skill"],

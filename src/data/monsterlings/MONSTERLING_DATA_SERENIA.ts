@@ -364,6 +364,7 @@ export const MONSTERLING_DATA_SERENIA: MonsterCodexData = {
 		name: "Avardan",
 		linkChain: {
 			unlock_level: 20,
+			sort_order: 1,
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
 			name: "Golem's Gem",
 			trigger: ["Using a Special Skill", "Landing an Ultimate Skill"],
