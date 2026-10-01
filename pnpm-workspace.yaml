@@ -5,5 +5,9 @@ allowBuilds:
   msgpackr-extract: true
   sharp: false
   workerd: false
+overrides:
+  js-yaml: 4.3.2
+  sharp: 0.35.4
+  undici: 7.29.1
 minimumReleaseAgeExclude:
   - common-utils-pkg@4.3.2
