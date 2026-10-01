@@ -21,6 +21,8 @@ export const CodexCard = ({ monsterling_id, onOpen }: CodexCardProps) => {
 	const ga = useGoogleAnalytics();
 	const { name, image, id, display_id, placeholder_fields } =
 		MONSTERLINGS_DATA[monsterling_id];
+	const visiblePlaceholderFields =
+		import.meta.env.VITE_NODE_ENV === "development" && placeholder_fields;
 
 	const monsterCodexCompleted = useAppStore((s) => s.monsterCodexCompleted);
 	const monsterCodexFavorites = useAppStore((s) => s.monsterCodexFavorites);
@@ -44,7 +46,7 @@ export const CodexCard = ({ monsterling_id, onOpen }: CodexCardProps) => {
 					"py-2",
 				)}
 			>
-				{placeholder_fields && (
+				{visiblePlaceholderFields && (
 					<span className="pointer-events-none absolute -top-2 -left-2 z-20 rounded-full border bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-900 shadow-sm dark:bg-amber-950 dark:text-amber-200">
 						Placeholder
 					</span>
@@ -148,9 +150,9 @@ export const CodexCard = ({ monsterling_id, onOpen }: CodexCardProps) => {
 			>
 				{name}
 			</small>
-			{placeholder_fields && (
+			{visiblePlaceholderFields && (
 				<small className="flex justify-center text-center text-[10px] leading-tight text-amber-700 dark:text-amber-300">
-					Pending: {placeholder_fields.join(", ")}
+					Pending: {visiblePlaceholderFields.join(", ")}
 				</small>
 			)}
 		</div>

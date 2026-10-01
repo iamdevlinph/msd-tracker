@@ -57,7 +57,7 @@ describe("monsterling data shards", () => {
 				"MonsterlingOrtusGripHunt",
 				ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 			],
-			[182, "Crusher", "MonsterlingGolem", ELEMENT_ID_BY_ELEMENT.FIRE],
+			[182, "Crusher", "MonsterlingOrtusDog", ELEMENT_ID_BY_ELEMENT.FIRE],
 			[183, "Titus", "MonsterlingOrtusShark", ELEMENT_ID_BY_ELEMENT.LIGHTNING],
 			[186, "Fearless", "MonsterlingFearless", ELEMENT_ID_BY_ELEMENT.PHYSICAL],
 			[
@@ -107,11 +107,13 @@ describe("monsterling data shards", () => {
 				["Element", "Source"],
 			],
 			[192, "The Great Unknown", "MonsterlingUnknown", ["Element"]],
+			[193, "Oblivion", "MonsterlingUnknownEternity", ["Element"]],
 		] as const;
 
 		expect(MONSTERLING_DATA_MUWON[166]).toMatchObject({
 			id: 166,
 			name: "Muwon No. 166",
+			image: "/images/Monsterling_Icons/MonsterlingMob_Nagi.webp",
 			region_id: REGION_ID_BY_REGION.MUWON,
 			placeholder_fields: ["Name", "Element", "Source"],
 		});
@@ -143,8 +145,14 @@ describe("monsterling data shards", () => {
 		expect(MONSTERLING_DATA_SECTOR_3[192].source_id).toEqual([
 			SOURCE_ID_BY_SOURCE.CONQUEST,
 		]);
-		expect(images).toHaveLength(29);
-		expect(new Set(images).size).toBe(29);
+		expect(MONSTERLING_DATA_SECTOR_3[193].source_id).toEqual([
+			SOURCE_ID_BY_SOURCE.MUTATION,
+		]);
+		expect(images).toHaveLength(27);
+		expect(new Set(images).size).toBe(27);
+		expect(
+			Math.max(...Object.keys(MONSTERLING_DATA_SECTOR_3).map(Number)),
+		).toBe(193);
 		expect(
 			Object.values(MONSTERLING_DATA_SECTOR_3)
 				.filter(

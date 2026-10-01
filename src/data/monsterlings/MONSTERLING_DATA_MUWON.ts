@@ -313,7 +313,7 @@ export const MONSTERLING_DATA_MUWON: MonsterCodexData = {
 	166: {
 		id: 166,
 		name: "Muwon No. 166",
-		image: "/images/Monsterling_Icons/MonsterlingUnknown.webp",
+		image: "/images/Monsterling_Icons/MonsterlingMob_Nagi.webp",
 		element_id: ELEMENT_ID_BY_ELEMENT.PHYSICAL,
 		region_id: REGION_ID_BY_REGION.MUWON,
 		source_id: [SOURCE_ID_BY_SOURCE.CAPTURE],

@@ -87,7 +87,10 @@ describe("monster codex favorites", () => {
 		useCodexStore.setState({ filters: { ...initialCodexFilters } });
 	});
 
-	afterEach(cleanup);
+	afterEach(() => {
+		cleanup();
+		vi.unstubAllEnvs();
+	});
 
 	it("shows only favorites and removes them immediately", () => {
 		useCodexStore.setState({
@@ -193,7 +196,8 @@ describe("monster codex favorites", () => {
 		});
 	});
 
-	it("labels placeholder cards with their pending fields", () => {
+	it("labels placeholder cards with their pending fields in development", () => {
+		vi.stubEnv("VITE_NODE_ENV", "development");
 		render(
 			<>
 				<CodexCard monsterling_id={favorite.id} />
@@ -203,6 +207,15 @@ describe("monster codex favorites", () => {
 
 		expect(screen.getAllByText("Placeholder")).toHaveLength(1);
 		expect(screen.getByText("Pending: Name, Element, Source")).toBeTruthy();
+	});
+
+	it("hides placeholder labels in production", () => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
+		render(<CodexCard monsterling_id={isolated.id} />);
+
+		expect(screen.getByAltText(`${isolated.name} monsterling`)).toBeTruthy();
+		expect(screen.queryByText("Placeholder")).toBeNull();
+		expect(screen.queryByText("Pending: Name, Element, Source")).toBeNull();
 	});
 
 	it("selects multiple source filters with OR semantics", () => {
