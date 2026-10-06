@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
 	Select,
 	SelectContent,
@@ -9,7 +10,7 @@ import {
 type SortSelectProps<T extends string> = {
 	ariaLabel: string;
 	onValueChange: (value: T) => void;
-	options: { label: string; value: T }[];
+	options: { label: ReactNode; value: T }[];
 	value: T;
 };
 

@@ -1,5 +1,6 @@
 import { arrayRemoveItem } from "common-utils-pkg";
 import { StarIcon, XIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { SortSelect } from "@/components/shared/sort-select";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -21,9 +22,37 @@ type EquipmentCatalogFilterProps = {
 	onChange: (filters: EquipmentCatalogFilters) => void;
 };
 
-const sortOptions: { label: string; value: EquipmentCatalogSort }[] = [
+const tierSortLabel = (first: TierId, second: TierId) => (
+	<>
+		{`Tier: ${first}–${second}`}
+		<span className="inline-flex gap-1">
+			<StarIcon
+				className="size-4"
+				fill="currentColor"
+				style={{ color: TIERS_DATA[first].hex }}
+				aria-hidden
+			/>
+			<StarIcon
+				className="size-4"
+				fill="currentColor"
+				style={{ color: TIERS_DATA[second].hex }}
+				aria-hidden
+			/>
+		</span>
+	</>
+);
+
+const sortOptions: { label: ReactNode; value: EquipmentCatalogSort }[] = [
 	{ label: "Set: A–Z", value: EQUIPMENT_CATALOG_SORTS.SET_ASC },
 	{ label: "Set: Z–A", value: EQUIPMENT_CATALOG_SORTS.SET_DESC },
+	{
+		label: tierSortLabel(4, 5),
+		value: EQUIPMENT_CATALOG_SORTS.TIER_ASC,
+	},
+	{
+		label: tierSortLabel(5, 4),
+		value: EQUIPMENT_CATALOG_SORTS.TIER_DESC,
+	},
 ];
 
 export const EquipmentCatalogFilter = ({

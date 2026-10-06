@@ -6,7 +6,7 @@ import {
 	screen,
 	within,
 } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EquipmentsPage } from "./equipments-page";
 
 vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
@@ -56,6 +56,9 @@ vi.mock("@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA", () => ({
 
 describe("EquipmentsPage", () => {
 	afterEach(cleanup);
+	beforeEach(() => {
+		Element.prototype.scrollIntoView = vi.fn();
+	});
 
 	it("renders complete set rows with effects and Tier 4 first", () => {
 		render(<EquipmentsPage />);
@@ -106,5 +109,31 @@ describe("EquipmentsPage", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Tier 4" }));
 		expect(screen.getByText("Sticky Gorger")).toBeTruthy();
 		expect(screen.queryByText("Abyss")).toBeNull();
+	});
+
+	it("offers tier sorting and resets to Set A–Z", () => {
+		render(<EquipmentsPage />);
+		const sort = screen.getByRole("combobox", { name: "Sort equipment sets" });
+
+		expect(sort.textContent).toContain("Set: A–Z");
+		fireEvent.keyDown(sort, { key: "ArrowDown" });
+		for (const label of ["Set: A–Z", "Set: Z–A", "Tier: 4–5", "Tier: 5–4"]) {
+			const option = screen.getByRole("option", { name: label });
+			expect(option).toBeTruthy();
+			if (label.startsWith("Tier:")) {
+				expect(option.querySelectorAll("svg")).toHaveLength(2);
+			}
+		}
+		fireEvent.click(screen.getByRole("option", { name: "Tier: 5–4" }));
+		expect(
+			screen
+				.getAllByRole("heading", { level: 2 })
+				.map((heading) => heading.textContent),
+		).toEqual(["Abyss", "Sticky Gorger"]);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Clear equipment filters" }),
+		);
+		expect(sort.textContent).toContain("Set: A–Z");
 	});
 });

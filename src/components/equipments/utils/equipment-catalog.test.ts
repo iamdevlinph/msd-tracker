@@ -38,6 +38,14 @@ const equipment = [
 		part_type: "footwear",
 		set_name: "Abyss",
 	},
+	{
+		id: 5,
+		name: "Arbiter Helm",
+		image: "/arbiter.webp",
+		tier_id: 5,
+		part_type: "headgear",
+		set_name: "Arbiter",
+	},
 ] as const;
 
 describe("getEquipmentSetRows", () => {
@@ -45,8 +53,12 @@ describe("getEquipmentSetRows", () => {
 		const filters = emptyEquipmentCatalogFilters();
 		const rows = getEquipmentSetRows(equipment, filters);
 
-		expect(rows.map((row) => row.name)).toEqual(["Abyss", "Sticky Gorger"]);
-		expect(rows[1].equipment.map((piece) => piece.name)).toEqual([
+		expect(rows.map((row) => row.name)).toEqual([
+			"Abyss",
+			"Arbiter",
+			"Sticky Gorger",
+		]);
+		expect(rows[2].equipment.map((piece) => piece.name)).toEqual([
 			"Gooey Gloves",
 			"Gooey Shoes",
 		]);
@@ -76,6 +88,18 @@ describe("getEquipmentSetRows", () => {
 				...filters,
 				sort: EQUIPMENT_CATALOG_SORTS.SET_DESC,
 			}).map((row) => row.name),
-		).toEqual(["Sticky Gorger", "Abyss"]);
+		).toEqual(["Sticky Gorger", "Arbiter", "Abyss"]);
+		expect(
+			getEquipmentSetRows(equipment, {
+				...filters,
+				sort: EQUIPMENT_CATALOG_SORTS.TIER_ASC,
+			}).map((row) => row.name),
+		).toEqual(["Sticky Gorger", "Abyss", "Arbiter"]);
+		expect(
+			getEquipmentSetRows(equipment, {
+				...filters,
+				sort: EQUIPMENT_CATALOG_SORTS.TIER_DESC,
+			}).map((row) => row.name),
+		).toEqual(["Abyss", "Arbiter", "Sticky Gorger"]);
 	});
 });

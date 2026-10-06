@@ -8,6 +8,8 @@ import type { TierId } from "@/data/tiers/TIERS_DATA";
 export const EQUIPMENT_CATALOG_SORTS = {
 	SET_ASC: "set-asc",
 	SET_DESC: "set-desc",
+	TIER_ASC: "tier-asc",
+	TIER_DESC: "tier-desc",
 } as const;
 
 export type EquipmentCatalogSort =
@@ -65,7 +67,14 @@ export const getEquipmentSetRows = (
 					filters.selectedTiers.includes(row.tier)),
 		)
 		.sort((a, b) => {
-			const order = a.name.localeCompare(b.name);
-			return filters.sort === EQUIPMENT_CATALOG_SORTS.SET_ASC ? order : -order;
+			const nameOrder = a.name.localeCompare(b.name);
+			if (filters.sort === EQUIPMENT_CATALOG_SORTS.SET_ASC) return nameOrder;
+			if (filters.sort === EQUIPMENT_CATALOG_SORTS.SET_DESC) return -nameOrder;
+			const tierOrder = a.tier - b.tier;
+			return (
+				(filters.sort === EQUIPMENT_CATALOG_SORTS.TIER_ASC
+					? tierOrder
+					: -tierOrder) || nameOrder
+			);
 		});
 };
