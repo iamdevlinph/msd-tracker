@@ -9,6 +9,9 @@ const ASHEN_CRADLE_NOTICE_TITLE =
 	"9/29 (Tue)「Ashen Cradle Lullaby」Event Notice";
 const ASHEN_CRADLE_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/637";
+const OCTOBER_7_NOTICE_TITLE = "10/7 (Wed) Event Notice";
+const OCTOBER_7_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/676";
 
 const COMMUNITY_EVENTS = [
 	{
@@ -109,12 +112,9 @@ const ASHEN_CRADLE_EVENTS = [
 
 describe("EVENTS_DATA", () => {
 	it("removes expired records and retains active records", () => {
-		expect(EVENTS_DATA).toHaveLength(16);
+		expect(EVENTS_DATA).toHaveLength(17);
 		expect(EVENTS_DATA.map(({ id }) => id)).toEqual(
-			expect.arrayContaining([
-				"600-moonlight-bunny-show-shop-story-missions",
-				"626-moon-gazing-7-day-check-in-pass",
-			]),
+			expect.arrayContaining(["600-moonlight-bunny-show-shop-story-missions"]),
 		);
 		const eventIds = EVENTS_DATA.map(({ id }) => id);
 		for (const expiredId of [
@@ -126,9 +126,37 @@ describe("EVENTS_DATA", () => {
 			"600-an-invitation-to-break-the-ice",
 			"611-combine-monsterlings-missions",
 			"611-10-day-check-in-mission",
+			"626-moon-gazing-7-day-check-in-pass",
 			"626-bonus-time-event",
 		])
 			expect(eventIds).not.toContain(expiredId);
+	});
+
+	it("imports the October 7 event notice", () => {
+		for (const event of [
+			{
+				id: "676-combine-monsterlings-missions",
+				title: "Combine Monsterlings Missions",
+				heading: "Event 1. Combine Monsterlings Missions",
+				endAt: "2026-10-13T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "676-10-day-check-in-mission",
+				title: "10-Day Check-In Mission",
+				heading: "Event 2. 10-Day Check-In Mission",
+				endAt: "2026-10-20T23:59:00.000Z",
+				recurrence: "daily",
+			},
+		] as const) {
+			const { heading, ...expected } = event;
+			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
+				...expected,
+				noticeTitle: OCTOBER_7_NOTICE_TITLE,
+				noticeUrl: `${OCTOBER_7_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
+				startAt: "2026-10-07T00:00:00.000Z",
+			});
+		}
 	});
 
 	it("imports the community event notice", () => {
@@ -166,10 +194,10 @@ describe("EVENTS_DATA", () => {
 			({ recurrence }) => recurrence === "daily",
 		);
 		expect(dailyEvents.map(({ id }) => id)).toEqual([
-			"626-moon-gazing-7-day-check-in-pass",
 			"637-nyanners-special-check-in-pass",
 			"637-isabellas-7-day-gifts",
 			"637-anomaly-avardans-mana",
+			"676-10-day-check-in-mission",
 		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");

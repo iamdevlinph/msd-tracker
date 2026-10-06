@@ -27,9 +27,6 @@ export type ChecklistEvent = Omit<
 
 const VIVIAN_NOTICE_TITLE = "9/8 (Tue) Event Notice";
 const VIVIAN_NOTICE_URL = "https://forum.netmarble.com/stardive_gl/view/6/600";
-const SEPTEMBER_22_NOTICE_TITLE = "9/22 (Wed) Event Notice";
-const SEPTEMBER_22_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/626";
 const COMMUNITY_EVENTS_NOTICE_TITLE =
 	"9/29 (Tue) 1.4 Version Update Celebration! 3 Community Events Notice";
 const COMMUNITY_EVENTS_NOTICE_URL =
@@ -38,6 +35,9 @@ const ASHEN_CRADLE_NOTICE_TITLE =
 	"9/29 (Tue)「Ashen Cradle Lullaby」Event Notice";
 const ASHEN_CRADLE_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/637";
+const OCTOBER_7_NOTICE_TITLE = "10/7 (Wed) Event Notice";
+const OCTOBER_7_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/676";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
@@ -50,16 +50,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		startAt: "2026-09-09T00:00:00.000Z",
 		endAt: "2026-10-06T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "626-moon-gazing-7-day-check-in-pass",
-		title: "Moon Gazing 7-Day Check-In Pass",
-		noticeTitle: SEPTEMBER_22_NOTICE_TITLE,
-		noticeUrl: `${SEPTEMBER_22_NOTICE_URL}#:~:text=Event%201.%20Moon%20Gazing%207-Day%20Check-In%20Pass`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-22T00:00:00.000Z",
-		endAt: "2026-10-05T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 	{
 		id: "638-isabella-arrival-celebration-character-quiz-event",
@@ -196,6 +186,26 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		title: "Anomaly: Avardan’s Mana",
 		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
 		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%2010.%20Anomaly%3A%20Avardan%E2%80%99s%20Mana`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-07T00:00:00.000Z",
+		endAt: "2026-10-20T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "676-combine-monsterlings-missions",
+		title: "Combine Monsterlings Missions",
+		noticeTitle: OCTOBER_7_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_7_NOTICE_URL}#:~:text=Event%201.%20Combine%20Monsterlings%20Missions`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-07T00:00:00.000Z",
+		endAt: "2026-10-13T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "676-10-day-check-in-mission",
+		title: "10-Day Check-In Mission",
+		noticeTitle: OCTOBER_7_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_7_NOTICE_URL}#:~:text=Event%202.%2010-Day%20Check-In%20Mission`,
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-10-07T00:00:00.000Z",
 		endAt: "2026-10-20T23:59:00.000Z",
