@@ -23,6 +23,7 @@ export const ANALYTICS_EVENTS = {
 	LOADOUT_PREVIEW_CLOSE: "loadout_preview_close",
 	LOADOUT_PREVIEW_COMPACT_TOGGLE: "loadout_preview_compact_toggle",
 	LOADOUT_PREVIEW_EQUIPMENT_TOGGLE: "loadout_preview_equipment_toggle",
+	LOADOUT_PREVIEW_STAT_VALUES_TOGGLE: "loadout_preview_stat_values_toggle",
 	LOADOUT_NOTES_SAVE: "loadout_notes_save",
 	MONSTERLING_LINK_CHAIN_PIN: "monsterling_link_chain_pin",
 	MONSTERLING_LINK_CHAIN_UNPIN: "monsterling_link_chain_unpin",

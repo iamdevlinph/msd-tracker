@@ -24,6 +24,7 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 					awakening: 5,
 					skills: { basic: 12, switch: 11, special: 12, ultimate: 11 },
 				}}
+				hideStatValues={false}
 			/>,
 		);
 
@@ -56,6 +57,7 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 				}}
 				statValues={{ atk: 12345, hp: 98765.5, crit_rate: 25.5 }}
 				pinnedStatIds={["crit_dmg", "atk", "crit_rate", "hp", "element_atk"]}
+				hideStatValues={false}
 			/>,
 		);
 
@@ -87,5 +89,33 @@ describe("LoadoutPreviewCharacter skill levels", () => {
 		expect(statsColumn?.classList.contains("border-l")).toBe(true);
 		expect(statsColumn?.classList.contains("border-primary/60")).toBe(true);
 		expect(statsColumn?.classList.contains("pl-2")).toBe(true);
+	});
+
+	it("removes the pinned-stat column and its reserved space", () => {
+		const { container } = render(
+			<LoadoutPreviewCharacter
+				character={character}
+				owned={{
+					awakening: 0,
+					skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
+				}}
+				statValues={{ atk: 12345 }}
+				pinnedStatIds={["atk", "hp"]}
+				hideStatValues
+			/>,
+		);
+
+		expect(screen.queryByText("12,345")).toBeNull();
+		expect(screen.queryByText("—")).toBeNull();
+		expect(screen.queryByAltText("ATK icon")).toBeNull();
+		expect(screen.queryByAltText("HP icon")).toBeNull();
+		expect(screen.queryByTitle("ATK")).toBeNull();
+		expect(screen.queryByTitle("HP")).toBeNull();
+		expect(screen.getByAltText("Fire icon")).toBeTruthy();
+		expect(screen.getByAltText("Special skill icon")).toBeTruthy();
+		expect(container.firstElementChild?.className).toContain("h-[120px]");
+		expect(container.firstElementChild?.className).toContain(
+			"grid-cols-[44px_120px]",
+		);
 	});
 });

@@ -61,6 +61,7 @@ export const LoadoutPreviewDialog = ({
 	const surfaceRef = useRef<HTMLDivElement>(null);
 	const [compactMonsterlings, setCompactMonsterlings] = useState(true);
 	const [hideEquipment, setHideEquipment] = useState(true);
+	const [hideStatValues, setHideStatValues] = useState(true);
 	const [showNotes, setShowNotes] = useState(false);
 	const ga = useGoogleAnalytics();
 	const imageActions = useLoadoutImageActions(
@@ -72,6 +73,7 @@ export const LoadoutPreviewDialog = ({
 		const preferences = useAppStore.getState().loadoutPreviewPreferences;
 		setCompactMonsterlings(preferences.compactMonsterlings);
 		setHideEquipment(preferences.hideEquipment);
+		setHideStatValues(preferences.hideStatValues);
 	}, [loadout?.id]);
 
 	return (
@@ -88,6 +90,9 @@ export const LoadoutPreviewDialog = ({
 					setHideEquipment(
 						useAppStore.getState().loadoutPreviewPreferences.hideEquipment,
 					);
+					setHideStatValues(
+						useAppStore.getState().loadoutPreviewPreferences.hideStatValues,
+					);
 					setShowNotes(false);
 				}
 				onOpenChange(open);
@@ -102,8 +107,12 @@ export const LoadoutPreviewDialog = ({
 					compactMonsterlings
 						? "sm:max-w-max"
 						: hideEquipment
-							? "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1772px]"
-							: "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1640px]",
+							? hideStatValues
+								? "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1682px]"
+								: "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1772px]"
+							: hideStatValues
+								? "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1550px]"
+								: "sm:max-w-[calc(100%-2rem)] 2xl:max-w-[1640px]",
 				)}
 			>
 				<DialogHeader className="border-b p-4 pr-14">
@@ -134,6 +143,25 @@ export const LoadoutPreviewDialog = ({
 								}}
 							/>
 							Hide equipment
+						</Label>
+						<Label htmlFor="hide-stat-values" className="cursor-pointer">
+							<Checkbox
+								id="hide-stat-values"
+								aria-label="Hide stat values"
+								checked={hideStatValues}
+								onCheckedChange={(checked) => {
+									const shouldHideStatValues = checked === true;
+									ga.event(
+										ANALYTICS_EVENTS.LOADOUT_PREVIEW_STAT_VALUES_TOGGLE,
+										{
+											hide_stat_values: shouldHideStatValues,
+											control_location: "preview",
+										},
+									);
+									setHideStatValues(shouldHideStatValues);
+								}}
+							/>
+							Hide stat values
 						</Label>
 						<Label htmlFor="compact-monsterlings" className="cursor-pointer">
 							<Checkbox
@@ -192,6 +220,7 @@ export const LoadoutPreviewDialog = ({
 							loadout={loadout}
 							monsterlingStatsDisplay={compactMonsterlings ? "icons" : "full"}
 							hideEquipment={hideEquipment}
+							hideStatValues={hideStatValues}
 							onEditCharacter={onEditCharacter}
 							onEditMonsterling={onEditMonsterling}
 							onEditArtifact={onEditArtifact}

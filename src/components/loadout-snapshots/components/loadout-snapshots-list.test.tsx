@@ -548,21 +548,59 @@ describe("LoadoutSnapshotsList", () => {
 	});
 
 	it("uses saved preview defaults for direct snapshot exports", async () => {
+		const newer = useAppStore.getState().loadoutSnapshots.newer;
 		useAppStore.setState({
 			loadoutPreviewPreferences: {
 				hideEquipment: false,
+				hideStatValues: false,
 				compactMonsterlings: false,
+			},
+			loadoutSnapshots: {
+				newer: {
+					...newer,
+					loadout: {
+						...newer.loadout,
+						characters: [
+							{
+								...newer.loadout.characters[0],
+								characterId: 1,
+								stat_values: { atk: 12345 },
+								pinned_stat_ids: ["atk"],
+							},
+							newer.loadout.characters[1],
+							newer.loadout.characters[2],
+						],
+					},
+					characters_owned: {
+						1: {
+							id: 1,
+							awakening: 0,
+							skills: { basic: 1, switch: 1, special: 1, ultimate: 1 },
+						},
+					},
+				},
 			},
 		});
 		render(<LoadoutSnapshotsList />);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Preview Beta clear snapshot row" }),
+		);
+		const preview = within(screen.getByRole("dialog", { name: "Beta clear" }));
+		expect(preview.getByText("12,345")).toBeTruthy();
+		fireEvent.click(
+			preview.getByRole("checkbox", { name: "Hide stat values" }),
+		);
+		expect(preview.queryByText("12,345")).toBeNull();
+		fireEvent.click(preview.getByRole("button", { name: "Close" }));
 
 		fireEvent.click(
-			screen.getByRole("button", { name: "Copy Beta clear image" }),
+			screen.getAllByRole("button", { name: "Copy Beta clear image" })[0],
 		);
 
 		await waitFor(() => expect(copyImage).toHaveBeenCalledOnce());
 		expect(copyImage.mock.calls[0][0]).toBe("Beta clear");
 		expect(copyImage.mock.calls[0][1]).toBeInstanceOf(HTMLElement);
+		expect(copyImage.mock.calls[0][1].textContent).toContain("12,345");
 		expect(copyImage.mock.calls[0].slice(2)).toEqual([false, false]);
 	});
 

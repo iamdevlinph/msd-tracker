@@ -463,6 +463,7 @@ describe("LoadoutsList", () => {
 			loadouts: { team: teamLoadout },
 			loadoutPreviewPreferences: {
 				hideEquipment: false,
+				hideStatValues: false,
 				compactMonsterlings: false,
 			},
 		});
@@ -739,7 +740,25 @@ describe("LoadoutsList", () => {
 		useAppStore.setState({
 			charactersOwned,
 			monsterlingsOwned: {},
-			loadouts: { team: teamLoadout },
+			loadoutPreviewPreferences: {
+				hideEquipment: false,
+				hideStatValues: false,
+				compactMonsterlings: false,
+			},
+			loadouts: {
+				team: {
+					...teamLoadout,
+					characters: [
+						{
+							...teamLoadout.characters[0],
+							stat_values: { atk: 12345 },
+							pinned_stat_ids: ["atk"],
+						},
+						teamLoadout.characters[1],
+						teamLoadout.characters[2],
+					],
+				},
+			},
 		});
 		render(<LoadoutsList />);
 
@@ -751,6 +770,7 @@ describe("LoadoutsList", () => {
 		expect(write).toHaveBeenCalledOnce();
 		expect(toBlob.mock.calls[0][0].style.width).toBe("1660px");
 		expect(toBlob.mock.calls[0][0].textContent).toContain(SITE_URL);
+		expect(toBlob.mock.calls[0][0].textContent).toContain("12,345");
 		expect(screen.queryByRole("dialog", { name: "Team" })).toBeNull();
 		expect(event).toHaveBeenCalledWith("loadout_copy_success", {
 			compact_monsterlings: false,

@@ -18,6 +18,7 @@ describe("LoadoutSettingsCard", () => {
 			showEquipmentSetNames: false,
 			loadoutPreviewPreferences: {
 				hideEquipment: true,
+				hideStatValues: true,
 				compactMonsterlings: true,
 			},
 		});
@@ -36,13 +37,19 @@ describe("LoadoutSettingsCard", () => {
 		const compact = screen.getByRole("checkbox", {
 			name: "Compact monsterlings by default",
 		});
+		const hideStats = screen.getByRole("checkbox", {
+			name: "Hide stat values by default",
+		});
 		expect(hide.getAttribute("data-state")).toBe("checked");
+		expect(hideStats.getAttribute("data-state")).toBe("checked");
 		expect(compact.getAttribute("data-state")).toBe("checked");
 
 		fireEvent.click(hide);
+		fireEvent.click(hideStats);
 		fireEvent.click(compact);
 		expect(useAppStore.getState().loadoutPreviewPreferences).toEqual({
 			hideEquipment: false,
+			hideStatValues: false,
 			compactMonsterlings: false,
 		});
 		expect(event).toHaveBeenNthCalledWith(
@@ -50,7 +57,12 @@ describe("LoadoutSettingsCard", () => {
 			"loadout_preview_equipment_toggle",
 			{ hide_equipment: false, control_location: "settings" },
 		);
-		expect(event).toHaveBeenNthCalledWith(2, "loadout_preview_compact_toggle", {
+		expect(event).toHaveBeenNthCalledWith(
+			2,
+			"loadout_preview_stat_values_toggle",
+			{ hide_stat_values: false, control_location: "settings" },
+		);
+		expect(event).toHaveBeenNthCalledWith(3, "loadout_preview_compact_toggle", {
 			compact_monsterlings: false,
 			control_location: "settings",
 		});

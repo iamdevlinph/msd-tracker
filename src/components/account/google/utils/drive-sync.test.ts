@@ -513,6 +513,7 @@ describe("Drive Monsterling backups", () => {
 		});
 		expect(selected.loadoutPreviewPreferences).toEqual({
 			hideEquipment: true,
+			hideStatValues: true,
 			compactMonsterlings: true,
 		});
 		expect(selected).not.toHaveProperty("syncInProgress");
@@ -595,6 +596,7 @@ describe("Drive Monsterling backups", () => {
 		});
 		expect(downloaded?.loadoutPreviewPreferences).toEqual({
 			hideEquipment: true,
+			hideStatValues: true,
 			compactMonsterlings: true,
 		});
 		expect(
@@ -755,6 +757,7 @@ describe("Drive Monsterling backups", () => {
 			backupUpdatedAt: 20,
 			loadoutPreviewPreferences: {
 				hideEquipment: false,
+				hideStatValues: false,
 				compactMonsterlings: false,
 			},
 			syncInProgress: true,
@@ -790,6 +793,7 @@ describe("Drive Monsterling backups", () => {
 		expect(useAppStore.getState().backupUpdatedAt).toBe(20);
 		expect(useAppStore.getState().loadoutPreviewPreferences).toEqual({
 			hideEquipment: false,
+			hideStatValues: false,
 			compactMonsterlings: false,
 		});
 		expect(useAppStore.getState().checklistTasks.remote.title).toBe(

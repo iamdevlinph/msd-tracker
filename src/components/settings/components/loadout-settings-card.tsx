@@ -67,6 +67,23 @@ export const LoadoutSettingsCard = () => {
 				</div>
 				<div className="mt-3 flex items-center gap-3">
 					<Checkbox
+						id="hide-stat-values-by-default"
+						checked={loadoutPreviewPreferences.hideStatValues}
+						onCheckedChange={(checked) => {
+							const value = checked === true;
+							setLoadoutPreviewPreferences({ hideStatValues: value });
+							ga.event(ANALYTICS_EVENTS.LOADOUT_PREVIEW_STAT_VALUES_TOGGLE, {
+								hide_stat_values: value,
+								control_location: "settings",
+							});
+						}}
+					/>
+					<Label htmlFor="hide-stat-values-by-default">
+						Hide stat values by default
+					</Label>
+				</div>
+				<div className="mt-3 flex items-center gap-3">
+					<Checkbox
 						id="compact-monsterlings-by-default"
 						checked={loadoutPreviewPreferences.compactMonsterlings}
 						onCheckedChange={(checked) => {

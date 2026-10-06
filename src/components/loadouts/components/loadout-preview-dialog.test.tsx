@@ -36,6 +36,8 @@ const loadout: LoadoutOwned = {
 			artifactInstanceId: "artifact",
 			legendaryMonsterlingId: "legendary",
 			equipment_ids: [1, null, null, null],
+			stat_values: { atk: 12345 },
+			pinned_stat_ids: ["atk"],
 		},
 		{
 			characterId: 200_005,
@@ -79,6 +81,7 @@ describe("LoadoutPreviewDialog", () => {
 		useAppStore.setState({
 			loadoutPreviewPreferences: {
 				hideEquipment: true,
+				hideStatValues: true,
 				compactMonsterlings: true,
 			},
 			charactersOwned: {
@@ -126,7 +129,7 @@ describe("LoadoutPreviewDialog", () => {
 		renderPreview();
 
 		const surface = screen.getByTestId("loadout-share-surface");
-		expect(surface.style.width).toBe("1120px");
+		expect(surface.style.width).toBe("1030px");
 		const title = surface.querySelector("h2") as HTMLHeadingElement;
 		expect(title.className).toContain("min-w-0");
 		expect(title.className).toContain("flex-1");
@@ -139,6 +142,7 @@ describe("LoadoutPreviewDialog", () => {
 		expect(siteLink.parentElement?.className).toContain("pb-1");
 		expect(siteLink.parentElement?.className).toContain("pt-2");
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
+		expect(screen.queryByAltText("ATK icon")).toBeNull();
 		expect(
 			(
 				screen.getByRole("checkbox", {
@@ -278,6 +282,7 @@ describe("LoadoutPreviewDialog", () => {
 		useAppStore.setState({
 			loadoutPreviewPreferences: {
 				hideEquipment: false,
+				hideStatValues: false,
 				compactMonsterlings: false,
 			},
 		});
@@ -286,15 +291,27 @@ describe("LoadoutPreviewDialog", () => {
 		const compact = screen.getByRole("checkbox", {
 			name: "Compact monsterlings",
 		});
+		const hideStats = screen.getByRole("checkbox", {
+			name: "Hide stat values",
+		});
+		expect(screen.getByText("12,345")).toBeTruthy();
 		fireEvent.click(hide);
+		fireEvent.click(hideStats);
 		fireEvent.click(compact);
 		expect(hide.getAttribute("data-state")).toBe("checked");
+		expect(hideStats.getAttribute("data-state")).toBe("checked");
 		expect(compact.getAttribute("data-state")).toBe("checked");
+		expect(screen.queryByText("12,345")).toBeNull();
+		expect(event).toHaveBeenCalledWith("loadout_preview_stat_values_toggle", {
+			hide_stat_values: true,
+			control_location: "preview",
+		});
 
 		rerender(<LoadoutPreviewDialog loadout={null} onOpenChange={vi.fn()} />);
 		useAppStore.setState({
 			loadoutPreviewPreferences: {
 				hideEquipment: false,
+				hideStatValues: false,
 				compactMonsterlings: true,
 			},
 		});
@@ -304,6 +321,12 @@ describe("LoadoutPreviewDialog", () => {
 				.getByRole("checkbox", { name: "Hide equipment" })
 				.getAttribute("data-state"),
 		).toBe("unchecked");
+		expect(
+			screen
+				.getByRole("checkbox", { name: "Hide stat values" })
+				.getAttribute("data-state"),
+		).toBe("unchecked");
+		expect(screen.getByText("12,345")).toBeTruthy();
 		expect(
 			screen
 				.getByRole("checkbox", { name: "Compact monsterlings" })
@@ -318,7 +341,7 @@ describe("LoadoutPreviewDialog", () => {
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"1120px",
+			"1030px",
 		);
 		expect(screen.getByRole("dialog").className).toContain("sm:max-w-max");
 		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
@@ -337,10 +360,10 @@ describe("LoadoutPreviewDialog", () => {
 		});
 
 		expect(screen.getByTestId("loadout-share-surface").style.width).toBe(
-			"1792px",
+			"1702px",
 		);
 		expect(screen.getByRole("dialog").className).toContain(
-			"2xl:max-w-[1772px]",
+			"2xl:max-w-[1682px]",
 		);
 		expect(screen.getByAltText("Stat ATK img")).toBeTruthy();
 		expect(

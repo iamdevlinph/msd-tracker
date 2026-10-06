@@ -9,6 +9,7 @@ import {
 	LOADOUT_PREVIEW_COMPACT_WIDTH,
 	LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH,
 	LOADOUT_PREVIEW_DETAILED_WIDTH,
+	LOADOUT_PREVIEW_HIDDEN_STATS_WIDTH_REDUCTION,
 } from "./loadout-preview-constants";
 import type { LoadoutRenderData } from "./loadout-render-data";
 
@@ -20,6 +21,7 @@ type LoadoutPreviewSurfaceProps = {
 	monsterlingStatsDisplay?: "icons" | "full";
 	compactMonsterlings?: boolean;
 	hideEquipment: boolean;
+	hideStatValues: boolean;
 	className?: string;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
@@ -35,6 +37,7 @@ export const LoadoutPreviewSurface = ({
 	monsterlingStatsDisplay,
 	compactMonsterlings,
 	hideEquipment,
+	hideStatValues,
 	className,
 	onEditCharacter,
 	onEditMonsterling,
@@ -61,22 +64,22 @@ export const LoadoutPreviewSurface = ({
 	const artifactsOwned = renderData?.artifactsOwned ?? liveArtifactsOwned;
 	const monsterlingLinkChainLevels =
 		renderData?.monsterlingLinkChainLevels ?? liveMonsterlingLinkChainLevels;
+	const width =
+		(statsDisplay === "icons"
+			? hideEquipment
+				? LOADOUT_PREVIEW_COMPACT_HIDDEN_EQUIPMENT_WIDTH
+				: LOADOUT_PREVIEW_COMPACT_WIDTH
+			: hideEquipment
+				? LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH
+				: LOADOUT_PREVIEW_DETAILED_WIDTH) -
+		(hideStatValues ? LOADOUT_PREVIEW_HIDDEN_STATS_WIDTH_REDUCTION : 0);
 
 	return (
 		<div
 			ref={ref}
 			data-testid="loadout-share-surface"
 			className={cn("grid gap-4 bg-background p-3 text-foreground", className)}
-			style={{
-				width:
-					statsDisplay === "icons"
-						? hideEquipment
-							? LOADOUT_PREVIEW_COMPACT_HIDDEN_EQUIPMENT_WIDTH
-							: LOADOUT_PREVIEW_COMPACT_WIDTH
-						: hideEquipment
-							? LOADOUT_PREVIEW_DETAILED_HIDDEN_EQUIPMENT_WIDTH
-							: LOADOUT_PREVIEW_DETAILED_WIDTH,
-			}}
+			style={{ width }}
 		>
 			<header className="flex items-baseline justify-between gap-4 border-b border-primary/60 px-1 pb-3">
 				<div className="min-w-0 flex-1">
@@ -106,6 +109,7 @@ export const LoadoutPreviewSurface = ({
 					monsterlingLinkChainLevels={monsterlingLinkChainLevels}
 					monsterlingStatsDisplay={statsDisplay}
 					hideEquipment={hideEquipment}
+					hideStatValues={hideStatValues}
 					onEditCharacter={onEditCharacter}
 					onEditMonsterling={onEditMonsterling}
 					onEditArtifact={onEditArtifact}

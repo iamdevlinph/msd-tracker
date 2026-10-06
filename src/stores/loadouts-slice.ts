@@ -66,11 +66,13 @@ export type LoadoutCardPreferences = {
 
 export type LoadoutPreviewPreferences = {
 	hideEquipment: boolean;
+	hideStatValues: boolean;
 	compactMonsterlings: boolean;
 };
 
 export const DEFAULT_LOADOUT_PREVIEW_PREFERENCES: LoadoutPreviewPreferences = {
 	hideEquipment: true,
+	hideStatValues: true,
 	compactMonsterlings: true,
 };
 
@@ -82,6 +84,12 @@ export const normalizeLoadoutPreviewPreferences = (
 		typeof value === "object" &&
 		typeof (value as Record<string, unknown>).hideEquipment === "boolean"
 			? (value as Record<string, boolean>).hideEquipment
+			: true,
+	hideStatValues:
+		value &&
+		typeof value === "object" &&
+		typeof (value as Record<string, unknown>).hideStatValues === "boolean"
+			? (value as Record<string, boolean>).hideStatValues
 			: true,
 	compactMonsterlings:
 		value &&
@@ -271,6 +279,8 @@ export const createLoadoutsSlice: StateCreator<
 			});
 			if (
 				next.hideEquipment === state.loadoutPreviewPreferences.hideEquipment &&
+				next.hideStatValues ===
+					state.loadoutPreviewPreferences.hideStatValues &&
 				next.compactMonsterlings ===
 					state.loadoutPreviewPreferences.compactMonsterlings
 			)

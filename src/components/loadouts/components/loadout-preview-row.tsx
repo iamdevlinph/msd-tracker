@@ -12,6 +12,7 @@ import { deriveActiveEquipmentSets } from "../utils/equipment-set-effects";
 import { LoadoutPreviewArtifact } from "./loadout-preview-artifact-slot";
 import { LoadoutPreviewCharacter } from "./loadout-preview-character-slot";
 import {
+	LOADOUT_PREVIEW_CHARACTER_SLOT_HIDDEN_STATS_WIDTH,
 	LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH,
 	LOADOUT_PREVIEW_PORTRAIT_SIZE,
 } from "./loadout-preview-constants";
@@ -28,6 +29,7 @@ type LoadoutPreviewRowProps = {
 	monsterlingLinkChainLevels: StoreState["monsterlingLinkChainLevels"];
 	monsterlingStatsDisplay: "icons" | "full";
 	hideEquipment: boolean;
+	hideStatValues: boolean;
 	onEditCharacter?: (id: number) => void;
 	onEditMonsterling?: (id: string) => void;
 	onEditArtifact?: (id: string) => void;
@@ -42,6 +44,7 @@ export const LoadoutPreviewRow = ({
 	monsterlingLinkChainLevels,
 	monsterlingStatsDisplay,
 	hideEquipment,
+	hideStatValues,
 	onEditCharacter,
 	onEditMonsterling,
 	onEditArtifact,
@@ -57,9 +60,12 @@ export const LoadoutPreviewRow = ({
 		monsterlingStatsDisplay === "icons"
 			? MONSTERLING_COMPACT_CARD_WIDTH
 			: MONSTERLING_CARD_WIDTH;
+	const characterSlotWidth = hideStatValues
+		? LOADOUT_PREVIEW_CHARACTER_SLOT_HIDDEN_STATS_WIDTH
+		: LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH;
 	const gridTemplateColumns = hideEquipment
-		? `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px ${LOADOUT_PREVIEW_PORTRAIT_SIZE}px repeat(4, ${monsterlingCardWidth}px)`
-		: `${LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH}px repeat(4, ${monsterlingCardWidth}px)`;
+		? `${characterSlotWidth}px ${LOADOUT_PREVIEW_PORTRAIT_SIZE}px repeat(4, ${monsterlingCardWidth}px)`
+		: `${characterSlotWidth}px repeat(4, ${monsterlingCardWidth}px)`;
 	const equipmentIds = slot.equipment_ids ?? [null, null, null, null];
 	const activeEquipmentSets = deriveActiveEquipmentSets(equipmentIds);
 	const monsterlingSlots = (
@@ -108,6 +114,7 @@ export const LoadoutPreviewRow = ({
 						owned={characterOwned}
 						statValues={slot.stat_values ?? {}}
 						pinnedStatIds={slot.pinned_stat_ids ?? []}
+						hideStatValues={hideStatValues}
 						onEdit={onEditCharacter}
 					/>
 				) : (

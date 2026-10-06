@@ -45,6 +45,7 @@ type LoadoutPreviewCharacterProps = {
 	onEdit?: (id: number) => void;
 	statValues?: LoadoutCharacterSlot["stat_values"];
 	pinnedStatIds?: LoadoutCharacterSlot["pinned_stat_ids"];
+	hideStatValues: boolean;
 };
 
 export const LoadoutPreviewCharacter = ({
@@ -53,10 +54,18 @@ export const LoadoutPreviewCharacter = ({
 	onEdit,
 	statValues = {},
 	pinnedStatIds = [],
+	hideStatValues,
 }: LoadoutPreviewCharacterProps) => {
 	const orderedPinnedStatIds = normalizePinnedStats(pinnedStatIds);
 	const panel = (
-		<div className="grid h-[120px] grid-cols-[44px_82px_120px] items-center gap-2 rounded-lg border bg-card px-1 pr-0">
+		<div
+			className={cn(
+				"grid h-[120px] items-center gap-2 rounded-lg border bg-card px-1 pr-0",
+				hideStatValues
+					? "grid-cols-[44px_120px]"
+					: "grid-cols-[44px_82px_120px]",
+			)}
+		>
 			<div className="grid content-center gap-2">
 				<div className="grid grid-cols-2 items-center gap-1.5">
 					<img
@@ -92,41 +101,43 @@ export const LoadoutPreviewCharacter = ({
 					))}
 				</div>
 			</div>
-			<div className="grid h-[104px] content-center gap-1 border-l border-primary/60 pl-2">
-				{STAT_ROWS.map((rowKey, index) => {
-					const key = orderedPinnedStatIds[index];
-					if (!key) return <span key={rowKey} className="h-4" />;
-					const element = ELEMENTS_DATA[character.element_id];
-					const stat =
-						key === "element_atk"
-							? STAT_DATA[ELEMENT_ATK_STAT_DATA[character.element_id]]
-							: STAT_DATA[LOADOUT_STAT_DATA[key]];
-					const value = statValues[key];
-					const statLabel =
-						key === "element_atk" ? `${element.element} ATK` : stat.stat;
-					return (
-						<span
-							key={key}
-							className="grid grid-cols-[16px_1fr] items-center gap-1 text-xs font-bold"
-							title={statLabel}
-						>
-							<img
-								src={stat.image}
-								alt={`${statLabel} icon`}
-								className="size-4"
-							/>
-							<span className="truncate">
-								{value === undefined
-									? "—"
-									: STAT_NUMBER_FORMATTER.format(value)}
-								{value !== undefined && key !== "atk" && key !== "hp"
-									? "%"
-									: ""}
+			{!hideStatValues && (
+				<div className="grid h-[104px] content-center gap-1 border-l border-primary/60 pl-2">
+					{STAT_ROWS.map((rowKey, index) => {
+						const key = orderedPinnedStatIds[index];
+						if (!key) return <span key={rowKey} className="h-4" />;
+						const element = ELEMENTS_DATA[character.element_id];
+						const stat =
+							key === "element_atk"
+								? STAT_DATA[ELEMENT_ATK_STAT_DATA[character.element_id]]
+								: STAT_DATA[LOADOUT_STAT_DATA[key]];
+						const value = statValues[key];
+						const statLabel =
+							key === "element_atk" ? `${element.element} ATK` : stat.stat;
+						return (
+							<span
+								key={key}
+								className="grid grid-cols-[16px_1fr] items-center gap-1 text-xs font-bold"
+								title={statLabel}
+							>
+								<img
+									src={stat.image}
+									alt={`${statLabel} icon`}
+									className="size-4"
+								/>
+								<span className="truncate">
+									{value === undefined
+										? "—"
+										: STAT_NUMBER_FORMATTER.format(value)}
+									{value !== undefined && key !== "atk" && key !== "hp"
+										? "%"
+										: ""}
+								</span>
 							</span>
-						</span>
-					);
-				})}
-			</div>
+						);
+					})}
+				</div>
+			)}
 			<CharacterCard
 				portraitSize={LOADOUT_PREVIEW_PORTRAIT_SIZE}
 				iconSize={18}

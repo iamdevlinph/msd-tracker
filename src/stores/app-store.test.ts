@@ -38,6 +38,11 @@ afterEach(() => {
 		monsterlingLinkChainLevels: {},
 		loadouts: {},
 		loadoutCardPreferences: { showArtifactsAndEquipment: true },
+		loadoutPreviewPreferences: {
+			hideEquipment: true,
+			hideStatValues: true,
+			compactMonsterlings: true,
+		},
 	});
 });
 
@@ -107,21 +112,36 @@ describe("Monsterling Link Chain persistence", () => {
 		vi.spyOn(Date, "now").mockReturnValue(123);
 		expect(migrateAppStore({}).loadoutPreviewPreferences).toEqual({
 			hideEquipment: true,
+			hideStatValues: true,
+			compactMonsterlings: true,
+		});
+		expect(
+			migrateAppStore({
+				loadoutPreviewPreferences: { hideStatValues: false },
+			}).loadoutPreviewPreferences,
+		).toEqual({
+			hideEquipment: true,
+			hideStatValues: false,
 			compactMonsterlings: true,
 		});
 		useAppStore.setState({
 			backupUpdatedAt: 0,
 			loadoutPreviewPreferences: {
 				hideEquipment: true,
+				hideStatValues: true,
 				compactMonsterlings: true,
 			},
 		});
 		useAppStore.getState().setLoadoutPreviewPreferences({
-			hideEquipment: true,
+			hideStatValues: true,
 		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(0);
 		useAppStore.getState().setLoadoutPreviewPreferences({
-			hideEquipment: false,
+			hideStatValues: false,
+		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+		useAppStore.getState().setLoadoutPreviewPreferences({
+			hideStatValues: false,
 		});
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 	});

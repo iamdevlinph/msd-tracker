@@ -280,6 +280,7 @@ export const LoadoutSnapshotsList = () => {
 						}
 						compactMonsterlings={previewPreferences.compactMonsterlings}
 						hideEquipment={previewPreferences.hideEquipment}
+						hideStatValues={previewPreferences.hideStatValues}
 						typeLabel="Loadout Snapshot"
 					/>
 				</div>

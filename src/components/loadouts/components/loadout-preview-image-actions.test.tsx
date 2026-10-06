@@ -46,6 +46,8 @@ const loadout: LoadoutOwned = {
 			monsterlingIds: ["regular", "deleted", null],
 			artifactInstanceId: "artifact",
 			legendaryMonsterlingId: "legendary",
+			stat_values: { atk: 12345 },
+			pinned_stat_ids: ["atk"],
 		},
 		{
 			characterId: 200_005,
@@ -84,6 +86,11 @@ describe("LoadoutPreviewDialog image export", () => {
 		});
 		HTMLImageElement.prototype.decode = vi.fn().mockResolvedValue(undefined);
 		useAppStore.setState({
+			loadoutPreviewPreferences: {
+				hideEquipment: true,
+				hideStatValues: true,
+				compactMonsterlings: true,
+			},
 			charactersOwned: {
 				1: {
 					id: 1,
@@ -124,6 +131,24 @@ describe("LoadoutPreviewDialog image export", () => {
 		cleanup();
 		vi.clearAllMocks();
 	});
+
+	it("captures the current stat-value override", async () => {
+		toBlob.mockImplementation((node: HTMLElement) => {
+			expect(node.textContent).toContain("12,345");
+			return Promise.resolve(new Blob(["png"], { type: "image/png" }));
+		});
+		const write = vi.fn().mockResolvedValue(undefined);
+		setClipboard(write);
+		renderPreview();
+
+		expect(screen.queryByText("12,345")).toBeNull();
+		fireEvent.click(screen.getByRole("checkbox", { name: "Hide stat values" }));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Copy Boss / Team image" }),
+		);
+
+		await waitFor(() => expect(write).toHaveBeenCalledOnce());
+	});
 	it("captures and tracks the compact layout", async () => {
 		let exportBackgroundDuringCapture = "";
 		toBlob.mockImplementation((node: HTMLElement) => {
@@ -142,7 +167,7 @@ describe("LoadoutPreviewDialog image export", () => {
 
 		await waitFor(() => expect(write).toHaveBeenCalledOnce());
 		const capturedSurface = toBlob.mock.calls[0][0] as HTMLElement;
-		expect(capturedSurface.style.width).toBe("1120px");
+		expect(capturedSurface.style.width).toBe("1030px");
 		expect(exportBackgroundDuringCapture).toBe("#18181b");
 		expect(
 			capturedSurface.style.getPropertyValue(

@@ -365,6 +365,7 @@ export const LoadoutsList = () => {
 						loadout={exportLoadout}
 						compactMonsterlings={previewPreferences.compactMonsterlings}
 						hideEquipment={previewPreferences.hideEquipment}
+						hideStatValues={previewPreferences.hideStatValues}
 					/>
 				</div>
 			)}
