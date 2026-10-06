@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import type { ComponentProps, ReactNode } from "react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Nav } from "@/components/navigation";
+import { useAppStore } from "@/stores/app-store";
+import { DEFAULT_NAVIGATION_PREFERENCES } from "@/stores/navigation-preferences-slice";
 
 vi.mock("@tanstack/react-router", () => ({
 	Link: ({ to, children, ...props }: ComponentProps<"a"> & { to: string }) => (
@@ -14,9 +16,34 @@ vi.mock("@tanstack/react-router", () => ({
 }));
 
 describe("Nav", () => {
+	beforeEach(() => {
+		useAppStore.setState({
+			navigationPreferences: { ...DEFAULT_NAVIGATION_PREFERENCES },
+		});
+	});
+
 	afterEach(() => {
 		cleanup();
 		vi.unstubAllEnvs();
+	});
+
+	it("hides Assets when its parent or only child is hidden", () => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
+		useAppStore.setState({
+			navigationPreferences: { showAssets: true, showEquipment: false },
+		});
+		const { unmount } = render(<Nav />);
+
+		expect(screen.queryByRole("link", { name: "Equipment" })).toBeNull();
+		expect(screen.queryByText("Assets")).toBeNull();
+
+		unmount();
+		useAppStore.setState({
+			navigationPreferences: { showAssets: false, showEquipment: true },
+		});
+		render(<Nav />);
+		expect(screen.queryByRole("link", { name: "Equipment" })).toBeNull();
+		expect(screen.queryByText("Assets")).toBeNull();
 	});
 
 	it("keeps hidden catalog counts out of production labels", () => {

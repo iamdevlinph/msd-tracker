@@ -16,6 +16,7 @@ import {
 	normalizeLoadouts,
 } from "@/stores/loadouts-slice";
 import { normalizeMonsterlingLinkChainPinnedIds } from "@/stores/monsterlings-slice";
+import { normalizeNavigationPreferences } from "@/stores/navigation-preferences-slice";
 
 const FILE_NAME = "msd-tracker-state.json";
 const LEGACY_FILE_NAME = "state.json";
@@ -62,6 +63,7 @@ type Backup = Pick<
 	| "checklistPermanentNotes"
 	| "checklistPreferences"
 	| "artifactsOwned"
+	| "navigationPreferences"
 >;
 
 export function select(state: StoreState): Backup {
@@ -94,6 +96,9 @@ export function select(state: StoreState): Backup {
 			state.checklistPreferences,
 		),
 		artifactsOwned: state.artifactsOwned,
+		navigationPreferences: normalizeNavigationPreferences(
+			state.navigationPreferences,
+		),
 	};
 }
 
@@ -324,6 +329,9 @@ export async function download(signal?: AbortSignal): Promise<Backup | null> {
 				),
 				...checklistState,
 				artifactsOwned: readRecordField(backup, "artifactsOwned", {}),
+				navigationPreferences: normalizeNavigationPreferences(
+					backup.navigationPreferences,
+				),
 			};
 		} catch (error) {
 			if ((error as Partial<DriveSyncError>).operation) throw error;

@@ -12,3 +12,4 @@ Read this plan for account, authentication, Google Drive backup, sync, conflict,
 - [x] Offer an explicit Keep Local recovery upload when the canonical Drive backup is unreadable, preserving the local dataset and retrying safely on upload failure.
 - [x] Confirmation dialogs for destructive data-clearing actions are implemented; automated behavior verification is pending.
 - [x] Link to the public GitHub repository from the Account page.
+- [x] Sync navigation visibility preferences through Google Drive with visible legacy defaults and exact remote-conflict restoration.

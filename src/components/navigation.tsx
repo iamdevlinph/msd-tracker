@@ -15,6 +15,7 @@ import { NavigationHiddenInfo } from "@/components/navigation-hidden-info";
 import { SeparatorText } from "@/components/shared/separator-text";
 import { cn } from "@/lib/utils";
 import type { FileRoutesByTo } from "@/routeTree.gen";
+import { useAppStore } from "@/stores/app-store";
 
 type Tab =
 	| "checklist"
@@ -162,19 +163,31 @@ const hoverStyle = "hover:text-foreground hover:bg-accent/50";
 export const Nav = () => {
 	const { pathname } = useLocation();
 	const showHiddenCatalog = import.meta.env.VITE_NODE_ENV === "development";
+	const navigationPreferences = useAppStore(
+		(state) => state.navigationPreferences,
+	);
+	const visibleSections = navSections.flatMap((section) => {
+		if (
+			section.hidden ||
+			(section.title === "Assets" && !navigationPreferences.showAssets)
+		)
+			return [];
+		const items = section.items.filter(
+			(item) =>
+				!item.hidden &&
+				(item.id !== "equipments" || navigationPreferences.showEquipment),
+		);
+		return items.length ? [{ ...section, items }] : [];
+	});
 
 	return (
 		<nav className="flex-1 py-4 px-3 overflow-y-auto">
 			<div className="space-y-0.5">
-				{navSections.map((section, i) => (
+				{visibleSections.map((section, i) => (
 					<div key={section.title ?? i}>
-						{section.title && !section.hidden && (
-							<SeparatorText>{section.title}</SeparatorText>
-						)}
+						{section.title && <SeparatorText>{section.title}</SeparatorText>}
 
-						{section.items.map(({ id, label, icon: Icon, link, hidden }) => {
-							if (hidden) return null;
-
+						{section.items.map(({ id, label, icon: Icon, link }) => {
 							const isActive = pathname === link;
 
 							const hasDetails =

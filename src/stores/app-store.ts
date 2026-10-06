@@ -35,6 +35,11 @@ import {
 	type MonsterlingsSlice,
 	normalizeMonsterlingLinkChainPinnedIds,
 } from "@/stores/monsterlings-slice";
+import {
+	createNavigationPreferencesSlice,
+	type NavigationPreferencesSlice,
+	normalizeNavigationPreferences,
+} from "@/stores/navigation-preferences-slice";
 
 export type StoreState = {
 	logout: () => void;
@@ -96,7 +101,8 @@ export type StoreState = {
 	LoadoutsSlice &
 	ChecklistSlice &
 	ArtifactsOwnedSlice &
-	LoadoutSnapshotsSlice;
+	LoadoutSnapshotsSlice &
+	NavigationPreferencesSlice;
 
 const initialState = {
 	backupUpdatedAt: Date.now(),
@@ -139,6 +145,9 @@ export const migrateAppStore = (persistedState: unknown) => {
 		),
 		showEquipmentSetNames: state.showEquipmentSetNames === true,
 		loadoutSnapshots: normalizeLoadoutSnapshots(state.loadoutSnapshots),
+		navigationPreferences: normalizeNavigationPreferences(
+			state.navigationPreferences,
+		),
 		artifactsOwned: state.artifactsOwned ?? {},
 		...normalizeChecklistPersistedState(state),
 		...consolidateMonsterlingLinkChainLevels(
@@ -177,10 +186,11 @@ export const useAppStore = create<StoreState>()(
 				...createLoadoutSnapshotsSlice(set, get, api),
 				...createChecklistSlice(set, get, api),
 				...createArtifactsOwnedSlice(set, get, api),
+				...createNavigationPreferencesSlice(set, get, api),
 			}),
 			{
 				name: "msd-tracker",
-				version: 8,
+				version: 9,
 				migrate: migrateAppStore,
 				partialize: (state) => {
 					const {

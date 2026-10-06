@@ -20,6 +20,7 @@ Read this plan for Home, SEO, navigation-wide presentation, or Shared UI behavio
 ## Navigation: Available
 
 - [x] Group the public Equipment catalog under Assets after Monsterlings and before Others.
+- [x] Let users hide the Assets group or Equipment child from Settings, retain child choices independently, visually mark unchecked options, and suppress groups with no visible children.
 
 ## Shared UI: Available
 

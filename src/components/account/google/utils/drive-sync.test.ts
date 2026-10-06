@@ -12,6 +12,7 @@ import {
 import { G_ACCESS_TOKEN_SESSION } from "@/constants";
 import { useAppStore } from "@/stores/app-store";
 import { defaultChecklistPreferences } from "@/stores/checklist-slice";
+import { DEFAULT_NAVIGATION_PREFERENCES } from "@/stores/navigation-preferences-slice";
 
 const { driveFetch, refreshGoogleAccessToken } = vi.hoisted(() => ({
 	driveFetch: vi.fn(),
@@ -78,6 +79,7 @@ describe("Drive Monsterling backups", () => {
 			checklistPreferences: defaultChecklistPreferences,
 			syncConflict: null,
 			syncRecovery: null,
+			navigationPreferences: { ...DEFAULT_NAVIGATION_PREFERENCES },
 		});
 	});
 
@@ -493,6 +495,10 @@ describe("Drive Monsterling backups", () => {
 			monsterlingLinkChainPinnedIds: [68, 67, 68, 1],
 			loadoutSnapshots: { saved: { id: "saved" } as never },
 			loadoutCardPreferences: { showArtifactsAndEquipment: false },
+			navigationPreferences: {
+				showAssets: false,
+				showEquipment: false,
+			},
 		});
 
 		const selected = select(useAppStore.getState());
@@ -510,6 +516,10 @@ describe("Drive Monsterling backups", () => {
 		});
 		expect(selected.loadoutCardPreferences).toEqual({
 			showArtifactsAndEquipment: false,
+		});
+		expect(selected.navigationPreferences).toEqual({
+			showAssets: false,
+			showEquipment: false,
 		});
 		expect(selected.loadoutPreviewPreferences).toEqual({
 			hideEquipment: true,
@@ -689,6 +699,10 @@ describe("Drive Monsterling backups", () => {
 		expect(downloaded?.loadoutCardPreferences).toEqual({
 			showArtifactsAndEquipment: false,
 		});
+		expect(downloaded?.navigationPreferences).toEqual({
+			showAssets: true,
+			showEquipment: true,
+		});
 	});
 
 	it("normalizes checklist tasks and event metadata without changing the local backup timestamp", async () => {
@@ -760,6 +774,10 @@ describe("Drive Monsterling backups", () => {
 				hideStatValues: false,
 				compactMonsterlings: false,
 			},
+			navigationPreferences: {
+				showAssets: false,
+				showEquipment: false,
+			},
 			syncInProgress: true,
 			setSyncConflict: "corrupted",
 			monsterCodexCompleted: [],
@@ -795,6 +813,10 @@ describe("Drive Monsterling backups", () => {
 			hideEquipment: false,
 			hideStatValues: false,
 			compactMonsterlings: false,
+		});
+		expect(useAppStore.getState().navigationPreferences).toEqual({
+			showAssets: false,
+			showEquipment: false,
 		});
 		expect(useAppStore.getState().checklistTasks.remote.title).toBe(
 			"Remote task",

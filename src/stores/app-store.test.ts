@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { migrateAppStore, useAppStore } from "@/stores/app-store";
+import { DEFAULT_NAVIGATION_PREFERENCES } from "@/stores/navigation-preferences-slice";
 
 const { monsterlingsData } = vi.hoisted(() => ({
 	monsterlingsData: {
@@ -43,6 +44,7 @@ afterEach(() => {
 			hideStatValues: true,
 			compactMonsterlings: true,
 		},
+		navigationPreferences: { ...DEFAULT_NAVIGATION_PREFERENCES },
 	});
 });
 
@@ -164,6 +166,33 @@ describe("Monsterling Link Chain persistence", () => {
 		useAppStore.getState().setLoadoutCardPreferences({
 			showArtifactsAndEquipment: false,
 		});
+		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+	});
+
+	it("defaults navigation visibility and skips no-op timestamp changes", () => {
+		vi.spyOn(Date, "now").mockReturnValue(123);
+		expect(migrateAppStore({}).navigationPreferences).toEqual({
+			showAssets: true,
+			showEquipment: true,
+		});
+		expect(
+			migrateAppStore({
+				navigationPreferences: {
+					showAssets: false,
+					showEquipment: false,
+				},
+			}).navigationPreferences,
+		).toEqual({ showAssets: false, showEquipment: false });
+
+		useAppStore.setState({
+			backupUpdatedAt: 0,
+			navigationPreferences: { ...DEFAULT_NAVIGATION_PREFERENCES },
+		});
+		useAppStore.getState().setNavigationPreferences({ showAssets: true });
+		expect(useAppStore.getState().backupUpdatedAt).toBe(0);
+		useAppStore.getState().setNavigationPreferences({ showAssets: false });
+		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+		useAppStore.getState().setNavigationPreferences({ showAssets: false });
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 	});
 

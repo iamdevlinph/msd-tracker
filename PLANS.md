@@ -9,7 +9,7 @@ This root index owns cross-feature status, priorities, dependencies, and release
 - [Loadouts](.agents/plans/loadouts.md): Loadouts and inventory integration are available; portable loadout code sharing is deferred.
 - [Checklist](.agents/plans/checklist.md): checklist and event tracking are available.
 - [Account](.agents/plans/account.md): account and Google Drive behavior are available, with automated verification of destructive confirmation behavior still pending.
-- [Site Experience](.agents/plans/site-experience.md): Home and SEO are available; Shared UI is available with collection-grid standardization pending.
+- [Site Experience](.agents/plans/site-experience.md): Home, SEO, and configurable navigation are available; Shared UI is available with collection-grid standardization pending.
 
 ## Cross-Feature Dependencies
 
