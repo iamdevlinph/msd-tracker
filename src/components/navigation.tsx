@@ -101,20 +101,6 @@ const navSections: NavSection[] = [
 		],
 	},
 	{
-		title: "Assets",
-		items: [
-			{
-				id: "equipments",
-				label: "Equipment",
-				icon: {
-					type: "iconify",
-					icon: <IconifyIcon icon="game-icons:shoulder-armor" />,
-				},
-				link: "/equipments",
-			},
-		],
-	},
-	{
 		title: "Monsterlings",
 		items: [
 			{
@@ -131,6 +117,20 @@ const navSections: NavSection[] = [
 					icon: <IconifyIcon icon="mdi:link-variant" />,
 				},
 				link: "/link-chains",
+			},
+		],
+	},
+	{
+		title: "Assets",
+		items: [
+			{
+				id: "equipments",
+				label: "Equipment",
+				icon: {
+					type: "iconify",
+					icon: <IconifyIcon icon="game-icons:shoulder-armor" />,
+				},
+				link: "/equipments",
 			},
 		],
 	},

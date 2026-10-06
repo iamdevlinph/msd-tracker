@@ -26,6 +26,11 @@ describe("Nav", () => {
 		expect(screen.getByRole("link", { name: "Characters" })).toBeTruthy();
 		expect(screen.getByRole("link", { name: "Artifacts" })).toBeTruthy();
 		expect(screen.getByRole("link", { name: "Equipment" })).toBeTruthy();
+		const links = screen.getAllByRole("link").map((link) => link.textContent);
+		expect(links.indexOf("Equipment")).toBeGreaterThan(
+			links.indexOf("Link Chains"),
+		);
+		expect(links.indexOf("Equipment")).toBeLessThan(links.indexOf("Account"));
 		expect(screen.queryByRole("link", { name: "Characters (1)" })).toBeNull();
 		expect(screen.queryByRole("link", { name: "Artifacts (1)" })).toBeNull();
 	});

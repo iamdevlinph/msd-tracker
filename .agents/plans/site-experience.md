@@ -19,7 +19,7 @@ Read this plan for Home, SEO, navigation-wide presentation, or Shared UI behavio
 
 ## Navigation: Available
 
-- [x] Group the public Equipment catalog under Assets between Inventory and Monsterlings.
+- [x] Group the public Equipment catalog under Assets after Monsterlings and before Others.
 
 ## Shared UI: Available
 
