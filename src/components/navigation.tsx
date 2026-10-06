@@ -98,16 +98,19 @@ const navSections: NavSection[] = [
 				},
 				link: "/monsterlings",
 			},
-
+		],
+	},
+	{
+		title: "Assets",
+		items: [
 			{
 				id: "equipments",
-				label: "Equipments",
+				label: "Equipment",
 				icon: {
 					type: "iconify",
 					icon: <IconifyIcon icon="game-icons:shoulder-armor" />,
 				},
 				link: "/equipments",
-				hidden: true,
 			},
 		],
 	},

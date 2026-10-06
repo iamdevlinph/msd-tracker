@@ -1,10 +1,11 @@
+import { EquipmentCard } from "@/components/equipments/components/equipment-card";
 import type { EquipmentFilters } from "@/components/equipments/utils/equipment-utils";
 import {
 	EQUIPMENT_DATA,
 	type EquipmentId,
 } from "@/data/equipment/EQUIPMENT_DATA";
 import { useAppStore } from "@/stores/app-store";
-import { LoadoutEquipmentCard } from "./loadout-equipment-card";
+import { getEquipmentCaption } from "../utils/equipment-set-effects";
 import { LoadoutEquipmentFilter } from "./loadout-equipment-filter";
 import { LoadoutEquipmentTooltip } from "./loadout-equipment-tooltip";
 
@@ -46,9 +47,12 @@ export const LoadoutEquipmentPicker = ({
 									aria-label={`Select ${equipment.name}`}
 									className="rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 								>
-									<LoadoutEquipmentCard
+									<EquipmentCard
 										equipment={equipment}
-										showSetName={showEquipmentSetNames}
+										caption={getEquipmentCaption(
+											equipment,
+											showEquipmentSetNames,
+										)}
 									/>
 								</button>
 							}

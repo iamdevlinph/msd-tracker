@@ -25,6 +25,7 @@ describe("Nav", () => {
 
 		expect(screen.getByRole("link", { name: "Characters" })).toBeTruthy();
 		expect(screen.getByRole("link", { name: "Artifacts" })).toBeTruthy();
+		expect(screen.getByRole("link", { name: "Equipment" })).toBeTruthy();
 		expect(screen.queryByRole("link", { name: "Characters (1)" })).toBeNull();
 		expect(screen.queryByRole("link", { name: "Artifacts (1)" })).toBeNull();
 	});

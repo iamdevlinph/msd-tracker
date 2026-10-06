@@ -60,6 +60,7 @@ describe("HomePage", () => {
 			["Loadouts", "/loadouts"],
 			["Loadout Snapshots", "/loadout-snapshots"],
 			["Artifacts", "/artifacts"],
+			["Equipment", "/equipments"],
 		]) {
 			expect(
 				screen
@@ -99,7 +100,9 @@ describe("HomePage", () => {
 		render(<HomePage />);
 
 		expect(screen.queryByRole("heading", { name: "Coming next" })).toBeNull();
-		expect(screen.queryByText("Equipment")).toBeNull();
+		expect(
+			screen.getByRole("link", { name: "Explore Equipment" }),
+		).toBeTruthy();
 		expect(
 			screen.getByRole("link", { name: "Explore Checklist" }),
 		).toBeTruthy();

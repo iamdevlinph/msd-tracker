@@ -42,10 +42,11 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 - [x] Expose the Artifacts navigation item after the page is release-ready.
 - [x] Sort artifact catalogs, owned copies, and loadout picker results with Tier 5 artifacts first.
 
-## Chunk 3: Equipments Inventory
+## Chunk 3: Equipment Inventory
 
-- [ ] Define typed equipment data, owned-equipment fields, slot categories, images, and validation from the game source.
+The read-only equipment reference catalog is tracked in the Assets plan. This section owns player inventory only.
+
+- [ ] Define owned-equipment fields on top of the typed equipment catalog, slot categories, images, and validation from the game source.
 - [ ] Add owned-equipment create, edit, delete, reset, local persistence, and mutation timestamps.
-- [ ] Build the Equipments page with cards, search, filters, empty states, and accessible forms.
+- [ ] Add owned-equipment management controls and accessible forms to the Equipment catalog.
 - [ ] Add Drive backup selection, legacy defaults, conflict metadata/UI, and behavioral tests.
-- [ ] Expose the Equipments navigation item after the page is release-ready.

@@ -1,22 +1,18 @@
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import type { Equipment } from "@/data/equipment/EQUIPMENT_DATA";
-import { getEquipmentCaption } from "../utils/equipment-set-effects";
 
-type LoadoutEquipmentCardProps = {
+type EquipmentCardProps = {
 	equipment: Equipment;
-	showSetName?: boolean;
+	caption?: string;
 };
 
-export const LoadoutEquipmentCard = ({
+export const EquipmentCard = ({
 	equipment,
-	showSetName = false,
-}: LoadoutEquipmentCardProps) => (
+	caption = equipment.name,
+}: EquipmentCardProps) => (
 	<div className="size-[120px] overflow-hidden rounded-lg border bg-card">
-		<PortraitWithName
-			name={getEquipmentCaption(equipment, showSetName)}
-			className="size-[120px] overflow-hidden"
-		>
+		<PortraitWithName name={caption} className="size-[120px] overflow-hidden">
 			<TierPortrait
 				tier={equipment.tier_id}
 				portraitImg={equipment.image}

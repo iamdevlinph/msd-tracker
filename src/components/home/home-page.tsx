@@ -5,6 +5,7 @@ import {
 	Camera,
 	Gem,
 	PawPrint,
+	ShieldCheck,
 	UserRoundCheck,
 } from "lucide-react";
 import {
@@ -74,6 +75,12 @@ const features: HomeFeature[] = [
 		description: "Catalog owned artifacts and their fusion levels.",
 		to: "/artifacts",
 		icon: Gem,
+	},
+	{
+		title: "Equipment",
+		description: "Browse equipment pieces and compare their set effects.",
+		to: "/equipments",
+		icon: ShieldCheck,
 	},
 ];
 
