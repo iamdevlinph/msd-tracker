@@ -12,23 +12,11 @@ const ASHEN_CRADLE_NOTICE_URL =
 const OCTOBER_7_NOTICE_TITLE = "10/7 (Wed) Event Notice";
 const OCTOBER_7_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/676";
+const OCTOBER_14_NOTICE_TITLE = "10/14 (Wed) Event Notice";
+const OCTOBER_14_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/707";
 
 const COMMUNITY_EVENTS = [
-	{
-		id: "638-isabella-arrival-celebration-character-quiz-event",
-		title: "New Character [Isabella] Arrival Celebration! Character Quiz Event",
-		heading:
-			"Event 1. New Character [Isabella] Arrival Celebration! Character Quiz Event",
-		endAt: "2026-10-07T01:00:00.000Z",
-		participation: "discord",
-	},
-	{
-		id: "638-new-region-sector-3-exploration-event",
-		title: "1.4 Update Celebration! New Region [Sector 3] Exploration Event",
-		heading:
-			"Event 2. 1.4 Update Celebration! New Region [Sector 3] Exploration Event",
-		endAt: "2026-10-12T01:00:00.000Z",
-	},
 	{
 		id: "638-ar-camera-update-celebration-a-snap-with-my-favorite",
 		title: "AR Camera Update Celebration 「A Snap with My Favorite!」",
@@ -90,12 +78,6 @@ const ASHEN_CRADLE_EVENTS = [
 		endAt: "2026-10-20T23:59:00.000Z",
 	},
 	{
-		id: "637-equipment-crafting-mission",
-		title: "Equipment Crafting Mission",
-		heading: "Event 8. Equipment Crafting Mission",
-		endAt: "2026-10-06T23:59:00.000Z",
-	},
-	{
 		id: "637-unknown-conquest-mission",
 		title: "「Unknown」 Conquest Mission",
 		heading: "Event 9. 「Unknown」 Conquest Mission",
@@ -112,12 +94,10 @@ const ASHEN_CRADLE_EVENTS = [
 
 describe("EVENTS_DATA", () => {
 	it("removes expired records and retains active records", () => {
-		expect(EVENTS_DATA).toHaveLength(17);
-		expect(EVENTS_DATA.map(({ id }) => id)).toEqual(
-			expect.arrayContaining(["600-moonlight-bunny-show-shop-story-missions"]),
-		);
+		expect(EVENTS_DATA).toHaveLength(15);
 		const eventIds = EVENTS_DATA.map(({ id }) => id);
 		for (const expiredId of [
+			"600-moonlight-bunny-show-shop-story-missions",
 			"600-moonlight-bunny-show-event-stage-chase-the-bunny",
 			"600-secret-fanservice-for-my-biggest-fans",
 			"600-vivians-7-day-gifts",
@@ -128,8 +108,37 @@ describe("EVENTS_DATA", () => {
 			"611-10-day-check-in-mission",
 			"626-moon-gazing-7-day-check-in-pass",
 			"626-bonus-time-event",
+			"638-isabella-arrival-celebration-character-quiz-event",
+			"638-new-region-sector-3-exploration-event",
+			"637-equipment-crafting-mission",
 		])
 			expect(eventIds).not.toContain(expiredId);
+	});
+
+	it("imports the October 14 event notice", () => {
+		for (const event of [
+			{
+				id: "707-bonus-time-event",
+				title: "Bonus Time Event",
+				heading: "Event 1. Bonus Time Event",
+				recurrence: "daily",
+			},
+			{
+				id: "707-an-invitation-to-break-the-ice",
+				title: "An Invitation to Break the Ice",
+				heading: "Event 2. An Invitation to Break the Ice",
+				recurrence: "none",
+			},
+		] as const) {
+			const { heading, ...expected } = event;
+			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
+				...expected,
+				noticeTitle: OCTOBER_14_NOTICE_TITLE,
+				noticeUrl: `${OCTOBER_14_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
+				startAt: "2026-10-14T00:00:00.000Z",
+				endAt: "2026-10-20T23:59:00.000Z",
+			});
+		}
 	});
 
 	it("imports the October 7 event notice", () => {
@@ -198,6 +207,7 @@ describe("EVENTS_DATA", () => {
 			"637-isabellas-7-day-gifts",
 			"637-anomaly-avardans-mana",
 			"676-10-day-check-in-mission",
+			"707-bonus-time-event",
 		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");

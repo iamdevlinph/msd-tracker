@@ -25,8 +25,6 @@ export type ChecklistEvent = Omit<
 		| typeof CHECKLIST_RECURRENCES.WEEKLY;
 };
 
-const VIVIAN_NOTICE_TITLE = "9/8 (Tue) Event Notice";
-const VIVIAN_NOTICE_URL = "https://forum.netmarble.com/stardive_gl/view/6/600";
 const COMMUNITY_EVENTS_NOTICE_TITLE =
 	"9/29 (Tue) 1.4 Version Update Celebration! 3 Community Events Notice";
 const COMMUNITY_EVENTS_NOTICE_URL =
@@ -38,40 +36,12 @@ const ASHEN_CRADLE_NOTICE_URL =
 const OCTOBER_7_NOTICE_TITLE = "10/7 (Wed) Event Notice";
 const OCTOBER_7_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/676";
+const OCTOBER_14_NOTICE_TITLE = "10/14 (Wed) Event Notice";
+const OCTOBER_14_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/707";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
-	{
-		id: "600-moonlight-bunny-show-shop-story-missions",
-		title: "Moonlight Bunny Show — Shop/Story/Missions",
-		noticeTitle: VIVIAN_NOTICE_TITLE,
-		noticeUrl: `${VIVIAN_NOTICE_URL}#:~:text=Event%201.%20Moonlight%20Bunny%20Show`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-09T00:00:00.000Z",
-		endAt: "2026-10-06T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "638-isabella-arrival-celebration-character-quiz-event",
-		title: "New Character [Isabella] Arrival Celebration! Character Quiz Event",
-		noticeTitle: COMMUNITY_EVENTS_NOTICE_TITLE,
-		noticeUrl: `${COMMUNITY_EVENTS_NOTICE_URL}#:~:text=Event%201.%20New%20Character%20%5BIsabella%5D%20Arrival%20Celebration!%20Character%20Quiz%20Event`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:26:00.000Z",
-		endAt: "2026-10-07T01:00:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-		participation: "discord",
-	},
-	{
-		id: "638-new-region-sector-3-exploration-event",
-		title: "1.4 Update Celebration! New Region [Sector 3] Exploration Event",
-		noticeTitle: COMMUNITY_EVENTS_NOTICE_TITLE,
-		noticeUrl: `${COMMUNITY_EVENTS_NOTICE_URL}#:~:text=Event%202.%201.4%20Update%20Celebration!%20New%20Region%20%5BSector%203%5D%20Exploration%20Event`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:26:00.000Z",
-		endAt: "2026-10-12T01:00:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
 	{
 		id: "638-ar-camera-update-celebration-a-snap-with-my-favorite",
 		title: "AR Camera Update Celebration 「A Snap with My Favorite!」",
@@ -163,16 +133,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "637-equipment-crafting-mission",
-		title: "Equipment Crafting Mission",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%208.%20Equipment%20Crafting%20Mission`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:30:00.000Z",
-		endAt: "2026-10-06T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
 		id: "637-unknown-conquest-mission",
 		title: "「Unknown」 Conquest Mission",
 		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
@@ -210,5 +170,25 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		startAt: "2026-10-07T00:00:00.000Z",
 		endAt: "2026-10-20T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "707-bonus-time-event",
+		title: "Bonus Time Event",
+		noticeTitle: OCTOBER_14_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_14_NOTICE_URL}#:~:text=Event%201.%20Bonus%20Time%20Event`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-14T00:00:00.000Z",
+		endAt: "2026-10-20T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "707-an-invitation-to-break-the-ice",
+		title: "An Invitation to Break the Ice",
+		noticeTitle: OCTOBER_14_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_14_NOTICE_URL}#:~:text=Event%202.%20An%20Invitation%20to%20Break%20the%20Ice`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-14T00:00:00.000Z",
+		endAt: "2026-10-20T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 ];
