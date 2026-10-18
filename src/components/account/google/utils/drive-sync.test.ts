@@ -497,6 +497,7 @@ describe("Drive Monsterling backups", () => {
 			loadoutCardPreferences: { showArtifactsAndEquipment: false },
 			navigationPreferences: {
 				showAssets: false,
+				showArtifactCatalog: false,
 				showEquipment: false,
 			},
 		});
@@ -519,6 +520,7 @@ describe("Drive Monsterling backups", () => {
 		});
 		expect(selected.navigationPreferences).toEqual({
 			showAssets: false,
+			showArtifactCatalog: false,
 			showEquipment: false,
 		});
 		expect(selected.loadoutPreviewPreferences).toEqual({
@@ -701,6 +703,7 @@ describe("Drive Monsterling backups", () => {
 		});
 		expect(downloaded?.navigationPreferences).toEqual({
 			showAssets: true,
+			showArtifactCatalog: true,
 			showEquipment: true,
 		});
 	});
@@ -776,6 +779,7 @@ describe("Drive Monsterling backups", () => {
 			},
 			navigationPreferences: {
 				showAssets: false,
+				showArtifactCatalog: false,
 				showEquipment: false,
 			},
 			syncInProgress: true,
@@ -816,6 +820,7 @@ describe("Drive Monsterling backups", () => {
 		});
 		expect(useAppStore.getState().navigationPreferences).toEqual({
 			showAssets: false,
+			showArtifactCatalog: false,
 			showEquipment: false,
 		});
 		expect(useAppStore.getState().checklistTasks.remote.title).toBe(

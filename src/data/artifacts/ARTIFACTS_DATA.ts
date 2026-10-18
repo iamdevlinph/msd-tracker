@@ -346,4 +346,11 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 		CLASS_ID_BY_CLASS.DESTROYER,
 		ELEMENT_ID_BY_ELEMENT.ICE,
 	),
+	41: artifact(
+		41,
+		"Celestial Halo of Protection",
+		"Support4A",
+		TIER_ID_BY_TIER.CHOICE_4,
+		CLASS_ID_BY_CLASS.SUPPORT,
+	),
 };

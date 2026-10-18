@@ -139,7 +139,7 @@ describe("LoadoutsList", () => {
 		).toBeTruthy();
 	});
 
-	it("hides persisted hidden catalog assignments outside local development", () => {
+	it("shows assignments after staged catalog records are published", () => {
 		vi.stubEnv("VITE_NODE_ENV", "production");
 		useAppStore.setState({
 			charactersOwned: {
@@ -168,10 +168,9 @@ describe("LoadoutsList", () => {
 
 		render(<LoadoutsList />);
 
-		expect(screen.queryByAltText("Vivian portrait")).toBeNull();
-		expect(screen.queryByAltText("Vivian's Artifact portrait")).toBeNull();
-		expect(screen.getByText("Artifact unavailable")).toBeTruthy();
-		expect(screen.getByAltText("Unknown character portrait")).toBeTruthy();
+		expect(screen.getByAltText("Vivian portrait")).toBeTruthy();
+		expect(screen.getByAltText("Unending Finale portrait")).toBeTruthy();
+		expect(screen.queryByText("Artifact unavailable")).toBeNull();
 	});
 
 	it("searches loadout and assigned character names while preserving alphabetical order", () => {

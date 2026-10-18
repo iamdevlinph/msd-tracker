@@ -19,6 +19,7 @@ import { Route as EquipmentsRouteImport } from './routes/equipments'
 import { Route as ChecklistRouteImport } from './routes/checklist'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as ArtifactsRouteImport } from './routes/artifacts'
+import { Route as ArtifactCatalogRouteImport } from './routes/artifact-catalog'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiAuthGoogleSessionRouteImport } from './routes/api/auth/google-session'
@@ -75,6 +76,11 @@ const ArtifactsRoute = ArtifactsRouteImport.update({
   path: '/artifacts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArtifactCatalogRoute = ArtifactCatalogRouteImport.update({
+  id: '/artifact-catalog',
+  path: '/artifact-catalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AccountRoute = AccountRouteImport.update({
   id: '/account',
   path: '/account',
@@ -104,6 +110,7 @@ const ApiAuthGoogleRoute = ApiAuthGoogleRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
+  '/artifact-catalog': typeof ArtifactCatalogRoute
   '/artifacts': typeof ArtifactsRoute
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
+  '/artifact-catalog': typeof ArtifactCatalogRoute
   '/artifacts': typeof ArtifactsRoute
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
+  '/artifact-catalog': typeof ArtifactCatalogRoute
   '/artifacts': typeof ArtifactsRoute
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/account'
+    | '/artifact-catalog'
     | '/artifacts'
     | '/characters'
     | '/checklist'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/account'
+    | '/artifact-catalog'
     | '/artifacts'
     | '/characters'
     | '/checklist'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/account'
+    | '/artifact-catalog'
     | '/artifacts'
     | '/characters'
     | '/checklist'
@@ -210,6 +222,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
+  ArtifactCatalogRoute: typeof ArtifactCatalogRoute
   ArtifactsRoute: typeof ArtifactsRoute
   CharactersRoute: typeof CharactersRoute
   ChecklistRoute: typeof ChecklistRoute
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArtifactsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/artifact-catalog': {
+      id: '/artifact-catalog'
+      path: '/artifact-catalog'
+      fullPath: '/artifact-catalog'
+      preLoaderRoute: typeof ArtifactCatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/account': {
       id: '/account'
       path: '/account'
@@ -338,6 +358,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
+  ArtifactCatalogRoute: ArtifactCatalogRoute,
   ArtifactsRoute: ArtifactsRoute,
   CharactersRoute: CharactersRoute,
   ChecklistRoute: ChecklistRoute,

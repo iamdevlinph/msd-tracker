@@ -35,23 +35,32 @@ describe("artifacts data", () => {
 		});
 	});
 
-	it("includes Vivian's hidden signature artifact", () => {
+	it("includes Vivian's published signature artifact", () => {
 		expect(ARTIFACTS_DATA[39]).toEqual({
 			id: 39,
-			name: "Vivian's Artifact",
+			name: "Unending Finale",
 			image: "/images/Icon_Artifact/ArtifactVivian.webp",
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
-			class_id: CLASS_ID_BY_CLASS.FIGHTER,
-			element_effect_id: ELEMENT_ID_BY_ELEMENT.EARTH,
-			is_hidden: true,
+			class_id: CLASS_ID_BY_CLASS.SUPPORT,
+			element_effect_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 		});
+	});
+
+	it("includes Celestial Halo of Protection with its shared artwork", () => {
+		expect(ARTIFACTS_DATA[41]).toEqual({
+			id: 41,
+			name: "Celestial Halo of Protection",
+			image: "/images/Icon_Artifact/ArtifactSupport4A.webp",
+			tier_id: TIER_ID_BY_TIER.CHOICE_4,
+			class_id: CLASS_ID_BY_CLASS.SUPPORT,
+		});
+		expect(ARTIFACTS_DATA[41].image).toBe(ARTIFACTS_DATA[31].image);
 	});
 
 	it("contains all local artifact images with stable unique ids", () => {
 		const artifacts = Object.values(ARTIFACTS_DATA);
-		expect(artifacts).toHaveLength(40);
-		expect(new Set(artifacts.map((a) => a.id)).size).toBe(40);
-		expect(new Set(artifacts.map((a) => a.image)).size).toBe(40);
+		expect(artifacts).toHaveLength(41);
+		expect(new Set(artifacts.map((a) => a.id)).size).toBe(41);
 		for (const artifact of artifacts) {
 			expect(TIERS_DATA[artifact.tier_id]).toBeDefined();
 			expect(CHARACTER_CLASS_DATA[artifact.class_id]).toBeDefined();

@@ -7,13 +7,13 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 - [x] Add Isabella as a Tier 5 Ice Destroyer with her catalog images.
 - [x] Add the Version 1.4 Esther and Sangun costume portraits.
 - [x] Add Brisshell as a Tier 5 Earth Assassin with her catalog images.
-- [x] Stage Vivian and her signature artifact as hidden catalog records outside local development, with local-development catalog counts, until official metadata is available.
+- [x] Publish Vivian as a Tier 5 Fire Support character and her signature artifact, Unending Finale.
 - [x] Filter owned and selectable characters by Tier 4 and Tier 5.
 - [x] Sort owned characters by name or awakening level in either direction.
 - [x] Show owned/total roster progress and disable additions when every character is owned.
 - [x] Highlight max-level skills in green so awakening styling never obscures a stored level 12.
 - [x] Place Characters first in the Inventory navigation section.
-- [x] Add portrait-selectable Mina, Jiwon, and Ophelia costumes with hidden-catalog development navigation details.
+- [x] Add portrait-selectable Mina, Jiwon, Ophelia, and Sangun costumes; stage Esther's costume with development navigation details.
 
 ## Monsterlings: Available
 
@@ -32,6 +32,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 
 ## Chunk 2: Artifacts Inventory
 
+- [x] Add Celestial Halo of Protection as a Tier 4 Support artifact without an element, sharing the Celestial Halo of Wisdom artwork.
 - [x] Add Isabella's Tier 5 Ice Destroyer artifact, Stabilized Superconductor.
 - [x] Add Brisshell's Tier 5 Earth Assassin artifact, Monstrous Longing.
 - [x] Define typed artifact data, owned-artifact fields, images, and validation from the game source.

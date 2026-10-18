@@ -1,52 +1,100 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+	ARTIFACT_CATALOG_SORTS,
 	compareOwnedArtifacts,
 	filterArtifacts,
 	sortArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
-import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
+
+const artifacts = [
+	{
+		id: 1,
+		name: "Beta Support",
+		image: "/beta.webp",
+		tier_id: 4,
+		class_id: 4,
+	},
+	{
+		id: 2,
+		name: "Alpha Fighter",
+		image: "/alpha.webp",
+		tier_id: 5,
+		class_id: 1,
+		element_effect_id: 2,
+	},
+	{
+		id: 3,
+		name: "Gamma Support",
+		image: "/gamma.webp",
+		tier_id: 3,
+		class_id: 4,
+		element_effect_id: 3,
+	},
+	{
+		id: 4,
+		name: "Hidden Support",
+		image: "/hidden.webp",
+		tier_id: 5,
+		class_id: 4,
+		is_hidden: true,
+	},
+	{
+		id: 5,
+		name: "Alpha Fighter",
+		image: "/alpha-copy.webp",
+		tier_id: 5,
+		class_id: 1,
+	},
+] as const;
+
+afterEach(() => vi.unstubAllEnvs());
 
 describe("artifact filters", () => {
 	it("filters case-insensitively with OR within and AND across groups", () => {
-		const artifacts = Object.values(ARTIFACTS_DATA);
-		expect(filterArtifacts(artifacts, { search: "fall" })).toHaveLength(1);
-		expect(filterArtifacts(artifacts, { search: "FALL" })).toHaveLength(1);
+		vi.stubEnv("VITE_NODE_ENV", "production");
 		expect(
-			filterArtifacts(artifacts, { selectedTiers: [3, 4] }).every(
-				(artifact) => artifact.tier_id < 5,
-			),
-		).toBe(true);
-
-		const elemental = filterArtifacts(artifacts, {
-			selectedTiers: [4, 5],
-			selectedCharacterClass: [1, 2],
-			selectedElements: [2, 3],
-		});
+			filterArtifacts(artifacts, { search: "BETA" }).map(({ id }) => id),
+		).toEqual([1]);
 		expect(
-			elemental.every(
-				(artifact) =>
-					[4, 5].includes(artifact.tier_id) &&
-					[1, 2].includes(artifact.class_id) &&
-					artifact.element_effect_id != null &&
-					[2, 3].includes(artifact.element_effect_id),
-			),
-		).toBe(true);
+			filterArtifacts(artifacts, {
+				selectedTiers: [3, 4],
+				selectedCharacterClass: [4],
+				selectedElements: [3],
+			}).map(({ id }) => id),
+		).toEqual([3]);
+		expect(
+			filterArtifacts(artifacts, { selectedElements: [2, 3] }),
+		).toHaveLength(2);
+		expect(filterArtifacts(artifacts, {}).map(({ id }) => id)).not.toContain(4);
 	});
 
-	it("sorts tier descending, then name and id deterministically", () => {
-		const sorted = sortArtifacts(Object.values(ARTIFACTS_DATA));
-		for (let i = 1; i < sorted.length; i++) {
-			expect(sorted[i - 1].tier_id).toBeGreaterThanOrEqual(sorted[i].tier_id);
-			if (sorted[i - 1].tier_id === sorted[i].tier_id) {
-				expect(
-					sorted[i - 1].name.localeCompare(sorted[i].name),
-				).toBeLessThanOrEqual(0);
-			}
-		}
+	it("sorts artifacts in every catalog order with deterministic ties", () => {
+		expect(sortArtifacts(artifacts).map(({ id }) => id)).toEqual([
+			2, 5, 4, 1, 3,
+		]);
+		expect(
+			sortArtifacts(artifacts, ARTIFACT_CATALOG_SORTS.NAME_ASC).map(
+				({ id }) => id,
+			),
+		).toEqual([2, 5, 1, 3, 4]);
+		expect(
+			sortArtifacts(artifacts, ARTIFACT_CATALOG_SORTS.NAME_DESC).map(
+				({ id }) => id,
+			),
+		).toEqual([4, 3, 1, 2, 5]);
+		expect(
+			sortArtifacts(artifacts, ARTIFACT_CATALOG_SORTS.TIER_ASC).map(
+				({ id }) => id,
+			),
+		).toEqual([3, 1, 2, 5, 4]);
+	});
+
+	it("keeps owned-copy ordering stable after catalog ordering", () => {
+		const artifact = artifacts[0];
 		expect(
 			compareOwnedArtifacts(
-				{ artifact: ARTIFACTS_DATA[1], fusionLevel: 1, id: "a" },
-				{ artifact: ARTIFACTS_DATA[1], fusionLevel: 3, id: "b" },
+				{ artifact, fusionLevel: 1, id: "a" },
+				{ artifact, fusionLevel: 3, id: "b" },
 			),
 		).toBeLessThan(0);
 	});

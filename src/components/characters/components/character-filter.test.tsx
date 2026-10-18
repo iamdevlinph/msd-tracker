@@ -128,19 +128,7 @@ describe("character search", () => {
 		expect(screen.queryByRole("dialog")).toBeNull();
 	});
 
-	it("keeps hidden Vivian out of the add list and roster total", () => {
-		render(<AddCharacter />);
-
-		expect(
-			screen.getByText(`3/${Object.keys(CHARACTERS_DATA).length - 1}`),
-		).toBeTruthy();
-		fireEvent.click(screen.getByRole("button", { name: "Add Character" }));
-
-		expect(screen.queryByText("Vivian")).toBeNull();
-	});
-
-	it("shows hidden Vivian in local development", () => {
-		vi.stubEnv("VITE_NODE_ENV", "development");
+	it("includes published Vivian in the add list and roster total", () => {
 		render(<AddCharacter />);
 
 		expect(

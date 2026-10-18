@@ -18,11 +18,11 @@ describe("resolveCharacterPortrait", () => {
 	it("preserves hidden selections while rendering them only in development", () => {
 		vi.stubEnv("VITE_NODE_ENV", "production");
 		expect(
-			resolveCharacterPortrait(CHARACTERS_DATA[3], { costume_id: 1 }),
-		).toBe(CHARACTERS_DATA[3].portraitImage);
+			resolveCharacterPortrait(CHARACTERS_DATA[10], { costume_id: 1 }),
+		).toBe(CHARACTERS_DATA[10].portraitImage);
 		vi.stubEnv("VITE_NODE_ENV", "development");
 		expect(
-			resolveCharacterPortrait(CHARACTERS_DATA[3], { costume_id: 1 }),
-		).toBe(CHARACTERS_DATA[3].costumes?.[0]?.portraitImage);
+			resolveCharacterPortrait(CHARACTERS_DATA[10], { costume_id: 1 }),
+		).toBe(CHARACTERS_DATA[10].costumes?.[0]?.portraitImage);
 	});
 });

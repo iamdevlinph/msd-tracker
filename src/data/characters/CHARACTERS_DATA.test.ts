@@ -44,6 +44,7 @@ describe("CHARACTERS_DATA", () => {
 				name: "Costume 1",
 				portraitImage:
 					"/images/Character_Portrait/portrait_Esde_Costume_01.webp",
+				is_hidden: true,
 			},
 		]);
 		expect(CHARACTERS_DATA[19].costumes).toEqual([
@@ -56,16 +57,15 @@ describe("CHARACTERS_DATA", () => {
 		]);
 	});
 
-	it("includes hidden Vivian with her staged classifications and images", () => {
+	it("includes published Vivian with her confirmed classifications and images", () => {
 		expect(CHARACTERS_DATA[25]).toEqual({
 			id: 25,
 			name: "Vivian",
-			class_id: CLASS_ID_BY_CLASS.FIGHTER,
-			element_id: ELEMENT_ID_BY_ELEMENT.EARTH,
+			class_id: CLASS_ID_BY_CLASS.SUPPORT,
+			element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
 			portraitImage: "/images/Character_Portrait/portrait_Vivian_01.webp",
 			fullImage: "/images/Character_Full/Img_CharacterIllust_Vivian.webp",
 			tier_id: TIER_ID_BY_TIER.PRIME_5,
-			is_hidden: true,
 		});
 	});
 
@@ -103,8 +103,9 @@ describe("CHARACTERS_DATA", () => {
 		expect(
 			new Set(costumes.map(({ portraitImage }) => portraitImage)).size,
 		).toBe(costumes.length);
-		expect(CHARACTERS_DATA[3].costumes?.[0]?.is_hidden).toBe(true);
+		expect(CHARACTERS_DATA[3].costumes?.[0]?.is_hidden).toBeUndefined();
 		expect(CHARACTERS_DATA[7].costumes?.[0]?.is_hidden).toBeUndefined();
 		expect(CHARACTERS_DATA[9].costumes?.[0]?.is_hidden).toBeUndefined();
+		expect(CHARACTERS_DATA[10].costumes?.[0]?.is_hidden).toBe(true);
 	});
 });

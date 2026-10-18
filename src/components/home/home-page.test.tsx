@@ -60,6 +60,7 @@ describe("HomePage", () => {
 			["Loadouts", "/loadouts"],
 			["Loadout Snapshots", "/loadout-snapshots"],
 			["Artifacts", "/artifacts"],
+			["Artifact Catalog", "/artifact-catalog"],
 			["Equipment", "/equipments"],
 		]) {
 			expect(
@@ -108,6 +109,9 @@ describe("HomePage", () => {
 		).toBeTruthy();
 		expect(
 			screen.getByRole("link", { name: "Explore Artifacts" }),
+		).toBeTruthy();
+		expect(
+			screen.getByRole("link", { name: "Explore Artifact Catalog" }),
 		).toBeTruthy();
 	});
 

@@ -10,6 +10,7 @@ export const PUBLIC_PAGE_TITLES = {
 	LOADOUTS: `Loadouts - ${SITE_NAME}`,
 	LOADOUT_SNAPSHOTS: `Loadout Snapshots - ${SITE_NAME}`,
 	ARTIFACTS: `Artifacts - ${SITE_NAME}`,
+	ARTIFACT_CATALOG: `Artifact Catalog - ${SITE_NAME}`,
 	EQUIPMENT: `Equipment - ${SITE_NAME}`,
 };
 

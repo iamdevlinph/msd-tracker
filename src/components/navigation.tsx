@@ -5,6 +5,7 @@ import {
 	BookOpenCheck,
 	CalendarCheck2,
 	Camera,
+	Gem,
 	type LucideIcon,
 	Settings,
 	UserRound,
@@ -24,6 +25,7 @@ type Tab =
 	| "account"
 	| "settings"
 	| "artifacts"
+	| "artifact-catalog"
 	| "equipments"
 	| "monsterlings"
 	| "link-chains"
@@ -125,6 +127,12 @@ const navSections: NavSection[] = [
 		title: "Assets",
 		items: [
 			{
+				id: "artifact-catalog",
+				label: "Artifacts",
+				icon: { type: "lucide", icon: Gem },
+				link: "/artifact-catalog",
+			},
+			{
 				id: "equipments",
 				label: "Equipment",
 				icon: {
@@ -172,11 +180,13 @@ export const Nav = () => {
 			(section.title === "Assets" && !navigationPreferences.showAssets)
 		)
 			return [];
-		const items = section.items.filter(
-			(item) =>
-				!item.hidden &&
-				(item.id !== "equipments" || navigationPreferences.showEquipment),
-		);
+		const items = section.items.filter((item) => {
+			if (item.hidden) return false;
+			if (item.id === "artifact-catalog")
+				return navigationPreferences.showArtifactCatalog;
+			if (item.id === "equipments") return navigationPreferences.showEquipment;
+			return true;
+		});
 		return items.length ? [{ ...section, items }] : [];
 	});
 

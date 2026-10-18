@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
 	createSeoHead,
@@ -18,6 +20,7 @@ describe("SEO metadata", () => {
 			LOADOUTS: `Loadouts - ${SITE_NAME}`,
 			LOADOUT_SNAPSHOTS: `Loadout Snapshots - ${SITE_NAME}`,
 			ARTIFACTS: `Artifacts - ${SITE_NAME}`,
+			ARTIFACT_CATALOG: `Artifact Catalog - ${SITE_NAME}`,
 			EQUIPMENT: `Equipment - ${SITE_NAME}`,
 		});
 	});
@@ -49,5 +52,11 @@ describe("SEO metadata", () => {
 		expect(noIndexHead().meta).toEqual([
 			{ name: "robots", content: "noindex, nofollow" },
 		]);
+	});
+
+	it("publishes the artifact catalog in the sitemap", () => {
+		expect(readFileSync(resolve("public/sitemap.xml"), "utf8")).toContain(
+			`${SITE_URL}/artifact-catalog`,
+		);
 	});
 });

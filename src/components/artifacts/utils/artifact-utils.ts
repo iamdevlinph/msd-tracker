@@ -8,6 +8,16 @@ export const isArtifactVisible = ({ is_hidden }: Pick<Artifact, "is_hidden">) =>
 
 export const FUSION_LEVELS = [1, 2, 3, 4, 5] as const;
 
+export const ARTIFACT_CATALOG_SORTS = {
+	NAME_ASC: "name-asc",
+	NAME_DESC: "name-desc",
+	TIER_ASC: "tier-asc",
+	TIER_DESC: "tier-desc",
+} as const;
+
+export type ArtifactCatalogSort =
+	(typeof ARTIFACT_CATALOG_SORTS)[keyof typeof ARTIFACT_CATALOG_SORTS];
+
 export type ArtifactFilters = {
 	search: string;
 	selectedElements: ElementId[];
@@ -23,7 +33,7 @@ export const emptyArtifactFilters = (): ArtifactFilters => ({
 });
 
 export const filterArtifacts = (
-	artifacts: Artifact[],
+	artifacts: readonly Artifact[],
 	filters: Partial<ArtifactFilters>,
 ) => {
 	const search = filters.search?.trim().toLowerCase();
@@ -45,8 +55,21 @@ export const filterArtifacts = (
 export const compareArtifacts = (a: Artifact, b: Artifact) =>
 	b.tier_id - a.tier_id || a.name.localeCompare(b.name) || a.id - b.id;
 
-export const sortArtifacts = (artifacts: Artifact[]) =>
-	[...artifacts].sort(compareArtifacts);
+export const sortArtifacts = (
+	artifacts: readonly Artifact[],
+	sort: ArtifactCatalogSort = ARTIFACT_CATALOG_SORTS.TIER_DESC,
+) =>
+	[...artifacts].sort((a, b) => {
+		const nameOrder = a.name.localeCompare(b.name) || a.id - b.id;
+		if (sort === ARTIFACT_CATALOG_SORTS.NAME_ASC) return nameOrder;
+		if (sort === ARTIFACT_CATALOG_SORTS.NAME_DESC)
+			return -a.name.localeCompare(b.name) || a.id - b.id;
+		const tierOrder = a.tier_id - b.tier_id;
+		return (
+			(sort === ARTIFACT_CATALOG_SORTS.TIER_ASC ? tierOrder : -tierOrder) ||
+			nameOrder
+		);
+	});
 
 export const compareOwnedArtifacts = (
 	a: { artifact: Artifact; fusionLevel: number; id: string },

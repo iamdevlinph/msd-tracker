@@ -16,11 +16,16 @@ export const NavigationSettingsCard = () => {
 	const ga = useGoogleAnalytics();
 	const preferences = useAppStore((state) => state.navigationPreferences);
 	const setPreferences = useAppStore((state) => state.setNavigationPreferences);
-	const setVisibility = (item: "assets" | "equipment", isVisible: boolean) => {
+	const setVisibility = (
+		item: "assets" | "artifact_catalog" | "equipment",
+		isVisible: boolean,
+	) => {
 		setPreferences(
 			item === "assets"
 				? { showAssets: isVisible }
-				: { showEquipment: isVisible },
+				: item === "artifact_catalog"
+					? { showArtifactCatalog: isVisible }
+					: { showEquipment: isVisible },
 		);
 		ga.event(ANALYTICS_EVENTS.NAVIGATION_VISIBILITY_TOGGLE, {
 			item,
@@ -58,6 +63,26 @@ export const NavigationSettingsCard = () => {
 							className={cn(!preferences.showAssets && "line-through")}
 						>
 							Assets
+						</Label>
+					</div>
+					<div
+						className={cn(
+							"ml-7 flex items-center gap-3 border-l pl-4",
+							!preferences.showArtifactCatalog && "opacity-60",
+						)}
+					>
+						<Checkbox
+							id="show-artifact-catalog-navigation"
+							checked={preferences.showArtifactCatalog}
+							onCheckedChange={(checked) =>
+								setVisibility("artifact_catalog", checked === true)
+							}
+						/>
+						<Label
+							htmlFor="show-artifact-catalog-navigation"
+							className={cn(!preferences.showArtifactCatalog && "line-through")}
+						>
+							Artifacts
 						</Label>
 					</div>
 					<div

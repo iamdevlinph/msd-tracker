@@ -213,19 +213,11 @@ describe("ArtifactsPage", () => {
 		expect(screen.getByRole("dialog")).toBeTruthy();
 	});
 
-	it("keeps Vivian's hidden artifact out of the add dialog", () => {
+	it("shows Vivian's published artifact in the add dialog", () => {
 		render(<ArtifactsPage />);
 		fireEvent.click(screen.getByRole("button", { name: "Add Artifact" }));
 
-		expect(screen.queryByText("Vivian's Artifact")).toBeNull();
-	});
-
-	it("shows Vivian's hidden artifact in local development", () => {
-		vi.stubEnv("VITE_NODE_ENV", "development");
-		render(<ArtifactsPage />);
-		fireEvent.click(screen.getByRole("button", { name: "Add Artifact" }));
-
-		expect(screen.getByText("Vivian's Artifact")).toBeTruthy();
+		expect(screen.getByText("Unending Finale")).toBeTruthy();
 	});
 
 	it("allows another owned copy and resets fusion after closing", async () => {

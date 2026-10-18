@@ -4,11 +4,13 @@ import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 
 export type NavigationPreferences = {
 	showAssets: boolean;
+	showArtifactCatalog: boolean;
 	showEquipment: boolean;
 };
 
 export const DEFAULT_NAVIGATION_PREFERENCES: NavigationPreferences = {
 	showAssets: true,
+	showArtifactCatalog: true,
 	showEquipment: true,
 };
 
@@ -21,6 +23,7 @@ export const normalizeNavigationPreferences = (
 			: {};
 	return {
 		showAssets: preferences.showAssets !== false,
+		showArtifactCatalog: preferences.showArtifactCatalog !== false,
 		showEquipment: preferences.showEquipment !== false,
 	};
 };
@@ -47,6 +50,8 @@ export const createNavigationPreferencesSlice: StateCreator<
 			});
 			if (
 				next.showAssets === state.navigationPreferences.showAssets &&
+				next.showArtifactCatalog ===
+					state.navigationPreferences.showArtifactCatalog &&
 				next.showEquipment === state.navigationPreferences.showEquipment
 			)
 				return state;

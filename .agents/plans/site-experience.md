@@ -7,7 +7,7 @@ Read this plan for Home, SEO, navigation-wide presentation, or Shared UI behavio
 - [x] Welcome users and link the available tracker features.
 - [x] Show linked counts for owned characters, owned monsterlings, cleared codex entries, and loadouts.
 - [x] Hide the optional roadmap section when no upcoming features are configured.
-- [x] Link the public Equipment catalog from the Home feature grid without adding an ownership statistic.
+- [x] Link the public Artifact and Equipment catalogs from the Home feature grid without adding ownership statistics.
 
 ## SEO: Available
 
@@ -15,12 +15,12 @@ Read this plan for Home, SEO, navigation-wide presentation, or Shared UI behavio
 - [x] Use `<Page> - Mongil: Star Dive Tracker` route titles with concise page-specific H1 copy.
 - [x] Prevent unfinished and account routes from being indexed.
 - [x] Publish a sitemap, crawler directive, branded manifest, and home WebSite structured data.
-- [x] Publish the Equipment catalog through public metadata and the sitemap.
+- [x] Publish the Artifact and Equipment catalogs through public metadata and the sitemap.
 
 ## Navigation: Available
 
-- [x] Group the public Equipment catalog under Assets after Monsterlings and before Others.
-- [x] Let users hide the Assets group or Equipment child from Settings, retain child choices independently, visually mark unchecked options, and suppress groups with no visible children.
+- [x] Group the public Artifact and Equipment catalogs under Assets after Monsterlings and before Others.
+- [x] Let users hide the Assets group or either catalog child from Settings, retain child choices independently, visually mark unchecked options, and suppress groups with no visible children.
 
 ## Shared UI: Available
 

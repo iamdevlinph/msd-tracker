@@ -170,19 +170,25 @@ describe("Monsterling Link Chain persistence", () => {
 	});
 
 	it("defaults navigation visibility and skips no-op timestamp changes", () => {
-		vi.spyOn(Date, "now").mockReturnValue(123);
+		const now = vi.spyOn(Date, "now").mockReturnValue(123);
 		expect(migrateAppStore({}).navigationPreferences).toEqual({
 			showAssets: true,
+			showArtifactCatalog: true,
 			showEquipment: true,
 		});
 		expect(
 			migrateAppStore({
 				navigationPreferences: {
 					showAssets: false,
+					showArtifactCatalog: false,
 					showEquipment: false,
 				},
 			}).navigationPreferences,
-		).toEqual({ showAssets: false, showEquipment: false });
+		).toEqual({
+			showAssets: false,
+			showArtifactCatalog: false,
+			showEquipment: false,
+		});
 
 		useAppStore.setState({
 			backupUpdatedAt: 0,
@@ -194,6 +200,16 @@ describe("Monsterling Link Chain persistence", () => {
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
 		useAppStore.getState().setNavigationPreferences({ showAssets: false });
 		expect(useAppStore.getState().backupUpdatedAt).toBe(123);
+
+		now.mockReturnValue(456);
+		useAppStore
+			.getState()
+			.setNavigationPreferences({ showArtifactCatalog: false });
+		expect(useAppStore.getState().backupUpdatedAt).toBe(456);
+		useAppStore
+			.getState()
+			.setNavigationPreferences({ showArtifactCatalog: false });
+		expect(useAppStore.getState().backupUpdatedAt).toBe(456);
 	});
 
 	it("migrates the highest existing level and strips legacy instance fields", () => {
