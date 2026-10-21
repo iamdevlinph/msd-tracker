@@ -37,6 +37,18 @@ describe("CHARACTERS_DATA", () => {
 		});
 	});
 
+	it("includes Chloe as a Tier 5 Wind Fighter with her catalog images", () => {
+		expect(CHARACTERS_DATA[27]).toEqual({
+			id: 27,
+			name: "Chloe",
+			class_id: CLASS_ID_BY_CLASS.FIGHTER,
+			element_id: ELEMENT_ID_BY_ELEMENT.WIND,
+			portraitImage: "/images/Character_Portrait/portrait_Chloe_01.webp",
+			fullImage: "/images/Character_Full/Img_CharacterIllust_Chloe.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+		});
+	});
+
 	it("offers the new Esther and Sangun costume portraits", () => {
 		expect(CHARACTERS_DATA[10].costumes).toEqual([
 			{

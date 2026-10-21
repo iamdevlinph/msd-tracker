@@ -5,6 +5,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 ## Characters: Available
 
 - [x] Add Isabella as a Tier 5 Ice Destroyer with her catalog images.
+- [x] Add Chloe as a Tier 5 Wind Fighter with her catalog images.
 - [x] Add the Version 1.4 Esther and Sangun costume portraits.
 - [x] Add Brisshell as a Tier 5 Earth Assassin with her catalog images.
 - [x] Publish Vivian as a Tier 5 Fire Support character and her signature artifact, Unending Finale.
@@ -34,6 +35,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 
 - [x] Add Celestial Halo of Protection as a Tier 4 Support artifact without an element, sharing the Celestial Halo of Wisdom artwork.
 - [x] Add Isabella's Tier 5 Ice Destroyer artifact, Stabilized Superconductor.
+- [x] Add Chloe's Tier 5 Wind Fighter artifact, Runaway Train Crash.
 - [x] Add Brisshell's Tier 5 Earth Assassin artifact, Monstrous Longing.
 - [x] Define typed artifact data, owned-artifact fields, images, and validation from the game source.
 - [x] Add owned-artifact create, edit, delete, reset, local persistence, and mutation timestamps.

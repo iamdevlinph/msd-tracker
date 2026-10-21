@@ -353,4 +353,12 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 		TIER_ID_BY_TIER.CHOICE_4,
 		CLASS_ID_BY_CLASS.SUPPORT,
 	),
+	42: artifact(
+		42,
+		"Runaway Train Crash",
+		"Chloe",
+		TIER_ID_BY_TIER.PRIME_5,
+		CLASS_ID_BY_CLASS.FIGHTER,
+		ELEMENT_ID_BY_ELEMENT.WIND,
+	),
 };

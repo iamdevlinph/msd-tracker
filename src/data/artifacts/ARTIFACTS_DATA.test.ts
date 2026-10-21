@@ -57,10 +57,21 @@ describe("artifacts data", () => {
 		expect(ARTIFACTS_DATA[41].image).toBe(ARTIFACTS_DATA[31].image);
 	});
 
+	it("includes Chloe's signature artifact", () => {
+		expect(ARTIFACTS_DATA[42]).toEqual({
+			id: 42,
+			name: "Runaway Train Crash",
+			image: "/images/Icon_Artifact/ArtifactChloe.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			class_id: CLASS_ID_BY_CLASS.FIGHTER,
+			element_effect_id: ELEMENT_ID_BY_ELEMENT.WIND,
+		});
+	});
+
 	it("contains all local artifact images with stable unique ids", () => {
 		const artifacts = Object.values(ARTIFACTS_DATA);
-		expect(artifacts).toHaveLength(41);
-		expect(new Set(artifacts.map((a) => a.id)).size).toBe(41);
+		expect(artifacts).toHaveLength(42);
+		expect(new Set(artifacts.map((a) => a.id)).size).toBe(42);
 		for (const artifact of artifacts) {
 			expect(TIERS_DATA[artifact.tier_id]).toBeDefined();
 			expect(CHARACTER_CLASS_DATA[artifact.class_id]).toBeDefined();
