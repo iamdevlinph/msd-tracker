@@ -5,7 +5,8 @@ const ASHEN_CRADLE_NOTICE_TITLE =
 	"9/29 (Tue)「Ashen Cradle Lullaby」Event Notice";
 const ASHEN_CRADLE_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/637";
-const OCTOBER_20_NOTICE_TITLE = "10/20 (Tue) 「Full Speed Runaway Train Crash」Event Notice";
+const OCTOBER_20_NOTICE_TITLE =
+	"10/20 (Tue) 「Full Speed Runaway Train Crash」Event Notice";
 const OCTOBER_20_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/724";
 const CHLOE_SCREENSHOT_NOTICE_TITLE =
@@ -96,7 +97,6 @@ describe("EVENTS_DATA", () => {
 			EVENTS_DATA.find(({ id }) => id === "637-unknown-conquest-mission"),
 		).not.toHaveProperty("endAt");
 	});
-
 
 	it("imports the October 20 in-game event schedules", () => {
 		for (const event of [
