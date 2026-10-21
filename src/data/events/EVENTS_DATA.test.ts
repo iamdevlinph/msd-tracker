@@ -1,31 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { EVENTS_DATA } from "@/data/events/EVENTS_DATA";
 
-const COMMUNITY_NOTICE_TITLE =
-	"9/29 (Tue) 1.4 Version Update Celebration! 3 Community Events Notice";
-const COMMUNITY_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/638";
 const ASHEN_CRADLE_NOTICE_TITLE =
 	"9/29 (Tue)「Ashen Cradle Lullaby」Event Notice";
 const ASHEN_CRADLE_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/637";
-const OCTOBER_7_NOTICE_TITLE = "10/7 (Wed) Event Notice";
-const OCTOBER_7_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/676";
-const OCTOBER_14_NOTICE_TITLE = "10/14 (Wed) Event Notice";
-const OCTOBER_14_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/707";
-
-const COMMUNITY_EVENTS = [
-	{
-		id: "638-ar-camera-update-celebration-a-snap-with-my-favorite",
-		title: "AR Camera Update Celebration 「A Snap with My Favorite!」",
-		heading:
-			"Event 3. AR Camera Update Celebration 「A Snap with My Favorite!」",
-		endAt: "2026-10-21T01:00:00.000Z",
-	},
-] as const;
-
 const ASHEN_CRADLE_EVENTS = [
 	{
 		id: "637-nyanners-special-check-in-pass",
@@ -47,56 +26,33 @@ const ASHEN_CRADLE_EVENTS = [
 		endAt: "2026-11-10T23:59:00.000Z",
 	},
 	{
-		id: "637-wanderers-beyond-borders-event-stage-decrypt-the-code",
-		title: "Wanderers Beyond Borders — Event Stage/Decrypt the Code",
-		heading: "Event 4. Wanderers Beyond Borders",
-		endAt: "2026-10-20T23:59:00.000Z",
-	},
-	{
 		id: "637-wanderers-beyond-borders-shop-story-missions",
 		title: "Wanderers Beyond Borders — Shop/Story/Missions",
 		heading: "Event 4. Wanderers Beyond Borders",
 		endAt: "2026-10-27T23:59:00.000Z",
 	},
 	{
-		id: "637-level-headed-engineers-research-grant",
-		title: "Level-Headed Engineer's Research Grant",
-		heading: "Event 5. Level-Headed Engineer's Research Grant",
-		endAt: "2026-10-20T23:59:00.000Z",
-	},
-	{
-		id: "637-isabellas-7-day-gifts",
-		title: "Isabella’s 7-Day Gifts",
-		heading: "Event 6. Isabella’s 7-Day Gifts",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: "daily",
-	},
-	{
-		id: "637-special-missions-with-isabella",
-		title: "Special Missions with Isabella",
-		heading: "Event 7. Special Missions with Isabella",
-		endAt: "2026-10-20T23:59:00.000Z",
-	},
-	{
 		id: "637-unknown-conquest-mission",
 		title: "「Unknown」 Conquest Mission",
 		heading: "Event 9. 「Unknown」 Conquest Mission",
-	},
-	{
-		id: "637-anomaly-avardans-mana",
-		title: "Anomaly: Avardan’s Mana",
-		heading: "Event 10. Anomaly: Avardan’s Mana",
-		startAt: "2026-10-07T00:00:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: "daily",
 	},
 ] as const;
 
 describe("EVENTS_DATA", () => {
 	it("removes expired records and retains active records", () => {
-		expect(EVENTS_DATA).toHaveLength(15);
+		expect(EVENTS_DATA).toHaveLength(5);
 		const eventIds = EVENTS_DATA.map(({ id }) => id);
 		for (const expiredId of [
+			"638-ar-camera-update-celebration-a-snap-with-my-favorite",
+			"637-wanderers-beyond-borders-event-stage-decrypt-the-code",
+			"637-level-headed-engineers-research-grant",
+			"637-isabellas-7-day-gifts",
+			"637-special-missions-with-isabella",
+			"637-anomaly-avardans-mana",
+			"676-combine-monsterlings-missions",
+			"676-10-day-check-in-mission",
+			"707-bonus-time-event",
+			"707-an-invitation-to-break-the-ice",
 			"600-moonlight-bunny-show-shop-story-missions",
 			"600-moonlight-bunny-show-event-stage-chase-the-bunny",
 			"600-secret-fanservice-for-my-biggest-fans",
@@ -113,71 +69,6 @@ describe("EVENTS_DATA", () => {
 			"637-equipment-crafting-mission",
 		])
 			expect(eventIds).not.toContain(expiredId);
-	});
-
-	it("imports the October 14 event notice", () => {
-		for (const event of [
-			{
-				id: "707-bonus-time-event",
-				title: "Bonus Time Event",
-				heading: "Event 1. Bonus Time Event",
-				recurrence: "daily",
-			},
-			{
-				id: "707-an-invitation-to-break-the-ice",
-				title: "An Invitation to Break the Ice",
-				heading: "Event 2. An Invitation to Break the Ice",
-				recurrence: "none",
-			},
-		] as const) {
-			const { heading, ...expected } = event;
-			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
-				...expected,
-				noticeTitle: OCTOBER_14_NOTICE_TITLE,
-				noticeUrl: `${OCTOBER_14_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
-				startAt: "2026-10-14T00:00:00.000Z",
-				endAt: "2026-10-20T23:59:00.000Z",
-			});
-		}
-	});
-
-	it("imports the October 7 event notice", () => {
-		for (const event of [
-			{
-				id: "676-combine-monsterlings-missions",
-				title: "Combine Monsterlings Missions",
-				heading: "Event 1. Combine Monsterlings Missions",
-				endAt: "2026-10-13T23:59:00.000Z",
-				recurrence: "none",
-			},
-			{
-				id: "676-10-day-check-in-mission",
-				title: "10-Day Check-In Mission",
-				heading: "Event 2. 10-Day Check-In Mission",
-				endAt: "2026-10-20T23:59:00.000Z",
-				recurrence: "daily",
-			},
-		] as const) {
-			const { heading, ...expected } = event;
-			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
-				...expected,
-				noticeTitle: OCTOBER_7_NOTICE_TITLE,
-				noticeUrl: `${OCTOBER_7_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
-				startAt: "2026-10-07T00:00:00.000Z",
-			});
-		}
-	});
-
-	it("imports the community event notice", () => {
-		for (const { heading, ...expected } of COMMUNITY_EVENTS) {
-			expect(EVENTS_DATA.find(({ id }) => id === expected.id)).toMatchObject({
-				...expected,
-				noticeTitle: COMMUNITY_NOTICE_TITLE,
-				noticeUrl: `${COMMUNITY_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
-				startAt: "2026-09-30T03:26:00.000Z",
-				recurrence: "none",
-			});
-		}
 	});
 
 	it("imports the Ashen Cradle notice", () => {
@@ -204,10 +95,6 @@ describe("EVENTS_DATA", () => {
 		);
 		expect(dailyEvents.map(({ id }) => id)).toEqual([
 			"637-nyanners-special-check-in-pass",
-			"637-isabellas-7-day-gifts",
-			"637-anomaly-avardans-mana",
-			"676-10-day-check-in-mission",
-			"707-bonus-time-event",
 		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");
