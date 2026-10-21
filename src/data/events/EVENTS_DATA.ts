@@ -25,33 +25,13 @@ export type ChecklistEvent = Omit<
 		| typeof CHECKLIST_RECURRENCES.WEEKLY;
 };
 
-const COMMUNITY_EVENTS_NOTICE_TITLE =
-	"9/29 (Tue) 1.4 Version Update Celebration! 3 Community Events Notice";
-const COMMUNITY_EVENTS_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/638";
 const ASHEN_CRADLE_NOTICE_TITLE =
 	"9/29 (Tue)「Ashen Cradle Lullaby」Event Notice";
 const ASHEN_CRADLE_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/637";
-const OCTOBER_7_NOTICE_TITLE = "10/7 (Wed) Event Notice";
-const OCTOBER_7_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/676";
-const OCTOBER_14_NOTICE_TITLE = "10/14 (Wed) Event Notice";
-const OCTOBER_14_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/707";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
-	{
-		id: "638-ar-camera-update-celebration-a-snap-with-my-favorite",
-		title: "AR Camera Update Celebration 「A Snap with My Favorite!」",
-		noticeTitle: COMMUNITY_EVENTS_NOTICE_TITLE,
-		noticeUrl: `${COMMUNITY_EVENTS_NOTICE_URL}#:~:text=Event%203.%20AR%20Camera%20Update%20Celebration%20%E3%80%8CA%20Snap%20with%20My%20Favorite!%E3%80%8D`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:26:00.000Z",
-		endAt: "2026-10-21T01:00:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
 	{
 		id: "637-nyanners-special-check-in-pass",
 		title: "Nyanners's Special Check-In Pass!",
@@ -83,16 +63,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "637-wanderers-beyond-borders-event-stage-decrypt-the-code",
-		title: "Wanderers Beyond Borders — Event Stage/Decrypt the Code",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%204.%20Wanderers%20Beyond%20Borders`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:30:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
 		id: "637-wanderers-beyond-borders-shop-story-missions",
 		title: "Wanderers Beyond Borders — Shop/Story/Missions",
 		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
@@ -103,92 +73,12 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "637-level-headed-engineers-research-grant",
-		title: "Level-Headed Engineer's Research Grant",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%205.%20Level-Headed%20Engineer's%20Research%20Grant`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:30:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "637-isabellas-7-day-gifts",
-		title: "Isabella’s 7-Day Gifts",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%206.%20Isabella%E2%80%99s%207-Day%20Gifts`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:30:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
-		id: "637-special-missions-with-isabella",
-		title: "Special Missions with Isabella",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%207.%20Special%20Missions%20with%20Isabella`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:30:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
 		id: "637-unknown-conquest-mission",
 		title: "「Unknown」 Conquest Mission",
 		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
 		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%209.%20%E3%80%8CUnknown%E3%80%8D%20Conquest%20Mission`,
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-09-30T03:30:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "637-anomaly-avardans-mana",
-		title: "Anomaly: Avardan’s Mana",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%2010.%20Anomaly%3A%20Avardan%E2%80%99s%20Mana`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-07T00:00:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
-		id: "676-combine-monsterlings-missions",
-		title: "Combine Monsterlings Missions",
-		noticeTitle: OCTOBER_7_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_7_NOTICE_URL}#:~:text=Event%201.%20Combine%20Monsterlings%20Missions`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-07T00:00:00.000Z",
-		endAt: "2026-10-13T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "676-10-day-check-in-mission",
-		title: "10-Day Check-In Mission",
-		noticeTitle: OCTOBER_7_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_7_NOTICE_URL}#:~:text=Event%202.%2010-Day%20Check-In%20Mission`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-07T00:00:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
-		id: "707-bonus-time-event",
-		title: "Bonus Time Event",
-		noticeTitle: OCTOBER_14_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_14_NOTICE_URL}#:~:text=Event%201.%20Bonus%20Time%20Event`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-14T00:00:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
-	{
-		id: "707-an-invitation-to-break-the-ice",
-		title: "An Invitation to Break the Ice",
-		noticeTitle: OCTOBER_14_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_14_NOTICE_URL}#:~:text=Event%202.%20An%20Invitation%20to%20Break%20the%20Ice`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-14T00:00:00.000Z",
-		endAt: "2026-10-20T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 ];
