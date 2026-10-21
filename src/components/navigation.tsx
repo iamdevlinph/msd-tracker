@@ -26,6 +26,7 @@ type Tab =
 	| "settings"
 	| "artifacts"
 	| "artifact-catalog"
+	| "character-catalog"
 	| "equipments"
 	| "monsterlings"
 	| "link-chains"
@@ -133,6 +134,12 @@ const navSections: NavSection[] = [
 				link: "/artifact-catalog",
 			},
 			{
+				id: "character-catalog",
+				label: "Characters",
+				icon: { type: "lucide", icon: UserRoundCheck },
+				link: "/character-catalog",
+			},
+			{
 				id: "equipments",
 				label: "Equipment",
 				icon: {
@@ -184,6 +191,8 @@ export const Nav = () => {
 			if (item.hidden) return false;
 			if (item.id === "artifact-catalog")
 				return navigationPreferences.showArtifactCatalog;
+			if (item.id === "character-catalog")
+				return navigationPreferences.showCharacterCatalog;
 			if (item.id === "equipments") return navigationPreferences.showEquipment;
 			return true;
 		});

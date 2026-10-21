@@ -230,6 +230,7 @@ describe("character search", () => {
 		expect(ownedCharacterNames()).toEqual(["Angel", "Benjamin", "Mina"]);
 
 		fireEvent.keyDown(sortSelect, { key: "ArrowDown" });
+		expect(screen.queryByRole("option", { name: /Tier:/ })).toBeNull();
 		fireEvent.click(screen.getByRole("option", { name: "Name: Z–A" }));
 		expect(ownedCharacterNames()).toEqual(["Mina", "Benjamin", "Angel"]);
 

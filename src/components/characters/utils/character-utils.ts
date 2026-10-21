@@ -1,4 +1,8 @@
-import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
+import {
+	CHARACTER_SORTS,
+	type CharacterFilters,
+	type CharacterSort,
+} from "@/components/characters/store/characters-filter-store";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 
 export const isCharacterVisible = ({
@@ -32,3 +36,18 @@ export const matchesCharacterFilters = (
 		filters.selectedElements.includes(character.element_id)) &&
 	(!filters.selectedTiers.length ||
 		filters.selectedTiers.includes(character.tier_id));
+
+export const sortCharacters = (
+	characters: readonly Character[],
+	sort: CharacterSort = CHARACTER_SORTS.NAME_ASC,
+) =>
+	[...characters].sort((a, b) => {
+		const nameOrder = a.name.localeCompare(b.name) || a.id - b.id;
+		if (sort === CHARACTER_SORTS.NAME_ASC) return nameOrder;
+		if (sort === CHARACTER_SORTS.NAME_DESC)
+			return -a.name.localeCompare(b.name) || a.id - b.id;
+		const tierOrder = a.tier_id - b.tier_id;
+		if (sort === CHARACTER_SORTS.TIER_ASC) return tierOrder || nameOrder;
+		if (sort === CHARACTER_SORTS.TIER_DESC) return -tierOrder || nameOrder;
+		return nameOrder;
+	});

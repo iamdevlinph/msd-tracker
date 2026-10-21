@@ -83,6 +83,12 @@ const features: HomeFeature[] = [
 		icon: Gem,
 	},
 	{
+		title: "Character Catalog",
+		description: "Browse every available character by tier and role.",
+		to: "/character-catalog",
+		icon: UserRoundCheck,
+	},
+	{
 		title: "Equipment",
 		description: "Browse equipment pieces and compare their set effects.",
 		to: "/equipments",

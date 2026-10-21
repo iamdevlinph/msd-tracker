@@ -21,22 +21,23 @@ describe("SEO metadata", () => {
 			LOADOUT_SNAPSHOTS: `Loadout Snapshots - ${SITE_NAME}`,
 			ARTIFACTS: `Artifacts - ${SITE_NAME}`,
 			ARTIFACT_CATALOG: `Artifact Catalog - ${SITE_NAME}`,
+			CHARACTER_CATALOG: `Character Catalog - ${SITE_NAME}`,
 			EQUIPMENT: `Equipment - ${SITE_NAME}`,
 		});
 	});
 
 	it("creates canonical and social metadata for a page", () => {
 		const head = createSeoHead({
-			title: PUBLIC_PAGE_TITLES.CHARACTERS,
+			title: PUBLIC_PAGE_TITLES.CHARACTER_CATALOG,
 			description: "Description",
-			path: "/characters",
+			path: "/character-catalog",
 		});
 
 		expect(head.links).toEqual([
-			{ rel: "canonical", href: `${SITE_URL}/characters` },
+			{ rel: "canonical", href: `${SITE_URL}/character-catalog` },
 		]);
 		expect(head.meta).toContainEqual({
-			title: `Characters - ${SITE_NAME}`,
+			title: `Character Catalog - ${SITE_NAME}`,
 		});
 		expect(head.meta).toContainEqual({
 			name: "description",
@@ -44,7 +45,7 @@ describe("SEO metadata", () => {
 		});
 		expect(head.meta).toContainEqual({
 			property: "og:url",
-			content: `${SITE_URL}/characters`,
+			content: `${SITE_URL}/character-catalog`,
 		});
 	});
 
@@ -54,9 +55,12 @@ describe("SEO metadata", () => {
 		]);
 	});
 
-	it("publishes the artifact catalog in the sitemap", () => {
+	it("publishes the asset catalogs in the sitemap", () => {
 		expect(readFileSync(resolve("public/sitemap.xml"), "utf8")).toContain(
 			`${SITE_URL}/artifact-catalog`,
+		);
+		expect(readFileSync(resolve("public/sitemap.xml"), "utf8")).toContain(
+			`${SITE_URL}/character-catalog`,
 		);
 	});
 });

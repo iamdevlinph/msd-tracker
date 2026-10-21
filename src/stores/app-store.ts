@@ -190,7 +190,7 @@ export const useAppStore = create<StoreState>()(
 			}),
 			{
 				name: "msd-tracker",
-				version: 10,
+				version: 11,
 				migrate: migrateAppStore,
 				partialize: (state) => {
 					const {

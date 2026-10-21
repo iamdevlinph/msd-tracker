@@ -9,10 +9,17 @@ Read this plan for public game-asset catalogs that are independent of player own
 - [x] Publish the catalog through the Assets navigation group, Home, SEO metadata, and the sitemap.
 - [x] Keep the catalog independent of owned-artifact inventory and persistence.
 
+## Character Catalog: Available
+
+- [x] Show every published character and standalone variant in a fixed-card, left-aligned catalog while keeping costumes as alternate portraits.
+- [x] Reuse character search, element, class, and Tier 4/5 filters; sort by name A–Z/Z–A or tier 4–5/5–4 with deterministic name and ID tie-breaking and name A–Z as the default.
+- [x] Publish the catalog through the Assets navigation group, Home, SEO metadata, and the sitemap.
+- [x] Keep the catalog independent of owned-character inventory and persistence.
+
 ## Equipment Catalog: Available
 
 - [x] Show every equipment set in one responsive row with its pieces in canonical slot order and its published set effects.
 - [x] Search by set or equipment-piece name, filter by Tier 4 or Tier 5, and sort sets by name A–Z/Z–A or tier 4–5/5–4 with A–Z set-name tie-breaking.
 - [x] Publish the catalog through the Assets navigation group, Home, SEO metadata, and the sitemap.
-- [x] Show Assets, Artifacts, and Equipment in navigation by default, with independent persisted visibility controls in Settings.
+- [x] Show Assets, Artifacts, Characters, and Equipment in navigation by default, with independent persisted visibility controls in Settings.
 - [x] Keep the catalog independent of owned-equipment inventory and persistence.

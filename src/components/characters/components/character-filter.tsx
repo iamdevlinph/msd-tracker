@@ -1,5 +1,6 @@
 import { arrayRemoveItem, toSentenceCase } from "common-utils-pkg";
 import { StarIcon, XIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import type {
 	CharacterFilters,
 	CharacterSort,
@@ -24,21 +25,45 @@ type CharacterFilterProps = {
 	filters: CharacterFilters;
 	onChange: (filters: CharacterFilters) => void;
 	autoFocus?: boolean;
-	showSort?: boolean;
+	sortMode?: "owned" | "catalog";
 };
 
-const sortOptions: { label: string; value: CharacterSort }[] = [
+const tierSortLabel = (first: 4 | 5, second: 4 | 5) => (
+	<>
+		{`Tier: ${first}–${second}`}
+		<span className="inline-flex gap-1">
+			{[first, second].map((tier) => (
+				<StarIcon
+					key={tier}
+					className="size-4"
+					fill="currentColor"
+					style={{ color: TIERS_DATA[tier].hex }}
+					aria-hidden
+				/>
+			))}
+		</span>
+	</>
+);
+
+const ownedSortOptions: { label: ReactNode; value: CharacterSort }[] = [
 	{ label: "Name: A–Z", value: CHARACTER_SORTS.NAME_ASC },
 	{ label: "Name: Z–A", value: CHARACTER_SORTS.NAME_DESC },
 	{ label: "Awakening: Low–High", value: CHARACTER_SORTS.AWAKENING_ASC },
 	{ label: "Awakening: High–Low", value: CHARACTER_SORTS.AWAKENING_DESC },
 ];
 
+const catalogSortOptions: { label: ReactNode; value: CharacterSort }[] = [
+	{ label: "Name: A–Z", value: CHARACTER_SORTS.NAME_ASC },
+	{ label: "Name: Z–A", value: CHARACTER_SORTS.NAME_DESC },
+	{ label: tierSortLabel(4, 5), value: CHARACTER_SORTS.TIER_ASC },
+	{ label: tierSortLabel(5, 4), value: CHARACTER_SORTS.TIER_DESC },
+];
+
 export const CharacterFilter = ({
 	filters,
 	onChange,
 	autoFocus = false,
-	showSort = false,
+	sortMode,
 }: CharacterFilterProps) => {
 	const {
 		search,
@@ -174,11 +199,13 @@ export const CharacterFilter = ({
 						})}
 				</FilterButtonGroup>
 
-				{showSort && (
-					<ButtonGroup aria-label="Sort owned characters">
+				{sortMode && (
+					<ButtonGroup aria-label={`Sort ${sortMode} characters`}>
 						<SortSelect
-							ariaLabel="Sort owned characters"
-							options={sortOptions}
+							ariaLabel={`Sort ${sortMode} characters`}
+							options={
+								sortMode === "owned" ? ownedSortOptions : catalogSortOptions
+							}
 							value={sort}
 							onValueChange={(nextSort) =>
 								onChange({ ...filters, sort: nextSort })

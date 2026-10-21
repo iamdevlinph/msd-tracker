@@ -61,6 +61,7 @@ describe("HomePage", () => {
 			["Loadout Snapshots", "/loadout-snapshots"],
 			["Artifacts", "/artifacts"],
 			["Artifact Catalog", "/artifact-catalog"],
+			["Character Catalog", "/character-catalog"],
 			["Equipment", "/equipments"],
 		]) {
 			expect(
@@ -112,6 +113,9 @@ describe("HomePage", () => {
 		).toBeTruthy();
 		expect(
 			screen.getByRole("link", { name: "Explore Artifact Catalog" }),
+		).toBeTruthy();
+		expect(
+			screen.getByRole("link", { name: "Explore Character Catalog" }),
 		).toBeTruthy();
 	});
 

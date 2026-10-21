@@ -77,7 +77,11 @@ export const CharactersPage = () => {
 			</div>
 
 			<div className="flex gap-5 flex-col">
-				<CharacterFilter filters={filters} onChange={setFilters} showSort />
+				<CharacterFilter
+					filters={filters}
+					onChange={setFilters}
+					sortMode="owned"
+				/>
 
 				<CharacterOwnedList filters={filters} />
 			</div>

@@ -5,12 +5,14 @@ import { nextBackupUpdatedAt } from "@/stores/backup-timestamp";
 export type NavigationPreferences = {
 	showAssets: boolean;
 	showArtifactCatalog: boolean;
+	showCharacterCatalog: boolean;
 	showEquipment: boolean;
 };
 
 export const DEFAULT_NAVIGATION_PREFERENCES: NavigationPreferences = {
 	showAssets: true,
 	showArtifactCatalog: true,
+	showCharacterCatalog: true,
 	showEquipment: true,
 };
 
@@ -24,6 +26,7 @@ export const normalizeNavigationPreferences = (
 	return {
 		showAssets: preferences.showAssets !== false,
 		showArtifactCatalog: preferences.showArtifactCatalog !== false,
+		showCharacterCatalog: preferences.showCharacterCatalog !== false,
 		showEquipment: preferences.showEquipment !== false,
 	};
 };
@@ -52,6 +55,8 @@ export const createNavigationPreferencesSlice: StateCreator<
 				next.showAssets === state.navigationPreferences.showAssets &&
 				next.showArtifactCatalog ===
 					state.navigationPreferences.showArtifactCatalog &&
+				next.showCharacterCatalog ===
+					state.navigationPreferences.showCharacterCatalog &&
 				next.showEquipment === state.navigationPreferences.showEquipment
 			)
 				return state;

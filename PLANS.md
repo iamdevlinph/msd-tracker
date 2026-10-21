@@ -5,7 +5,7 @@ This root index owns cross-feature status, priorities, dependencies, and release
 ## Feature Plans
 
 - [Inventory](.agents/plans/inventory.md): Characters and Monsterlings are available; Artifacts are available; owned Equipment inventory is pending.
-- [Assets](.agents/plans/assets.md): public Artifact and Equipment catalogs are available independently of owned inventory.
+- [Assets](.agents/plans/assets.md): public Artifact, Character, and Equipment catalogs are available independently of owned inventory.
 - [Loadouts](.agents/plans/loadouts.md): Loadouts and inventory integration are available; portable loadout code sharing is deferred.
 - [Checklist](.agents/plans/checklist.md): checklist and event tracking are available.
 - [Account](.agents/plans/account.md): account and Google Drive behavior are available, with automated verification of destructive confirmation behavior still pending.

@@ -28,12 +28,13 @@ describe("Nav", () => {
 		vi.unstubAllEnvs();
 	});
 
-	it("hides Assets only when its parent or both children are hidden", () => {
+	it("hides Assets only when its parent or all three children are hidden", () => {
 		vi.stubEnv("VITE_NODE_ENV", "production");
 		useAppStore.setState({
 			navigationPreferences: {
 				showAssets: true,
 				showArtifactCatalog: true,
+				showCharacterCatalog: false,
 				showEquipment: false,
 			},
 		});
@@ -52,6 +53,7 @@ describe("Nav", () => {
 			navigationPreferences: {
 				showAssets: true,
 				showArtifactCatalog: false,
+				showCharacterCatalog: false,
 				showEquipment: false,
 			},
 		});
@@ -64,6 +66,7 @@ describe("Nav", () => {
 			navigationPreferences: {
 				showAssets: false,
 				showArtifactCatalog: true,
+				showCharacterCatalog: true,
 				showEquipment: true,
 			},
 		});
@@ -75,15 +78,29 @@ describe("Nav", () => {
 		vi.stubEnv("VITE_NODE_ENV", "production");
 		render(<Nav />);
 
-		expect(screen.getByRole("link", { name: "Characters" })).toBeTruthy();
+		expect(screen.getAllByRole("link", { name: "Characters" })).toHaveLength(2);
 		expect(screen.getAllByRole("link", { name: "Artifacts" })).toHaveLength(2);
 		expect(screen.getByRole("link", { name: "Equipment" })).toBeTruthy();
+		expect(
+			screen
+				.getAllByRole("link", { name: "Characters" })
+				.some((link) => link.getAttribute("href") === "/character-catalog"),
+		).toBe(true);
 		expect(
 			screen
 				.getAllByRole("link", { name: "Artifacts" })
 				.some((link) => link.getAttribute("href") === "/artifact-catalog"),
 		).toBe(true);
 		const links = screen.getAllByRole("link").map((link) => link.textContent);
+		const assetLinks = screen
+			.getAllByRole("link")
+			.filter((link) =>
+				["/artifact-catalog", "/character-catalog", "/equipments"].includes(
+					link.getAttribute("href") ?? "",
+				),
+			)
+			.map((link) => link.textContent);
+		expect(assetLinks).toEqual(["Artifacts", "Characters", "Equipment"]);
 		expect(links.indexOf("Equipment")).toBeGreaterThan(
 			links.indexOf("Link Chains"),
 		);
@@ -100,7 +117,7 @@ describe("Nav", () => {
 			</Tooltip.Provider>,
 		);
 
-		expect(screen.getByRole("link", { name: "Characters" })).toBeTruthy();
+		expect(screen.getAllByRole("link", { name: "Characters" })).toHaveLength(2);
 		const info = screen.getByRole("button", {
 			name: "Hidden characters details",
 		});

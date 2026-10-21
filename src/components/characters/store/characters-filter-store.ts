@@ -14,6 +14,8 @@ export const CHARACTER_SORTS = {
 	NAME_DESC: "name-desc",
 	AWAKENING_ASC: "awakening-asc",
 	AWAKENING_DESC: "awakening-desc",
+	TIER_ASC: "tier-asc",
+	TIER_DESC: "tier-desc",
 } as const;
 
 export type CharacterSort =

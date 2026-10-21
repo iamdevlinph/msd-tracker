@@ -18,6 +18,7 @@ import { Route as LinkChainsRouteImport } from './routes/link-chains'
 import { Route as EquipmentsRouteImport } from './routes/equipments'
 import { Route as ChecklistRouteImport } from './routes/checklist'
 import { Route as CharactersRouteImport } from './routes/characters'
+import { Route as CharacterCatalogRouteImport } from './routes/character-catalog'
 import { Route as ArtifactsRouteImport } from './routes/artifacts'
 import { Route as ArtifactCatalogRouteImport } from './routes/artifact-catalog'
 import { Route as AccountRouteImport } from './routes/account'
@@ -71,6 +72,11 @@ const CharactersRoute = CharactersRouteImport.update({
   path: '/characters',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CharacterCatalogRoute = CharacterCatalogRouteImport.update({
+  id: '/character-catalog',
+  path: '/character-catalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArtifactsRoute = ArtifactsRouteImport.update({
   id: '/artifacts',
   path: '/artifacts',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/artifact-catalog': typeof ArtifactCatalogRoute
   '/artifacts': typeof ArtifactsRoute
+  '/character-catalog': typeof CharacterCatalogRoute
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/artifact-catalog': typeof ArtifactCatalogRoute
   '/artifacts': typeof ArtifactsRoute
+  '/character-catalog': typeof CharacterCatalogRoute
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/artifact-catalog': typeof ArtifactCatalogRoute
   '/artifacts': typeof ArtifactsRoute
+  '/character-catalog': typeof CharacterCatalogRoute
   '/characters': typeof CharactersRoute
   '/checklist': typeof ChecklistRoute
   '/equipments': typeof EquipmentsRoute
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/artifact-catalog'
     | '/artifacts'
+    | '/character-catalog'
     | '/characters'
     | '/checklist'
     | '/equipments'
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/artifact-catalog'
     | '/artifacts'
+    | '/character-catalog'
     | '/characters'
     | '/checklist'
     | '/equipments'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/artifact-catalog'
     | '/artifacts'
+    | '/character-catalog'
     | '/characters'
     | '/checklist'
     | '/equipments'
@@ -224,6 +236,7 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   ArtifactCatalogRoute: typeof ArtifactCatalogRoute
   ArtifactsRoute: typeof ArtifactsRoute
+  CharacterCatalogRoute: typeof CharacterCatalogRoute
   CharactersRoute: typeof CharactersRoute
   ChecklistRoute: typeof ChecklistRoute
   EquipmentsRoute: typeof EquipmentsRoute
@@ -303,6 +316,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CharactersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/character-catalog': {
+      id: '/character-catalog'
+      path: '/character-catalog'
+      fullPath: '/character-catalog'
+      preLoaderRoute: typeof CharacterCatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/artifacts': {
       id: '/artifacts'
       path: '/artifacts'
@@ -360,6 +380,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   ArtifactCatalogRoute: ArtifactCatalogRoute,
   ArtifactsRoute: ArtifactsRoute,
+  CharacterCatalogRoute: CharacterCatalogRoute,
   CharactersRoute: CharactersRoute,
   ChecklistRoute: ChecklistRoute,
   EquipmentsRoute: EquipmentsRoute,

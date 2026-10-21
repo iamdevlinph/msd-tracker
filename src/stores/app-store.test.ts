@@ -174,6 +174,7 @@ describe("Monsterling Link Chain persistence", () => {
 		expect(migrateAppStore({}).navigationPreferences).toEqual({
 			showAssets: true,
 			showArtifactCatalog: true,
+			showCharacterCatalog: true,
 			showEquipment: true,
 		});
 		expect(
@@ -187,6 +188,22 @@ describe("Monsterling Link Chain persistence", () => {
 		).toEqual({
 			showAssets: false,
 			showArtifactCatalog: false,
+			showCharacterCatalog: true,
+			showEquipment: false,
+		});
+		expect(
+			migrateAppStore({
+				navigationPreferences: {
+					showAssets: false,
+					showArtifactCatalog: false,
+					showCharacterCatalog: false,
+					showEquipment: false,
+				},
+			}).navigationPreferences,
+		).toEqual({
+			showAssets: false,
+			showArtifactCatalog: false,
+			showCharacterCatalog: false,
 			showEquipment: false,
 		});
 
@@ -210,6 +227,16 @@ describe("Monsterling Link Chain persistence", () => {
 			.getState()
 			.setNavigationPreferences({ showArtifactCatalog: false });
 		expect(useAppStore.getState().backupUpdatedAt).toBe(456);
+
+		now.mockReturnValue(789);
+		useAppStore
+			.getState()
+			.setNavigationPreferences({ showCharacterCatalog: false });
+		expect(useAppStore.getState().backupUpdatedAt).toBe(789);
+		useAppStore
+			.getState()
+			.setNavigationPreferences({ showCharacterCatalog: false });
+		expect(useAppStore.getState().backupUpdatedAt).toBe(789);
 	});
 
 	it("migrates the highest existing level and strips legacy instance fields", () => {
