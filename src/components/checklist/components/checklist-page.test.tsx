@@ -660,6 +660,22 @@ describe("ChecklistPage", () => {
 		expect(screen.getByRole("button", { name: "Delete task" })).toBeTruthy();
 	});
 
+	it("shows the reset countdown instead of the later expiry for recurring events", () => {
+		vi.mocked(Date.now).mockReturnValue(
+			Date.parse("2026-07-28T10:00:00.000Z"),
+		);
+		render(<ChecklistPage />);
+
+		const weeklyEventRow = screen
+			.getByText("Fixture Weekly Event")
+			.closest("li");
+		const countdown = within(weeklyEventRow as HTMLElement).getByTitle(
+			"Resets in 14h 0m",
+		);
+		expect(weeklyEventRow?.className).toContain("from-amber-500/15");
+		expect(countdown.className).toContain("bg-amber-500");
+	});
+
 	it("highlights an incomplete weekly reset with the existing amber styles", () => {
 		vi.mocked(Date.now).mockReturnValue(
 			Date.parse("2026-10-25T10:00:00.000Z"),
