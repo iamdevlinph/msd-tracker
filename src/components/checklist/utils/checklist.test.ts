@@ -157,9 +157,7 @@ describe("checklist schedule utilities", () => {
 			"ending-soon",
 		);
 		expect(statusAt(weekly, resetAt)).toBe("active");
-		expect(statusAt(daily, resetAt - 3_600_000, false, 5)).toBe(
-			"ending-soon",
-		);
+		expect(statusAt(daily, resetAt - 3_600_000, false, 5)).toBe("ending-soon");
 
 		const recurringEvent: ChecklistDefinition = {
 			...weekly,

@@ -661,9 +661,7 @@ describe("ChecklistPage", () => {
 	});
 
 	it("shows the reset countdown instead of the later expiry for recurring events", () => {
-		vi.mocked(Date.now).mockReturnValue(
-			Date.parse("2026-07-28T10:00:00.000Z"),
-		);
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-07-28T10:00:00.000Z"));
 		render(<ChecklistPage />);
 
 		const weeklyEventRow = screen
@@ -677,14 +675,10 @@ describe("ChecklistPage", () => {
 	});
 
 	it("highlights an incomplete weekly reset with the existing amber styles", () => {
-		vi.mocked(Date.now).mockReturnValue(
-			Date.parse("2026-10-25T10:00:00.000Z"),
-		);
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-10-25T10:00:00.000Z"));
 		render(<ChecklistPage />);
 
-		const weeklyRow = screen
-			.getByText("Fixture Conquest Weekly")
-			.closest("li");
+		const weeklyRow = screen.getByText("Fixture Conquest Weekly").closest("li");
 		const weekly = within(weeklyRow as HTMLElement);
 		expect(weeklyRow?.className).toContain("from-amber-500/15");
 		expect(weeklyRow?.className).toContain("hover:border-amber-500/40");

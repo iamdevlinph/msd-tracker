@@ -120,12 +120,12 @@ export const ChecklistItemRow = ({
 					: resettingSoonAt !== undefined
 						? `Resets in ${formatCountdown(resettingSoonAt - now)}`
 						: definition.kind === CHECKLIST_KINDS.EVENT && occurrence.endAt
-						? `Ends in ${formatCountdown(occurrence.endAt - now)}`
-						: customTask && occurrence.endAt
-							? `Due in ${formatCountdown(occurrence.endAt - now)}`
-							: occurrence.nextResetAt
-								? `Resets in ${formatCountdown(occurrence.nextResetAt - now)}`
-								: "Available now";
+							? `Ends in ${formatCountdown(occurrence.endAt - now)}`
+							: customTask && occurrence.endAt
+								? `Due in ${formatCountdown(occurrence.endAt - now)}`
+								: occurrence.nextResetAt
+									? `Resets in ${formatCountdown(occurrence.nextResetAt - now)}`
+									: "Available now";
 	const countdown = fullyCompleted
 		? "Fully completed"
 		: status === CHECKLIST_STATUSES.COMPLETED
