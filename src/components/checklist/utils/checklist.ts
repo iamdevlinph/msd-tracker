@@ -151,6 +151,14 @@ export function getChecklistStatus(
 	) {
 		return CHECKLIST_STATUSES.ENDING_SOON;
 	}
+	if (
+		definition.mode !== CHECKLIST_MODES.AFTER_COMPLETION &&
+		occurrence.nextResetAt !== undefined &&
+		occurrence.nextResetAt > now &&
+		occurrence.nextResetAt - now <= thresholdHours * 3_600_000
+	) {
+		return CHECKLIST_STATUSES.ENDING_SOON;
+	}
 	return CHECKLIST_STATUSES.ACTIVE;
 }
 
