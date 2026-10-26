@@ -102,6 +102,13 @@ export const ChecklistItemRow = ({
 		status === CHECKLIST_STATUSES.COMPLETED
 			? getCompletedCountdown(item, now)
 			: undefined;
+	const resettingSoonAt =
+		status === CHECKLIST_STATUSES.ENDING_SOON &&
+		occurrence.nextResetAt !== undefined &&
+		(occurrence.endAt === undefined ||
+			occurrence.nextResetAt < occurrence.endAt)
+			? occurrence.nextResetAt
+			: undefined;
 	const countdownLabel = fullyCompleted
 		? "Fully completed"
 		: status === CHECKLIST_STATUSES.COMPLETED
@@ -110,7 +117,9 @@ export const ChecklistItemRow = ({
 				? "Overdue"
 				: status === CHECKLIST_STATUSES.UPCOMING
 					? `Starts in ${formatCountdown(occurrence.startAt - now)}`
-					: definition.kind === CHECKLIST_KINDS.EVENT && occurrence.endAt
+					: resettingSoonAt !== undefined
+						? `Resets in ${formatCountdown(resettingSoonAt - now)}`
+						: definition.kind === CHECKLIST_KINDS.EVENT && occurrence.endAt
 						? `Ends in ${formatCountdown(occurrence.endAt - now)}`
 						: customTask && occurrence.endAt
 							? `Due in ${formatCountdown(occurrence.endAt - now)}`
