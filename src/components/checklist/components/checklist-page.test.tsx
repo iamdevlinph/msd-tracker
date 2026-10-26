@@ -514,6 +514,10 @@ describe("ChecklistPage", () => {
 
 	it("shows compact upcoming rows and inline custom-task actions", () => {
 		useAppStore.setState({
+			checklistPreferences: {
+				...defaultChecklistPreferences,
+				endingSoonHours: 5,
+			},
 			checklistTasks: {
 				future: {
 					id: "future",
@@ -654,6 +658,43 @@ describe("ChecklistPage", () => {
 			),
 		).toBeTruthy();
 		expect(screen.getByRole("button", { name: "Delete task" })).toBeTruthy();
+	});
+
+	it("shows the reset countdown instead of the later expiry for recurring events", () => {
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-07-28T10:00:00.000Z"));
+		render(<ChecklistPage />);
+
+		const weeklyEventRow = screen
+			.getByText("Fixture Weekly Event")
+			.closest("li");
+		const countdown = within(weeklyEventRow as HTMLElement).getByTitle(
+			"Resets in 14h 0m",
+		);
+		expect(weeklyEventRow?.className).toContain("from-amber-500/15");
+		expect(countdown.className).toContain("bg-amber-500");
+	});
+
+	it("highlights an incomplete weekly reset with the existing amber styles", () => {
+		vi.mocked(Date.now).mockReturnValue(Date.parse("2026-10-25T10:00:00.000Z"));
+		render(<ChecklistPage />);
+
+		const weeklyRow = screen.getByText("Fixture Conquest Weekly").closest("li");
+		const weekly = within(weeklyRow as HTMLElement);
+		expect(weeklyRow?.className).toContain("from-amber-500/15");
+		expect(weeklyRow?.className).toContain("hover:border-amber-500/40");
+		expect(weekly.getByTitle("Resets in 14h 0m").className).toContain(
+			"bg-amber-500",
+		);
+
+		fireEvent.click(
+			weekly.getByRole("button", {
+				name: "Mark Fixture Conquest Weekly complete",
+			}),
+		);
+		expect(weeklyRow?.className).not.toContain("from-amber-500/15");
+		expect(weekly.getByTitle("Completed").className).toContain(
+			"bg-emerald-600",
+		);
 	});
 
 	it("prioritizes ending-soon and overdue row treatments", () => {

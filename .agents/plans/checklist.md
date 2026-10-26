@@ -23,6 +23,7 @@ Read this plan for checklist behavior, permanent activities, limited events, pla
 - [x] Track Elemental Sanctum as a permanent weekly activity resetting Monday at 00:00 UTC, with an independent permanent daily bonus checklist item.
 - [x] Keep single occurrence checks and grouped full-event checks, sort non-completed before completed and then by event > permanent > custom and weekly > daily > other, and show reset/End countdowns beside status.
 - [x] Sort same-group checklist events by upcoming start time, then active or ending-soon end time, before alphabetical fallback.
+- [x] Reuse the configurable ending-soon threshold and amber styling for incomplete fixed recurring checklist items nearing their next reset, with reset countdowns taking priority over later event expiry; retain existing expiry and completed-item behavior.
 - [x] Show occurrence and full-event completion controls for daily events, while non-daily events use only one full-event completion control for their full duration.
 - [x] Design the durable checklist data model and evaluate local and Google Drive persistence.
 - [x] Build an accessible, responsive Checklist page with compact horizontal event and task rows, plus relevant tests.
