@@ -126,6 +126,61 @@ describe("checklist schedule utilities", () => {
 		);
 	});
 
+	it("warns about incomplete fixed resets using the ending-soon threshold", () => {
+		const weekly: ChecklistDefinition = {
+			...daily,
+			title: "Weekly activity",
+			recurrence: "weekly",
+		};
+		const warningStart = Date.parse("2026-10-25T00:00:00.000Z");
+		const resetAt = Date.parse("2026-10-26T00:00:00.000Z");
+		const statusAt = (
+			definition: ChecklistDefinition,
+			now: number,
+			completed = false,
+			thresholdHours = 24,
+		) =>
+			getChecklistStatus(
+				definition,
+				getOccurrence(definition, now),
+				now,
+				completed,
+				thresholdHours,
+			);
+
+		expect(getOccurrence(weekly, warningStart).nextResetAt).toBe(resetAt);
+		expect(statusAt(weekly, warningStart - 1)).toBe("active");
+		expect(statusAt(weekly, warningStart)).toBe("ending-soon");
+		expect(statusAt(weekly, warningStart, true)).toBe("completed");
+		expect(statusAt(weekly, warningStart, false, 5)).toBe("active");
+		expect(statusAt(weekly, resetAt - 5 * 3_600_000, false, 5)).toBe(
+			"ending-soon",
+		);
+		expect(statusAt(weekly, resetAt)).toBe("active");
+		expect(statusAt(daily, resetAt - 3_600_000, false, 5)).toBe(
+			"ending-soon",
+		);
+
+		const recurringEvent: ChecklistDefinition = {
+			...weekly,
+			id: "recurring-event",
+			kind: "event",
+			endAt: "2026-11-02T00:00:00.000Z",
+		};
+		expect(statusAt(recurringEvent, warningStart)).toBe("ending-soon");
+		expect(statusAt(recurringEvent, warningStart, true)).toBe("completed");
+		expect(
+			statusAt(
+				{
+					...daily,
+					startAt: "2026-10-25T00:00:00.000Z",
+					mode: "after_completion",
+				},
+				Date.parse("2026-10-25T19:00:00.000Z"),
+			),
+		).toBe("active");
+	});
+
 	it("derives boundary statuses without stored status strings", () => {
 		const event: ChecklistDefinition = {
 			id: "event",
