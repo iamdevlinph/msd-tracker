@@ -39,6 +39,10 @@ const CHLOE_SCREENSHOT_NOTICE_TITLE =
 const CHLOE_SCREENSHOT_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/725";
 
+const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
+const OCTOBER_28_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/734";
+
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
 	{
@@ -160,5 +164,55 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		endAt: "2026-10-28T01:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 		participation: "discord",
+	},
+	{
+		id: "734-nightmarch-midnight-commotion-trick-or-slash",
+		title: "Nightmarch Midnight Commotion — Trick or Slash!!",
+		noticeTitle: OCTOBER_28_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%201.%20Nightmarch%20Midnight%20Commotion`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-28T00:00:00.000Z",
+		endAt: "2026-11-10T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "734-nightmarch-midnight-commotion-story",
+		title: "Nightmarch Midnight Commotion — Story",
+		noticeTitle: OCTOBER_28_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%201.%20Nightmarch%20Midnight%20Commotion`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-28T00:00:00.000Z",
+		endAt: "2026-11-17T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "734-monsterling-combining-missions",
+		title: "Monsterling Combining Missions",
+		noticeTitle: OCTOBER_28_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%202.%20Monsterling%20Combining%20Missions`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-28T00:00:00.000Z",
+		endAt: "2026-11-03T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "734-10-day-check-in-mission",
+		title: "10-Day Check-In Mission",
+		noticeTitle: OCTOBER_28_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%203.%2010-Day%20Check-In%20Mission`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-28T00:00:00.000Z",
+		endAt: "2026-11-10T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "734-anomaly-fiend",
+		title: "Anomaly: Fiend",
+		noticeTitle: OCTOBER_28_NOTICE_TITLE,
+		noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%204.%20Anomaly%3A%20Fiend`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-10-28T00:00:00.000Z",
+		endAt: "2026-11-10T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 ];
