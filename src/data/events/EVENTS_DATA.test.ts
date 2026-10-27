@@ -14,6 +14,10 @@ const CHLOE_SCREENSHOT_NOTICE_TITLE =
 const CHLOE_SCREENSHOT_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/725";
 
+const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
+const OCTOBER_28_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/734";
+
 const ASHEN_CRADLE_EVENTS = [
 	{
 		id: "637-nyanners-special-check-in-pass",
@@ -49,7 +53,7 @@ const ASHEN_CRADLE_EVENTS = [
 
 describe("EVENTS_DATA", () => {
 	it("removes expired records and retains active records", () => {
-		expect(EVENTS_DATA).toHaveLength(12);
+		expect(EVENTS_DATA).toHaveLength(17);
 		const eventIds = EVENTS_DATA.map(({ id }) => id);
 		for (const expiredId of [
 			"638-ar-camera-update-celebration-a-snap-with-my-favorite",
@@ -170,6 +174,55 @@ describe("EVENTS_DATA", () => {
 		});
 	});
 
+	it("imports the October 28 event notice with independent claim windows", () => {
+		for (const event of [
+			{
+				id: "734-nightmarch-midnight-commotion-trick-or-slash",
+				title: "Nightmarch Midnight Commotion — Trick or Slash!!",
+				heading: "🌠 Event 1. Nightmarch Midnight Commotion",
+				endAt: "2026-11-10T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "734-nightmarch-midnight-commotion-story",
+				title: "Nightmarch Midnight Commotion — Story",
+				heading: "🌠 Event 1. Nightmarch Midnight Commotion",
+				endAt: "2026-11-17T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "734-monsterling-combining-missions",
+				title: "Monsterling Combining Missions",
+				heading: "🌠 Event 2. Monsterling Combining Missions",
+				endAt: "2026-11-03T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "734-10-day-check-in-mission",
+				title: "10-Day Check-In Mission",
+				heading: "🌠 Event 3. 10-Day Check-In Mission",
+				endAt: "2026-11-10T23:59:00.000Z",
+				recurrence: "daily",
+			},
+			{
+				id: "734-anomaly-fiend",
+				title: "Anomaly: Fiend",
+				heading: "🌠 Event 4. Anomaly: Fiend",
+				endAt: "2026-11-10T23:59:00.000Z",
+				recurrence: "daily",
+			},
+		] as const) {
+			const { heading, ...expected } = event;
+			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
+				...expected,
+				noticeTitle: OCTOBER_28_NOTICE_TITLE,
+				noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
+				kind: "event",
+				startAt: "2026-10-28T00:00:00.000Z",
+			});
+		}
+	});
+
 	it("uses default midnight resets for daily events", () => {
 		const dailyEvents = EVENTS_DATA.filter(
 			({ recurrence }) => recurrence === "daily",
@@ -177,6 +230,8 @@ describe("EVENTS_DATA", () => {
 		expect(dailyEvents.map(({ id }) => id)).toEqual([
 			"637-nyanners-special-check-in-pass",
 			"724-chloes-7-day-gifts",
+			"734-10-day-check-in-mission",
+			"734-anomaly-fiend",
 		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");
