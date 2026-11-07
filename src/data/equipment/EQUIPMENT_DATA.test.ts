@@ -11,16 +11,16 @@ import {
 } from "@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA";
 
 describe("equipment data", () => {
-	it("contains the 100 catalog pieces across the 34 reference sets", () => {
+	it("contains the 116 catalog pieces across the 39 reference sets", () => {
 		const pieces = Object.values(EQUIPMENT_DATA);
-		expect(pieces).toHaveLength(100);
-		expect(new Set(pieces.map((piece) => piece.id)).size).toBe(100);
+		expect(pieces).toHaveLength(116);
+		expect(new Set(pieces.map((piece) => piece.id)).size).toBe(116);
 		expect(pieces.map((piece) => piece.id).sort((a, b) => a - b)).toEqual(
-			Array.from({ length: 100 }, (_, index) => index + 1),
+			Array.from({ length: 116 }, (_, index) => index + 1),
 		);
-		expect(new Set(pieces.map((piece) => piece.set_name)).size).toBe(34);
-		expect(pieces.filter((piece) => piece.tier_id === 4).length).toBe(38);
-		expect(pieces.filter((piece) => piece.tier_id === 5).length).toBe(62);
+		expect(new Set(pieces.map((piece) => piece.set_name)).size).toBe(39);
+		expect(pieces.filter((piece) => piece.tier_id === 4).length).toBe(46);
+		expect(pieces.filter((piece) => piece.tier_id === 5).length).toBe(70);
 		for (const piece of pieces) {
 			expect(EQUIPMENT_PART_TYPES).toContain(piece.part_type);
 			expect(existsSync(resolve("public", piece.image.slice(1)))).toBe(true);
@@ -45,7 +45,7 @@ describe("equipment data", () => {
 		const tier4Images = new Set(
 			pieces.filter((piece) => piece.tier_id === 4).map((piece) => piece.image),
 		);
-		const primeVariants = pieces.filter((piece) => piece.id >= 63);
+		const primeVariants = pieces.filter((piece) => piece.id >= 63 && piece.id <= 100);
 		const primeVariantSourceIds = [
 			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
 			22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
@@ -78,7 +78,7 @@ describe("equipment data", () => {
 		});
 		expect(
 			Object.values(EQUIPMENT_DATA)
-				.filter((piece) => piece.id >= 63)
+				.filter((piece) => piece.id >= 63 && piece.id <= 100)
 				.map((piece) => piece.name),
 		).toEqual([
 			"Grand Banquet Chapeau",
@@ -121,4 +121,24 @@ describe("equipment data", () => {
 			"Undefeated Gisaeng's Flower Slippers",
 		]);
 	});
+	it("includes the new equipment sets with complete slots and reused artwork", () => {
+		for (const { name, tier, parts } of [
+			{ name: "Worry Crusher", tier: 4, parts: ["headgear", "footwear"] },
+			{ name: "Speechless Destroyer", tier: 4, parts: ["chestpiece", "gloves"] },
+			{ name: "Violent Predator", tier: 4, parts: EQUIPMENT_PART_TYPES },
+			{ name: "The Nameless One", tier: 5, parts: EQUIPMENT_PART_TYPES },
+			{ name: "Ruthless Destroyer", tier: 5, parts: EQUIPMENT_PART_TYPES },
+		] as const) {
+			const pieces = Object.values(EQUIPMENT_DATA).filter(
+				(piece) => piece.set_name === name,
+			);
+			expect(pieces.map(({ part_type }) => part_type)).toEqual(parts);
+			expect(pieces.every((piece) => piece.tier_id === tier)).toBe(true);
+		}
+		for (let offset = 0; offset < 4; offset++)
+			expect(EQUIPMENT_DATA[113 + offset].image).toBe(
+				EQUIPMENT_DATA[105 + offset].image,
+			);
+	});
+
 });

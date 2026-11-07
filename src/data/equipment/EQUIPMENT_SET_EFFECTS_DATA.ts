@@ -203,6 +203,24 @@ export const EQUIPMENT_SET_EFFECTS_DATA = {
 	"Blossoms in Full Bloom": [
 		{ pieces: 2, effect: "Ice DMG +7.5% for 5s upon using a Special Skill" },
 	],
+	"Worry Crusher": [
+		{ pieces: 2, effect: "Basic Attack's Earth DMG +3%" },
+	],
+	"Speechless Destroyer": [
+		{ pieces: 2, effect: "All teammates' Lightning DMG +3% for 5s upon using a Support Skill" },
+	],
+	"Violent Predator": [
+		{ pieces: 2, effect: "Basic Attack's Ice DMG +3%" },
+		{ pieces: 4, effect: "Ice DMG +7% for 5s upon landing a critical hit" },
+	],
+	"The Nameless One": [
+		{ pieces: 2, effect: "Basic Attack's Wind DMG +5%" },
+		{ pieces: 4, effect: "Target's Wind RES -10% for 5s upon using an ultimate skill" },
+	],
+	"Ruthless Destroyer": [
+		{ pieces: 2, effect: "Ice DMG +5% for 5s upon inflicting Freeze" },
+		{ pieces: 4, effect: "Neutralization DMG +10% for 5s upon using a Tag-out Skill" },
+	],
 } as const satisfies Record<string, readonly EquipmentSetEffect[]>;
 
 export type EquipmentSetName = keyof typeof EQUIPMENT_SET_EFFECTS_DATA;
