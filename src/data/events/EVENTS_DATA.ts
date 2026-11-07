@@ -34,27 +34,17 @@ const OCTOBER_20_NOTICE_TITLE =
 	"10/20 (Tue) 「Full Speed Runaway Train Crash」Event Notice";
 const OCTOBER_20_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/724";
-const CHLOE_SCREENSHOT_NOTICE_TITLE =
-	"10/20 (Tue)「Full Speed Runaway Train Crash」Chloe Screenshot Event Notice";
-const CHLOE_SCREENSHOT_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/725";
 
 const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
 const OCTOBER_28_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/734";
 
+const NOVEMBER_4_NOTICE_TITLE = "11/4 (Wed) Event Notice";
+const NOVEMBER_4_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/737";
+
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
-	{
-		id: "637-nyanners-special-check-in-pass",
-		title: "Nyanners's Special Check-In Pass!",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%201.%20Nyanners's%20Special%20Check-In%20Pass!`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:30:00.000Z",
-		endAt: "2026-10-27T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.DAILY,
-	},
 	{
 		id: "637-nyanners-special-missions",
 		title: "Nyanners's Special Missions!",
@@ -73,16 +63,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-09-30T03:30:00.000Z",
 		endAt: "2026-11-10T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "637-wanderers-beyond-borders-shop-story-missions",
-		title: "Wanderers Beyond Borders — Shop/Story/Missions",
-		noticeTitle: ASHEN_CRADLE_NOTICE_TITLE,
-		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%204.%20Wanderers%20Beyond%20Borders`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-09-30T03:30:00.000Z",
-		endAt: "2026-10-27T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
@@ -145,27 +125,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "724-equipment-crafting-mission",
-		title: "Equipment Crafting Mission",
-		noticeTitle: OCTOBER_20_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_20_NOTICE_URL}#:~:text=Event%205.%20Equipment%20Crafting%20Mission`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-21T02:00:00.000Z",
-		endAt: "2026-10-27T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "725-chloe-screenshot-event",
-		title: "「Full Speed Runaway Train Crash」Chloe Screenshot Event!",
-		noticeTitle: CHLOE_SCREENSHOT_NOTICE_TITLE,
-		noticeUrl: `${CHLOE_SCREENSHOT_NOTICE_URL}#:~:text=%E3%80%8CFull%20Speed%20Runaway%20Train%20Crash%E3%80%8DChloe%20Screenshot%20Event!`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-21T09:51:00.000Z",
-		endAt: "2026-10-28T01:00:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-		participation: "discord",
-	},
-	{
 		id: "734-nightmarch-midnight-commotion-trick-or-slash",
 		title: "Nightmarch Midnight Commotion — Trick or Slash!!",
 		noticeTitle: OCTOBER_28_NOTICE_TITLE,
@@ -183,16 +142,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-10-28T00:00:00.000Z",
 		endAt: "2026-11-17T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "734-monsterling-combining-missions",
-		title: "Monsterling Combining Missions",
-		noticeTitle: OCTOBER_28_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%202.%20Monsterling%20Combining%20Missions`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-28T00:00:00.000Z",
-		endAt: "2026-11-03T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
@@ -214,5 +163,25 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		startAt: "2026-10-28T00:00:00.000Z",
 		endAt: "2026-11-10T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "737-bonus-time-event",
+		title: "Bonus Time Event",
+		noticeTitle: NOVEMBER_4_NOTICE_TITLE,
+		noticeUrl: `${NOVEMBER_4_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%201.%20Bonus%20Time%20Event`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-11-04T00:00:00.000Z",
+		endAt: "2026-11-10T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "737-an-invitation-to-break-the-ice",
+		title: "An Invitation to Break the Ice",
+		noticeTitle: NOVEMBER_4_NOTICE_TITLE,
+		noticeUrl: `${NOVEMBER_4_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%202.%20An%20Invitation%20to%20Break%20the%20Ice`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-11-04T00:00:00.000Z",
+		endAt: "2026-11-10T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 ];
