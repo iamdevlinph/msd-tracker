@@ -58,6 +58,11 @@ describe("ArtifactCatalogPage", () => {
 			"Celestial Halo of Protection",
 			"Alpha Charm",
 		]);
+		const card = screen.getByAltText("Zeta Blade portrait").parentElement as HTMLElement;
+		expect(card.style.width).toBe("120px");
+		expect(card.style.height).toBe("120px");
+		expect(card.parentElement?.style.gridTemplateColumns).toBe("repeat(auto-fill, 120px)");
+		expect(card.parentElement?.className).toContain("gap-3");
 		expect(screen.queryByRole("button", { name: "Add Artifact" })).toBeNull();
 
 		const sort = screen.getByRole("combobox", { name: "Sort artifacts" });
