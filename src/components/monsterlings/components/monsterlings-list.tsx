@@ -6,6 +6,7 @@ import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/mon
 import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { matchesSearchText } from "@/lib/search";
 import { useAppStore } from "@/stores/app-store";
@@ -60,12 +61,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 					}
 				/>
 			)}
-			<div
-				className="grid justify-start gap-3"
-				style={{
-					gridTemplateColumns: `repeat(auto-fill, ${MONSTERLING_CARD_WIDTH}px)`,
-				}}
-			>
+			<EntityCardGrid itemWidth={MONSTERLING_CARD_WIDTH}>
 				{sortedMonsterlings.map(([key, monsterling]) => {
 					return (
 						// browser add text-center when for buttons
@@ -91,7 +87,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 						</button>
 					);
 				})}
-			</div>
+</EntityCardGrid>
 
 			<EditMonsterlingDialog
 				monsterlingToEdit={monsterlingToEdit}
