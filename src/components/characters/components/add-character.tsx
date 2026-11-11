@@ -150,7 +150,7 @@ export function AddCharacter() {
 										/>
 									</button>
 								))}
-</EntityCardGrid>
+							</EntityCardGrid>
 						</div>
 					)}
 
