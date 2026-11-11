@@ -22,7 +22,7 @@ Read this plan for Home, SEO, navigation-wide presentation, or Shared UI behavio
 - [x] Group the public Artifact, Character, and Equipment catalogs under Assets after Monsterlings and before Others.
 - [x] Let users hide the Assets group or any catalog child from Settings, retain child choices independently, visually mark unchecked options, and suppress groups with no visible children.
 
-- [x] Standardize reusable entity cards at 120px with 12px collection/picker gaps and left-aligned partial rows; preserve Codex and link-chain specializations.
+- [x] Standardize reusable entity cards at 120px and adopt one `EntityCardGrid` for owned collections, public catalogs, add dialogs, and loadout pickers, with consistent 12px gaps and 20px filter-to-grid spacing; preserve Codex and link-chain specializations.
 
 ## Shared UI: Available
 
