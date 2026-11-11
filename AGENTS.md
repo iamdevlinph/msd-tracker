@@ -35,7 +35,7 @@ Promote repeated closed-set domain strings used in production control flow to fe
 
 ## Reusable Entity Cards
 
-Use `ENTITY_CARD_SIZE` from `src/components/shared/entity-card-constants.ts` for reusable CharacterCard and ArtifactCard 120×120 outer dimensions and MonsterlingCard 120px portrait/height. Monsterling full and compact widths remain 330px and 162px. Collection grids, add dialogs, and entity pickers use fixed card-width columns, 12px (`gap-3`) spacing, and left-aligned partial rows. Character skill strips align to the 120px card width, including exports. Preserve badges, focus rings, and trait columns. Exclude specialized 112px saved-loadout/editor tiles, Codex and link-chain tiles, 50px dialog thumbnails, and equipment cards from this sizing contract.
+Use `ENTITY_CARD_SIZE` from `src/components/shared/entity-card-constants.ts` for reusable CharacterCard and ArtifactCard 120×120 outer dimensions and MonsterlingCard 120px portrait/height. Monsterling full and compact widths remain 330px and 162px. Use the shared `EntityCardGrid` for applicable collection grids, add dialogs, and entity pickers; it keeps fixed card-width columns, 12px (`gap-3`) spacing, and left-aligned partial rows, with explicit `itemWidth` for full Monsterling cards. Character skill strips align to the 120px card width, including exports. Preserve badges, focus rings, and trait columns. Exclude specialized 112px saved-loadout/editor tiles, Codex and link-chain tiles, 50px dialog thumbnails, and equipment cards from this sizing contract.
 
 ## Agent Workflow
 
