@@ -59,6 +59,6 @@ export const LoadoutArtifactPicker = ({
 					No owned artifacts match.
 				</p>
 			)}
-</EntityCardGrid>
+		</EntityCardGrid>
 	</>
 );
