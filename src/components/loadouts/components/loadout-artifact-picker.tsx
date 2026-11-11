@@ -1,6 +1,7 @@
 import { ArtifactCard } from "@/components/artifacts/components/artifact-card";
 import { ArtifactFilter } from "@/components/artifacts/components/artifact-filter";
 import type { ArtifactFilters } from "@/components/artifacts/utils/artifact-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +32,10 @@ export const LoadoutArtifactPicker = ({
 		<div className="mb-4">
 			<ArtifactFilter filters={filters} onChange={onFiltersChange} autoFocus />
 		</div>
-		<div className="grid grid-cols-[repeat(auto-fit,144px)] justify-center gap-3">
+		<div
+			className="grid justify-start gap-3"
+			style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+		>
 			{options.map(({ id, artifactId, fusionLevel }) => {
 				const artifact = ARTIFACTS_DATA[artifactId];
 				if (!artifact) return null;
@@ -45,7 +49,7 @@ export const LoadoutArtifactPicker = ({
 						onClick={() => onSelect(id)}
 						aria-label={`Select ${artifact.name}`}
 						className={cn(
-							"rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+							"w-full rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
 							disabled && "cursor-not-allowed opacity-50",
 						)}
 					>
