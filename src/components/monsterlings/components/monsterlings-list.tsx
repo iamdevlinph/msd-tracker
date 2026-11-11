@@ -87,7 +87,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 						</button>
 					);
 				})}
-</EntityCardGrid>
+			</EntityCardGrid>
 
 			<EditMonsterlingDialog
 				monsterlingToEdit={monsterlingToEdit}
