@@ -8,6 +8,7 @@ import {
 	isCharacterVisible,
 	matchesCharacterFilters,
 } from "@/components/characters/utils/character-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import {
@@ -122,7 +123,10 @@ export function AddCharacter() {
 								<CharacterFilter filters={filters} onChange={setFilters} />
 							)}
 
-							<div className="flex flex-wrap gap-5 mt-5">
+							<div
+								className="mt-5 grid justify-start gap-3"
+								style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+							>
 								{noCharsToAdd && (
 									<p className="flex justify-center items-center w-full">
 										No characters to add
