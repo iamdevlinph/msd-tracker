@@ -6,6 +6,7 @@ import { CharacterSkillLevel } from "@/components/characters/components/characte
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { PageTitle } from "@/components/shared/page-title";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
@@ -51,13 +52,12 @@ export const CharactersPage = () => {
 					collection="characters"
 					title="Character"
 					count={exportItems.length}
-					itemWidth={130}
+					itemWidth={ENTITY_CARD_SIZE}
 					maxColumns={12}
 				>
 					{exportItems.map((character) => (
 						<div key={character.id} className="flex flex-col items-center">
 							<CharacterCard
-								portraitSize={130}
 								iconSize={30}
 								portraitImage={resolveCharacterPortrait(
 									character.info,
