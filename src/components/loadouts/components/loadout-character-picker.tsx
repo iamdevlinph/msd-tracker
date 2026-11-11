@@ -4,6 +4,7 @@ import { CharacterFilter } from "@/components/characters/components/character-fi
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
 import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +31,10 @@ export const LoadoutCharacterPicker = ({
 		<div className="mb-4">
 			<CharacterFilter filters={filters} onChange={onFiltersChange} autoFocus />
 		</div>
-		<div className="grid grid-cols-[repeat(auto-fit,130px)] justify-center gap-x-5 gap-y-8">
+		<div
+			className="grid justify-start gap-3"
+			style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+		>
 			{options.map((character) => {
 				const disabled =
 					selectedIds.has(character.id) && currentId !== character.id;
@@ -42,12 +46,11 @@ export const LoadoutCharacterPicker = ({
 						onClick={() => onSelect(character.id)}
 						aria-label={`Select ${character.info.name}`}
 						className={cn(
-							"rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+							"w-full rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
 							disabled && "cursor-not-allowed opacity-50",
 						)}
 					>
 						<CharacterCard
-							portraitSize={130}
 							iconSize={30}
 							portraitImage={resolveCharacterPortrait(
 								character.info,
