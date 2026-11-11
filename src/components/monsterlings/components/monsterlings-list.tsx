@@ -61,9 +61,9 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 				/>
 			)}
 			<div
-				className="mt-5 gap-y-5 gap-x-5 grid md:flex md:flex-wrap justify-center md:justify-start "
+				className="grid justify-start gap-3"
 				style={{
-					gridTemplateColumns: `repeat(auto-fit, ${MONSTERLING_CARD_WIDTH}px)`,
+					gridTemplateColumns: `repeat(auto-fill, ${MONSTERLING_CARD_WIDTH}px)`,
 				}}
 			>
 				{sortedMonsterlings.map(([key, monsterling]) => {
@@ -72,7 +72,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 						<button
 							key={key}
 							type="button"
-							className="group text-left cursor-pointer"
+							className="group rounded-md text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 							onClick={() => {
 								setOpen(true);
 								setMonsterlingToEdit(key);
