@@ -77,7 +77,7 @@ describe("character skill order", () => {
 		render(<CharacterSkillLevel charOwned={character} exportLayout />);
 		const skills = screen.getAllByAltText(/skill icon$/);
 		const grid = skills[0]?.parentElement;
-		expect(grid?.className).toContain("w-[130px]");
+		expect((grid as HTMLElement).style.width).toBe("120px");
 		expect(grid?.getAttribute("style")).toContain(
 			"grid-template-columns: repeat(4, minmax(0, 1fr))",
 		);
