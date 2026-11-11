@@ -2,7 +2,7 @@
 
 Read this plan for public game-asset catalogs that are independent of player ownership. Read the Inventory plan as well when adding owned-state behavior.
 
-- [x] Standardize public Character and Artifact catalog cards at 120×120 with 12px gaps and left-aligned fixed-width grids, independent of Equipment card sizing.
+- [x] Standardize public Character and Artifact catalog cards at 120×120 through the shared 12px-gap, left-aligned fixed-width entity grid, independent of Equipment card sizing.
 
 ## Artifact Catalog: Available
 
