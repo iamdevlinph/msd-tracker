@@ -8,7 +8,7 @@ Read this plan for checklist behavior, permanent activities, limited events, pla
 - [x] Use single-check completion indicators, switch completed actions to undo, hide disabled category filters while keeping All available, and align toolbar controls with shared page button styling.
 
 - [x] Define typed official events with non-displayed notice-title metadata, UTC source timestamps, explicitly published open-ended periods, recurring reset schedules, expiry behavior for dated records, and player-created UTC Start/End times verified across daily and weekly UTC boundaries.
-- [x] Version completion keys independently from schedule changes, add the Monster Race permanent reset, and mark Discord participation on its two notice entries.
+- [x] Version completion keys independently from schedule changes, add the Monster Race permanent reset, preserve Discord participation and X screenshot-event channel metadata on official notice entries.
 - [x] Share the current game version between Dimensional Rift, seasonal activities, and rebuildable stat-option caches; increment it manually for official refreshes without adding seasonal recurrence or countdown behavior.
 - [x] Default new player-created Task and Event starts to the current UTC date at 00:00 while preserving saved times when editing.
 - [x] Add the 100-Day Anniversary Check-In Pass and Bonus Time daily event schedules using their published UTC periods.

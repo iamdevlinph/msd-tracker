@@ -14,23 +14,15 @@ const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
 const OCTOBER_28_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/734";
 
-const NOVEMBER_4_NOTICE_TITLE = "11/4 (Wed) Event Notice";
-const NOVEMBER_4_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/737";
+const NOVEMBER_10_NOTICE_TITLE = "11/10 (Tue) 「Light From a Fallen Star」 Event Notice";
+const NOVEMBER_10_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/770";
+const NOVEMBER_10_COMMUNITY_NOTICE_TITLE =
+	"11/10 (Tue) 1.5 Version Update Celebration! 2 Community Events Notice";
+const NOVEMBER_10_COMMUNITY_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/771";
 
 const ASHEN_CRADLE_EVENTS = [
-	{
-		id: "637-nyanners-special-missions",
-		title: "Nyanners's Special Missions!",
-		heading: "Event 2. Nyanners's Special Missions!",
-		endAt: "2026-11-10T23:59:00.000Z",
-	},
-	{
-		id: "637-mew-mew-gift-draw",
-		title: "Mew-Mew Gift Draw",
-		heading: "Event 3. Mew-Mew Gift Draw",
-		endAt: "2026-11-10T23:59:00.000Z",
-	},
 	{
 		id: "637-unknown-conquest-mission",
 		title: "「Unknown」 Conquest Mission",
@@ -40,9 +32,20 @@ const ASHEN_CRADLE_EVENTS = [
 
 describe("EVENTS_DATA", () => {
 	it("removes expired records and retains active records", () => {
-		expect(EVENTS_DATA).toHaveLength(14);
+		expect(EVENTS_DATA).toHaveLength(11);
 		const eventIds = EVENTS_DATA.map(({ id }) => id);
 		for (const expiredId of [
+			"637-nyanners-special-missions",
+			"637-mew-mew-gift-draw",
+			"724-the-road-to-a-broken-heart-event-stage-intensive-training",
+			"724-energetic-fighters-enthusiastic-cheer",
+			"724-chloes-7-day-gifts",
+			"724-special-missions-with-chloe",
+			"734-nightmarch-midnight-commotion-trick-or-slash",
+			"734-10-day-check-in-mission",
+			"734-anomaly-fiend",
+			"737-bonus-time-event",
+			"737-an-invitation-to-break-the-ice",
 			"637-nyanners-special-check-in-pass",
 			"637-wanderers-beyond-borders-shop-story-missions",
 			"724-equipment-crafting-mission",
@@ -97,38 +100,10 @@ describe("EVENTS_DATA", () => {
 	it("imports the October 20 in-game event schedules", () => {
 		for (const event of [
 			{
-				id: "724-the-road-to-a-broken-heart-event-stage-intensive-training",
-				title: "The Road to a Broken Heart — Event Stage/Intensive Training!",
-				heading: "Event 1. The Road to a Broken Heart",
-				endAt: "2026-11-10T23:59:00.000Z",
-				recurrence: "none",
-			},
-			{
 				id: "724-the-road-to-a-broken-heart-shop-story-missions",
 				title: "The Road to a Broken Heart — Shop/Story/Missions",
 				heading: "Event 1. The Road to a Broken Heart",
 				endAt: "2026-11-17T23:59:00.000Z",
-				recurrence: "none",
-			},
-			{
-				id: "724-energetic-fighters-enthusiastic-cheer",
-				title: "Energetic Fighter's Enthusiastic Cheer",
-				heading: "Event 2. Energetic Fighter's Enthusiastic Cheer",
-				endAt: "2026-11-10T23:59:00.000Z",
-				recurrence: "none",
-			},
-			{
-				id: "724-chloes-7-day-gifts",
-				title: "Chloe’s 7-Day Gifts",
-				heading: "Event 3. Chloe’s 7-Day Gifts",
-				endAt: "2026-11-10T23:59:00.000Z",
-				recurrence: "daily",
-			},
-			{
-				id: "724-special-missions-with-chloe",
-				title: "Special Missions with Chloe",
-				heading: "Event 4. Special Missions with Chloe",
-				endAt: "2026-11-10T23:59:00.000Z",
 				recurrence: "none",
 			},
 		] as const) {
@@ -145,32 +120,11 @@ describe("EVENTS_DATA", () => {
 	it("imports the October 28 event notice with independent claim windows", () => {
 		for (const event of [
 			{
-				id: "734-nightmarch-midnight-commotion-trick-or-slash",
-				title: "Nightmarch Midnight Commotion — Trick or Slash!!",
-				heading: "🌠 Event 1. Nightmarch Midnight Commotion",
-				endAt: "2026-11-10T23:59:00.000Z",
-				recurrence: "none",
-			},
-			{
 				id: "734-nightmarch-midnight-commotion-story",
 				title: "Nightmarch Midnight Commotion — Story",
 				heading: "🌠 Event 1. Nightmarch Midnight Commotion",
 				endAt: "2026-11-17T23:59:00.000Z",
 				recurrence: "none",
-			},
-			{
-				id: "734-10-day-check-in-mission",
-				title: "10-Day Check-In Mission",
-				heading: "🌠 Event 3. 10-Day Check-In Mission",
-				endAt: "2026-11-10T23:59:00.000Z",
-				recurrence: "daily",
-			},
-			{
-				id: "734-anomaly-fiend",
-				title: "Anomaly: Fiend",
-				heading: "🌠 Event 4. Anomaly: Fiend",
-				endAt: "2026-11-10T23:59:00.000Z",
-				recurrence: "daily",
 			},
 		] as const) {
 			const { heading, ...expected } = event;
@@ -184,29 +138,87 @@ describe("EVENTS_DATA", () => {
 		}
 	});
 
-	it("imports the November 4 events with published UTC windows", () => {
+	it("imports the November 10 in-game event and mission windows", () => {
 		for (const event of [
 			{
-				id: "737-bonus-time-event",
-				title: "Bonus Time Event",
-				heading: "🌠 Event 1. Bonus Time Event",
+				id: "770-a-flame-chasing-freedom-event-stages-mini-game",
+				title: "A Flame Chasing Freedom — Event Stages/Duckie Duckie? Boing Boing!",
+				heading: "🌠 Event 1. A Flame Chasing Freedom",
+				endAt: "2026-12-01T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "770-a-flame-chasing-freedom-shop-story-missions",
+				title: "A Flame Chasing Freedom — Shop/Story/Missions",
+				heading: "🌠 Event 1. A Flame Chasing Freedom",
+				endAt: "2026-12-08T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "770-boom-take-whatevers-left-after-the-explosion",
+				title: "Boom! Take whatever's left after the explosion!",
+				heading: "🌠 Event 2. Boom! Take whatever's left after the explosion!",
+				endAt: "2026-12-01T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "770-mads-7-day-gifts",
+				title: "M.A.D.'s 7-Day Gifts",
+				heading: "🌠 Event 3. M.A.D.'s 7-Day Gifts",
+				endAt: "2026-12-01T23:59:00.000Z",
 				recurrence: "daily",
 			},
 			{
-				id: "737-an-invitation-to-break-the-ice",
-				title: "An Invitation to Break the Ice",
-				heading: "🌠 Event 2. An Invitation to Break the Ice",
+				id: "770-special-missions-with-mad",
+				title: "Special Missions with M.A.D.",
+				heading: "🌠 Event 4. Special Missions with M.A.D.",
+				endAt: "2026-12-01T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "770-equipment-crafting-mission",
+				title: "Equipment Crafting Mission",
+				heading: "🌠 Event 5. Equipment Crafting Mission",
+				endAt: "2026-11-17T23:59:00.000Z",
 				recurrence: "none",
 			},
 		] as const) {
 			const { heading, ...expected } = event;
 			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
 				...expected,
-				noticeTitle: NOVEMBER_4_NOTICE_TITLE,
-				noticeUrl: `${NOVEMBER_4_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
+				noticeTitle: NOVEMBER_10_NOTICE_TITLE,
+				noticeUrl: `${NOVEMBER_10_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
 				kind: "event",
-				startAt: "2026-11-04T00:00:00.000Z",
-				endAt: "2026-11-10T23:59:00.000Z",
+				startAt: "2026-11-11T03:00:00.000Z",
+			});
+		}
+	});
+
+	it("imports the Discord and X community contests with distinct deadlines", () => {
+		for (const event of [
+			{
+				id: "771-mad-arrival-in-search-of-the-perfect-blast",
+				title: "New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
+				heading: "🌠 Event 1. New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
+				endAt: "2026-11-18T01:00:00.000Z",
+				participation: "discord",
+			},
+			{
+				id: "771-a-flame-chasing-freedom-record-screenshot-event",
+				title: "[A Flame Chasing Freedom] Celebration! Record Screenshot Event",
+				heading: "🌠 Event 2. [A Flame Chasing Freedom] Celebration! Record Screenshot Event",
+				endAt: "2026-12-02T01:00:00.000Z",
+				participation: "x",
+			},
+		] as const) {
+			const { heading, ...expected } = event;
+			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
+				...expected,
+				noticeTitle: NOVEMBER_10_COMMUNITY_NOTICE_TITLE,
+				noticeUrl: `${NOVEMBER_10_COMMUNITY_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
+				kind: "event",
+				startAt: "2026-11-11T02:51:00.000Z",
+				recurrence: "none",
 			});
 		}
 	});
@@ -216,10 +228,7 @@ describe("EVENTS_DATA", () => {
 			({ recurrence }) => recurrence === "daily",
 		);
 		expect(dailyEvents.map(({ id }) => id)).toEqual([
-			"724-chloes-7-day-gifts",
-			"734-10-day-check-in-mission",
-			"734-anomaly-fiend",
-			"737-bonus-time-event",
+			"770-mads-7-day-gifts",
 		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");

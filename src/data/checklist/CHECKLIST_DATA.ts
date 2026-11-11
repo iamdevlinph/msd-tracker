@@ -59,7 +59,7 @@ export type ChecklistDefinition = {
 	mode?: ChecklistMode;
 	dueDurationMinutes?: number;
 	completionVersion?: string;
-	participation?: "discord";
+	participation?: "discord" | "x";
 	seasonal?: boolean;
 };
 
