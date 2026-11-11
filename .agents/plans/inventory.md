@@ -32,7 +32,7 @@ Read this plan for Characters, Monsterlings, Artifacts, or Equipment inventory w
 - [x] Open accessible Monster Codex detail dialogs from cards with mutation-first navigation and source-only fallback, show published abilities and dialog-contained, independently scrollable, drag-to-pan reverse-hierarchy mutation trees with occurrence-based shared-ingredient duplication, automatically framed selected recipes, subtree centering, final mutations above their paired ingredients, straight connectors, and stacked navigation, use full-width source accordions with capture-only location placeholders, hide unavailable mutation tabs, and filter by multiple source categories with OR semantics.
 - [x] Show a detached close-all control for stacked Monster Codex dialogs while keeping X and Escape navigation level-aware.
 
-- [x] Standardize reusable owned Character, Artifact, and Monsterling cards on 120px portraits with 12px gaps and left-aligned collections, retaining full/compact Monsterling trait widths and interactions.
+- [x] Standardize reusable owned Character, Artifact, and Monsterling cards on 120px portraits using the shared 12px-gap, left-aligned entity grid; retain full/compact Monsterling trait widths and interactions.
 
 ## Chunk 2: Artifacts Inventory
 
