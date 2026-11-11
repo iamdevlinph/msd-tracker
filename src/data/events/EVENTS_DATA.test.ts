@@ -14,7 +14,8 @@ const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
 const OCTOBER_28_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/734";
 
-const NOVEMBER_10_NOTICE_TITLE = "11/10 (Tue) 「Light From a Fallen Star」 Event Notice";
+const NOVEMBER_10_NOTICE_TITLE =
+	"11/10 (Tue) 「Light From a Fallen Star」 Event Notice";
 const NOVEMBER_10_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/770";
 const NOVEMBER_10_COMMUNITY_NOTICE_TITLE =
@@ -142,7 +143,8 @@ describe("EVENTS_DATA", () => {
 		for (const event of [
 			{
 				id: "770-a-flame-chasing-freedom-event-stages-mini-game",
-				title: "A Flame Chasing Freedom — Event Stages/Duckie Duckie? Boing Boing!",
+				title:
+					"A Flame Chasing Freedom — Event Stages/Duckie Duckie? Boing Boing!",
 				heading: "🌠 Event 1. A Flame Chasing Freedom",
 				endAt: "2026-12-01T23:59:00.000Z",
 				recurrence: "none",
@@ -198,15 +200,18 @@ describe("EVENTS_DATA", () => {
 		for (const event of [
 			{
 				id: "771-mad-arrival-in-search-of-the-perfect-blast",
-				title: "New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
-				heading: "🌠 Event 1. New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
+				title:
+					"New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
+				heading:
+					"🌠 Event 1. New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
 				endAt: "2026-11-18T01:00:00.000Z",
 				participation: "discord",
 			},
 			{
 				id: "771-a-flame-chasing-freedom-record-screenshot-event",
 				title: "[A Flame Chasing Freedom] Celebration! Record Screenshot Event",
-				heading: "🌠 Event 2. [A Flame Chasing Freedom] Celebration! Record Screenshot Event",
+				heading:
+					"🌠 Event 2. [A Flame Chasing Freedom] Celebration! Record Screenshot Event",
 				endAt: "2026-12-02T01:00:00.000Z",
 				participation: "x",
 			},
@@ -227,9 +232,7 @@ describe("EVENTS_DATA", () => {
 		const dailyEvents = EVENTS_DATA.filter(
 			({ recurrence }) => recurrence === "daily",
 		);
-		expect(dailyEvents.map(({ id }) => id)).toEqual([
-			"770-mads-7-day-gifts",
-		]);
+		expect(dailyEvents.map(({ id }) => id)).toEqual(["770-mads-7-day-gifts"]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");
 	});

@@ -39,7 +39,8 @@ const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
 const OCTOBER_28_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/734";
 
-const NOVEMBER_10_NOTICE_TITLE = "11/10 (Tue) 「Light From a Fallen Star」 Event Notice";
+const NOVEMBER_10_NOTICE_TITLE =
+	"11/10 (Tue) 「Light From a Fallen Star」 Event Notice";
 const NOVEMBER_10_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/770";
 const NOVEMBER_10_COMMUNITY_NOTICE_TITLE =
@@ -140,7 +141,8 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 	},
 	{
 		id: "771-mad-arrival-in-search-of-the-perfect-blast",
-		title: "New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
+		title:
+			"New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
 		noticeTitle: NOVEMBER_10_COMMUNITY_NOTICE_TITLE,
 		noticeUrl: `${NOVEMBER_10_COMMUNITY_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%201.%20New%20Character%20%5BM.A.D.%5D%20Arrival%20Celebration!%20In%20Search%20of%20the%20Perfect%20Blast!`,
 		kind: CHECKLIST_KINDS.EVENT,
