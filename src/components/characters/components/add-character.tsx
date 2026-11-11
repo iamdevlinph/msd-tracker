@@ -8,7 +8,7 @@ import {
 	isCharacterVisible,
 	matchesCharacterFilters,
 } from "@/components/characters/utils/character-utils";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import {
@@ -118,17 +118,12 @@ export function AddCharacter() {
 				</DialogHeader>
 				<div className="">
 					{!hasSelectedChar && (
-						<div className="gap-2 flex flex-col">
+						<div className="flex flex-col gap-5">
 							{!noCharsToAdd && (
 								<CharacterFilter filters={filters} onChange={setFilters} />
 							)}
 
-							<div
-								className="mt-5 grid justify-start gap-3"
-								style={{
-									gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
-								}}
-							>
+							<EntityCardGrid>
 								{noCharsToAdd && (
 									<p className="flex justify-center items-center w-full">
 										No characters to add
@@ -155,7 +150,7 @@ export function AddCharacter() {
 										/>
 									</button>
 								))}
-							</div>
+							</EntityCardGrid>
 						</div>
 					)}
 

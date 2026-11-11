@@ -9,7 +9,7 @@ import {
 	sortArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { PageTitle } from "@/components/shared/page-title";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 
@@ -41,12 +41,7 @@ export const ArtifactCatalogPage = () => {
 					onSortChange={setSort}
 				/>
 				{artifacts.length ? (
-					<div
-						className="grid justify-start gap-3"
-						style={{
-							gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
-						}}
-					>
+					<EntityCardGrid>
 						{artifacts.map((artifact) => (
 							<ArtifactCard
 								key={artifact.id}
@@ -54,7 +49,7 @@ export const ArtifactCatalogPage = () => {
 								imageClassName="p-1"
 							/>
 						))}
-					</div>
+					</EntityCardGrid>
 				) : (
 					<CollectionEmptyState
 						title="No artifacts found"

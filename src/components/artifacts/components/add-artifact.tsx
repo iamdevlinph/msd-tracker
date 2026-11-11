@@ -8,7 +8,7 @@ import {
 	filterArtifacts,
 	sortArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -77,14 +77,9 @@ export const AddArtifact = () => {
 					</DialogDescription>
 				</DialogHeader>
 				{!artifact ? (
-					<div className="gap-2 flex flex-col">
+					<div className="flex flex-col gap-5">
 						<ArtifactFilter filters={filters} onChange={setFilters} />
-						<div
-							className="mt-5 grid justify-start gap-3"
-							style={{
-								gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
-							}}
-						>
+						<EntityCardGrid>
 							{artifacts.length === 0 && (
 								<p className="text-sm text-muted-foreground">
 									No artifacts match these filters.
@@ -100,7 +95,7 @@ export const AddArtifact = () => {
 									<ArtifactCard artifact={a} />
 								</button>
 							))}
-						</div>
+						</EntityCardGrid>
 					</div>
 				) : (
 					<ArtifactOwnedDetailsForm artifactId={artifact.id} onClose={close} />
