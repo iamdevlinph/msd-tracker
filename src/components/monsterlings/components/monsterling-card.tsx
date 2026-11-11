@@ -7,6 +7,7 @@ import {
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import { MonsterlingLinkChainBadge } from "@/components/monsterlings/components/monsterling-link-chain";
 import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
@@ -52,9 +53,12 @@ export const MonsterlingCard = ({
 				width,
 				minWidth: width,
 				maxWidth: width,
+				height: ENTITY_CARD_SIZE,
 				gridTemplateAreas: "'portrait stats'",
 				gridTemplateColumns:
-					display === "icons" ? "120px 48px" : "120px minmax(0, 1fr)",
+					display === "icons"
+							? `${ENTITY_CARD_SIZE}px 48px`
+							: `${ENTITY_CARD_SIZE}px minmax(0, 1fr)`,
 			}}
 		>
 			<div className="w-max" style={{ gridArea: "portrait" }}>
@@ -66,7 +70,7 @@ export const MonsterlingCard = ({
 					<TierPortrait
 						tier={tier_id}
 						portraitImg={image}
-						portraitSize={120}
+						portraitSize={ENTITY_CARD_SIZE}
 						name={name}
 						hideTierBg={display === "full"}
 					/>
