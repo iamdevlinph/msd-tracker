@@ -10,9 +10,9 @@ import {
 } from "@/components/artifacts/utils/artifact-utils";
 import { getEquippedCharacterUsage } from "@/components/loadouts/utils/equipped-character-usage";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
-import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { PageTitle } from "@/components/shared/page-title";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { useAppStore } from "@/stores/app-store";
@@ -118,7 +118,7 @@ export const ArtifactsPage = () => {
 								/>
 							</button>
 						))}
-</EntityCardGrid>
+					</EntityCardGrid>
 				)}
 			</div>
 			<EditArtifactDetailsDialog
