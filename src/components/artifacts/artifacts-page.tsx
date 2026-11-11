@@ -74,7 +74,7 @@ export const ArtifactsPage = () => {
 							key={instanceId}
 							artifact={artifact}
 							fusionLevel={value.fusion_level}
-														imageClassName="p-1"
+							imageClassName="p-1"
 						/>
 					))}
 				</CollectionExportMenu>
@@ -113,7 +113,7 @@ export const ArtifactsPage = () => {
 								<ArtifactCard
 									artifact={artifact}
 									fusionLevel={value.fusion_level}
-																		imageClassName="p-1"
+									imageClassName="p-1"
 									equippedCharacters={
 										equippedCharacterUsage.artifacts[instanceId]
 									}
