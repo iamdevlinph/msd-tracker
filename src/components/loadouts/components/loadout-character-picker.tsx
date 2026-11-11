@@ -4,7 +4,7 @@ import { CharacterFilter } from "@/components/characters/components/character-fi
 import { CharacterSkillLevel } from "@/components/characters/components/character-skill-level";
 import type { CharacterFilters } from "@/components/characters/store/characters-filter-store";
 import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
 import { cn } from "@/lib/utils";
 
@@ -28,15 +28,10 @@ export const LoadoutCharacterPicker = ({
 	onSelect,
 }: LoadoutCharacterPickerProps) => (
 	<>
-		<div className="mb-4">
+		<div className="mb-5">
 			<CharacterFilter filters={filters} onChange={onFiltersChange} autoFocus />
 		</div>
-		<div
-			className="grid justify-start gap-3"
-			style={{
-				gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
-			}}
-		>
+		<EntityCardGrid>
 			{options.map((character) => {
 				const disabled =
 					selectedIds.has(character.id) && currentId !== character.id;
@@ -74,6 +69,6 @@ export const LoadoutCharacterPicker = ({
 					No owned characters match.
 				</p>
 			)}
-		</div>
+</EntityCardGrid>
 	</>
 );
