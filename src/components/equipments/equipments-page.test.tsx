@@ -44,12 +44,39 @@ vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
 			part_type: "footwear",
 			set_name: "Abyss",
 		},
+		5: {
+			id: 5,
+			name: "Ironblood Enforcer's Cuirass",
+			image: "/cuirass.webp",
+			tier_id: 5,
+			part_type: "chestpiece",
+			set_name: "Ironblood Enforcer",
+		},
+		6: {
+			id: 6,
+			name: "Ironblood Enforcer's Gloves",
+			image: "/gloves.webp",
+			tier_id: 5,
+			part_type: "gloves",
+			set_name: "Ironblood Enforcer",
+		},
 	},
 }));
 
 vi.mock("@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA", () => ({
 	EQUIPMENT_SET_EFFECTS_DATA: {
 		Abyss: [{ pieces: 2, effect: "Wind DMG +10%" }],
+		"Ironblood Enforcer": [
+			{
+				pieces: 2,
+				effect:
+					"All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
+			},
+			{
+				pieces: 2,
+				effect: "Crit Rate +5% for 10s upon using Support Skill",
+			},
+		],
 		"Sticky Gorger": [{ pieces: 2, effect: "ATK +3%" }],
 	},
 }));
@@ -75,7 +102,7 @@ describe("EquipmentsPage", () => {
 			screen
 				.getAllByRole("heading", { level: 2 })
 				.map((heading) => heading.textContent),
-		).toEqual(["Abyss", "Sticky Gorger"]);
+		).toEqual(["Abyss", "Ironblood Enforcer", "Sticky Gorger"]);
 
 		const stickyRow = screen
 			.getByRole("heading", { name: "Sticky Gorger" })
@@ -87,6 +114,21 @@ describe("EquipmentsPage", () => {
 				.map((image) => image.getAttribute("alt")),
 		).toEqual(["Gooey Gloves portrait", "Gooey Shoes portrait"]);
 		expect(within(stickyRow as HTMLElement).getByText("ATK +3%")).toBeTruthy();
+
+		const ironbloodRow = screen
+			.getByRole("heading", { name: "Ironblood Enforcer" })
+			.closest("section");
+		expect(ironbloodRow).toBeTruthy();
+		expect(
+			within(ironbloodRow as HTMLElement).getByText(
+				"All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
+			),
+		).toBeTruthy();
+		expect(
+			within(ironbloodRow as HTMLElement).getByText(
+				"Crit Rate +5% for 10s upon using Support Skill",
+			),
+		).toBeTruthy();
 	});
 
 	it("keeps full sets for piece matches and supports tier filtering and reset", () => {
@@ -129,7 +171,7 @@ describe("EquipmentsPage", () => {
 			screen
 				.getAllByRole("heading", { level: 2 })
 				.map((heading) => heading.textContent),
-		).toEqual(["Abyss", "Sticky Gorger"]);
+		).toEqual(["Abyss", "Ironblood Enforcer", "Sticky Gorger"]);
 
 		fireEvent.click(
 			screen.getByRole("button", { name: "Clear equipment filters" }),

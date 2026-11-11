@@ -24,6 +24,7 @@ Read this plan for Home, SEO, navigation-wide presentation, or Shared UI behavio
 
 ## Shared UI: Available
 
+- [x] Ignore punctuation, symbols, spacing, and letter case consistently across user-facing searches while preserving Unicode letters and numbers.
 - [x] Provide clear buttons and Escape-to-clear behavior for standalone search inputs.
 - [x] Use reusable `FilterButtonGroup` and `FilterToggleButton` controls for selectable collection dimensions, with labelled plain button groups for sort and standalone Clear actions.
 - [x] Focus the active collection or picker search with Ctrl+K or Cmd+K and show the platform shortcut in its placeholder.

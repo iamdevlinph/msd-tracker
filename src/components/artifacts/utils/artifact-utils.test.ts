@@ -68,6 +68,16 @@ describe("artifact filters", () => {
 		expect(filterArtifacts(artifacts, {}).map(({ id }) => id)).not.toContain(4);
 	});
 
+	it("ignores punctuation and spaces in artifact searches", () => {
+		vi.stubEnv("VITE_NODE_ENV", "production");
+		expect(
+			filterArtifacts(
+				[{ ...artifacts[0], name: "Out-of-Control Bomb Maniac" }],
+				{ search: "outofcontrol" },
+			),
+		).toHaveLength(1);
+	});
+
 	it("sorts artifacts in every catalog order with deterministic ties", () => {
 		expect(sortArtifacts(artifacts).map(({ id }) => id)).toEqual([
 			2, 5, 4, 1, 3,

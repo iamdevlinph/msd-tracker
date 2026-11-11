@@ -8,6 +8,7 @@ import {
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
+import { matchesSearchText } from "@/lib/search";
 import { useAppStore } from "@/stores/app-store";
 
 const MonsterlingCardMemo = memo(CodexCard);
@@ -23,10 +24,10 @@ export const CodexList = () => {
 	const monsterlings = useMemo(() => {
 		const completedSet = new Set(completed);
 		const favoriteSet = new Set(favorites);
-		const search = filters.search.trim().toLowerCase();
+		const search = filters.search;
 
 		return Object.values(MONSTERLINGS_DATA).filter((monsterling) => {
-			if (search && !monsterling.name.toLowerCase().includes(search)) {
+			if (search && !matchesSearchText(monsterling.name, search)) {
 				return false;
 			}
 

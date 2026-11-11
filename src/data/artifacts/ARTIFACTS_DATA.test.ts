@@ -68,10 +68,21 @@ describe("artifacts data", () => {
 		});
 	});
 
+	it("includes M.A.D's signature artifact", () => {
+		expect(ARTIFACTS_DATA[43]).toEqual({
+			id: 43,
+			name: "Out-of-Control Bomb Maniac",
+			image: "/images/Icon_Artifact/ArtifactMad.webp",
+			tier_id: TIER_ID_BY_TIER.PRIME_5,
+			class_id: CLASS_ID_BY_CLASS.ASSASSIN,
+			element_effect_id: ELEMENT_ID_BY_ELEMENT.FIRE,
+		});
+	});
+
 	it("contains all local artifact images with stable unique ids", () => {
 		const artifacts = Object.values(ARTIFACTS_DATA);
-		expect(artifacts).toHaveLength(42);
-		expect(new Set(artifacts.map((a) => a.id)).size).toBe(42);
+		expect(artifacts).toHaveLength(43);
+		expect(new Set(artifacts.map((a) => a.id)).size).toBe(43);
 		for (const artifact of artifacts) {
 			expect(TIERS_DATA[artifact.tier_id]).toBeDefined();
 			expect(CHARACTER_CLASS_DATA[artifact.class_id]).toBeDefined();

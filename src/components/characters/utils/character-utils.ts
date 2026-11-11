@@ -4,6 +4,7 @@ import {
 	type CharacterSort,
 } from "@/components/characters/store/characters-filter-store";
 import type { Character } from "@/data/characters/CHARACTERS_DATA";
+import { matchesSearchText } from "@/lib/search";
 
 export const isCharacterVisible = ({
 	is_hidden,
@@ -28,8 +29,7 @@ export const matchesCharacterFilters = (
 	filters: CharacterFilters,
 ) =>
 	isCharacterVisible(character) &&
-	(!filters.search ||
-		character.name.toLowerCase().includes(filters.search.toLowerCase())) &&
+	(!filters.search || matchesSearchText(character.name, filters.search)) &&
 	(!filters.selectedCharacterClass.length ||
 		filters.selectedCharacterClass.includes(character.class_id)) &&
 	(!filters.selectedElements.length ||

@@ -11,16 +11,16 @@ import {
 } from "@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA";
 
 describe("equipment data", () => {
-	it("contains the 116 catalog pieces across the 39 reference sets", () => {
+	it("contains the 120 catalog pieces across the 41 reference sets", () => {
 		const pieces = Object.values(EQUIPMENT_DATA);
-		expect(pieces).toHaveLength(116);
-		expect(new Set(pieces.map((piece) => piece.id)).size).toBe(116);
+		expect(pieces).toHaveLength(120);
+		expect(new Set(pieces.map((piece) => piece.id)).size).toBe(120);
 		expect(pieces.map((piece) => piece.id).sort((a, b) => a - b)).toEqual(
-			Array.from({ length: 116 }, (_, index) => index + 1),
+			Array.from({ length: 120 }, (_, index) => index + 1),
 		);
-		expect(new Set(pieces.map((piece) => piece.set_name)).size).toBe(39);
+		expect(new Set(pieces.map((piece) => piece.set_name)).size).toBe(41);
 		expect(pieces.filter((piece) => piece.tier_id === 4).length).toBe(46);
-		expect(pieces.filter((piece) => piece.tier_id === 5).length).toBe(70);
+		expect(pieces.filter((piece) => piece.tier_id === 5).length).toBe(74);
 		for (const piece of pieces) {
 			expect(EQUIPMENT_PART_TYPES).toContain(piece.part_type);
 			expect(existsSync(resolve("public", piece.image.slice(1)))).toBe(true);
@@ -145,5 +145,37 @@ describe("equipment data", () => {
 			expect(EQUIPMENT_DATA[113 + offset].image).toBe(
 				EQUIPMENT_DATA[105 + offset].image,
 			);
+		expect(
+			Object.values(EQUIPMENT_DATA)
+				.filter(({ set_name }) => set_name === "Lord of Scrap Mountain")
+				.map(({ name, part_type, image }) => ({ name, part_type, image })),
+		).toEqual([
+			{
+				name: "Scrap Lord's Hat",
+				part_type: "headgear",
+				image: "/images/Equipment/EQUIP_SET_SCRAPHOARDER_H_001.webp",
+			},
+			{
+				name: "Scrap Lord's Shoes",
+				part_type: "footwear",
+				image: "/images/Equipment/EQUIP_SET_SCRAPHOARDER_S_001.webp",
+			},
+		]);
+		expect(
+			Object.values(EQUIPMENT_DATA)
+				.filter(({ set_name }) => set_name === "Ironblood Enforcer")
+				.map(({ name, part_type, image }) => ({ name, part_type, image })),
+		).toEqual([
+			{
+				name: "Ironblood Enforcer's Cuirass",
+				part_type: "chestpiece",
+				image: "/images/Equipment/EQUIP_SET_GARBAGE_C_001.webp",
+			},
+			{
+				name: "Ironblood Enforcer's Gloves",
+				part_type: "gloves",
+				image: "/images/Equipment/EQUIP_SET_GARBAGE_G_001.webp",
+			},
+		]);
 	});
 });

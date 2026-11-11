@@ -4,6 +4,7 @@ Read this plan for public game-asset catalogs that are independent of player own
 
 ## Artifact Catalog: Available
 
+- [x] Add M.A.D's Tier 5 Fire Assassin artifact, Out-of-Control Bomb Maniac.
 - [x] Show every available artifact in a responsive fixed-card grid, including the Tier 4 Support artifact Celestial Halo of Protection with its intentionally shared Celestial Halo artwork.
 - [x] Reuse artifact search, element, class, and tier filters; sort by name A–Z/Z–A or tier 3–5/5–3 with A–Z name tie-breaking and Tier 5–3 as the default.
 - [x] Publish the catalog through the Assets navigation group, Home, SEO metadata, and the sitemap.
@@ -11,6 +12,7 @@ Read this plan for public game-asset catalogs that are independent of player own
 
 ## Character Catalog: Available
 
+- [x] Add Chloe's first costume portrait and M.A.D as a Tier 5 Fire Assassin.
 - [x] Show every published character and standalone variant in a fixed-card, left-aligned catalog while keeping costumes as alternate portraits.
 - [x] Reuse character search, element, class, and Tier 4/5 filters; sort by name A–Z/Z–A or tier 4–5/5–4 with deterministic name and ID tie-breaking and name A–Z as the default.
 - [x] Publish the catalog through the Assets navigation group, Home, SEO metadata, and the sitemap.
@@ -18,6 +20,7 @@ Read this plan for public game-asset catalogs that are independent of player own
 
 ## Equipment Catalog: Available
 
+- [x] Add the Tier 5 Lord of Scrap Mountain and Ironblood Enforcer sets, including both published Ironblood 2-piece effects.
 - [x] Show every equipment set in one responsive row with its pieces in canonical slot order and its published set effects.
 - [x] Search by set or equipment-piece name, filter by Tier 4 or Tier 5, and sort sets by name A–Z/Z–A or tier 4–5/5–4 with A–Z set-name tie-breaking.
 - [x] Publish the catalog through the Assets navigation group, Home, SEO metadata, and the sitemap.

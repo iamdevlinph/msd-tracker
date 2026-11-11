@@ -420,5 +420,22 @@ export const CHARACTERS_DATA: Record<number, Character> = {
 		portraitImage: "/images/Character_Portrait/portrait_Chloe_01.webp",
 		fullImage: "/images/Character_Full/Img_CharacterIllust_Chloe.webp",
 		tier_id: TIER_ID_BY_TIER.PRIME_5,
+		costumes: [
+			{
+				id: 1,
+				name: "Costume 1",
+				portraitImage:
+					"/images/Character_Portrait/portrait_Chloe_Costume_01.webp",
+			},
+		],
+	},
+	28: {
+		id: 28,
+		name: "M.A.D",
+		class_id: CLASS_ID_BY_CLASS.ASSASSIN,
+		element_id: ELEMENT_ID_BY_ELEMENT.FIRE,
+		portraitImage: "/images/Character_Portrait/portrait_Mad_01.webp",
+		fullImage: "/images/Character_Full/Img_CharacterIllust_MAD.webp",
+		tier_id: TIER_ID_BY_TIER.PRIME_5,
 	},
 };

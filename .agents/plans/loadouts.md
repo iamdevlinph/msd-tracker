@@ -41,6 +41,7 @@ Read this plan for Loadouts, portable code sharing, snapshots, previews, exports
 - [x] Add Drive-synced defaults for hiding equipment and compact Monsterlings in loadout and snapshot previews and exports, with temporary preview overrides.
 - [x] Add a Drive-synced default for hiding the full pinned-stat column in loadout and snapshot previews and exports, removing its reserved space with temporary preview overrides.
 - [x] Show complete published equipment set effects in delayed hover/focus tooltips on picker cards, assigned editor buttons, and saved-card equipment tiles while keeping preview tooltips active-only.
+- [x] Show multiple active equipment effects that share the same piece threshold without duplicate render keys.
 
 ## Loadout Code Sharing: Deferred
 

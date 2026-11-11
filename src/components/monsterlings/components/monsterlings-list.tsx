@@ -7,6 +7,7 @@ import { getMonsterlingLinkChainLevel } from "@/components/monsterlings/componen
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { matchesSearchText } from "@/lib/search";
 import { useAppStore } from "@/stores/app-store";
 
 type MonsterlingsListProps = { filters: MonsterlingFilters };
@@ -32,8 +33,7 @@ export const MonsterlingsList = ({ filters }: MonsterlingsListProps) => {
 		.filter(([, monsterling]) => {
 			const { name } = MONSTERLINGS_DATA[monsterling.monsterling_id];
 			return (
-				(!filters.search ||
-					name.toLowerCase().includes(filters.search.toLowerCase())) &&
+				(!filters.search || matchesSearchText(name, filters.search)) &&
 				(!filters.selectedTiers.length ||
 					filters.selectedTiers.includes(monsterling.tier_id))
 			);

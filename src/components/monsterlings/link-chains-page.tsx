@@ -9,6 +9,7 @@ import { TierPortrait } from "@/components/shared/tier-portrait";
 import { Button } from "@/components/ui/button";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { matchesSearchText } from "@/lib/search";
 import { useAppStore } from "@/stores/app-store";
 import { LinkChainLevelDialog } from "./components/link-chain-level-dialog";
 import { LinkChainsFilter } from "./components/link-chains-filter";
@@ -113,9 +114,7 @@ export const LinkChainsPage = () => {
 				.filter(
 					(entry) =>
 						(!filters.search ||
-							entry.name
-								.toLowerCase()
-								.includes(filters.search.toLowerCase())) &&
+							matchesSearchText(entry.name, filters.search)) &&
 						(!filters.selectedLevels.length ||
 							filters.selectedLevels.includes(
 								getMonsterlingLinkChainLevel(entry.id, levels),

@@ -3,6 +3,7 @@ import type {
 	EquipmentPartType,
 } from "@/data/equipment/EQUIPMENT_DATA";
 import type { TierId } from "@/data/tiers/TIERS_DATA";
+import { matchesSearchText } from "@/lib/search";
 
 export type EquipmentFilters = {
 	search: string;
@@ -20,12 +21,12 @@ export const filterEquipment = (
 	equipment: Equipment[],
 	filters: EquipmentFilters,
 ) => {
-	const search = filters.search.trim().toLowerCase();
+	const search = filters.search;
 	return equipment.filter(
 		(item) =>
 			(!search ||
-				item.name.toLowerCase().includes(search) ||
-				item.set_name.toLowerCase().includes(search)) &&
+				matchesSearchText(item.name, search) ||
+				matchesSearchText(item.set_name, search)) &&
 			(!filters.selectedPartTypes.length ||
 				filters.selectedPartTypes.includes(item.part_type)) &&
 			(!filters.selectedTiers.length ||

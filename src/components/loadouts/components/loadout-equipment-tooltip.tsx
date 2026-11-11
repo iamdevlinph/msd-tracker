@@ -25,7 +25,7 @@ export const LoadoutEquipmentTooltip = ({
 					<div className="grid gap-3">
 						<strong>{equipment.set_name}</strong>
 						{effects.map((effect) => (
-							<div key={effect.pieces}>
+							<div key={`${effect.pieces}-${effect.effect}`}>
 								{`[${effect.pieces} set] - ${effect.effect}`}
 							</div>
 						))}

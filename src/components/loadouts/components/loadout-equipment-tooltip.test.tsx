@@ -1,9 +1,24 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { Tooltip } from "radix-ui";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { EQUIPMENT_DATA } from "@/data/equipment/EQUIPMENT_DATA";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LoadoutEquipmentTooltip } from "./loadout-equipment-tooltip";
+
+vi.mock("@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA", () => ({
+	EQUIPMENT_SET_EFFECTS_DATA: {
+		"Ironblood Enforcer": [
+			{
+				pieces: 2,
+				effect:
+					"All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
+			},
+			{
+				pieces: 2,
+				effect: "Crit Rate +5% for 10s upon using Support Skill",
+			},
+		],
+	},
+}));
 
 const renderWithTooltip = (ui: React.ReactElement) =>
 	render(<Tooltip.Provider delayDuration={200}>{ui}</Tooltip.Provider>);
@@ -18,8 +33,15 @@ describe("LoadoutEquipmentTooltip", () => {
 	});
 	afterEach(cleanup);
 
-	it("shows the set name and every published effect on focus", () => {
-		const equipment = EQUIPMENT_DATA[7];
+	it("shows effects sharing the same piece threshold on focus", () => {
+		const equipment = {
+			id: 119,
+			name: "Ironblood Enforcer's Cuirass",
+			image: "/cuirass.webp",
+			tier_id: 5,
+			part_type: "chestpiece",
+			set_name: "Ironblood Enforcer",
+		} as const;
 		renderWithTooltip(
 			<LoadoutEquipmentTooltip
 				equipment={equipment}
@@ -31,12 +53,12 @@ describe("LoadoutEquipmentTooltip", () => {
 		fireEvent.focus(trigger);
 
 		const tooltip = screen.getByRole("tooltip");
-		expect(tooltip.textContent).toContain("Green Nightmare");
+		expect(tooltip.textContent).toContain("Ironblood Enforcer");
 		expect(tooltip.textContent).toContain(
-			"[2 set] - Ice DMG +3% for 2s upon using a Basic Attack.",
+			"[2 set] - All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
 		);
 		expect(tooltip.textContent).toContain(
-			"[4 set] - Crit DMG +3% for 5s upon using a Switch Skill on an enemy with Ice Affliction.",
+			"[2 set] - Crit Rate +5% for 10s upon using Support Skill",
 		);
 		expect(trigger.contains(tooltip)).toBe(false);
 	});

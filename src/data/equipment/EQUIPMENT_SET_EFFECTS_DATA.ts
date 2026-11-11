@@ -229,6 +229,23 @@ export const EQUIPMENT_SET_EFFECTS_DATA = {
 			effect: "Neutralization DMG +10% for 5s upon using a Tag-out Skill",
 		},
 	],
+	"Lord of Scrap Mountain": [
+		{
+			pieces: 2,
+			effect: "All teammates' ATK +5% for 10s upon Ultimate Skill",
+		},
+	],
+	"Ironblood Enforcer": [
+		{
+			pieces: 2,
+			effect:
+				"All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
+		},
+		{
+			pieces: 2,
+			effect: "Crit Rate +5% for 10s upon using Support Skill",
+		},
+	],
 } as const satisfies Record<string, readonly EquipmentSetEffect[]>;
 
 export type EquipmentSetName = keyof typeof EQUIPMENT_SET_EFFECTS_DATA;

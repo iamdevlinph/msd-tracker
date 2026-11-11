@@ -27,6 +27,7 @@ import { CollectionEmptyState } from "@/components/shared/collection-empty-state
 import { SearchInput } from "@/components/ui/search-input";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { matchesSearchText } from "@/lib/search";
 import { useAppStore } from "@/stores/app-store";
 import type { LoadoutOwned } from "@/stores/loadouts-slice";
 
@@ -62,7 +63,6 @@ export const LoadoutsList = () => {
 	const createLoadoutSnapshot = useAppStore(
 		(state) => state.createLoadoutSnapshot,
 	);
-	const searchQuery = search.trim().toLocaleLowerCase();
 	const loadoutEntries = Object.values(loadouts)
 		.filter((loadout) =>
 			[
@@ -76,9 +76,7 @@ export const LoadoutsList = () => {
 							: null;
 					return character ? [character.name] : [];
 				}),
-			].some((searchableName) =>
-				searchableName.toLocaleLowerCase().includes(searchQuery),
-			),
+			].some((searchableName) => matchesSearchText(searchableName, search)),
 		)
 		.sort((a, b) => a.name.localeCompare(b.name));
 	const previewLoadout = loadoutToPreview

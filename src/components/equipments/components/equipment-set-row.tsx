@@ -40,7 +40,7 @@ export const EquipmentSetRow = ({ row }: EquipmentSetRowProps) => {
 				</div>
 				<ul className="grid gap-2 text-sm text-muted-foreground">
 					{EQUIPMENT_SET_EFFECTS_DATA[row.name].map(({ pieces, effect }) => (
-						<li key={pieces}>
+						<li key={`${pieces}-${effect}`}>
 							<span className="font-medium text-foreground">
 								{pieces}-piece:
 							</span>{" "}

@@ -11,6 +11,7 @@ import { useMonsterlingFilter } from "@/components/monsterlings/store/monsterlin
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { PageTitle } from "@/components/shared/page-title";
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
+import { matchesSearchText } from "@/lib/search";
 import { useAppStore } from "@/stores/app-store";
 
 export const MonsterlingsPage = () => {
@@ -25,8 +26,7 @@ export const MonsterlingsPage = () => {
 			const info = MONSTERLINGS_DATA[owned.monsterling_id];
 			return Boolean(
 				info &&
-					(!filters.search ||
-						info.name.toLowerCase().includes(filters.search.toLowerCase())) &&
+					(!filters.search || matchesSearchText(info.name, filters.search)) &&
 					(!filters.selectedTiers.length ||
 						filters.selectedTiers.includes(owned.tier_id)),
 			);

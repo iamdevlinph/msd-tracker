@@ -4,6 +4,7 @@ import {
 } from "@/data/equipment/EQUIPMENT_DATA";
 import type { EquipmentSetName } from "@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA";
 import type { TierId } from "@/data/tiers/TIERS_DATA";
+import { matchesSearchText } from "@/lib/search";
 
 export const EQUIPMENT_CATALOG_SORTS = {
 	SET_ASC: "set-asc",
@@ -45,7 +46,7 @@ export const getEquipmentSetRows = (
 		]);
 	}
 
-	const search = filters.search.trim().toLowerCase();
+	const search = filters.search;
 	return [...grouped.entries()]
 		.map(([name, pieces]) => ({
 			name,
@@ -59,9 +60,9 @@ export const getEquipmentSetRows = (
 		.filter(
 			(row) =>
 				(!search ||
-					row.name.toLowerCase().includes(search) ||
+					matchesSearchText(row.name, search) ||
 					row.equipment.some((piece) =>
-						piece.name.toLowerCase().includes(search),
+						matchesSearchText(piece.name, search),
 					)) &&
 				(!filters.selectedTiers.length ||
 					filters.selectedTiers.includes(row.tier)),

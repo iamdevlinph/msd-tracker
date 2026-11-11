@@ -73,7 +73,7 @@ export const LoadoutPreviewEquipment = ({
 							<div key={set.name} className="grid gap-1.5">
 								<strong>{set.name}</strong>
 								{getActiveEquipmentSetEffects(set).map((effect) => (
-									<div key={effect.pieces}>
+									<div key={`${effect.pieces}-${effect.effect}`}>
 										{`[${effect.pieces} set] - ${effect.effect}`}
 									</div>
 								))}

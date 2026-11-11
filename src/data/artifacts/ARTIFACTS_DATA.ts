@@ -361,4 +361,12 @@ export const ARTIFACTS_DATA: Record<ArtifactId, Artifact> = {
 		CLASS_ID_BY_CLASS.FIGHTER,
 		ELEMENT_ID_BY_ELEMENT.WIND,
 	),
+	43: artifact(
+		43,
+		"Out-of-Control Bomb Maniac",
+		"Mad",
+		TIER_ID_BY_TIER.PRIME_5,
+		CLASS_ID_BY_CLASS.ASSASSIN,
+		ELEMENT_ID_BY_ELEMENT.FIRE,
+	),
 };

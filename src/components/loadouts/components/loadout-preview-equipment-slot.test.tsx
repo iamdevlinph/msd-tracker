@@ -25,6 +25,34 @@ vi.mock("@/data/equipment/EQUIPMENT_DATA", () => ({
 			part_type: "footwear",
 			set_name: "Sticky Gorger",
 		},
+		3: {
+			id: 3,
+			name: "Ironblood Enforcer's Cuirass",
+			image: "/cuirass.webp",
+			tier_id: 5,
+			part_type: "chestpiece",
+			set_name: "Ironblood Enforcer",
+		},
+	},
+}));
+
+vi.mock("@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA", () => ({
+	EQUIPMENT_SET_EFFECTS_DATA: {
+		"Glutton's Visage": [
+			{ pieces: 2, effect: "Basic Attack DMG +3% upon using a Fire attack." },
+		],
+		"Sticky Gorger": [{ pieces: 2, effect: "ATK +3%" }],
+		"Ironblood Enforcer": [
+			{
+				pieces: 2,
+				effect:
+					"All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
+			},
+			{
+				pieces: 2,
+				effect: "Crit Rate +5% for 10s upon using Support Skill",
+			},
+		],
 	},
 }));
 
@@ -85,5 +113,33 @@ describe("LoadoutPreviewEquipment", () => {
 		rerender(<LoadoutPreviewEquipment id={1} />);
 		expect(screen.queryByRole("button", { name: /Glutton's Hat/ })).toBeNull();
 		expect(screen.queryByRole("tooltip")).toBeNull();
+	});
+
+	it("shows every active effect sharing the same piece threshold", () => {
+		renderWithTooltip(
+			<LoadoutPreviewEquipment
+				id={3}
+				activeSets={[
+					{
+						name: "Ironblood Enforcer",
+						pieces: 2,
+						colorClass: "outline-sky-400",
+						equipmentIds: [3],
+					},
+				]}
+			/>,
+		);
+		fireEvent.focus(
+			screen.getByRole("button", {
+				name: "Ironblood Enforcer's Cuirass, Ironblood Enforcer set",
+			}),
+		);
+		const tooltip = screen.getByRole("tooltip");
+		expect(tooltip.textContent).toContain(
+			"[2 set] - All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
+		);
+		expect(tooltip.textContent).toContain(
+			"[2 set] - Crit Rate +5% for 10s upon using Support Skill",
+		);
 	});
 });

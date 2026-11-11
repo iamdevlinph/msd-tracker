@@ -38,6 +38,7 @@ import {
 import { MONSTERLINGS_DATA } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { REGION_ID_BY_REGION } from "@/data/regions/REGIONS_DATA";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { matchesSearchText } from "@/lib/search";
 import { useAppStore } from "@/stores/app-store";
 import {
 	emptyLoadoutCharacterSlot,
@@ -189,9 +190,7 @@ export function useLoadoutDialogController(
 				pickerTarget?.type === LOADOUT_TARGET_TYPES.MONSTERLING &&
 				legendary === pickerTarget.legendary &&
 				(!monsterlingFilters.search ||
-					info.name
-						.toLowerCase()
-						.includes(monsterlingFilters.search.toLowerCase())) &&
+					matchesSearchText(info.name, monsterlingFilters.search)) &&
 				(!monsterlingFilters.selectedTiers.length ||
 					monsterlingFilters.selectedTiers.includes(tier_id))
 			);

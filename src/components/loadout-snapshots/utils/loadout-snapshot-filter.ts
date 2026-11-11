@@ -6,6 +6,7 @@ import {
 	type LoadoutSnapshotLegendaryMonsterlingId,
 	type LoadoutSnapshotTag,
 } from "@/components/loadout-snapshots/utils/loadout-snapshot-domain-values";
+import { matchesSearchText } from "@/lib/search";
 import type { LoadoutSnapshot } from "@/stores/loadout-snapshots-slice";
 
 export const LOADOUT_SNAPSHOT_ALL_TAGS = "all" as const;
@@ -26,8 +27,8 @@ export const matchesLoadoutSnapshotFilters = (
 	snapshot: LoadoutSnapshot,
 	filters: LoadoutSnapshotFilters,
 ): boolean => {
-	const query = filters.search.trim().toLocaleLowerCase();
-	if (query && !snapshot.name.toLocaleLowerCase().includes(query)) return false;
+	if (filters.search && !matchesSearchText(snapshot.name, filters.search))
+		return false;
 	if (filters.tag !== LOADOUT_SNAPSHOT_ALL_TAGS && snapshot.tag !== filters.tag)
 		return false;
 

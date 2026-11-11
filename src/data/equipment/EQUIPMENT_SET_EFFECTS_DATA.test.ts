@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { EQUIPMENT_SET_EFFECTS_DATA } from "@/data/equipment/EQUIPMENT_SET_EFFECTS_DATA";
 
 describe("equipment set effects data", () => {
-	it("contains one nonempty effect list for each of the 39 sets", () => {
-		expect(Object.keys(EQUIPMENT_SET_EFFECTS_DATA)).toHaveLength(39);
+	it("contains one nonempty effect list for each of the 41 sets", () => {
+		expect(Object.keys(EQUIPMENT_SET_EFFECTS_DATA)).toHaveLength(41);
 		for (const effects of Object.values(EQUIPMENT_SET_EFFECTS_DATA)) {
 			expect(effects.length).toBeGreaterThan(0);
 		}
@@ -71,6 +71,23 @@ describe("equipment set effects data", () => {
 			{
 				pieces: 4,
 				effect: "Neutralization DMG +10% for 5s upon using a Tag-out Skill",
+			},
+		]);
+		expect(EQUIPMENT_SET_EFFECTS_DATA["Lord of Scrap Mountain"]).toEqual([
+			{
+				pieces: 2,
+				effect: "All teammates' ATK +5% for 10s upon Ultimate Skill",
+			},
+		]);
+		expect(EQUIPMENT_SET_EFFECTS_DATA["Ironblood Enforcer"]).toEqual([
+			{
+				pieces: 2,
+				effect:
+					"All teammates' Lightning DMG +5% for 10s upon using Tag-out Skill",
+			},
+			{
+				pieces: 2,
+				effect: "Crit Rate +5% for 10s upon using Support Skill",
 			},
 		]);
 	});

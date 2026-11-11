@@ -2,6 +2,7 @@ import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
 import type { CharacterClassId } from "@/data/character-classes/CHARACTER_CLASS_DATA";
 import type { ElementId } from "@/data/elements/ELEMENTS_DATA";
 import type { TierId } from "@/data/tiers/TIERS_DATA";
+import { matchesSearchText } from "@/lib/search";
 
 export const isArtifactVisible = ({ is_hidden }: Pick<Artifact, "is_hidden">) =>
 	import.meta.env.VITE_NODE_ENV === "development" || !is_hidden;
@@ -36,11 +37,11 @@ export const filterArtifacts = (
 	artifacts: readonly Artifact[],
 	filters: Partial<ArtifactFilters>,
 ) => {
-	const search = filters.search?.trim().toLowerCase();
+	const search = filters.search ?? "";
 	return artifacts.filter(
 		(a) =>
 			isArtifactVisible(a) &&
-			(!search || a.name.toLowerCase().includes(search)) &&
+			(!search || matchesSearchText(a.name, search)) &&
 			(!filters.selectedTiers?.length ||
 				filters.selectedTiers.includes(a.tier_id)) &&
 			(!filters.selectedCharacterClass?.length ||
