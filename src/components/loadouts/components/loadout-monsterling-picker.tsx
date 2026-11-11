@@ -1,6 +1,7 @@
 import { MonsterlingCard } from "@/components/monsterlings/components/monsterling-card";
 import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
 import { MonsterlingFilter } from "@/components/monsterlings/components/monsterling-filter";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
@@ -35,19 +36,14 @@ export const LoadoutMonsterlingPicker = ({
 	onSelect,
 }: LoadoutMonsterlingPickerProps) => (
 	<>
-		<div className="mb-4">
+		<div className="mb-5">
 			<MonsterlingFilter
 				filters={filters}
 				onChange={onFiltersChange}
 				autoFocus
 			/>
 		</div>
-		<div
-			className="grid justify-start gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-			style={{
-				gridTemplateColumns: `repeat(auto-fill, ${MONSTERLING_CARD_WIDTH}px)`,
-			}}
-		>
+		<EntityCardGrid itemWidth={MONSTERLING_CARD_WIDTH} className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 			{options.map((monsterling) => {
 				const disabled =
 					currentId === monsterling.id ||
@@ -79,6 +75,6 @@ export const LoadoutMonsterlingPicker = ({
 					No owned monsterlings found.
 				</p>
 			)}
-		</div>
+</EntityCardGrid>
 	</>
 );
