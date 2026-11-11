@@ -1,5 +1,6 @@
 import { EquippedCharacterBadge } from "@/components/loadouts/components/equipped-character-badge";
 import type { EquippedCharacter } from "@/components/loadouts/utils/equipped-character-usage";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import type { Artifact } from "@/data/artifacts/ARTIFACTS_DATA";
@@ -10,7 +11,6 @@ type ArtifactCardProps = {
 	fusionLevel?: number;
 	className?: string;
 	imageClassName?: string;
-	portraitSize?: number;
 	equippedCharacters?: EquippedCharacter[];
 };
 
@@ -19,7 +19,6 @@ export const ArtifactCard = ({
 	fusionLevel,
 	className,
 	imageClassName,
-	portraitSize = 144,
 	equippedCharacters,
 }: ArtifactCardProps) => (
 	<PortraitWithName
@@ -29,13 +28,13 @@ export const ArtifactCard = ({
 			className,
 		)}
 		nameClassName="z-20 text-shadow-sm/80"
-		style={{ height: portraitSize, width: portraitSize }}
+		style={{ height: ENTITY_CARD_SIZE, width: ENTITY_CARD_SIZE }}
 	>
 		<EquippedCharacterBadge characters={equippedCharacters} />
 		<TierPortrait
 			tier={artifact.tier_id}
 			portraitImg={artifact.image}
-			portraitSize={portraitSize}
+			portraitSize={ENTITY_CARD_SIZE}
 			name={artifact.name}
 			portraitClassName={cn("size-full object-contain p-3", imageClassName)}
 		/>
