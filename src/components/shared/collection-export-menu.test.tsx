@@ -209,7 +209,7 @@ describe("CollectionExportMenu", () => {
 				collection="characters"
 				title="Characters"
 				count={1}
-				itemWidth={130}
+				itemWidth={120}
 				maxColumns={12}
 			>
 				<div>Angel card</div>
@@ -221,13 +221,13 @@ describe("CollectionExportMenu", () => {
 			"Characters",
 		);
 		expect((screen.getByRole("dialog") as HTMLElement).style.width).toBe(
-			"258px",
+			"248px",
 		);
 		expect(screen.getByText("Angel card")).toBeTruthy();
 		const surface = screen.getByTestId(
 			"collection-export-surface",
 		) as HTMLElement;
-		expect(surface.style.width).toBe("226px");
+		expect(surface.style.width).toBe("216px");
 		expect(surface.className).toContain("bg-background");
 		expect(surface.className).toContain("text-foreground");
 		expect(surface.className).not.toContain("dark");
@@ -300,7 +300,7 @@ describe("CollectionExportMenu", () => {
 				collection="characters"
 				title="Characters"
 				count={20}
-				itemWidth={130}
+				itemWidth={120}
 				maxColumns={12}
 			>
 				<div>Character cards</div>
@@ -310,13 +310,13 @@ describe("CollectionExportMenu", () => {
 		expect(
 			(screen.getByTestId("collection-export-surface") as HTMLElement).style
 				.width,
-		).toBe("1832px");
+		).toBe("1712px");
 		expect(
 			(
 				screen
 					.getByTestId("collection-export-surface")
 					.querySelector(".grid") as HTMLElement
 			).style.gridTemplateColumns,
-		).toBe("repeat(auto-fit, minmax(130px, 1fr))");
+		).toBe("repeat(auto-fit, minmax(120px, 1fr))");
 	});
 });
