@@ -7,7 +7,7 @@ import {
 	sortCharacters,
 } from "@/components/characters/utils/character-utils";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { PageTitle } from "@/components/shared/page-title";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 
@@ -37,12 +37,7 @@ export const CharacterCatalogPage = () => {
 					sortMode="catalog"
 				/>
 				{characters.length ? (
-					<div
-						className="grid justify-start gap-3"
-						style={{
-							gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
-						}}
-					>
+					<EntityCardGrid>
 						{characters.map((character) => (
 							<CharacterCard
 								key={character.id}
@@ -56,7 +51,7 @@ export const CharacterCatalogPage = () => {
 								variant={character.variant}
 							/>
 						))}
-					</div>
+</EntityCardGrid>
 				) : (
 					<CollectionEmptyState
 						title="No characters found"
