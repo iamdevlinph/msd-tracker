@@ -57,8 +57,8 @@ export const MonsterlingCard = ({
 				gridTemplateAreas: "'portrait stats'",
 				gridTemplateColumns:
 					display === "icons"
-							? `${ENTITY_CARD_SIZE}px 48px`
-							: `${ENTITY_CARD_SIZE}px minmax(0, 1fr)`,
+						? `${ENTITY_CARD_SIZE}px 48px`
+						: `${ENTITY_CARD_SIZE}px minmax(0, 1fr)`,
 			}}
 		>
 			<div className="w-max" style={{ gridArea: "portrait" }}>

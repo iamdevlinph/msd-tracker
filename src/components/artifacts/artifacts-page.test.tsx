@@ -51,9 +51,9 @@ describe("ArtifactsPage", () => {
 		expect(screen.getByText("Fall from Grace").className).toContain("z-20");
 		const artifactPortrait = screen.getByAltText("Fall from Grace portrait");
 		expect(artifactPortrait.className).toContain("p-1");
-		expect((artifactPortrait.closest("button") as HTMLElement).style.width).toBe(
-			"120px",
-		);
+		expect(
+			(artifactPortrait.closest("button") as HTMLElement).style.width,
+		).toBe("120px");
 
 		fireEvent.click(screen.getByRole("button", { name: "Fire icon" }));
 		fireEvent.click(screen.getByRole("button", { name: "Tier 5" }));

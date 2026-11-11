@@ -34,7 +34,9 @@ export const LoadoutArtifactPicker = ({
 		</div>
 		<div
 			className="grid justify-start gap-3"
-			style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+			style={{
+				gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
+			}}
 		>
 			{options.map(({ id, artifactId, fusionLevel }) => {
 				const artifact = ARTIFACTS_DATA[artifactId];

@@ -6,8 +6,8 @@ import { CharacterSkillLevel } from "@/components/characters/components/characte
 import { useCharacterFilter } from "@/components/characters/store/characters-filter-store";
 import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PageTitle } from "@/components/shared/page-title";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";

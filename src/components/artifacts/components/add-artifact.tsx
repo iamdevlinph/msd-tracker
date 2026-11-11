@@ -81,7 +81,9 @@ export const AddArtifact = () => {
 						<ArtifactFilter filters={filters} onChange={setFilters} />
 						<div
 							className="mt-5 grid justify-start gap-3"
-							style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+							style={{
+								gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
+							}}
 						>
 							{artifacts.length === 0 && (
 								<p className="text-sm text-muted-foreground">

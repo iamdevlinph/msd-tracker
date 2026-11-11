@@ -125,7 +125,9 @@ export function AddCharacter() {
 
 							<div
 								className="mt-5 grid justify-start gap-3"
-								style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+								style={{
+									gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
+								}}
 							>
 								{noCharsToAdd && (
 									<p className="flex justify-center items-center w-full">

@@ -6,8 +6,8 @@ import {
 	matchesCharacterFilters,
 	sortCharacters,
 } from "@/components/characters/utils/character-utils";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PageTitle } from "@/components/shared/page-title";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 
@@ -39,7 +39,9 @@ export const CharacterCatalogPage = () => {
 				{characters.length ? (
 					<div
 						className="grid justify-start gap-3"
-						style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+						style={{
+							gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
+						}}
 					>
 						{characters.map((character) => (
 							<CharacterCard

@@ -9,9 +9,9 @@ import {
 	filterArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
 import { getEquippedCharacterUsage } from "@/components/loadouts/utils/equipped-character-usage";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PageTitle } from "@/components/shared/page-title";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { useAppStore } from "@/stores/app-store";
@@ -97,7 +97,9 @@ export const ArtifactsPage = () => {
 				) : (
 					<div
 						className="grid justify-start gap-3"
-						style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+						style={{
+							gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
+						}}
 					>
 						{cards.map(({ instanceId, value, artifact }) => (
 							<button

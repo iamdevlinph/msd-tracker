@@ -86,10 +86,13 @@ describe("CharacterCatalogPage", () => {
 			"/alpha-variant.webp",
 			"/zeta.webp",
 		]);
-		const card = screen.getByAltText("Zeta portrait").parentElement?.parentElement as HTMLElement;
+		const card = screen.getByAltText("Zeta portrait").parentElement
+			?.parentElement as HTMLElement;
 		expect(card.style.width).toBe("120px");
 		expect(card.style.height).toBe("120px");
-		expect(card.parentElement?.style.gridTemplateColumns).toBe("repeat(auto-fill, 120px)");
+		expect(card.parentElement?.style.gridTemplateColumns).toBe(
+			"repeat(auto-fill, 120px)",
+		);
 		expect(card.parentElement?.className).toContain("gap-3");
 		expect(screen.getByText("Summer Dive!")).toBeTruthy();
 		expect(screen.queryByText("Hidden")).toBeNull();

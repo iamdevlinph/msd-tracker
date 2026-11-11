@@ -29,9 +29,7 @@ export const CharacterSkillLevel = (props: CharacterSkillLevelProps) => {
 
 	return (
 		<div
-			className={cn(
-				"bg-card w-full rounded-b-lg py-1 place-items-center",
-			)}
+			className={cn("bg-card w-full rounded-b-lg py-1 place-items-center")}
 			style={{
 				width: exportLayout ? ENTITY_CARD_SIZE : undefined,
 				display: "grid",

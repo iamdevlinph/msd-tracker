@@ -8,8 +8,8 @@ import {
 	filterArtifacts,
 	sortArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PageTitle } from "@/components/shared/page-title";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 
@@ -43,7 +43,9 @@ export const ArtifactCatalogPage = () => {
 				{artifacts.length ? (
 					<div
 						className="grid justify-start gap-3"
-						style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+						style={{
+							gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
+						}}
 					>
 						{artifacts.map((artifact) => (
 							<ArtifactCard

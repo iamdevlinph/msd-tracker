@@ -39,7 +39,9 @@ describe("reusable entity card dimensions", () => {
 		expect(portrait.getAttribute("width")).toBe("120");
 		expect(screen.getByText("Summer Dive!")).toBeTruthy();
 		expect(screen.getByText("A5")).toBeTruthy();
-		expect(screen.getByText("A Very Long Character Name").className).toContain("truncate");
+		expect(screen.getByText("A Very Long Character Name").className).toContain(
+			"truncate",
+		);
 	});
 
 	it("keeps Artifact portraits, fusion badges, and captions in a 120px card", () => {
@@ -61,7 +63,9 @@ describe("reusable entity card dimensions", () => {
 		expect(card.style.height).toBe(String(ENTITY_CARD_SIZE) + "px");
 		expect(portrait.getAttribute("width")).toBe("120");
 		expect(screen.getByAltText("Fusion level 3")).toBeTruthy();
-		expect(screen.getByText("A Very Long Artifact Name").className).toContain("truncate");
+		expect(screen.getByText("A Very Long Artifact Name").className).toContain(
+			"truncate",
+		);
 	});
 
 	it("keeps full and compact Monsterling trait cards 120px tall", () => {
@@ -79,7 +83,11 @@ describe("reusable entity card dimensions", () => {
 		expect(card.style.width).toBe("330px");
 		expect(card.style.height).toBe(String(ENTITY_CARD_SIZE) + "px");
 		expect(card.style.gridTemplateColumns).toBe("120px minmax(0, 1fr)");
-		expect(screen.getByAltText("A Very Long Monsterling Name portrait").getAttribute("width")).toBe("120");
+		expect(
+			screen
+				.getByAltText("A Very Long Monsterling Name portrait")
+				.getAttribute("width"),
+		).toBe("120");
 		expect(screen.getByAltText("Link Chain Level 1")).toBeTruthy();
 		expect(screen.getAllByAltText(/Tier [45] trait img/)).toHaveLength(2);
 		rerender(<MonsterlingCard {...props} compactStats />);
