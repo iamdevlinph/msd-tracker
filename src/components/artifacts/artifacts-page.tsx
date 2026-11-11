@@ -10,6 +10,7 @@ import {
 } from "@/components/artifacts/utils/artifact-utils";
 import { getEquippedCharacterUsage } from "@/components/loadouts/utils/equipped-character-usage";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PageTitle } from "@/components/shared/page-title";
@@ -95,12 +96,7 @@ export const ArtifactsPage = () => {
 						}
 					/>
 				) : (
-					<div
-						className="grid justify-start gap-3"
-						style={{
-							gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
-						}}
-					>
+					<EntityCardGrid>
 						{cards.map(({ instanceId, value, artifact }) => (
 							<button
 								className="group rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -122,7 +118,7 @@ export const ArtifactsPage = () => {
 								/>
 							</button>
 						))}
-					</div>
+</EntityCardGrid>
 				)}
 			</div>
 			<EditArtifactDetailsDialog
