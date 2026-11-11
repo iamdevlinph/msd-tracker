@@ -1,7 +1,7 @@
 import { ArtifactCard } from "@/components/artifacts/components/artifact-card";
 import { ArtifactFilter } from "@/components/artifacts/components/artifact-filter";
 import type { ArtifactFilters } from "@/components/artifacts/utils/artifact-utils";
-import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
+import { EntityCardGrid } from "@/components/shared/entity-card-grid";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
 import { cn } from "@/lib/utils";
 
@@ -29,15 +29,10 @@ export const LoadoutArtifactPicker = ({
 	onSelect,
 }: LoadoutArtifactPickerProps) => (
 	<>
-		<div className="mb-4">
+		<div className="mb-5">
 			<ArtifactFilter filters={filters} onChange={onFiltersChange} autoFocus />
 		</div>
-		<div
-			className="grid justify-start gap-3"
-			style={{
-				gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)`,
-			}}
-		>
+		<EntityCardGrid>
 			{options.map(({ id, artifactId, fusionLevel }) => {
 				const artifact = ARTIFACTS_DATA[artifactId];
 				if (!artifact) return null;
@@ -64,6 +59,6 @@ export const LoadoutArtifactPicker = ({
 					No owned artifacts match.
 				</p>
 			)}
-		</div>
+</EntityCardGrid>
 	</>
 );
