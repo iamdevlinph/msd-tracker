@@ -90,7 +90,7 @@ export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 							</button>
 						);
 					})}
-</EntityCardGrid>
+			</EntityCardGrid>
 
 			<EditCharacterDetailsDialog
 				charIdToEdit={charIdToEdit}
