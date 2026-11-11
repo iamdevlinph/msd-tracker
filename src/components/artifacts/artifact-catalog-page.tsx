@@ -8,6 +8,7 @@ import {
 	filterArtifacts,
 	sortArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { PageTitle } from "@/components/shared/page-title";
 import { ARTIFACTS_DATA } from "@/data/artifacts/ARTIFACTS_DATA";
@@ -40,12 +41,14 @@ export const ArtifactCatalogPage = () => {
 					onSortChange={setSort}
 				/>
 				{artifacts.length ? (
-					<div className="grid grid-cols-[repeat(auto-fill,120px)] gap-3">
+					<div
+						className="grid justify-start gap-3"
+						style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+					>
 						{artifacts.map((artifact) => (
 							<ArtifactCard
 								key={artifact.id}
 								artifact={artifact}
-								portraitSize={120}
 								imageClassName="p-1"
 							/>
 						))}
