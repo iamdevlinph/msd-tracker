@@ -1,0 +1,22 @@
+name: Verify entity card grids
+on:
+  push:
+    branches:
+      - feat/entity-card-grid-consistency
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.2.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check
+      - run: pnpm exec vitest run src/components/shared/entity-card-grid.test.tsx src/components/characters/character-catalog-page.test.tsx src/components/artifacts/artifact-catalog-page.test.tsx src/components/monsterlings/components/monsterlings-list.test.tsx src/lib/search.test.ts src/components/characters/utils/character-utils.test.ts src/components/artifacts/utils/artifact-utils.test.ts
+      - run: pnpm run build
