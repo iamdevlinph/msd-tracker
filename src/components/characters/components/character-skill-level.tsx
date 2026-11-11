@@ -4,6 +4,7 @@ import {
 	getAwakeningBonus,
 	isMaxSkill,
 } from "@/components/characters/utils/character-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import {
 	IMAGE_MAPPING,
 	IMAGE_MAPPING_ID,
