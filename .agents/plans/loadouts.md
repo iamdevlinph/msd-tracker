@@ -43,7 +43,7 @@ Read this plan for Loadouts, portable code sharing, snapshots, previews, exports
 - [x] Show complete published equipment set effects in delayed hover/focus tooltips on picker cards, assigned editor buttons, and saved-card equipment tiles while keeping preview tooltips active-only.
 - [x] Show multiple active equipment effects that share the same piece threshold without duplicate render keys.
 
-- [x] Share the 120px portrait baseline across loadout previews and entity selection pickers with 12px gaps; retain specialized 112px saved/editor tiles and established preview widths.
+- [x] Share the 120px portrait baseline across loadout previews and entity selection pickers using the common 12px-gap grid and 20px filter-to-grid spacing; retain specialized 112px saved/editor tiles and established preview widths.
 
 ## Loadout Code Sharing: Deferred
 
