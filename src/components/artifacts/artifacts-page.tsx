@@ -9,6 +9,7 @@ import {
 	filterArtifacts,
 } from "@/components/artifacts/utils/artifact-utils";
 import { getEquippedCharacterUsage } from "@/components/loadouts/utils/equipped-character-usage";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { CollectionExportMenu } from "@/components/shared/collection-export-menu";
 import { PageTitle } from "@/components/shared/page-title";
@@ -65,7 +66,7 @@ export const ArtifactsPage = () => {
 					collection="artifacts"
 					title="Artifacts"
 					count={cards.length}
-					itemWidth={120}
+					itemWidth={ENTITY_CARD_SIZE}
 					maxColumns={13}
 				>
 					{cards.map(({ instanceId, value, artifact }) => (
@@ -73,7 +74,6 @@ export const ArtifactsPage = () => {
 							key={instanceId}
 							artifact={artifact}
 							fusionLevel={value.fusion_level}
-							portraitSize={120}
 							imageClassName="p-1"
 						/>
 					))}
@@ -95,10 +95,14 @@ export const ArtifactsPage = () => {
 						}
 					/>
 				) : (
-					<div className="grid grid-cols-[repeat(auto-fill,120px)] gap-3">
+					<div
+						className="grid justify-start gap-3"
+						style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+					>
 						{cards.map(({ instanceId, value, artifact }) => (
 							<button
-								className="group w-[120px] text-left"
+								className="group rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								style={{ width: ENTITY_CARD_SIZE }}
 								key={instanceId}
 								type="button"
 								onClick={() => {
@@ -109,7 +113,6 @@ export const ArtifactsPage = () => {
 								<ArtifactCard
 									artifact={artifact}
 									fusionLevel={value.fusion_level}
-									portraitSize={120}
 									imageClassName="p-1"
 									equippedCharacters={
 										equippedCharacterUsage.artifacts[instanceId]

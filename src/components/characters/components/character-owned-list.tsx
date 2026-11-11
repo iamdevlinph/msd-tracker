@@ -8,6 +8,7 @@ import {
 } from "@/components/characters/store/characters-filter-store";
 import { resolveCharacterPortrait } from "@/components/characters/utils/character-costume";
 import { matchesCharacterFilters } from "@/components/characters/utils/character-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
 import { useAppStore } from "@/stores/app-store";
@@ -59,10 +60,8 @@ export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 			)}
 
 			<div
-				className="mt-5 gap-y-10 gap-x-5 grid sm:flex sm:flex-wrap justify-center sm:justify-start"
-				style={{
-					gridTemplateColumns: "repeat(auto-fit, 125px)",
-				}}
+				className="grid justify-start gap-3"
+				style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
 			>
 				{enrichedCharacters.length > 0 &&
 					enrichedCharacters.map((charOwned) => {
@@ -70,6 +69,7 @@ export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 							<button
 								key={charOwned.id}
 								type="button"
+								className="w-full rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 								onClick={() => {
 									setOpen(true);
 									setCharIdToEdit(charOwned.id);
@@ -77,7 +77,6 @@ export const CharacterOwnedList = ({ filters }: CharacterOwnedListProps) => {
 							>
 								<CharacterCard
 									key={charOwned.id}
-									portraitSize={130}
 									iconSize={30}
 									portraitImage={resolveCharacterPortrait(
 										charOwned.info,

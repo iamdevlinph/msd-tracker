@@ -6,6 +6,7 @@ import {
 	matchesCharacterFilters,
 	sortCharacters,
 } from "@/components/characters/utils/character-utils";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { CollectionEmptyState } from "@/components/shared/collection-empty-state";
 import { PageTitle } from "@/components/shared/page-title";
 import { CHARACTERS_DATA } from "@/data/characters/CHARACTERS_DATA";
@@ -36,7 +37,10 @@ export const CharacterCatalogPage = () => {
 					sortMode="catalog"
 				/>
 				{characters.length ? (
-					<div className="grid grid-cols-[repeat(auto-fill,120px)] gap-3">
+					<div
+						className="grid justify-start gap-3"
+						style={{ gridTemplateColumns: `repeat(auto-fill, ${ENTITY_CARD_SIZE}px)` }}
+					>
 						{characters.map((character) => (
 							<CharacterCard
 								key={character.id}
@@ -45,7 +49,6 @@ export const CharacterCatalogPage = () => {
 								element_id={character.element_id}
 								name={character.name}
 								portraitImage={character.portraitImage}
-								portraitSize={120}
 								showAwakening={false}
 								tier_id={character.tier_id}
 								variant={character.variant}

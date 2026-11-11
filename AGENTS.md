@@ -33,6 +33,10 @@ Name custom hooks as `useThing`, higher-order components as `withThing`, local e
 
 Promote repeated closed-set domain strings used in production control flow to feature-owned readonly `as const` constants and derive their union types from those constants; keep incidental presentation, browser, protocol, route, environment, and test-contract strings inline.
 
+## Reusable Entity Cards
+
+Use `ENTITY_CARD_SIZE` from `src/components/shared/entity-card-constants.ts` for reusable CharacterCard and ArtifactCard 120×120 outer dimensions and MonsterlingCard 120px portrait/height. Monsterling full and compact widths remain 330px and 162px. Collection grids, add dialogs, and entity pickers use fixed card-width columns, 12px (`gap-3`) spacing, and left-aligned partial rows. Character skill strips align to the 120px card width, including exports. Preserve badges, focus rings, and trait columns. Exclude specialized 112px saved-loadout/editor tiles, Codex and link-chain tiles, 50px dialog thumbnails, and equipment cards from this sizing contract.
+
 ## Agent Workflow
 
 Before planning, classify the requested work and required validation, then load only the matching project guidance. Reclassify when discovery expands the affected domains. Test changes, automated-regression work, or validation that requires tests must read `.agents/references/testing.md` and must not load UI guidance unless visible UI is also affected. Visible UI work must follow `.agents/skills/ui-style-preflight/SKILL.md` and must not load testing guidance unless tests or automated regression work are in scope. Visual-regression work loads both. Unrelated documentation or tooling loads neither. Load detailed release or deployment guidance only when that operation is requested or required.

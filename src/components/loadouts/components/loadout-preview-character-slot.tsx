@@ -19,7 +19,6 @@ import {
 	type LoadoutCharacterSlot,
 	normalizePinnedStats,
 } from "@/stores/loadouts-slice";
-import { LOADOUT_PREVIEW_PORTRAIT_SIZE } from "./loadout-preview-constants";
 import { ELEMENT_ATK_STAT_DATA, LOADOUT_STAT_DATA } from "./loadout-stat-utils";
 
 const SKILLS = [
@@ -139,7 +138,6 @@ export const LoadoutPreviewCharacter = ({
 				</div>
 			)}
 			<CharacterCard
-				portraitSize={LOADOUT_PREVIEW_PORTRAIT_SIZE}
 				iconSize={18}
 				portraitImage={character.portraitImage}
 				name={character.name}

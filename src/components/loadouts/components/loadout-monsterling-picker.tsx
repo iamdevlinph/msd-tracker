@@ -3,6 +3,7 @@ import { MonsterlingFilter } from "@/components/monsterlings/components/monsterl
 import type { MonsterlingOwned } from "@/components/monsterlings/components/monsterling-form";
 import type { LinkChainLevel } from "@/components/monsterlings/components/monsterling-link-chain-utils";
 import type { MonsterlingFilters } from "@/components/monsterlings/store/monsterlings-filter-store";
+import { MONSTERLING_CARD_WIDTH } from "@/components/monsterlings/components/monsterling-constants";
 import type { MonsterCodexEntry } from "@/data/monsterlings/MONSTERLINGS_DATA";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +42,10 @@ export const LoadoutMonsterlingPicker = ({
 				autoFocus
 			/>
 		</div>
-		<div className="grid gap-2 overflow-x-auto [scrollbar-width:none] md:grid-cols-2 xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
+		<div
+			className="grid justify-start gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+			style={{ gridTemplateColumns: `repeat(auto-fill, ${MONSTERLING_CARD_WIDTH}px)` }}
+		>
 			{options.map((monsterling) => {
 				const disabled =
 					currentId === monsterling.id ||
@@ -55,7 +59,7 @@ export const LoadoutMonsterlingPicker = ({
 						disabled={disabled}
 						onClick={() => onSelect(monsterling.id)}
 						className={cn(
-							"grid w-max justify-self-center rounded-md border p-2 text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+							"grid w-max justify-self-start rounded-md text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
 							disabled && "cursor-not-allowed opacity-50",
 						)}
 					>

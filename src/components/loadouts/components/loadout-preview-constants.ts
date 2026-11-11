@@ -1,9 +1,10 @@
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import {
 	MONSTERLING_CARD_WIDTH,
 	MONSTERLING_COMPACT_CARD_WIDTH,
 } from "@/components/monsterlings/components/monsterling-constants";
 
-export const LOADOUT_PREVIEW_PORTRAIT_SIZE = 120;
+export const LOADOUT_PREVIEW_PORTRAIT_SIZE = ENTITY_CARD_SIZE;
 export const LOADOUT_PREVIEW_CHARACTER_SLOT_WIDTH = 268;
 export const LOADOUT_PREVIEW_CHARACTER_SLOT_HIDDEN_STATS_WIDTH = 178;
 export const LOADOUT_PREVIEW_HIDDEN_STATS_WIDTH_REDUCTION =

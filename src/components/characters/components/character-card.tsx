@@ -1,4 +1,5 @@
 import type { CharacterOwned } from "@/components/characters/components/character-details-form";
+import { ENTITY_CARD_SIZE } from "@/components/shared/entity-card-constants";
 import { PortraitWithName } from "@/components/shared/portrait-with-name";
 import { TierPortrait } from "@/components/shared/tier-portrait";
 import { CHARACTER_CLASS_DATA } from "@/data/character-classes/CHARACTER_CLASS_DATA";
@@ -11,7 +12,7 @@ type CharacterCardProps = Pick<
 	Character,
 	"class_id" | "tier_id" | "portraitImage" | "name" | "element_id" | "variant"
 > &
-	Partial<Pick<TierPortrait, "portraitSize" | "hideTierBg">> & {
+	Partial<Pick<TierPortrait, "hideTierBg">> & {
 		iconSize?: number;
 		className?: string;
 		portraitClassName?: string;
@@ -26,7 +27,6 @@ export default function CharacterCard({
 	portraitImage,
 	name,
 	element_id,
-	portraitSize = 100,
 	hideTierBg = false,
 	iconSize = 25,
 	awakening = undefined,
@@ -47,13 +47,14 @@ export default function CharacterCard({
 	return (
 		<div
 			className={cn(
-				"max-w-max flex justify-center flex-col items-center rounded border hover:border-primary",
+				"flex shrink-0 justify-center flex-col items-center rounded border hover:border-primary",
 				"bg-card",
 				"cursor-pointer",
 				className,
 			)}
+			style={{ width: ENTITY_CARD_SIZE, height: ENTITY_CARD_SIZE }}
 		>
-			<PortraitWithName name={name}>
+			<PortraitWithName name={name} className="size-full">
 				{variant && (
 					<div
 						className={cn(
@@ -124,10 +125,10 @@ export default function CharacterCard({
 				)}
 				<TierPortrait
 					portraitImg={portraitImage}
-					portraitSize={portraitSize}
+					portraitSize={ENTITY_CARD_SIZE}
 					tier={tier_id}
 					name={name}
-					portraitClassName={portraitClassName}
+					portraitClassName={cn("size-full", portraitClassName)}
 					hideTierBg={hideTierBg}
 				/>
 			</PortraitWithName>

@@ -22,6 +22,8 @@ Read this plan for Home, SEO, navigation-wide presentation, or Shared UI behavio
 - [x] Group the public Artifact, Character, and Equipment catalogs under Assets after Monsterlings and before Others.
 - [x] Let users hide the Assets group or any catalog child from Settings, retain child choices independently, visually mark unchecked options, and suppress groups with no visible children.
 
+- [x] Standardize reusable entity cards at 120px with 12px collection/picker gaps and left-aligned partial rows; preserve Codex and link-chain specializations.
+
 ## Shared UI: Available
 
 - [x] Ignore punctuation, symbols, spacing, and letter case consistently across user-facing searches while preserving Unicode letters and numbers.
