@@ -51,7 +51,7 @@ export const CharacterCatalogPage = () => {
 								variant={character.variant}
 							/>
 						))}
-</EntityCardGrid>
+					</EntityCardGrid>
 				) : (
 					<CollectionEmptyState
 						title="No characters found"
