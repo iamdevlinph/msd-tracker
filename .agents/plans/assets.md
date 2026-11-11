@@ -2,6 +2,8 @@
 
 Read this plan for public game-asset catalogs that are independent of player ownership. Read the Inventory plan as well when adding owned-state behavior.
 
+- [x] Standardize public Character and Artifact catalog cards at 120×120 with 12px gaps and left-aligned fixed-width grids, independent of Equipment card sizing.
+
 ## Artifact Catalog: Available
 
 - [x] Add M.A.D's Tier 5 Fire Assassin artifact, Out-of-Control Bomb Maniac.
