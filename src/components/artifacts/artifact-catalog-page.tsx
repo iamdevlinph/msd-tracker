@@ -49,7 +49,7 @@ export const ArtifactCatalogPage = () => {
 								imageClassName="p-1"
 							/>
 						))}
-</EntityCardGrid>
+					</EntityCardGrid>
 				) : (
 					<CollectionEmptyState
 						title="No artifacts found"
