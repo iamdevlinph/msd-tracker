@@ -23,5 +23,6 @@ jobs:
       - name: Check baseline failures on unchanged main
         continue-on-error: true
         run: |
+          git fetch --no-tags --depth=1 origin ec06d70f1c66eeb63e86ebdeb7d927f9c72e6cec
           git checkout ec06d70f1c66eeb63e86ebdeb7d927f9c72e6cec
           pnpm exec vitest run src/components/loadouts/components/loadouts-list-ui.test.tsx src/data/equipment/EQUIPMENT_DATA.test.ts
