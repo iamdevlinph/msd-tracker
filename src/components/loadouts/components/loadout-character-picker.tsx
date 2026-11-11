@@ -69,6 +69,6 @@ export const LoadoutCharacterPicker = ({
 					No owned characters match.
 				</p>
 			)}
-</EntityCardGrid>
+		</EntityCardGrid>
 	</>
 );
