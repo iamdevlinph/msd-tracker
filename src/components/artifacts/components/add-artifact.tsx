@@ -95,7 +95,7 @@ export const AddArtifact = () => {
 									<ArtifactCard artifact={a} />
 								</button>
 							))}
-</EntityCardGrid>
+						</EntityCardGrid>
 					</div>
 				) : (
 					<ArtifactOwnedDetailsForm artifactId={artifact.id} onClose={close} />
