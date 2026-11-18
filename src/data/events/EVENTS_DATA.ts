@@ -30,15 +30,6 @@ const ASHEN_CRADLE_NOTICE_TITLE =
 const ASHEN_CRADLE_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/637";
 
-const OCTOBER_20_NOTICE_TITLE =
-	"10/20 (Tue) 「Full Speed Runaway Train Crash」Event Notice";
-const OCTOBER_20_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/724";
-
-const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
-const OCTOBER_28_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/734";
-
 const NOVEMBER_10_NOTICE_TITLE =
 	"11/10 (Tue) 「Light From a Fallen Star」 Event Notice";
 const NOVEMBER_10_NOTICE_URL =
@@ -47,6 +38,10 @@ const NOVEMBER_10_COMMUNITY_NOTICE_TITLE =
 	"11/10 (Tue) 1.5 Version Update Celebration! 2 Community Events Notice";
 const NOVEMBER_10_COMMUNITY_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/771";
+
+const NOVEMBER_18_NOTICE_TITLE = "11/18 (Wed) Event Notice";
+const NOVEMBER_18_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/793";
 
 export const EVENTS_DATA: ChecklistEvent[] = [
 	// Fixed daily schedules reset at 00:00Z unless recurrenceStartAt is set.
@@ -57,26 +52,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		noticeUrl: `${ASHEN_CRADLE_NOTICE_URL}#:~:text=Event%209.%20%E3%80%8CUnknown%E3%80%8D%20Conquest%20Mission`,
 		kind: CHECKLIST_KINDS.EVENT,
 		startAt: "2026-09-30T03:30:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "724-the-road-to-a-broken-heart-shop-story-missions",
-		title: "The Road to a Broken Heart — Shop/Story/Missions",
-		noticeTitle: OCTOBER_20_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_20_NOTICE_URL}#:~:text=Event%201.%20The%20Road%20to%20a%20Broken%20Heart`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-21T02:00:00.000Z",
-		endAt: "2026-11-17T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "734-nightmarch-midnight-commotion-story",
-		title: "Nightmarch Midnight Commotion — Story",
-		noticeTitle: OCTOBER_28_NOTICE_TITLE,
-		noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%201.%20Nightmarch%20Midnight%20Commotion`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-10-28T00:00:00.000Z",
-		endAt: "2026-11-17T23:59:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
@@ -130,28 +105,6 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 	},
 	{
-		id: "770-equipment-crafting-mission",
-		title: "Equipment Crafting Mission",
-		noticeTitle: NOVEMBER_10_NOTICE_TITLE,
-		noticeUrl: `${NOVEMBER_10_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%205.%20Equipment%20Crafting%20Mission`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-11-11T03:00:00.000Z",
-		endAt: "2026-11-17T23:59:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-	},
-	{
-		id: "771-mad-arrival-in-search-of-the-perfect-blast",
-		title:
-			"New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
-		noticeTitle: NOVEMBER_10_COMMUNITY_NOTICE_TITLE,
-		noticeUrl: `${NOVEMBER_10_COMMUNITY_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%201.%20New%20Character%20%5BM.A.D.%5D%20Arrival%20Celebration!%20In%20Search%20of%20the%20Perfect%20Blast!`,
-		kind: CHECKLIST_KINDS.EVENT,
-		startAt: "2026-11-11T02:51:00.000Z",
-		endAt: "2026-11-18T01:00:00.000Z",
-		recurrence: CHECKLIST_RECURRENCES.NONE,
-		participation: "discord",
-	},
-	{
 		id: "771-a-flame-chasing-freedom-record-screenshot-event",
 		title: "[A Flame Chasing Freedom] Celebration! Record Screenshot Event",
 		noticeTitle: NOVEMBER_10_COMMUNITY_NOTICE_TITLE,
@@ -161,5 +114,41 @@ export const EVENTS_DATA: ChecklistEvent[] = [
 		endAt: "2026-12-02T01:00:00.000Z",
 		recurrence: CHECKLIST_RECURRENCES.NONE,
 		participation: "x",
+	},
+	{
+		id: "793-monsterling-combining-missions",
+		title: "Monsterling Combining Missions",
+		description:
+			"Combine Monsterlings 100, 200, 300, 400, 500, 600, and 700 times to earn milestone rewards, then claim the all-missions reward.",
+		noticeTitle: NOVEMBER_18_NOTICE_TITLE,
+		noticeUrl: `${NOVEMBER_18_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%201.%20Monsterling%20Combining%20Missions`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-11-18T00:00:00.000Z",
+		endAt: "2026-11-24T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.NONE,
+	},
+	{
+		id: "793-10-day-check-in-mission",
+		title: "10-Day Check-In Mission",
+		description:
+			"Log in every day, complete check-in missions, and claim rewards. Daily reset: 00:00 UTC.",
+		noticeTitle: NOVEMBER_18_NOTICE_TITLE,
+		noticeUrl: `${NOVEMBER_18_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%202.%2010-Day%20Check-In%20Mission`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-11-18T00:00:00.000Z",
+		endAt: "2026-12-01T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
+	},
+	{
+		id: "793-anomaly-gulgak",
+		title: "Anomaly: Gulgak",
+		description:
+			"Conquer Gulgak and accept one Emergency Conquest Request per day. Daily reset: 00:00 UTC.",
+		noticeTitle: NOVEMBER_18_NOTICE_TITLE,
+		noticeUrl: `${NOVEMBER_18_NOTICE_URL}#:~:text=%F0%9F%8C%A0%20Event%203.%20Anomaly%3A%20Gulgak`,
+		kind: CHECKLIST_KINDS.EVENT,
+		startAt: "2026-11-18T00:00:00.000Z",
+		endAt: "2026-12-01T23:59:00.000Z",
+		recurrence: CHECKLIST_RECURRENCES.DAILY,
 	},
 ];

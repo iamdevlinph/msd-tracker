@@ -5,14 +5,6 @@ const ASHEN_CRADLE_NOTICE_TITLE =
 	"9/29 (Tue)「Ashen Cradle Lullaby」Event Notice";
 const ASHEN_CRADLE_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/637";
-const OCTOBER_20_NOTICE_TITLE =
-	"10/20 (Tue) 「Full Speed Runaway Train Crash」Event Notice";
-const OCTOBER_20_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/724";
-
-const OCTOBER_28_NOTICE_TITLE = "10/28 (Wed) Event Notice";
-const OCTOBER_28_NOTICE_URL =
-	"https://forum.netmarble.com/stardive_gl/view/6/734";
 
 const NOVEMBER_10_NOTICE_TITLE =
 	"11/10 (Tue) 「Light From a Fallen Star」 Event Notice";
@@ -22,6 +14,9 @@ const NOVEMBER_10_COMMUNITY_NOTICE_TITLE =
 	"11/10 (Tue) 1.5 Version Update Celebration! 2 Community Events Notice";
 const NOVEMBER_10_COMMUNITY_NOTICE_URL =
 	"https://forum.netmarble.com/stardive_gl/view/6/771";
+const NOVEMBER_18_NOTICE_TITLE = "11/18 (Wed) Event Notice";
+const NOVEMBER_18_NOTICE_URL =
+	"https://forum.netmarble.com/stardive_gl/view/6/793";
 
 const ASHEN_CRADLE_EVENTS = [
 	{
@@ -33,7 +28,7 @@ const ASHEN_CRADLE_EVENTS = [
 
 describe("EVENTS_DATA", () => {
 	it("removes expired records and retains active records", () => {
-		expect(EVENTS_DATA).toHaveLength(11);
+		expect(EVENTS_DATA).toHaveLength(10);
 		const eventIds = EVENTS_DATA.map(({ id }) => id);
 		for (const expiredId of [
 			"637-nyanners-special-missions",
@@ -76,8 +71,17 @@ describe("EVENTS_DATA", () => {
 			"638-isabella-arrival-celebration-character-quiz-event",
 			"638-new-region-sector-3-exploration-event",
 			"637-equipment-crafting-mission",
+			"724-the-road-to-a-broken-heart-shop-story-missions",
+			"734-nightmarch-midnight-commotion-story",
+			"770-equipment-crafting-mission",
+			"771-mad-arrival-in-search-of-the-perfect-blast",
 		])
 			expect(eventIds).not.toContain(expiredId);
+		for (const event of EVENTS_DATA)
+			if (event.endAt)
+				expect(Date.parse(event.endAt)).toBeGreaterThan(
+					Date.parse("2026-11-18T03:14:00.000Z"),
+				);
 	});
 
 	it("imports the Ashen Cradle notice", () => {
@@ -96,47 +100,6 @@ describe("EVENTS_DATA", () => {
 		expect(
 			EVENTS_DATA.find(({ id }) => id === "637-unknown-conquest-mission"),
 		).not.toHaveProperty("endAt");
-	});
-
-	it("imports the October 20 in-game event schedules", () => {
-		for (const event of [
-			{
-				id: "724-the-road-to-a-broken-heart-shop-story-missions",
-				title: "The Road to a Broken Heart — Shop/Story/Missions",
-				heading: "Event 1. The Road to a Broken Heart",
-				endAt: "2026-11-17T23:59:00.000Z",
-				recurrence: "none",
-			},
-		] as const) {
-			const { heading, ...expected } = event;
-			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
-				...expected,
-				noticeTitle: OCTOBER_20_NOTICE_TITLE,
-				noticeUrl: `${OCTOBER_20_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
-				startAt: "2026-10-21T02:00:00.000Z",
-			});
-		}
-	});
-
-	it("imports the October 28 event notice with independent claim windows", () => {
-		for (const event of [
-			{
-				id: "734-nightmarch-midnight-commotion-story",
-				title: "Nightmarch Midnight Commotion — Story",
-				heading: "🌠 Event 1. Nightmarch Midnight Commotion",
-				endAt: "2026-11-17T23:59:00.000Z",
-				recurrence: "none",
-			},
-		] as const) {
-			const { heading, ...expected } = event;
-			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
-				...expected,
-				noticeTitle: OCTOBER_28_NOTICE_TITLE,
-				noticeUrl: `${OCTOBER_28_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
-				kind: "event",
-				startAt: "2026-10-28T00:00:00.000Z",
-			});
-		}
 	});
 
 	it("imports the November 10 in-game event and mission windows", () => {
@@ -177,13 +140,6 @@ describe("EVENTS_DATA", () => {
 				endAt: "2026-12-01T23:59:00.000Z",
 				recurrence: "none",
 			},
-			{
-				id: "770-equipment-crafting-mission",
-				title: "Equipment Crafting Mission",
-				heading: "🌠 Event 5. Equipment Crafting Mission",
-				endAt: "2026-11-17T23:59:00.000Z",
-				recurrence: "none",
-			},
 		] as const) {
 			const { heading, ...expected } = event;
 			expect(EVENTS_DATA.find(({ id }) => id === event.id)).toMatchObject({
@@ -198,15 +154,6 @@ describe("EVENTS_DATA", () => {
 
 	it("imports the Discord and X community contests with distinct deadlines", () => {
 		for (const event of [
-			{
-				id: "771-mad-arrival-in-search-of-the-perfect-blast",
-				title:
-					"New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
-				heading:
-					"🌠 Event 1. New Character [M.A.D.] Arrival Celebration! In Search of the Perfect Blast!",
-				endAt: "2026-11-18T01:00:00.000Z",
-				participation: "discord",
-			},
 			{
 				id: "771-a-flame-chasing-freedom-record-screenshot-event",
 				title: "[A Flame Chasing Freedom] Celebration! Record Screenshot Event",
@@ -228,11 +175,53 @@ describe("EVENTS_DATA", () => {
 		}
 	});
 
+	it("imports the November 18 combining, daily check-in, and daily conquest missions", () => {
+		for (const event of [
+			{
+				id: "793-monsterling-combining-missions",
+				title: "Monsterling Combining Missions",
+				heading: "🌠 Event 1. Monsterling Combining Missions",
+				endAt: "2026-11-24T23:59:00.000Z",
+				recurrence: "none",
+			},
+			{
+				id: "793-10-day-check-in-mission",
+				title: "10-Day Check-In Mission",
+				heading: "🌠 Event 2. 10-Day Check-In Mission",
+				endAt: "2026-12-01T23:59:00.000Z",
+				recurrence: "daily",
+			},
+			{
+				id: "793-anomaly-gulgak",
+				title: "Anomaly: Gulgak",
+				heading: "🌠 Event 3. Anomaly: Gulgak",
+				endAt: "2026-12-01T23:59:00.000Z",
+				recurrence: "daily",
+			},
+		] as const) {
+			const { heading, ...expected } = event;
+			const imported = EVENTS_DATA.find(({ id }) => id === event.id);
+			expect(imported).toMatchObject({
+				...expected,
+				kind: "event",
+				noticeTitle: NOVEMBER_18_NOTICE_TITLE,
+				noticeUrl: `${NOVEMBER_18_NOTICE_URL}#:~:text=${encodeURIComponent(heading)}`,
+				startAt: "2026-11-18T00:00:00.000Z",
+			});
+			if (event.recurrence === "daily")
+				expect(imported).not.toHaveProperty("recurrenceStartAt");
+		}
+	});
+
 	it("uses default midnight resets for daily events", () => {
 		const dailyEvents = EVENTS_DATA.filter(
 			({ recurrence }) => recurrence === "daily",
 		);
-		expect(dailyEvents.map(({ id }) => id)).toEqual(["770-mads-7-day-gifts"]);
+		expect(dailyEvents.map(({ id }) => id)).toEqual([
+			"770-mads-7-day-gifts",
+			"793-10-day-check-in-mission",
+			"793-anomaly-gulgak",
+		]);
 		for (const event of dailyEvents)
 			expect(event).not.toHaveProperty("recurrenceStartAt");
 	});
